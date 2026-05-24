@@ -34,6 +34,8 @@ export { KanaKeyboard } from './KanaKeyboard'
 export type { KanaKeyboardProps, KanaScript, KanaSection } from './KanaKeyboard'
 export { VoiceInput } from './VoiceInput'
 export type { VoiceInputProps, VoiceInputStatus } from './VoiceInput'
+export { FillInput } from './FillInput'
+export type { FillInputProps, InputMode } from './FillInput'
 
 // Iconography (named exports — tree-shake by import)
 export {

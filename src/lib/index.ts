@@ -8,3 +8,6 @@ export {
   KATAKANA_SMALL,
   KANA_PRACTICE_CARDS,
 } from './kanaData'
+
+export type { ConversionResult } from './romajiToKana'
+export { convertRomaji, finalizeRomaji } from './romajiToKana'
