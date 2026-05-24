@@ -189,8 +189,8 @@ Quiet, modern, mobile‑first. White surfaces, zinc text, one purple accent. Rou
 - Easing: standard cubic‑bezier `(0.2, 0, 0, 1)`. Durations 120 / 180 / 240 ms tiers.
 
 ### Hover / press states
-- **Press, not hover.** Hover‑only affordances are banned (touch‑first).
-- Standard pattern: `active:bg-zinc-100` on neutral buttons, `active:bg-zinc-800` on primary `zinc-900` buttons, `active:opacity-80` on the purple accent. No transforms, no shrink, no glow.
+- **Touch first, hover welcome.** Hover states on desktop are fine — `hover:bg-surface-2`, underlines, tints. What's banned is *hover-only* affordances: actions or labels that are invisible without hover. Every element must function and be discoverable on touch.
+- Standard pattern: `hover:bg-surface-2 active:bg-surface-2` on neutral buttons, `hover:bg-brand-700 active:bg-brand-700` on primary buttons. No transforms, no shrink, no glow.
 - Disabled = `opacity-50` (or `opacity-40` on a heavy button).
 - Focus: 2px ring in `--accent` (purple) — focus is the one place purple appears on neutral inputs.
 
