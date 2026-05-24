@@ -9,6 +9,10 @@
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
+    "./lib": {
+      "import": "./dist/lib.js",
+      "types": "./dist/lib.d.ts"
+    },
     "./src/tokens.css": {
       "style": "./src/tokens.css",
       "default": "./src/tokens.css"
