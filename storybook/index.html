@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AburunGo · Storybook</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap">
+  <style>
+    @font-face {
+      font-family: "Noto Sans"; font-style: normal; font-weight: 100 900; font-display: swap;
+      src: url("../fonts/NotoSans-VariableFont_wdth_wght.ttf") format("truetype-variations"),
+           url("../fonts/NotoSans-VariableFont_wdth_wght.ttf") format("truetype");
+    }
+    @font-face {
+      font-family: "Noto Sans"; font-style: italic; font-weight: 100 900; font-display: swap;
+      src: url("../fonts/NotoSans-Italic-VariableFont_wdth_wght.ttf") format("truetype-variations"),
+           url("../fonts/NotoSans-Italic-VariableFont_wdth_wght.ttf") format("truetype");
+    }
+    html, body { margin: 0; height: 100vh; overflow: hidden; }
+    body {
+      font-family: "Noto Sans", system-ui, sans-serif; color: #18181b;
+      background: #fafafa; -webkit-font-smoothing: antialiased;
+    }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --color-brand-50: #f5efff; --color-brand-100: #ede6ff; --color-brand-200: #dccaff;
+      --color-brand-300: #c4a5ff; --color-brand-400: #aa7bff; --color-brand-500: #aa3bff;
+      --color-brand-600: #863bff; --color-brand-700: #7e14ff; --color-brand-800: #5e0bbf;
+      --color-bg: #ffffff; --color-surface: #fafafa; --color-surface-2: #f4f4f5;
+      --color-fg: #18181b; --color-fg-muted: #52525b; --color-fg-subtle: #71717a;
+      --color-fg-faint: #a1a1aa; --color-fg-inverse: #ffffff;
+      --color-border: #e4e4e7; --color-border-strong: #d4d4d8;
+      --color-success-bg: #f0fdf4; --color-success-fg: #15803d; --color-success-500: #22c55e;
+      --color-error-bg: #fef2f2; --color-error-fg: #b91c1c; --color-error-500: #ef4444;
+      --font-sans: "Noto Sans", system-ui, -apple-system, sans-serif;
+      --font-jp: "M PLUS Rounded 1c", "Hiragino Kaku Gothic ProN", sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+      --text-caption: 0.75rem; --text-caption--line-height: 1rem; --text-caption--font-weight: 500;
+      --text-body-sm: 0.875rem; --text-body-sm--line-height: 1.25rem;
+      --text-body: 1rem; --text-body--line-height: 1.5rem;
+      --text-body-lg: 1.125rem; --text-body-lg--line-height: 1.625rem;
+      --text-heading-sm: 1.25rem; --text-heading-sm--line-height: 1.625rem; --text-heading-sm--font-weight: 600;
+      --text-heading: 1.5rem; --text-heading--line-height: 1.875rem; --text-heading--font-weight: 600;
+      --text-heading-lg: 1.875rem; --text-heading-lg--line-height: 2.25rem; --text-heading-lg--font-weight: 600;
+      --text-display: 2.25rem; --text-display--line-height: 2.5rem; --text-display--font-weight: 700;
+      --text-display-lg: 3rem; --text-display-lg--line-height: 3.25rem; --text-display-lg--font-weight: 700;
+      --text-jp: 1.125rem; --text-jp--line-height: 1.75rem;
+      --text-jp-lg: 1.5rem; --text-jp-lg--line-height: 2.25rem; --text-jp-lg--font-weight: 500;
+      --text-jp-display: 2rem; --text-jp-display--line-height: 3rem; --text-jp-display--font-weight: 500;
+      --text-jp-display-lg: 2.5rem; --text-jp-display-lg--line-height: 3.5rem; --text-jp-display-lg--font-weight: 500;
+      --radius-sm: 0.375rem; --radius-md: 0.5rem; --radius-lg: 0.75rem;
+      --radius-xl: 1rem; --radius-2xl: 1.25rem;
+      --shadow-card: 0 1px 2px 0 rgb(24 24 27 / 0.05);
+      --shadow-key: 0 1px 2px 0 rgb(24 24 27 / 0.04);
+    }
+  </style>
+
+  <style>
+    /* Storybook chrome (not the showcased components — these are the shell). */
+    .sb-root {
+      display: grid;
+      grid-template-columns: 264px 1fr;
+      grid-template-rows: 56px 1fr;
+      height: 100vh;
+      background: #fafafa;
+    }
+    .sb-header {
+      grid-column: 1 / -1;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 16px; background: #fff;
+      border-bottom: 1px solid #e4e4e7;
+    }
+    .sb-brand { display: flex; align-items: center; gap: 10px; font-weight: 600; color: #18181b; }
+    .sb-brand img { width: 22px; height: 21px; }
+    .sb-meta { font-size: 13px; color: #71717a; display: flex; gap: 14px; align-items: center; }
+    .sb-meta a { color: inherit; text-decoration: none; padding: 6px 10px; border-radius: 6px; }
+    .sb-meta a:hover { background: #f4f4f5; color: #18181b; }
+    .sb-sidebar {
+      overflow: auto; border-right: 1px solid #e4e4e7;
+      background: #fafafa; padding: 14px 8px;
+    }
+    .sb-section-title {
+      font-size: 11px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.08em; color: #a1a1aa;
+      padding: 14px 10px 6px;
+    }
+    .sb-component-row {
+      display: flex; align-items: center; gap: 6px;
+      padding: 6px 10px; cursor: pointer; user-select: none;
+      border-radius: 6px; font-size: 13px; font-weight: 500; color: #3f3f46;
+    }
+    .sb-component-row:hover { background: #f4f4f5; }
+    .sb-component-row .caret {
+      width: 12px; height: 12px; transition: transform 120ms;
+      color: #a1a1aa; flex-shrink: 0;
+    }
+    .sb-component-row.open .caret { transform: rotate(90deg); }
+    .sb-story-row {
+      display: block; padding: 6px 10px 6px 32px;
+      cursor: pointer; user-select: none;
+      border-radius: 6px; font-size: 13px; color: #52525b;
+    }
+    .sb-story-row:hover { background: #f4f4f5; color: #18181b; }
+    .sb-story-row.active { background: #ede6ff; color: #5e0bbf; font-weight: 500; }
+
+    .sb-main {
+      display: flex; flex-direction: column; overflow: hidden;
+    }
+    .sb-toolbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px; height: 44px; background: #fff;
+      border-bottom: 1px solid #e4e4e7; font-size: 13px; color: #71717a;
+    }
+    .sb-toolbar .crumbs { display: flex; align-items: center; gap: 8px; }
+    .sb-toolbar .crumbs .sep { color: #d4d4d8; }
+    .sb-toolbar .tabs { display: flex; gap: 4px; }
+    .sb-toolbar .tabs button {
+      background: transparent; border: none; padding: 6px 10px; border-radius: 6px;
+      font: inherit; color: #71717a; cursor: pointer;
+    }
+    .sb-toolbar .tabs button[data-active="true"] { background: #f4f4f5; color: #18181b; }
+
+    .sb-preview {
+      flex: 1; overflow: auto; padding: 32px;
+      background: #fafafa; display: flex; flex-direction: column;
+    }
+    .sb-canvas {
+      flex: 1; min-height: 240px; background: #fff;
+      border: 1px solid #e4e4e7; border-radius: 16px;
+      padding: 40px; display: flex; align-items: center; justify-content: center;
+      background-image: radial-gradient(circle, #e4e4e7 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+    .sb-canvas-bg-solid { background-image: none; }
+
+    .sb-bottom { border-top: 1px solid #e4e4e7; background: #fff; }
+    .sb-bottom-tabs {
+      display: flex; gap: 0; padding: 0 16px; border-bottom: 1px solid #e4e4e7;
+    }
+    .sb-bottom-tabs button {
+      background: transparent; border: none; padding: 10px 12px;
+      font: 500 13px var(--font-sans); color: #71717a; cursor: pointer;
+      border-bottom: 2px solid transparent; margin-bottom: -1px;
+    }
+    .sb-bottom-tabs button[data-active="true"] {
+      color: #18181b; border-bottom-color: #18181b;
+    }
+    .sb-bottom-body { padding: 16px 20px; max-height: 280px; overflow: auto; }
+    .sb-controls-row {
+      display: grid; grid-template-columns: 140px 1fr 80px; gap: 14px;
+      align-items: center; padding: 8px 0; border-bottom: 1px solid #f4f4f5;
+      font-size: 13px;
+    }
+    .sb-controls-row:last-child { border-bottom: none; }
+    .sb-controls-row label { font-weight: 500; color: #18181b; }
+    .sb-controls-row input[type="text"],
+    .sb-controls-row select {
+      width: 100%; padding: 6px 10px; font: inherit;
+      border: 1px solid #d4d4d8; border-radius: 6px; background: #fff;
+    }
+    .sb-controls-row input[type="range"] { width: 100%; }
+    .sb-control-type { font: 500 11px var(--font-mono); color: #a1a1aa; text-transform: uppercase; }
+    .sb-empty { color: #a1a1aa; font-size: 13px; font-style: italic; }
+
+    .sb-code {
+      font: 13px/1.5 var(--font-mono); color: #18181b;
+      background: #fafafa; border-radius: 8px; padding: 12px 14px;
+      white-space: pre-wrap; word-break: break-word;
+    }
+  </style>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js"
+          integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L"
+          crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"
+          integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm"
+          crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"
+          integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y"
+          crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- Component library (shared with the app + UI kits) -->
+  <script type="text/babel" src="../ui_kits/mobile/components.jsx"></script>
+
+  <!-- Story catalog (defines window.STORIES) -->
+  <script type="text/babel" src="stories.jsx"></script>
+
+  <script type="text/babel">
+    function Caret() {
+      return (
+        <svg className="caret" viewBox="0 0 12 12" fill="none">
+          <path d="M4.5 3l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      );
+    }
+
+    function findStory(stories, sectionTitle, componentName, storyName) {
+      const sec = stories.find((s) => s.title === sectionTitle) ?? stories[0];
+      const comp = sec.components.find((c) => c.name === componentName) ?? sec.components[0];
+      const names = Object.keys(comp.stories);
+      const name = names.includes(storyName) ? storyName : names[0];
+      return { section: sec, component: comp, storyName: name, story: comp.stories[name] };
+    }
+
+    function parseHash() {
+      const h = (window.location.hash || '#').slice(1);
+      if (!h) return null;
+      const parts = h.split('/').map(decodeURIComponent);
+      if (parts.length < 3) return null;
+      return { sectionTitle: parts[0], componentName: parts[1], storyName: parts[2] };
+    }
+
+    function writeHash(s, c, n) {
+      window.location.hash = `#${encodeURIComponent(s)}/${encodeURIComponent(c)}/${encodeURIComponent(n)}`;
+    }
+
+    function Sidebar({ stories, current, onSelect }) {
+      const [open, setOpen] = React.useState(() => {
+        // Default: open every section; open the current component
+        const o = {};
+        for (const s of stories) for (const c of s.components) {
+          o[`${s.title}/${c.name}`] = c.name === current.component.name;
+        }
+        return o;
+      });
+      function toggle(key) { setOpen((o) => ({ ...o, [key]: !o[key] })); }
+
+      return (
+        <aside className="sb-sidebar">
+          {stories.map((s) => (
+            <div key={s.title}>
+              <div className="sb-section-title">{s.title}</div>
+              {s.components.map((c) => {
+                const key = `${s.title}/${c.name}`;
+                const isOpen = open[key];
+                return (
+                  <div key={c.name}>
+                    <div className={['sb-component-row', isOpen ? 'open' : ''].join(' ')}
+                         onClick={() => toggle(key)}>
+                      <Caret/>
+                      <span>{c.name}</span>
+                    </div>
+                    {isOpen && Object.keys(c.stories).map((storyName) => {
+                      const isActive = current.section.title === s.title
+                        && current.component.name === c.name
+                        && current.storyName === storyName;
+                      return (
+                        <div key={storyName}
+                          className={['sb-story-row', isActive ? 'active' : ''].join(' ')}
+                          onClick={() => onSelect(s.title, c.name, storyName)}>
+                          {storyName}
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })}
+            </div>
+          ))}
+        </aside>
+      );
+    }
+
+    function ControlsPanel({ args, argTypes, onChange }) {
+      const keys = Object.keys(argTypes || {});
+      if (keys.length === 0) return <p className="sb-empty">This story has no controls.</p>;
+      return (
+        <div>
+          {keys.map((key) => {
+            const t = argTypes[key];
+            const v = args[key];
+            const set = (nv) => onChange({ ...args, [key]: nv });
+            return (
+              <div key={key} className="sb-controls-row">
+                <label>{key}</label>
+                <div>
+                  {t.control === 'text' && (
+                    <input type="text" value={v ?? ''} onChange={(e) => set(e.target.value)}/>
+                  )}
+                  {t.control === 'boolean' && (
+                    <input type="checkbox" checked={!!v} onChange={(e) => set(e.target.checked)}/>
+                  )}
+                  {t.control === 'select' && (
+                    <select value={v} onChange={(e) => set(e.target.value)}>
+                      {t.options.map((o) => <option key={o} value={o}>{o}</option>)}
+                    </select>
+                  )}
+                  {t.control === 'range' && (
+                    <div className="flex items-center gap-3">
+                      <input type="range" min={t.min} max={t.max} step={t.step} value={v}
+                             onChange={(e) => set(Number(e.target.value))}/>
+                      <span className="font-mono text-body-sm text-fg-muted">{Number(v).toFixed(2)}</span>
+                    </div>
+                  )}
+                </div>
+                <div className="sb-control-type">{t.control}</div>
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
+
+    function App() {
+      const stories = window.STORIES;
+
+      // Resolve current story from URL or default to the first
+      const initial = parseHash() || { sectionTitle: 'Primitives', componentName: 'Button', storyName: 'Primary' };
+      const [pick, setPick] = React.useState(initial);
+      const [tab, setTab] = React.useState('controls'); // controls | code
+      const [gridBg, setGridBg] = React.useState(true);
+
+      const current = findStory(stories, pick.sectionTitle, pick.componentName, pick.storyName);
+
+      // Per-story arg overrides
+      const [argOverrides, setArgOverrides] = React.useState({});
+      const argKey = `${current.section.title}/${current.component.name}/${current.storyName}`;
+      const baseArgs = current.story.args ?? {};
+      const args = { ...baseArgs, ...(argOverrides[argKey] ?? {}) };
+
+      function select(sectionTitle, componentName, storyName) {
+        writeHash(sectionTitle, componentName, storyName);
+        setPick({ sectionTitle, componentName, storyName });
+      }
+      function setArgs(next) {
+        setArgOverrides((o) => ({ ...o, [argKey]: next }));
+      }
+
+      // Sync on back/forward
+      React.useEffect(() => {
+        function onHash() {
+          const p = parseHash();
+          if (p) setPick(p);
+        }
+        window.addEventListener('hashchange', onHash);
+        return () => window.removeEventListener('hashchange', onHash);
+      }, []);
+
+      // Write the initial hash if missing
+      React.useEffect(() => {
+        if (!parseHash()) writeHash(initial.sectionTitle, initial.componentName, initial.storyName);
+      }, []);
+
+      const rendered = current.story.render(args);
+      const code = current.story.code ? current.story.code(args) : '';
+
+      return (
+        <div className="sb-root">
+          <header className="sb-header">
+            <div className="sb-brand">
+              <img src="../assets/logo.svg" alt=""/>
+              <span>AburunGo · Storybook</span>
+            </div>
+            <div className="sb-meta">
+              <span>{Object.keys(current.story.argTypes ?? {}).length} controls</span>
+              <a href="../README.md" target="_blank">README</a>
+              <a href="../ui_kits/app/index.html">Open app</a>
+            </div>
+          </header>
+
+          <Sidebar stories={stories} current={current} onSelect={select}/>
+
+          <main className="sb-main">
+            <div className="sb-toolbar">
+              <div className="crumbs">
+                <span>{current.section.title}</span>
+                <span className="sep">/</span>
+                <span style={{color: '#3f3f46', fontWeight: 500}}>{current.component.name}</span>
+                <span className="sep">/</span>
+                <span style={{color: '#18181b', fontWeight: 600}}>{current.storyName}</span>
+              </div>
+              <div className="tabs">
+                <button data-active={gridBg} onClick={() => setGridBg(true)}>Grid</button>
+                <button data-active={!gridBg} onClick={() => setGridBg(false)}>Solid</button>
+              </div>
+            </div>
+
+            <div className="sb-preview">
+              <div className={`sb-canvas ${gridBg ? '' : 'sb-canvas-bg-solid'}`}>
+                {rendered}
+              </div>
+            </div>
+
+            <div className="sb-bottom">
+              <div className="sb-bottom-tabs">
+                <button data-active={tab === 'controls'} onClick={() => setTab('controls')}>Controls</button>
+                <button data-active={tab === 'code'} onClick={() => setTab('code')}>Code</button>
+              </div>
+              <div className="sb-bottom-body">
+                {tab === 'controls' && (
+                  <ControlsPanel args={args} argTypes={current.story.argTypes}
+                                 onChange={setArgs}/>
+                )}
+                {tab === 'code' && (
+                  <pre className="sb-code">{code || '// (no code snippet for this story)'}</pre>
+                )}
+              </div>
+            </div>
+          </main>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+  </script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css"></head>
+<body>
+<div class="card" style="background:var(--surface)">
+  <div class="label">Elevation — the entire system is a hairline drop + a border</div>
+  <div class="row" style="padding:8px 0">
+    <div style="flex:1;display:flex;flex-direction:column;gap:8px;align-items:center">
+      <div style="width:120px;height:80px;background:#fff;border:1px solid var(--border);border-radius:var(--radius-xl)"></div>
+      <div class="name">border only</div>
+      <div class="hex">--border</div>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:8px;align-items:center">
+      <div style="width:120px;height:80px;background:#fff;border:1px solid var(--border);border-radius:var(--radius-xl);box-shadow:0 1px 2px 0 rgba(24,24,27,0.05)"></div>
+      <div class="name">shadow-card</div>
+      <div class="hex">cards, keys</div>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:8px;align-items:center">
+      <div style="width:120px;height:80px;background:#fff;border:1px solid var(--border);border-radius:var(--radius-xl);box-shadow:0 0 0 2px var(--brand-500)"></div>
+      <div class="name">focus ring</div>
+      <div class="hex">2px brand-500</div>
+    </div>
+  </div>
+</div>
+</body></html>

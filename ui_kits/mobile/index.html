@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>AburunGo — Mobile UI kit</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap">
+  <!-- Noto Sans now ships locally per the brand-font upload — declared inline
+       so the demo doesn't need a Vite dev server to resolve /fonts. -->
+  <style>
+    @font-face {
+      font-family: "Noto Sans";
+      font-style: normal;
+      font-weight: 100 900;
+      font-display: swap;
+      src: url("../../fonts/NotoSans-VariableFont_wdth_wght.ttf") format("truetype-variations"),
+           url("../../fonts/NotoSans-VariableFont_wdth_wght.ttf") format("truetype");
+    }
+    @font-face {
+      font-family: "Noto Sans";
+      font-style: italic;
+      font-weight: 100 900;
+      font-display: swap;
+      src: url("../../fonts/NotoSans-Italic-VariableFont_wdth_wght.ttf") format("truetype-variations"),
+           url("../../fonts/NotoSans-Italic-VariableFont_wdth_wght.ttf") format("truetype");
+    }
+  </style>
+
+  <!-- Tailwind v4 browser runtime. The CDN's PostCSS step reads @theme from
+       inline <style type="text/tailwindcss"> blocks in the head, so the
+       token block is inlined here verbatim from src/index.css. -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --color-brand-50:  #f5efff;
+      --color-brand-100: #ede6ff;
+      --color-brand-200: #dccaff;
+      --color-brand-300: #c4a5ff;
+      --color-brand-400: #aa7bff;
+      --color-brand-500: #aa3bff;
+      --color-brand-600: #863bff;
+      --color-brand-700: #7e14ff;
+      --color-brand-800: #5e0bbf;
+      --color-brand-900: #3d077a;
+
+      --color-bg:        #ffffff;
+      --color-surface:   #fafafa;
+      --color-surface-2: #f4f4f5;
+
+      --color-fg:         #18181b;
+      --color-fg-muted:   #52525b;
+      --color-fg-subtle:  #71717a;
+      --color-fg-faint:   #a1a1aa;
+      --color-fg-inverse: #ffffff;
+
+      --color-border:        #e4e4e7;
+      --color-border-strong: #d4d4d8;
+
+      --color-success-bg:  #f0fdf4;
+      --color-success-fg:  #15803d;
+      --color-success-500: #22c55e;
+      --color-error-bg:    #fef2f2;
+      --color-error-fg:    #b91c1c;
+      --color-error-500:   #ef4444;
+
+      --font-sans: "Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --font-jp:   "M PLUS Rounded 1c", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+
+      --text-caption: 0.75rem;
+      --text-caption--line-height: 1rem;
+      --text-caption--font-weight: 500;
+      --text-body-sm: 0.875rem;
+      --text-body-sm--line-height: 1.25rem;
+      --text-body: 1rem;
+      --text-body--line-height: 1.5rem;
+      --text-body-lg: 1.125rem;
+      --text-body-lg--line-height: 1.625rem;
+      --text-heading-sm: 1.25rem;
+      --text-heading-sm--line-height: 1.625rem;
+      --text-heading-sm--font-weight: 600;
+      --text-heading: 1.5rem;
+      --text-heading--line-height: 1.875rem;
+      --text-heading--font-weight: 600;
+      --text-heading-lg: 1.875rem;
+      --text-heading-lg--line-height: 2.25rem;
+      --text-heading-lg--font-weight: 600;
+      --text-display: 2.25rem;
+      --text-display--line-height: 2.5rem;
+      --text-display--font-weight: 700;
+
+      --text-jp: 1.125rem;
+      --text-jp--line-height: 1.75rem;
+      --text-jp-lg: 1.5rem;
+      --text-jp-lg--line-height: 2.25rem;
+      --text-jp-lg--font-weight: 500;
+      --text-jp-display: 2rem;
+      --text-jp-display--line-height: 3rem;
+      --text-jp-display--font-weight: 500;
+      --text-jp-display-lg: 2.5rem;
+      --text-jp-display-lg--line-height: 3.5rem;
+      --text-jp-display-lg--font-weight: 500;
+
+      --radius-sm:  0.375rem;
+      --radius-md:  0.5rem;
+      --radius-lg:  0.75rem;
+      --radius-xl:  1rem;
+      --radius-2xl: 1.25rem;
+
+      --shadow-card: 0 1px 2px 0 rgb(24 24 27 / 0.05);
+      --shadow-key:  0 1px 2px 0 rgb(24 24 27 / 0.04);
+    }
+  </style>
+
+  <!-- React + Babel pinned per the canonical setup. -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js"
+          integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L"
+          crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"
+          integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm"
+          crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"
+          integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y"
+          crossorigin="anonymous"></script>
+
+  <style>
+    html, body {
+      margin: 0;
+      min-height: 100vh;
+      background: #f6f4f9;
+      font-family: "Noto Sans", system-ui, sans-serif;
+      color: #18181b;
+    }
+    .stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 36px;
+      padding: 48px 24px 80px;
+      min-height: 100vh;
+    }
+    .stage header.kit-head {
+      text-align: center;
+      max-width: 640px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .kit-head h1 {
+      margin: 0;
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .kit-head p { margin: 0; color: #71717a; font-size: 16px; line-height: 1.55; }
+    .controls { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+    .controls button {
+      height: 36px; padding: 0 14px; border-radius: 9999px;
+      font: 500 13px "Noto Sans", system-ui;
+      background: #fff; color: #52525b; border: 1px solid #e4e4e7;
+      cursor: pointer;
+    }
+    .controls button[data-active="true"] { background: #18181b; color: #fff; border-color: #18181b; }
+    /* Device-frame inner background is iOS gray by default; we want white. */
+    .frame-shell { background: #fff !important; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel" src="ios-frame.jsx"></script>
+  <script type="text/babel" src="components.jsx"></script>
+  <script type="text/babel" src="screens.jsx"></script>
+
+  <script type="text/babel">
+    function App() {
+      const [screen, setScreen] = React.useState('landing');
+
+      const screens = [
+        { id: 'landing', label: '1. Landing' },
+        { id: 'signin',  label: '2. Sign in' },
+        { id: 'review',  label: '3. Review' },
+        { id: 'empty',   label: '4. All caught up' },
+      ];
+
+      let body = null;
+      if (screen === 'landing')
+        body = <LandingScreen onStart={() => setScreen('signin')}/>;
+      else if (screen === 'signin')
+        body = <SignInScreen onSubmit={() => setScreen('review')} onBack={() => setScreen('landing')}/>;
+      else if (screen === 'review')
+        body = <ReviewScreen onSignOut={() => setScreen('landing')} onComplete={() => setScreen('empty')}/>;
+      else if (screen === 'empty')
+        body = <EmptyScreen onSignOut={() => setScreen('landing')} onRestart={() => setScreen('review')}/>;
+
+      return (
+        <div className="stage">
+          <header className="kit-head">
+            <h1>AburunGo — Mobile UI kit</h1>
+            <p>The actual product surface. Click through landing → sign in → review → all caught up. The review screen has three input modes; try the Kana grid.</p>
+            <div className="controls">
+              {screens.map((s) => (
+                <button key={s.id} data-active={screen === s.id} onClick={() => setScreen(s.id)}>
+                  {s.label}
+                </button>
+              ))}
+            </div>
+          </header>
+          <div className="frame-shell" style={{ borderRadius: 48 }}>
+            <IOSDevice width={402} height={874}>
+              <div style={{ background: '#fff', minHeight: '100%' }}>
+                {body}
+              </div>
+            </IOSDevice>
+          </div>
+        </div>
+      );
+    }
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App/>);
+  </script>
+</body>
+</html>
