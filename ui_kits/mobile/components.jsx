@@ -148,7 +148,6 @@ function ProgressBar({ value, label = 'Session progress' }) {
   );
 }
 
-// Phrase card — full body of the review screen.
 function PhraseCard({ japanese, reading, english, scenario, audioSlot, footer, notes }) {
   return (
     <Card>
@@ -176,7 +175,6 @@ function PhraseCard({ japanese, reading, english, scenario, audioSlot, footer, n
   );
 }
 
-// KanaGrid — see src/components/KanaGrid.tsx
 function KanaGrid({ rows, onSelect, onBackspace }) {
   return (
     <div className="flex w-full flex-col gap-1 rounded-xl border border-border bg-surface p-3">
@@ -207,9 +205,229 @@ function KanaGrid({ rows, onSelect, onBackspace }) {
   );
 }
 
+// ─── Layout / state components ────────────────────────────────────────────────
+
+function AppHeader({ title, left, right }) {
+  return (
+    <header className="grid min-h-[56px] grid-cols-[1fr_auto_1fr] items-center py-2">
+      <div className="flex items-center">{left}</div>
+      <h1 className="text-heading-sm font-semibold text-fg">{title}</h1>
+      <div className="flex items-center justify-end">{right}</div>
+    </header>
+  );
+}
+
+function LoadingPlaceholder({ label = 'Loading…' }) {
+  return (
+    <div className="flex min-h-[30vh] items-center justify-center">
+      <p className="text-body-sm text-fg-faint">{label}</p>
+    </div>
+  );
+}
+
+function EmptyState({ message, description, action }) {
+  return (
+    <div className="flex min-h-[30vh] flex-col items-center justify-center gap-3 text-center">
+      <p className="text-body font-medium text-fg">{message}</p>
+      {description != null && <p className="text-body-sm text-fg-subtle">{description}</p>}
+      {action != null && <div className="mt-1">{action}</div>}
+    </div>
+  );
+}
+
+function ErrorState({ message, description, action }) {
+  return (
+    <div className="flex min-h-[30vh] flex-col items-center justify-center gap-3 text-center">
+      <p className="text-heading-sm font-semibold text-fg">{message}</p>
+      {description != null && <p className="text-body text-fg-subtle">{description}</p>}
+      {action != null && <div>{action}</div>}
+    </div>
+  );
+}
+
+function ScoreCard({ correct, total, children }) {
+  return (
+    <div className="flex flex-col gap-6">
+      <div className="rounded-2xl border border-border bg-surface p-6 text-center">
+        <p className="text-display font-bold text-fg">
+          {correct}<span className="text-heading-lg text-fg-subtle"> / {total}</span>
+        </p>
+        <p className="mt-1 text-body-sm text-fg-subtle">correct</p>
+      </div>
+      {children}
+    </div>
+  );
+}
+
+function FlipCard({ front, back, flipped, phase = 'idle', onEntered, onExited }) {
+  const slideClass =
+    phase === 'entering' ? 'animate-card-enter' :
+    phase === 'exiting'  ? 'animate-card-exit'  : '';
+
+  function handleAnimationEnd() {
+    if (phase === 'entering' && onEntered) onEntered();
+    if (phase === 'exiting'  && onExited)  onExited();
+  }
+
+  return (
+    <div className={slideClass} onAnimationEnd={handleAnimationEnd} style={{ perspective: '1200px' }}>
+      <div className="relative w-full" style={{
+        transformStyle: 'preserve-3d',
+        transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+        transition: 'transform 0.45s cubic-bezier(0.4, 0, 0.2, 1)',
+      }}>
+        <div className="w-full" style={{ backfaceVisibility: 'hidden' }}>{front}</div>
+        <div className="absolute inset-0 w-full" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>{back}</div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Kana data (mirrors src/lib/kanaData.ts) ──────────────────────────────────
+
+const _H_BASIC = [
+  ['あ','い','う','え','お'],
+  ['か','き','く','け','こ'],
+  ['さ','し','す','せ','そ'],
+  ['た','ち','つ','て','と'],
+  ['な','に','ぬ','ね','の'],
+  ['は','ひ','ふ','へ','ほ'],
+  ['ま','み','む','め','も'],
+  ['や', null,'ゆ', null,'よ'],
+  ['ら','り','る','れ','ろ'],
+  ['わ', null, null,'を','ん'],
+];
+const _H_VOICED = [
+  ['が','ぎ','ぐ','げ','ご'],
+  ['ざ','じ','ず','ぜ','ぞ'],
+  ['だ','ぢ','づ','で','ど'],
+  ['ば','び','ぶ','べ','ぼ'],
+  ['ぱ','ぴ','ぷ','ぺ','ぽ'],
+];
+const _H_SMALL = [
+  ['ぁ','ぃ','ぅ','ぇ','ぉ'],
+  ['っ','ゃ','ゅ','ょ', null],
+];
+function _toKata(rows) {
+  return rows.map(row => row.map(c => c === null ? null : String.fromCodePoint(c.codePointAt(0) + 0x60)));
+}
+const KANA_GRIDS = {
+  hiragana: { basic: _H_BASIC, voiced: _H_VOICED, small: _H_SMALL },
+  katakana: { basic: _toKata(_H_BASIC), voiced: _toKata(_H_VOICED), small: _toKata(_H_SMALL) },
+};
+const _SECTION_LABELS = { basic: 'あ〜ん', voiced: '゛゜', small: '小' };
+
+// ─── KanaKeyboard ─────────────────────────────────────────────────────────────
+
+function KanaKeyboard({ script, section, onScriptChange, onSectionChange, onKey, onBackspace }) {
+  const rows = KANA_GRIDS[script][section];
+
+  return (
+    <div className="flex w-full flex-col gap-2 rounded-2xl border border-border bg-surface p-3">
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex gap-1">
+          {['hiragana', 'katakana'].map((s) => (
+            <button key={s} type="button" onClick={() => onScriptChange(s)}
+              className={[
+                'h-9 rounded-lg px-3 font-jp text-sm font-medium transition-colors',
+                script === s
+                  ? 'bg-fg text-fg-inverse'
+                  : 'border border-border-strong text-fg-muted active:bg-surface-2',
+              ].join(' ')}>
+              {s === 'hiragana' ? 'ひら' : 'カタ'}
+            </button>
+          ))}
+        </div>
+        <div className="flex gap-1">
+          {['basic', 'voiced', 'small'].map((sec) => (
+            <button key={sec} type="button" onClick={() => onSectionChange(sec)}
+              className={[
+                'h-9 rounded-lg px-3 font-jp text-sm font-medium transition-colors',
+                section === sec
+                  ? 'bg-fg text-fg-inverse'
+                  : 'border border-border-strong text-fg-muted active:bg-surface-2',
+              ].join(' ')}>
+              {_SECTION_LABELS[sec]}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-1">
+        {rows.map((row, ri) => (
+          <div key={ri} className="grid grid-cols-5 gap-1">
+            {row.map((cell, ci) =>
+              cell === null
+                ? <div key={ci}/>
+                : <button key={ci} type="button" onClick={() => onKey(cell)}
+                    className="flex h-11 items-center justify-center rounded-xl border border-border bg-bg font-jp text-jp text-fg shadow-key active:bg-surface-2">
+                    {cell}
+                  </button>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-5 gap-1">
+        <div className="col-span-3"/>
+        <button type="button" onClick={() => onKey('ー')}
+          className="flex h-11 items-center justify-center rounded-xl border border-border bg-bg font-jp text-jp text-fg shadow-key active:bg-surface-2">
+          ー
+        </button>
+        <button type="button" onClick={onBackspace} aria-label="Backspace"
+          className="flex h-11 items-center justify-center rounded-xl border border-border bg-bg text-fg-muted shadow-key active:bg-surface-2">
+          <BackspaceIcon className="h-5 w-5"/>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ─── VoiceInput ───────────────────────────────────────────────────────────────
+
+function VoiceInput({ status, onPress, disabled, errorMessage }) {
+  const isListening  = status === 'listening';
+  const isProcessing = status === 'processing';
+
+  return (
+    <div className="flex flex-col items-center gap-3">
+      <div className="relative flex items-center justify-center">
+        {isListening && (
+          <span className="absolute inline-flex h-16 w-16 animate-ping rounded-full bg-error-500 opacity-30"/>
+        )}
+        <button type="button" onClick={onPress}
+          disabled={disabled || isProcessing}
+          aria-label={isListening ? 'Stop listening' : 'Start voice input'}
+          className={[
+            'relative z-10 flex h-14 w-14 items-center justify-center rounded-full transition-colors',
+            isListening
+              ? 'bg-error-500 text-fg-inverse active:bg-error-fg'
+              : 'border-2 border-border-strong bg-bg text-fg-muted active:bg-surface-2',
+            (disabled || isProcessing) ? 'opacity-50' : '',
+          ].join(' ')}>
+          {isProcessing
+            ? <SpinnerIcon className="h-5 w-5 animate-spin"/>
+            : <MicIcon className="h-6 w-6"/>}
+        </button>
+      </div>
+      <p className="text-body-sm text-fg-subtle">
+        {status === 'idle'       && 'Tap to speak'}
+        {status === 'listening'  && 'Listening… tap to stop'}
+        {status === 'processing' && 'Processing…'}
+        {status === 'error'      && (
+          <span className="text-error-fg">{errorMessage ?? 'Could not hear you. Try again.'}</span>
+        )}
+      </p>
+    </div>
+  );
+}
+
 // Share via window so each <script type="text/babel"> can grab them.
 Object.assign(window, {
   Button, TextInput, Card, Badge, IconButton,
   SpeakerIcon, MicIcon, BackspaceIcon, SpinnerIcon,
   AudioButton, ProgressBar, PhraseCard, KanaGrid,
+  AppHeader, LoadingPlaceholder, EmptyState, ErrorState, ScoreCard, FlipCard,
+  KanaKeyboard, VoiceInput,
+  KANA_GRIDS,
 });
