@@ -422,6 +422,151 @@ function VoiceInput({ status, onPress, disabled, errorMessage }) {
   );
 }
 
+// ─── romajiToKana ─────────────────────────────────────────────────────────────
+const _ROMAJI_MAP = [
+  ['sha','しゃ'],['shi','し'],['shu','しゅ'],['she','しぇ'],['sho','しょ'],
+  ['sya','しゃ'],['syu','しゅ'],['syo','しょ'],
+  ['chi','ち'],  ['cha','ちゃ'],['chu','ちゅ'],['che','ちぇ'],['cho','ちょ'],
+  ['tya','ちゃ'],['tyu','ちゅ'],['tyo','ちょ'],
+  ['tsu','つ'],
+  ['kya','きゃ'],['kyu','きゅ'],['kyo','きょ'],
+  ['nya','にゃ'],['nyu','にゅ'],['nyo','にょ'],
+  ['hya','ひゃ'],['hyu','ひゅ'],['hyo','ひょ'],
+  ['mya','みゃ'],['myu','みゅ'],['myo','みょ'],
+  ['rya','りゃ'],['ryu','りゅ'],['ryo','りょ'],
+  ['gya','ぎゃ'],['gyu','ぎゅ'],['gyo','ぎょ'],
+  ['zya','じゃ'],['zyu','じゅ'],['zyo','じょ'],
+  ['bya','びゃ'],['byu','びゅ'],['byo','びょ'],
+  ['pya','ぴゃ'],['pyu','ぴゅ'],['pyo','ぴょ'],
+  ['dya','ぢゃ'],['dyu','ぢゅ'],['dyo','ぢょ'],
+  ['ka','か'],['ki','き'],['ku','く'],['ke','け'],['ko','こ'],
+  ['sa','さ'],['si','し'],['su','す'],['se','せ'],['so','そ'],
+  ['ta','た'],['ti','ち'],['tu','つ'],['te','て'],['to','と'],
+  ['na','な'],['ni','に'],['nu','ぬ'],['ne','ね'],['no','の'],
+  ['ha','は'],['hi','ひ'],['fu','ふ'],['hu','ふ'],['he','へ'],['ho','ほ'],
+  ['ma','ま'],['mi','み'],['mu','む'],['me','め'],['mo','も'],
+  ['ya','や'],['yu','ゆ'],['yo','よ'],
+  ['ra','ら'],['ri','り'],['ru','る'],['re','れ'],['ro','ろ'],
+  ['wa','わ'],['wi','ゐ'],['we','ゑ'],['wo','を'],
+  ['ga','が'],['gi','ぎ'],['gu','ぐ'],['ge','げ'],['go','ご'],
+  ['za','ざ'],['zi','じ'],['zu','ず'],['ze','ぜ'],['zo','ぞ'],
+  ['ji','じ'],['ja','じゃ'],['ju','じゅ'],['je','じぇ'],['jo','じょ'],
+  ['da','だ'],['di','ぢ'],['du','づ'],['de','で'],['do','ど'],
+  ['ba','ば'],['bi','び'],['bu','ぶ'],['be','べ'],['bo','ぼ'],
+  ['pa','ぱ'],['pi','ぴ'],['pu','ぷ'],['pe','ぺ'],['po','ぽ'],
+  ['xa','ぁ'],['xi','ぃ'],['xu','ぅ'],['xe','ぇ'],['xo','ぉ'],
+  ['nn','ん'],
+  ['a','あ'],['i','い'],['u','う'],['e','え'],['o','お'],
+];
+const _CONSONANTS = new Set('bcdfghjklmnpqrstvwxyz');
+const _VOWELS     = new Set('aeiou');
+
+function convertRomaji(input) {
+  const lower = input.toLowerCase();
+  let pos = 0, converted = '';
+  while (pos < lower.length) {
+    const rem = lower.slice(pos);
+    if (rem.length >= 2 && rem[0] === rem[1] && _CONSONANTS.has(rem[0]) && rem[0] !== 'n') {
+      converted += 'っ'; pos += 1; continue;
+    }
+    if (rem.length >= 3 && rem[0] === 'n' && rem[1] === 'n' && _VOWELS.has(rem[2])) {
+      converted += 'ん'; pos += 1; continue;
+    }
+    if (rem[0] === 'n' && rem.length >= 2 && _CONSONANTS.has(rem[1]) && rem[1] !== 'n' && !_VOWELS.has(rem[1])) {
+      converted += 'ん'; pos += 1; continue;
+    }
+    let matched = false;
+    for (const [rom, kana] of _ROMAJI_MAP) {
+      if (rem.startsWith(rom)) { converted += kana; pos += rom.length; matched = true; break; }
+    }
+    if (matched) continue;
+    if (_ROMAJI_MAP.some(([rom]) => rom.startsWith(rem))) break;
+    converted += rem[0]; pos += 1;
+  }
+  return { converted, pending: lower.slice(pos) };
+}
+
+function finalizeRomaji(input) {
+  const { converted, pending } = convertRomaji(input);
+  return pending === 'n' ? converted + 'ん' : converted + pending;
+}
+
+// ─── FillInput ────────────────────────────────────────────────────────────────
+const _MODE_LABELS = { romaji: 'Romaji', kana: 'Kana grid', system: 'JP keyboard' };
+const _SYSTEM_HINT = 'Switch your keyboard to Japanese (日本語) — on iOS: Settings → General → Keyboard → Keyboards → Add New Keyboard → Japanese. On Android: Settings → General Management → Language → On-screen Keyboard → add Japanese.';
+
+function FillInput({
+  mode, romajiValue, kanaValue, converted, pending,
+  kanaScript, kanaSection, canSubmit, disabled, placeholder, showSystemHint,
+  inputRef, onModeChange, onRomajiChange, onKanaKey, onKanaBackspace,
+  onKanaScriptChange, onKanaSectionChange, onSystemChange, onSubmit, onToggleSystemHint,
+}) {
+  function handleKeyDown(e) { if (e.key === 'Enter') onSubmit(); }
+  return (
+    <div className="flex w-full flex-col gap-3">
+      <div className="flex gap-1 rounded-xl border border-border bg-surface p-1">
+        {['romaji','kana','system'].map((m) => (
+          <button key={m} type="button" onClick={() => onModeChange(m)}
+            className={['flex-1 rounded-lg py-2 text-sm font-medium transition-colors',
+              mode === m ? 'bg-bg text-fg shadow-card' : 'text-fg-subtle hover:text-fg active:bg-surface-2',
+            ].join(' ')}>
+            {_MODE_LABELS[m]}
+          </button>
+        ))}
+      </div>
+
+      {mode === 'romaji' && (
+        <div className="flex flex-col gap-2">
+          <div className="min-h-10 rounded-xl border border-border bg-surface px-4 py-2 font-jp text-jp-lg text-fg">
+            {converted !== '' || pending !== '' ? (
+              <>{converted}<span className="text-fg-faint">{pending}</span></>
+            ) : (
+              <span className="text-body text-fg-faint">{placeholder ?? 'Kana preview'}</span>
+            )}
+          </div>
+          <input ref={inputRef} type="text" value={romajiValue}
+            onChange={(e) => onRomajiChange(e.target.value)} onKeyDown={handleKeyDown}
+            disabled={disabled} placeholder="Type romaji here…"
+            autoComplete="off" autoCorrect="off" autoCapitalize="none" spellCheck={false}
+            className="h-12 w-full rounded-xl border border-border-strong px-4 text-body text-fg placeholder:text-fg-faint focus:border-fg-subtle focus:outline-none focus:ring-2 focus:ring-brand-500 disabled:opacity-50"/>
+        </div>
+      )}
+
+      {mode === 'kana' && (
+        <div className="flex flex-col gap-2">
+          <div className="min-h-12 rounded-xl border border-border bg-surface px-4 py-2 font-jp text-jp-lg text-fg">
+            {kanaValue !== '' ? kanaValue : <span className="text-body text-fg-faint">{placeholder ?? 'Tap kana below…'}</span>}
+          </div>
+          <KanaKeyboard script={kanaScript} section={kanaSection}
+            onScriptChange={onKanaScriptChange} onSectionChange={onKanaSectionChange}
+            onKey={onKanaKey} onBackspace={onKanaBackspace}/>
+        </div>
+      )}
+
+      {mode === 'system' && (
+        <div className="flex flex-col gap-2">
+          <input ref={inputRef} type="text" value={kanaValue}
+            onChange={(e) => onSystemChange(e.target.value)} onKeyDown={handleKeyDown}
+            disabled={disabled} placeholder={placeholder ?? 'Type in Japanese…'}
+            lang="ja" inputMode="text" autoComplete="off" autoCorrect="off" spellCheck={false}
+            className="h-12 w-full rounded-xl border border-border-strong px-4 font-jp text-jp text-fg placeholder:font-sans placeholder:text-body placeholder:text-fg-faint focus:border-fg-subtle focus:outline-none focus:ring-2 focus:ring-brand-500 disabled:opacity-50"/>
+          <div className="flex items-start gap-2">
+            <p className="text-body-sm text-fg-subtle">Switch your device keyboard to Japanese (日本語).</p>
+            <button type="button" onClick={onToggleSystemHint}
+              className="shrink-0 text-body-sm text-fg-faint underline hover:text-fg-muted active:text-fg-muted">How?</button>
+          </div>
+          {showSystemHint && <p className="rounded-xl bg-surface p-3 text-body-sm text-fg-muted">{_SYSTEM_HINT}</p>}
+        </div>
+      )}
+
+      <button type="button" onClick={onSubmit} disabled={!canSubmit}
+        className="h-12 w-full rounded-xl bg-fg text-body font-medium text-fg-inverse transition-colors hover:bg-fg-muted disabled:opacity-40 active:bg-fg-muted">
+        Check answer
+      </button>
+    </div>
+  );
+}
+
 // Share via window so each <script type="text/babel"> can grab them.
 Object.assign(window, {
   Button, TextInput, Card, Badge, IconButton,
@@ -429,5 +574,6 @@ Object.assign(window, {
   AudioButton, ProgressBar, PhraseCard, KanaGrid,
   AppHeader, LoadingPlaceholder, EmptyState, ErrorState, ScoreCard, FlipCard,
   KanaKeyboard, VoiceInput,
+  FillInput, convertRomaji, finalizeRomaji,
   KANA_GRIDS,
 });

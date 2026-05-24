@@ -734,6 +734,84 @@ const VoiceInputStories = {
   },
 };
 
+// ───── FillInput ───────────────────────────────────────────────────────
+// Helper: stateful wrapper so stories can drive the stateless ADS FillInput
+function _FillInputDemo({ initialMode = 'romaji', onSubmit: onSubmitProp }) {
+  const [mode,        setMode]        = React.useState(initialMode);
+  const [romaji,      setRomaji]      = React.useState('');
+  const [kana,        setKana]        = React.useState('');
+  const [showHint,    setShowHint]    = React.useState(false);
+  const [kanaScript,  setKanaScript]  = React.useState('hiragana');
+  const [kanaSection, setKanaSection] = React.useState('basic');
+  const [lastAnswer,  setLastAnswer]  = React.useState(null);
+
+  // Clear on mode change
+  React.useEffect(() => { setRomaji(''); setKana(''); }, [mode]);
+
+  const { converted, pending } = convertRomaji(romaji);
+  const canSubmit = mode === 'romaji' ? romaji.trim() !== '' : kana.trim() !== '';
+
+  function handleSubmit() {
+    const value = mode === 'romaji' ? finalizeRomaji(romaji) : kana;
+    if (!value.trim()) return;
+    setLastAnswer(value.trim());
+    setRomaji(''); setKana('');
+    if (onSubmitProp) onSubmitProp(value.trim());
+  }
+
+  return (
+    <div className="flex w-full max-w-md flex-col gap-4">
+      <FillInput
+        mode={mode} romajiValue={romaji} kanaValue={kana}
+        converted={converted} pending={pending}
+        kanaScript={kanaScript} kanaSection={kanaSection}
+        canSubmit={canSubmit}
+        onModeChange={setMode}
+        onRomajiChange={setRomaji}
+        onKanaKey={(c) => setKana((p) => p + c)}
+        onKanaBackspace={() => setKana((p) => [...p].slice(0, -1).join(''))}
+        onKanaScriptChange={setKanaScript}
+        onKanaSectionChange={setKanaSection}
+        onSystemChange={setKana}
+        onSubmit={handleSubmit}
+        onToggleSystemHint={() => setShowHint((h) => !h)}
+        showSystemHint={showHint}
+        placeholder="Answer in hiragana…"
+      />
+      {lastAnswer && (
+        <p className="text-center text-body text-fg-muted">
+          Submitted: <span className="font-jp text-fg">{lastAnswer}</span>
+        </p>
+      )}
+    </div>
+  );
+}
+
+const FillInputStories = {
+  'Romaji mode': {
+    render: () => <_FillInputDemo initialMode="romaji"/>,
+    code: () => `<FillInput
+  mode="romaji" romajiValue={romaji} kanaValue={kana}
+  converted={converted} pending={pending}
+  kanaScript={kanaScript} kanaSection={kanaSection}
+  canSubmit={canSubmit}
+  onModeChange={setMode} onRomajiChange={setRomaji}
+  onKanaKey={…} onKanaBackspace={…}
+  onKanaScriptChange={setKanaScript} onKanaSectionChange={setKanaSection}
+  onSystemChange={setKana} onSubmit={handleSubmit}
+  onToggleSystemHint={…}
+/>`,
+  },
+  'Kana grid mode': {
+    render: () => <_FillInputDemo initialMode="kana"/>,
+    code: () => `<FillInput mode="kana" …/>`,
+  },
+  'System IME mode': {
+    render: () => <_FillInputDemo initialMode="system"/>,
+    code: () => `<FillInput mode="system" …/>`,
+  },
+};
+
 // ───── Public catalog ──────────────────────────────────────────────────
 window.STORIES = [
   {
@@ -778,6 +856,7 @@ window.STORIES = [
     components: [
       { name: 'KanaKeyboard', stories: KanaKeyboardStories },
       { name: 'VoiceInput',   stories: VoiceInputStories },
+      { name: 'FillInput',    stories: FillInputStories },
     ],
   },
 ];
