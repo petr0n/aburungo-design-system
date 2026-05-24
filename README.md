@@ -5,7 +5,7 @@ This design system captures the visual language, content rules and component lib
 If your design system files already exist locally, you can connect them to this repository and push your files:
 
 ```bash
-cd /path/to/your/local/app
+cd /path/to/your/local/design-system
 git init
 git add .
 git commit -m "Initial import"
