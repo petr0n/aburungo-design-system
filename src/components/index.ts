@@ -30,6 +30,10 @@ export { ErrorState } from './ErrorState'
 export { ScoreCard } from './ScoreCard'
 export { FlipCard } from './FlipCard'
 export type { FlipCardPhase } from './FlipCard'
+export { KanaKeyboard } from './KanaKeyboard'
+export type { KanaKeyboardProps, KanaScript, KanaSection } from './KanaKeyboard'
+export { VoiceInput } from './VoiceInput'
+export type { VoiceInputProps, VoiceInputStatus } from './VoiceInput'
 
 // Iconography (named exports — tree-shake by import)
 export {
