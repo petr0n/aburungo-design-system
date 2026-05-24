@@ -14,3 +14,5 @@ git remote add origin https://github.com/petr0n/aburungo-design-system.git
 git pull origin main --allow-unrelated-histories
 git push -u origin main
 ```
+
+If the `git pull` step reports conflicts, resolve them locally, commit the merge, then run the push command.
