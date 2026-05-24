@@ -11,5 +11,6 @@ git add .
 git commit -m "Initial import"
 git branch -M main
 git remote add origin https://github.com/petr0n/aburungo-design-system.git
+git pull origin main --allow-unrelated-histories
 git push -u origin main
 ```
