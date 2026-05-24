@@ -8,46 +8,38 @@ This design system captures the visual language, content rules and component lib
 
 ## Product context
 
-AburunGo is a mobile‑first web app (Vite + React 19 + TypeScript, Tailwind v4) that teaches English‑speaking learners practical Japanese for **real situations** — transit, restaurants, day‑to‑day interactions. Scenarios first, vocab lists last. Phrases are hand‑authored, kept small and good. The core surface today is a **fill‑in‑the‑blank review loop** with three input modes (romaji → kana converter, on‑screen kana grid, system Japanese IME) plus voice input.
+AburunGo is a mobile‑first web app (Vite + React 19 + TypeScript, Tailwind v4) that teaches English‑speaking learners practical Japanese for **real situations** — transit, restaurants, day‑to‑day interactions. Scenarios first, vocab lists last. Phrases are sourced from JMdict/Tatoeba/KANJIDIC2 and kept small and good. The core surface today is a **fill‑in‑the‑blank review loop** with three input modes (romaji → kana converter, on‑screen kana grid, system Japanese IME) plus voice input.
 
 Currently English‑only (UI strings), with Japanese content delivered in kanji + hiragana reading + romaji.
 
-### Sources used to build this system
-
-- **GitHub:** [`petr0n/aburungo`](https://github.com/petr0n/aburungo) — production codebase. Tailwind theme, components, content schema, hero artwork, favicon.
-  - `src/index.css` — Tailwind v4 theme tokens
-  - `src/components/*.tsx` — Card, AudioButton, AuthForm, FillBlankCard, FillInput, KanaKeyboard, VoiceInput
-  - `src/content/phrases/*.yaml` — voice & content sample
-  - `public/favicon.svg`, `src/assets/hero.png` — brand marks
-  - `CLAUDE.md`, `README.md` — product rules and intent
-
-The reader can explore the repo above to do a more thorough job recreating UIs not yet covered here.
-
 ---
 
-## Index
+## Using as an npm package
 
-| File / folder | What's in it |
-|---|---|
-| `README.md` | This — context, content rules, visual foundations, iconography |
-| `colors_and_type.css` | Brand + semantic CSS variables, type presets, spacing, radii, shadows (no Tailwind) |
-| `SKILL.md` | Cross‑compatible Agent Skill manifest |
-| `src/index.css` | **Production tokens** — Tailwind v4 `@theme` block; generates the `bg-*`, `text-*`, `font-*`, `rounded-*`, `shadow-*` utility families |
-| `src/components/ui/` | **Production primitives** (TSX): `Button`, `TextInput`, `Card`, `Badge`, `IconButton` |
-| `src/components/` | **Production domain components** (TSX): `PhraseCard`, `KanaGrid`, `ProgressBar`, `AudioButton` + the `icons.tsx` set + barrel `index.ts` |
-| `assets/logo.svg` | Brand mark (purple glyph) |
-| `assets/hero.png` | Stacked‑card hero illustration |
-| `assets/icons/` | Inline SVG icons extracted from the codebase (audio, microphone, backspace, spinner) |
-| `preview/*.html` | Cards for the Design System tab — colors, type, spacing, components |
-| `ui_kits/mobile/` | Mobile UI kit — click‑thru demo of the four core screens, browser‑runnable JSX mirror of the production components |
+ADS is published as a local npm package consumed by the AburunGo app via a `file:` reference.
 
-### Using the React component library
+### Install
+
+In the consuming app's `package.json`:
+
+```json
+"aburungo-design-system": "file:../aburungo-design-system"
+```
+
+Then run:
+
+```bash
+pnpm install
+```
+
+### Import components
 
 ```tsx
 import {
   Button, TextInput, Card, Badge, IconButton,
-  PhraseCard, KanaGrid, ProgressBar, AudioButton,
-} from '@/components'
+  PhraseCard, ProgressBar, AudioButton,
+  BackspaceIcon, MicIcon, SpeakerIcon, SpinnerIcon,
+} from 'aburungo-design-system'
 
 export function Demo() {
   return (
@@ -56,13 +48,63 @@ export function Demo() {
       japanese="これをください"
       reading="これをください"
       english="I'll have this."
-      audioSlot={<AudioButton onPress={() => {}} />}
+      audioSlot={<AudioButton state="idle" onPress={() => {}} label="Play audio" />}
     />
   )
 }
 ```
 
-The TSX components are written against the AburunGo source conventions: explicit `Props` types, named exports, `import type` for type‑only imports, `@/` path alias, no `any`, no enums (union types only). Drop them into `src/components/` of the AburunGo Vite app and they'll compile.
+### Import design tokens
+
+ADS tokens are in `src/tokens.css` — a standalone `@theme` block with no Tailwind import. In the app's CSS:
+
+```css
+@import 'tailwindcss';
+@source '../node_modules/aburungo-design-system/dist';   /* scan ADS classes */
+
+@import 'aburungo-design-system/src/tokens.css';          /* shared design tokens */
+
+@theme {
+  /* app-specific tokens only */
+}
+```
+
+The `@source` line tells Tailwind v4 to scan the ADS `dist/` output for utility classes used in ADS components.
+
+### Build commands
+
+```bash
+pnpm build        # compile src/components/ → dist/ (tsup, ESM + .d.ts)
+pnpm dev          # tsup --watch for live rebuilds
+pnpm typecheck    # tsc --noEmit
+```
+
+After any changes here, run `pnpm build` before testing in the consuming app.
+
+---
+
+## File index
+
+| File / folder | What's in it |
+|---|---|
+| `README.md` | This — context, content rules, visual foundations, iconography |
+| `src/tokens.css` | **Design tokens** — standalone `@theme` block; brand, semantic, type scale, spacing, radii, shadows. Import this in the consuming app. |
+| `src/index.css` | Storybook CSS — `@import "tailwindcss"` + `@import "./tokens.css"` + base resets. Not for app import. |
+| `src/components/` | **TypeScript source** — all React components shipped in the package |
+| `src/components/index.ts` | Barrel export — all public components and types |
+| `dist/` | Compiled output (ESM + `.d.ts`) — generated by `pnpm build`, not committed |
+| `tsup.config.ts` | Build config — ESM, dts, treeshake, externals |
+| `tsconfig.json` | TypeScript config — strict, `verbatimModuleSyntax`, `erasableSyntaxOnly` |
+| `SKILL.md` | Claude Code plugin entry point — defines the `/aburungo-design` skill |
+| `CLAUDE.md` | Project rules for AI sessions |
+| `.claude/commands/` | Project slash commands (e.g. `/handoff-to-app`) |
+| `storybook/` | Custom HTML storybook (uses JSX mirrors in `ui_kits/mobile/components.jsx`) |
+| `ui_kits/` | JSX component mirrors and screen mockups for design/preview use |
+| `preview/` | Static HTML design spec pages |
+| `colors_and_type.css` | Brand + semantic CSS variables, type presets, spacing, radii, shadows (plain CSS, no Tailwind) |
+| `assets/logo.svg` | Brand mark (purple glyph) |
+| `assets/hero.png` | Stacked‑card hero illustration |
+| `assets/icons/` | Inline SVG icons extracted from the codebase (audio, microphone, backspace, spinner) |
 
 ---
 
@@ -101,9 +143,10 @@ The voice is the product. Get this wrong and the app feels like every other lang
 | Author note | *"Said while pointing. The most useful single phrase in any Japanese restaurant — works even when you can't read the menu."* |
 
 ### How content is authored
-- Hand‑written YAML, validated at build time. Bad content fails `npm run build`.
+- Hand‑written YAML, validated at build time. Bad content fails `pnpm build`.
 - Every phrase has: `id` (stable slug), `japanese`, `reading` (hiragana), `romaji`, `english`, `scenario`. Optional: `audioUrl`, `notes`.
 - **Notes are usage, not translation.** "Universal — works at info desks, on the street, at hotel front desks." Practical, not academic.
+- **No fabricated content.** All Japanese content traces to JMdict/Tatoeba/KANJIDIC2 or a verified source.
 
 ---
 
@@ -120,7 +163,7 @@ Quiet, modern, mobile‑first. White surfaces, zinc text, one purple accent. Rou
 ### Typography
 - **English UI:** Noto Sans (400 / 500 / 600 / 700). Per‑user direction — was M PLUS Rounded in code originally, swapped to Noto Sans for English copy.
 - **Japanese content:** M PLUS Rounded 1c (400 / 500 / 700). Friendly, rounded geometric — matches the rounded UI corners and the gentle tone. Fallback stack: `Hiragino Kaku Gothic ProN`, `Yu Gothic`.
-- Code applies the JP font via a `.jp` / `font-jp` class on any element containing kanji or kana.
+- Code applies the JP font via a `font-jp` class on any element containing kanji or kana.
 - **No font for code** in product — this isn't a dev tool.
 
 ### Spacing & layout
@@ -188,18 +231,22 @@ Rounded, but never pill‑all‑the‑way unless it's a circular control.
 
 The brand uses **inline SVG icons drawn directly inside components** — no icon font, no icon library, no sprite. Each icon is a single `<svg viewBox="0 0 24 24">` path embedded next to the button that uses it. They're solid (filled), single‑colored (`fill="currentColor"`), and Material‑style in proportion (24px frame, ~5px stroke‑equivalent).
 
-### What lives in the codebase today
-- **Audio** (volume‑with‑waves) — `AudioButton`
-- **Microphone** (filled mic) — `VoiceInput` idle / listening
-- **Spinner** (circle‑with‑arc) — `VoiceInput` processing
-- **Backspace** (rounded rectangle with X) — `KanaKeyboard`
+Icons are exported as React components from the package:
 
-All four are extracted and saved as standalone SVGs in `assets/icons/`. Use them by inlining the markup or pasting the SVG content into your component — *do not* link to an icon library.
+```tsx
+import { BackspaceIcon, MicIcon, SpeakerIcon, SpinnerIcon } from 'aburungo-design-system'
+```
+
+### What lives in the codebase today
+- **SpeakerIcon** (volume‑with‑waves) — `AudioButton`
+- **MicIcon** (filled mic) — `VoiceInput` idle / listening
+- **SpinnerIcon** (circle‑with‑arc) — `VoiceInput` processing
+- **BackspaceIcon** (rounded rectangle with X) — `KanaKeyboard`
+
+All four are also saved as standalone SVGs in `assets/icons/`. Use them by inlining the markup or importing the React component.
 
 ### When you need an icon that doesn't exist yet
 Pick the **closest Material Icons (Filled)** match — Material's geometry (24px frame, solid fills, rounded but not pill, modest visual weight) is the nearest neighbour to what's in‑repo. Substituted icons should be flagged ("Material Icons stand‑in for X — needs custom").
-
-- **Substitution flag:** all icons sourced outside the in‑repo SVGs are stand‑ins until designed. Don't paint over this.
 
 ### Other iconographic conventions
 - **No emoji.** Not in copy, not as icons.
@@ -211,5 +258,5 @@ Pick the **closest Material Icons (Filled)** match — Material's geometry (24px
 
 ## Caveats & substitutions
 
-- **Fonts:** **Noto Sans** ships locally as a variable font in `fonts/` (wght 100–900, wdth 62.5–100). Italic is the matching variable italic. **M PLUS Rounded 1c** still loads from Google Fonts — drop the local `.ttf`/`.woff` files into `fonts/` when ready and update the `@font-face` block in `colors_and_type.css` + `src/index.css`.
+- **Fonts:** **Noto Sans** ships locally as a variable font in `fonts/` (wght 100–900, wdth 62.5–100). Italic is the matching variable italic. **M PLUS Rounded 1c** still loads from Google Fonts — drop the local `.ttf`/`.woff` files into `fonts/` when ready and update the `@font-face` block in `colors_and_type.css` + `src/tokens.css`.
 - **English‑only UI strings** today. JP content is in JP; the chrome is in English. Add `lang="ja"` to any JP text node.
