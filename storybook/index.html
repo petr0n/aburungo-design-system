@@ -94,6 +94,15 @@
     .sb-meta { font-size: 13px; color: #71717a; display: flex; gap: 14px; align-items: center; }
     .sb-meta a { color: inherit; text-decoration: none; padding: 6px 10px; border-radius: 6px; }
     .sb-meta a:hover { background: #f4f4f5; color: #18181b; }
+
+    /* Hamburger button — hidden on desktop */
+    .sb-menu-btn {
+      display: none; align-items: center; justify-content: center;
+      width: 44px; height: 44px; background: none; border: none;
+      color: #3f3f46; cursor: pointer; border-radius: 8px; flex-shrink: 0;
+    }
+    .sb-menu-btn:active { background: #f4f4f5; }
+
     .sb-sidebar {
       overflow: auto; border-right: 1px solid #e4e4e7;
       background: #fafafa; padding: 14px 8px;
@@ -107,6 +116,7 @@
       display: flex; align-items: center; gap: 6px;
       padding: 6px 10px; cursor: pointer; user-select: none;
       border-radius: 6px; font-size: 13px; font-weight: 500; color: #3f3f46;
+      min-height: 44px;
     }
     .sb-component-row:hover { background: #f4f4f5; }
     .sb-component-row .caret {
@@ -115,24 +125,31 @@
     }
     .sb-component-row.open .caret { transform: rotate(90deg); }
     .sb-story-row {
-      display: block; padding: 6px 10px 6px 32px;
-      cursor: pointer; user-select: none;
+      display: flex; align-items: center; padding: 0 10px 0 32px;
+      cursor: pointer; user-select: none; min-height: 44px;
       border-radius: 6px; font-size: 13px; color: #52525b;
     }
     .sb-story-row:hover { background: #f4f4f5; color: #18181b; }
     .sb-story-row.active { background: #ede6ff; color: #5e0bbf; font-weight: 500; }
+
+    /* Backdrop for mobile drawer */
+    .sb-backdrop {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.25); z-index: 40;
+    }
 
     .sb-main {
       display: flex; flex-direction: column; overflow: hidden;
     }
     .sb-toolbar {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 24px; height: 44px; background: #fff;
+      padding: 0 16px; height: 44px; background: #fff;
       border-bottom: 1px solid #e4e4e7; font-size: 13px; color: #71717a;
     }
-    .sb-toolbar .crumbs { display: flex; align-items: center; gap: 8px; }
-    .sb-toolbar .crumbs .sep { color: #d4d4d8; }
-    .sb-toolbar .tabs { display: flex; gap: 4px; }
+    .sb-toolbar .crumbs { display: flex; align-items: center; gap: 6px; overflow: hidden; }
+    .sb-toolbar .crumbs .sep { color: #d4d4d8; flex-shrink: 0; }
+    .sb-toolbar .crumbs span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .sb-toolbar .tabs { display: flex; gap: 4px; flex-shrink: 0; }
     .sb-toolbar .tabs button {
       background: transparent; border: none; padding: 6px 10px; border-radius: 6px;
       font: inherit; color: #71717a; cursor: pointer;
@@ -140,13 +157,13 @@
     .sb-toolbar .tabs button[data-active="true"] { background: #f4f4f5; color: #18181b; }
 
     .sb-preview {
-      flex: 1; overflow: auto; padding: 32px;
+      flex: 1; overflow: auto; padding: 20px;
       background: #fafafa; display: flex; flex-direction: column;
     }
     .sb-canvas {
-      flex: 1; min-height: 240px; background: #fff;
+      flex: 1; min-height: 200px; background: #fff;
       border: 1px solid #e4e4e7; border-radius: 16px;
-      padding: 40px; display: flex; align-items: center; justify-content: center;
+      padding: 32px 20px; display: flex; align-items: center; justify-content: center;
       background-image: radial-gradient(circle, #e4e4e7 1px, transparent 1px);
       background-size: 20px 20px;
     }
@@ -164,9 +181,9 @@
     .sb-bottom-tabs button[data-active="true"] {
       color: #18181b; border-bottom-color: #18181b;
     }
-    .sb-bottom-body { padding: 16px 20px; max-height: 280px; overflow: auto; }
+    .sb-bottom-body { padding: 12px 16px; max-height: 240px; overflow: auto; }
     .sb-controls-row {
-      display: grid; grid-template-columns: 140px 1fr 80px; gap: 14px;
+      display: grid; grid-template-columns: 120px 1fr 60px; gap: 10px;
       align-items: center; padding: 8px 0; border-bottom: 1px solid #f4f4f5;
       font-size: 13px;
     }
@@ -178,6 +195,29 @@
       border: 1px solid #d4d4d8; border-radius: 6px; background: #fff;
     }
     .sb-controls-row input[type="range"] { width: 100%; }
+
+    /* ── Mobile layout ──────────────────────────────────────────────── */
+    @media (max-width: 639px) {
+      .sb-root {
+        grid-template-columns: 1fr;
+      }
+      .sb-menu-btn { display: flex; }
+      .sb-meta a[href*="README"], .sb-meta a[href*="app"] { display: none; }
+      .sb-sidebar {
+        position: fixed; top: 56px; left: 0; bottom: 0; width: 280px;
+        z-index: 50; transform: translateX(-100%);
+        transition: transform 220ms cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 6px 0 32px rgba(0,0,0,0.18);
+        border-right: 1px solid #e4e4e7;
+      }
+      .sb-sidebar.open { transform: translateX(0); }
+      .sb-backdrop.open { display: block; }
+      .sb-preview { padding: 12px; }
+      .sb-canvas { padding: 20px 12px; }
+      .sb-controls-row { grid-template-columns: 100px 1fr; }
+      .sb-controls-row .sb-control-type { display: none; }
+      .sb-bottom-body { max-height: 200px; }
+    }
     .sb-control-type { font: 500 11px var(--font-mono); color: #a1a1aa; text-transform: uppercase; }
     .sb-empty { color: #a1a1aa; font-size: 13px; font-style: italic; }
 
@@ -236,9 +276,8 @@
       window.location.hash = `#${encodeURIComponent(s)}/${encodeURIComponent(c)}/${encodeURIComponent(n)}`;
     }
 
-    function Sidebar({ stories, current, onSelect }) {
+    function Sidebar({ stories, current, navOpen, onSelect }) {
       const [open, setOpen] = React.useState(() => {
-        // Default: open every section; open the current component
         const o = {};
         for (const s of stories) for (const c of s.components) {
           o[`${s.title}/${c.name}`] = c.name === current.component.name;
@@ -248,7 +287,7 @@
       function toggle(key) { setOpen((o) => ({ ...o, [key]: !o[key] })); }
 
       return (
-        <aside className="sb-sidebar">
+        <aside className={['sb-sidebar', navOpen ? 'open' : ''].join(' ')}>
           {stories.map((s) => (
             <div key={s.title}>
               <div className="sb-section-title">{s.title}</div>
@@ -323,18 +362,25 @@
       );
     }
 
+    function HamburgerIcon() {
+      return (
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round"/>
+        </svg>
+      );
+    }
+
     function App() {
       const stories = window.STORIES;
 
-      // Resolve current story from URL or default to the first
       const initial = parseHash() || { sectionTitle: 'Primitives', componentName: 'Button', storyName: 'Primary' };
-      const [pick, setPick] = React.useState(initial);
-      const [tab, setTab] = React.useState('controls'); // controls | code
-      const [gridBg, setGridBg] = React.useState(true);
+      const [pick, setPick]       = React.useState(initial);
+      const [tab, setTab]         = React.useState('controls');
+      const [gridBg, setGridBg]   = React.useState(true);
+      const [navOpen, setNavOpen] = React.useState(false);
 
       const current = findStory(stories, pick.sectionTitle, pick.componentName, pick.storyName);
 
-      // Per-story arg overrides
       const [argOverrides, setArgOverrides] = React.useState({});
       const argKey = `${current.section.title}/${current.component.name}/${current.storyName}`;
       const baseArgs = current.story.args ?? {};
@@ -343,12 +389,12 @@
       function select(sectionTitle, componentName, storyName) {
         writeHash(sectionTitle, componentName, storyName);
         setPick({ sectionTitle, componentName, storyName });
+        setNavOpen(false);
       }
       function setArgs(next) {
         setArgOverrides((o) => ({ ...o, [argKey]: next }));
       }
 
-      // Sync on back/forward
       React.useEffect(() => {
         function onHash() {
           const p = parseHash();
@@ -358,25 +404,32 @@
         return () => window.removeEventListener('hashchange', onHash);
       }, []);
 
-      // Write the initial hash if missing
       React.useEffect(() => {
         if (!parseHash()) writeHash(initial.sectionTitle, initial.componentName, initial.storyName);
       }, []);
 
       const code = current.story.code ? current.story.code(args) : '';
 
-      // Isolated subtree per story — prevents hook-order violations when
-      // navigating between stories that use different numbers of hooks.
       function StoryCanvas({ story, args }) {
         return story.render(args);
       }
 
       return (
         <div className="sb-root">
+          {/* Backdrop — mobile only, closes drawer on tap */}
+          <div className={['sb-backdrop', navOpen ? 'open' : ''].join(' ')}
+               onClick={() => setNavOpen(false)}/>
+
           <header className="sb-header">
-            <div className="sb-brand">
-              <img src="../assets/logo.svg" alt=""/>
-              <span>AburunGo · Storybook</span>
+            <div style={{display:'flex', alignItems:'center', gap:'10px'}}>
+              <button className="sb-menu-btn" aria-label="Toggle navigation"
+                      onClick={() => setNavOpen((o) => !o)}>
+                <HamburgerIcon/>
+              </button>
+              <div className="sb-brand">
+                <img src="../assets/logo.svg" alt=""/>
+                <span>AburunGo · Storybook</span>
+              </div>
             </div>
             <div className="sb-meta">
               <span>{Object.keys(current.story.argTypes ?? {}).length} controls</span>
@@ -385,7 +438,7 @@
             </div>
           </header>
 
-          <Sidebar stories={stories} current={current} onSelect={select}/>
+          <Sidebar stories={stories} current={current} navOpen={navOpen} onSelect={select}/>
 
           <main className="sb-main">
             <div className="sb-toolbar">
