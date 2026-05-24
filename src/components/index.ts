@@ -22,6 +22,15 @@ export type { KanaCell } from './KanaGrid'
 export { ProgressBar } from './ProgressBar'
 export { AudioButton } from './AudioButton'
 
+// Layout + state components
+export { AppHeader } from './AppHeader'
+export { LoadingPlaceholder } from './LoadingPlaceholder'
+export { EmptyState } from './EmptyState'
+export { ErrorState } from './ErrorState'
+export { ScoreCard } from './ScoreCard'
+export { FlipCard } from './FlipCard'
+export type { FlipCardPhase } from './FlipCard'
+
 // Iconography (named exports — tree-shake by import)
 export {
   SpeakerIcon,
