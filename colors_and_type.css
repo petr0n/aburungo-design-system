@@ -1,0 +1,241 @@
+/* ──────────────────────────────────────────────────────────────────────────
+   AburunGo — Colors, Type & Tokens
+   --------------------------------------------------------------------------
+   The brand reward is being able to use the language. The visual system
+   reinforces that: clarity, speed, usability. No gamification ornament.
+
+   Source of truth from the codebase:
+     - src/index.css (Tailwind v4 theme — font-sans, font-jp on M PLUS Rounded 1c)
+     - components use zinc-50…zinc-900 + accent purple (#aa3bff)
+     - favicon.svg → brand purple (#863bff / #7e14ff in shadows, #ede6ff tint)
+     - hero.png → violet metallic stacked-card motif
+   ────────────────────────────────────────────────────────────────────────── */
+
+@import url("https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap");
+
+/* ── Brand font — Noto Sans (uploaded variable font, axis: wght 100..900, wdth 62.5..100) */
+@font-face {
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("fonts/NotoSans-VariableFont_wdth_wght.ttf") format("truetype-variations"),
+       url("fonts/NotoSans-VariableFont_wdth_wght.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Noto Sans";
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("fonts/NotoSans-Italic-VariableFont_wdth_wght.ttf") format("truetype-variations"),
+       url("fonts/NotoSans-Italic-VariableFont_wdth_wght.ttf") format("truetype");
+}
+
+:root {
+  /* ── Brand purple — primary accent ───────────────────────────────────── */
+  --brand-50:  #f5efff;
+  --brand-100: #ede6ff;
+  --brand-200: #dccaff;
+  --brand-300: #c4a5ff;
+  --brand-400: #aa7bff;
+  --brand-500: #aa3bff;   /* primary accent — auth CTA in code */
+  --brand-600: #863bff;   /* logo fill */
+  --brand-700: #7e14ff;   /* logo shadow / pressed */
+  --brand-800: #5e0bbf;
+  --brand-900: #3d077a;
+
+  /* ── Neutrals — Tailwind zinc, the workhorse scale ───────────────────── */
+  --zinc-0:   #ffffff;
+  --zinc-50:  #fafafa;
+  --zinc-100: #f4f4f5;
+  --zinc-200: #e4e4e7;
+  --zinc-300: #d4d4d8;
+  --zinc-400: #a1a1aa;
+  --zinc-500: #71717a;
+  --zinc-600: #52525b;
+  --zinc-700: #3f3f46;
+  --zinc-800: #27272a;
+  --zinc-900: #18181b;
+
+  /* ── Semantic — feedback used in result banners ──────────────────────── */
+  --green-50:  #f0fdf4;
+  --green-500: #22c55e;
+  --green-700: #15803d;
+  --red-50:    #fef2f2;
+  --red-500:   #ef4444;
+  --red-700:   #b91c1c;
+
+  /* ── Foreground / background semantic tokens ─────────────────────────── */
+  --bg:           var(--zinc-0);
+  --bg-subtle:    var(--zinc-50);
+  --bg-muted:     var(--zinc-100);
+  --fg:           var(--zinc-900);   /* primary text */
+  --fg-2:         var(--zinc-700);   /* secondary text — labels */
+  --fg-3:         var(--zinc-500);   /* tertiary text — meta, hints */
+  --fg-4:         var(--zinc-400);   /* quaternary — placeholders */
+  --fg-inverse:   var(--zinc-0);
+
+  --border:       var(--zinc-200);   /* default border */
+  --border-strong:var(--zinc-300);   /* form fields, primary buttons-secondary */
+  --border-focus: var(--zinc-500);
+
+  --accent:       var(--brand-500);  /* primary accent */
+  --accent-fg:    var(--zinc-0);
+  --accent-press: var(--brand-600);
+
+  --action:       var(--zinc-900);   /* primary action buttons (non-auth) */
+  --action-press: var(--zinc-800);
+
+  /* ── Type — Noto Sans for English, M PLUS Rounded 1c for Japanese ────── */
+  --font-sans: "Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-jp:   "M PLUS Rounded 1c", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+
+  /* Type scale — mobile-first, never below 14px in interactive UI */
+  --fs-xs:   12px;   /* meta only — uppercase scenario tag */
+  --fs-sm:   14px;   /* secondary text, hints */
+  --fs-base: 16px;   /* body */
+  --fs-lg:   18px;   /* emphasis body / button on roomy screens */
+  --fs-xl:   20px;   /* card prompts */
+  --fs-2xl:  24px;   /* large prompts, h3 */
+  --fs-3xl:  30px;   /* h2 — Japanese phrase on card */
+  --fs-4xl:  36px;   /* h1 — landing, sm: card phrase */
+  --fs-5xl:  48px;   /* display */
+  --fs-6xl:  60px;
+
+  --lh-tight:  1.1;
+  --lh-snug:   1.25;
+  --lh-normal: 1.5;
+  --lh-loose:  1.7;
+
+  --tracking-tight: -0.02em;
+  --tracking-wide:  0.08em;   /* uppercase scenario labels */
+
+  --fw-regular: 400;
+  --fw-medium:  500;
+  --fw-semibold:600;
+  --fw-bold:    700;
+
+  /* ── Spacing — 4px base, mobile-first ────────────────────────────────── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* Touch — non-negotiable per CLAUDE.md "Touch targets ≥ 44px" */
+  --touch-min: 44px;
+
+  /* ── Radius — soft, rounded, friendly. Match M PLUS Rounded's tone. ──── */
+  --radius-sm:   6px;
+  --radius-md:   8px;    /* form fields, small buttons */
+  --radius-lg:   12px;   /* buttons, kana keys */
+  --radius-xl:   16px;   /* cards-inner, mode pickers, banners */
+  --radius-2xl:  20px;   /* main review card */
+  --radius-full: 9999px; /* pills, mic, audio button */
+
+  /* ── Elevation — minimal. shadow-sm + borders do the work. ───────────── */
+  --shadow-sm: 0 1px 2px 0 rgba(24, 24, 27, 0.05);
+  --shadow-md: 0 4px 12px -2px rgba(24, 24, 27, 0.08), 0 2px 4px -2px rgba(24, 24, 27, 0.04);
+  --shadow-focus: 0 0 0 2px var(--accent);
+
+  /* ── Motion — fast, no bounce. Touch-first apps don't need anim flair. ─ */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --dur-fast:   120ms;
+  --dur-normal: 180ms;
+  --dur-slow:   240ms;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Semantic typography presets — apply to elements directly
+   ────────────────────────────────────────────────────────────────────────── */
+
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  line-height: var(--lh-normal);
+  color: var(--fg);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+}
+
+.display, h1.display {
+  font-size: var(--fs-5xl);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg);
+}
+
+h1, .h1 {
+  font-size: var(--fs-4xl);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg);
+}
+
+h2, .h2 {
+  font-size: var(--fs-3xl);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg);
+}
+
+h3, .h3 {
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-snug);
+  color: var(--fg);
+}
+
+p, .body {
+  font-size: var(--fs-base);
+  line-height: var(--lh-normal);
+  color: var(--fg);
+}
+
+.body-sm   { font-size: var(--fs-sm);  color: var(--fg-2); }
+.caption   { font-size: var(--fs-xs);  color: var(--fg-3); }
+.meta      { font-size: var(--fs-xs);  color: var(--fg-3); text-transform: uppercase; letter-spacing: var(--tracking-wide); font-weight: var(--fw-medium); }
+
+/* Japanese text — kanji + kana */
+.jp, [lang="ja"] {
+  font-family: var(--font-jp);
+}
+.jp-phrase {            /* the big Japanese prompt on a card */
+  font-family: var(--font-jp);
+  font-size: var(--fs-4xl);
+  line-height: var(--lh-tight);
+  color: var(--fg);
+  font-weight: var(--fw-medium);
+}
+.jp-reading {           /* the hiragana reading below */
+  font-family: var(--font-jp);
+  font-size: var(--fs-lg);
+  color: var(--fg-2);
+  font-weight: var(--fw-regular);
+}
+.romaji {
+  font-size: var(--fs-sm);
+  font-style: italic;
+  color: var(--fg-3);
+}
+
+/* Furigana — match the source code's <ruby> rules */
+ruby > rt {
+  font-size: 0.55em;
+  font-weight: 400;
+  line-height: 1;
+  user-select: none;
+}
