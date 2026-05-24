@@ -1,8 +1,8 @@
 # aburungo-design-system
 This design system captures the visual language, content rules and component library of [AburunGo](https://github.com/petr0n/aburungo). Use it to build new screens, mocks, slides or marketing for the product without re‑inventing or drifting.
 
-## Connect an existing local app to this repository
-If your app already exists locally, you can connect it to this repository and push your files:
+## Connect existing local files to this repository
+If your design system files already exist locally, you can connect them to this repository and push your files:
 
 ```bash
 cd /path/to/your/local/app
