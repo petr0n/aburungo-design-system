@@ -362,6 +362,378 @@ const TokensStories = {
   },
 };
 
+// ───── AppHeader ───────────────────────────────────────────────────────
+const AppHeaderStories = {
+  'Title only': {
+    render: (a) => (
+      <div className="w-full max-w-md border border-border rounded-2xl overflow-hidden">
+        <AppHeader title={a.title}/>
+      </div>
+    ),
+    args: { title: 'Flashcards' },
+    argTypes: { title: { control: 'text' } },
+    code: (a) => `<AppHeader title="${a.title}"/>`,
+  },
+  'With left + right': {
+    render: () => (
+      <div className="w-full max-w-md border border-border rounded-2xl overflow-hidden">
+        <AppHeader
+          title="Flashcards"
+          left={<Button variant="ghost" size="sm">Back</Button>}
+          right={<Button variant="ghost" size="sm">Settings</Button>}
+        />
+      </div>
+    ),
+    code: () => `<AppHeader
+  title="Flashcards"
+  left={<Button variant="ghost" size="sm">Back</Button>}
+  right={<Button variant="ghost" size="sm">Settings</Button>}
+/>`,
+  },
+  'With icon slots': {
+    render: () => (
+      <div className="w-full max-w-md border border-border rounded-2xl overflow-hidden">
+        <AppHeader
+          title="Practice"
+          left={<IconButton aria-label="Back"><BackspaceIcon className="h-5 w-5"/></IconButton>}
+          right={<AudioButton state="idle" onPress={() => {}}/>}
+        />
+      </div>
+    ),
+    code: () => `<AppHeader
+  title="Practice"
+  left={<IconButton aria-label="Back">…</IconButton>}
+  right={<AudioButton state="idle" onPress={play}/>}
+/>`,
+  },
+};
+
+// ───── LoadingPlaceholder ──────────────────────────────────────────────
+const LoadingPlaceholderStories = {
+  Default: {
+    render: (a) => (
+      <div className="w-full max-w-md">
+        <LoadingPlaceholder label={a.label}/>
+      </div>
+    ),
+    args: { label: 'Loading…' },
+    argTypes: { label: { control: 'text' } },
+    code: (a) => `<LoadingPlaceholder label="${a.label}"/>`,
+  },
+  Custom: {
+    render: () => <div className="w-full max-w-md"><LoadingPlaceholder label="Checking health…"/></div>,
+    code: () => `<LoadingPlaceholder label="Checking health…"/>`,
+  },
+};
+
+// ───── EmptyState ──────────────────────────────────────────────────────
+const EmptyStateStories = {
+  'Message only': {
+    render: (a) => (
+      <div className="w-full max-w-md">
+        <EmptyState message={a.message}/>
+      </div>
+    ),
+    args: { message: 'No cards due' },
+    argTypes: { message: { control: 'text' } },
+    code: (a) => `<EmptyState message="${a.message}"/>`,
+  },
+  'With description': {
+    render: () => (
+      <div className="w-full max-w-md">
+        <EmptyState
+          message="No cards due"
+          description="You're all caught up. Come back tomorrow for your next review."
+        />
+      </div>
+    ),
+    code: () => `<EmptyState
+  message="No cards due"
+  description="You're all caught up. Come back tomorrow."
+/>`,
+  },
+  'With action': {
+    render: () => (
+      <div className="w-full max-w-md">
+        <EmptyState
+          message="No feedback yet"
+          description="User feedback will appear here once learners submit reports."
+          action={<Button variant="secondary" size="sm">Refresh</Button>}
+        />
+      </div>
+    ),
+    code: () => `<EmptyState
+  message="No feedback yet"
+  description="…"
+  action={<Button variant="secondary" size="sm">Refresh</Button>}
+/>`,
+  },
+};
+
+// ───── ErrorState ──────────────────────────────────────────────────────
+const ErrorStateStories = {
+  Default: {
+    render: (a) => (
+      <div className="w-full max-w-md">
+        <ErrorState message={a.message}/>
+      </div>
+    ),
+    args: { message: 'Something went wrong' },
+    argTypes: { message: { control: 'text' } },
+    code: (a) => `<ErrorState message="${a.message}"/>`,
+  },
+  'With description': {
+    render: () => (
+      <div className="w-full max-w-md">
+        <ErrorState
+          message="Couldn't load cards"
+          description="Network request failed. Check your connection and try again."
+        />
+      </div>
+    ),
+    code: () => `<ErrorState
+  message="Couldn't load cards"
+  description="Network request failed."
+/>`,
+  },
+  'With retry action': {
+    render: () => (
+      <div className="w-full max-w-md">
+        <ErrorState
+          message="Couldn't load cards"
+          description="Network request failed. Check your connection and try again."
+          action={<Button variant="primary" size="sm">Try again</Button>}
+        />
+      </div>
+    ),
+    code: () => `<ErrorState
+  message="Couldn't load cards"
+  description="…"
+  action={<Button variant="primary" size="sm">Try again</Button>}
+/>`,
+  },
+};
+
+// ───── ScoreCard ───────────────────────────────────────────────────────
+const ScoreCardStories = {
+  Default: {
+    render: (a) => (
+      <div className="w-full max-w-sm">
+        <ScoreCard correct={a.correct} total={a.total}/>
+      </div>
+    ),
+    args: { correct: 18, total: 25 },
+    argTypes: {
+      correct: { control: 'range', min: 0, max: 30, step: 1 },
+      total:   { control: 'range', min: 1, max: 30, step: 1 },
+    },
+    code: (a) => `<ScoreCard correct={${a.correct}} total={${a.total}}/>`,
+  },
+  'With actions': {
+    render: () => (
+      <div className="w-full max-w-sm">
+        <ScoreCard correct={18} total={25}>
+          <Button variant="primary" fullWidth>Practice missed (7)</Button>
+          <Button variant="secondary" fullWidth>Done</Button>
+        </ScoreCard>
+      </div>
+    ),
+    code: () => `<ScoreCard correct={18} total={25}>
+  <Button variant="primary" fullWidth>Practice missed (7)</Button>
+  <Button variant="secondary" fullWidth>Done</Button>
+</ScoreCard>`,
+  },
+  Perfect: {
+    render: () => (
+      <div className="w-full max-w-sm">
+        <ScoreCard correct={25} total={25}>
+          <Button variant="primary" fullWidth>Done</Button>
+        </ScoreCard>
+      </div>
+    ),
+    code: () => `<ScoreCard correct={25} total={25}>
+  <Button variant="primary" fullWidth>Done</Button>
+</ScoreCard>`,
+  },
+};
+
+// ───── FlipCard ────────────────────────────────────────────────────────
+function _FlipFace({ jp, reading, en, isBack }) {
+  return (
+    <div className={[
+      'flex rounded-2xl border border-border bg-bg shadow-card',
+      isBack ? 'flex-col gap-4 p-6' : 'min-h-48 items-center justify-center p-6',
+    ].join(' ')}>
+      {isBack ? (
+        <>
+          <div className="flex flex-col items-center gap-1 text-center">
+            <p lang="ja" className="font-jp text-jp-display text-fg">{jp}</p>
+            <p lang="ja" className="font-jp text-jp text-fg-muted">{reading}</p>
+          </div>
+          <hr className="border-border"/>
+          <p className="text-center text-body-lg text-fg">{en}</p>
+        </>
+      ) : (
+        <p lang="ja" className="font-jp text-jp-display text-fg">{jp}</p>
+      )}
+    </div>
+  );
+}
+
+const FlipCardStories = {
+  'Front face': {
+    render: () => (
+      <div className="w-full max-w-sm">
+        <FlipCard
+          flipped={false}
+          front={<_FlipFace jp="電車" reading="でんしゃ" en="train"/>}
+          back={<_FlipFace jp="電車" reading="でんしゃ" en="train" isBack/>}
+        />
+      </div>
+    ),
+    code: () => `<FlipCard flipped={false} front={<FrontFace/>} back={<BackFace/>}/>`,
+  },
+  'Back face': {
+    render: () => (
+      <div className="w-full max-w-sm">
+        <FlipCard
+          flipped={true}
+          front={<_FlipFace jp="電車" reading="でんしゃ" en="train"/>}
+          back={<_FlipFace jp="電車" reading="でんしゃ" en="train" isBack/>}
+        />
+      </div>
+    ),
+    code: () => `<FlipCard flipped={true} front={<FrontFace/>} back={<BackFace/>}/>`,
+  },
+  Interactive: {
+    render: () => {
+      const [flipped, setFlipped] = React.useState(false);
+      return (
+        <div className="flex w-full max-w-sm flex-col gap-4">
+          <FlipCard
+            flipped={flipped}
+            front={<_FlipFace jp="電車" reading="でんしゃ" en="train"/>}
+            back={<_FlipFace jp="電車" reading="でんしゃ" en="train" isBack/>}
+          />
+          <Button variant={flipped ? 'secondary' : 'primary'} fullWidth
+                  onClick={() => setFlipped((f) => !f)}>
+            {flipped ? 'Flip back' : 'Reveal'}
+          </Button>
+        </div>
+      );
+    },
+    code: () => `const [flipped, setFlipped] = useState(false)
+<FlipCard flipped={flipped} front={…} back={…}/>
+<Button onClick={() => setFlipped(f => !f)}>Reveal</Button>`,
+  },
+  'Entering phase': {
+    render: () => {
+      const [key, setKey] = React.useState(0);
+      return (
+        <div className="flex w-full max-w-sm flex-col gap-4">
+          <FlipCard
+            key={key}
+            flipped={false}
+            phase="entering"
+            front={<_FlipFace jp="駅" reading="えき" en="station"/>}
+            back={<_FlipFace jp="駅" reading="えき" en="station" isBack/>}
+          />
+          <Button variant="secondary" fullWidth onClick={() => setKey((k) => k + 1)}>
+            Replay enter
+          </Button>
+        </div>
+      );
+    },
+    code: () => `<FlipCard phase="entering" flipped={false} front={…} back={…}/>`,
+  },
+};
+
+// ───── KanaKeyboard ────────────────────────────────────────────────────
+const KanaKeyboardStories = {
+  Interactive: {
+    render: () => {
+      const [script, setScript]   = React.useState('hiragana');
+      const [section, setSection] = React.useState('basic');
+      const [out, setOut]         = React.useState('');
+      return (
+        <div className="flex w-full max-w-md flex-col gap-3">
+          <div lang="ja" className="min-h-12 rounded-xl border border-border bg-surface px-4 py-3 font-jp text-jp-lg text-fg">
+            {out || <span className="text-fg-faint text-body">Tap keys…</span>}
+          </div>
+          <KanaKeyboard
+            script={script} section={section}
+            onScriptChange={setScript} onSectionChange={setSection}
+            onKey={(k) => setOut((s) => s + k)}
+            onBackspace={() => setOut((s) => [...s].slice(0, -1).join(''))}
+          />
+        </div>
+      );
+    },
+    code: () => `const [script, setScript]   = useState('hiragana')
+const [section, setSection] = useState('basic')
+<KanaKeyboard
+  script={script} section={section}
+  onScriptChange={setScript} onSectionChange={setSection}
+  onKey={(k) => setKana(kana + k)}
+  onBackspace={() => setKana(kana.slice(0, -1))}
+/>`,
+  },
+  'Katakana / Voiced': {
+    render: () => {
+      const [out, setOut] = React.useState('');
+      return (
+        <div className="flex w-full max-w-md flex-col gap-3">
+          <div lang="ja" className="min-h-12 rounded-xl border border-border bg-surface px-4 py-3 font-jp text-jp-lg text-fg">
+            {out || <span className="text-fg-faint text-body">Tap keys…</span>}
+          </div>
+          <KanaKeyboard
+            script="katakana" section="voiced"
+            onScriptChange={() => {}} onSectionChange={() => {}}
+            onKey={(k) => setOut((s) => s + k)}
+            onBackspace={() => setOut((s) => [...s].slice(0, -1).join(''))}
+          />
+        </div>
+      );
+    },
+    code: () => `<KanaKeyboard script="katakana" section="voiced" …/>`,
+  },
+};
+
+// ───── VoiceInput ──────────────────────────────────────────────────────
+const VoiceInputStories = {
+  Idle: {
+    render: () => <VoiceInput status="idle" onPress={() => {}}/>,
+    code: () => `<VoiceInput status="idle" onPress={start}/>`,
+  },
+  Listening: {
+    render: () => <VoiceInput status="listening" onPress={() => {}}/>,
+    code: () => `<VoiceInput status="listening" onPress={stop}/>`,
+  },
+  Processing: {
+    render: () => <VoiceInput status="processing" onPress={() => {}}/>,
+    code: () => `<VoiceInput status="processing" onPress={() => {}}/>`,
+  },
+  Error: {
+    render: () => <VoiceInput status="error" onPress={() => {}} errorMessage="Could not hear you. Try again."/>,
+    code: () => `<VoiceInput status="error" onPress={start} errorMessage="Could not hear you. Try again."/>`,
+  },
+  Interactive: {
+    render: () => {
+      const [status, setStatus] = React.useState('idle');
+      function press() {
+        if (status === 'idle') {
+          setStatus('listening');
+        } else if (status === 'listening') {
+          setStatus('processing');
+          window.setTimeout(() => setStatus('idle'), 1000);
+        }
+      }
+      return <VoiceInput status={status} onPress={press}/>;
+    },
+    code: () => `// Idle → listening (tap) → processing (tap) → idle after 1 s`,
+  },
+};
+
 // ───── Public catalog ──────────────────────────────────────────────────
 window.STORIES = [
   {
@@ -388,6 +760,24 @@ window.STORIES = [
       { name: 'ProgressBar', stories: ProgressBarStories },
       { name: 'PhraseCard', stories: PhraseCardStories },
       { name: 'KanaGrid', stories: KanaGridStories },
+    ],
+  },
+  {
+    title: 'Layout',
+    components: [
+      { name: 'AppHeader',          stories: AppHeaderStories },
+      { name: 'LoadingPlaceholder', stories: LoadingPlaceholderStories },
+      { name: 'EmptyState',         stories: EmptyStateStories },
+      { name: 'ErrorState',         stories: ErrorStateStories },
+      { name: 'ScoreCard',          stories: ScoreCardStories },
+      { name: 'FlipCard',           stories: FlipCardStories },
+    ],
+  },
+  {
+    title: 'Input',
+    components: [
+      { name: 'KanaKeyboard', stories: KanaKeyboardStories },
+      { name: 'VoiceInput',   stories: VoiceInputStories },
     ],
   },
 ];

@@ -60,6 +60,17 @@
       --radius-xl: 1rem; --radius-2xl: 1.25rem;
       --shadow-card: 0 1px 2px 0 rgb(24 24 27 / 0.05);
       --shadow-key: 0 1px 2px 0 rgb(24 24 27 / 0.04);
+      --animate-card-enter: card-enter 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+      --animate-card-exit:  card-exit  0.2s  ease-in both;
+    }
+
+    @keyframes card-enter {
+      from { transform: translateY(-36px); opacity: 0; }
+      to   { transform: translateY(0);     opacity: 1; }
+    }
+    @keyframes card-exit {
+      from { transform: translateY(0);     opacity: 1; }
+      to   { transform: translateY(44px);  opacity: 0; }
     }
   </style>
 
@@ -352,8 +363,13 @@
         if (!parseHash()) writeHash(initial.sectionTitle, initial.componentName, initial.storyName);
       }, []);
 
-      const rendered = current.story.render(args);
       const code = current.story.code ? current.story.code(args) : '';
+
+      // Isolated subtree per story — prevents hook-order violations when
+      // navigating between stories that use different numbers of hooks.
+      function StoryCanvas({ story, args }) {
+        return story.render(args);
+      }
 
       return (
         <div className="sb-root">
@@ -388,7 +404,7 @@
 
             <div className="sb-preview">
               <div className={`sb-canvas ${gridBg ? '' : 'sb-canvas-bg-solid'}`}>
-                {rendered}
+                <StoryCanvas key={argKey} story={current.story} args={args}/>
               </div>
             </div>
 
