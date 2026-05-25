@@ -75,4 +75,12 @@ Identical to the AburunGo app:
 
 ## Git workflow
 
-Same conventions as the AburunGo app: Conventional Commits, descriptive branch names, never push without explicit user confirmation.
+- **Never commit or push directly to `main`.** Always create a feature branch first.
+- **Branching:** Check current branch with `git branch --show-current`. If on `main`, create and switch to a descriptive branch before making any changes: `feature/`, `fix/`, or `docs/` prefix as appropriate.
+- **Branch names must be descriptive.** No auto-generated or random strings. Examples: `feature/score-card`, `fix/flip-animation`, `docs/storybook-fill-input`.
+- **Commit format:** Conventional Commits — `<type>(<scope>): <description>`. Types: `feat`, `fix`, `refactor`, `docs`, `build`. Subject max 50 chars, no trailing period. ASCII only.
+- **Review before writing message:** Always run `git status` and `git diff` before crafting the commit message.
+- **Atomic commits:** Commit at logical boundaries. Do not bundle unrelated changes.
+- **Never push without explicit user confirmation.** After committing, stop and ask before running `git push`.
+- **Never create a PR unless asked.** Push the branch and wait.
+- **After pushing:** the user will review and merge via PR. Do not merge branches yourself.
