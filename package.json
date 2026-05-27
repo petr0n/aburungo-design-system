@@ -16,6 +16,10 @@
     "./src/tokens.css": {
       "style": "./src/tokens.css",
       "default": "./src/tokens.css"
+    },
+    "./src/brand.css": {
+      "style": "./src/brand.css",
+      "default": "./src/brand.css"
     }
   },
   "main": "./dist/index.js",
@@ -23,7 +27,8 @@
   "files": [
     "dist",
     "src/index.css",
-    "src/tokens.css"
+    "src/tokens.css",
+    "src/brand.css"
   ],
   "scripts": {
     "build": "tsup",
