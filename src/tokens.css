@@ -8,35 +8,56 @@
    ───────────────────────────────────────────────────────────────────────── */
 
 @theme {
-  /* ── Brand purple — the only accent. Used for auth CTAs, focus rings, the logo. */
-  --color-brand-50:  #f5efff;
-  --color-brand-100: #ede6ff;
-  --color-brand-200: #dccaff;
-  --color-brand-300: #c4a5ff;
-  --color-brand-400: #aa7bff;
-  --color-brand-500: #aa3bff;
-  --color-brand-600: #863bff;
-  --color-brand-700: #7e14ff;
-  --color-brand-800: #5e0bbf;
-  --color-brand-900: #3d077a;
+  /* ── Brand purple — the only accent.  Locked from the brand swatch.
+        Tints 50–900 are derived from --brand for usable component states. */
+  --color-brand-50:  #f5eff7;
+  --color-brand-100: #efe5f1;   /* promotional callouts, badges */
+  --color-brand-200: #d9c3e0;
+  --color-brand-300: #b88dc5;
+  --color-brand-400: #9658a8;
+  --color-brand-500: #753686;   /* primary action — THE brand color */
+  --color-brand-600: #662e75;   /* active / press state */
+  --color-brand-700: #5a2868;
+  --color-brand-800: #4d1f59;   /* plum, dark variant for big surfaces */
+  --color-brand-900: #2a0f30;
 
-  /* ── Surface / background */
-  --color-bg:        #ffffff;
-  --color-surface:   #fafafa;
-  --color-surface-2: #f4f4f5;
+  /* ── Ink (text + heavy surfaces) — purple-undertone, sits with brand. */
+  --color-ink:        #150918;
+  --color-ink-2:      #3a2540;
+  --color-ink-3:      #6a5470;
 
-  /* ── Foreground roles */
-  --color-fg:         #18181b;
-  --color-fg-muted:   #52525b;
-  --color-fg-subtle:  #71717a;
-  --color-fg-faint:   #a1a1aa;
+  /* ── Surfaces. */
+  --color-paper:      #ffffff;
+  --color-paper-warm: #faf7f9;
+  --color-mist:       #ebe5e9;
+  --color-cream:      #f5eee7;   /* warm cream surface — letterhead, hero stages */
+  --color-cream-line: #d9c8b8;
+
+  /* ── Accents. */
+  --color-rose:       #e6bbd7;   /* inverse maru, selection highlight on dark */
+  --color-dusk:       #a6799b;   /* tertiary text on light, decorative meta */
+
+  /* ── Borders. */
+  --color-line:       #e3d9de;
+  --color-line-2:     #ece3e8;
+
+  /* ── Foreground role aliases (semantic — preferred over raw ink tokens). */
+  --color-fg:         #150918;   /* primary text         (= --ink) */
+  --color-fg-muted:   #3a2540;   /* secondary text       (= --ink-2) */
+  --color-fg-subtle:  #6a5470;   /* tertiary text        (= --ink-3) */
+  --color-fg-faint:   #a6799b;   /* placeholders, meta   (= --dusk) */
   --color-fg-inverse: #ffffff;
 
-  /* ── Border roles */
-  --color-border:        #e4e4e7;
-  --color-border-strong: #d4d4d8;
+  /* ── Background / surface role aliases. */
+  --color-bg:         #ffffff;
+  --color-surface:    #faf7f9;
+  --color-surface-2:  #ebe5e9;
 
-  /* ── Semantic feedback */
+  /* ── Border role aliases. */
+  --color-border:        #e3d9de;
+  --color-border-strong: #d9c8b8;
+
+  /* ── Semantic feedback — used ONLY in correctness banners. */
   --color-success-bg:  #f0fdf4;
   --color-success-fg:  #15803d;
   --color-success-500: #22c55e;
@@ -44,79 +65,78 @@
   --color-error-fg:    #b91c1c;
   --color-error-500:   #ef4444;
 
-  /* ── Fonts */
+  /* ── Fonts.  Noto Sans for English UI, M PLUS Rounded 1c for Japanese. */
   --font-sans: "Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-jp:   "M PLUS Rounded 1c", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
 
-  /* ── Type scale */
-  --text-caption: 0.75rem;
+  /* ── Type scale.  JP variants get larger line-heights for kanji + furigana. */
+  --text-caption: 0.75rem;                                  /* 12 */
   --text-caption--line-height: 1rem;
   --text-caption--font-weight: 500;
 
-  --text-body-sm: 0.875rem;
+  --text-body-sm: 0.875rem;                                 /* 14 */
   --text-body-sm--line-height: 1.25rem;
   --text-body-sm--font-weight: 400;
 
-  --text-body: 1rem;
+  --text-body: 1rem;                                        /* 16 */
   --text-body--line-height: 1.5rem;
   --text-body--font-weight: 400;
 
-  --text-body-lg: 1.125rem;
+  --text-body-lg: 1.125rem;                                 /* 18 */
   --text-body-lg--line-height: 1.625rem;
   --text-body-lg--font-weight: 400;
 
-  --text-heading-sm: 1.25rem;
+  --text-heading-sm: 1.25rem;                               /* 20 */
   --text-heading-sm--line-height: 1.625rem;
   --text-heading-sm--font-weight: 600;
 
-  --text-heading: 1.5rem;
+  --text-heading: 1.5rem;                                   /* 24 */
   --text-heading--line-height: 1.875rem;
   --text-heading--font-weight: 600;
 
-  --text-heading-lg: 1.875rem;
+  --text-heading-lg: 1.875rem;                              /* 30 */
   --text-heading-lg--line-height: 2.25rem;
   --text-heading-lg--font-weight: 600;
 
-  --text-display: 2.25rem;
+  --text-display: 2.25rem;                                  /* 36 */
   --text-display--line-height: 2.5rem;
   --text-display--font-weight: 700;
 
-  --text-display-lg: 3rem;
+  --text-display-lg: 3rem;                                  /* 48 */
   --text-display-lg--line-height: 3.25rem;
   --text-display-lg--font-weight: 700;
 
-  /* ── Japanese type scale */
-  --text-jp: 1.125rem;
+  --text-jp:         1.125rem;                              /* 18 — JP body / reading */
   --text-jp--line-height: 1.75rem;
   --text-jp--font-weight: 400;
 
-  --text-jp-lg: 1.5rem;
+  --text-jp-lg:      1.5rem;                                /* 24 — JP body emphasised */
   --text-jp-lg--line-height: 2.25rem;
   --text-jp-lg--font-weight: 500;
 
-  --text-jp-display: 2rem;
+  --text-jp-display: 2rem;                                  /* 32 — JP phrase prompt */
   --text-jp-display--line-height: 3rem;
   --text-jp-display--font-weight: 500;
 
-  --text-jp-display-lg: 2.5rem;
+  --text-jp-display-lg: 2.5rem;                             /* 40 — JP at tablet+ */
   --text-jp-display-lg--line-height: 3.5rem;
   --text-jp-display-lg--font-weight: 500;
 
-  /* ── Spacing */
+  /* ── Spacing — 4px base. */
   --spacing: 0.25rem;
 
-  /* ── Radii */
-  --radius-sm:   0.375rem;
-  --radius-md:   0.5rem;
-  --radius-lg:   0.75rem;
-  --radius-xl:   1rem;
-  --radius-2xl:  1.25rem;
+  /* ── Radii. */
+  --radius-sm:   0.375rem;       /*  6px */
+  --radius-md:   0.5rem;         /*  8px — form inputs, banners */
+  --radius-lg:   0.75rem;        /* 12px — buttons, kana keys */
+  --radius-xl:   1rem;           /* 16px — input wells */
+  --radius-2xl:  1.25rem;        /* 20px — main review card */
   --radius-full: 9999px;
 
-  /* ── Elevation */
-  --shadow-card: 0 1px 2px 0 rgb(24 24 27 / 0.05);
-  --shadow-key:  0 1px 2px 0 rgb(24 24 27 / 0.04);
+  /* ── Elevation.  One hairline drop, that's the whole system. */
+  --shadow-card: 0 1px 2px 0 rgb(21 9 24 / 0.05);
+  --shadow-key:  0 1px 2px 0 rgb(21 9 24 / 0.04);
 
   /* ── Card animations */
   --animate-card-enter: card-enter 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
