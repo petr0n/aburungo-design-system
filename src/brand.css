@@ -1,0 +1,151 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   AburunGo · brand utilities · v1.0 (final)
+   ─────────────────────────────────────────────────────────────────────────
+   These are the ONLY non-Tailwind classes the design system ships:
+     .hanko         — the circular mark.  Renders the ア logo + maru dot.
+     .hanko.*       — color variants (paper, cream, rose, outline).
+     .emboss-bg     — the sakura-mon embossed paper texture.
+     .emboss-bg.*   — surface presets (on-paper / -warm / -cream / -mist / -brand / -plum).
+     .tile-sm/md/lg — pattern density variants.
+
+   Import this AFTER src/index.css so the brand tokens are available.
+
+   Required assets (drop in /public/assets or update paths below):
+     /assets/logo-a-tile.png      ← the official ア mark (transparent PNG)
+     /assets/pattern-sakura.png   ← the embossed pattern tile (transparent PNG)
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* ═══════════════════════════════════════════════════════════════════════
+   THE MARK · circular hanko with ア logo + maru dot
+   ═══════════════════════════════════════════════════════════════════════
+   Usage:
+     <span class="hanko" style="font-size:96px"></span>                  ← brand fill, paper ア
+     <span class="hanko paper" style="font-size:64px"></span>            ← paper fill, brand ア
+     <span class="hanko cream" style="font-size:64px"></span>            ← cream fill, brand ア
+     <span class="hanko outline" style="font-size:64px"></span>          ← transparent, paper outline + ア
+   Size is driven by font-size (the mark is 1em × 1em).
+   The ア and maru inherit currentColor — set color via CSS to recolor.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.hanko{
+  background: var(--color-brand-500);
+  color: var(--color-fg-inverse);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  aspect-ratio: 1;
+  width: 1em;
+  height: 1em;
+  font-family: var(--font-jp);
+  font-weight: 700;
+  line-height: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+/* The ア logo — PNG mask filled with currentColor.  Comfortable optical inset. */
+.hanko::after{
+  content: "";
+  position: absolute;
+  inset: 18%;
+  background-color: currentColor;
+  -webkit-mask: url("/assets/logo-a-tile.png") center / contain no-repeat;
+          mask: url("/assets/logo-a-tile.png") center / contain no-repeat;
+}
+
+/* The maru — small dot at lower-right inside the circle. */
+.hanko::before{
+  content: "";
+  position: absolute;
+  width: .10em;
+  height: .10em;
+  border-radius: 50%;
+  background-color: currentColor;
+  right: 14%;
+  bottom: 22%;
+  z-index: 2;
+}
+
+/* Variants. */
+.hanko.paper{
+  background: var(--color-paper);
+  color: var(--color-brand-500);
+  box-shadow: inset 0 0 0 1.5px var(--color-brand-500);
+}
+.hanko.cream{
+  background: var(--color-cream);
+  color: var(--color-brand-500);
+  box-shadow: inset 0 0 0 1.5px var(--color-cream-line);
+}
+.hanko.rose{
+  background: var(--color-rose);
+  color: var(--color-brand-500);
+}
+.hanko.outline{
+  background: transparent;
+  color: var(--color-paper);
+  box-shadow: inset 0 0 0 1.5px var(--color-paper);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   THE PATTERN · sakura-mon embossed background
+   ═══════════════════════════════════════════════════════════════════════
+   The PNG already has highlights & shadows baked in, on a transparent
+   background.  We tile it and pick a blend mode per surface:
+     – light surfaces: multiply blend (gray shadows darken the paper)
+     – dark surfaces:  invert + soft-light blend (so it reads as pressed-in
+                       detail rather than blooming into a bright blob)
+
+   Usage:
+     <div class="emboss-bg on-cream">…</div>
+     <div class="emboss-bg on-brand tile-sm">…</div>
+
+   Where NOT to use it: dense in-product UI (flashcards mid-review, form
+   inputs, anywhere fine text needs perfect legibility).  Reserved for
+   hero stages, scenario cards, stationery surfaces.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.emboss-bg{
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.emboss-bg > *{ position: relative; z-index: 1 }
+
+.emboss-bg::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: url("/assets/pattern-sakura.png");
+  background-repeat: repeat;
+  background-size: var(--tile-size, 100px) auto;
+  opacity: var(--emboss-opacity, .55);
+  mix-blend-mode: var(--emboss-blend, multiply);
+}
+
+/* Light surface presets — multiply blend darkens the paper subtly. */
+.emboss-bg.on-paper{ --emboss-opacity: .85; --emboss-blend: multiply }
+.emboss-bg.on-warm { --emboss-opacity: .80; --emboss-blend: multiply }
+.emboss-bg.on-cream{ --emboss-opacity: .75; --emboss-blend: multiply }
+.emboss-bg.on-mist { --emboss-opacity: .85; --emboss-blend: multiply }
+
+/* Dark surface presets — invert the PNG (white → dark) so the pattern reads
+   as embossed shadow detail rather than a bleached blob.  Soft-light blend
+   keeps it readable without painting on top of the surface. */
+.emboss-bg.on-brand::before,
+.emboss-bg.on-plum::before{
+  filter: invert(1);
+  mix-blend-mode: soft-light;
+}
+.emboss-bg.on-brand::before{ opacity: .45 }
+.emboss-bg.on-plum::before { opacity: .55 }
+
+/* Density modifiers.  The PNG's natural ratio is 320×243 (≈ 4:3) — width
+   drives height, so changing the tile width keeps the aspect intact. */
+.tile-sm{ --tile-size: 72px }
+.tile-md{ --tile-size: 100px }
+.tile-lg{ --tile-size: 140px }
