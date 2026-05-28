@@ -77,7 +77,7 @@
 .hanko.cream{
   background: var(--color-cream);
   color: var(--color-brand-500);
-  box-shadow: inset 0 0 0 1.5px var(--color-cream-line);
+  box-shadow: inset 0 0 0 1.5px var(--color-cream-deboss);
 }
 .hanko.rose{
   background: var(--color-rose);
@@ -149,3 +149,195 @@
 .tile-sm{ --tile-size: 72px }
 .tile-md{ --tile-size: 100px }
 .tile-lg{ --tile-size: 140px }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   MARU · the brand punctuation dot
+   ═══════════════════════════════════════════════════════════════════════
+   Usage (inside .wm or standalone):
+     aburungo<span class="maru"></span>
+     aburungo<span class="maru rose"></span>   ← on dark surfaces
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.maru{
+  display: inline-block;
+  width: .22em;
+  height: .22em;
+  background: var(--color-brand-500);
+  border-radius: 50%;
+  margin-left: .05em;
+  transform: translateY(-.02em);
+  flex: 0 0 auto;
+  vertical-align: baseline;
+}
+.maru.rose  { background: var(--color-rose) }
+.maru.paper { background: var(--color-paper) }
+.maru.ink   { background: var(--color-ink) }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   WORDMARK · .wm
+   ═══════════════════════════════════════════════════════════════════════
+   Usage:
+     <span class="wm sm">aburungo<span class="maru"></span></span>
+     <span class="wm md inv">aburungo<span class="maru rose"></span></span>
+
+   Sizes: xl (108px max) · lg (72px) · md (48px) · sm (28px) · xs (16px)
+   All clamped for fluid type.  .inv flips to paper color for dark surfaces.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.wm{
+  font-family: var(--font-sans);
+  font-weight: 500;
+  letter-spacing: -.04em;
+  line-height: 1;
+  color: var(--color-ink);
+  display: inline-flex;
+  align-items: baseline;
+}
+.wm.xl{ font-size: clamp(48px, 8vw, 108px);  letter-spacing: -.045em }
+.wm.lg{ font-size: clamp(38px, 6vw,  72px);  letter-spacing: -.04em  }
+.wm.md{ font-size: clamp(28px, 4.5vw,48px);  letter-spacing: -.035em }
+.wm.sm{ font-size: clamp(20px, 2.5vw,28px);  letter-spacing: -.03em  }
+.wm.xs{ font-size: 16px;                     letter-spacing: -.025em }
+.wm.inv{ color: var(--color-paper) }
+.wm.inv .maru{ background: var(--color-rose) }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   VERTICAL KATAKANA · .kata-vert
+   ═══════════════════════════════════════════════════════════════════════
+   The アブルンゴ sidebar used in the C lockup and D frame.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.kata-vert{
+  font-family: var(--font-jp);
+  font-weight: 500;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  letter-spacing: .05em;
+  line-height: 1;
+  color: var(--color-dusk);
+  display: inline-block;
+}
+.kata-vert.rose  { color: var(--color-rose) }
+.kata-vert.paper { color: var(--color-paper) }
+.kata-vert.brand { color: var(--color-brand-500) }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   C LOCKUP · .ctype
+   ═══════════════════════════════════════════════════════════════════════
+   The canonical horizontal arrangement: hanko + wordmark + rule + katakana.
+   The .rule child is a 1px vertical divider that separates wordmark from sidebar.
+
+   Usage:
+     <span class="ctype">
+       <span class="hanko" style="font-size:96px"></span>
+       <span class="wm lg">aburungo<span class="maru"></span></span>
+       <span class="rule"></span>
+       <span class="kata-vert" style="font-size:14px">アブルンゴ</span>
+     </span>
+
+   Compact (no rule/sidebar — phone headers):
+     <span class="ctype" style="gap:10px">
+       <span class="hanko" style="font-size:24px"></span>
+       <span class="wm sm">aburungo<span class="maru"></span></span>
+     </span>
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.ctype{
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(14px, 2vw, 28px);
+  max-width: 100%;
+  min-width: 0;
+}
+.ctype .rule{
+  width: 1px;
+  background: currentColor;
+  opacity: .18;
+  align-self: stretch;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   D FRAME SYSTEM · .frame
+   ═══════════════════════════════════════════════════════════════════════
+   A thin rule frame with serial-number footer.  The wordmark + katakana
+   sidebar live in .frame .row; the footer shows "NO. XX" on the right.
+
+   Usage:
+     <div class="frame">
+       <div class="row">
+         <span class="wm sm">aburungo<span class="maru"></span></span>
+         <span class="rule"></span>
+         <span class="kata-vert" style="font-size:11px">アブルンゴ</span>
+       </div>
+       <div class="divider"></div>
+       <div class="footer">
+         <span>PRACTICAL JAPANESE FOR REAL LIFE</span>
+         <span class="mark">NO. 01</span>
+       </div>
+     </div>
+
+   Color variants: .frame.brand (purple border), .frame.paper (white border),
+                   .frame.rose (rose border).
+   Min-size: 88px height — below that, fall back to the C lockup / wordmark-only.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.frame{
+  display: inline-flex;
+  flex-direction: column;
+  padding: clamp(20px, 3vw, 32px) clamp(24px, 3.5vw, 36px);
+  border: 1.5px solid var(--color-ink);
+  border-radius: 14px;
+  gap: clamp(14px, 2vw, 20px);
+  background: transparent;
+  max-width: 100%;
+  min-width: 0;
+}
+.frame.brand { border-color: var(--color-brand-500) }
+.frame.paper { border-color: var(--color-paper) }
+.frame.rose  { border-color: var(--color-rose) }
+
+.frame .row{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(14px, 2.5vw, 28px);
+  min-width: 0;
+}
+.frame .row .rule{
+  width: 1px;
+  background: currentColor;
+  opacity: .18;
+  align-self: stretch;
+}
+.frame .divider{
+  height: 1px;
+  background: currentColor;
+  opacity: .18;
+}
+.frame .footer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: clamp(9px, 1vw, 11px);
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  font-weight: 600;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.frame .footer .mark{ color: var(--color-brand-500) }
+.frame.brand .footer .mark,
+.frame.paper .footer .mark,
+.frame.rose  .footer .mark{ color: inherit; opacity: .7 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   HANKO · dark plum variant
+   ═══════════════════════════════════════════════════════════════════════
+   Used when the hanko sits on a dark (brand-deep / plum) surface.
+   The rose maru and ア stay legible against the deep purple fill.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.hanko.ink{
+  background: var(--color-brand-800);
+  color: var(--color-rose);
+}
