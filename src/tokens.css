@@ -31,10 +31,13 @@
   --color-paper-warm: #faf7f9;
   --color-mist:       #ebe5e9;
   --color-cream:      #f5eee7;   /* warm cream surface — letterhead, hero stages */
+  --color-cream-warm: #ede4d7;   /* deeper warm cream — pressed insets */
+  --color-cream-deboss: #c0ad95; /* inset shadow ring on cream fills */
   --color-cream-line: #d9c8b8;
 
   /* ── Accents. */
   --color-rose:       #e6bbd7;   /* inverse maru, selection highlight on dark */
+  --color-rose-deep:  #d49bc1;   /* deeper rose for pressed/hover states */
   --color-dusk:       #a6799b;   /* tertiary text on light, decorative meta */
 
   /* ── Borders. */
