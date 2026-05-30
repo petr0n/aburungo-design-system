@@ -23,7 +23,7 @@ export function FlipCard({ front, back, flipped, phase = 'idle', onEntered, onEx
 
   return (
     <div
-      className={slideClass}
+      className={`w-full ${slideClass}`}
       onAnimationEnd={handleAnimationEnd}
       style={{ perspective: '1200px' }}
     >
