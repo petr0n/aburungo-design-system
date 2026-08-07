@@ -32,7 +32,9 @@
   ],
   "scripts": {
     "check:brand": "node scripts/check-forbidden-assets.mjs",
-    "build": "pnpm check:brand && tsup",
+    "check:adherence": "node scripts/check-adherence.mjs",
+    "lint": "oxlint --config .oxlintrc.json src/ && pnpm check:adherence",
+    "build": "pnpm check:brand && pnpm lint && tsup",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "prepare": "tsup"
@@ -45,6 +47,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "impeccable": "^3.5.0",
+    "oxlint": "^1.77.0",
     "tsup": "^8.5.0",
     "typescript": "^5.8.3"
   }

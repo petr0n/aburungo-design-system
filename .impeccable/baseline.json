@@ -1,0 +1,472 @@
+[
+  {
+    "antipattern": "all-caps-body",
+    "name": "All-caps body text",
+    "description": "Long passages in uppercase are hard to read. We recognize words by shape (ascenders and descenders), which all-caps removes. Reserve uppercase for short labels and headings.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/03-color-brand.html",
+    "line": 0,
+    "snippet": "text-transform: uppercase on 47 chars of body text"
+  },
+  {
+    "antipattern": "all-caps-body",
+    "name": "All-caps body text",
+    "description": "Long passages in uppercase are hard to read. We recognize words by shape (ascenders and descenders), which all-caps removes. Reserve uppercase for short labels and headings.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/04-color-neutrals.html",
+    "line": 0,
+    "snippet": "text-transform: uppercase on 44 chars of body text"
+  },
+  {
+    "antipattern": "all-caps-body",
+    "name": "All-caps body text",
+    "description": "Long passages in uppercase are hard to read. We recognize words by shape (ascenders and descenders), which all-caps removes. Reserve uppercase for short labels and headings.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/05-color-semantic.html",
+    "line": 0,
+    "snippet": "text-transform: uppercase on 50 chars of body text"
+  },
+  {
+    "antipattern": "flat-type-hierarchy",
+    "name": "Flat type hierarchy",
+    "description": "Font sizes are too close together — no clear visual hierarchy. Use fewer sizes with more contrast (aim for at least a 1.25 ratio between steps).",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/06-color-semantic-fg.html",
+    "line": 0,
+    "snippet": "Sizes: 11px, 12px, 14px, 16px (ratio 1.5:1)"
+  },
+  {
+    "antipattern": "tiny-text",
+    "name": "Tiny body text",
+    "description": "Body text below 12px is hard to read, especially on high-DPI screens. Use at least 14px for body content, 16px is ideal.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/07-type-families.html",
+    "line": 0,
+    "snippet": "11px body text"
+  },
+  {
+    "antipattern": "tiny-text",
+    "name": "Tiny body text",
+    "description": "Body text below 12px is hard to read, especially on high-DPI screens. Use at least 14px for body content, 16px is ideal.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/07-type-families.html",
+    "line": 0,
+    "snippet": "11px body text"
+  },
+  {
+    "antipattern": "all-caps-body",
+    "name": "All-caps body text",
+    "description": "Long passages in uppercase are hard to read. We recognize words by shape (ascenders and descenders), which all-caps removes. Reserve uppercase for short labels and headings.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/08-type-scale.html",
+    "line": 0,
+    "snippet": "text-transform: uppercase on 32 chars of body text"
+  },
+  {
+    "antipattern": "all-caps-body",
+    "name": "All-caps body text",
+    "description": "Long passages in uppercase are hard to read. We recognize words by shape (ascenders and descenders), which all-caps removes. Reserve uppercase for short labels and headings.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/09-type-japanese.html",
+    "line": 0,
+    "snippet": "text-transform: uppercase on 70 chars of body text"
+  },
+  {
+    "antipattern": "all-caps-body",
+    "name": "All-caps body text",
+    "description": "Long passages in uppercase are hard to read. We recognize words by shape (ascenders and descenders), which all-caps removes. Reserve uppercase for short labels and headings.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/10-type-phrase-specimen.html",
+    "line": 0,
+    "snippet": "text-transform: uppercase on 53 chars of body text"
+  },
+  {
+    "antipattern": "all-caps-body",
+    "name": "All-caps body text",
+    "description": "Long passages in uppercase are hard to read. We recognize words by shape (ascenders and descenders), which all-caps removes. Reserve uppercase for short labels and headings.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/11-spacing-scale.html",
+    "line": 0,
+    "snippet": "text-transform: uppercase on 62 chars of body text"
+  },
+  {
+    "antipattern": "tiny-text",
+    "name": "Tiny body text",
+    "description": "Body text below 12px is hard to read, especially on high-DPI screens. Use at least 14px for body content, 16px is ideal.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/11-spacing-scale.html",
+    "line": 0,
+    "snippet": "11px body text"
+  },
+  {
+    "antipattern": "tiny-text",
+    "name": "Tiny body text",
+    "description": "Body text below 12px is hard to read, especially on high-DPI screens. Use at least 14px for body content, 16px is ideal.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/11-spacing-scale.html",
+    "line": 0,
+    "snippet": "11px body text"
+  },
+  {
+    "antipattern": "tiny-text",
+    "name": "Tiny body text",
+    "description": "Body text below 12px is hard to read, especially on high-DPI screens. Use at least 14px for body content, 16px is ideal.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/11-spacing-scale.html",
+    "line": 0,
+    "snippet": "11px body text"
+  },
+  {
+    "antipattern": "tiny-text",
+    "name": "Tiny body text",
+    "description": "Body text below 12px is hard to read, especially on high-DPI screens. Use at least 14px for body content, 16px is ideal.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/11-spacing-scale.html",
+    "line": 0,
+    "snippet": "11px body text"
+  },
+  {
+    "antipattern": "tiny-text",
+    "name": "Tiny body text",
+    "description": "Body text below 12px is hard to read, especially on high-DPI screens. Use at least 14px for body content, 16px is ideal.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/11-spacing-scale.html",
+    "line": 0,
+    "snippet": "11px body text"
+  },
+  {
+    "antipattern": "tiny-text",
+    "name": "Tiny body text",
+    "description": "Body text below 12px is hard to read, especially on high-DPI screens. Use at least 14px for body content, 16px is ideal.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/11-spacing-scale.html",
+    "line": 0,
+    "snippet": "11px body text"
+  },
+  {
+    "antipattern": "tiny-text",
+    "name": "Tiny body text",
+    "description": "Body text below 12px is hard to read, especially on high-DPI screens. Use at least 14px for body content, 16px is ideal.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/11-spacing-scale.html",
+    "line": 0,
+    "snippet": "11px body text"
+  },
+  {
+    "antipattern": "flat-type-hierarchy",
+    "name": "Flat type hierarchy",
+    "description": "Font sizes are too close together — no clear visual hierarchy. Use fewer sizes with more contrast (aim for at least a 1.25 ratio between steps).",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/11-spacing-scale.html",
+    "line": 0,
+    "snippet": "Sizes: 11px, 13px, 16px (ratio 1.5:1)"
+  },
+  {
+    "antipattern": "all-caps-body",
+    "name": "All-caps body text",
+    "description": "Long passages in uppercase are hard to read. We recognize words by shape (ascenders and descenders), which all-caps removes. Reserve uppercase for short labels and headings.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/12-radii.html",
+    "line": 0,
+    "snippet": "text-transform: uppercase on 36 chars of body text"
+  },
+  {
+    "antipattern": "all-caps-body",
+    "name": "All-caps body text",
+    "description": "Long passages in uppercase are hard to read. We recognize words by shape (ascenders and descenders), which all-caps removes. Reserve uppercase for short labels and headings.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/13-elevation.html",
+    "line": 0,
+    "snippet": "text-transform: uppercase on 59 chars of body text"
+  },
+  {
+    "antipattern": "low-contrast",
+    "name": "Low contrast text",
+    "description": "Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/14-touch-targets.html",
+    "line": 0,
+    "snippet": "1.0:1 (need 4.5:1) — text #ffffff on #ffffff"
+  },
+  {
+    "antipattern": "all-caps-body",
+    "name": "All-caps body text",
+    "description": "Long passages in uppercase are hard to read. We recognize words by shape (ascenders and descenders), which all-caps removes. Reserve uppercase for short labels and headings.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/14-touch-targets.html",
+    "line": 0,
+    "snippet": "text-transform: uppercase on 56 chars of body text"
+  },
+  {
+    "antipattern": "flat-type-hierarchy",
+    "name": "Flat type hierarchy",
+    "description": "Font sizes are too close together — no clear visual hierarchy. Use fewer sizes with more contrast (aim for at least a 1.25 ratio between steps).",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/14-touch-targets.html",
+    "line": 0,
+    "snippet": "Sizes: 11px, 12px, 16px (ratio 1.5:1)"
+  },
+  {
+    "antipattern": "all-caps-body",
+    "name": "All-caps body text",
+    "description": "Long passages in uppercase are hard to read. We recognize words by shape (ascenders and descenders), which all-caps removes. Reserve uppercase for short labels and headings.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/15-buttons.html",
+    "line": 0,
+    "snippet": "text-transform: uppercase on 48 chars of body text"
+  },
+  {
+    "antipattern": "flat-type-hierarchy",
+    "name": "Flat type hierarchy",
+    "description": "Font sizes are too close together — no clear visual hierarchy. Use fewer sizes with more contrast (aim for at least a 1.25 ratio between steps).",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/15-buttons.html",
+    "line": 0,
+    "snippet": "Sizes: 11px, 14px, 16px (ratio 1.5:1)"
+  },
+  {
+    "antipattern": "all-caps-body",
+    "name": "All-caps body text",
+    "description": "Long passages in uppercase are hard to read. We recognize words by shape (ascenders and descenders), which all-caps removes. Reserve uppercase for short labels and headings.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/16-buttons-accent.html",
+    "line": 0,
+    "snippet": "text-transform: uppercase on 58 chars of body text"
+  },
+  {
+    "antipattern": "flat-type-hierarchy",
+    "name": "Flat type hierarchy",
+    "description": "Font sizes are too close together — no clear visual hierarchy. Use fewer sizes with more contrast (aim for at least a 1.25 ratio between steps).",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/16-buttons-accent.html",
+    "line": 0,
+    "snippet": "Sizes: 11px, 13px, 16px (ratio 1.5:1)"
+  },
+  {
+    "antipattern": "all-caps-body",
+    "name": "All-caps body text",
+    "description": "Long passages in uppercase are hard to read. We recognize words by shape (ascenders and descenders), which all-caps removes. Reserve uppercase for short labels and headings.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/17-inputs.html",
+    "line": 0,
+    "snippet": "text-transform: uppercase on 51 chars of body text"
+  },
+  {
+    "antipattern": "flat-type-hierarchy",
+    "name": "Flat type hierarchy",
+    "description": "Font sizes are too close together — no clear visual hierarchy. Use fewer sizes with more contrast (aim for at least a 1.25 ratio between steps).",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/17-inputs.html",
+    "line": 0,
+    "snippet": "Sizes: 11px, 13px, 14px, 16px (ratio 1.5:1)"
+  },
+  {
+    "antipattern": "all-caps-body",
+    "name": "All-caps body text",
+    "description": "Long passages in uppercase are hard to read. We recognize words by shape (ascenders and descenders), which all-caps removes. Reserve uppercase for short labels and headings.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/18-segmented.html",
+    "line": 0,
+    "snippet": "text-transform: uppercase on 36 chars of body text"
+  },
+  {
+    "antipattern": "flat-type-hierarchy",
+    "name": "Flat type hierarchy",
+    "description": "Font sizes are too close together — no clear visual hierarchy. Use fewer sizes with more contrast (aim for at least a 1.25 ratio between steps).",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/18-segmented.html",
+    "line": 0,
+    "snippet": "Sizes: 11px, 13px, 14px, 16px (ratio 1.5:1)"
+  },
+  {
+    "antipattern": "all-caps-body",
+    "name": "All-caps body text",
+    "description": "Long passages in uppercase are hard to read. We recognize words by shape (ascenders and descenders), which all-caps removes. Reserve uppercase for short labels and headings.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/19-banners.html",
+    "line": 0,
+    "snippet": "text-transform: uppercase on 47 chars of body text"
+  },
+  {
+    "antipattern": "flat-type-hierarchy",
+    "name": "Flat type hierarchy",
+    "description": "Font sizes are too close together — no clear visual hierarchy. Use fewer sizes with more contrast (aim for at least a 1.25 ratio between steps).",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/19-banners.html",
+    "line": 0,
+    "snippet": "Sizes: 11px, 14px, 16px, 18px (ratio 1.6:1)"
+  },
+  {
+    "antipattern": "all-caps-body",
+    "name": "All-caps body text",
+    "description": "Long passages in uppercase are hard to read. We recognize words by shape (ascenders and descenders), which all-caps removes. Reserve uppercase for short labels and headings.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/20-badges.html",
+    "line": 0,
+    "snippet": "text-transform: uppercase on 48 chars of body text"
+  },
+  {
+    "antipattern": "flat-type-hierarchy",
+    "name": "Flat type hierarchy",
+    "description": "Font sizes are too close together — no clear visual hierarchy. Use fewer sizes with more contrast (aim for at least a 1.25 ratio between steps).",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/20-badges.html",
+    "line": 0,
+    "snippet": "Sizes: 11px, 12px, 14px, 16px (ratio 1.5:1)"
+  },
+  {
+    "antipattern": "all-caps-body",
+    "name": "All-caps body text",
+    "description": "Long passages in uppercase are hard to read. We recognize words by shape (ascenders and descenders), which all-caps removes. Reserve uppercase for short labels and headings.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/21-icon-buttons.html",
+    "line": 0,
+    "snippet": "text-transform: uppercase on 45 chars of body text"
+  },
+  {
+    "antipattern": "flat-type-hierarchy",
+    "name": "Flat type hierarchy",
+    "description": "Font sizes are too close together — no clear visual hierarchy. Use fewer sizes with more contrast (aim for at least a 1.25 ratio between steps).",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/21-icon-buttons.html",
+    "line": 0,
+    "snippet": "Sizes: 11px, 12px, 16px (ratio 1.5:1)"
+  },
+  {
+    "antipattern": "all-caps-body",
+    "name": "All-caps body text",
+    "description": "Long passages in uppercase are hard to read. We recognize words by shape (ascenders and descenders), which all-caps removes. Reserve uppercase for short labels and headings.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/23-kana-key.html",
+    "line": 0,
+    "snippet": "text-transform: uppercase on 50 chars of body text"
+  },
+  {
+    "antipattern": "all-caps-body",
+    "name": "All-caps body text",
+    "description": "Long passages in uppercase are hard to read. We recognize words by shape (ascenders and descenders), which all-caps removes. Reserve uppercase for short labels and headings.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/24-progress.html",
+    "line": 0,
+    "snippet": "text-transform: uppercase on 58 chars of body text"
+  },
+  {
+    "antipattern": "all-caps-body",
+    "name": "All-caps body text",
+    "description": "Long passages in uppercase are hard to read. We recognize words by shape (ascenders and descenders), which all-caps removes. Reserve uppercase for short labels and headings.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/25-empty-state.html",
+    "line": 0,
+    "snippet": "text-transform: uppercase on 49 chars of body text"
+  },
+  {
+    "antipattern": "all-caps-body",
+    "name": "All-caps body text",
+    "description": "Long passages in uppercase are hard to read. We recognize words by shape (ascenders and descenders), which all-caps removes. Reserve uppercase for short labels and headings.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/26-iconography.html",
+    "line": 0,
+    "snippet": "text-transform: uppercase on 63 chars of body text"
+  },
+  {
+    "antipattern": "flat-type-hierarchy",
+    "name": "Flat type hierarchy",
+    "description": "Font sizes are too close together — no clear visual hierarchy. Use fewer sizes with more contrast (aim for at least a 1.25 ratio between steps).",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/26-iconography.html",
+    "line": 0,
+    "snippet": "Sizes: 11px, 13px, 16px (ratio 1.5:1)"
+  },
+  {
+    "antipattern": "all-caps-body",
+    "name": "All-caps body text",
+    "description": "Long passages in uppercase are hard to read. We recognize words by shape (ascenders and descenders), which all-caps removes. Reserve uppercase for short labels and headings.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/27-voice-rules.html",
+    "line": 0,
+    "snippet": "text-transform: uppercase on 31 chars of body text"
+  },
+  {
+    "antipattern": "flat-type-hierarchy",
+    "name": "Flat type hierarchy",
+    "description": "Font sizes are too close together — no clear visual hierarchy. Use fewer sizes with more contrast (aim for at least a 1.25 ratio between steps).",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/27-voice-rules.html",
+    "line": 0,
+    "snippet": "Sizes: 11px, 13px, 15px, 16px (ratio 1.5:1)"
+  },
+  {
+    "antipattern": "codex-grid-background",
+    "name": "Decorative grid-line background",
+    "description": "A decorative grid or line-field background drawn with hairline linear-gradient layers tiled by a fixed pixel cell is a recurring generated-UI signature. Reserve grid overlays for actual canvas, map, blueprint, or measurement surfaces; elsewhere use product structure or a plain surface.",
+    "severity": "advisory",
+    "category": "slop",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
+    "line": 0,
+    "snippet": "px-tiled hairline line-field background"
+  },
+  {
+    "antipattern": "broken-image",
+    "name": "Broken or placeholder image",
+    "description": "<img> tags with empty src, missing src, or placeholder values ship as broken-image boxes. Use real images, generated assets, or remove the tag.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/design-canvas.jsx",
+    "line": 554,
+    "snippet": "<img>"
+  },
+  {
+    "antipattern": "broken-image",
+    "name": "Broken or placeholder image",
+    "description": "<img> tags with empty src, missing src, or placeholder values ship as broken-image boxes. Use real images, generated assets, or remove the tag.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/design-canvas.jsx",
+    "line": 653,
+    "snippet": "<img>"
+  }
+]
