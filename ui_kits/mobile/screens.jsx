@@ -220,7 +220,7 @@ function ReviewScreen({ onSignOut, onComplete }) {
               ].join(' ')}>
                 <p className={['text-body-lg font-semibold',
                   correct ? 'text-success-fg' : 'text-error-fg'].join(' ')}>
-                  {correct ? 'Correct!' : 'Not quite'}
+                  {correct ? 'Recalled!' : 'Not quite'}
                 </p>
               </div>
               <div className="flex flex-col items-center gap-1 rounded-xl bg-surface p-4 text-center">

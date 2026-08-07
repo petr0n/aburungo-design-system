@@ -167,13 +167,13 @@ The voice is the product. Get this wrong and the app feels like every other lang
 ### Tone
 - **Plain, declarative, second‑person.** "Where is the station?" not "Let's learn how to ask where the station is!" The app never coaches; it labels and ships.
 - **Treat the user as an adult.** They want to use the language. They don't need cheerleading or a streak counter.
-- **Calm > excited.** Even success states are matter‑of‑fact. Banner reads "Correct!" not "Amazing! +10 XP!".
+- **Calm > excited.** Even success states are matter‑of‑fact. Banner reads "Recalled!" not "Amazing! +10 XP!".
 - **No filler.** Every screen earns its words. "All caught up!" is a whole empty state — no illustration, no upsell.
 
 ### Voice rules
 - **You / your**, not "we". The app speaks *to* the learner, not as a teammate.
 - **No emoji** in product copy. Anywhere.
-- **No exclamation marks** unless they're load‑bearing ("Correct!", "All caught up!"). Default to a period.
+- **No exclamation marks** unless they're load‑bearing ("Recalled!", "All caught up!"). Default to a period.
 - **No metaphor, no slang.** "Type the Japanese…" not "Tap in your guess!".
 - **Sentence case** for buttons and headings. ("Sign in", "Create an account", "Show answer".) Never ALL CAPS for emphasis except the scenario tag.
 - **Polite Japanese register.** Phrases use polite forms (‑masu / ‑desu) so learners can use them everywhere. Authoring notes call out register edges.
@@ -187,7 +187,7 @@ The voice is the product. Get this wrong and the app feels like every other lang
 | Card prompt | *How do you say…* |
 | Input mode toggle | *Romaji* / *Kana grid* / *JP keyboard* |
 | Submit button | *Check answer* |
-| Result | *Correct!* / *Not quite* |
+| Result | *Recalled!* / *Not quite* |
 | Rating buttons | *Got it* / *Didn't* |
 | Auth toggle | *New here? Create an account* |
 | Voice mic state | *Tap to speak* / *Listening… tap to stop* / *Processing…* |

@@ -7,7 +7,7 @@ A click-through high-fidelity recreation of the actual AburunGo mobile surface, 
 - **`index.html`** — the demo host. Click through the four core screens:
   1. **Landing** — hero, wordmark, sign-in / create-account CTAs
   2. **Sign in** — email + password form, accent CTA
-  3. **Review** — fill-in-the-blank flashcard with three input modes (romaji / kana grid / JP keyboard) + audio button, result banner (Correct! / Not quite)
+  3. **Review** — fill-in-the-blank flashcard with three input modes (romaji / kana grid / JP keyboard) + audio button, result banner (Recalled! / Not quite)
   4. **All caught up** — empty state
 - **`components.jsx`** — browser-runnable mirror of `src/components/ui/*` and the domain components (`PhraseCard`, `KanaGrid`, `AudioButton`, `ProgressBar`). Mirrors the canonical TSX in `src/components/` 1:1 but as plain Babel JSX so the demo runs without a build step.
 - **`screens.jsx`** — `LandingScreen`, `SignInScreen`, `ReviewScreen`, `EmptyScreen`. Composed entirely from `components.jsx`. Real phrase content from `src/content/phrases/*.yaml`.
