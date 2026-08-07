@@ -166,7 +166,7 @@ function Landing({ onStart }) {
     <div className="min-h-screen bg-bg">
       <header className="flex items-center justify-between px-5 py-4 md:px-12 md:py-5">
         <div className="flex items-center gap-2.5">
-          <img src="../../assets/logo.svg" alt="" width="22" height="21"/>
+          <img src="../../assets/logo-a-128.png" alt="" width="22" height="21"/>
           <span className="text-body-lg font-semibold text-fg">AburunGo</span>
         </div>
         <nav className="flex items-center gap-3 md:gap-7 text-body-sm text-fg-muted">
@@ -225,7 +225,7 @@ function Landing({ onStart }) {
 
       <footer className="px-5 py-8 text-body-sm text-fg-subtle md:px-16">
         <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-3 md:flex-row md:items-center">
-          <div className="flex items-center gap-2"><img src="../../assets/logo.svg" alt="" width="16" height="15"/> AburunGo · for English speakers</div>
+          <div className="flex items-center gap-2"><img src="../../assets/logo-a-128.png" alt="" width="16" height="15"/> AburunGo · for English speakers</div>
           <div className="flex gap-5"><a href="#" className="hover:text-fg">Privacy</a><a href="#" className="hover:text-fg">Source</a></div>
         </div>
       </footer>
@@ -248,7 +248,7 @@ function Sidebar({ activeScenario, onScenarioChange, completed, total, onExit })
   return (
     <aside className="hidden h-screen w-64 shrink-0 flex-col gap-6 border-r border-border bg-surface px-4 py-6 md:flex">
       <button onClick={onExit} className="flex items-center gap-2.5 px-2">
-        <img src="../../assets/logo.svg" alt="" width="22" height="21"/>
+        <img src="../../assets/logo-a-128.png" alt="" width="22" height="21"/>
         <span className="text-body-lg font-semibold text-fg">AburunGo</span>
       </button>
 
@@ -293,7 +293,7 @@ function MobileHeader({ completed, total, onExit, activeScenario, onScenarioChan
     <header className="sticky top-0 z-30 flex flex-col gap-2 border-b border-border bg-bg/90 px-4 pb-3 pt-3 backdrop-blur md:hidden">
       <div className="flex items-center justify-between">
         <button onClick={onExit} className="flex items-center gap-2">
-          <img src="../../assets/logo.svg" alt="" width="20" height="19"/>
+          <img src="../../assets/logo-a-128.png" alt="" width="20" height="19"/>
           <span className="text-body-lg font-semibold text-fg">AburunGo</span>
         </button>
         <div className="flex items-center gap-2">

@@ -102,7 +102,7 @@ After any changes here, run `pnpm build` before testing in the consuming app.
 | `ui_kits/` | JSX component mirrors and screen mockups for design/preview use |
 | `preview/` | Static HTML design spec pages |
 | `colors_and_type.css` | Brand + semantic CSS variables, type presets, spacing, radii, shadows (plain CSS, no Tailwind) |
-| `assets/logo.svg` | Brand mark (purple glyph) |
+| `assets/logo-a-128.png` | Brand mark — the ア hanko |
 | `assets/hero.png` | Stacked‑card hero illustration |
 | `assets/icons/` | Inline SVG icons extracted from the codebase (audio, microphone, backspace, spinner) |
 
@@ -252,7 +252,7 @@ Pick the **closest Material Icons (Filled)** match — Material's geometry (24px
 - **No emoji.** Not in copy, not as icons.
 - **No unicode glyph icons** (no ✓, ✕, ▶, ←). Use SVG.
 - **No outline (line‑weight) icons.** Filled only — matches the rounded type.
-- **Logo / brand mark** lives in `assets/logo.svg` — a geometric purple glyph (lightning‑like Z form, `#863bff` with `#7e14ff` shadow gradient and `#ede6ff` highlight). Use as‑is; don't recolor.
+- **Logo / brand mark** lives in `assets/logo-a-128.png` — the ア hanko, a seal-style katakana *a* in Akane 茜色. Rendered in CSS via `.hanko` in `src/brand.css`; the raster is for favicons and fixed-size marks. Use as‑is; don't recolor.
 
 ---
 

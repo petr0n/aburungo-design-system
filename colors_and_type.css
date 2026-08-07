@@ -7,7 +7,7 @@
    Source of truth from the codebase:
      - src/index.css (Tailwind v4 theme — font-sans, font-jp on M PLUS Rounded 1c)
      - components use zinc-50…zinc-900 + accent purple (#aa3bff)
-     - favicon.svg → brand purple (#863bff / #7e14ff in shadows, #ede6ff tint)
+     - favicon → assets/logo-a-128.png (the ア hanko)
      - hero.png → violet metallic stacked-card motif
    ────────────────────────────────────────────────────────────────────────── */
 
@@ -39,8 +39,8 @@
   --brand-300: #c4a5ff;
   --brand-400: #aa7bff;
   --brand-500: #aa3bff;   /* primary accent — auth CTA in code */
-  --brand-600: #863bff;   /* logo fill */
-  --brand-700: #7e14ff;   /* logo shadow / pressed */
+  --brand-600: #863bff;   /* dark step */
+  --brand-700: #7e14ff;   /* darkest step / pressed */
   --brand-800: #5e0bbf;
   --brand-900: #3d077a;
 

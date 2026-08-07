@@ -30,7 +30,7 @@ function CenteredVariant() {
     <div className="flex h-full w-full flex-col bg-bg">
       <header className="flex items-center justify-between border-b border-border px-10 py-4">
         <div className="flex items-center gap-3">
-          <img src="../assets/logo.svg" alt="" width="22" height="21"/>
+          <img src="../assets/logo-a-128.png" alt="" width="22" height="21"/>
           <span className="text-body-lg font-semibold text-fg">AburunGo</span>
         </div>
         <div className="flex items-center gap-6">
@@ -73,7 +73,7 @@ function TwoPaneVariant() {
     <div className="flex h-full w-full bg-bg">
       <aside className="flex w-64 flex-col gap-6 border-r border-border bg-surface px-4 py-6">
         <div className="flex items-center gap-3 px-2">
-          <img src="../assets/logo.svg" alt="" width="22" height="21"/>
+          <img src="../assets/logo-a-128.png" alt="" width="22" height="21"/>
           <span className="text-body-lg font-semibold text-fg">AburunGo</span>
         </div>
 
@@ -144,7 +144,7 @@ function FocusVariant() {
     <div className="relative flex h-full w-full flex-col bg-bg">
       <header className="flex items-center justify-between px-12 py-6">
         <div className="flex items-center gap-3">
-          <img src="../assets/logo.svg" alt="" width="22" height="21"/>
+          <img src="../assets/logo-a-128.png" alt="" width="22" height="21"/>
           <span className="text-body-lg font-semibold text-fg">AburunGo</span>
         </div>
         <div className="flex items-center gap-6">
@@ -192,7 +192,7 @@ function LandingHeader() {
   return (
     <header className="flex items-center justify-between px-12 py-5">
       <div className="flex items-center gap-3">
-        <img src="../assets/logo.svg" alt="" width="22" height="21"/>
+        <img src="../assets/logo-a-128.png" alt="" width="22" height="21"/>
         <span className="text-body-lg font-semibold text-fg">AburunGo</span>
       </div>
       <nav className="flex items-center gap-7 text-body-sm text-fg-muted">
