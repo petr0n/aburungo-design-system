@@ -259,6 +259,35 @@ function ScoreCard({ correct, total, children }) {
   );
 }
 
+const MARU_GLYPH = { recalled: '○', review: '✕' };
+const MARU_CLASSES = { recalled: 'text-success-500', review: 'text-error-500' };
+const MARU_LABEL = { recalled: 'recalled', review: 'worth another look' };
+
+function Maru({ outcome, label, className = '' }) {
+  return (
+    <span className={`inline-flex shrink-0 items-center justify-center leading-none ${MARU_CLASSES[outcome]} ${className}`}>
+      <span aria-hidden="true">{MARU_GLYPH[outcome]}</span>
+      <span className="sr-only">{label ?? MARU_LABEL[outcome]}</span>
+    </span>
+  );
+}
+
+function AnswerResult({ outcome, userAnswer, children }) {
+  return (
+    <div className="flex flex-col items-center gap-1 rounded-xl bg-surface-2 p-4 text-center">
+      <div className="flex items-center gap-2">
+        <Maru outcome={outcome} className="text-heading-sm" />
+        <div className="flex flex-col items-center gap-1">{children}</div>
+      </div>
+      {userAnswer !== undefined && userAnswer !== '' && (
+        <p className="mt-1 text-body-sm text-fg-subtle">
+          you typed: <span className="font-jp">{userAnswer}</span>
+        </p>
+      )}
+    </div>
+  );
+}
+
 function FlipCard({ front, back, flipped, phase = 'idle', onEntered, onExited }) {
   const slideClass =
     phase === 'entering' ? 'animate-card-enter' :
