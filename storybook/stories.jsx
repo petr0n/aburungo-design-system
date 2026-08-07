@@ -573,7 +573,7 @@ const AnswerResultStories = {
   <p lang="ja" className="font-jp text-jp text-fg-muted">おねがいします</p>
 </AnswerResult>`,
   },
-  'Worth another look': {
+  'Not quite': {
     render: () => (
       <div className="w-full max-w-sm">
         <AnswerResult outcome="review" userAnswer="おねがいしします">

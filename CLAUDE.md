@@ -35,7 +35,8 @@ Check `MEMORY.md` there at the start of every conversation.
 | Path | Purpose |
 | --- | --- |
 | `src/components/` | TypeScript React components — the shipped package source |
-| `src/index.css` | Tailwind v4 `@theme` tokens + base resets — the design token source of truth |
+| `src/tokens.css` | Tailwind v4 `@theme` block — **the design token source of truth** |
+| `src/index.css` | Package entry: `@import "tailwindcss"`, `@import "./tokens.css"`, `@font-face`, base resets |
 | `storybook/` | Custom HTML storybook (uses JSX mirrors in `ui_kits/mobile/components.jsx`) |
 | `ui_kits/` | JSX component mirrors and screen mockups for design/preview use |
 | `preview/` | Static HTML design spec pages |
@@ -62,14 +63,14 @@ After any changes here, run `pnpm build` before testing in the app. The app's pn
 ## Component rules
 
 - All components in `src/components/` are pure React + TypeScript. No app routing, no Supabase, no Zustand.
-- Use Tailwind v4 utility classes from `src/index.css` tokens only. No inline styles, no hard-coded hex values.
+- Use Tailwind v4 utility classes from `src/tokens.css` tokens only. No inline styles, no hard-coded hex values.
 - Touch targets ≥ 44px. `active:` states required. No hover-only affordances.
 - No gamification: no XP, hearts, badges, streaks, mascots, or reward-loop ornaments.
 - Export all public components from `src/components/index.ts`. Never export internals.
 
 ## Design rules
 
-- One accent: `brand-500` (`#aa3bff`) on auth CTAs and focus rings only.
+- Restraint over decoration: colour lands on CTAs, focus rings, and the brand mark, nowhere else. Each is a separate role token in `src/tokens.css` — use the role, never a hex. Values live in `docs/colors.md`.
 - Noto Sans for English UI (`font-sans`), M PLUS Rounded 1c for Japanese content (`font-jp`).
 - Filled inline SVG icons only. No emoji, no outline icons.
 - See `SKILL.md` and `colors_and_type.css` for the full brand spec.
