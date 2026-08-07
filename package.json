@@ -31,7 +31,8 @@
     "src/brand.css"
   ],
   "scripts": {
-    "build": "tsup",
+    "check:brand": "node scripts/check-forbidden-assets.mjs",
+    "build": "pnpm check:brand && tsup",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "prepare": "tsup"

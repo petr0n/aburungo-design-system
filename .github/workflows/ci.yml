@@ -14,6 +14,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Runs before install so it cannot be skipped by a dependency failure.
+      # Needs only git + node, both present on the runner.
+      - name: Brand check (forbidden mark)
+        run: node scripts/check-forbidden-assets.mjs
+
       - uses: pnpm/action-setup@v4
 
       - uses: actions/setup-node@v4

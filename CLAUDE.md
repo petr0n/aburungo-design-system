@@ -2,6 +2,24 @@
 
 Component library and design token source for the AburunGo app. Published as a local npm package consumed by `../aburungo` via a `file:` reference.
 
+## ⛔ ABSOLUTE RULE — the lightning-bolt mark is banned
+
+**The purple lightning-bolt glyph is Supabase's trademarked logo. It is NOT the AburunGo logo and never was.**
+
+It lived at `assets/logo.svg`, was described as "the brand mark" in `README.md` and `preview/01-logo.html`, and was **repeatedly revived from old branches and commits** because that prose read as authoritative. It was purged from all git history on 2026-08-07.
+
+**Never** add, restore, generate, copy, re-export, recolor, or describe that mark as the AburunGo logo. If you check out an old branch, cherry-pick an old commit, or restore from a backup and the file reappears — **delete it. Do not commit it.**
+
+**The AburunGo mark is the ア hanko:**
+
+| | |
+| --- | --- |
+| CSS | `.hanko` / `.maru` in `src/brand.css` |
+| Raster | `assets/logo-a-128.png`, `assets/logo-a-tile.png` |
+| Colour | Akane 茜色 `--color-accent` |
+
+This is enforced, not just documented. `scripts/check-forbidden-assets.mjs` fails on the exact blob under any filename, on the bolt geometry even if recolored, and on any surviving `logo.svg` reference. It runs in `pnpm build`, in CI before install, and in `.git/hooks/pre-commit`. Run `sh scripts/install-hooks.sh` once per clone. **Do not weaken, skip, or allowlist your way past this check.**
+
 ## Shared memory
 
 All sessions must read and write memories to:
