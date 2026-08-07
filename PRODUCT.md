@@ -48,8 +48,7 @@ Two things distinguish this from an ordinary internal component library:
 **No gamification:** no XP, hearts, badges, streaks, mascots, or reward-loop ornaments.
 
 **Explicitly undecided:**
-- Design tokens currently exist in seven places; only `src/tokens.css` is authoritative and none of the other six read from it. Collapsing them to one source is planned, not done.
-- The v3 "Zuihoden" palette has been reviewed and accepted but is not merged. Current values are the outgoing palette.
+- The v3 "Zuihoden" palette has been reviewed and accepted but is not merged. Current values are the outgoing v2 palette, and v3 is a different *model* — five colours with one job each, on warm stone — not a recolour.
 - `prefers-reduced-motion` is unimplemented. The card-enter and card-exit animations fire unconditionally. Known defect, survives any palette change.
 - Whether `.emboss-bg` and link styling get component owners, or stay ad-hoc in the app.
 
@@ -58,7 +57,7 @@ Two things distinguish this from an ordinary internal component library:
 - **Name:** AburunGo.
 - **The mark is the ア hanko**, in Akane. The purple lightning-bolt glyph is Supabase's trademarked logo, was never the AburunGo mark, and is banned. It was repeatedly revived from old branches because prose describing it read as authoritative, so it is now enforced by `scripts/check-forbidden-assets.mjs` in build, CI, and a pre-commit hook — not by documentation. Do not weaken or allowlist past that check.
 - **Type is locked:** Noto Sans for English UI, M PLUS Rounded 1c for Japanese content.
-- **One accent, used with restraint.** Colour lands on CTAs, focus rings, and the brand mark; nowhere else. Roles are defined in `src/tokens.css`; values are never hard-coded.
+- **Colour is sparing and structural.** Every hue answers "what is this for"; none are decorative. The current v2 palette expresses that as one accent; the accepted-but-unmerged v3 "Zuihoden" palette expresses it as five colours with one job each, on a warm stone ground. The *discipline* is the commitment — the count is not. Roles are defined in `src/tokens.css`; values are never hard-coded.
 - **Verdict wording is owned by the library and not overridable:** `Recalled!` / `Not quite`. Banned as a verdict: "correct", "wrong", "incorrect", "failed", "missed", percentages, letter grades, pass/fail. "Worth another look · n" is valid as a list heading only.
 - **The maru boundary rule**, binding: *A maru marks an answer. It never accumulates. Transient and per-answer is annotation. Persistent and per-user is a badge. The moment a maru survives onto a profile screen, it has become gamification.*
 - **Voice:** the interface reads more serious than the copy sounds. Calm, concise, literate, dry rather than cheerful. Playfulness belongs in empty states and progress language, never in structure. Full brief in `docs/design-direction.md`.
@@ -76,7 +75,7 @@ Two things distinguish this from an ordinary internal component library:
 
 ## Product Principles
 
-1. **One source, or it will drift.** Every duplicated definition in this repo — tokens in seven files, components mirrored as JSX, verdict copy in two call sites — has already caused a regression. Consolidation is the highest-value work available at any time.
+1. **One source, or it will drift.** Every duplicated definition in this repo — tokens across seven files, components mirrored as JSX, verdict copy in two call sites — has already caused a regression. The tokens are now consolidated: `src/tokens.css` is the only place a value is written, and `pnpm build` propagates it. The JSX mirrors are the remaining duplicate. Consolidation is the highest-value work available at any time.
 2. **Enforce in the API, not the docs.** If a rule can be violated by a call site that forgets it, remove the prop or add a check that fails the build. Prose that reads as authoritative but isn't enforced has repeatedly caused the exact regression it warned against.
 3. **Stateless by contract.** The library owns presentation; the app owns state and domain logic. This is what makes a component reviewable in a static harness with no build step.
 4. **Touch-first, no hover-only.** The learner is on a phone. An affordance that only exists on hover does not exist.

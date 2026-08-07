@@ -126,7 +126,7 @@ Restraint here is load-bearing rather than stylistic. Whitespace is what makes a
 
 **Key Characteristics:**
 - Calm, structured, adult — no cheerleading, no reward loop
-- Monochrome by default; a single accent, used sparingly
+- Colour used sparingly and structurally — every hue has a job, none decorate
 - Touch-first, mobile-primary, ≥44px targets throughout
 - Flat surfaces; depth conveyed by tone, not shadow
 - Bilingual by construction — Latin and Japanese type are separate systems, tuned separately

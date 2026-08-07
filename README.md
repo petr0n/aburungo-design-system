@@ -222,7 +222,7 @@ Quiet, modern, mobile‑first. Calm surfaces, colour used sparingly and structur
 
 Values are not written here. `src/tokens.css` is the source of truth and `DESIGN.md` is the spec; this section describes *roles*, so it survives a palette change.
 
-- **One accent, used sparingly** — CTAs, focus rings, and the mark. Everything else is the neutral ramp.
+- **Colour is sparing and structural** — it marks what a thing is for. Under the current v2 palette that is a single accent on CTAs, focus rings and the mark; the incoming v3 palette spreads the same discipline across five roles. Everything not carrying a role is the neutral ramp.
 - **The neutral ramp carries the entire UI**: text, borders, backgrounds, primary buttons. The default primary button is `fg` filled, not the accent. The accent is reserved for moments tied to the brand (auth, focus, the mark).
 - **Semantic** success/error appear *only* in correctness banners (`success-bg`/`success-fg`, `error-bg`/`error-fg`). Never as decorative tints.
 
