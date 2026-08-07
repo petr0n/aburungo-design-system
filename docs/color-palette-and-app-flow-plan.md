@@ -308,8 +308,6 @@ That test *is* the Phase 5 dry run.
 
 **Branch:** `feat/tokens-semantic-contract` · Runs before the new palette lands, so the swap can't break 27 pages.
 
-| # | Task | Done when |
-|---|---|---|
 **This phase shrank.** v3 is already fully role-based — `action`, `action-press`, `action-2-*`, `focus`, `tag-bg`/`tag-fg`, `progress-track`/`fill`/`complete`, `link`, `rule-on-inverse`, `fg-heading`. The design work Phase 2 was going to do has been done for us. What remains is adopting those names and closing the gaps they don't cover.
 
 | # | Task | Done when |
@@ -318,10 +316,10 @@ That test *is* the Phase 5 dry run.
 | 2.2 | Convert value references to roles — **only in the nine components the drop does not ship.** In practice that is `FillInput` alone: `ring-brand-500` → `ring-focus`, which under v3 is currently Akane red and reads as an error. **Leave `Button`, `TextInput`, `IconButton`, `KanaGrid`, `ProgressBar` alone** — the drop repaints those and 5.4 verifies them | `grep -rE "(ring\|bg\|text)-(brand-[0-9]+\|rose\|dusk)" src/components/FillInput.tsx` returns nothing |
 | 2.3 | Fill the gaps v3 leaves: disabled state, and a documented press state for every interactive role | new role aliases present; no component uses a numbered scale token for a semantic purpose |
 | 2.3b | Decide whether `--color-correct` / `--color-incorrect` stay distinct from `success-*` / `error-*`. v3 gives them the same hexes (Rokushō / Akane) but different stated intent — "progress, correctness" vs "correctness banners". Distinct role names cost nothing now and prevent a future error-styling change from silently restyling study grading | decision recorded in `docs/colors.md` with the rationale |
-| 2.4b | Port the card animation block forward — `--animate-card-enter`, `--animate-card-exit` and both `@keyframes`. **v3 omits them and `FlipCard` depends on them** | `FlipCard` animates after the v3 tokens land |
-| 2.6 | **Orphan-token audit** (see below) — for every role v3 defines, find its implementation or record that it has none | every v3 role is either used, assigned an owner component, or explicitly parked with a reason |
 | 2.4 | Write `scripts/check-contrast.mjs` (gate spec above) and wire it into `pnpm build` | gate runs on every build and fails loudly; current palette's failures are recorded as the known-bad baseline the incoming palette must beat |
+| 2.4b | Port the card animation block forward — `--animate-card-enter`, `--animate-card-exit` and both `@keyframes`. **v3 omits them and `FlipCard` depends on them** | `FlipCard` animates after the v3 tokens land |
 | 2.5 | Add `@media (prefers-reduced-motion: reduce)` to `src/index.css` neutralising `--animate-card-enter` / `--animate-card-exit` | animations disabled under the OS setting; verified in the storybook |
+| 2.6 | **Orphan-token audit** (see below) — for every role v3 defines, find its implementation or record that it has none | every v3 role is either used, assigned an owner component, or explicitly parked with a reason |
 
 ### Task 2.6 — the orphan-token audit, and why it's the gap in this plan
 
