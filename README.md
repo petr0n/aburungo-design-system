@@ -208,7 +208,7 @@ The voice is the product. Get this wrong and the app feels like every other lang
 Quiet, modern, mobile‑first. White surfaces, zinc text, one purple accent. Round corners that match the rounded type. **Nothing decorative.** If a pixel isn't earning its place, delete it.
 
 ### Colors
-- **Brand purple** `#aa3bff` is the *only* accent — auth CTAs, focus rings, the logo. Used sparingly. The whole product is monochrome zinc otherwise.
+- **One accent, used sparingly** — CTAs, focus rings, and the mark. Everything else is the neutral ramp. Each is a role token in `src/tokens.css`; values live in `docs/colors.md`.
 - **Zinc neutrals** (`zinc-50` … `zinc-900`) carry the entire UI: text, borders, backgrounds, primary buttons. The default "primary" button is `zinc-900` filled, not purple. Purple is reserved for moments tied to the brand (auth, focus, marketing).
 - **Semantic** green/red appear *only* in correctness banners (`green-50`/`green-700`, `red-50`/`red-700`). Never as decorative tints.
 

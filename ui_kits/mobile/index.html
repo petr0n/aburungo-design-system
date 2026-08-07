@@ -30,56 +30,69 @@
     }
   </style>
 
-  <!-- Tailwind v4 browser runtime. The CDN's PostCSS step reads @theme from
+  <!-- Tailwind v4 browser runtime. Tokens are imported from src/tokens.css
        inline <style type="text/tailwindcss"> blocks in the head, so the
        token block is inlined here verbatim from src/index.css. -->
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <style type="text/tailwindcss">
+    /* build-tokens:start */
     @theme {
-      --color-brand-50:  #f5efff;
-      --color-brand-100: #ede6ff;
-      --color-brand-200: #dccaff;
-      --color-brand-300: #c4a5ff;
-      --color-brand-400: #aa7bff;
-      --color-brand-500: #aa3bff;
-      --color-brand-600: #863bff;
-      --color-brand-700: #7e14ff;
-      --color-brand-800: #5e0bbf;
-      --color-brand-900: #3d077a;
-
-      --color-bg:        #ffffff;
-      --color-surface:   #fafafa;
-      --color-surface-2: #f4f4f5;
-
-      --color-fg:         #18181b;
-      --color-fg-muted:   #52525b;
-      --color-fg-subtle:  #71717a;
-      --color-fg-faint:   #a1a1aa;
+      --color-brand-50: #f5eff7;
+      --color-brand-100: #efe5f1;
+      --color-brand-200: #d9c3e0;
+      --color-brand-300: #b88dc5;
+      --color-brand-400: #9658a8;
+      --color-brand-500: #753686;
+      --color-brand-600: #662e75;
+      --color-brand-700: #5a2868;
+      --color-brand-800: #4d1f59;
+      --color-brand-900: #2a0f30;
+      --color-ink: #150918;
+      --color-ink-2: #3a2540;
+      --color-ink-3: #6a5470;
+      --color-paper: #ffffff;
+      --color-paper-warm: #faf7f9;
+      --color-mist: #ebe5e9;
+      --color-cream: #f5eee7;
+      --color-cream-warm: #ede4d7;
+      --color-cream-deboss: #c0ad95;
+      --color-cream-line: #d9c8b8;
+      --color-rose: #e6bbd7;
+      --color-rose-deep: #d49bc1;
+      --color-dusk: #a6799b;
+      --color-line: #e3d9de;
+      --color-line-2: #ece3e8;
+      --color-fg: #150918;
+      --color-fg-muted: #3a2540;
+      --color-fg-subtle: #6a5470;
+      --color-fg-faint: #a6799b;
       --color-fg-inverse: #ffffff;
-
-      --color-border:        #e4e4e7;
-      --color-border-strong: #d4d4d8;
-
-      --color-success-bg:  #f0fdf4;
-      --color-success-fg:  #15803d;
+      --color-bg: #ffffff;
+      --color-surface: #faf7f9;
+      --color-surface-2: #ebe5e9;
+      --color-border: #e3d9de;
+      --color-border-strong: #d9c8b8;
+      --color-success-bg: #f0fdf4;
+      --color-success-fg: #15803d;
       --color-success-500: #22c55e;
-      --color-error-bg:    #fef2f2;
-      --color-error-fg:    #b91c1c;
-      --color-error-500:   #ef4444;
-
+      --color-error-bg: #fef2f2;
+      --color-error-fg: #b91c1c;
+      --color-error-500: #ef4444;
       --font-sans: "Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-      --font-jp:   "M PLUS Rounded 1c", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+      --font-jp: "M PLUS Rounded 1c", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
       --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
-
       --text-caption: 0.75rem;
       --text-caption--line-height: 1rem;
       --text-caption--font-weight: 500;
       --text-body-sm: 0.875rem;
       --text-body-sm--line-height: 1.25rem;
+      --text-body-sm--font-weight: 400;
       --text-body: 1rem;
       --text-body--line-height: 1.5rem;
+      --text-body--font-weight: 400;
       --text-body-lg: 1.125rem;
       --text-body-lg--line-height: 1.625rem;
+      --text-body-lg--font-weight: 400;
       --text-heading-sm: 1.25rem;
       --text-heading-sm--line-height: 1.625rem;
       --text-heading-sm--font-weight: 600;
@@ -92,9 +105,12 @@
       --text-display: 2.25rem;
       --text-display--line-height: 2.5rem;
       --text-display--font-weight: 700;
-
+      --text-display-lg: 3rem;
+      --text-display-lg--line-height: 3.25rem;
+      --text-display-lg--font-weight: 700;
       --text-jp: 1.125rem;
       --text-jp--line-height: 1.75rem;
+      --text-jp--font-weight: 400;
       --text-jp-lg: 1.5rem;
       --text-jp-lg--line-height: 2.25rem;
       --text-jp-lg--font-weight: 500;
@@ -104,16 +120,19 @@
       --text-jp-display-lg: 2.5rem;
       --text-jp-display-lg--line-height: 3.5rem;
       --text-jp-display-lg--font-weight: 500;
-
-      --radius-sm:  0.375rem;
-      --radius-md:  0.5rem;
-      --radius-lg:  0.75rem;
-      --radius-xl:  1rem;
+      --spacing: 0.25rem;
+      --radius-sm: 0.375rem;
+      --radius-md: 0.5rem;
+      --radius-lg: 0.75rem;
+      --radius-xl: 1rem;
       --radius-2xl: 1.25rem;
-
-      --shadow-card: 0 1px 2px 0 rgb(24 24 27 / 0.05);
-      --shadow-key:  0 1px 2px 0 rgb(24 24 27 / 0.04);
+      --radius-full: 9999px;
+      --shadow-card: 0 1px 2px 0 rgb(21 9 24 / 0.05);
+      --shadow-key: 0 1px 2px 0 rgb(21 9 24 / 0.04);
+      --animate-card-enter: card-enter 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+      --animate-card-exit: card-exit  0.2s  ease-in                        both;
     }
+    /* build-tokens:end */
   </style>
 
   <!-- React + Babel pinned per the canonical setup. -->

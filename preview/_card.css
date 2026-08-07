@@ -48,7 +48,7 @@ html, body {
 
 .swatch .hex {
   font-size: 11px;
-  color: var(--fg-3);
+  color: var(--fg-subtle);
   font-family: var(--font-mono);
 }
 
@@ -57,13 +57,13 @@ html, body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--fg-3);
+  color: var(--fg-subtle);
 }
 
 .demo-card {
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-2xl);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-card);
   padding: 24px;
 }

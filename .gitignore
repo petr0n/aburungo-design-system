@@ -1,5 +1,10 @@
 node_modules/
-dist/
+dist/*
+# ...except the generated token sheet. colors_and_type.css imports it, so the
+# 27 preview pages render unstyled from a fresh clone without it. They are
+# static HTML served over http.server with no build step -- requiring a build
+# first would defeat the point of having them.
+!dist/tokens.plain.css
 *.tsbuildinfo
 .DS_Store
 

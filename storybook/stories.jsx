@@ -295,32 +295,29 @@ const KanaGridStories = {
 const TokensStories = {
   Colors: {
     render: () => {
+      // Token names only — values are read from the live @theme at render time,
+      // so this story cannot drift from src/tokens.css the way a hex array did.
       const groups = [
-        { title: 'Brand', items: [
-          ['brand-50', '#f5efff'], ['brand-100', '#ede6ff'], ['brand-300', '#c4a5ff'],
-          ['brand-500', '#aa3bff'], ['brand-600', '#863bff'], ['brand-700', '#7e14ff'],
-        ]},
-        { title: 'Neutrals', items: [
-          ['surface', '#fafafa'], ['surface-2', '#f4f4f5'], ['border', '#e4e4e7'],
-          ['border-strong', '#d4d4d8'], ['fg-faint', '#a1a1aa'], ['fg-subtle', '#71717a'],
-          ['fg-muted', '#52525b'], ['fg', '#18181b'],
-        ]},
-        { title: 'Semantic', items: [
-          ['success-bg', '#f0fdf4'], ['success-fg', '#15803d'],
-          ['error-bg', '#fef2f2'], ['error-fg', '#b91c1c'],
-        ]},
+        { title: 'Brand', items: ['brand-50','brand-100','brand-300','brand-500','brand-600','brand-700'] },
+        { title: 'Neutrals', items: ['surface','surface-2','border','border-strong','fg-faint','fg-subtle','fg-muted','fg'] },
+        { title: 'Semantic', items: ['success-bg','success-fg','error-bg','error-fg'] },
       ];
+      const readToken = (name) => {
+        const raw = getComputedStyle(document.documentElement)
+          .getPropertyValue(`--color-${name}`).trim();
+        return raw || 'unset';
+      };
       return (
         <div className="flex flex-col gap-6">
           {groups.map((g) => (
             <div key={g.title} className="flex flex-col gap-3">
               <h3 className="text-caption uppercase tracking-wider text-fg-subtle">{g.title}</h3>
               <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-6">
-                {g.items.map(([name, hex]) => (
+                {g.items.map((name) => (
                   <div key={name} className="flex flex-col gap-1.5">
-                    <div className="h-14 rounded-lg border border-border" style={{ background: hex }}/>
+                    <div className="h-14 rounded-lg border border-border" style={{ background: `var(--color-${name})` }}/>
                     <div className="text-body-sm font-medium text-fg">{name}</div>
-                    <div className="font-mono text-caption text-fg-subtle">{hex}</div>
+                    <div className="font-mono text-caption text-fg-subtle">{readToken(name)}</div>
                   </div>
                 ))}
               </div>
@@ -329,7 +326,7 @@ const TokensStories = {
         </div>
       );
     },
-    code: () => `// Tailwind utilities generated from src/index.css @theme:
+    code: () => `// Tailwind utilities generated from src/tokens.css @theme:
 //   bg-brand-500 / text-fg-muted / border-border / shadow-card …`,
   },
   Typography: {

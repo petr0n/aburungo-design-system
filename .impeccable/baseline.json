@@ -508,16 +508,6 @@
     "snippet": "text-transform: uppercase on 59 chars of body text"
   },
   {
-    "antipattern": "low-contrast",
-    "name": "Low contrast text",
-    "description": "Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.",
-    "severity": "warning",
-    "category": "quality",
-    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/14-touch-targets.html",
-    "line": 0,
-    "snippet": "1.0:1 (need 4.5:1) — text #ffffff on #ffffff"
-  },
-  {
     "antipattern": "all-caps-body",
     "name": "All-caps body text",
     "description": "Long passages in uppercase are hard to read. We recognize words by shape (ascenders and descenders), which all-caps removes. Reserve uppercase for short labels and headings.",
@@ -952,7 +942,7 @@
     "severity": "advisory",
     "category": "quality",
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
-    "line": 90,
+    "line": 155,
     "snippet": "Undocumented color #e4e4e7 is outside DESIGN.md colors",
     "ignoreValue": "#e4e4e7"
   },
@@ -963,7 +953,7 @@
     "severity": "advisory",
     "category": "quality",
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
-    "line": 94,
+    "line": 159,
     "snippet": "Undocumented color #71717a is outside DESIGN.md colors",
     "ignoreValue": "#71717a"
   },
@@ -974,7 +964,7 @@
     "severity": "advisory",
     "category": "quality",
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
-    "line": 94,
+    "line": 159,
     "snippet": "font-size: 13px is off the DESIGN.md type ramp",
     "ignoreValue": "13px"
   },
@@ -985,7 +975,7 @@
     "severity": "advisory",
     "category": "quality",
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
-    "line": 102,
+    "line": 167,
     "snippet": "Undocumented color #3f3f46 is outside DESIGN.md colors",
     "ignoreValue": "#3f3f46"
   },
@@ -996,7 +986,7 @@
     "severity": "advisory",
     "category": "quality",
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
-    "line": 111,
+    "line": 176,
     "snippet": "font-size: 11px is off the DESIGN.md type ramp",
     "ignoreValue": "11px"
   },
@@ -1007,7 +997,7 @@
     "severity": "advisory",
     "category": "quality",
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
-    "line": 112,
+    "line": 177,
     "snippet": "Undocumented color #a1a1aa is outside DESIGN.md colors",
     "ignoreValue": "#a1a1aa"
   },
@@ -1018,7 +1008,7 @@
     "severity": "advisory",
     "category": "quality",
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
-    "line": 130,
+    "line": 195,
     "snippet": "Undocumented color #52525b is outside DESIGN.md colors",
     "ignoreValue": "#52525b"
   },
@@ -1029,7 +1019,7 @@
     "severity": "advisory",
     "category": "quality",
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
-    "line": 133,
+    "line": 198,
     "snippet": "Undocumented color #ede6ff is outside DESIGN.md colors",
     "ignoreValue": "#ede6ff"
   },
@@ -1040,7 +1030,7 @@
     "severity": "advisory",
     "category": "quality",
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
-    "line": 133,
+    "line": 198,
     "snippet": "Undocumented color #5e0bbf is outside DESIGN.md colors",
     "ignoreValue": "#5e0bbf"
   },
@@ -1051,7 +1041,7 @@
     "severity": "advisory",
     "category": "quality",
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
-    "line": 138,
+    "line": 203,
     "snippet": "Undocumented color rgba(0,0,0,0.25) is outside DESIGN.md colors",
     "ignoreValue": "rgba(0,0,0,0.25)"
   },
@@ -1062,7 +1052,7 @@
     "severity": "advisory",
     "category": "quality",
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
-    "line": 150,
+    "line": 215,
     "snippet": "Undocumented color #d4d4d8 is outside DESIGN.md colors",
     "ignoreValue": "#d4d4d8"
   },
@@ -1389,7 +1379,7 @@
     "severity": "advisory",
     "category": "quality",
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/mobile/index.html",
-    "line": 136,
+    "line": 155,
     "snippet": "Undocumented color #18181b is outside DESIGN.md colors",
     "ignoreValue": "#18181b"
   },
@@ -1400,7 +1390,7 @@
     "severity": "advisory",
     "category": "quality",
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/mobile/index.html",
-    "line": 159,
+    "line": 178,
     "snippet": "Undocumented color #71717a is outside DESIGN.md colors",
     "ignoreValue": "#71717a"
   },
@@ -1411,7 +1401,7 @@
     "severity": "advisory",
     "category": "quality",
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/mobile/index.html",
-    "line": 164,
+    "line": 183,
     "snippet": "Undocumented color #52525b is outside DESIGN.md colors",
     "ignoreValue": "#52525b"
   },
@@ -1422,7 +1412,7 @@
     "severity": "advisory",
     "category": "quality",
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/mobile/index.html",
-    "line": 164,
+    "line": 183,
     "snippet": "Undocumented color #e4e4e7 is outside DESIGN.md colors",
     "ignoreValue": "#e4e4e7"
   },
