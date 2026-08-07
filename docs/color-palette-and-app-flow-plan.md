@@ -18,7 +18,7 @@ v1 was a list of adjectives, not a plan. Every task was unfalsifiable ("stronger
 2. **It put app-shell, onboarding, and navigation work in a repo that forbids it.** `CLAUDE.md`: no routing, no Supabase, no Zustand. And `../aburungo` already has 11 pages.
 3. **It never opened `docs/design-direction.md`** — the actual brief, sitting in the same folder. Which is how it arrived at `VISUAL_DENSITY: 8` ("dense dashboards") for a product whose brief says *Muji notebook, calm, minimal, whitespace used so accent moments feel intentional*.
 
-4. **It named four skills but configured none of them.** Each ships defaults that actively fight this brand — palette generators, style pickers, GSAP dependencies, density presets. Cited-but-unconfigured, they make the product worse. On review (2026-08-07) two of the four were cut entirely rather than configured: needing a paragraph to muzzle a tool is the argument against adopting it.
+4. **It named four skills but configured none of them.** Each ships defaults that actively fight this brand — palette generators, style pickers, GSAP dependencies, density presets. Cited-but-unconfigured, they make the product worse. The skills section below assigns each one a job and names what to switch off.
 
 ---
 
@@ -81,7 +81,7 @@ Two aliases changed meaning and are worth knowing: **`rose` now points at Ōgon 
 
 ### One structural defect (survives the palette swap)
 
-**No `prefers-reduced-motion` guard anywhere.** `--animate-card-enter` / `--animate-card-exit` (`src/tokens.css:144–157`) fire unconditionally; `src/index.css` has no guard either. This is not a palette issue — it stays broken through any number of palette changes. Fix it regardless.
+**No `prefers-reduced-motion` guard anywhere.** `--animate-card-enter` / `--animate-card-exit` (`src/tokens.css:144–157`) fire unconditionally; `src/index.css` has no guard either. This is not a palette issue — it stays broken through any number of palette changes. All four skills require it.
 
 ### Contrast is a gate, not an audit
 
@@ -139,19 +139,9 @@ For `fg-faint`, note this is now the *second* palette in a row whose faint-text 
 
 ---
 
-## The skills — cut from four to two (decided 2026-08-07)
+## The four skills — what each one is actually for here
 
-Each ships defaults that conflict with this brand. That was originally handled by writing down what to switch off for each — but **needing a paragraph to muzzle a tool is the argument against adopting it.** Two of the four were disabled down to near nothing and are dropped:
-
-| Skill | Verdict |
-|---|---|
-| `impeccable` | **Keep.** The only deterministic, machine-checkable one. Belongs in CI. |
-| `_adherence.oxlintrc.json` | **Keep.** Came free with the drop; bans raw hex, raw px, non-DS fonts, deep imports. |
-| `frontend-design` | **Keep** the four-step loop for the two genuine design tasks in Phase 3B. Palette/type step off. |
-| ~~`taste-skill`~~ | **Dropped.** Three numbers per surface. `docs/design-direction.md` already says calm, minimal, whitespace; the per-surface dials table went with it. |
-| ~~`ui-ux-pro-max`~~ | **Dropped.** 90% of it had to be switched off. What remained — contrast, visible focus, reduced-motion, ≥44px, no emoji — is already in `CLAUDE.md` and in the per-component gate. |
-
-**What replaces them:** `CLAUDE.md` *is* the pre-delivery checklist, and the two scripts this plan builds (`build-tokens.mjs`, `check-contrast.mjs`) plus `check-forbidden-assets.mjs` are deterministic gates that no skill provides. Two gates and three scripts on 1,156 lines of source is already generous.
+Each ships defaults that conflict with this brand. The conflicts are called out because **unconfigured, all four make the product worse** — three of them will happily generate a palette, a font pairing, or a UI style over the top of ones that are already decided.
 
 ### 1. `impeccable` (pbakaus) → **the CI gate**
 
@@ -169,14 +159,18 @@ Four steps: brainstorm → review against defaults → build → self-critique.
 - **Also mandatory:** its self-critique gate — responsive, keyboard focus, reduced-motion.
 - **⚠️ Switch off:** its step-1 instruction to brainstorm a 4–6 color palette and pick display/body typefaces. The palette is arriving from elsewhere and the type is locked (Noto Sans / M PLUS Rounded 1c). Running that step produces a competing palette nobody asked for.
 
-### 3. ~~`taste-skill`~~ and 4. ~~`ui-ux-pro-max`~~ — dropped
+### 3. `taste-skill` (leonxlnx) → **per-surface dials**
 
-Both are cut. What they were carrying is preserved in cheaper form:
+- **Use:** `DESIGN_VARIANCE` / `MOTION_INTENSITY` / `VISUAL_DENSITY`, recorded **per surface** (table below), not globally. v1's global `VISUAL_DENSITY: 8` contradicted the brief outright and omitted `MOTION_INTENSITY` entirely despite spending a whole phase on motion.
+- **⚠️ Switch off:** its canonical code skeletons are GSAP. ADS ships zero runtime dependencies and animates with CSS keyframes (`--animate-card-enter`). Take the dials and the pre-flight checks; reject the skeletons.
 
-- **Density and motion intent** — the brief already says calm, minimal, generous whitespace, and motion that reinforces the next step rather than decorating it. One sentence in `DESIGN.md`: *density stays low except the progress summary, which has real data density; motion never exceeds a short functional transition.* That was the whole content of 21 dial values.
-- **The pre-delivery checklist** — contrast ≥ 4.5:1, visible keyboard focus, `prefers-reduced-motion`, breakpoints 375 / 768 / 1024 / 1440, ≥ 44px targets, `active:` states, no hover-only affordances, filled inline SVG only, no emoji. All of it is already in `CLAUDE.md` and in the per-component gate in Phase 3.
+### 4. `ui-ux-pro-max` (nextlevelbuilder) → **checklist only, generators disabled**
 
-Both also carried real hazards that no longer need managing: `ui-ux-pro-max` would import 192 palettes, 84 UI styles, and 74 font pairings over a locked brand, and prescribes `cursor-pointer` plus hover transitions to a touch-first product; `taste-skill`'s canonical skeletons are GSAP, against a package with zero runtime dependencies.
+90% of this skill must be switched off for this project.
+
+- **⚠️ Switch off:** 192 color palettes, 84 UI styles (glassmorphism, claymorphism, bento grids, neumorphism), 74 font pairings. All three are locked here. Left on, this skill imports exactly the slop `docs/design-direction.md` forbids.
+- **Use:** the 98 UX guidelines, the industry anti-pattern rules, and the pre-delivery checklist — contrast ≥ 4.5:1, visible keyboard focus, `prefers-reduced-motion`, breakpoints 375 / 768 / 1024 / 1440, no emoji icons (already an ADS rule).
+- **⚠️ Conflict:** it prescribes `cursor-pointer` and 150–300ms hover transitions. ADS is touch-first with an explicit *no hover-only affordances* rule. Hover guidance is advisory; `active:` states and ≥44px targets are the requirement.
 
 ---
 
@@ -186,18 +180,21 @@ Three properties decide when each skill fires. Getting these wrong is how skills
 
 | Skill | Altitude | Cadence | Direction |
 |---|---|---|---|
-| `frontend-design` | surface | only on the two real design tasks in 3B | **generative** — trial and error lives here |
+| `taste-skill` | surface | once per surface, **before** design starts | constraint — feeds the generative step |
+| `frontend-design` | surface | once per surface | **generative** — trial and error lives here |
 | `impeccable` | component + repo | `shape`/`critique` per component; `detect` every build | both — `shape` generates, `detect` gates |
-| oxlint adherence | repo | every build | gate |
+| `ui-ux-pro-max` | component | once per component, at the end | gate |
 
-One generates, two check. Running them in the wrong order is the main failure mode: generate first and the constraints become an argument with work that already exists.
+Two generate, two constrain-or-check. Running them in the wrong order is the main failure mode: generate first and the dials become an argument with work that already exists.
 
-### The three-beat loop
+### The four-beat loop
 
-The pattern for every surface. Beats 1–2 are cheap and disposable; beat 3 is where it locks. (This was a four-beat loop; the `taste-skill` dial-setting beat was cut with the skill — the constraint it encoded now lives as one line in `DESIGN.md`.)
-1. **Explore** — `frontend-design` loop (palette/type step off) + `/impeccable shape`. Generate 2–3 variants. **This is the trial-and-error beat**, and it runs in the sandbox, never in `src/components/`.
-2. **Build** — the chosen variant only. TSX → JSX mirror → story.
-3. **Gate** — the per-component gate in Phase 3 + `impeccable detect` + oxlint adherence. Pass/fail, no discussion.
+The pattern for every surface. Beats 1–2 are cheap and disposable; beat 4 is where it locks.
+
+1. **Constrain** — `taste-skill`. Set the three dials for this surface from the table below. Dials go first because they narrow what beat 2 produces. Skip this and you get dashboard-density flashcards.
+2. **Explore** — `frontend-design` loop + `/impeccable shape`. Generate 2–3 variants. **This is the trial-and-error beat**, and it runs in the sandbox, never in `src/components/`.
+3. **Build** — the chosen variant only. TSX → JSX mirror → story.
+4. **Gate** — `ui-ux-pro-max` pre-delivery checklist + `impeccable detect`. Pass/fail, no discussion.
 
 ### Where trial and error goes
 
@@ -232,29 +229,37 @@ Learn what a skill's output looks like on something cheap before spending it on 
 
 | Skill | Start with | Why there |
 |---|---|---|
-| `frontend-design` | `EmptyState`, `ErrorState` | the brief says charm belongs here, so there is the most room to explore; 3 small components, ~19 lines each — lowest blast radius |
+| `frontend-design` | `EmptyState`, `ErrorState` | the brief says charm belongs here; VARIANCE 4 gives the most room; 3 small components, ~19 lines each — lowest blast radius |
+| `taste-skill` | `ScoreCard`, `ProgressBar` | the only surface at DENSITY 6, so the dials do visible work — and the surface most at risk of drifting gamified |
 | `impeccable` | `Button`, `TextInput`, `Card` | primitives that 13 components depend on; detector rules pay off most on high-reuse code |
+| `ui-ux-pro-max` | `KanaKeyboard`, `FillInput` | densest interaction surfaces (137 and 203 lines), most touch targets — where an a11y checklist earns its keep |
 
 ### What to expect, so you can judge output fast
 
 Calibration for the trial-and-error phase — knowing the expected hit rate stops you from over-reading a weak result.
 
 - **`frontend-design`** — high value, low volume. Expect roughly one good structural idea per surface. If it proposes a palette, step 1 was left switched on.
-- **`impeccable detect`** — highest signal-to-noise, because it's deterministic. `craft` and `shape` output is far more variable; treat it as a first draft, not a recommendation.
+- **`taste-skill`** — narrow by design. Three numbers moving spacing and motion. Its value is *consistency across* surfaces, not brilliance on any one.
+- **`impeccable detect`** — highest signal-to-noise of the four, because it's deterministic. `craft` and `shape` output is far more variable; treat it as a first draft, not a recommendation.
+- **`ui-ux-pro-max`** — will mostly confirm what `CLAUDE.md` already says. Its job is catching the one thing you forgot, not proposing direction. Expect a low hit rate and don't read that as the skill failing.
 
 ---
 
-## Density and motion — one paragraph, not a table
+## Per-surface taste dials
 
-*(This was a 21-value per-surface dials table feeding `taste-skill`. The skill was cut on 2026-08-07; the intent it encoded is below, which is all the table ever said.)*
+Density low by default per the Muji brief; raised only where real data density exists. Variance stays low everywhere except the two surfaces where `docs/design-direction.md` says charm belongs (empty states, progress language).
 
-**Write this into `DESIGN.md`:**
+| Surface | Components | DENSITY | VARIANCE | MOTION |
+|---|---|---|---|---|
+| Flashcard review | `FlipCard`, `PhraseCard` | 3 | 2 | 3 |
+| Kana practice | `KanaGrid`, `KanaKeyboard` | 4 | 2 | 3 |
+| Pronunciation | `VoiceInput`, `AudioButton` | 3 | 2 | 3 |
+| Cloze / fill | `FillInput` | 3 | 2 | 2 |
+| Progress summary | `ProgressBar`, `ScoreCard` | 6 | 3 | 2 |
+| App shell | `AppHeader` | 3 | 2 | 1 |
+| Empty / error / loading | `EmptyState`, `ErrorState`, `LoadingPlaceholder` | 2 | 4 | 2 |
 
-> Density stays low everywhere — the brief is a Muji notebook, and whitespace is what makes the single accent feel deliberate. The one exception is the progress summary (`ProgressBar`, `ScoreCard`), which has real data density and can carry more.
->
-> Motion never exceeds a short functional transition that reinforces where the learner is going next. No scroll-driven or magnetic interaction — this is a touch-first study app.
->
-> Charm is allowed in exactly two places, per `docs/design-direction.md`: empty states and progress language. Everywhere else, restraint.
+`MOTION_INTENSITY` never exceeds 3 anywhere: the brief calls for motion that reinforces the next step, and every value above 3 in taste-skill implies scroll-driven or magnetic interaction, which a touch-first study app does not have.
 
 ---
 
@@ -266,14 +271,13 @@ Calibration for the trial-and-error phase — knowing the expected hit rate stop
 |---|---|---|
 | 0.1 | `npx impeccable install` | `npx impeccable --help` runs |
 | 0.2 | `/impeccable init`, seeded from `docs/design-direction.md` | `PRODUCT.md` + `DESIGN.md` at repo root, recording: one accent, no gamification, touch-first, Noto Sans + M PLUS Rounded 1c |
-| ~~0.3~~ | ~~`npx skills add taste-skill`~~ — **cut 2026-08-07.** Instead: write the density/motion paragraph above into `DESIGN.md` | paragraph present; no dials table to maintain |
-| ~~0.4~~ | ~~`ui-ux-pro-max` install~~ — **cut 2026-08-07.** Its surviving checklist is already the Phase 3 per-component gate | nothing to do |
-| 0.5 | Vendor `frontend-design` into `.claude/skills/` — used only on the two real design tasks in Phase 3B | skill loads; `DESIGN.md` records that its palette/type brainstorm step is off |
+| 0.3 | `npx skills add https://github.com/Leonxlnx/taste-skill` | dials table above copied into `DESIGN.md` |
+| 0.4 | `/plugin marketplace add nextlevelbuilder/ui-ux-pro-max-skill`, then install | `DESIGN.md` records generators-disabled |
+| 0.5 | Vendor `frontend-design` into `.claude/skills/` | skill loads |
 | 0.6 | Baseline detector run over `src/ preview/ storybook/ ui_kits/`, JSON to `.impeccable/baseline.json` | baseline committed; finding count recorded → **N = ____** |
-| 0.7 | ~~Source or redraw `assets/logo-a-tile.png`~~ — **closed.** `logo-a-128.png` and `logo-a-tile.png` were copied from the drop on 2026-08-07 and are in `assets/`. `pattern-sakura.png` is **not** needed (see out-of-scope). Have the mark redrawn as vector in Akane before any large or print use | `.hanko` renders the ア at 24 / 48 / 96px |
+| 0.7 | ~~Source or redraw `assets/logo-a-tile.png`~~ — **closed by the v3 drop.** Copy `logo-a-tile.png`, `pattern-sakura.png`, `logo-a-128.png` from the drop's `assets/`. They're hue-remapped rasters, good enough to ship; have the mark redrawn as vector in Akane before any large or print use | `.hanko` renders the ア at 24 / 48 / 96px |
 | 0.8 | Write the maru boundary rule (§3.0) into `DESIGN.md` | rule present verbatim; impeccable won't flag ○/✕ as ornament |
 | 0.9 | Adopt the drop's `_adherence.oxlintrc.json` as a second deterministic gate — bans raw hex, raw px, non-DS fonts, and deep imports past the barrel | `pnpm lint` runs it; findings recorded alongside the impeccable baseline |
-| 0.10 | ~~New~~ — **already done 2026-08-07.** `scripts/check-forbidden-assets.mjs` is a third deterministic gate, wired into `pnpm build`, CI, and pre-commit | `pnpm check:brand` passes |
 
 `DESIGN.md` is written against the brand *rules*, not against specific hex values — it has to survive the palette swap without edits.
 
@@ -406,11 +410,12 @@ Then run per component, in this order — primitives first, since 13 domain comp
 
 The other 14 get the standard pass with no mark work.
 
-**Per-component loop** — the three-beat loop from the skill application map, run once per component:
+**Per-component loop** — the four-beat loop from the skill application map, run once per component:
 
-1. **Explore** — `frontend-design` loop (palette/type step off) + `/impeccable shape <component>`. 2–3 variants as static HTML in `preview/_sandbox/`. Then the defaults test: *would this work equally well for any other flashcard app?* If yes it's a template answer — discard and go again. Budget two rounds; if round three isn't better, ship round two and move on.
-2. **Build** — the chosen variant only. TSX in `src/components/`, then the JSX mirror in `ui_kits/mobile/components.jsx`, then the story.
-3. **Gate** — all checks below.
+1. **Constrain** — read this surface's dials off the table. No generation before the dials are set.
+2. **Explore** — `frontend-design` loop (palette/type step off) + `/impeccable shape <component>`. 2–3 variants as static HTML in `preview/_sandbox/`. Then the defaults test: *would this work equally well for any other flashcard app?* If yes it's a template answer — discard and go again. Budget two rounds; if round three isn't better, ship round two and move on.
+3. **Build** — the chosen variant only. TSX in `src/components/`, then the JSX mirror in `ui_kits/mobile/components.jsx`, then the story.
+4. **Gate** — all checks below.
 
 Colour-dependent findings get logged, not fixed — they're revisited in one pass after Phase 5 rather than guessed at against a palette that's about to be replaced.
 
@@ -431,24 +436,24 @@ Note that most gate items are palette-independent; the two that aren't (contrast
 
 ## Phase 3B — Close the gaps the drop left
 
-**Branch:** `feat/close-gaps` · Runs inside Phase 3's three-beat loop, on the surfaces §2.6 identified as orphaned.
+**Branch:** `feat/close-gaps` · Runs inside Phase 3's four-beat loop, on the surfaces §2.6 identified as orphaned.
 
 This is where the skills earn their place. Everything below is work the drop specified and didn't build, or didn't specify at all — and none of it needs another handoff.
 
 **Not everything here needs a skill.** Reaching for a generative skill on a solved pattern is waste. Sorted by what it actually takes:
 
-| Gap | How | Skill |
-|---|---|---|
-| `Badge` → scenario tag (`tag-bg`/`tag-fg`) | mechanical — apply the tokens `HANDOFF.md` already specified | none |
-| `.hanko` → `--color-accent` | mechanical — one-line alias fix | none |
-| `KanaKeyboard` `bg-fg` → `bg-inverse` | mechanical — right pixel, wrong role | none |
-| Focus-ring split (`focus` / `focus-on-inverse`) | decided above; apply + verify with the contrast gate | none |
-| `ProgressBar` completion cap (`progress-complete`) | small design call: does a finished bar cap in Ōgon, or is that ornament? | `/impeccable shape` |
-| **Inverse chrome — `KanaKeyboard` first** — Sumi-iro ground, Ōgon hairline, `fg-on-inverse-2`, `shadow-key-on-inverse` | **real design work.** v3 designed a treatment and shipped no component wearing it. `KanaKeyboard` leads because the app actually imports it | `frontend-design` explore → `impeccable critique` |
-| **Inverse chrome — `AppHeader` second** — same treatment, applied after the kana keyboard settles it | **`AppHeader` has zero importers in `../aburungo`** (verified 2026-08-07), alongside `PhraseCard` and `IconButton`. Doing the plan's most expensive design work on an unimported component is the wrong order. Either confirm it is meant for a shell that isn't built yet, or let `KanaKeyboard` establish the treatment and apply it here cheaply | reuse the `KanaKeyboard` result |
-| **Scenario card** — `.emboss-bg` has no component owner | **real design work**, and the one surface where the pattern is sanctioned | `frontend-design` — this is its best target in the whole plan |
-| Link treatment (`--color-link`) | solved pattern — don't design it, look it up | none — apply the standard link pattern |
-| `border-focus` `#5c7aa8` | purpose unclear in v3 | decide an owner or delete the token |
+| Gap | How | Skill | Dials |
+|---|---|---|---|
+| `Badge` → scenario tag (`tag-bg`/`tag-fg`) | mechanical — apply the tokens `HANDOFF.md` already specified | none | — |
+| `.hanko` → `--color-accent` | mechanical — one-line alias fix | none | — |
+| `KanaKeyboard` `bg-fg` → `bg-inverse` | mechanical — right pixel, wrong role | none | — |
+| Focus-ring split (`focus` / `focus-on-inverse`) | decided above; apply + verify with the contrast gate | none | — |
+| `ProgressBar` completion cap (`progress-complete`) | small design call: does a finished bar cap in Ōgon, or is that ornament? | `/impeccable shape` | 6 / 3 / 2 |
+| **Inverse chrome — `KanaKeyboard` first** — Sumi-iro ground, Ōgon hairline, `fg-on-inverse-2`, `shadow-key-on-inverse` | **real design work.** v3 designed a treatment and shipped no component wearing it. `KanaKeyboard` leads because the app actually imports it | `frontend-design` explore → `impeccable critique` | kana 4 / 2 / 3 |
+| **Inverse chrome — `AppHeader` second** — same treatment, applied after the kana keyboard settles it | **`AppHeader` has zero importers in `../aburungo`** (verified 2026-08-07), alongside `PhraseCard` and `IconButton`. Doing the plan's most expensive design work on an unimported component is the wrong order. Either confirm it is meant for a shell that isn't built yet, or let `KanaKeyboard` establish the treatment and apply it here cheaply | reuse the `KanaKeyboard` result | shell 3 / 2 / 1 |
+| **Scenario card** — `.emboss-bg` has no component owner | **real design work**, and the one surface where the pattern is sanctioned | `frontend-design` — this is its best target in the whole plan | 3 / 3 / 2 |
+| Link treatment (`--color-link`) | solved pattern — don't design it, look it up | `ui-ux-pro-max` checklist | — |
+| `border-focus` `#5c7aa8` | purpose unclear in v3 | decide an owner or delete the token | — |
 
 **Sequencing note:** the two "real design work" rows are the only ones that go through the full explore beat with variants in `preview/_sandbox/`. The mechanical rows are done directly — running a generative skill over a one-line token fix is exactly the waste this plan is trying to avoid.
 
@@ -460,23 +465,17 @@ This is where the skills earn their place. Everything below is work the drop spe
 
 **Branch:** `feat/flow-mockups` · **Static HTML/JSX only.** No routing, no state management, no Supabase — `CLAUDE.md` boundary. Real wiring happens in `../aburungo` later via `/handoff-to-app`.
 
-### Scope cut 2026-08-07: one flow, then decide
+Land in `ui_kits/mobile/screens.jsx` + `preview/`. Mirror the 11 pages that already exist in `../aburungo/src/pages/` rather than inventing new ones:
 
-This phase was **5 flows × 5 states = 25 mockups**. That is the largest single work item in the plan and the one with the least proven demand — `CLAUDE.md` forbids wiring them up here, so all 25 would sit waiting on `/handoff-to-app`, against 11 app pages that already exist and work. Twenty-five hand-maintained screens is also more of exactly the drift the plan calls "the second drift machine".
-
-**Build one flow, all five states. Hand it off. Then decide about the rest.**
-
-| # | Task | Done when |
+| Flow | Mirrors | Screens |
 |---|---|---|
-| 4.1 | **Flashcard round** (`FlashcardPage`) — all five states: loading, empty, error, success, in-progress. Land in `ui_kits/mobile/screens.jsx` + `preview/` | 5 screens, each either present or not |
-| 4.2 | `/handoff-to-app` and integrate into `../aburungo` | the flow is live in the app |
-| 4.3 | **Decision gate** — record what the handoff actually changed. If mockups drove real improvements, do the next flow. If the app already covered it, stop here and design against the app directly | decision written into this plan with the evidence |
+| Session start | `LearnPage`, `PracticePage` | entry, unit select, session config |
+| Flashcard round | `FlashcardPage` | prompt, reveal, self-grade, round summary |
+| Kana practice | `KanaPage`, `KanaPracticePage` | grid, drill, keyboard entry, result |
+| Pronunciation | `ConversationPage` | idle, recording, processing, scored, retry |
+| Progress | `ProfilePage` | overview, per-unit detail |
 
-Flashcard round leads because it is the product's core loop and the surface `FlipCard`, `PhraseCard`, and `ScoreCard` all serve.
-
-**The remaining four, if 4.3 says continue** — `Session start` (`LearnPage`, `PracticePage`), `Kana practice` (`KanaPage`, `KanaPracticePage`), `Pronunciation` (`ConversationPage`), `Progress` (`ProfilePage`).
-
-**Note four app pages this phase never mapped:** `LandingPage`, `HowToPage`, `KanjiPage`, `WordsPage`. `WordsPage` is live vocabulary work. If flow mockups turn out to be worth continuing, that gap needs closing too — or the phase is only covering the pages it happened to think of.
+Each flow ships **all five states** — loading, empty, error, success, in-progress — not just the happy path. That's `/impeccable harden` + `onboard` territory, and it's where v1's "strengthen stateful experiences" bullet becomes checkable: 5 flows × 5 states = 25 mockups, each either present or not.
 
 ---
 
@@ -519,7 +518,7 @@ This is a **merge, not a copy.** The drop is ahead on tokens and assets and behi
 6. 18 components passing the seven-point gate
 7. A correctness vocabulary — ○ / ✕ across the four self-grading surfaces (quiet reveal where the app checks instead), plus the boundary rule that keeps it from becoming a badge
 7b. Zero orphaned roles — every token v3 defines has an implementation or a written reason, and `docs/colors.md` carries the corrections as a diff to send back
-8. One flow × five states in `ui_kits/` + `preview/`, handed off to the app, plus a written decision on whether the remaining four are worth building
+8. 25 flow mockups (5 flows × 5 states) in `ui_kits/` + `preview/`
 9. A palette swap that is a one-file diff
 
 ---
