@@ -2,7 +2,31 @@
 
 > Practical Japanese for English speakers. The reward is being able to **use the language** — not points, streaks, hearts, badges, or any reward‑loop mechanic. The system is designed around that single anti‑promise.
 
-This design system captures the visual language, content rules and component library of [AburunGo](https://github.com/petr0n/aburungo). Use it to build new screens, mocks, slides or marketing for the product without re‑inventing or drifting.
+This design system captures the visual language, content rules and component library of [AburunGo](https://github.com/petr0n/aburungo).
+
+---
+
+## What this repo is for
+
+ADS is the **UX/UI fabricator for AburunGo**. Interfaces are designed, built and evaluated here — as real, runnable components — and then shipped to the app. The app is where the language backend gets wired up to them.
+
+The practical consequence: **if a UI question can be answered here, it should be.** Spacing, hierarchy, states, motion, copy, how a surface reads at 375px — all of that gets settled in this repo, against sample data, before any of it touches Supabase or routing. What arrives in the app should be a UI you have already looked at and approved.
+
+### What lives where
+
+| Concern | ADS | The app |
+|---|---|---|
+| Layout, spacing, hierarchy, type | ✅ | |
+| Component states — loading, empty, error, result | ✅ | |
+| Copy and microcopy | ✅ | |
+| Sample content to render against | ✅ | |
+| Which card comes next, scoring, SRS | | ✅ |
+| Data fetching, auth, persistence | | ✅ |
+| Routing and navigation | | ✅ |
+
+The line is **data vs. presentation**, not "simple vs. complex." A component may be as elaborate as the design needs; it may not know where its content came from.
+
+This is why `CLAUDE.md` bans routing, Supabase and Zustand here. The rule is not "keep components trivial" — it is "keep them ignorant of the backend," so the same component can be driven by a fixture in the storybook and by real data in the app without changing.
 
 ---
 
@@ -11,6 +35,33 @@ This design system captures the visual language, content rules and component lib
 AburunGo is a mobile‑first web app (Vite + React 19 + TypeScript, Tailwind v4) that teaches English‑speaking learners practical Japanese for **real situations** — transit, restaurants, day‑to‑day interactions. Scenarios first, vocab lists last. Phrases are sourced from JMdict/Tatoeba/KANJIDIC2 and kept small and good. The core surface today is a **fill‑in‑the‑blank review loop** with three input modes (romaji → kana converter, on‑screen kana grid, system Japanese IME) plus voice input.
 
 Currently English‑only (UI strings), with Japanese content delivered in kanji + hiragana reading + romaji.
+
+---
+
+## Looking at a screen, not just a component
+
+A component in isolation cannot answer most UI questions. To judge a surface you need it composed, populated and shown in each of its states.
+
+**Components stay stateless. Compose them into a screen and feed it fixture data:**
+
+```tsx
+<FlashcardScreen state="loading" />
+<FlashcardScreen state="empty" />
+<FlashcardScreen state="error" />
+<FlashcardScreen state="ready" phrase={fixtures.phrases[0]} />
+```
+
+The state you are looking at is a **prop**, not five separate hand-built pages.
+
+### Interaction state belongs to the harness
+
+When you need to click through something, the state lives in the *story*, not the component. The storybook already works this way — `AudioButton`'s Interactive story and `FlipCard`'s flip toggle both hold `useState` in the story itself. The component stays pure and the flow is still explorable.
+
+### Do not hand-draw screens
+
+A screen redrawn as standalone HTML or JSX is a second copy of the UI. It drifts from the components it depicts, and then it lies. Compose the real components instead.
+
+> **Not built yet.** There are no fixtures in `src/lib/` and no screen-level compositions today, so `ui_kits/*/screens.jsx` are currently hand-drawn — the pattern this section argues against. Building the fixtures and screen components is the intended replacement.
 
 ---
 
@@ -99,7 +150,8 @@ After any changes here, run `pnpm build` before testing in the consuming app.
 | `CLAUDE.md` | Project rules for AI sessions |
 | `.claude/commands/` | Project slash commands (e.g. `/handoff-to-app`) |
 | `storybook/` | Custom HTML storybook (uses JSX mirrors in `ui_kits/mobile/components.jsx`) |
-| `ui_kits/` | JSX component mirrors and screen mockups for design/preview use |
+| `ui_kits/` | JSX mirrors of the components (a workaround for the browser‑Babel storybook) plus screen files. Mirrors are hand‑maintained and drift from `src/components/`; the screen files are hand‑drawn — see [Looking at a screen](#looking-at-a-screen-not-just-a-component) |
+| `src/lib/` | Shared logic shipped as a second entry point (`aburungo-design-system/lib`) — kana data, romaji conversion. Fixture content belongs here too, once it exists |
 | `preview/` | Static HTML design spec pages |
 | `colors_and_type.css` | Brand + semantic CSS variables, type presets, spacing, radii, shadows (plain CSS, no Tailwind) |
 | `assets/logo-a-128.png` | Brand mark — the ア hanko |
