@@ -274,7 +274,7 @@ function Maru({ outcome, label, className = '' }) {
 
 const AR_BANNER = { recalled: 'bg-success-bg', review: 'bg-error-bg' };
 const AR_TEXT = { recalled: 'text-success-fg', review: 'text-error-fg' };
-const AR_HEADLINE = { recalled: 'Recalled!', review: 'Worth another look' };
+const AR_HEADLINE = { recalled: 'Recalled!', review: 'Not quite' };
 
 function AnswerResult({ outcome, userAnswer, children }) {
   return (

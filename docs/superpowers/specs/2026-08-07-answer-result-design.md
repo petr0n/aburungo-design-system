@@ -16,7 +16,7 @@ It also means §3.0's correctness vocabulary reaches no surface that actually ju
 |---|---|
 | Scope | The verdict banner (`FillBlankCard`, `GrammarClozeCard`) plus `KanaPracticePage`'s choice tiles. Self-grading (`WordDrillCard`, `KanjiDrillCard`) already routes through `FlipCard` and is untouched. `RecognitionPass` shows no feedback by design and is untouched. |
 | Reveal style | **Tinted banner above a neutral reveal block** — the treatment both consumers already had. A quiet, markless reveal was built first and rejected on review of the rendered result (2026-08-07); the banner reads better in place. |
-| Verdict prose | **Owned by the component, not passable.** `Recalled!` / `Worth another look` — the approved wording. Call sites cannot supply their own, which is what stops the drift. |
+| Verdict prose | **Owned by the component, not passable.** `Recalled!` / `Not quite` — the approved wording. Call sites cannot supply their own, which is what stops the drift. |
 | Glyph ownership | One `Maru` component, exported independently. `AnswerResult` does not use it; `KanaPracticePage` uses it directly on choice tiles, replacing literal `"✓ "` / `"✗ "` strings. |
 
 ## API

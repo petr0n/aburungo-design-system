@@ -39,10 +39,17 @@ const TEXT_CLASSES: Record<AnswerOutcome, string> = {
   review:   'text-error-fg',
 }
 
-/** Approved wording.  Not overridable — see the note above. */
+/**
+ * Approved wording.  Not overridable — see the note above.
+ *
+ * "Not quite" over "Worth another look" is deliberate: the softer phrase reads
+ * as ambiguous at the moment an answer is judged, and a learner should not have
+ * to work out whether they got it right.  The gentle framing lives in what
+ * happens next — the word resurfaces sooner — not in hedged wording here.
+ */
 const HEADLINE: Record<AnswerOutcome, string> = {
   recalled: 'Recalled!',
-  review:   'Worth another look',
+  review:   'Not quite',
 }
 
 export function AnswerResult({ outcome, userAnswer, children }: AnswerResultProps) {
