@@ -272,18 +272,22 @@ function Maru({ outcome, label, className = '' }) {
   );
 }
 
+const AR_BANNER = { recalled: 'bg-success-bg', review: 'bg-error-bg' };
+const AR_TEXT = { recalled: 'text-success-fg', review: 'text-error-fg' };
+const AR_HEADLINE = { recalled: 'Recalled!', review: 'Worth another look' };
+
 function AnswerResult({ outcome, userAnswer, children }) {
   return (
-    <div className="flex flex-col items-center gap-1 rounded-xl bg-surface-2 p-4 text-center">
-      <div className="flex items-center gap-2">
-        <Maru outcome={outcome} className="text-heading-sm" />
-        <div className="flex flex-col items-center gap-1">{children}</div>
+    <div className="flex flex-col gap-4">
+      <div className={`rounded-xl p-4 text-center ${AR_BANNER[outcome]}`}>
+        <p className={`text-heading-sm font-semibold ${AR_TEXT[outcome]}`}>{AR_HEADLINE[outcome]}</p>
+        {userAnswer !== undefined && userAnswer !== '' && (
+          <p className={`mt-1 font-jp text-body-sm ${AR_TEXT[outcome]}`}>You answered: {userAnswer}</p>
+        )}
       </div>
-      {userAnswer !== undefined && userAnswer !== '' && (
-        <p className="mt-1 text-body-sm text-fg-subtle">
-          you typed: <span className="font-jp">{userAnswer}</span>
-        </p>
-      )}
+      <div className="flex flex-col items-center gap-1 rounded-xl bg-surface-2 p-4 text-center">
+        {children}
+      </div>
     </div>
   );
 }

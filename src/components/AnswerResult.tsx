@@ -1,43 +1,67 @@
 /**
  * AnswerResult — what a learner sees after the app checks an answer.
  *
- * A quiet reveal: neutral ground, the correct answer, and a Maru carrying the
- * outcome.  Deliberately not an error banner — the coloured wash reads as a
- * verdict, and the app does not tell a learner they failed.
+ * A tinted banner carrying the outcome, above a neutral block revealing the
+ * correct answer.  Both halves used to be hand-rolled in FillBlankCard and
+ * GrammarClozeCard, which is how the two ended up with different wording for
+ * the same state — one said "Not quite", the other "Worth another look".
  *
- * The outcome is a named state rather than a boolean so that `correct ? … : …`
- * never appears at a call site.  That ternary is how two consumers ended up
- * disagreeing about the wording; there is now nowhere to put the words.
+ * The wording now lives here and cannot be passed in.  That is the whole point
+ * of the component: there is nowhere for a call site to put its own words, so
+ * the approved vocabulary cannot drift again.
+ *
+ * The outcome is a named state rather than a boolean for the same reason — a
+ * boolean invites `correct ? … : …` at the call site, which is where the two
+ * vocabularies came from.
  *
  * Content is `children` because callers render Japanese, readings, and polite
  * forms in shapes this component has no reason to know about.  It owns the
  * frame; the card owns the card.
  */
 import type { ReactNode } from 'react'
-import { Maru } from './Maru'
 import type { AnswerOutcome } from './Maru'
 
 type AnswerResultProps = {
   outcome: AnswerOutcome
-  /** What the learner typed.  Rendered muted beneath the answer when passed. */
+  /** What the learner typed.  Shown in the banner when passed. */
   userAnswer?: string
   /** The correct answer — the consumer's own markup. */
   children: ReactNode
 }
 
+const BANNER_CLASSES: Record<AnswerOutcome, string> = {
+  recalled: 'bg-success-bg',
+  review:   'bg-error-bg',
+}
+
+const TEXT_CLASSES: Record<AnswerOutcome, string> = {
+  recalled: 'text-success-fg',
+  review:   'text-error-fg',
+}
+
+/** Approved wording.  Not overridable — see the note above. */
+const HEADLINE: Record<AnswerOutcome, string> = {
+  recalled: 'Recalled!',
+  review:   'Worth another look',
+}
+
 export function AnswerResult({ outcome, userAnswer, children }: AnswerResultProps) {
   return (
-    <div className="flex flex-col items-center gap-1 rounded-xl bg-surface-2 p-4 text-center">
-      <div className="flex items-center gap-2">
-        <Maru outcome={outcome} className="text-heading-sm" />
-        <div className="flex flex-col items-center gap-1">{children}</div>
+    <div className="flex flex-col gap-4">
+      <div className={`rounded-xl p-4 text-center ${BANNER_CLASSES[outcome]}`}>
+        <p className={`text-heading-sm font-semibold ${TEXT_CLASSES[outcome]}`}>
+          {HEADLINE[outcome]}
+        </p>
+        {userAnswer !== undefined && userAnswer !== '' && (
+          <p className={`mt-1 font-jp text-body-sm ${TEXT_CLASSES[outcome]}`}>
+            You answered: {userAnswer}
+          </p>
+        )}
       </div>
 
-      {userAnswer !== undefined && userAnswer !== '' && (
-        <p className="mt-1 text-body-sm text-fg-subtle">
-          you typed: <span className="font-jp">{userAnswer}</span>
-        </p>
-      )}
+      <div className="flex flex-col items-center gap-1 rounded-xl bg-surface-2 p-4 text-center">
+        {children}
+      </div>
     </div>
   )
 }
