@@ -37,6 +37,11 @@ export type { VoiceInputProps, VoiceInputStatus } from './VoiceInput'
 export { FillInput } from './FillInput'
 export type { FillInputProps, InputMode } from './FillInput'
 
+// Correctness vocabulary — the mark, and the frame that carries it
+export { Maru } from './Maru'
+export type { AnswerOutcome } from './Maru'
+export { AnswerResult } from './AnswerResult'
+
 // Iconography (named exports — tree-shake by import)
 export {
   SpeakerIcon,

@@ -3,12 +3,15 @@ import type { ReactNode } from 'react'
 type Props = {
   correct: number
   total: number
-  /** Label beneath the count. Defaults to "correct" — pass "recalled" for a softer framing. */
+  /**
+   * Label beneath the count. Defaults to "recalled" — the approved wording.
+   * "correct" is verdict prose and is not used anywhere in the product.
+   */
   label?: string
   children?: ReactNode
 }
 
-export function ScoreCard({ correct, total, label = "correct", children }: Props) {
+export function ScoreCard({ correct, total, label = "recalled", children }: Props) {
   return (
     <div className="flex flex-col gap-6">
       <div className="rounded-2xl border border-border bg-surface p-6 text-center">

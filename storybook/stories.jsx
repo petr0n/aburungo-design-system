@@ -557,6 +557,48 @@ const ScoreCardStories = {
   },
 };
 
+// ───── AnswerResult ────────────────────────────────────────────────────
+const AnswerResultStories = {
+  Recalled: {
+    render: () => (
+      <div className="w-full max-w-sm">
+        <AnswerResult outcome="recalled">
+          <p lang="ja" className="font-jp text-jp-lg text-fg">お願いします</p>
+          <p lang="ja" className="font-jp text-jp text-fg-muted">おねがいします</p>
+        </AnswerResult>
+      </div>
+    ),
+    code: () => `<AnswerResult outcome="recalled">
+  <p lang="ja" className="font-jp text-jp-lg text-fg">お願いします</p>
+  <p lang="ja" className="font-jp text-jp text-fg-muted">おねがいします</p>
+</AnswerResult>`,
+  },
+  'Worth another look': {
+    render: () => (
+      <div className="w-full max-w-sm">
+        <AnswerResult outcome="review" userAnswer="おねがいしします">
+          <p lang="ja" className="font-jp text-jp-lg text-fg">お願いします</p>
+          <p lang="ja" className="font-jp text-jp text-fg-muted">おねがいします</p>
+        </AnswerResult>
+      </div>
+    ),
+    code: () => `<AnswerResult outcome="review" userAnswer="おねがいしします">
+  <p lang="ja" className="font-jp text-jp-lg text-fg">お願いします</p>
+  <p lang="ja" className="font-jp text-jp text-fg-muted">おねがいします</p>
+</AnswerResult>`,
+  },
+  'Maru on its own': {
+    render: () => (
+      <div className="flex items-center gap-6 text-heading">
+        <Maru outcome="recalled"/>
+        <Maru outcome="review"/>
+      </div>
+    ),
+    code: () => `<Maru outcome="recalled"/>
+<Maru outcome="review"/>`,
+  },
+};
+
 // ───── FlipCard ────────────────────────────────────────────────────────
 function _FlipFace({ jp, reading, en, isBack }) {
   return (
@@ -848,6 +890,7 @@ window.STORIES = [
       { name: 'EmptyState',         stories: EmptyStateStories },
       { name: 'ErrorState',         stories: ErrorStateStories },
       { name: 'ScoreCard',          stories: ScoreCardStories },
+      { name: 'AnswerResult',       stories: AnswerResultStories },
       { name: 'FlipCard',           stories: FlipCardStories },
     ],
   },

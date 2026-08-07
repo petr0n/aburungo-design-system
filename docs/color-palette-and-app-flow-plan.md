@@ -1,0 +1,553 @@
+# AburunGo — Palette Migration & Flow Plan (v2)
+
+**Status:** draft — not started · **Scope:** `aburungo-design-system` only · **Palette:** v3 "Zuihoden", in hand and reviewed · **Branch prefix:** `feat/tokens-*`, `feat/flow-*`
+
+> **Posture: this repo is the source of truth. The drop is an input, not an authority.**
+>
+> The v3 drop is a good palette with an incomplete implementation — eight roles with no owner, a documented change that was never made, a brand mark wired to a deprecated alias, a focus ring that fails WCAG on every light surface, and half the component library missing. Reviewed on its merits, the colour thinking is sound and the execution is a first pass.
+>
+> So the plan does not wait for a better drop. It takes the palette, closes the gaps here, and sends corrections back. Everything missing is either mechanical (apply a token) or ordinary design work the skills in this plan exist to do. Nothing on the gap list requires going back to the source.
+
+---
+
+## Why v1 was rewritten
+
+v1 was a list of adjectives, not a plan. Every task was unfalsifiable ("stronger hierarchy", "better spacing", "more deliberate screen rhythm") — there was no way to tell whether a task was done. Four things to fix:
+
+1. **It treated the palette as the work.** The palette is the easy part — it's a set of hex values arriving from elsewhere. The hard part is that the repo has **six independent copies of the tokens**, so *any* palette change is a seven-file hand-edit plus a sweep of 27 preview pages. v1 planned the swap and ignored the plumbing that makes the swap expensive.
+2. **It put app-shell, onboarding, and navigation work in a repo that forbids it.** `CLAUDE.md`: no routing, no Supabase, no Zustand. And `../aburungo` already has 11 pages.
+3. **It never opened `docs/design-direction.md`** — the actual brief, sitting in the same folder. Which is how it arrived at `VISUAL_DENSITY: 8` ("dense dashboards") for a product whose brief says *Muji notebook, calm, minimal, whitespace used so accent moments feel intentional*.
+
+4. **It named four skills but configured none of them.** Each ships defaults that actively fight this brand — palette generators, style pickers, GSAP dependencies, density presets. Cited-but-unconfigured, they make the product worse. The skills section below assigns each one a job and names what to switch off.
+
+---
+
+## Ground truth
+
+### Six token sources, no single source of truth
+
+| # | File | Form | Feeds |
+|---|---|---|---|
+| 1 | `src/tokens.css` | `@theme` | `src/components/**` — the shipped package |
+| 2 | `colors_and_type.css` | `:root` | all 27 `preview/*.html`, via `preview/_card.css` |
+| 3 | `storybook/index.html:35` | inline `@theme` | the storybook |
+| 4 | `storybook/stories.jsx:301` | hardcoded hex array | the color-swatch story |
+| 5 | `ui_kits/mobile/index.html:44` | inline `@theme` | mobile UI kit |
+| 6 | `ui_kits/app/index.html:40` | inline `@theme` | app UI kit |
+| 7 | `ui_kits/desktop-explore.html:28` | inline `@theme` | desktop explore |
+
+Only #1 is the real one. **None of the other six read from it.** Every surface a human looks at — storybook, three UI kits, 27 preview pages — is disconnected from the token source, which is why they already drifted a full palette behind and why they'll drift again the moment the next one lands.
+
+**The v3 drop confirms this rather than fixing it.** Its harnesses carry the same hand-copied token blocks — 26 inline declarations in `storybook/index.html`, 43 in `ui_kits/mobile/index.html`, 26 each in `ui_kits/app/index.html` and `desktop-explore.html`, 31 in `colors_and_type.css`, plus 7 hardcoded hexes in `storybook/stories.jsx`. That's the third palette in a row propagated by hand into six places.
+
+Hand-fixing the values buys one clean day. Wiring the harnesses to the source is the actual work, and it's what turns a palette swap from a seven-file archaeology exercise into a one-file diff.
+
+Prose docs are stale too: `README.md`, `SKILL.md`, `CLAUDE.md`, `colors_and_type.css`.
+
+Two swatch pages (`preview/03-color-brand.html`, `preview/06-color-semantic-fg.html`) print hex values as literal page text rather than reading them from a variable. Whatever palette lands, they'll strand again unless that's fixed once.
+
+### The palette arrived — it's v3 "Zuihoden", and it's a full DS drop
+
+Located at `~/Downloads/AburunGo project setup Zuihoden/_ds/aburungo-design-system-1e624d61-…`. Reviewed in full. It is **not** a set of hex values — it's a parallel snapshot of this whole repo, repainted.
+
+**Five colors, one job each.** Akane 茜色 `#D72E2E` (brand mark + errors, never a CTA) · Ai-iro 藍色 `#1F3A66` (structure, primary action, headings, JP) · Rokushō 緑青 `#4F9C8D` (progress, correctness, secondary, links) · Ōgon 黄金 `#C9A045` (focus rings, scenario tags, dark hairlines) · Sumi-iro 墨色 `#2D2D2D` (inverse chrome). All on a warm stone ramp — ground `#F7F6F1`, cards `#FFFDF8`. The warm neutrals are load-bearing and deliberately not `#fff`.
+
+**The drop is ahead of us on tokens and assets, and behind us on components.**
+
+| | Drop | This repo |
+|---|---|---|
+| Tokens | v3 Zuihoden, fully role-based | v2 plum |
+| Components | **9** | **18** |
+| `brand.css` | `.hanko` + `.emboss-bg` only (151 lines) | + `.maru`, `.wm`, `.kata-vert`, `.ctype`, `.frame` (343 lines) |
+| Card animations | **absent** | `--animate-card-enter` / `-exit` + keyframes |
+| Mark assets | `logo-a-tile.png`, `pattern-sakura.png`, `logo-a-128.png` | none |
+| Adherence lint | `_adherence.oxlintrc.json` | none |
+
+### Following INTEGRATION.md verbatim would cause three regressions
+
+Its instructions assume a repo that has only the 9 components it ships. This repo has 18, and is ahead in two places.
+
+1. **`cp src/brand.css` deletes 192 lines** — the entire `.maru` / `.wm` / `.kata-vert` / `.ctype` / `.frame` / `.hanko.ink` system, including the maru that §3.0 depends on. **Merge, don't copy.**
+2. **Replacing `src/index.css` drops the card animations.** v3 defines no `--animate-card-*` and no keyframes; `FlipCard.tsx:16–17` uses `animate-card-enter` / `animate-card-exit`. Tailwind won't error — the classes silently stop generating and the flip animation dies. **Port the animation block forward.**
+3. **`cp -r src/components/*` repaints only 9 of 18.** The other nine — `AppHeader`, `EmptyState`, `ErrorState`, `FillInput`, `FlipCard`, `KanaKeyboard`, `LoadingPlaceholder`, `ScoreCard`, `VoiceInput` — don't exist in the drop and never get touched.
+
+### The good news: almost nothing in those nine actually breaks
+
+Verified — every one of the 38 distinct token suffixes the 18 components reference resolves under v3, all 13 type tokens exist, radii and shadows exist. Nothing errors, because v3 aliases every legacy name.
+
+**Exactly one real defect:** `FillInput` uses `ring-brand-500`, and under v3 `brand-500` resolves to **Akane red** — a red focus ring, indistinguishable from an error state. `HANDOFF.md` §4 flags this precise trap and fixes it in the four components it ships; `FillInput` isn't one of them. The other eight repo-only components are already role-based and repaint correctly for free.
+
+Two aliases changed meaning and are worth knowing: **`rose` now points at Ōgon gold** (was pink `#e6bbd7`) and **`dusk` at Ishi-iro grey**.
+
+### One structural defect (survives the palette swap)
+
+**No `prefers-reduced-motion` guard anywhere.** `--animate-card-enter` / `--animate-card-exit` (`src/tokens.css:144–157`) fire unconditionally; `src/index.css` has no guard either. This is not a palette issue — it stays broken through any number of palette changes. All four skills require it.
+
+### Contrast is a gate, not an audit
+
+Don't spend time scoring the outgoing palette. What matters is that **the incoming palette gets scored before it ships**, and that the check is a repeatable command rather than a one-off.
+
+Build `scripts/check-contrast.mjs` in Phase 2 (WCAG 2.1 relative luminance, ~20 lines, no dependencies). It reads the role tokens out of `src/tokens.css` and asserts:
+
+- text roles (`fg`, `fg-muted`, `fg-subtle`, `fg-faint`) ≥ 4.5:1 on `bg` and on `surface`
+- `fg-inverse` ≥ 4.5:1 on `brand-500` — primary buttons live or die here
+- `success-fg` on `success-bg`, `error-fg` on `error-bg` ≥ 4.5:1
+- focus ring ≥ 3:1 against every surface it can land on
+
+Wire it into `pnpm build`. A palette that fails the gate does not land.
+
+### v3 fails seven of those checks — one seriously
+
+Ran the gate's logic against the Zuihoden values ahead of building the script. Results, worst first:
+
+| Check | Ratio | Needs | |
+|---|---|---|---|
+| **Ōgon focus ring `#C9A045` vs page ground `#F7F6F1`** | **2.26:1** | 3:1 | **FAIL** |
+| **Ōgon focus ring vs card `#FFFDF8`** | **2.40:1** | 3:1 | **FAIL** |
+| **Ōgon focus ring vs well `#EFEDE5`** | **2.08:1** | 3:1 | **FAIL** |
+| `fg-faint` `#A4A4A4` vs card | 2.45:1 | 4.5:1 | FAIL |
+| `progress-fill` `#4F9C8D` vs track `#EFEDE5` | 2.77:1 | 3:1 | FAIL |
+| `fg-subtle` `#78736B` vs `surface-2` | 4.01:1 | 4.5:1 | FAIL |
+| `tag-fg` on `tag-bg` | 4.27:1 | 4.5:1 | FAIL |
+
+Everything else passes, several comfortably — `fg` 13.55:1, `fg-heading` 11.13:1, white on Ai-iro 11.13:1, white on Akane 4.78:1, error and success banners both clear.
+
+**The focus ring is the serious one.** v3 routes *every* interactive element's focus ring to Ōgon, and gold on warm paper is a low-contrast pairing by construction. It passes only against the Sumi-iro chrome (5.64:1). WCAG 2.1 SC 1.4.11 wants 3:1 for non-text UI indicators, so as it stands keyboard focus is under-visible across the entire light UI — which is most of the product.
+
+**The fix is already in the palette — no re-spec, no going back to the source.** Tested every step of the Ōgon ramp against all four grounds:
+
+| Candidate | card | page | well | chrome |
+|---|---|---|---|---|
+| `ogon-500` `#C9A045` *(current)* | 2.40 ✗ | 2.26 ✗ | 2.08 ✗ | 5.64 ✓ |
+| `ogon-600` `#ab8639` | 3.33 ✓ | 3.13 ✓ | 2.89 ✗ | 4.07 ✓ |
+| **`ogon-700` `#8a6a2b`** | **4.95 ✓** | **4.65 ✓** | **4.29 ✓** | 2.74 ✗ |
+
+No single step clears all four, because the requirement is contradictory — a gold that reads on warm paper cannot also read on near-black. So **split the role in two**, exactly as v3 already does for borders (`border` / `rule-on-inverse`):
+
+- `--color-focus` → `ogon-700` `#8a6a2b` — light surfaces
+- `--color-focus-on-inverse` → `ogon-500` `#C9A045` — Sumi-iro chrome
+
+Still Ōgon, still one brand colour, still gold leaf. `#8a6a2b` is *already* in the system as `--color-rule-on-inverse`, so this adds no new value. Ship it as ours and send it back as a correction rather than waiting on one.
+
+`progress-fill` vs its track (2.77:1) is the same shape of problem, solvable the same way — most likely by darkening the track, since the fill is a locked brand value.
+
+For `fg-faint`, note this is now the *second* palette in a row whose faint-text role fails — v2's was 3.60:1, v3's is 2.45:1. Send the thresholds with the brief next time.
+
+### Inventory to work against
+
+18 components: 5 primitives (`Button`, `TextInput`, `Card`, `Badge`, `IconButton`) + 13 domain (`PhraseCard`, `KanaGrid`, `KanaKeyboard`, `FlipCard`, `FillInput`, `VoiceInput`, `AudioButton`, `ProgressBar`, `ScoreCard`, `AppHeader`, `EmptyState`, `ErrorState`, `LoadingPlaceholder`). 1,156 lines total. Every one has a JSX mirror in `ui_kits/mobile/components.jsx` that must be kept in sync by hand — the second drift machine after the tokens.
+
+---
+
+## The four skills — what each one is actually for here
+
+Each ships defaults that conflict with this brand. The conflicts are called out because **unconfigured, all four make the product worse** — three of them will happily generate a palette, a font pairing, or a UI style over the top of ones that are already decided.
+
+### 1. `impeccable` (pbakaus) → **the CI gate**
+
+The only one of the four that produces a deterministic, machine-checkable artifact: a standalone detector CLI, 59 rules, no AI harness or API key required, JSON output. That belongs in CI, not in a conversation.
+
+- **Use:** `npx impeccable install` → `/impeccable init` generates `PRODUCT.md` + `DESIGN.md`. Seed both from `docs/design-direction.md` — don't let it interview from scratch, the brief already exists and is better than anything an interview produces.
+- **Commands in rotation:** `critique` (per component), `audit` (a11y/perf), `harden` (edge cases), `adapt` (responsive), `polish`.
+- **⚠️ Conflict:** its anti-pattern list bans purple gradients and gray-text-on-colored-backgrounds. AburunGo is a single-accent monochrome system and has been purple through two palettes running. `DESIGN.md` must record one-accent-by-design as intentional or the detector false-positives on every primary button — and it must say that in terms of the *role*, not a hex, so the new palette doesn't reopen it.
+
+### 2. `frontend-design` (anthropic) → **the per-surface build loop**
+
+Four steps: brainstorm → review against defaults → build → self-critique.
+
+- **Use:** the loop itself, run per surface. Its sharpest question — *what is the signature element?* — is already answered for this project: **the maru, scoped to correctness** (§3.0). Don't re-open it per surface; feed the answer in as a constraint.
+- **Also mandatory:** its self-critique gate — responsive, keyboard focus, reduced-motion.
+- **⚠️ Switch off:** its step-1 instruction to brainstorm a 4–6 color palette and pick display/body typefaces. The palette is arriving from elsewhere and the type is locked (Noto Sans / M PLUS Rounded 1c). Running that step produces a competing palette nobody asked for.
+
+### 3. `taste-skill` (leonxlnx) → **per-surface dials**
+
+- **Use:** `DESIGN_VARIANCE` / `MOTION_INTENSITY` / `VISUAL_DENSITY`, recorded **per surface** (table below), not globally. v1's global `VISUAL_DENSITY: 8` contradicted the brief outright and omitted `MOTION_INTENSITY` entirely despite spending a whole phase on motion.
+- **⚠️ Switch off:** its canonical code skeletons are GSAP. ADS ships zero runtime dependencies and animates with CSS keyframes (`--animate-card-enter`). Take the dials and the pre-flight checks; reject the skeletons.
+
+### 4. `ui-ux-pro-max` (nextlevelbuilder) → **checklist only, generators disabled**
+
+90% of this skill must be switched off for this project.
+
+- **⚠️ Switch off:** 192 color palettes, 84 UI styles (glassmorphism, claymorphism, bento grids, neumorphism), 74 font pairings. All three are locked here. Left on, this skill imports exactly the slop `docs/design-direction.md` forbids.
+- **Use:** the 98 UX guidelines, the industry anti-pattern rules, and the pre-delivery checklist — contrast ≥ 4.5:1, visible keyboard focus, `prefers-reduced-motion`, breakpoints 375 / 768 / 1024 / 1440, no emoji icons (already an ADS rule).
+- **⚠️ Conflict:** it prescribes `cursor-pointer` and 150–300ms hover transitions. ADS is touch-first with an explicit *no hover-only affordances* rule. Hover guidance is advisory; `active:` states and ≥44px targets are the requirement.
+
+---
+
+## Skill application map — where and when
+
+Three properties decide when each skill fires. Getting these wrong is how skills produce noise instead of improvement.
+
+| Skill | Altitude | Cadence | Direction |
+|---|---|---|---|
+| `taste-skill` | surface | once per surface, **before** design starts | constraint — feeds the generative step |
+| `frontend-design` | surface | once per surface | **generative** — trial and error lives here |
+| `impeccable` | component + repo | `shape`/`critique` per component; `detect` every build | both — `shape` generates, `detect` gates |
+| `ui-ux-pro-max` | component | once per component, at the end | gate |
+
+Two generate, two constrain-or-check. Running them in the wrong order is the main failure mode: generate first and the dials become an argument with work that already exists.
+
+### The four-beat loop
+
+The pattern for every surface. Beats 1–2 are cheap and disposable; beat 4 is where it locks.
+
+1. **Constrain** — `taste-skill`. Set the three dials for this surface from the table below. Dials go first because they narrow what beat 2 produces. Skip this and you get dashboard-density flashcards.
+2. **Explore** — `frontend-design` loop + `/impeccable shape`. Generate 2–3 variants. **This is the trial-and-error beat**, and it runs in the sandbox, never in `src/components/`.
+3. **Build** — the chosen variant only. TSX → JSX mirror → story.
+4. **Gate** — `ui-ux-pro-max` pre-delivery checklist + `impeccable detect`. Pass/fail, no discussion.
+
+### Where trial and error goes
+
+`preview/` and `ui_kits/` are already static HTML harnesses served over `http.server`. That's the sandbox — no build step, no typecheck, no JSX mirror to sync.
+
+Generate variants as throwaway `preview/_sandbox/*.html`, view them side by side, pick one, *then* write TSX.
+
+> **Rule: no skill output goes straight into `src/components/`.** The package only ever receives a variant a human already chose.
+
+This is what makes trial and error cheap. A bad `/impeccable craft` result costs one HTML file, not a component rewrite plus JSX mirror plus story plus rebuild. Decide whether `preview/_sandbox/` is gitignored or kept as a design record — keeping the winners is useful provenance.
+
+### When: split the work by whether it depends on color
+
+Roughly 70% of the component work does not touch color and should not wait for the palette.
+
+**Do now — palette-independent:**
+- structure, spacing, density (`VISUAL_DENSITY`)
+- motion and reduced-motion (`MOTION_INTENSITY`)
+- the five states: loading, empty, error, success, in-progress
+- touch targets, focus order, keyboard navigation
+- type hierarchy, JP/EN pairing, furigana vertical rhythm
+
+**Queue for after Phase 5 — palette-dependent:**
+- accent placement — where the single accent is allowed to land
+- the contrast pass
+- correct/incorrect feedback semantics
+- impeccable's color rules (gray-on-color, gradient detection)
+
+### Point each skill at a low-risk target first
+
+Learn what a skill's output looks like on something cheap before spending it on a core surface.
+
+| Skill | Start with | Why there |
+|---|---|---|
+| `frontend-design` | `EmptyState`, `ErrorState` | the brief says charm belongs here; VARIANCE 4 gives the most room; 3 small components, ~19 lines each — lowest blast radius |
+| `taste-skill` | `ScoreCard`, `ProgressBar` | the only surface at DENSITY 6, so the dials do visible work — and the surface most at risk of drifting gamified |
+| `impeccable` | `Button`, `TextInput`, `Card` | primitives that 13 components depend on; detector rules pay off most on high-reuse code |
+| `ui-ux-pro-max` | `KanaKeyboard`, `FillInput` | densest interaction surfaces (137 and 203 lines), most touch targets — where an a11y checklist earns its keep |
+
+### What to expect, so you can judge output fast
+
+Calibration for the trial-and-error phase — knowing the expected hit rate stops you from over-reading a weak result.
+
+- **`frontend-design`** — high value, low volume. Expect roughly one good structural idea per surface. If it proposes a palette, step 1 was left switched on.
+- **`taste-skill`** — narrow by design. Three numbers moving spacing and motion. Its value is *consistency across* surfaces, not brilliance on any one.
+- **`impeccable detect`** — highest signal-to-noise of the four, because it's deterministic. `craft` and `shape` output is far more variable; treat it as a first draft, not a recommendation.
+- **`ui-ux-pro-max`** — will mostly confirm what `CLAUDE.md` already says. Its job is catching the one thing you forgot, not proposing direction. Expect a low hit rate and don't read that as the skill failing.
+
+---
+
+## Per-surface taste dials
+
+Density low by default per the Muji brief; raised only where real data density exists. Variance stays low everywhere except the two surfaces where `docs/design-direction.md` says charm belongs (empty states, progress language).
+
+| Surface | Components | DENSITY | VARIANCE | MOTION |
+|---|---|---|---|---|
+| Flashcard review | `FlipCard`, `PhraseCard` | 3 | 2 | 3 |
+| Kana practice | `KanaGrid`, `KanaKeyboard` | 4 | 2 | 3 |
+| Pronunciation | `VoiceInput`, `AudioButton` | 3 | 2 | 3 |
+| Cloze / fill | `FillInput` | 3 | 2 | 2 |
+| Progress summary | `ProgressBar`, `ScoreCard` | 6 | 3 | 2 |
+| App shell | `AppHeader` | 3 | 2 | 1 |
+| Empty / error / loading | `EmptyState`, `ErrorState`, `LoadingPlaceholder` | 2 | 4 | 2 |
+
+`MOTION_INTENSITY` never exceeds 3 anywhere: the brief calls for motion that reinforces the next step, and every value above 3 in taste-skill implies scroll-driven or magnetic interaction, which a touch-first study app does not have.
+
+---
+
+## Phase 0 — Toolchain and brief
+
+**Branch:** `build/design-toolchain`
+
+| # | Task | Done when |
+|---|---|---|
+| 0.1 | `npx impeccable install` | `npx impeccable --help` runs |
+| 0.2 | `/impeccable init`, seeded from `docs/design-direction.md` | `PRODUCT.md` + `DESIGN.md` at repo root, recording: one accent, no gamification, touch-first, Noto Sans + M PLUS Rounded 1c |
+| 0.3 | `npx skills add https://github.com/Leonxlnx/taste-skill` | dials table above copied into `DESIGN.md` |
+| 0.4 | `/plugin marketplace add nextlevelbuilder/ui-ux-pro-max-skill`, then install | `DESIGN.md` records generators-disabled |
+| 0.5 | Vendor `frontend-design` into `.claude/skills/` | skill loads |
+| 0.6 | Baseline detector run over `src/ preview/ storybook/ ui_kits/`, JSON to `.impeccable/baseline.json` | baseline committed; finding count recorded → **N = ____** |
+| 0.7 | ~~Source or redraw `assets/logo-a-tile.png`~~ — **closed by the v3 drop.** Copy `logo-a-tile.png`, `pattern-sakura.png`, `logo-a-128.png` from the drop's `assets/`. They're hue-remapped rasters, good enough to ship; have the mark redrawn as vector in Akane before any large or print use | `.hanko` renders the ア at 24 / 48 / 96px |
+| 0.8 | Write the maru boundary rule (§3.0) into `DESIGN.md` | rule present verbatim; impeccable won't flag ○/✕ as ornament |
+| 0.9 | Adopt the drop's `_adherence.oxlintrc.json` as a second deterministic gate — bans raw hex, raw px, non-DS fonts, and deep imports past the barrel | `pnpm lint` runs it; findings recorded alongside the impeccable baseline |
+
+`DESIGN.md` is written against the brand *rules*, not against specific hex values — it has to survive the palette swap without edits.
+
+---
+
+## Phase 1 — Collapse six token sources into one
+
+**Branch:** `feat/tokens-single-source` · **This is the phase that makes the inbound palette a one-file diff.**
+
+| # | Task | Done when |
+|---|---|---|
+| 1.1 | Write `scripts/build-tokens.mjs`: read `src/tokens.css`, extract the `@theme` body, emit `dist/tokens.plain.css` as `:root { … }` — including un-prefixed aliases (`--brand-500` → `var(--color-brand-500)`) so the 27 preview pages keep working unmodified | script < 40 lines, no dependencies; `node scripts/build-tokens.mjs` produces the file |
+| 1.2 | Wire it into `pnpm build` (prepend to the `tsup` script) | `pnpm build` regenerates `dist/tokens.plain.css` |
+| 1.3 | Delete the `:root` token block from `colors_and_type.css`; replace with `@import url("./dist/tokens.plain.css")`. Keep the `@font-face` rules | all 27 `preview/*.html` render plum under `python3 -m http.server`; `grep -c aa3bff colors_and_type.css` → 0 |
+| 1.4 | Replace the inline `@theme` block in `storybook/index.html` with `@import "/src/tokens.css";` inside the existing `<style type="text/tailwindcss">` | storybook renders plum. **Verify under `http.server` — `file://` will not resolve the import** (see MEMORY.md). Fallback if the browser build won't follow the import: link `dist/tokens.plain.css` instead |
+| 1.5 | Same for `ui_kits/mobile/index.html`, `ui_kits/app/index.html`, `ui_kits/desktop-explore.html` | all three render plum |
+| 1.6 | `storybook/stories.jsx:301` — replace the hardcoded hex array with values read from computed styles | swatch story shows plum without hardcoded hex |
+| 1.7 | Make the two swatch pages read hex values from computed styles instead of printing them as literal text | `preview/03-color-brand.html` and `preview/06-color-semantic-fg.html` contain no hardcoded hex |
+| 1.8 | Strip hex values out of prose (`README.md`, `SKILL.md`, `CLAUDE.md`, `colors_and_type.css` header) — refer to roles, and point at `docs/colors.md` for values | no hex literal appears in any `.md`; `grep -rn "aa3bff"` → 0 |
+
+**Phase 1 acceptance:** one command (`pnpm build`) propagates a token change to the package, the storybook, all three UI kits, and all 27 preview pages. Verified by changing `--color-brand-500` to `#ff0000`, rebuilding, confirming every surface goes red, then reverting.
+
+That test *is* the Phase 5 dry run.
+
+---
+
+## Phase 2 — Freeze the semantic token contract
+
+**Branch:** `feat/tokens-semantic-contract` · Runs before the new palette lands, so the swap can't break 27 pages.
+
+| # | Task | Done when |
+|---|---|---|
+**This phase shrank.** v3 is already fully role-based — `action`, `action-press`, `action-2-*`, `focus`, `tag-bg`/`tag-fg`, `progress-track`/`fill`/`complete`, `link`, `rule-on-inverse`, `fg-heading`. The design work Phase 2 was going to do has been done for us. What remains is adopting those names and closing the gaps they don't cover.
+
+| # | Task | Done when |
+|---|---|---|
+| 2.1 | Adopt v3's role vocabulary as the contract. Audit which of the 18 components still reference a *value* token (`brand-500`, `rose`, `dusk`) rather than a role | role-vs-value table in `docs/colors.md`; known offender list starts at `FillInput` |
+| 2.2 | Convert value references to roles. **Priority: `FillInput`'s `ring-brand-500` → `ring-focus`** — under v3 that ring is currently Akane red and reads as an error | `grep -rE "(ring\|bg\|text)-(brand-[0-9]+\|rose\|dusk)" src/components/` returns nothing |
+| 2.3 | Fill the gaps v3 leaves: disabled state, and a documented press state for every interactive role | new role aliases present; no component uses a numbered scale token for a semantic purpose |
+| 2.3b | Decide whether `--color-correct` / `--color-incorrect` stay distinct from `success-*` / `error-*`. v3 gives them the same hexes (Rokushō / Akane) but different stated intent — "progress, correctness" vs "correctness banners". Distinct role names cost nothing now and prevent a future error-styling change from silently restyling study grading | decision recorded in `docs/colors.md` with the rationale |
+| 2.4b | Port the card animation block forward — `--animate-card-enter`, `--animate-card-exit` and both `@keyframes`. **v3 omits them and `FlipCard` depends on them** | `FlipCard` animates after the v3 tokens land |
+| 2.6 | **Orphan-token audit** (see below) — for every role v3 defines, find its implementation or record that it has none | every v3 role is either used, assigned an owner component, or explicitly parked with a reason |
+| 2.4 | Write `scripts/check-contrast.mjs` (gate spec above) and wire it into `pnpm build` | gate runs on every build and fails loudly; current palette's failures are recorded as the known-bad baseline the incoming palette must beat |
+| 2.5 | Add `@media (prefers-reduced-motion: reduce)` to `src/index.css` neutralising `--animate-card-enter` / `--animate-card-exit` | animations disabled under the OS setting; verified in the storybook |
+
+### Task 2.6 — the orphan-token audit, and why it's the gap in this plan
+
+Copying the nine missing components forward is the easy half. The harder half is that **v3 defines and documents roles that nothing implements** — design intent that arrives as a token, gets cheat-sheeted in `INTEGRATION.md`, and is then silently never built. A component-by-component pass will not catch it, because the components in question look fine; they're just not doing what the palette says they should.
+
+Audited across both the drop and this repo. Eight roles have **zero implementations in either**:
+
+| Orphaned role | What v3 says it's for | Owner it should have |
+|---|---|---|
+| `bg-inverse` `#2D2D2D` | "header band, kana keyboard frame" | `AppHeader`, `KanaKeyboard` |
+| `rule-on-inverse` `#8a6a2b` | the Ōgon hairline on Sumi-iro chrome | `AppHeader`, `KanaKeyboard` |
+| `fg-on-inverse-2` `#A4A4A4` | secondary text on inverse surfaces | `AppHeader`, `KanaKeyboard` |
+| `shadow-key-on-inverse` | key elevation on dark chrome | `KanaKeyboard` |
+| `progress-complete` `#C9A045` | "a completed bar caps with Ōgon" | `ProgressBar` |
+| `tag-bg` / `tag-fg` | scenario tags | `Badge` (emphasis variant) |
+| `link` `#33685E` | links | **no component exists** |
+| `border-focus` `#5c7aa8` | — unclear, distinct from `focus` | unassigned |
+
+Note the shape of it: **`AppHeader` and `KanaKeyboard` are two of the nine components the drop doesn't ship**, and four of the eight orphans exist specifically to style them. v3 designed the inverse-chrome treatment and had no component to apply it to. That intent survives only if someone goes looking for it.
+
+**Three more findings the plan needs to carry:**
+
+1. **`HANDOFF.md` §4 item 5 documents a change that wasn't made.** It states `Badge`'s emphasised neutral was repainted to `bg-tag-bg` / `text-tag-fg`. `Badge.tsx:23` still reads `neutral: 'bg-surface-2 text-fg-subtle'` — the scenario tag is still grey. Trust the code, not the table; the repaint is ours to do.
+2. **`.hanko` depends on a deprecated alias.** v3's `brand.css` fills the mark with `var(--color-brand-500)`, not `var(--color-accent)`. It renders correctly today only because `brand-500` aliases to Akane — and `HANDOFF.md` explicitly calls legacy names "a migration bridge, not API". Retire the aliases and the brand mark breaks. Point it at `--color-accent`.
+3. **`KanaKeyboard` gets the right pixel from the wrong role.** It uses `bg-fg`, which is `#2D2D2D` — the same value as `bg-inverse`. Correct today, wrong the moment body text and inverse chrome diverge.
+
+**Design elements with no component at all:** `.emboss-bg` is a `brand.css` utility used only in demos — `INTEGRATION.md` shows `<div className="emboss-bg on-brand">` for scenario cards, but no component owns that pattern. Same for links. Both are Phase 3 decisions: build a component, or record that the utility is applied ad-hoc by the app and stays out of the library.
+
+**Phase 2 acceptance:** the inbound palette can be dropped in by editing only the hex values in `src/tokens.css` — no role names change, no component changes, no preview edits — **and** every role v3 defines has either an implementation or a written reason it doesn't.
+
+---
+
+## Phase 3 — Component pass
+
+**Branch:** `feat/component-audit` · Runs **before** the palette arrives — this is the ~70% that doesn't depend on color. Needs Phase 1 first only so the harnesses actually track the token source.
+
+### 3.0 — The signature element: DECIDED
+
+**The maru becomes the correctness vocabulary. Nothing more.**
+
+○ / ✕ replace check/cross wherever the learner judges an answer. The hanko may anchor empty states. The mark appears nowhere else — no section stamps, no progress notation, no emboss pattern on cards.
+
+**Where the mark does *not* go: automatic verdicts.** When the app checks an answer rather than the learner grading it, the treatment is a **quiet reveal** — show the correct answer, no mark and no banner. The learner compares for themselves. This is the one place a mark would read as the app pronouncing judgment, which is the line the assessment rule keeps (see below).
+
+**Why this and not the fuller motif system:** in Japanese schooling, ○ (maru) means correct and ✕ (batsu) means incorrect — not a checkmark and a cross. It's justified by something *outside* our own taste: ○ means correct in Japanese regardless of what AburunGo decides, so the usage stays right even if the brand changes. Every additional surface (section headers, progress rails, scenario cards) is a judgement call, and judgement calls are what drift.
+
+**Colour, revised for v3 — the mark and the correctness glyph are no longer the same colour:**
+
+| Glyph | Colour | Token |
+|---|---|---|
+| ○ correct | Rokushō 緑青 `#4F9C8D` | `--color-progress-fill` / `--color-success-500` |
+| ✕ incorrect | Akane 茜色 `#D72E2E` | `--color-error-500` |
+| the hanko | Akane 茜色 `#D72E2E` | `--color-accent` |
+
+Under v3 the hanko is red and Akane is reserved for "brand mark and errors, never a CTA". **A red ○ would read as an error** — so the correct-mark takes Rokushō, which v3 already assigns to "progress, correctness".
+
+This costs the decision one of its arguments (the brand mark and the correct-mark are no longer the same colour) but not its core, which was always about *shape*. And it gains a better one: v3 arrived at a dedicated correctness colour independently, and repainted `Button` `secondary` to Rokushō explicitly so that — in `HANDOFF.md`'s words — "the rating pair is legible at a glance." The drop was already building toward the FlipCard grading pair. Option B slots into it.
+
+**The boundary — write this into `DESIGN.md` verbatim:**
+
+> A maru marks an answer. It never accumulates.
+> Transient and per-answer is annotation. Persistent and per-user is a badge.
+> The moment a maru survives onto a profile screen, it has become gamification.
+
+That line is the whole guardrail. Without it, this decision degrades into the reward loop `CLAUDE.md` bans.
+
+**Cleared against the assessment rule (2026-08-07).** §3.0 originally conflicted with `product_assessment_principles`, which banned right/wrong colour feedback and any ratio. That rule was **revised in favour of §3.0**: the line moved from *colour and glyph* to *prose and persistence*. Per-answer ○/✕ in Rokushō and Akane is now the sanctioned vocabulary; the `ScoreCard` mark row is approved; the "never a ratio" bullet was retired as moot, since a ten-mark row is itself a ratio. Two constraints survive and bind this section:
+
+- **No verdict prose.** "recalled" not "correct", "worth another look" not "missed". The glyph carries the judgment; the words stay calm. This is why the `FillInput` treatment above is a quiet reveal rather than a mark.
+- **No accumulation** — the boundary rule quoted above, which is now the *only* thing separating this vocabulary from a reward loop and should be treated as load-bearing rather than a footnote.
+
+**Also in 3.0 — sandbox setup.** Create `preview/_sandbox/`, decide gitignored vs. kept. Every variant lands here first.
+
+Then run per component, in this order — primitives first, since 13 domain components depend on them:
+
+`Button` → `TextInput` → `Card` → `Badge` → `IconButton` → `PhraseCard` → **`FlipCard`** → **`KanaGrid`** → `KanaKeyboard` → `FillInput` → `VoiceInput` → `AudioButton` → `ProgressBar` → **`ScoreCard`** → `AppHeader` → **`EmptyState`** → `ErrorState` → `LoadingPlaceholder`
+
+**Bold = carries maru work** (per §3.0). Four components, and only these four:
+
+| Component | Change |
+|---|---|
+| `FlipCard` | self-grade buttons carry ○ / ✕ alongside their text labels |
+| `ScoreCard` | per-answer mark row in addition to the total — shows *which*, not just how many. **Also flip the `label` default from `"correct"` to `"recalled"`** ([`ScoreCard.tsx:11`](../src/components/ScoreCard.tsx)) — verdict prose is the one thing the revised assessment rule still bans, and the compliant word is currently the opt-in |
+| `KanaGrid` | learned state becomes a ring around the cell, not a background fill — keeps the kana legible underneath |
+| `EmptyState` | optional outline hanko as a quiet anchor |
+
+`FillInput` carries **no mark** — it gets the quiet reveal described above. Note it has no feedback state at all today (it is pure input; the app owns the result), so this is a decision not to add judgment UI rather than a restyle of existing UI.
+
+The other 14 get the standard pass with no mark work.
+
+**Per-component loop** — the four-beat loop from the skill application map, run once per component:
+
+1. **Constrain** — read this surface's dials off the table. No generation before the dials are set.
+2. **Explore** — `frontend-design` loop (palette/type step off) + `/impeccable shape <component>`. 2–3 variants as static HTML in `preview/_sandbox/`. Then the defaults test: *would this work equally well for any other flashcard app?* If yes it's a template answer — discard and go again. Budget two rounds; if round three isn't better, ship round two and move on.
+3. **Build** — the chosen variant only. TSX in `src/components/`, then the JSX mirror in `ui_kits/mobile/components.jsx`, then the story.
+4. **Gate** — all checks below.
+
+Colour-dependent findings get logged, not fixed — they're revisited in one pass after Phase 5 rather than guessed at against a palette that's about to be replaced.
+
+**Per-component gate — all of these must pass before the next component starts:**
+
+- [ ] `pnpm typecheck` clean
+- [ ] `npx impeccable detect src/components/<X>.tsx` — no new findings vs baseline
+- [ ] Touch target ≥ 44px; `active:` state present; no hover-only affordance
+- [ ] Visible keyboard focus ring; text contrast ≥ 4.5:1
+- [ ] Renders at 375 / 768 / 1024 / 1440
+- [ ] No gamification ornament; filled inline SVG icons only; no emoji
+- [ ] **On the four mark components:** ○ / ✕ are glyphs, not icons — each needs an `aria-label`, and meaning must ride on **three channels** (glyph + color + text label), never the glyph alone. A screen reader must never receive a bare "circle".
+- [ ] **No verdict prose anywhere:** "recalled" / "worth another look", never "correct" / "missed" / "wrong". Applies to all 18, not just the four.
+
+Note that most gate items are palette-independent; the two that aren't (contrast, accent placement) are checked again in Phase 5 against the real palette. Passing them now against the outgoing palette is a smoke test, not the final word.
+
+---
+
+## Phase 3B — Close the gaps the drop left
+
+**Branch:** `feat/close-gaps` · Runs inside Phase 3's four-beat loop, on the surfaces §2.6 identified as orphaned.
+
+This is where the skills earn their place. Everything below is work the drop specified and didn't build, or didn't specify at all — and none of it needs another handoff.
+
+**Not everything here needs a skill.** Reaching for a generative skill on a solved pattern is waste. Sorted by what it actually takes:
+
+| Gap | How | Skill | Dials |
+|---|---|---|---|
+| `Badge` → scenario tag (`tag-bg`/`tag-fg`) | mechanical — apply the tokens `HANDOFF.md` already specified | none | — |
+| `.hanko` → `--color-accent` | mechanical — one-line alias fix | none | — |
+| `KanaKeyboard` `bg-fg` → `bg-inverse` | mechanical — right pixel, wrong role | none | — |
+| Focus-ring split (`focus` / `focus-on-inverse`) | decided above; apply + verify with the contrast gate | none | — |
+| `ProgressBar` completion cap (`progress-complete`) | small design call: does a finished bar cap in Ōgon, or is that ornament? | `/impeccable shape` | 6 / 3 / 2 |
+| **Inverse chrome** — `AppHeader`, `KanaKeyboard` on Sumi-iro with Ōgon hairline, `fg-on-inverse-2`, `shadow-key-on-inverse` | **real design work.** v3 designed a treatment and shipped no component wearing it | `frontend-design` explore → `impeccable critique` | shell 3/2/1 · kana 4/2/3 |
+| **Scenario card** — `.emboss-bg` has no component owner | **real design work**, and the one surface where the pattern is sanctioned | `frontend-design` — this is its best target in the whole plan | 3 / 3 / 2 |
+| Link treatment (`--color-link`) | solved pattern — don't design it, look it up | `ui-ux-pro-max` checklist | — |
+| `border-focus` `#5c7aa8` | purpose unclear in v3 | decide an owner or delete the token | — |
+
+**Sequencing note:** the two "real design work" rows are the only ones that go through the full explore beat with variants in `preview/_sandbox/`. The mechanical rows are done directly — running a generative skill over a one-line token fix is exactly the waste this plan is trying to avoid.
+
+**Phase 3B acceptance:** the §2.6 orphan table has zero rows left without either an implementation or a written reason, and `docs/colors.md` records every correction made to the drop so it can be sent back as a diff rather than a complaint.
+
+---
+
+## Phase 4 — Flow mockups (static, in-repo)
+
+**Branch:** `feat/flow-mockups` · **Static HTML/JSX only.** No routing, no state management, no Supabase — `CLAUDE.md` boundary. Real wiring happens in `../aburungo` later via `/handoff-to-app`.
+
+Land in `ui_kits/mobile/screens.jsx` + `preview/`. Mirror the 11 pages that already exist in `../aburungo/src/pages/` rather than inventing new ones:
+
+| Flow | Mirrors | Screens |
+|---|---|---|
+| Session start | `LearnPage`, `PracticePage` | entry, unit select, session config |
+| Flashcard round | `FlashcardPage` | prompt, reveal, self-grade, round summary |
+| Kana practice | `KanaPage`, `KanaPracticePage` | grid, drill, keyboard entry, result |
+| Pronunciation | `ConversationPage` | idle, recording, processing, scored, retry |
+| Progress | `ProfilePage` | overview, per-unit detail |
+
+Each flow ships **all five states** — loading, empty, error, success, in-progress — not just the happy path. That's `/impeccable harden` + `onboard` territory, and it's where v1's "strengthen stateful experiences" bullet becomes checkable: 5 flows × 5 states = 25 mockups, each either present or not.
+
+---
+
+## Phase 5 — Merge the v3 drop
+
+**Branch:** `feat/palette-v3` · **No longer blocked** — the drop is in hand.
+
+This is a **merge, not a copy.** The drop is ahead on tokens and assets and behind on components and `brand.css`, so `INTEGRATION.md`'s three `cp` commands are wrong for this repo (see ground truth above). Nothing gets overwritten wholesale.
+
+| # | Task | Guard |
+|---|---|---|
+| 5.1 | Port v3's `@theme` block into `src/tokens.css`, **keeping** the card-animation tokens and keyframes (task 2.4b) | `FlipCard` still animates |
+| 5.2 | Copy `assets/logo-a-tile.png`, `pattern-sakura.png`, `logo-a-128.png` | `.hanko` renders the ア |
+| 5.3 | **Merge** v3's `brand.css` — take its `.hanko` / `.emboss-bg` updates, keep our `.maru`, `.wm`, `.kata-vert`, `.ctype`, `.frame`, `.hanko.ink` | `brand.css` still exports all six utility groups; §3.0's maru survives |
+| 5.4 | Apply the five component repaints from `HANDOFF.md` §4 — `Button` primary/secondary, focus rings on `Button`/`TextInput`/`IconButton`/`KanaGrid`, `ProgressBar` fill, `Badge` emphasised → scenario tag | diffs match §4 exactly |
+| 5.5 | **Repaint the nine the drop doesn't ship.** Only `FillInput` has a legacy-token defect (`ring-brand-500` → red); the other eight are role-based already and just need verifying | `grep` for legacy tokens in `src/components/` returns nothing |
+| 5.5b | **Apply the inverse-chrome treatment the drop designed but never built** — `AppHeader` and `KanaKeyboard` take `bg-inverse`, `rule-on-inverse`, `fg-on-inverse-2`, `shadow-key-on-inverse`. Fix `KanaKeyboard`'s `bg-fg` → `bg-inverse` while there | the four inverse roles have implementations |
+| 5.5c | Build the rest of the orphan list from §2.6 — `progress-complete` cap on `ProgressBar`, `tag-bg`/`tag-fg` on `Badge` emphasis (**`HANDOFF.md` claims this shipped; it did not**) | orphan count reaches zero or each remainder has a written reason |
+| 5.5d | Repoint `.hanko` from `var(--color-brand-500)` to `var(--color-accent)` so the brand mark stops depending on a deprecated alias | mark renders with legacy aliases removed |
+| 5.6 | Migrate the deprecated `Button` `accent` variant to `primary` and drop it | no call sites remain |
+| 5.7 | `pnpm build` — contrast gate runs against real v3 values | the seven known failures above are either fixed or explicitly accepted; **the focus-ring failure should be resolved with the palette author, not silently re-tinted** |
+| 5.8 | `npx impeccable detect` + oxlint adherence — compare to baseline | no regression |
+| 5.9 | Work the deferred colour queue from Phase 3 | accent placement, correct/incorrect semantics, focus-ring contrast per surface |
+| 5.10 | Visual sweep: storybook + 3 UI kits + 27 preview pages | all render v3 |
+| 5.11 | Replace `docs/colors.md` with the drop's v3 version; fold `HANDOFF.md` in as provenance | palette rationale matches what ships |
+
+**The Phase 1 test still applies to 5.1:** if porting the token block requires touching any file other than `src/tokens.css`, Phase 1 wasn't finished. Tasks 5.2–5.6 are the drop's *other* payload — components, assets, brand utilities — and were always going to be separate work.
+
+**A stale comment to fix while you're in there:** v3's `TextInput.tsx:8` says "focus ring is Akane" but the code correctly uses `ring-focus` (Ōgon). The comment is wrong, not the code.
+
+---
+
+## Deliverables
+
+1. `scripts/build-tokens.mjs` — one token source, six consumers, zero hand-copies
+2. `scripts/check-contrast.mjs` — a contrast gate that scores any palette on `pnpm build`
+3. `PRODUCT.md` + `DESIGN.md` — the brief, machine-readable, written in roles not hexes
+4. `.impeccable/baseline.json` + a CI gate that fails on regression
+5. `preview/_sandbox/` — the variant workshop, where skill output gets tried before it gets shipped
+6. 18 components passing the seven-point gate
+7. A correctness vocabulary — ○ / ✕ across the four self-grading surfaces (quiet reveal where the app checks instead), plus the boundary rule that keeps it from becoming a badge
+7b. Zero orphaned roles — every token v3 defines has an implementation or a written reason, and `docs/colors.md` carries the corrections as a diff to send back
+8. 25 flow mockups (5 flows × 5 states) in `ui_kits/` + `preview/`
+9. A palette swap that is a one-file diff
+
+---
+
+## Explicitly out of scope
+
+- **App-side work.** No changes in `../aburungo`. Flows ship as mockups; integration happens later via `/handoff-to-app`.
+- **New components.** 18 is enough. Re-audit before extending — anything new is speculative until a flow mockup proves it's missing.
+- **Killing the JSX mirrors.** `ui_kits/mobile/components.jsx` duplicating all 18 TSX components is a real drift machine and the obvious next cleanup, but consolidating it is its own project. Noted, deferred, not smuggled into this plan.
+- **Dark mode.** Not in the brief, not in the tokens, not requested.
+- **The fuller motif system (option C).** Section stamps, progress notation, serial-number framing from `.frame`, and the `.emboss-bg` sakura pattern on scenario cards. Rejected for now — every one of those is a taste call rather than a pedagogical one, and they're the surfaces that walk toward the badge line. Consequently `assets/pattern-sakura.png` is **not** needed; only `logo-a-tile.png` is (task 0.7). Revisit once the correctness vocabulary has shipped and proven itself.
+
+---
+
+## Execution order and dependencies
+
+```
+Phase 0 (toolchain + brief + assets)
+   └─> Phase 1 (single-source tokens)        ← unblocks everything
+          ├─> Phase 2 (adopt v3 roles + gates)
+          │      └─> Phase 5 (merge the v3 drop)
+          │             └─────────────────┐
+          └─> Phase 3 (component pass) ───┴─> Phase 3B (close the gaps)
+                 ↑ ~70% palette-independent        └─> Phase 4 (flows)
+```
+
+**Phase 5 moved earlier.** It was last because it was blocked on a palette that hadn't arrived. It has arrived, and it changes what the components look like — so merging it *before* the bulk of Phase 3 means the component pass happens once, against v3, instead of twice.
+
+Recommended order: **1 → 2 → 5 → 3 → 4.** Phase 3's palette-independent work (structure, density, motion, states, touch targets) can still start in parallel with 2 and 5; only the colour-dependent half needs to wait.
+
+**What hasn't changed:** Phase 1 is still the highest-value work in the plan, and the drop is the argument for it. Three palettes have now been propagated by hand into six places. Do Phase 1 first and this is the last time.
