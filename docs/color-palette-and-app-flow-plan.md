@@ -57,7 +57,7 @@ Located at `~/Downloads/AburunGo project setup Zuihoden/_ds/aburungo-design-syst
 | | Drop | This repo |
 |---|---|---|
 | Tokens | v3 Zuihoden, fully role-based | v2 plum |
-| Components | **9** | **18** |
+| Components | **9** | **20** |
 | `brand.css` | `.hanko` + `.emboss-bg` only (151 lines) | + `.maru`, `.wm`, `.kata-vert`, `.ctype`, `.frame` (343 lines) |
 | Card animations | **absent** | `--animate-card-enter` / `-exit` + keyframes |
 | Mark assets | `logo-a-tile.png`, `pattern-sakura.png`, `logo-a-128.png` | none |
@@ -65,15 +65,15 @@ Located at `~/Downloads/AburunGo project setup Zuihoden/_ds/aburungo-design-syst
 
 ### Following INTEGRATION.md verbatim would cause three regressions
 
-Its instructions assume a repo that has only the 9 components it ships. This repo has 18, and is ahead in two places.
+Its instructions assume a repo that has only the 9 components it ships. This repo has 20, and is ahead in two places.
 
 1. **`cp src/brand.css` deletes 192 lines** — the entire `.maru` / `.wm` / `.kata-vert` / `.ctype` / `.frame` / `.hanko.ink` system, including the maru that §3.0 depends on. **Merge, don't copy.**
 2. **Replacing `src/index.css` drops the card animations.** v3 defines no `--animate-card-*` and no keyframes; `FlipCard.tsx:16–17` uses `animate-card-enter` / `animate-card-exit`. Tailwind won't error — the classes silently stop generating and the flip animation dies. **Port the animation block forward.**
-3. **`cp -r src/components/*` repaints only 9 of 18.** The other nine — `AppHeader`, `EmptyState`, `ErrorState`, `FillInput`, `FlipCard`, `KanaKeyboard`, `LoadingPlaceholder`, `ScoreCard`, `VoiceInput` — don't exist in the drop and never get touched.
+3. **`cp -r src/components/*` repaints only 9 of 20.** The other eleven — `AppHeader`, `EmptyState`, `ErrorState`, `FillInput`, `FlipCard`, `KanaKeyboard`, `LoadingPlaceholder`, `ScoreCard`, `VoiceInput`, `Maru`, `AnswerResult` — don't exist in the drop and never get touched.
 
 ### The good news: almost nothing in those nine actually breaks
 
-Verified — every one of the 38 distinct token suffixes the 18 components reference resolves under v3, all 13 type tokens exist, radii and shadows exist. Nothing errors, because v3 aliases every legacy name.
+Verified — every distinct token suffix the 20 components reference resolves under v3, all 13 type tokens exist, radii and shadows exist. Nothing errors, because v3 aliases every legacy name. (`Maru` and `AnswerResult` were re-checked separately on 2026-08-07 and introduce no new suffix: all ten they use — `success-500`, `error-500`, `success-bg`, `error-bg`, `success-fg`, `error-fg`, `surface-2`, `heading-sm`, `body-sm`, `jp` — resolve.)
 
 **Exactly one real defect:** `FillInput` uses `ring-brand-500`, and under v3 `brand-500` resolves to **Akane red** — a red focus ring, indistinguishable from an error state. `HANDOFF.md` §4 flags this precise trap and fixes it in the four components it ships; `FillInput` isn't one of them. The other eight repo-only components are already role-based and repaint correctly for free.
 
@@ -135,7 +135,7 @@ For `fg-faint`, note this is now the *second* palette in a row whose faint-text 
 
 ### Inventory to work against
 
-18 components: 5 primitives (`Button`, `TextInput`, `Card`, `Badge`, `IconButton`) + 13 domain (`PhraseCard`, `KanaGrid`, `KanaKeyboard`, `FlipCard`, `FillInput`, `VoiceInput`, `AudioButton`, `ProgressBar`, `ScoreCard`, `AppHeader`, `EmptyState`, `ErrorState`, `LoadingPlaceholder`). 1,156 lines total. Every one has a JSX mirror in `ui_kits/mobile/components.jsx` that must be kept in sync by hand — the second drift machine after the tokens.
+20 components: 5 primitives (`Button`, `TextInput`, `Card`, `Badge`, `IconButton`) + 15 domain (`PhraseCard`, `KanaGrid`, `KanaKeyboard`, `FlipCard`, `FillInput`, `VoiceInput`, `AudioButton`, `ProgressBar`, `ScoreCard`, `AppHeader`, `EmptyState`, `ErrorState`, `LoadingPlaceholder`, `Maru`, `AnswerResult`). 1,216 lines total. Every one has a JSX mirror in `ui_kits/mobile/components.jsx` that must be kept in sync by hand — the second drift machine after the tokens.
 
 ---
 
@@ -312,7 +312,7 @@ That test *is* the Phase 5 dry run.
 
 | # | Task | Done when |
 |---|---|---|
-| 2.1 | Adopt v3's role vocabulary as the contract. Audit which of the 18 components still reference a *value* token (`brand-500`, `rose`, `dusk`) rather than a role | role-vs-value table in `docs/colors.md`; known offender list starts at `FillInput` |
+| 2.1 | Adopt v3's role vocabulary as the contract. Audit which of the 20 components still reference a *value* token (`brand-500`, `rose`, `dusk`) rather than a role | role-vs-value table in `docs/colors.md`; known offender list starts at `FillInput` |
 | 2.2 | Convert value references to roles — **only in the nine components the drop does not ship.** In practice that is `FillInput` alone: `ring-brand-500` → `ring-focus`, which under v3 is currently Akane red and reads as an error. **Leave `Button`, `TextInput`, `IconButton`, `KanaGrid`, `ProgressBar` alone** — the drop repaints those and 5.4 verifies them | `grep -rE "(ring\|bg\|text)-(brand-[0-9]+\|rose\|dusk)" src/components/FillInput.tsx` returns nothing |
 | 2.3 | Fill the gaps v3 leaves: disabled state, and a documented press state for every interactive role | new role aliases present; no component uses a numbered scale token for a semantic purpose |
 | 2.3b | Decide whether `--color-correct` / `--color-incorrect` stay distinct from `success-*` / `error-*`. v3 gives them the same hexes (Rokushō / Akane) but different stated intent — "progress, correctness" vs "correctness banners". Distinct role names cost nothing now and prevent a future error-styling change from silently restyling study grading | decision recorded in `docs/colors.md` with the rationale |
@@ -362,7 +362,11 @@ Note the shape of it: **`AppHeader` and `KanaKeyboard` are two of the nine compo
 
 ○ / ✕ replace check/cross wherever the learner judges an answer. The hanko may anchor empty states. The mark appears nowhere else — no section stamps, no progress notation, no emboss pattern on cards.
 
-**Where the mark does *not* go: automatic verdicts.** When the app checks an answer rather than the learner grading it, the treatment is a **quiet reveal** — show the correct answer, no mark and no banner. The learner compares for themselves. This is the one place a mark would read as the app pronouncing judgment, which is the line the assessment rule keeps (see below).
+**Where the app checks the answer: `AnswerResult` owns it.** When the app grades rather than the learner, the treatment is a **tinted banner** (`bg-success-bg` / `bg-error-bg`) carrying the outcome, above a neutral `bg-surface-2` block revealing the correct answer. The wording is `Recalled!` / `Not quite`, held in a **non-overridable constant** — call sites cannot supply their own copy, and that mechanism *is* the design: it is what stopped `FillBlankCard` and `GrammarClozeCard` drifting to two vocabularies for the same state.
+
+A quiet, markless reveal was built first and **rejected on review of the rendered result** (2026-08-07). "Not quite" is approved and **must not be softened back** — "worth another look" was judged too ambiguous at the moment of judgment, since a learner should not have to work out whether they got it right. The gentleness lives in what happens next (the item resurfaces sooner), not in hedged wording here.
+
+`AnswerResult` does not use `Maru`; the glyph goes on `KanaPracticePage`'s choice tiles instead. Full rationale: [`docs/superpowers/specs/2026-08-07-answer-result-design.md`](superpowers/specs/2026-08-07-answer-result-design.md).
 
 **Why this and not the fuller motif system:** in Japanese schooling, ○ (maru) means correct and ✕ (batsu) means incorrect — not a checkmark and a cross. It's justified by something *outside* our own taste: ○ means correct in Japanese regardless of what AburunGo decides, so the usage stays right even if the brand changes. Every additional surface (section headers, progress rails, scenario cards) is a judgement call, and judgement calls are what drift.
 
@@ -388,25 +392,29 @@ That line is the whole guardrail. Without it, this decision degrades into the re
 
 **Cleared against the assessment rule (2026-08-07).** §3.0 originally conflicted with `product_assessment_principles`, which banned right/wrong colour feedback and any ratio. That rule was **revised in favour of §3.0**: the line moved from *colour and glyph* to *prose and persistence*. Per-answer ○/✕ in Rokushō and Akane is now the sanctioned vocabulary; the `ScoreCard` mark row is approved; the "never a ratio" bullet was retired as moot, since a ten-mark row is itself a ratio. Two constraints survive and bind this section:
 
-- **No verdict prose.** "recalled" not "correct", "worth another look" not "missed". The glyph carries the judgment; the words stay calm. This is why the `FillInput` treatment above is a quiet reveal rather than a mark.
+- **Approved wording, not silence.** Banned as a verdict: "correct", "wrong", "incorrect", "failed", "missed", percentages, letter grades, pass/fail. Approved: `Recalled!` / `Not quite` in `AnswerResult`, "recalled" / "worth another look" as `Maru`'s screen-reader labels. **"Worth another look · n" survives as a *list heading*** — labelling a set of items to revisit is a different context from judging one answer, and is not ambiguous there. Do not swap those to "Not quite", and do not soften "Not quite" to them.
 - **No accumulation** — the boundary rule quoted above, which is now the *only* thing separating this vocabulary from a reward loop and should be treated as load-bearing rather than a footnote.
 
 **Also in 3.0 — sandbox setup.** Create `preview/_sandbox/`, decide gitignored vs. kept. Every variant lands here first.
 
 Then run per component, in this order — primitives first, since 13 domain components depend on them:
 
-`Button` → `TextInput` → `Card` → `Badge` → `IconButton` → `PhraseCard` → **`FlipCard`** → **`KanaGrid`** → `KanaKeyboard` → `FillInput` → `VoiceInput` → `AudioButton` → `ProgressBar` → **`ScoreCard`** → `AppHeader` → **`EmptyState`** → `ErrorState` → `LoadingPlaceholder`
+`Button` → `TextInput` → `Card` → `Badge` → `IconButton` → **`Maru`** → **`AnswerResult`** → `PhraseCard` → **`FlipCard`** → **`KanaGrid`** → `KanaKeyboard` → `FillInput` → `VoiceInput` → `AudioButton` → `ProgressBar` → **`ScoreCard`** → `AppHeader` → **`EmptyState`** → `ErrorState` → `LoadingPlaceholder`
 
-**Bold = carries maru work** (per §3.0). Four components, and only these four:
+`Maru` and `AnswerResult` sit directly after the primitives: they are the correctness vocabulary itself, and the four domain surfaces below consume it.
+
+**Bold = carries maru work** (per §3.0). Six components, and only these six:
 
 | Component | Change |
 |---|---|
+| `Maru` | **already built** (ADS #9) — the sole definition of ○ / ✕. Anything marking an answer imports it rather than typing a literal. Gate it, don't redesign it |
+| `AnswerResult` | **already built** (ADS #9) — the app-checks-answer banner + reveal frame, with non-overridable wording. Gate it, don't redesign it |
 | `FlipCard` | self-grade buttons carry ○ / ✕ alongside their text labels |
-| `ScoreCard` | per-answer mark row in addition to the total — shows *which*, not just how many. **Also flip the `label` default from `"correct"` to `"recalled"`** ([`ScoreCard.tsx:11`](../src/components/ScoreCard.tsx)) — verdict prose is the one thing the revised assessment rule still bans, and the compliant word is currently the opt-in |
+| `ScoreCard` | per-answer mark row in addition to the total — shows *which*, not just how many. (The `label` default was already flipped to `"recalled"` in ADS #9 — [`ScoreCard.tsx:14`](../src/components/ScoreCard.tsx) — so only the mark row remains) |
 | `KanaGrid` | learned state becomes a ring around the cell, not a background fill — keeps the kana legible underneath |
 | `EmptyState` | optional outline hanko as a quiet anchor |
 
-`FillInput` carries **no mark** — it gets the quiet reveal described above. Note it has no feedback state at all today (it is pure input; the app owns the result), so this is a decision not to add judgment UI rather than a restyle of existing UI.
+`FillInput` carries **no mark** — it is pure input with no feedback state at all (the app owns the result, and the result UI is `AnswerResult`'s job). This is a decision not to add judgment UI to the input itself, not a restyle of existing UI.
 
 The other 14 get the standard pass with no mark work.
 
@@ -427,8 +435,8 @@ Colour-dependent findings get logged, not fixed — they're revisited in one pas
 - [ ] Visible keyboard focus ring; text contrast ≥ 4.5:1
 - [ ] Renders at 375 / 768 / 1024 / 1440
 - [ ] No gamification ornament; filled inline SVG icons only; no emoji
-- [ ] **On the four mark components:** ○ / ✕ are glyphs, not icons — each needs an `aria-label`, and meaning must ride on **three channels** (glyph + color + text label), never the glyph alone. A screen reader must never receive a bare "circle".
-- [ ] **No verdict prose anywhere:** "recalled" / "worth another look", never "correct" / "missed" / "wrong". Applies to all 18, not just the four.
+- [ ] **On the six mark components:** ○ / ✕ are glyphs, not icons — each needs an `aria-label`, and meaning must ride on **three channels** (glyph + color + text label), never the glyph alone. A screen reader must never receive a bare "circle". (`Maru` already satisfies this — `aria-hidden` glyph + `sr-only` label — so this is a verification, not a build)
+- [ ] **Approved wording only:** never "correct" / "missed" / "wrong" / "incorrect" / "failed" as a verdict, no percentages or grades. `Recalled!` / `Not quite` is the sanctioned pair and must not be softened. Applies to all 20, not just the six.
 
 Note that most gate items are palette-independent; the two that aren't (contrast, accent placement) are checked again in Phase 5 against the real palette. Passing them now against the outgoing palette is a smoke test, not the final word.
 
@@ -515,8 +523,8 @@ This is a **merge, not a copy.** The drop is ahead on tokens and assets and behi
 3. `PRODUCT.md` + `DESIGN.md` — the brief, machine-readable, written in roles not hexes
 4. `.impeccable/baseline.json` + a CI gate that fails on regression
 5. `preview/_sandbox/` — the variant workshop, where skill output gets tried before it gets shipped
-6. 18 components passing the seven-point gate
-7. A correctness vocabulary — ○ / ✕ across the four self-grading surfaces (quiet reveal where the app checks instead), plus the boundary rule that keeps it from becoming a badge
+6. 20 components passing the eight-point gate
+7. A correctness vocabulary — `Maru` as the sole ○ / ✕ definition, consumed across the mark surfaces, with `AnswerResult` owning the app-checks-answer case and its non-overridable wording — plus the boundary rule that keeps it from becoming a badge
 7b. Zero orphaned roles — every token v3 defines has an implementation or a written reason, and `docs/colors.md` carries the corrections as a diff to send back
 8. 25 flow mockups (5 flows × 5 states) in `ui_kits/` + `preview/`
 9. A palette swap that is a one-file diff
@@ -527,7 +535,7 @@ This is a **merge, not a copy.** The drop is ahead on tokens and assets and behi
 
 - **App-side work.** No changes in `../aburungo`. Flows ship as mockups; integration happens later via `/handoff-to-app`.
 - ~~**New components.** 18 is enough.~~ **Amended 2026-08-07.** This exclusion was wrong in one specific way: the components that actually judge an answer in the shipped app — `FillBlankCard`, `GrammarClozeCard`, `KanaPracticePage` — were *not* design-system components, so §3.0's correctness vocabulary reached none of them. `AnswerResult` and `Maru` were added to close that (ADS #9, app #60). The library is now **20**. The exclusion otherwise stands: anything new is speculative until a flow mockup or a real consumer proves it's missing.
-- **Killing the JSX mirrors.** `ui_kits/mobile/components.jsx` duplicating all 18 TSX components is a real drift machine and the obvious next cleanup, but consolidating it is its own project. Noted, deferred, not smuggled into this plan.
+- **Killing the JSX mirrors.** `ui_kits/mobile/components.jsx` duplicating all 20 TSX components is a real drift machine and the obvious next cleanup, but consolidating it is its own project. Noted, deferred, not smuggled into this plan.
 - **Dark mode.** Not in the brief, not in the tokens, not requested.
 - **The fuller motif system (option C).** Section stamps, progress notation, serial-number framing from `.frame`, and the `.emboss-bg` sakura pattern on scenario cards. Rejected for now — every one of those is a taste call rather than a pedagogical one, and they're the surfaces that walk toward the badge line. Consequently `assets/pattern-sakura.png` is **not** needed; only `logo-a-tile.png` is (task 0.7). Revisit once the correctness vocabulary has shipped and proven itself.
 
