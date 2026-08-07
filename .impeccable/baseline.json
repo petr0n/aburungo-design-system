@@ -1,5 +1,148 @@
 [
   {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/src/brand.css",
+    "line": 196,
+    "snippet": "font-size: clamp(48px, 8vw, 108px) has fluid endpoints 48px and 108px off the DESIGN.md type ramp",
+    "ignoreValue": "48px"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/src/brand.css",
+    "line": 197,
+    "snippet": "font-size: clamp(38px, 6vw,  72px) has fluid endpoints 38px and 72px off the DESIGN.md type ramp",
+    "ignoreValue": "38px"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/src/brand.css",
+    "line": 198,
+    "snippet": "font-size: clamp(28px, 4.5vw,48px) has fluid endpoints 28px and 48px off the DESIGN.md type ramp",
+    "ignoreValue": "28px"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/src/brand.css",
+    "line": 199,
+    "snippet": "font-size: clamp(20px, 2.5vw,28px) has fluid endpoint 28px off the DESIGN.md type ramp",
+    "ignoreValue": "28px"
+  },
+  {
+    "antipattern": "design-system-radius",
+    "name": "Radius outside DESIGN.md",
+    "description": "A border-radius value is outside the DESIGN.md rounded scale. Use a documented radius token or update the design system if the new shape is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/src/brand.css",
+    "line": 289,
+    "snippet": "border-radius: 14px is outside the DESIGN.md rounded scale",
+    "ignoreValue": "14px"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/src/brand.css",
+    "line": 321,
+    "snippet": "font-size: clamp(9px, 1vw, 11px) has fluid endpoints 9px and 11px off the DESIGN.md type ramp",
+    "ignoreValue": "9px"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/01-logo.html",
+    "line": 7,
+    "snippet": "font-size: 28px is off the DESIGN.md type ramp",
+    "ignoreValue": "28px"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/01-logo.html",
+    "line": 8,
+    "snippet": "font-size: 13px is off the DESIGN.md type ramp",
+    "ignoreValue": "13px"
+  },
+  {
+    "antipattern": "design-system-font",
+    "name": "Font outside DESIGN.md",
+    "description": "A font is used that is not declared in DESIGN.md typography. Use the documented type system or update DESIGN.md if this is an intentional brand addition.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/02-hero.html",
+    "line": 32,
+    "snippet": "span \"assets/hero.png\" uses sfmono-regular; not declared in DESIGN.md typography",
+    "ignoreValue": "sfmono-regular"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/02-hero.html",
+    "line": 21,
+    "snippet": "font-size: 108px is off the DESIGN.md type ramp",
+    "ignoreValue": "108px"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/02-hero.html",
+    "line": 25,
+    "snippet": "font-size: 11px is off the DESIGN.md type ramp",
+    "ignoreValue": "11px"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/02-hero.html",
+    "line": 27,
+    "snippet": "font-size: 22px is off the DESIGN.md type ramp",
+    "ignoreValue": "22px"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/02-hero.html",
+    "line": 30,
+    "snippet": "font-size: 14px is off the DESIGN.md type ramp",
+    "ignoreValue": "14px"
+  },
+  {
     "antipattern": "all-caps-body",
     "name": "All-caps body text",
     "description": "Long passages in uppercase are hard to read. We recognize words by shape (ascenders and descenders), which all-caps removes. Reserve uppercase for short labels and headings.",
@@ -28,6 +171,17 @@
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/05-color-semantic.html",
     "line": 0,
     "snippet": "text-transform: uppercase on 50 chars of body text"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/05-color-semantic.html",
+    "line": 9,
+    "snippet": "font-size: 11px is off the DESIGN.md type ramp",
+    "ignoreValue": "11px"
   },
   {
     "antipattern": "flat-type-hierarchy",
@@ -60,6 +214,39 @@
     "snippet": "11px body text"
   },
   {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/07-type-families.html",
+    "line": 8,
+    "snippet": "font-size: 11px is off the DESIGN.md type ramp",
+    "ignoreValue": "11px"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/07-type-families.html",
+    "line": 9,
+    "snippet": "font-size: 30px is off the DESIGN.md type ramp",
+    "ignoreValue": "30px"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/07-type-families.html",
+    "line": 10,
+    "snippet": "font-size: 14px is off the DESIGN.md type ramp",
+    "ignoreValue": "14px"
+  },
+  {
     "antipattern": "all-caps-body",
     "name": "All-caps body text",
     "description": "Long passages in uppercase are hard to read. We recognize words by shape (ascenders and descenders), which all-caps removes. Reserve uppercase for short labels and headings.",
@@ -68,6 +255,50 @@
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/08-type-scale.html",
     "line": 0,
     "snippet": "text-transform: uppercase on 32 chars of body text"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/08-type-scale.html",
+    "line": 7,
+    "snippet": "font-size: 11px is off the DESIGN.md type ramp",
+    "ignoreValue": "11px"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/08-type-scale.html",
+    "line": 8,
+    "snippet": "font-size: 48px is off the DESIGN.md type ramp",
+    "ignoreValue": "48px"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/08-type-scale.html",
+    "line": 16,
+    "snippet": "font-size: 30px is off the DESIGN.md type ramp",
+    "ignoreValue": "30px"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/08-type-scale.html",
+    "line": 32,
+    "snippet": "font-size: 14px is off the DESIGN.md type ramp",
+    "ignoreValue": "14px"
   },
   {
     "antipattern": "all-caps-body",
@@ -80,6 +311,28 @@
     "snippet": "text-transform: uppercase on 70 chars of body text"
   },
   {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/09-type-japanese.html",
+    "line": 7,
+    "snippet": "font-size: 11px is off the DESIGN.md type ramp",
+    "ignoreValue": "11px"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/09-type-japanese.html",
+    "line": 8,
+    "snippet": "font-size: 40px is off the DESIGN.md type ramp",
+    "ignoreValue": "40px"
+  },
+  {
     "antipattern": "all-caps-body",
     "name": "All-caps body text",
     "description": "Long passages in uppercase are hard to read. We recognize words by shape (ascenders and descenders), which all-caps removes. Reserve uppercase for short labels and headings.",
@@ -88,6 +341,17 @@
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/10-type-phrase-specimen.html",
     "line": 0,
     "snippet": "text-transform: uppercase on 53 chars of body text"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/10-type-phrase-specimen.html",
+    "line": 9,
+    "snippet": "font-size: 14px is off the DESIGN.md type ramp",
+    "ignoreValue": "14px"
   },
   {
     "antipattern": "all-caps-body",
@@ -170,6 +434,39 @@
     "snippet": "11px body text"
   },
   {
+    "antipattern": "design-system-radius",
+    "name": "Radius outside DESIGN.md",
+    "description": "A border-radius value is outside the DESIGN.md rounded scale. Use a documented radius token or update the design system if the new shape is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/11-spacing-scale.html",
+    "line": 0,
+    "snippet": "border-radius 2px on div is outside the DESIGN.md rounded scale",
+    "ignoreValue": "2px"
+  },
+  {
+    "antipattern": "design-system-radius",
+    "name": "Radius outside DESIGN.md",
+    "description": "A border-radius value is outside the DESIGN.md rounded scale. Use a documented radius token or update the design system if the new shape is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/11-spacing-scale.html",
+    "line": 7,
+    "snippet": "border-radius: 2px\">< is outside the DESIGN.md rounded scale",
+    "ignoreValue": "2px\"><"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/11-spacing-scale.html",
+    "line": 7,
+    "snippet": "font-size: 11px is off the DESIGN.md type ramp",
+    "ignoreValue": "11px"
+  },
+  {
     "antipattern": "flat-type-hierarchy",
     "name": "Flat type hierarchy",
     "description": "Font sizes are too close together — no clear visual hierarchy. Use fewer sizes with more contrast (aim for at least a 1.25 ratio between steps).",
@@ -188,6 +485,17 @@
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/12-radii.html",
     "line": 0,
     "snippet": "text-transform: uppercase on 36 chars of body text"
+  },
+  {
+    "antipattern": "design-system-radius",
+    "name": "Radius outside DESIGN.md",
+    "description": "A border-radius value is outside the DESIGN.md rounded scale. Use a documented radius token or update the design system if the new shape is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/12-radii.html",
+    "line": 7,
+    "snippet": "border-radius: 6px\">< is outside the DESIGN.md rounded scale",
+    "ignoreValue": "6px\"><"
   },
   {
     "antipattern": "all-caps-body",
@@ -220,6 +528,17 @@
     "snippet": "text-transform: uppercase on 56 chars of body text"
   },
   {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/14-touch-targets.html",
+    "line": 9,
+    "snippet": "font-size: 11px is off the DESIGN.md type ramp",
+    "ignoreValue": "11px"
+  },
+  {
     "antipattern": "flat-type-hierarchy",
     "name": "Flat type hierarchy",
     "description": "Font sizes are too close together — no clear visual hierarchy. Use fewer sizes with more contrast (aim for at least a 1.25 ratio between steps).",
@@ -238,6 +557,17 @@
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/15-buttons.html",
     "line": 0,
     "snippet": "text-transform: uppercase on 48 chars of body text"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/15-buttons.html",
+    "line": 12,
+    "snippet": "font-size: 11px is off the DESIGN.md type ramp",
+    "ignoreValue": "11px"
   },
   {
     "antipattern": "flat-type-hierarchy",
@@ -260,6 +590,17 @@
     "snippet": "text-transform: uppercase on 58 chars of body text"
   },
   {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/16-buttons-accent.html",
+    "line": 9,
+    "snippet": "font-size: 13px is off the DESIGN.md type ramp",
+    "ignoreValue": "13px"
+  },
+  {
     "antipattern": "flat-type-hierarchy",
     "name": "Flat type hierarchy",
     "description": "Font sizes are too close together — no clear visual hierarchy. Use fewer sizes with more contrast (aim for at least a 1.25 ratio between steps).",
@@ -278,6 +619,28 @@
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/17-inputs.html",
     "line": 0,
     "snippet": "text-transform: uppercase on 51 chars of body text"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/17-inputs.html",
+    "line": 8,
+    "snippet": "font-size: 14px is off the DESIGN.md type ramp",
+    "ignoreValue": "14px"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/17-inputs.html",
+    "line": 10,
+    "snippet": "font-size: 13px is off the DESIGN.md type ramp",
+    "ignoreValue": "13px"
   },
   {
     "antipattern": "flat-type-hierarchy",
@@ -300,6 +663,17 @@
     "snippet": "text-transform: uppercase on 36 chars of body text"
   },
   {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/18-segmented.html",
+    "line": 11,
+    "snippet": "font-size: 13px is off the DESIGN.md type ramp",
+    "ignoreValue": "13px"
+  },
+  {
     "antipattern": "flat-type-hierarchy",
     "name": "Flat type hierarchy",
     "description": "Font sizes are too close together — no clear visual hierarchy. Use fewer sizes with more contrast (aim for at least a 1.25 ratio between steps).",
@@ -318,6 +692,17 @@
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/19-banners.html",
     "line": 0,
     "snippet": "text-transform: uppercase on 47 chars of body text"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/19-banners.html",
+    "line": 12,
+    "snippet": "font-size: 14px is off the DESIGN.md type ramp",
+    "ignoreValue": "14px"
   },
   {
     "antipattern": "flat-type-hierarchy",
@@ -370,6 +755,17 @@
     "snippet": "Sizes: 11px, 12px, 16px (ratio 1.5:1)"
   },
   {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/22-phrase-card.html",
+    "line": 15,
+    "snippet": "font-size: 14px is off the DESIGN.md type ramp",
+    "ignoreValue": "14px"
+  },
+  {
     "antipattern": "all-caps-body",
     "name": "All-caps body text",
     "description": "Long passages in uppercase are hard to read. We recognize words by shape (ascenders and descenders), which all-caps removes. Reserve uppercase for short labels and headings.",
@@ -378,6 +774,17 @@
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/23-kana-key.html",
     "line": 0,
     "snippet": "text-transform: uppercase on 50 chars of body text"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/23-kana-key.html",
+    "line": 10,
+    "snippet": "font-size: 13px is off the DESIGN.md type ramp",
+    "ignoreValue": "13px"
   },
   {
     "antipattern": "all-caps-body",
@@ -400,6 +807,28 @@
     "snippet": "text-transform: uppercase on 49 chars of body text"
   },
   {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/25-empty-state.html",
+    "line": 7,
+    "snippet": "font-size: 22px is off the DESIGN.md type ramp",
+    "ignoreValue": "22px"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/25-empty-state.html",
+    "line": 8,
+    "snippet": "font-size: 15px is off the DESIGN.md type ramp",
+    "ignoreValue": "15px"
+  },
+  {
     "antipattern": "all-caps-body",
     "name": "All-caps body text",
     "description": "Long passages in uppercase are hard to read. We recognize words by shape (ascenders and descenders), which all-caps removes. Reserve uppercase for short labels and headings.",
@@ -408,6 +837,17 @@
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/26-iconography.html",
     "line": 0,
     "snippet": "text-transform: uppercase on 63 chars of body text"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/26-iconography.html",
+    "line": 23,
+    "snippet": "font-size: 13px is off the DESIGN.md type ramp",
+    "ignoreValue": "13px"
   },
   {
     "antipattern": "flat-type-hierarchy",
@@ -430,6 +870,28 @@
     "snippet": "text-transform: uppercase on 31 chars of body text"
   },
   {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/27-voice-rules.html",
+    "line": 9,
+    "snippet": "font-size: 15px is off the DESIGN.md type ramp",
+    "ignoreValue": "15px"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/27-voice-rules.html",
+    "line": 10,
+    "snippet": "font-size: 13px is off the DESIGN.md type ramp",
+    "ignoreValue": "13px"
+  },
+  {
     "antipattern": "flat-type-hierarchy",
     "name": "Flat type hierarchy",
     "description": "Font sizes are too close together — no clear visual hierarchy. Use fewer sizes with more contrast (aim for at least a 1.25 ratio between steps).",
@@ -440,6 +902,171 @@
     "snippet": "Sizes: 11px, 13px, 15px, 16px (ratio 1.5:1)"
   },
   {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/_card.css",
+    "line": 43,
+    "snippet": "font-size: 11px is off the DESIGN.md type ramp",
+    "ignoreValue": "11px"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/_card.css",
+    "line": 50,
+    "snippet": "font-size: 11px is off the DESIGN.md type ramp",
+    "ignoreValue": "11px"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/preview/_card.css",
+    "line": 56,
+    "snippet": "font-size: 11px is off the DESIGN.md type ramp",
+    "ignoreValue": "11px"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
+    "line": 26,
+    "snippet": "Undocumented color #18181b is outside DESIGN.md colors",
+    "ignoreValue": "#18181b"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
+    "line": 90,
+    "snippet": "Undocumented color #e4e4e7 is outside DESIGN.md colors",
+    "ignoreValue": "#e4e4e7"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
+    "line": 94,
+    "snippet": "Undocumented color #71717a is outside DESIGN.md colors",
+    "ignoreValue": "#71717a"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
+    "line": 94,
+    "snippet": "font-size: 13px is off the DESIGN.md type ramp",
+    "ignoreValue": "13px"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
+    "line": 102,
+    "snippet": "Undocumented color #3f3f46 is outside DESIGN.md colors",
+    "ignoreValue": "#3f3f46"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
+    "line": 111,
+    "snippet": "font-size: 11px is off the DESIGN.md type ramp",
+    "ignoreValue": "11px"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
+    "line": 112,
+    "snippet": "Undocumented color #a1a1aa is outside DESIGN.md colors",
+    "ignoreValue": "#a1a1aa"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
+    "line": 130,
+    "snippet": "Undocumented color #52525b is outside DESIGN.md colors",
+    "ignoreValue": "#52525b"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
+    "line": 133,
+    "snippet": "Undocumented color #ede6ff is outside DESIGN.md colors",
+    "ignoreValue": "#ede6ff"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
+    "line": 133,
+    "snippet": "Undocumented color #5e0bbf is outside DESIGN.md colors",
+    "ignoreValue": "#5e0bbf"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
+    "line": 138,
+    "snippet": "Undocumented color rgba(0,0,0,0.25) is outside DESIGN.md colors",
+    "ignoreValue": "rgba(0,0,0,0.25)"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
+    "line": 150,
+    "snippet": "Undocumented color #d4d4d8 is outside DESIGN.md colors",
+    "ignoreValue": "#d4d4d8"
+  },
+  {
     "antipattern": "codex-grid-background",
     "name": "Decorative grid-line background",
     "description": "A decorative grid or line-field background drawn with hairline linear-gradient layers tiled by a fixed pixel cell is a recurring generated-UI signature. Reserve grid overlays for actual canvas, map, blueprint, or measurement surfaces; elsewhere use product structure or a plain surface.",
@@ -448,6 +1075,28 @@
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
     "line": 0,
     "snippet": "px-tiled hairline line-field background"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/app/index.html",
+    "line": 25,
+    "snippet": "Undocumented color #18181b is outside DESIGN.md colors",
+    "ignoreValue": "#18181b"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/app/screens.jsx",
+    "line": 155,
+    "snippet": "text-[…] class: 11px is off the DESIGN.md type ramp",
+    "ignoreValue": "11px"
   },
   {
     "antipattern": "broken-image",
@@ -468,5 +1117,423 @@
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/design-canvas.jsx",
     "line": 653,
     "snippet": "<img>"
+  },
+  {
+    "antipattern": "design-system-radius",
+    "name": "Radius outside DESIGN.md",
+    "description": "A border-radius value is outside the DESIGN.md rounded scale. Use a documented radius token or update the design system if the new shape is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/design-canvas.jsx",
+    "line": 34,
+    "snippet": "border-radius: 3px is outside the DESIGN.md rounded scale",
+    "ignoreValue": "3px"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/design-canvas.jsx",
+    "line": 35,
+    "snippet": "Undocumented color #c96442 is outside DESIGN.md colors",
+    "ignoreValue": "#c96442"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/design-canvas.jsx",
+    "line": 38,
+    "snippet": "Undocumented color rgba(0,0,0,.25) is outside DESIGN.md colors",
+    "ignoreValue": "rgba(0,0,0,.25)"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/design-canvas.jsx",
+    "line": 38,
+    "snippet": "Undocumented color #c96442 is outside DESIGN.md colors",
+    "ignoreValue": "#c96442"
+  },
+  {
+    "antipattern": "design-system-radius",
+    "name": "Radius outside DESIGN.md",
+    "description": "A border-radius value is outside the DESIGN.md rounded scale. Use a documented radius token or update the design system if the new shape is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/design-canvas.jsx",
+    "line": 52,
+    "snippet": "border-radius: 4px is outside the DESIGN.md rounded scale",
+    "ignoreValue": "4px"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/design-canvas.jsx",
+    "line": 53,
+    "snippet": "Undocumented color rgba(0,0,0,.08) is outside DESIGN.md colors",
+    "ignoreValue": "rgba(0,0,0,.08)"
+  },
+  {
+    "antipattern": "design-system-radius",
+    "name": "Radius outside DESIGN.md",
+    "description": "A border-radius value is outside the DESIGN.md rounded scale. Use a documented radius token or update the design system if the new shape is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/design-canvas.jsx",
+    "line": 55,
+    "snippet": "border-radius: 4px is outside the DESIGN.md rounded scale",
+    "ignoreValue": "4px"
+  },
+  {
+    "antipattern": "design-system-radius",
+    "name": "Radius outside DESIGN.md",
+    "description": "A border-radius value is outside the DESIGN.md rounded scale. Use a documented radius token or update the design system if the new shape is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/design-canvas.jsx",
+    "line": 70,
+    "snippet": "border-radius: 5px is outside the DESIGN.md rounded scale",
+    "ignoreValue": "5px"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/design-canvas.jsx",
+    "line": 71,
+    "snippet": "Undocumented color rgba(60,50,40,.7) is outside DESIGN.md colors",
+    "ignoreValue": "rgba(60,50,40,.7)"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/design-canvas.jsx",
+    "line": 73,
+    "snippet": "Undocumented color rgba(0,0,0,.06) is outside DESIGN.md colors",
+    "ignoreValue": "rgba(0,0,0,.06)"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/design-canvas.jsx",
+    "line": 73,
+    "snippet": "Undocumented color #2a251f is outside DESIGN.md colors",
+    "ignoreValue": "#2a251f"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/design-canvas.jsx",
+    "line": 79,
+    "snippet": "Undocumented color rgba(0,0,0,.18) is outside DESIGN.md colors",
+    "ignoreValue": "rgba(0,0,0,.18)"
+  },
+  {
+    "antipattern": "design-system-radius",
+    "name": "Radius outside DESIGN.md",
+    "description": "A border-radius value is outside the DESIGN.md rounded scale. Use a documented radius token or update the design system if the new shape is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/design-canvas.jsx",
+    "line": 81,
+    "snippet": "border-radius: 5px is outside the DESIGN.md rounded scale",
+    "ignoreValue": "5px"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/design-canvas.jsx",
+    "line": 81,
+    "snippet": "font-size: 13px is off the DESIGN.md type ramp",
+    "ignoreValue": "13px"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/design-canvas.jsx",
+    "line": 82,
+    "snippet": "Undocumented color #29261b is outside DESIGN.md colors",
+    "ignoreValue": "#29261b"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/design-canvas.jsx",
+    "line": 84,
+    "snippet": "Undocumented color rgba(0,0,0,.08) is outside DESIGN.md colors",
+    "ignoreValue": "rgba(0,0,0,.08)"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/design-canvas.jsx",
+    "line": 85,
+    "snippet": "Undocumented color #c96442 is outside DESIGN.md colors",
+    "ignoreValue": "#c96442"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/design-canvas.jsx",
+    "line": 86,
+    "snippet": "Undocumented color rgba(201,100,66,.1) is outside DESIGN.md colors",
+    "ignoreValue": "rgba(201,100,66,.1)"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/design-canvas.jsx",
+    "line": 795,
+    "snippet": "Undocumented color rgba(0,0,0,.08) is outside DESIGN.md colors",
+    "ignoreValue": "rgba(0,0,0,.08)"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/design-canvas.jsx",
+    "line": 795,
+    "snippet": "Undocumented color rgba(0,0,0,.06) is outside DESIGN.md colors",
+    "ignoreValue": "rgba(0,0,0,.06)"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/design-canvas.jsx",
+    "line": 796,
+    "snippet": "Undocumented color #bbb is outside DESIGN.md colors",
+    "ignoreValue": "#bbb"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/design-canvas.jsx",
+    "line": 876,
+    "snippet": "Undocumented color rgba(24,20,16,.6) is outside DESIGN.md colors",
+    "ignoreValue": "rgba(24,20,16,.6)"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/design-canvas.jsx",
+    "line": 893,
+    "snippet": "Undocumented color #2a251f is outside DESIGN.md colors",
+    "ignoreValue": "#2a251f"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/design-canvas.jsx",
+    "line": 922,
+    "snippet": "Undocumented color #bbb is outside DESIGN.md colors",
+    "ignoreValue": "#bbb"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/mobile/index.html",
+    "line": 136,
+    "snippet": "Undocumented color #18181b is outside DESIGN.md colors",
+    "ignoreValue": "#18181b"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/mobile/index.html",
+    "line": 159,
+    "snippet": "Undocumented color #71717a is outside DESIGN.md colors",
+    "ignoreValue": "#71717a"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/mobile/index.html",
+    "line": 164,
+    "snippet": "Undocumented color #52525b is outside DESIGN.md colors",
+    "ignoreValue": "#52525b"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/mobile/index.html",
+    "line": 164,
+    "snippet": "Undocumented color #e4e4e7 is outside DESIGN.md colors",
+    "ignoreValue": "#e4e4e7"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/mobile/ios-frame.jsx",
+    "line": 64,
+    "snippet": "Undocumented color rgba(120,120,128,0.28) is outside DESIGN.md colors",
+    "ignoreValue": "rgba(120,120,128,0.28)"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/mobile/ios-frame.jsx",
+    "line": 72,
+    "snippet": "Undocumented color rgba(0,0,0,0.06) is outside DESIGN.md colors",
+    "ignoreValue": "rgba(0,0,0,0.06)"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/mobile/ios-frame.jsx",
+    "line": 197,
+    "snippet": "Undocumented color #000 is outside DESIGN.md colors",
+    "ignoreValue": "#000"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/mobile/ios-frame.jsx",
+    "line": 197,
+    "snippet": "Undocumented color #F2F2F7 is outside DESIGN.md colors",
+    "ignoreValue": "#F2F2F7"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/mobile/ios-frame.jsx",
+    "line": 205,
+    "snippet": "Undocumented color #000 is outside DESIGN.md colors",
+    "ignoreValue": "#000"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/mobile/ios-frame.jsx",
+    "line": 225,
+    "snippet": "Undocumented color rgba(0,0,0,0.25) is outside DESIGN.md colors",
+    "ignoreValue": "rgba(0,0,0,0.25)"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/mobile/ios-frame.jsx",
+    "line": 251,
+    "snippet": "Undocumented color #08f is outside DESIGN.md colors",
+    "ignoreValue": "#08f"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/mobile/ios-frame.jsx",
+    "line": 279,
+    "snippet": "Undocumented color rgba(120,120,128,0.14) is outside DESIGN.md colors",
+    "ignoreValue": "rgba(120,120,128,0.14)"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/mobile/ios-frame.jsx",
+    "line": 286,
+    "snippet": "Undocumented color rgba(0,0,0,0.06) is outside DESIGN.md colors",
+    "ignoreValue": "rgba(0,0,0,0.06)"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/mobile/ios-frame.jsx",
+    "line": 298,
+    "snippet": "Undocumented color #ccc is outside DESIGN.md colors",
+    "ignoreValue": "#ccc"
   }
 ]
