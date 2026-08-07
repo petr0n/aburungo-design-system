@@ -67,6 +67,29 @@
       --color-surface-2: #ebe5e9;
       --color-border: #e3d9de;
       --color-border-strong: #d9c8b8;
+      --color-action: var(--color-fg);
+      --color-action-press: var(--color-fg-muted);
+      --color-action-fg: var(--color-fg-inverse);
+      --color-action-2-bg: var(--color-bg);
+      --color-action-2-fg: var(--color-fg-muted);
+      --color-action-2-border: var(--color-border-strong);
+      --color-accent: var(--color-brand-500);
+      --color-accent-press: var(--color-brand-600);
+      --color-accent-fg: var(--color-fg-inverse);
+      --color-action-2-press: var(--color-surface-2);
+      --color-focus: var(--color-brand-500);
+      --color-focus-on-inverse: var(--color-brand-300);
+      --color-tag-bg: var(--color-surface-2);
+      --color-tag-fg: var(--color-fg-subtle);
+      --color-link: var(--color-brand-500);
+      --color-progress-track: var(--color-surface-2);
+      --color-progress-fill: var(--color-brand-500);
+      --color-progress-complete: var(--color-brand-500);
+      --color-bg-inverse: var(--color-fg);
+      --color-fg-on-inverse: var(--color-fg-inverse);
+      --color-fg-on-inverse-2: var(--color-fg-faint);
+      --color-rule-on-inverse: var(--color-fg-subtle);
+      --color-fg-heading: var(--color-fg);
       --color-success-bg: #f0fdf4;
       --color-success-fg: #15803d;
       --color-success-500: #22c55e;
@@ -127,16 +150,38 @@
       --animate-card-enter: card-enter 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
       --animate-card-exit: card-exit  0.2s  ease-in                        both;
     }
-    /* build-tokens:end */
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       Reduced motion.  These animations are the only motion the package ships,
+       and they fired unconditionally until now.
+
+       This lives in tokens.css, not index.css, because the consuming app imports
+       *this* file — `../aburungo/src/index.css` pulls in tokens.css and brand.css
+       and never touches our index.css.  A guard there would never have reached
+       the product, which is where FlipCard actually runs.
+
+       Neutralised rather than shortened: a card sliding 36px is decoration, and
+       someone who asked for less motion gets none of it.  Scoped to the two
+       animation tokens rather than a blanket `* { animation: none }` so motion
+       that carries meaning — a spinner, a progress fill — survives.
+       ───────────────────────────────────────────────────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      :root {
+        --animate-card-enter: none;
+        --animate-card-exit: none;
+      }
+    }
 
     @keyframes card-enter {
       from { transform: translateY(-36px); opacity: 0; }
       to   { transform: translateY(0);     opacity: 1; }
     }
+
     @keyframes card-exit {
       from { transform: translateY(0);     opacity: 1; }
       to   { transform: translateY(44px);  opacity: 0; }
     }
+    /* build-tokens:end */
   </style>
 
   <style>

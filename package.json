@@ -33,12 +33,13 @@
   "scripts": {
     "check:brand": "node scripts/check-forbidden-assets.mjs",
     "check:adherence": "node scripts/check-adherence.mjs",
-    "lint": "oxlint --config .oxlintrc.json src/ && pnpm check:adherence",
+    "lint": "oxlint --config .oxlintrc.json src/ && pnpm check:adherence && pnpm check:contrast",
     "build": "pnpm check:brand && pnpm lint && tsup && pnpm build:tokens",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "prepare": "tsup",
-    "build:tokens": "node scripts/build-tokens.mjs"
+    "build:tokens": "node scripts/build-tokens.mjs",
+    "check:contrast": "node scripts/check-contrast.mjs"
   },
   "peerDependencies": {
     "react": ">=18",

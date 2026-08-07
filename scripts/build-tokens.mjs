@@ -61,11 +61,19 @@ writeFileSync(
 
 console.log(`build-tokens: ${decls.length} tokens + ${aliases.length} aliases -> ${OUT}`)
 
+// Everything after the @theme block — the reduced-motion guard and the
+// keyframes — travels with the tokens. The storybook used to hand-copy its own
+// @keyframes, which is the same duplication this script exists to remove, and
+// without the guard a harness cannot honour prefers-reduced-motion at all.
+const trailing = css.slice(css.indexOf(theme[0]) + theme[0].length).trim()
+
 // Regenerate the @theme block inside each static harness.
 const themeBlock =
   `${START}\n    @theme {\n` +
   decls.map(([, n, v]) => `      ${n}: ${v.trim()};`).join('\n') +
-  `\n    }\n    ${END}`
+  `\n    }\n\n` +
+  trailing.split('\n').map((l) => (l === '' ? '' : `    ${l}`)).join('\n') +
+  `\n    ${END}`
 
 for (const file of HARNESSES) {
   const html = readFileSync(file, 'utf8')

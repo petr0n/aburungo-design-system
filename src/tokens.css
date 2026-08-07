@@ -60,6 +60,68 @@
   --color-border:        #e3d9de;
   --color-border-strong: #d9c8b8;
 
+  /* ─────────────────────────────────────────────────────────────────────
+     ROLE TOKENS — the semantic contract.
+
+     Every one points at a v2 value today. The incoming v3 "Zuihoden" palette
+     repoints them and changes nothing else: no role name changes, no
+     component changes, no preview edits. That is the whole point of this
+     layer — a palette swap edits values in this file and stops there.
+
+     Components must reference these, not the value tokens above.
+     ───────────────────────────────────────────────────────────────────── */
+
+  /* Primary action. v2: solid ink. v3: Ai-iro 藍色 — never Akane. */
+  --color-action:          var(--color-fg);
+  --color-action-press:    var(--color-fg-muted);
+  --color-action-fg:       var(--color-fg-inverse);
+
+  /* Secondary action. v2: hairline on paper. v3: Rokushō 緑青 tints. */
+  --color-action-2-bg:     var(--color-bg);
+  --color-action-2-fg:     var(--color-fg-muted);
+  --color-action-2-border: var(--color-border-strong);
+
+  /* The brand mark. v2: plum. v3: Akane 茜色 — mark and errors, NEVER a CTA. */
+  --color-accent:          var(--color-brand-500);
+  --color-accent-press:    var(--color-brand-600);
+  --color-accent-fg:       var(--color-fg-inverse);
+
+  /* Every interactive role has a press state. Touch-first means `active:` is
+     required, not optional, so a role without one is an unfinished role.
+     Disabled is deliberately NOT a colour: it is opacity-40 on a filled
+     control and opacity-50 on a hairline one, so it composes with any variant
+     and survives a palette change untouched. */
+  --color-action-2-press:  var(--color-surface-2);
+
+  /* Focus. v2: the accent. v3: Ōgon 黄金, split light/inverse because no
+     single gold step clears 3:1 on both warm paper and near-black chrome. */
+  --color-focus:            var(--color-brand-500);
+  --color-focus-on-inverse: var(--color-brand-300);
+
+  /* Scenario tags. v2: neutral grey. v3: Ōgon 100/700. */
+  --color-tag-bg:          var(--color-surface-2);
+  --color-tag-fg:          var(--color-fg-subtle);
+
+  /* Links. No component owns this yet — see docs/colors.md §orphans. */
+  --color-link:            var(--color-brand-500);
+
+  /* Progress. v3 caps a completed bar with Ōgon; v2 has no such step, so
+     complete resolves to the fill and the cap is invisible until Phase 5. */
+  --color-progress-track:    var(--color-surface-2);
+  --color-progress-fill:     var(--color-brand-500);
+  --color-progress-complete: var(--color-brand-500);
+
+  /* Inverse chrome. v2 reaches for --color-fg, which is the right pixel from
+     the wrong role: body text and inverse chrome are the same value today and
+     diverge under v3. */
+  --color-bg-inverse:       var(--color-fg);
+  --color-fg-on-inverse:    var(--color-fg-inverse);
+  --color-fg-on-inverse-2:  var(--color-fg-faint);
+  --color-rule-on-inverse:  var(--color-fg-subtle);
+
+  /* Headings and Japanese content. v3 sets these in Ai-iro. */
+  --color-fg-heading:      var(--color-fg);
+
   /* ── Semantic feedback — used ONLY in correctness banners. */
   --color-success-bg:  #f0fdf4;
   --color-success-fg:  #15803d;
@@ -144,6 +206,27 @@
   /* ── Card animations */
   --animate-card-enter: card-enter 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
   --animate-card-exit:  card-exit  0.2s  ease-in                        both;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Reduced motion.  These animations are the only motion the package ships,
+   and they fired unconditionally until now.
+
+   This lives in tokens.css, not index.css, because the consuming app imports
+   *this* file — `../aburungo/src/index.css` pulls in tokens.css and brand.css
+   and never touches our index.css.  A guard there would never have reached
+   the product, which is where FlipCard actually runs.
+
+   Neutralised rather than shortened: a card sliding 36px is decoration, and
+   someone who asked for less motion gets none of it.  Scoped to the two
+   animation tokens rather than a blanket `* { animation: none }` so motion
+   that carries meaning — a spinner, a progress fill — survives.
+   ───────────────────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --animate-card-enter: none;
+    --animate-card-exit: none;
+  }
 }
 
 @keyframes card-enter {
