@@ -2,3 +2,6 @@ onlyBuiltDependencies:
   - esbuild
 allowBuilds:
   esbuild: true
+  # impeccable pulls puppeteer for URL scanning. We only ever scan files
+  # (src/, preview/, storybook/, ui_kits/), so skip the Chromium download.
+  puppeteer: false
