@@ -70,7 +70,7 @@ After any changes here, run `pnpm build` before testing in the app. The app's pn
 
 ## Design rules
 
-- One accent: `brand-500` (`#aa3bff`) on auth CTAs and focus rings only.
+- Restraint over decoration: colour lands on CTAs, focus rings, and the brand mark, nowhere else. Each is a separate role token in `src/tokens.css` — use the role, never a hex. Values live in `docs/colors.md`.
 - Noto Sans for English UI (`font-sans`), M PLUS Rounded 1c for Japanese content (`font-jp`).
 - Filled inline SVG icons only. No emoji, no outline icons.
 - See `SKILL.md` and `colors_and_type.css` for the full brand spec.
