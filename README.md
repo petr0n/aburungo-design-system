@@ -216,7 +216,7 @@ The voice is the product. Get this wrong and the app feels like every other lang
 ## Visual foundations
 
 ### The vibe
-Quiet, modern, mobile‑first. Calm surfaces, one accent. Round corners that match the rounded type. **Nothing decorative.** If a pixel isn't earning its place, delete it.
+Quiet, modern, mobile‑first. Calm surfaces, colour used sparingly and structurally. Round corners that match the rounded type. **Nothing decorative.** If a pixel isn't earning its place, delete it.
 
 ### Colors
 
@@ -241,7 +241,8 @@ Values are not written here. `src/tokens.css` is the source of truth and `DESIGN
 - Single‑column. No multi‑column dashboards. Stacking and gap, not float or grid.
 
 ### Backgrounds
-- **Solid white.** That's it. No imagery in app surfaces, no patterns, no gradients, no full‑bleed photography. The hero is the *only* illustration in the product (landing screen).
+- **Flat, calm grounds.** No imagery in app surfaces, no patterns, no gradients, no full‑bleed photography. The hero is the *only* illustration in the product (landing screen).
+- The ground is whatever `bg` / `surface` resolve to — **do not hard-code white.** The incoming v3 palette uses warm stone (page `#F7F6F1`, cards `#FFFDF8`), and its warmth is load-bearing: "cleaning up" `#FFFDF8` to `#FFFFFF` is the specific regression v3 predicts.
 - Subtle neutral tints (`surface`) appear inside cards as faint container backgrounds for preview rows, mode pickers, the kana keyboard frame.
 
 ### Imagery

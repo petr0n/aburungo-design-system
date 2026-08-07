@@ -98,7 +98,21 @@ components:
 
 # Design System: AburunGo Design System
 
-> **Palette in migration.** The values above are the current in-repo palette. The v3 "Zuihoden" palette (Akane, Ai-iro, Rokushō, Ōgon, Sumi-iro on a warm stone ramp) is reviewed and accepted but not merged. **The prose below is written against roles, not hexes, so it survives that swap without edits.** Regenerate the frontmatter after the merge; do not rewrite the rules.
+> **Palette in migration — and v3 is a different model, not a recolour.**
+>
+> The frontmatter above is the current **v2** palette: one purple accent on cool neutrals. **v3 "Zuihoden"** is reviewed and accepted but not merged (plan Phase 5). It replaces one-accent-monochrome with **five colours, one job each**, on a warm stone ground:
+>
+> | Colour | Job — and only this job |
+> |---|---|
+> | Akane 茜色 `#D72E2E` | The hanko and error states. **Never a CTA.** |
+> | Ai-iro 藍色 `#1F3A66` | Primary action, headings, Japanese content, chrome text. |
+> | Rokushō 緑青 `#4F9C8D` | Progress, correctness, secondary action, links. |
+> | Ōgon 黄金 `#C9A045` | Focus rings, scenario tags, hairlines on dark chrome. |
+> | Sumi-iro 墨色 `#2D2D2D` | Inverse chrome — header band, kana keyboard frame. |
+>
+> Ground becomes warm stone: page `#F7F6F1`, cards `#FFFDF8`. **The warmth is load-bearing** — `#FFFDF8` is not a mistake for `#FFFFFF`, and "cleaning it up" to pure white is the specific way v3 predicts it will get broken.
+>
+> **What this means for the prose below:** the *principles* survive the swap and the *counts* do not. Where a rule says "the accent", read "the role". Do not enforce one-accent-monochrome against v3 work — Phase 3B deliberately puts colour on links, tags, progress, and inverse chrome. Regenerate the frontmatter after the merge; do not rewrite the rules.
 
 ## Overview
 
@@ -108,7 +122,7 @@ AburunGo is a beautifully made adult study object — a Muji notebook, a Leica b
 
 The warmth is real but held in reserve. Personality enters through writing, pacing, and a small number of chosen accent moments — never through structure. The governing tension: **the interface should look more serious than the copy sounds.** An interface that reads as playful has taken the charm out of the words and put it in the furniture, which is the wrong place for it.
 
-Restraint here is load-bearing rather than stylistic. Whitespace is what makes an accent moment land; if colour is everywhere, nothing is emphasised. The system is monochrome by default so that the one accent means something when it appears.
+Restraint here is load-bearing rather than stylistic. Whitespace is what makes a colour moment land; if colour is everywhere, nothing is emphasised. Colour appears only where it marks what something is *for* — which under v2 means a single accent, and under v3 means five roles used just as sparingly.
 
 **Key Characteristics:**
 - Calm, structured, adult — no cheerleading, no reward loop
@@ -122,10 +136,10 @@ Restraint here is load-bearing rather than stylistic. Whitespace is what makes a
 
 ## Colors
 
-A monochrome purple-undertone neutral system with exactly one accent and one pair of feedback colours. The neutrals are deliberately not pure grey — the ink carries a purple undertone so it sits with the brand rather than beside it.
+**This section documents the current v2 palette.** A purple-undertone neutral system with one accent and one pair of feedback colours. The neutrals are deliberately not pure grey — the ink carries a purple undertone so it sits with the brand rather than beside it. v3 replaces this wholesale; see the migration note above.
 
 ### Primary
-- **Plum** (`#753686`): the only accent. It appears on primary actions and focus rings, and nowhere else. It is not a decorative colour and never fills a large surface at full strength.
+- **Plum** (`#753686`): the v2 accent. It appears on primary actions and focus rings. It is not a decorative colour and never fills a large surface at full strength. (Under v3 this role splits: primary action becomes Ai-iro, focus becomes Ōgon, and the mark becomes Akane.)
 - **Plum Press** (`#662e75`): the pressed state of any plum surface. Touch-first means press states are required, not optional.
 - **Plum Tint** (`#efe5f1`): quiet tinted backing for badges and callouts, where full-strength plum would shout.
 
@@ -147,7 +161,9 @@ Reserved exclusively for answer correctness. These are the only colours in the s
 
 ### Named Rules
 
-**The One Accent Rule.** Colour lands on CTAs, focus rings, and the brand mark. Nowhere else. If a surface needs emphasis and none of those three apply, the answer is space or weight, not hue.
+**The Structural Colour Rule.** Colour is used sparingly and *structurally* — it marks what a thing is for, never decorates. If a surface needs emphasis and no role applies, the answer is space or weight, not hue.
+
+Under the **current v2 palette** that resolves to a single accent on CTAs, focus rings, and the mark. Under **incoming v3** the same discipline is spread across five colours with one job each. The rule survives; the count does not. Do not restate this as "one accent, nowhere else" — see the migration note at the top of this file.
 
 **The Reserved Feedback Rule.** Green and red exist only to mark an answer. They never indicate status, category, priority, or availability. A learner must be able to trust that a red thing means *they got something wrong*, not that a server is down.
 
@@ -257,7 +273,7 @@ Where the app grades rather than the learner, `AnswerResult` owns the treatment:
 - **Do** use filled inline SVG icons.
 
 ### Don't:
-- **Don't** add a second accent colour. The monochrome default is what makes the one accent work.
+- **Don't** introduce a colour that has no role. Every colour in the system answers "what is this *for*" — a new hue needs a job, not a preference. (This is not a ban on multiple colours: v3 has five. It is a ban on decorative ones.)
 - **Don't** use green or red for anything except answer correctness.
 - **Don't** add XP, hearts, badges, streaks, mascots, levels, or any ornament that accumulates onto a person.
 - **Don't** write verdict prose — no "correct", "wrong", "incorrect", "failed", or "missed", no percentages, no letter grades, no pass/fail. `Recalled!` / `Not quite` is the sanctioned pair and must not be softened.

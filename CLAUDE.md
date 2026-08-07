@@ -99,11 +99,39 @@ After any changes here, run `pnpm build` before testing in the app. The app's pn
 
 ## Design rules
 
-- Restraint over decoration: colour lands on CTAs, focus rings, and the brand mark, nowhere else. Each is a separate role token in `src/tokens.css` — use the role, never a hex. Values live in `docs/colors.md`.
+- **Restraint over decoration.** Saturated colour is used sparingly and structurally, against a calm ground. That principle is durable; the specific palette is not — see the migration note below. Use the role token, never a hex.
 - Noto Sans for English UI (`font-sans`), M PLUS Rounded 1c for Japanese content (`font-jp`).
 - Filled inline SVG icons only. No emoji, no outline icons.
 - Prefer role tokens (`bg-surface`, `text-fg-muted`) over value tokens (`brand-500`).
 - `DESIGN.md` is the full visual spec — palette roles, type hierarchy, the maru boundary rule, per-surface taste dials, and which skill generators are switched off. Read it before any design work.
+
+### ⚠️ The palette is mid-migration — do not enforce the outgoing model
+
+The repo currently runs **v2: one purple accent on a cool-neutral UI.** The
+incoming **v3 "Zuihoden"** palette is reviewed and accepted but not merged
+(plan Phase 5). It is a *different model*, not a recolour:
+
+| | v2 (in the repo now) | v3 (incoming) |
+| --- | --- | --- |
+| Model | one accent, monochrome otherwise | **five colours, one job each** |
+| Primary action | the accent | Ai-iro 藍色 — **never Akane** |
+| Brand mark | the accent | Akane 茜色 — mark and errors only |
+| Focus ring | the accent | Ōgon 黄金 |
+| Progress / correctness / links / secondary | — | Rokushō 緑青 |
+| Inverse chrome | — | Sumi-iro 墨色 |
+| Ground | white / cool neutrals | **warm stone** — page `#F7F6F1`, cards `#FFFDF8` |
+
+Two consequences while both models are in play:
+
+1. **Do not write "one accent, nowhere else" as a rule.** It is v2-specific.
+   v3 puts colour on links, scenario tags, progress bars, secondary buttons,
+   headings, Japanese content, and inverse chrome. Phase 3B *builds* those —
+   a rule banning them would make a session reject its own plan.
+2. **The warm neutrals are load-bearing.** `#FFFDF8` is not a mistake for
+   `#FFFFFF`. Do not "clean up" warm stone to pure white; v3's own rationale
+   names that as the most likely way this gets broken.
+
+`docs/colors.md` (v3 version) is the authority once Phase 5 lands.
 
 ## TypeScript conventions
 
