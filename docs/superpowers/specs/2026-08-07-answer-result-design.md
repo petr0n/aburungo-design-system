@@ -1,6 +1,6 @@
 # AnswerResult + Maru — design
 
-**Date:** 2026-08-07 · **Branch:** `feature/answer-result` · **Status:** approved, not yet built
+**Date:** 2026-08-07 · **Branch:** `feature/answer-result` · **Status:** built, committed on `feature/answer-result`
 
 ## Problem
 
@@ -32,10 +32,10 @@ type MaruProps = {
   className?: string
 }
 
-// AnswerResult — the quiet reveal frame.
+// AnswerResult — the banner + reveal frame.
 type AnswerResultProps = {
   outcome: AnswerOutcome
-  /** What the learner typed. Rendered muted, only when passed. */
+  /** What the learner typed. Shown in the banner when passed. */
   userAnswer?: string
   /** The correct answer — JP, reading, polite forms. The consumer's shape. */
   children: ReactNode
@@ -44,7 +44,7 @@ type AnswerResultProps = {
 
 **`outcome`, not `correct: boolean`.** A boolean invites `correct ? "…" : "…"` at every call site, which is exactly how the copy drifted. Naming the states after the approved vocabulary keeps the banned words out of the component's type.
 
-**Content is `children`, not a prop.** The two consumers render Japanese, reading, and sometimes polite forms; the shapes differ. The design system owns the frame — mark, ground, `you typed` line — and card semantics stay with the card.
+**Content is `children`, not a prop.** The two consumers render Japanese, reading, and sometimes polite forms; the shapes differ. The design system owns the frame — banner, wording, `You answered` line — and card semantics stay with the card.
 
 ## Rendering
 
@@ -71,5 +71,5 @@ type AnswerResultProps = {
 ## Out of scope
 
 - `RecognitionPass` — shows no per-answer feedback. Whether it should is a separate product question.
-- `ScoreCard`'s `label` default still reads `"correct"`. A one-word fix, tracked separately.
+- `ScoreCard`'s `label` default was flipped to `"recalled"` in the same branch — it fixed two app call sites with no app change.
 - The plan's "no new components — 18 is enough" exclusion is now wrong and should be amended to record this component and why.
