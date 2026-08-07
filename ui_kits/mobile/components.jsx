@@ -245,14 +245,14 @@ function ErrorState({ message, description, action }) {
   );
 }
 
-function ScoreCard({ correct, total, children }) {
+function ScoreCard({ correct, total, label = 'recalled', children }) {
   return (
     <div className="flex flex-col gap-6">
       <div className="rounded-2xl border border-border bg-surface p-6 text-center">
         <p className="text-display font-bold text-fg">
           {correct}<span className="text-heading-lg text-fg-subtle"> / {total}</span>
         </p>
-        <p className="mt-1 text-body-sm text-fg-subtle">correct</p>
+        <p className="mt-1 text-body-sm text-fg-subtle">{label}</p>
       </div>
       {children}
     </div>
