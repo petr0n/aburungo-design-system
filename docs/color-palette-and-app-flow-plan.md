@@ -525,7 +525,7 @@ Mirror the 11 pages that already exist in `../aburungo/src/pages/` rather than i
 |---|---|---|
 | Session start | `LearnPage`, `PracticePage` | entry, unit select, session config |
 | **Flashcard round ✅ built** | `FlashcardPage` | prompt, reveal, self-grade, round summary + loading / empty / error |
-| Kana practice | `KanaPage`, `KanaPracticePage` | grid, drill, keyboard entry, result |
+| **Kana practice ✅ built** | `KanaPage`, `KanaPracticePage` | chart, drill, answered, keyboard entry, result + loading / empty / error |
 | Pronunciation | `ConversationPage` | idle, recording, processing, scored, retry |
 | Progress | `ProfilePage` | overview, per-unit detail |
 
@@ -545,6 +545,20 @@ show. Four, from one flow:
 
 Two of these are §3.0 work the component pass has not reached yet, which is the
 argument for building flows early rather than last.
+
+### What the kana flow found (2026-08-08)
+
+| # | Finding | Status |
+|---|---|---|
+| 5 | **`KanaKeyboard` does not fit a phone.** The gojūon grid is ten rows at the 44px touch floor, plus the script/section toggles and the utility row: **596px of a 780px screen.** The entry screen only works because the keyboard docks to the bottom and the prompt collapses to a single line — no card, no reveal, no second control. Worse for `FillInput`, which embeds the keyboard *inside* a bordered display block on the flashcard screen; that combination cannot fit at any viewport a phone has | **open, and the biggest one.** Either the keyboard gets a compact layout (flick-style 3×4, or a section-per-screen default other than あ〜ん), or every surface that uses it must dock it. A call-site fix does not scale — `FillInput` is the one the app actually imports |
+| 6 | **`KanaGrid` had no way to show a learned kana.** §3.0 specified a ring rather than a fill; the component had neither, and `renderKey` returned `string`, so a reference chart could not show romaji under the character either | **fixed** — `learned?: ReadonlySet<string>` draws an inset Rokushō ring, and `renderKey` widened to `ReactNode`. The ring reads clearly at a glance without touching the character's legibility, which was the argument for it |
+| 7 | **The multiple-choice tile is not a component.** §3.0 puts the maru on `KanaPracticePage`'s choice tiles, and the tile — neutral, then ○ on the answer and ✕ on the wrong pick — is composed in the flow file. Any other multiple-choice surface will retype it | **open** — extract once a second caller exists, not before |
+| 8 | Once answered, the two unpicked tiles keep full opacity (deliberate, so the correct answer stays readable) but are disabled, so they still read as tappable | **open** — small, cosmetic |
+
+**Two answered questions**, both of which needed a screen:
+
+- **The Rokushō keyboard is right.** Sumi-iro band at the top, Rokushō slab at the bottom, warm stone between: the screen has two coloured fields and neither reads as a second near-black. The v3 default of a Sumi-iro keyboard would have.
+- **The maru boundary holds.** ○ / ✕ on the choice tiles are per-answer and vanish on `Next`; the result screen's mark row is per-round and vanishes with the round. Nothing survives onto a profile, which is the §3.0 line.
 
 ---
 

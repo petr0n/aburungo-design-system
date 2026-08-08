@@ -35,32 +35,48 @@ esm.sh via the import map in `index.html`, which keeps the committed
 `dist/tokens.plain.css` is: these pages are static, and a preview that needs a
 build step first is a preview nobody looks at.
 
+## Flows
+
+| File | Mirrors | Status |
+|---|---|---|
+| `flashcard-round.tsx` | `FlashcardPage.tsx` | built |
+| `kana-practice.tsx` | `KanaPage.tsx`, `KanaPracticePage.tsx` | built |
+
+`shell.tsx` is the harness around them — phone frame, state rail, legend.
+Nothing in it ships.
+
+Session start, pronunciation, and progress are still to come.
+
 ## Deep links
 
 Every state has a URL, so it can be shared and so `pnpm shots` can capture it
-without driving clicks:
+without driving clicks. `?flow=` picks the flow, `?state=` the state.
+
+**`?flow=flashcard`** (the default)
 
 | URL | State |
 |---|---|
 | `?state=round&step=prompt` | the card, English hidden |
 | `?state=round&step=reveal` | flipped, self-grade pair |
 | `?state=round&step=summary` | round summary with the per-answer mark row |
-| `?state=loading` | round being assembled |
-| `?state=empty` | nothing due |
-| `?state=error` | load failed |
+| `?state=loading` / `empty` / `error` | the three non-happy states |
 | `?state=checked` | `AnswerResult` — the app grading, for contrast with self-grading |
 
-## Flows
+**`?flow=kana`**
 
-| File | Mirrors | Status |
-|---|---|---|
-| `flashcard-round.tsx` | `../aburungo/src/pages/FlashcardPage.tsx` | built |
+| URL | State |
+|---|---|
+| `?state=chart` | reference grid, settled kana ringed |
+| `?state=drill` | multiple choice, unanswered |
+| `?state=answered` | ○ / ✕ on the tiles |
+| `?state=keyboard` | the Rokushō keyboard docked under the Sumi-iro band |
+| `?state=result` | round summary |
+| `?state=loading` / `empty` / `error` | the three non-happy states |
 
-Session start, kana practice, pronunciation, and progress are still to come.
+## What they found
 
-## What it found
-
-Four things no component in isolation could show — the header band resolving to
+Eight things no component in isolation could show — the header band resolving to
 no colour at all, the self-grade pair sitting on the correctness colour,
-`FlipCard`'s faces not matching height, and `ProgressBar` colliding with the
-band's hairline. Written up under **What the first flow found** in the plan.
+`FlipCard`'s faces not matching height, and `KanaKeyboard` taking 596px of a
+780px phone. Written up under **What the first flow found** and **What the kana
+flow found** in the plan.

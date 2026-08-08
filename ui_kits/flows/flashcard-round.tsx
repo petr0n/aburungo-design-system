@@ -13,7 +13,6 @@
  * `useState` in one file is the mockup, not an app.
  */
 import { useState } from 'react'
-import type { ReactNode } from 'react'
 import {
   AnswerResult,
   AppHeader,
@@ -25,10 +24,11 @@ import {
   LoadingPlaceholder,
   Maru,
   PhraseCard,
-  ProgressBar,
   ScoreCard,
 } from '../../src/components'
 import type { AnswerOutcome, PhraseAccent } from '../../src/components'
+import { FlowPage, Phone, Screen, SessionProgress, fromUrl } from './shell'
+import type { FlowState } from './shell'
 
 // ─── Content — real phrases, from src/content/phrases/*.yaml ────────────────
 
@@ -78,37 +78,6 @@ const PHRASES: Phrase[] = [
     accent: 'ogon',
   },
 ]
-
-// ─── Phone shell ───────────────────────────────────────────────────────────
-
-function Phone({ children }: { children: ReactNode }) {
-  return (
-    <div className="w-[390px] shrink-0 overflow-hidden rounded-[2.25rem] border-8 border-inverse bg-bg shadow-card">
-      <div className="flex h-[780px] flex-col">{children}</div>
-    </div>
-  )
-}
-
-/**
- * ProgressBar flush under the header put a Rokushō fill directly against the
- * band's Ōgon hairline — the two read as one two-tone rule rather than a rule
- * and a progress bar. The gap is the fix; noted as an AppHeader adjacency
- * finding rather than a component change made from one screen.
- */
-function SessionProgress({ value }: { value: number }) {
-  return (
-    <div className="px-4 pt-4">
-      <ProgressBar value={value} />
-    </div>
-  )
-}
-
-/** Everything below the header band: the page ground, scrolling. */
-function Screen({ children }: { children: ReactNode }) {
-  return (
-    <div className="flex flex-1 flex-col gap-5 overflow-y-auto px-4 pb-8 pt-5">{children}</div>
-  )
-}
 
 // ─── The round ─────────────────────────────────────────────────────────────
 
@@ -364,22 +333,13 @@ function CheckedScreen() {
 
 type StateId = 'round' | 'loading' | 'empty' | 'error' | 'checked'
 
-const STATES: { id: StateId; label: string; note: string }[] = [
-  { id: 'round', label: 'In progress', note: 'prompt → reveal → self-grade → summary' },
+const STATES: readonly FlowState<StateId>[] = [
+  { id: 'round', label: 'In progress', note: 'prompt \u2192 reveal \u2192 self-grade \u2192 summary' },
   { id: 'loading', label: 'Loading', note: 'round is being assembled' },
   { id: 'empty', label: 'Empty', note: 'nothing due' },
   { id: 'error', label: 'Error', note: 'load failed, progress intact' },
   { id: 'checked', label: 'App-checked', note: 'AnswerResult, for comparison' },
 ]
-
-/**
- * `?state=empty`, `?step=summary` — deep links, so a state can be shared and so
- * `pnpm shots` can capture each one without driving clicks.
- */
-function fromUrl<T extends string>(key: string, allowed: readonly T[], fallback: T): T {
-  const raw = new URLSearchParams(window.location.search).get(key)
-  return allowed.find((v) => v === raw) ?? fallback
-}
 
 const STEPS = ['prompt', 'reveal', 'summary'] as const
 
@@ -396,62 +356,20 @@ export function FlashcardRound() {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-6 py-10">
-      <header className="flex flex-col gap-2">
-        <h1 className="text-heading-lg font-semibold text-fg-heading">
-          Flashcard round
-        </h1>
-        <p className="max-w-prose text-body text-fg-subtle">
-          The five states of one flow, built from the shipped components — not a
-          mirror of them. Click through the round: show the answer, grade
-          yourself, reach the summary.
-        </p>
-      </header>
-
-      <div className="flex flex-wrap gap-2">
-        {STATES.map((s) => (
-          <button
-            key={s.id}
-            type="button"
-            onClick={() => reset(s.id)}
-            aria-pressed={state === s.id}
-            className={[
-              'min-h-[44px] rounded-lg border px-4 text-body-sm font-medium transition-colors',
-              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
-              state === s.id
-                ? 'border-transparent bg-action text-action-fg'
-                : 'border-border bg-surface text-fg-muted active:bg-surface-2',
-            ].join(' ')}
-          >
-            {s.label}
-          </button>
-        ))}
-      </div>
-
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-10">
-        <Phone key={nonce}>
-          {state === 'round' && <Round from={step} onExhausted={() => reset('empty')} />}
-          {state === 'loading' && <LoadingScreen />}
-          {state === 'empty' && <EmptyScreen onRestart={() => reset('round')} />}
-          {state === 'error' && <ErrorScreen onRetry={() => reset('round')} />}
-          {state === 'checked' && <CheckedScreen />}
-        </Phone>
-
-        <dl className="flex flex-col gap-4 pt-2 text-body-sm">
-          {STATES.map((s) => (
-            <div key={s.id} className="flex flex-col">
-              <dt
-                className={
-                  state === s.id ? 'font-semibold text-fg-heading' : 'font-medium text-fg-muted'
-                }
-              >
-                {s.label}
-              </dt>
-              <dd className="text-fg-subtle">{s.note}</dd>
-            </div>
-          ))}
-        </dl>
-      </div>
-    </div>
+    <FlowPage
+      title="Flashcard round"
+      blurb="The five states of one flow, built from the shipped components \u2014 not a mirror of them. Click through the round: show the answer, grade yourself, reach the summary."
+      states={STATES}
+      current={state}
+      onSelect={reset}
+    >
+      <Phone key={nonce}>
+        {state === 'round' && <Round from={step} onExhausted={() => reset('empty')} />}
+        {state === 'loading' && <LoadingScreen />}
+        {state === 'empty' && <EmptyScreen onRestart={() => reset('round')} />}
+        {state === 'error' && <ErrorScreen onRetry={() => reset('round')} />}
+        {state === 'checked' && <CheckedScreen />}
+      </Phone>
+    </FlowPage>
   )
 }
