@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>AburunGo — Flow mockups</title>
+
+  <!-- Generated token sheet, for the plain CSS below and for brand.css, which
+       reads var(--color-*) directly rather than through Tailwind. -->
+  <link rel="stylesheet" href="../../dist/tokens.plain.css">
+  <link rel="stylesheet" href="../../src/brand.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap">
+  <style>
+    @font-face {
+      font-family: "Noto Sans";
+      font-style: normal;
+      font-weight: 100 900;
+      font-display: swap;
+      src: url("../../fonts/NotoSans-VariableFont_wdth_wght.ttf") format("truetype-variations"),
+           url("../../fonts/NotoSans-VariableFont_wdth_wght.ttf") format("truetype");
+    }
+  </style>
+
+  <!-- Tailwind v4 browser runtime. The @theme block below is injected by
+       scripts/build-tokens.mjs — the browser build will not read @theme out of
+       an @import, so it is regenerated here rather than imported. Edit
+       src/tokens.css; anything typed between the markers is overwritten. -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    /* build-tokens:start */
+    @theme {
+      --color-akane-50: #fdf3f2;
+      --color-akane-100: #fbe3e1;
+      --color-akane-200: #f5c2be;
+      --color-akane-300: #ec9791;
+      --color-akane-400: #e26059;
+      --color-akane-500: #D72E2E;
+      --color-akane-600: #b82525;
+      --color-akane-700: #951e1e;
+      --color-akane-800: #6f1616;
+      --color-akane-900: #4a1010;
+      --color-ai-50: #eff3f9;
+      --color-ai-100: #dde5f1;
+      --color-ai-200: #bcc9e0;
+      --color-ai-300: #8fa5c7;
+      --color-ai-400: #5c7aa8;
+      --color-ai-500: #1F3A66;
+      --color-ai-600: #1a3157;
+      --color-ai-700: #16294a;
+      --color-ai-800: #101d34;
+      --color-ai-900: #0a1322;
+      --color-rokusho-50: #eef6f4;
+      --color-rokusho-100: #d9ebe7;
+      --color-rokusho-200: #b3d7cf;
+      --color-rokusho-300: #85bfb3;
+      --color-rokusho-400: #63a99a;
+      --color-rokusho-500: #4F9C8D;
+      --color-rokusho-600: #418176;
+      --color-rokusho-700: #33685e;
+      --color-rokusho-800: #264d46;
+      --color-rokusho-900: #18322d;
+      --color-ogon-50: #fbf6ea;
+      --color-ogon-100: #f6ecd2;
+      --color-ogon-200: #ecd9a5;
+      --color-ogon-300: #dfc074;
+      --color-ogon-400: #d3ad55;
+      --color-ogon-500: #C9A045;
+      --color-ogon-600: #ab8639;
+      --color-ogon-700: #8a6a2b;
+      --color-ogon-800: #654d1f;
+      --color-ogon-900: #423214;
+      --color-stone-0: #FFFDF8;
+      --color-stone-50: #F7F6F1;
+      --color-stone-100: #EFEDE5;
+      --color-stone-200: #E2DED2;
+      --color-stone-300: #CFC9B9;
+      --color-stone-400: #A4A4A4;
+      --color-stone-500: #6B665E;
+      --color-stone-600: #57534C;
+      --color-stone-700: #403D38;
+      --color-stone-800: #2D2D2D;
+      --color-stone-900: #1A1815;
+      --color-fg: #2D2D2D;
+      --color-fg-heading: #1F3A66;
+      --color-fg-muted: #57534C;
+      --color-fg-subtle: var(--color-stone-500);
+      --color-fg-faint: var(--color-stone-500);
+      --color-fg-inverse: #FFFDF8;
+      --color-fg-on-inverse-2: #A4A4A4;
+      --color-bg: var(--color-stone-50);
+      --color-surface: var(--color-stone-0);
+      --color-surface-2: #EFEDE5;
+      --color-inverse: #2D2D2D;
+      --color-border: #E2DED2;
+      --color-border-strong: #CFC9B9;
+      --color-border-focus: #5c7aa8;
+      --color-rule-on-inverse: #8a6a2b;
+      --color-inverse-on-ogon: var(--color-stone-800);
+      --color-accent-ogon: var(--color-ogon-500);
+      --color-accent-ogon-fg: var(--color-stone-800);
+      --color-accent-ai: var(--color-ai-500);
+      --color-accent-ai-fg: var(--color-stone-0);
+      --color-accent-rokusho: var(--color-rokusho-500);
+      --color-accent-rokusho-fg: var(--color-stone-0);
+      --color-accent-akane: var(--color-akane-500);
+      --color-accent-akane-fg: var(--color-stone-0);
+      --color-keyboard-bg: var(--color-rokusho-700);
+      --color-keyboard-rule: var(--color-rokusho-800);
+      --color-key-bg: var(--color-stone-0);
+      --color-key-fg: var(--color-rokusho-900);
+      --color-key-press: var(--color-rokusho-100);
+      --color-action: #1F3A66;
+      --color-action-press: #16294a;
+      --color-action-fg: #FFFDF8;
+      --color-action-2-bg: var(--color-rokusho-100);
+      --color-action-2-fg: #33685e;
+      --color-action-2-border: var(--color-rokusho-500);
+      --color-accent: #D72E2E;
+      --color-accent-fg: #FFFDF8;
+      --color-tag-bg: var(--color-ogon-200);
+      --color-tag-fg: var(--color-ogon-700);
+      --color-link: #33685e;
+      --color-success-bg: var(--color-rokusho-100);
+      --color-success-fg: var(--color-rokusho-800);
+      --color-success-500: #4F9C8D;
+      --color-error-bg: var(--color-akane-100);
+      --color-error-fg: var(--color-akane-800);
+      --color-error-500: #D72E2E;
+      --color-error-border: var(--color-akane-300);
+      --color-success-border: var(--color-rokusho-300);
+      --color-progress-track: #EFEDE5;
+      --color-progress-fill: var(--color-rokusho-500);
+      --color-progress-complete: #C9A045;
+      --color-brand-50: #fdf3f2;
+      --color-brand-100: #fbe3e1;
+      --color-brand-200: #f5c2be;
+      --color-brand-300: #ec9791;
+      --color-brand-400: #e26059;
+      --color-brand-500: #D72E2E;
+      --color-brand-600: #b82525;
+      --color-brand-700: #951e1e;
+      --color-brand-800: #6f1616;
+      --color-brand-900: #4a1010;
+      --color-ink: #2D2D2D;
+      --color-ink-2: #57534C;
+      --color-ink-3: #78736B;
+      --color-paper: #FFFDF8;
+      --color-paper-warm: #F7F6F1;
+      --color-mist: #EFEDE5;
+      --color-cream: #F7F6F1;
+      --color-cream-line: #CFC9B9;
+      --color-rose: #C9A045;
+      --color-dusk: #A4A4A4;
+      --color-line: #E2DED2;
+      --color-line-2: #EFEDE5;
+      --color-zinc-0: #FFFDF8;
+      --color-zinc-50: #F7F6F1;
+      --color-zinc-100: #EFEDE5;
+      --color-zinc-200: #E2DED2;
+      --color-zinc-300: #CFC9B9;
+      --color-zinc-400: #A4A4A4;
+      --color-zinc-500: #78736B;
+      --color-zinc-600: #57534C;
+      --color-zinc-700: #403D38;
+      --color-zinc-800: #2D2D2D;
+      --color-zinc-900: #1A1815;
+      --font-sans: "Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --font-jp: "M PLUS Rounded 1c", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+      --text-caption: 0.75rem;
+      --text-caption--line-height: 1rem;
+      --text-caption--font-weight: 500;
+      --text-body-sm: 0.875rem;
+      --text-body-sm--line-height: 1.25rem;
+      --text-body-sm--font-weight: 400;
+      --text-body: 1rem;
+      --text-body--line-height: 1.5rem;
+      --text-body--font-weight: 400;
+      --text-body-lg: 1.125rem;
+      --text-body-lg--line-height: 1.625rem;
+      --text-body-lg--font-weight: 400;
+      --text-heading-sm: 1.25rem;
+      --text-heading-sm--line-height: 1.625rem;
+      --text-heading-sm--font-weight: 600;
+      --text-heading: 1.5rem;
+      --text-heading--line-height: 1.875rem;
+      --text-heading--font-weight: 600;
+      --text-heading-lg: 1.875rem;
+      --text-heading-lg--line-height: 2.25rem;
+      --text-heading-lg--font-weight: 600;
+      --text-display: 2.25rem;
+      --text-display--line-height: 2.5rem;
+      --text-display--font-weight: 700;
+      --text-display-lg: 3rem;
+      --text-display-lg--line-height: 3.25rem;
+      --text-display-lg--font-weight: 700;
+      --text-jp: 1.125rem;
+      --text-jp--line-height: 1.75rem;
+      --text-jp--font-weight: 400;
+      --text-jp-lg: 1.5rem;
+      --text-jp-lg--line-height: 2.25rem;
+      --text-jp-lg--font-weight: 500;
+      --text-jp-display: 2rem;
+      --text-jp-display--line-height: 3rem;
+      --text-jp-display--font-weight: 500;
+      --text-jp-display-lg: 2.5rem;
+      --text-jp-display-lg--line-height: 3.5rem;
+      --text-jp-display-lg--font-weight: 500;
+      --spacing: 0.25rem;
+      --radius-sm: 0.375rem;
+      --radius-md: 0.5rem;
+      --radius-lg: 0.75rem;
+      --radius-xl: 1rem;
+      --radius-2xl: 1.25rem;
+      --radius-full: 9999px;
+      --shadow-card: 0 1px 2px 0 rgb(45 45 45 / 0.05);
+      --shadow-key: 0 1px 2px 0 rgb(45 45 45 / 0.04);
+      --shadow-key-on-inverse: 0 1px 2px 0 rgb(0 0 0 / 0.24);
+      --animate-card-enter: card-enter 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+      --animate-card-exit: card-exit  0.2s  ease-in                        both;
+      --color-focus: var(--color-ogon-500);
+      --color-focus-on-inverse: var(--color-ogon-500);
+      --color-accent-press: var(--color-akane-700);
+      --color-action-2-press: var(--color-rokusho-100);
+      --color-cream-deboss: var(--color-stone-300);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       Reduced motion.  These animations are the only motion the package ships,
+       and they fired unconditionally until now.
+
+       This lives in tokens.css, not index.css, because the consuming app imports
+       *this* file — `../aburungo/src/index.css` pulls in tokens.css and brand.css
+       and never touches our index.css.  A guard there would never have reached
+       the product, which is where FlipCard actually runs.
+
+       Neutralised rather than shortened: a card sliding 36px is decoration, and
+       someone who asked for less motion gets none of it.  Scoped to the two
+       animation tokens rather than a blanket `* { animation: none }` so motion
+       that carries meaning — a spinner, a progress fill — survives.
+       ───────────────────────────────────────────────────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      :root {
+        --animate-card-enter: none;
+        --animate-card-exit: none;
+      }
+    }
+
+    @keyframes card-enter {
+      from { transform: translateY(-36px); opacity: 0; }
+      to   { transform: translateY(0);     opacity: 1; }
+    }
+
+    @keyframes card-exit {
+      from { transform: translateY(0);     opacity: 1; }
+      to   { transform: translateY(44px);  opacity: 0; }
+    }
+    /* build-tokens:end */
+  </style>
+
+  <style>
+    body { background: var(--color-bg); color: var(--color-fg); }
+  </style>
+
+  <!-- React is external to the bundle so the committed bundle stays our source
+       only. Pinned; the page already needs a CDN for Tailwind. -->
+  <script type="importmap">
+  {
+    "imports": {
+      "react": "https://esm.sh/react@19.2.0",
+      "react/jsx-runtime": "https://esm.sh/react@19.2.0/jsx-runtime",
+      "react-dom": "https://esm.sh/react-dom@19.2.0",
+      "react-dom/client": "https://esm.sh/react-dom@19.2.0/client?deps=react@19.2.0"
+    }
+  }
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+  <!-- Generated by scripts/build-flows.mjs from ./*.tsx. Rebuild: pnpm build:flows -->
+  <script type="module" src="./bundle.js"></script>
+</body>
+</html>

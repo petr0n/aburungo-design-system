@@ -503,17 +503,48 @@ This is where the skills earn their place. Everything below is work the drop spe
 
 **Branch:** `feat/flow-mockups` · **Static HTML/JSX only.** No routing, no state management, no Supabase — `CLAUDE.md` boundary. Real wiring happens in `../aburungo` later via `/handoff-to-app`.
 
-Land in `ui_kits/mobile/screens.jsx` + `preview/`. Mirror the 11 pages that already exist in `../aburungo/src/pages/` rather than inventing new ones:
+**Where they land — changed 2026-08-08.** Not `ui_kits/mobile/screens.jsx`. That
+file is a hand-written mirror: every component typed out a second time in
+browser JSX, and every one of them a palette behind. Building 25 mockups on it
+would triple the drift.
+
+Flows live in **`ui_kits/flows/`** and import `src/components` directly.
+`scripts/build-flows.mjs` bundles them with esbuild (React external, from the
+host page's import map) into a committed `bundle.js` — committed for the same
+reason `dist/tokens.plain.css` is: the pages are static, and a preview that
+needs a build first is a preview nobody looks at. `pnpm build:flows`, or `pnpm
+build`. There is no second copy, so a component change shows up in the flow the
+next time it is built.
+
+Each state is deep-linkable — `?state=empty`, `?step=summary` — so `pnpm shots`
+captures them without driving clicks.
+
+Mirror the 11 pages that already exist in `../aburungo/src/pages/` rather than inventing new ones:
 
 | Flow | Mirrors | Screens |
 |---|---|---|
 | Session start | `LearnPage`, `PracticePage` | entry, unit select, session config |
-| Flashcard round | `FlashcardPage` | prompt, reveal, self-grade, round summary |
+| **Flashcard round ✅ built** | `FlashcardPage` | prompt, reveal, self-grade, round summary + loading / empty / error |
 | Kana practice | `KanaPage`, `KanaPracticePage` | grid, drill, keyboard entry, result |
 | Pronunciation | `ConversationPage` | idle, recording, processing, scored, retry |
 | Progress | `ProfilePage` | overview, per-unit detail |
 
 Each flow ships **all five states** — loading, empty, error, success, in-progress — not just the happy path. That's `/impeccable harden` + `onboard` territory, and it's where v1's "strengthen stateful experiences" bullet becomes checkable: 5 flows × 5 states = 25 mockups, each either present or not.
+
+### What the first flow found (2026-08-08)
+
+The point of building a screen is the things a component in isolation cannot
+show. Four, from one flow:
+
+| # | Finding | Status |
+|---|---|---|
+| 1 | **`bg-inverse` resolved to nothing.** The token was `--color-bg-inverse`, which Tailwind turns into `bg-bg-inverse`. `AppHeader`'s band rendered transparent with near-white text on the page ground — an invisible title. No check caught it: the contrast gate reads tokens, not utilities, and the sandbox pages that approved the treatment used the CSS variable, which resolved fine | **fixed** — token renamed `--color-inverse`. Written up in [`docs/colors.md`](colors.md#orphaned-roles-task-26) as a correction to send back |
+| 2 | **The self-grade pair sits on the wrong colour.** `Button variant="secondary"` is Rokushō-tinted — the correctness colour — so ✕ *Worth another look* renders a red glyph on a success-green field, saying two things at once. Overridden at the call site for now | **open** — `Button` needs an outcome-aware variant, or the pair needs its own component. §3.0's "`FlipCard` self-grade buttons carry ○ / ✕" is not finished until this is decided |
+| 3 | **`FlipCard` faces are not equal height.** The back is positioned `absolute inset-0`, so it inherits the front's height and clips when it is taller — which it always is, since the back adds the English and the note. Every call site has to pin a floor | **open** — belongs in `FlipCard`, not in each caller |
+| 4 | **`ProgressBar` flush under `AppHeader`** puts a Rokushō fill directly against the band's Ōgon hairline; the two read as one two-tone rule | **open** — spacing decision, cheap either way |
+
+Two of these are §3.0 work the component pass has not reached yet, which is the
+argument for building flows early rather than last.
 
 ---
 

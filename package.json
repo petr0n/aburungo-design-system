@@ -1,7 +1,7 @@
 {
   "name": "aburungo-design-system",
   "version": "0.1.0",
-  "description": "AburunGo component library \u2014 design tokens, primitives, and domain components",
+  "description": "AburunGo component library — design tokens, primitives, and domain components",
   "type": "module",
   "packageManager": "pnpm@11.1.3",
   "exports": {
@@ -34,11 +34,12 @@
     "check:brand": "node scripts/check-forbidden-assets.mjs",
     "check:adherence": "node scripts/check-adherence.mjs",
     "lint": "oxlint --config .oxlintrc.json src/ && pnpm check:adherence && pnpm check:contrast",
-    "build": "pnpm check:brand && pnpm lint && tsup && pnpm build:tokens",
+    "build": "pnpm check:brand && pnpm lint && tsup && pnpm build:tokens && pnpm build:flows",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "prepare": "tsup",
     "build:tokens": "node scripts/build-tokens.mjs",
+    "build:flows": "node scripts/build-flows.mjs",
     "check:contrast": "node scripts/check-contrast.mjs",
     "shots": "node scripts/shots.mjs"
   },
@@ -49,6 +50,7 @@
   "devDependencies": {
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "esbuild": "^0.28.1",
     "impeccable": "^3.5.0",
     "oxlint": "^1.77.0",
     "puppeteer-core": "^25.5.0",
