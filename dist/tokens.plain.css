@@ -61,7 +61,7 @@
   --color-bg: var(--color-stone-50);
   --color-surface: var(--color-stone-0);
   --color-surface-2: #EFEDE5;
-  --color-bg-inverse: #2D2D2D;
+  --color-inverse: #2D2D2D;
   --color-border: #E2DED2;
   --color-border-strong: #CFC9B9;
   --color-border-focus: #5c7aa8;
@@ -257,7 +257,7 @@
   --bg: var(--color-bg);
   --surface: var(--color-surface);
   --surface-2: var(--color-surface-2);
-  --bg-inverse: var(--color-bg-inverse);
+  --inverse: var(--color-inverse);
   --border: var(--color-border);
   --border-strong: var(--color-border-strong);
   --border-focus: var(--color-border-focus);

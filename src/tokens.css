@@ -108,7 +108,13 @@
   --color-bg:         var(--color-stone-50);   /* page ground */
   --color-surface:    var(--color-stone-0);    /* cards — lighter than the page, so they lift */
   --color-surface-2:  #EFEDE5;
-  --color-bg-inverse: #2D2D2D;
+  /* Named `--color-inverse`, not `--color-bg-inverse`, because Tailwind builds
+     the utility from the name after `--color-`: `--color-bg-inverse` yields
+     `bg-bg-inverse` and no `bg-inverse` at all. AppHeader asked for
+     `bg-inverse` and silently got nothing — the header band rendered
+     transparent, near-white title on the page ground, until the flow mockup
+     put it on a screen. */
+  --color-inverse:    #2D2D2D;
 
   /* ── Borders. On Sumi-iro chrome, rules are a thin Ōgon hairline. ─── */
   --color-border:          #E2DED2;
