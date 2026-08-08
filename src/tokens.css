@@ -123,6 +123,20 @@
      Deep green gives the second colour block without competing with the
      header band, and warm-paper keys keep the kana maximally legible --
      reading them is the task. Deviation from v3, decided 2026-08-08. */
+  /* Card accents — the top rule and its matching tag. Deliberately a SET,
+     not a single locked value: a card's accent is an input, so colour can
+     carry meaning (which scenario, which state) instead of decorating.
+     Akane is available here, but it also signals errors elsewhere — use it
+     where the emphasis is worth that overlap. */
+  --color-accent-ogon:        var(--color-ogon-500);
+  --color-accent-ogon-fg:     var(--color-stone-800);
+  --color-accent-ai:          var(--color-ai-500);
+  --color-accent-ai-fg:       var(--color-stone-0);
+  --color-accent-rokusho:     var(--color-rokusho-500);
+  --color-accent-rokusho-fg:  var(--color-stone-0);
+  --color-accent-akane:       var(--color-akane-500);
+  --color-accent-akane-fg:    var(--color-stone-0);
+
   --color-keyboard-bg:     var(--color-rokusho-700);
   --color-keyboard-rule:   var(--color-rokusho-800);
   --color-key-bg:          var(--color-stone-0);
@@ -149,12 +163,14 @@
   --color-link:    #33685e;
 
   /* ── Semantic feedback — correctness banners only, never decorative. */
-  --color-success-bg:  #eef6f4;
-  --color-success-fg:  #33685e;
+  --color-success-bg:  var(--color-rokusho-100);
+  --color-success-fg:  var(--color-rokusho-800);
   --color-success-500: #4F9C8D;
-  --color-error-bg:    #fbe3e1;
-  --color-error-fg:    #951e1e;
+  --color-error-bg:    var(--color-akane-100);
+  --color-error-fg:    var(--color-akane-800);
   --color-error-500:   #D72E2E;
+  --color-error-border: var(--color-akane-300);
+  --color-success-border: var(--color-rokusho-300);
 
   /* ── Progress. Fill is Rokushō; a completed bar caps with Ōgon. ───── */
   --color-progress-track:    #EFEDE5;

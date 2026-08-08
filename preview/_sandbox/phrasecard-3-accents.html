@@ -1,0 +1,49 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../dist/tokens.plain.css">
+<link rel="stylesheet" href="../../colors_and_type.css">
+<style>
+ body{margin:0;padding:26px;background:var(--bg);color:var(--fg);font-family:var(--font-sans)}
+ h1{font-size:18px;margin:0 0 4px} p.s{margin:0 0 20px;color:var(--fg-muted);font-size:13px;max-width:86ch}
+ .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;align-items:start}
+ .card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:16px;
+       box-shadow:var(--shadow-card);display:flex;flex-direction:column;gap:13px}
+ .hdr{display:flex;align-items:center;justify-content:space-between}
+ .tag{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;border-radius:9999px}
+ .audio{width:30px;height:30px;border-radius:9999px;border:1px solid var(--border);background:var(--bg);
+        display:flex;align-items:center;justify-content:center;color:var(--fg-muted);font-size:12px}
+ .jp{font-family:var(--font-jp);font-size:23px;line-height:1.45;font-weight:500;text-align:center;margin:0;color:var(--fg-heading)}
+ .rd{font-family:var(--font-jp);font-size:14px;text-align:center;margin:0;color:var(--action-2-fg)}
+ hr{border:none;border-top:1px solid var(--border);margin:0}
+ .en{font-size:15px;text-align:center;margin:0}
+ .cap{font:500 10px ui-monospace,Menlo,monospace;color:var(--fg-subtle);margin-top:7px}
+ .ban{border-radius:13px;padding:12px;text-align:center;font-weight:600;font-size:15px}
+</style></head><body>
+<h1>PhraseCard — accent is a prop, not a fixed colour</h1>
+<p class="s">The top rule and its matching tag take an <code>accent</code>. Colour can then carry meaning — scenario category, unit, state — instead of decorating. Japanese is Ai-iro, reading is Rokushō, on every one.</p>
+<div class="grid">
+ <div><div class="card" style="border-top:3px solid var(--accent-ogon)">
+   <div class="hdr"><span class="tag" style="background:var(--accent-ogon);color:var(--accent-ogon-fg)">restaurant</span><span class="audio">▶</span></div>
+   <p class="jp" lang="ja">これをください</p><p class="rd" lang="ja">これをください</p>
+   <hr><p class="en">I'll have this.</p></div><div class="cap">accent="ogon" (default)</div></div>
+ <div><div class="card" style="border-top:3px solid var(--accent-ai)">
+   <div class="hdr"><span class="tag" style="background:var(--accent-ai);color:var(--accent-ai-fg)">transit</span><span class="audio">▶</span></div>
+   <p class="jp" lang="ja">駅はどこですか</p><p class="rd" lang="ja">えきはどこですか</p>
+   <hr><p class="en">Where is the station?</p></div><div class="cap">accent="ai"</div></div>
+ <div><div class="card" style="border-top:3px solid var(--accent-rokusho)">
+   <div class="hdr"><span class="tag" style="background:var(--accent-rokusho);color:var(--accent-rokusho-fg)">greeting</span><span class="audio">▶</span></div>
+   <p class="jp" lang="ja">おはようございます</p><p class="rd" lang="ja">おはようございます</p>
+   <hr><p class="en">Good morning.</p></div><div class="cap">accent="rokusho"</div></div>
+ <div><div class="card" style="border-top:3px solid var(--accent-akane)">
+   <div class="hdr"><span class="tag" style="background:var(--accent-akane);color:var(--accent-akane-fg)">emergency</span><span class="audio">▶</span></div>
+   <p class="jp" lang="ja">助けてください</p><p class="rd" lang="ja">たすけてください</p>
+   <hr><p class="en">Please help me.</p></div><div class="cap">accent="akane"</div></div>
+</div>
+<div style="margin-top:22px;display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:640px">
+ <div><div class="ban" style="background:var(--success-bg);color:var(--success-fg);border:1px solid var(--success-border)">
+   <span style="color:var(--success-500);font-size:19px;margin-right:6px">○</span>Recalled!</div>
+  <div class="cap">Rokushō 100 + 300 border</div></div>
+ <div><div class="ban" style="background:var(--error-bg);color:var(--error-fg);border:1px solid var(--error-border)">
+   <span style="color:var(--error-500);font-size:19px;margin-right:6px">✕</span>Not quite</div>
+  <div class="cap">Akane 100 + 300 border</div></div>
+</div>
+</body></html>

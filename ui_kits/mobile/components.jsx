@@ -147,7 +147,13 @@ function ProgressBar({ value, label = 'Session progress' }) {
   );
 }
 
-function PhraseCard({ japanese, reading, english, scenario, audioSlot, footer, notes }) {
+const PC_RULE = { ogon:'border-t-[3px] border-t-accent-ogon', ai:'border-t-[3px] border-t-accent-ai',
+  rokusho:'border-t-[3px] border-t-accent-rokusho', akane:'border-t-[3px] border-t-accent-akane', none:'' };
+const PC_TAG = { ogon:'bg-accent-ogon text-accent-ogon-fg', ai:'bg-accent-ai text-accent-ai-fg',
+  rokusho:'bg-accent-rokusho text-accent-rokusho-fg', akane:'bg-accent-akane text-accent-akane-fg',
+  none:'bg-tag-bg text-tag-fg' };
+
+function PhraseCard({ japanese, reading, english, scenario, audioSlot, footer, notes, accent = 'ogon' }) {
   return (
     <Card>
       <div className="flex flex-col gap-6">
@@ -157,7 +163,7 @@ function PhraseCard({ japanese, reading, english, scenario, audioSlot, footer, n
         </header>
         <div className="flex flex-col items-center gap-2 text-center">
           <p lang="ja" className="font-jp text-jp-display text-fg">{japanese}</p>
-          <p lang="ja" className="font-jp text-jp text-fg-muted">{reading}</p>
+          <p lang="ja" className="font-jp text-jp text-action-2-fg">{reading}</p>
         </div>
         {english !== undefined ? (
           <>
@@ -283,7 +289,7 @@ function Maru({ outcome, label, className = '' }) {
   );
 }
 
-const AR_BANNER = { recalled: 'bg-success-bg', review: 'bg-error-bg' };
+const AR_BANNER = { recalled: 'bg-success-bg border border-success-border', review: 'bg-error-bg' };
 const AR_TEXT = { recalled: 'text-success-fg', review: 'text-error-fg' };
 const AR_HEADLINE = { recalled: 'Recalled!', review: 'Not quite' };
 

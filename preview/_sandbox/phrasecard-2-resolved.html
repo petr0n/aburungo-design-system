@@ -1,0 +1,65 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../dist/tokens.plain.css">
+<link rel="stylesheet" href="../../colors_and_type.css">
+<style>
+ body{margin:0;padding:26px;background:var(--bg);color:var(--fg);font-family:var(--font-sans)}
+ h1{font-size:18px;margin:0 0 4px} p.s{margin:0 0 18px;color:var(--fg-muted);font-size:13px;max-width:86ch}
+ h2{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--fg-subtle);margin:22px 0 9px}
+ .row3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:start}
+ .card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:18px;
+       box-shadow:var(--shadow-card);display:flex;flex-direction:column;gap:15px}
+ .hdr{display:flex;align-items:center;justify-content:space-between}
+ .tag{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;border-radius:9999px}
+ .audio{width:34px;height:34px;border-radius:9999px;border:1px solid var(--border);background:var(--bg);
+        display:flex;align-items:center;justify-content:center;color:var(--fg-muted);font-size:13px}
+ .jp{font-family:var(--font-jp);font-size:26px;line-height:1.45;font-weight:500;text-align:center;margin:0;color:var(--fg-heading)}
+ .rd{font-family:var(--font-jp);font-size:15px;text-align:center;margin:0;color:var(--action-2-fg)}
+ hr{border:none;border-top:1px solid var(--border);margin:0}
+ .en{font-size:16px;text-align:center;margin:0}
+ .note{font-size:12px;text-align:center;margin:0;color:var(--fg-subtle)}
+ .cap{font:500 10px ui-monospace,Menlo,monospace;color:var(--fg-subtle);margin-top:8px;line-height:1.6}
+ .ban{border-radius:14px;padding:13px;text-align:center;font-weight:600;font-size:15px}
+ .rev{border-radius:12px;padding:11px;text-align:center;margin-top:9px;background:var(--surface-2)}
+ .maru{font-size:19px;vertical-align:-1px;margin-right:6px}
+</style></head><body>
+<h1>Resolved — 3's structure, without breaking the Akane rule</h1>
+<p class="s">You picked 3 for its punch but kept Akane restricted to the mark and errors. The rule and the tag move to Ōgon, which already owns scenario tags; Akane goes where it means something instead.</p>
+
+<h2>PhraseCard</h2>
+<div class="row3">
+ <div><div class="card" style="border-top:3px solid var(--accent)">
+   <div class="hdr"><span class="tag" style="background:var(--accent);color:var(--accent-fg)">restaurant</span><span class="audio">▶</span></div>
+   <p class="jp" lang="ja">これをください</p><p class="rd" lang="ja">これをください</p>
+   <hr><p class="en">I'll have this.</p><p class="note">Said while pointing.</p>
+  </div><div class="cap">3 as mocked — Akane rule + tag<br><b>breaks the mark/errors rule</b></div></div>
+
+ <div><div class="card" style="border-top:3px solid var(--ogon-500)">
+   <div class="hdr"><span class="tag" style="background:var(--ogon-500);color:var(--stone-800)">restaurant</span><span class="audio">▶</span></div>
+   <p class="jp" lang="ja">これをください</p><p class="rd" lang="ja">これをください</p>
+   <hr><p class="en">I'll have this.</p><p class="note">Said while pointing.</p>
+  </div><div class="cap"><b>Ōgon rule + solid Ōgon tag</b><br>same punch, rule intact</div></div>
+
+ <div><div class="card" style="border-top:3px solid var(--action)">
+   <div class="hdr"><span class="tag" style="background:var(--ogon-500);color:var(--stone-800)">restaurant</span><span class="audio">▶</span></div>
+   <p class="jp" lang="ja">これをください</p><p class="rd" lang="ja">これをください</p>
+   <hr><p class="en">I'll have this.</p><p class="note">Said while pointing.</p>
+  </div><div class="cap">Ai-iro rule + Ōgon tag<br>quieter rule, tag leads</div></div>
+</div>
+
+<h2>Akane's real second job — the answer banner</h2>
+<div class="row3">
+ <div>
+  <div class="ban" style="background:var(--error-bg);color:var(--error-fg)"><span class="maru">✕</span>Not quite</div>
+  <div class="rev"><span lang="ja" style="font-family:var(--font-jp);font-size:19px;color:var(--fg-heading)">これをください</span></div>
+  <div class="cap">shipped — Akane at 95% white</div></div>
+ <div>
+  <div class="ban" style="background:var(--akane-100);color:var(--akane-800);border:1px solid var(--akane-300)">
+    <span class="maru" style="color:var(--akane-500)">✕</span>Not quite</div>
+  <div class="rev"><span lang="ja" style="font-family:var(--font-jp);font-size:19px;color:var(--fg-heading)">これをください</span></div>
+  <div class="cap"><b>Akane 100 + 300 border</b><br>glyph at full Akane 500</div></div>
+ <div>
+  <div class="ban" style="background:var(--akane-500);color:var(--stone-0)"><span class="maru">✕</span>Not quite</div>
+  <div class="rev"><span lang="ja" style="font-family:var(--font-jp);font-size:19px;color:var(--fg-heading)">これをください</span></div>
+  <div class="cap">solid Akane band<br>loudest — reads as an alarm</div></div>
+</div>
+</body></html>
