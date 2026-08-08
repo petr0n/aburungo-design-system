@@ -88,7 +88,7 @@
   --color-stone-200: #E2DED2;   /* default border */
   --color-stone-300: #CFC9B9;   /* field edges, strong border */
   --color-stone-400: #A4A4A4;   /* Ishi-iro 石色 — placeholders */
-  --color-stone-500: #78736B;   /* meta, hints */
+  --color-stone-500: #6B665E;   /* meta, hints */
   --color-stone-600: #57534C;   /* secondary text */
   --color-stone-700: #403D38;   /* keys on dark chrome */
   --color-stone-800: #2D2D2D;   /* Sumi-iro 墨色 — inverse chrome */
@@ -98,8 +98,9 @@
   --color-fg:              #2D2D2D;
   --color-fg-heading:      #1F3A66;
   --color-fg-muted:        #57534C;
-  --color-fg-subtle:       #78736B;
-  --color-fg-faint:        #A4A4A4;
+  --color-fg-subtle:       var(--color-stone-500);
+  --color-fg-faint:        var(--color-stone-500);  /* was Ishi-iro #A4A4A4 at 2.30:1 -- unreadable.
+                                                        Ishi-iro stays at stone-400 for non-text use */
   --color-fg-inverse:      #FFFDF8;
   --color-fg-on-inverse-2: #A4A4A4;
 
@@ -144,7 +145,9 @@
 
   /* ── Progress. Fill is Rokushō; a completed bar caps with Ōgon. ───── */
   --color-progress-track:    #EFEDE5;
-  --color-progress-fill:     #4F9C8D;
+  --color-progress-fill:     var(--color-rokusho-600);  /* 500 unlocked by the palette author
+                                                            2026-08-08: Rokusho 500 was 2.77:1 on the
+                                                            track, 600 is 3.87:1 */
   --color-progress-complete: #C9A045;
 
   /* ── Legacy aliases — v1 (zinc/brand-purple) and v2 (plum) names still

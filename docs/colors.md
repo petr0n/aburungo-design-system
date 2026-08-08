@@ -116,17 +116,20 @@ palette or a defect in the drop's own documentation.
 | 6 | **`.hanko` repointed** from `var(--color-brand-500)` to `var(--color-accent)` (9 sites in `brand.css`) | `HANDOFF.md` calls legacy names "a migration bridge, not API". Retire them and the brand mark loses its fill |
 | 7 | **Stale comments fixed** | `TextInput.tsx:8` said "focus ring is Akane" — it is Ōgon. `ProgressBar.tsx:5` said "solid fill in the Akane" — it is Rokushō |
 
-## Unresolved — needs the palette author
+## Resolved by the palette author, 2026-08-08
 
-| Check | Ratio | Needs | Analysis |
-|---|---|---|---|
-| `progress-fill` on `progress-track` | **2.77:1** | 3:1 | No in-palette fix. Darkening the track makes it *worse* (stone-200 → 2.41) because the fill is mid-tone; lightening to stone-50 reaches only 2.9984; stone-0 makes the track the same colour as the card. Fixing the fill means moving off Rokushō 500, which this document locks |
-| `fg-faint` on card | **2.30:1** | 4.5:1 | Ishi-iro `#A4A4A4`. **Worse than v2's 3.39:1** — the third palette running whose faint-text role fails. Placeholders only, never content. Send the threshold with the brief next time |
-| `fg-subtle` on `surface-2` | **4.01:1** | 4.5:1 | The one real occurrence was `Badge` neutral, now on the tag roles. No component sustains the pairing; kept as a gate check so one cannot reintroduce it |
+All three outstanding contrast failures are fixed. `scripts/check-contrast.mjs`
+now passes **19/19** with an empty known-failures list.
 
-All three are recorded as accepted known failures in `scripts/check-contrast.mjs`,
-which prints them on every build. They do not fail the gate; they are visible
-rather than forgotten.
+| Was | Fix | Now |
+|---|---|---|
+| `progress-fill` on track **2.77:1** | **The locked-500 rule is unlocked for this role.** Rokushō 600 `#418176` replaces 500. No track value could work — the fill is mid-brightness, so a darker track moves *toward* it. See `preview/28-progress-contrast.html` | **3.87:1** |
+| `fg-faint` (placeholder) **2.30:1** | Ishi-iro `#A4A4A4` is too light to read as text. The **role** moves to `stone-500`; Ishi-iro stays at `stone-400` for non-text use — disabled fills, hairlines | **5.26:1** |
+| `fg-subtle` on well **4.01:1** | `stone-500` darkened `#78736B` → `#6B665E`, keeping the warm hue. Fixes this and carries the placeholder role above | **4.86:1** |
+
+`--color-fg-subtle` and `--color-fg-faint` now both reference `--color-stone-500`
+rather than carrying their own hex, so the ramp stays the single place a
+neutral is defined.
 
 # The semantic contract (Phase 2)
 

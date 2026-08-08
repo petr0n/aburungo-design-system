@@ -84,27 +84,9 @@ const CHECKS = [
  * Anything not listed here fails the build.
  */
 const KNOWN = new Map([
-  [
-    'placeholder on card',
-    'v3 fg-faint (Ishi-iro #A4A4A4) is 2.30:1 — worse than v2\'s 3.39:1. ' +
-      'Third palette running to fail its faint-text role. Placeholders only, ' +
-      'never content. Send the threshold with the brief next time.',
-  ],
-  [
-    'progress fill on track',
-    'No in-palette fix exists. Darkening the track makes it worse (stone-200 ' +
-      'drops it to 2.41) because the fill is mid-tone; lightening to stone-50 ' +
-      'reaches only 2.9984, still short; stone-0 would make the track the same ' +
-      'colour as the card. Fixing the fill means moving off Rokusho 500, which ' +
-      'colors.md locks. Genuinely needs the palette author.',
-  ],
-  [
-    'tertiary text on well',
-    'stone-500 on stone-100 is 4.01:1. The one real occurrence was Badge ' +
-      'neutral, now repainted to the tag roles (task 5.5c), so no component ' +
-      'sustains this pairing — FillInput only hits surface-2 as a transient ' +
-      'active state. Kept as a check so a future component cannot reintroduce it.',
-  ],
+  // Empty. All three prior failures were resolved 2026-08-08 by the palette
+  // author: Rokusho 500 unlocked for progress-fill, and stone-500 darkened so
+  // text on a well clears 4.5:1. Add an entry here only with a written reason.
 ])
 
 let hard = 0
