@@ -105,33 +105,31 @@ After any changes here, run `pnpm build` before testing in the app. The app's pn
 - Prefer role tokens (`bg-surface`, `text-fg-muted`) over value tokens (`brand-500`).
 - `DESIGN.md` is the full visual spec — palette roles, type hierarchy, the maru boundary rule, per-surface taste dials, and which skill generators are switched off. Read it before any design work.
 
-### ⚠️ The palette is mid-migration — do not enforce the outgoing model
+### The palette — v3 "Zuihoden", merged
 
-The repo currently runs **v2: one purple accent on a cool-neutral UI.** The
-incoming **v3 "Zuihoden"** palette is reviewed and accepted but not merged
-(plan Phase 5). It is a *different model*, not a recolour:
+Five colours, one job each, on warm stone. **Not** one accent on monochrome —
+that was v2 and it is gone.
 
-| | v2 (in the repo now) | v3 (incoming) |
-| --- | --- | --- |
-| Model | one accent, monochrome otherwise | **five colours, one job each** |
-| Primary action | the accent | Ai-iro 藍色 — **never Akane** |
-| Brand mark | the accent | Akane 茜色 — mark and errors only |
-| Focus ring | the accent | Ōgon 黄金 |
-| Progress / correctness / links / secondary | — | Rokushō 緑青 |
-| Inverse chrome | — | Sumi-iro 墨色 |
-| Ground | white / cool neutrals | **warm stone** — page `#F7F6F1`, cards `#FFFDF8` |
+| Colour | Job |
+| --- | --- |
+| Akane 茜色 `#D72E2E` | the hanko, error states, and available as a card accent |
+| Ai-iro 藍色 `#1F3A66` | primary action, headings, **Japanese content** |
+| Rokushō 緑青 `#4F9C8D` | progress, correctness, secondary action, links, kana keyboard |
+| Ōgon 黄金 `#C9A045` | focus rings, scenario tags, hairlines on dark chrome |
+| Sumi-iro 墨色 `#2D2D2D` | body text and the header band |
 
-Two consequences while both models are in play:
+Three things that get broken if you do not know them:
 
-1. **Do not write "one accent, nowhere else" as a rule.** It is v2-specific.
-   v3 puts colour on links, scenario tags, progress bars, secondary buttons,
-   headings, Japanese content, and inverse chrome. Phase 3B *builds* those —
-   a rule banning them would make a session reject its own plan.
-2. **The warm neutrals are load-bearing.** `#FFFDF8` is not a mistake for
-   `#FFFFFF`. Do not "clean up" warm stone to pure white; v3's own rationale
-   names that as the most likely way this gets broken.
+1. **Warm stone is load-bearing.** Page `#F7F6F1`, cards `#FFFDF8`. Cards are
+   *lighter* than the page so they lift without a shadow. `#FFFDF8` is not a
+   mistake for `#FFFFFF` — do not "clean it up".
+2. **One dark slab per screen.** The header band is Sumi-iro; the kana keyboard
+   is Rokushō so the screen does not get two near-black sections.
+3. **Accents are inputs.** `PhraseCard` takes an `accent` prop over the brand
+   set. Colour carries meaning — which scenario, which state — rather than being
+   locked per component. Never invent a hex.
 
-`docs/colors.md` (v3 version) is the authority once Phase 5 lands.
+`docs/colors.md` is the authority, including every deviation from the drop.
 
 ## TypeScript conventions
 

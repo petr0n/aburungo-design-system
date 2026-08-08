@@ -1,26 +1,30 @@
 ---
 name: AburunGo Design System
-description: A quiet, adult study tool — calm structure with warmth held in reserve.
+description: Five colours with one job each, on warm stone. Quiet structure, colour that carries meaning.
 colors:
-  brand: "#753686"
-  brand-press: "#662e75"
-  brand-tint: "#efe5f1"
-  ink: "#150918"
-  ink-muted: "#3a2540"
-  ink-subtle: "#6a5470"
-  ink-faint: "#a6799b"
-  paper: "#ffffff"
-  paper-warm: "#faf7f9"
-  mist: "#ebe5e9"
-  cream: "#f5eee7"
-  line: "#e3d9de"
-  line-strong: "#d9c8b8"
-  recalled: "#22c55e"
-  recalled-bg: "#f0fdf4"
-  recalled-fg: "#15803d"
-  review: "#ef4444"
-  review-bg: "#fef2f2"
-  review-fg: "#b91c1c"
+  akane: "#D72E2E"
+  ai: "#1F3A66"
+  rokusho: "#4F9C8D"
+  ogon: "#C9A045"
+  sumi: "#2D2D2D"
+  page: "#F7F6F1"
+  card: "#FFFDF8"
+  well: "#EFEDE5"
+  fg: "#2D2D2D"
+  fg-heading: "#1F3A66"
+  fg-muted: "#57534C"
+  fg-subtle: "#6B665E"
+  fg-faint: "#6B665E"
+  action: "#1F3A66"
+  accent: "#D72E2E"
+  focus: "#C9A045"
+  link: "#33685e"
+  tag-bg: "#ecd9a5"
+  tag-fg: "#8a6a2b"
+  keyboard: "#33685e"
+  key: "#FFFDF8"
+  recalled: "#4F9C8D"
+  review: "#D72E2E"
 typography:
   display:
     fontFamily: "Noto Sans, system-ui, sans-serif"
@@ -98,21 +102,13 @@ components:
 
 # Design System: AburunGo Design System
 
-> **Palette in migration — and v3 is a different model, not a recolour.**
+> **v3 "Zuihoden" is merged.** Five colours, one job each, on warm stone. The
+> frontmatter above is generated from `src/tokens.css` — regenerate it when the
+> palette changes rather than editing it by hand.
 >
-> The frontmatter above is the current **v2** palette: one purple accent on cool neutrals. **v3 "Zuihoden"** is reviewed and accepted but not merged (plan Phase 5). It replaces one-accent-monochrome with **five colours, one job each**, on a warm stone ground:
->
-> | Colour | Job — and only this job |
-> |---|---|
-> | Akane 茜色 `#D72E2E` | The hanko and error states. **Never a CTA.** |
-> | Ai-iro 藍色 `#1F3A66` | Primary action, headings, Japanese content, chrome text. |
-> | Rokushō 緑青 `#4F9C8D` | Progress, correctness, secondary action, links. |
-> | Ōgon 黄金 `#C9A045` | Focus rings, scenario tags, hairlines on dark chrome. |
-> | Sumi-iro 墨色 `#2D2D2D` | Inverse chrome — header band, kana keyboard frame. |
->
-> Ground becomes warm stone: page `#F7F6F1`, cards `#FFFDF8`. **The warmth is load-bearing** — `#FFFDF8` is not a mistake for `#FFFFFF`, and "cleaning it up" to pure white is the specific way v3 predicts it will get broken.
->
-> **What this means for the prose below:** the *principles* survive the swap and the *counts* do not. Where a rule says "the accent", read "the role". Do not enforce one-accent-monochrome against v3 work — Phase 3B deliberately puts colour on links, tags, progress, and inverse chrome. Regenerate the frontmatter after the merge; do not rewrite the rules.
+> Three deliberate deviations from the drop are recorded in `docs/colors.md`:
+> the focus ring is split light/dark, the kana keyboard is Rokushō rather than a
+> second Sumi-iro slab, and card accents are a prop rather than one fixed colour.
 
 ## Overview
 
@@ -136,38 +132,46 @@ Restraint here is load-bearing rather than stylistic. Whitespace is what makes a
 
 ## Colors
 
-**This section documents the current v2 palette.** A purple-undertone neutral system with one accent and one pair of feedback colours. The neutrals are deliberately not pure grey — the ink carries a purple undertone so it sits with the brand rather than beside it. v3 replaces this wholesale; see the migration note above.
+Five colours, one job each, on a warm stone ramp. The warmth is load-bearing:
+`#FFFDF8` is not a mistake for `#FFFFFF`, and flattening it to pure white is the
+specific way this palette gets broken.
 
 ### Primary
-- **Plum** (`#753686`): the v2 accent. It appears on primary actions and focus rings. It is not a decorative colour and never fills a large surface at full strength. (Under v3 this role splits: primary action becomes Ai-iro, focus becomes Ōgon, and the mark becomes Akane.)
-- **Plum Press** (`#662e75`): the pressed state of any plum surface. Touch-first means press states are required, not optional.
-- **Plum Tint** (`#efe5f1`): quiet tinted backing for badges and callouts, where full-strength plum would shout.
+- **Akane 茜色** (`#D72E2E`): the hanko, and error states. Also available as a
+  card accent — see the named rule below.
+- **Ai-iro 藍色** (`#1F3A66`): primary action, headings, and Japanese content.
+  The phrase under study is Ai-iro; that is what makes it the subject of a card.
+
+### Secondary
+- **Rokushō 緑青** (`#4F9C8D`): progress, correctness, secondary action, links,
+  and the kana keyboard ground.
+- **Ōgon 黄金** (`#C9A045`): focus rings, scenario tags, hairlines on dark chrome.
+  The default card accent.
 
 ### Neutral
-- **Ink** (`#150918`): primary text. Near-black with a purple cast.
-- **Ink Muted** (`#3a2540`): secondary text, supporting copy, the label on a secondary button.
-- **Ink Subtle** (`#6a5470`): tertiary text, captions, metadata.
-- **Ink Faint** (`#a6799b`): placeholders only. Not for content — it does not meet contrast for body text.
-- **Paper** (`#ffffff`) / **Paper Warm** (`#faf7f9`): card and page grounds.
-- **Mist** (`#ebe5e9`): wells, inset surfaces, unselected states.
-- **Cream** (`#f5eee7`): the warm stage — letterhead moments and hero surfaces where paper would read clinical.
-- **Line** (`#e3d9de`) / **Line Strong** (`#d9c8b8`): hairline dividers and input strokes.
+- **Sumi-iro 墨色** (`#2D2D2D`): body text, and the inverse chrome of the header band.
+- **Warm stone**: page `#F7F6F1`, cards `#FFFDF8` — cards are *lighter* than the
+  page, so they lift without a shadow — wells `#EFEDE5`.
 
 ### Feedback
-Reserved exclusively for answer correctness. These are the only colours in the system that carry a judgment.
-
-- **Recalled** (`#22c55e`, on `#f0fdf4` with `#15803d` text): the ○ maru and its banner.
-- **Review** (`#ef4444`, on `#fef2f2` with `#b91c1c` text): the ✕ batsu and its banner.
+Reserved for answer correctness. Tinted panels at 100 with a 300 border; the
+○ / ✕ glyph itself at full 500.
 
 ### Named Rules
 
-**The Structural Colour Rule.** Colour is used sparingly and *structurally* — it marks what a thing is for, never decorates. If a surface needs emphasis and no role applies, the answer is space or weight, not hue.
+**The Accent Is An Input Rule.** A card's accent colour is a prop, not a constant.
+Colour is free to carry meaning — which scenario, which unit, which state — and is
+not locked to one value per component. Pick from the brand set; do not invent a hex.
 
-Under the **current v2 palette** that resolves to a single accent on CTAs, focus rings, and the mark. Under **incoming v3** the same discipline is spread across five colours with one job each. The rule survives; the count does not. Do not restate this as "one accent, nowhere else" — see the migration note at the top of this file.
+**The Akane Overlap Rule.** Akane is the mark and the error state. It is *available*
+as a card accent, but a red thing elsewhere in the interface means something went
+wrong — so spend it where that overlap is worth it, and not for decoration.
 
-**The Reserved Feedback Rule.** Green and red exist only to mark an answer. They never indicate status, category, priority, or availability. A learner must be able to trust that a red thing means *they got something wrong*, not that a server is down.
+**The One Dark Slab Rule.** The header band is Sumi-iro. Nothing else on the same
+screen should be near-black; the kana keyboard is Rokushō for exactly this reason.
 
-**The No Raw Value Rule.** Components reference role tokens, never hexes. Enforced by `scripts/check-adherence.mjs`, which fails the build.
+**The No Raw Value Rule.** Components reference role tokens, never hexes. Enforced
+by `scripts/check-adherence.mjs`, which fails the build.
 
 ## Typography
 
@@ -267,7 +271,7 @@ Where the app grades rather than the learner, `AnswerResult` owns the treatment:
 - **Do** use role tokens (`bg-surface`, `text-fg-muted`) rather than value tokens (`brand-500`) or raw hex.
 - **Do** give every interactive element a visible `active:` state and a visible focus ring.
 - **Do** keep touch targets ≥44px, padding the hit area when the visual element must be smaller.
-- **Do** hold text contrast at 4.5:1 and non-text indicators at 3:1. **WCAG 2.1 AA is binding**, not aspirational.
+- **Do** run `scripts/check-contrast.mjs` and read what it says. WCAG 2.1 AA — 4.5:1 text, 3:1 non-text — is the **target**, and the script reports every miss on each build. It is advisory, not a veto: the palette author owns the call, and some misses are deliberate. Do not silently re-tint a brand value to make a number go green.
 - **Do** put charm in empty states, progress language, and example sentences.
 - **Do** give Japanese text its own looser line-height and its own font.
 - **Do** use filled inline SVG icons.

@@ -114,7 +114,10 @@ palette or a defect in the drop's own documentation.
 | 4 | **`--color-cream-deboss` preserved** | v3 aliases nearly every v2 name but not this one, and `brand.css` `.hanko.cream` draws its inset ring with it. A wholesale port breaks the mark |
 | 5 | **Card animation tokens preserved** | v3 defines no `--animate-card-*` and no keyframes. `FlipCard` depends on both, and Tailwind does not error on a missing animation token — the class silently stops generating and the flip dies quietly |
 | 6 | **`.hanko` repointed** from `var(--color-brand-500)` to `var(--color-accent)` (9 sites in `brand.css`) | `HANDOFF.md` calls legacy names "a migration bridge, not API". Retire them and the brand mark loses its fill |
-| 7 | **Stale comments fixed** | `TextInput.tsx:8` said "focus ring is Akane" — it is Ōgon. `ProgressBar.tsx:5` said "solid fill in the Akane" — it is Rokushō |
+| 7 | **Kana keyboard moved off Sumi-iro** to Rokushō 700 with warm-paper keys | v3 assigns both the header band and the keyboard frame to Sumi-iro, which puts two near-black slabs on one screen. Deep green gives the second colour block without competing with the band, and paper keys keep the kana legible. Four variants were rendered before choosing — `preview/_sandbox/kana-2-green.html` |
+| 8 | **Card accents are a prop, not a fixed colour** | `PhraseCard` takes `accent` over the brand set (`ogon | ai | rokusho | akane | none`), driving the top rule and the scenario tag. Colour can then say *which scenario* rather than decorating. Decided by the palette author 2026-08-08: "the colors should be flexible" |
+| 9 | **Akane is available as a card accent** | `colors.md` says Akane is the mark and errors, never a CTA. It is now also offered in the accent set. This overlap is deliberate and **unsettled** — a red thing elsewhere still means an error, so spend it where that is worth it. Recorded in PRODUCT.md as undecided |
+| 10 | **Stale comments fixed** | `TextInput.tsx:8` said "focus ring is Akane" — it is Ōgon. `ProgressBar.tsx:5` said "solid fill in the Akane" — it is Rokushō |
 
 ## Resolved by the palette author, 2026-08-08
 

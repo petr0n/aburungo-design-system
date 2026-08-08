@@ -48,8 +48,7 @@ Two things distinguish this from an ordinary internal component library:
 **No gamification:** no XP, hearts, badges, streaks, mascots, or reward-loop ornaments.
 
 **Explicitly undecided:**
-- The v3 "Zuihoden" palette has been reviewed and accepted but is not merged. Current values are the outgoing v2 palette, and v3 is a different *model* — five colours with one job each, on warm stone — not a recolour.
-- `prefers-reduced-motion` is unimplemented. The card-enter and card-exit animations fire unconditionally. Known defect, survives any palette change.
+- Whether Akane should stay confined to the mark and error states. It is currently available as a card accent too, which overlaps with its error meaning. Recorded, not settled.
 - Whether `.emboss-bg` and link styling get component owners, or stay ad-hoc in the app.
 
 ## Brand Commitments
@@ -57,7 +56,7 @@ Two things distinguish this from an ordinary internal component library:
 - **Name:** AburunGo.
 - **The mark is the ア hanko**, in Akane. The purple lightning-bolt glyph is Supabase's trademarked logo, was never the AburunGo mark, and is banned. It was repeatedly revived from old branches because prose describing it read as authoritative, so it is now enforced by `scripts/check-forbidden-assets.mjs` in build, CI, and a pre-commit hook — not by documentation. Do not weaken or allowlist past that check.
 - **Type is locked:** Noto Sans for English UI, M PLUS Rounded 1c for Japanese content.
-- **Colour is sparing and structural.** Every hue answers "what is this for"; none are decorative. The current v2 palette expresses that as one accent; the accepted-but-unmerged v3 "Zuihoden" palette expresses it as five colours with one job each, on a warm stone ground. The *discipline* is the commitment — the count is not. Roles are defined in `src/tokens.css`; values are never hard-coded.
+- **Colour is structural, and it carries meaning.** Every hue answers "what is this for"; none are decorative. v3 "Zuihoden" expresses that as five colours with one job each on warm stone. Where a component's colour can legitimately vary — a card accent by scenario — it is a **prop over the brand set**, never an invented hex and never one value locked per component. Roles live in `src/tokens.css`.
 - **Verdict wording is owned by the library and not overridable:** `Recalled!` / `Not quite`. Banned as a verdict: "correct", "wrong", "incorrect", "failed", "missed", percentages, letter grades, pass/fail. "Worth another look · n" is valid as a list heading only.
 - **The maru boundary rule**, binding: *A maru marks an answer. It never accumulates. Transient and per-answer is annotation. Persistent and per-user is a badge. The moment a maru survives onto a profile screen, it has become gamification.*
 - **Voice:** the interface reads more serious than the copy sounds. Calm, concise, literate, dry rather than cheerful. Playfulness belongs in empty states and progress language, never in structure. Full brief in `docs/design-direction.md`.
@@ -83,7 +82,7 @@ Two things distinguish this from an ordinary internal component library:
 
 ## Accessibility & Inclusion
 
-**WCAG 2.1 AA is binding**, not aspirational: 4.5:1 for text, 3:1 for non-text UI indicators including focus rings. This is the authority for the contrast gate — a palette that fails does not land, regardless of which palette it is.
+WCAG 2.1 AA — 4.5:1 for text, 3:1 for non-text indicators — is the **target**, and `scripts/check-contrast.mjs` reports every miss on every build. It is advisory rather than blocking: the palette author owns the call, and some misses are deliberate. What is not acceptable is a miss nobody knows about, or quietly re-tinting a brand value to turn a number green.
 
 - Correctness marks (○ / ✕) carry meaning on **three channels** — glyph, colour, and text label. Never colour alone, never the glyph alone. A screen reader must never receive a bare "circle".
 - Visible keyboard focus on every interactive element, on every surface it can land on.
