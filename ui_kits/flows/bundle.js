@@ -4,7 +4,7 @@
 import { createRoot } from "react-dom/client";
 
 // ui_kits/flows/flashcard-round.tsx
-import { useState } from "react";
+import { useState as useState2 } from "react";
 
 // src/components/ui/Button.tsx
 import { jsx } from "react/jsx-runtime";
@@ -409,6 +409,9 @@ function FlipCard({ front, back, flipped, phase = "idle", onEntered, onExited })
   );
 }
 
+// src/components/KanaKeyboard.tsx
+import { useState } from "react";
+
 // src/lib/kanaData.ts
 var HIRAGANA_BASIC = [
   ["\u3042", "\u3044", "\u3046", "\u3048", "\u304A"],
@@ -574,17 +577,15 @@ var SECTION_LABELS = {
   small: "\u5C0F"
 };
 var GRID = {
-  hiragana: {
-    basic: HIRAGANA_BASIC,
-    voiced: HIRAGANA_VOICED,
-    small: HIRAGANA_SMALL
-  },
-  katakana: {
-    basic: KATAKANA_BASIC,
-    voiced: KATAKANA_VOICED,
-    small: KATAKANA_SMALL
-  }
+  hiragana: { basic: HIRAGANA_BASIC, voiced: HIRAGANA_VOICED, small: HIRAGANA_SMALL },
+  katakana: { basic: KATAKANA_BASIC, voiced: KATAKANA_VOICED, small: KATAKANA_SMALL }
 };
+var TOGGLE = "h-11 min-h-[44px] rounded-lg px-3 font-jp text-body-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-on-inverse focus-visible:ring-offset-2 focus-visible:ring-offset-keyboard-bg";
+var TOGGLE_ON = "bg-focus text-inverse-on-ogon";
+var TOGGLE_OFF = "border border-key-bg/40 text-key-bg active:bg-rokusho-800";
+var KEY_BASE = "flex h-11 min-h-[44px] items-center justify-center rounded-xl font-jp text-jp shadow-key transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-on-inverse focus-visible:ring-offset-2 focus-visible:ring-offset-keyboard-bg";
+var KEY = `${KEY_BASE} bg-key-bg text-key-fg active:bg-key-press`;
+var KEY_OPEN = `${KEY_BASE} bg-focus text-inverse-on-ogon`;
 function KanaKeyboard({
   script,
   section,
@@ -593,71 +594,89 @@ function KanaKeyboard({
   onKey,
   onBackspace
 }) {
+  const [openGroup, setOpenGroup] = useState(null);
   const rows = GRID[script][section];
-  return /* @__PURE__ */ jsxs9("div", { className: "flex w-full flex-col gap-2 rounded-2xl border-2 border-keyboard-rule bg-keyboard-bg p-3", children: [
-    /* @__PURE__ */ jsxs9("div", { className: "flex items-center justify-between gap-2", children: [
-      /* @__PURE__ */ jsx17("div", { className: "flex gap-1", children: ["hiragana", "katakana"].map((s) => /* @__PURE__ */ jsx17(
-        "button",
-        {
-          type: "button",
-          onClick: () => onScriptChange(s),
-          className: [
-            "h-9 rounded-lg px-3 font-jp text-sm font-medium transition-colors",
-            script === s ? "bg-focus text-inverse-on-ogon" : "border border-key-bg/40 text-key-bg active:bg-rokusho-800"
-          ].join(" "),
-          children: s === "hiragana" ? "\u3072\u3089" : "\u30AB\u30BF"
-        },
-        s
-      )) }),
-      /* @__PURE__ */ jsx17("div", { className: "flex gap-1", children: ["basic", "voiced", "small"].map((sec) => /* @__PURE__ */ jsx17(
-        "button",
-        {
-          type: "button",
-          onClick: () => onSectionChange(sec),
-          className: [
-            "h-9 rounded-lg px-3 font-jp text-sm font-medium transition-colors",
-            section === sec ? "bg-focus text-inverse-on-ogon" : "border border-key-bg/40 text-key-bg active:bg-rokusho-800"
-          ].join(" "),
-          children: SECTION_LABELS[sec]
-        },
-        sec
-      )) })
-    ] }),
-    /* @__PURE__ */ jsx17("div", { className: "flex flex-col gap-1", children: rows.map((row, rowIdx) => /* @__PURE__ */ jsx17("div", { className: "grid grid-cols-5 gap-1", children: row.map(
-      (cell, colIdx) => cell === null ? /* @__PURE__ */ jsx17("div", {}, colIdx) : /* @__PURE__ */ jsx17(
-        "button",
-        {
-          type: "button",
-          onClick: () => onKey(cell),
-          className: "flex h-11 items-center justify-center rounded-xl bg-key-bg font-jp text-jp text-key-fg shadow-key active:bg-key-press",
-          children: cell
-        },
-        colIdx
-      )
-    ) }, rowIdx)) }),
-    /* @__PURE__ */ jsxs9("div", { className: "grid grid-cols-5 gap-1", children: [
-      /* @__PURE__ */ jsx17("div", { className: "col-span-3" }),
-      /* @__PURE__ */ jsx17(
-        "button",
-        {
-          type: "button",
-          onClick: () => onKey("\u30FC"),
-          className: "flex h-11 items-center justify-center rounded-xl bg-key-bg font-jp text-jp text-key-fg shadow-key active:bg-key-press",
-          children: "\u30FC"
-        }
-      ),
-      /* @__PURE__ */ jsx17(
-        "button",
-        {
-          type: "button",
-          onClick: onBackspace,
-          "aria-label": "Backspace",
-          className: "flex h-11 items-center justify-center rounded-xl bg-key-bg text-key-fg shadow-key active:bg-key-press",
-          children: /* @__PURE__ */ jsx17(BackspaceIcon, { className: "h-5 w-5" })
-        }
-      )
-    ] })
-  ] });
+  const groups = rows.map((row) => row.filter((c) => c !== null));
+  const open = openGroup !== null ? groups[openGroup] : void 0;
+  function reset(change) {
+    return (value) => {
+      setOpenGroup(null);
+      change(value);
+    };
+  }
+  function pick(kana) {
+    onKey(kana);
+    setOpenGroup(null);
+  }
+  return /* @__PURE__ */ jsxs9(
+    "div",
+    {
+      className: "flex w-full flex-col gap-2 rounded-2xl border-2 border-keyboard-rule bg-keyboard-bg p-3",
+      onKeyDown: (e) => {
+        if (e.key === "Escape") setOpenGroup(null);
+      },
+      children: [
+        /* @__PURE__ */ jsxs9("div", { className: "flex items-center justify-between gap-2", children: [
+          /* @__PURE__ */ jsx17("div", { className: "flex gap-1", children: ["hiragana", "katakana"].map((s) => /* @__PURE__ */ jsx17(
+            "button",
+            {
+              type: "button",
+              onClick: () => reset(onScriptChange)(s),
+              "aria-pressed": script === s,
+              className: `${TOGGLE} ${script === s ? TOGGLE_ON : TOGGLE_OFF}`,
+              children: s === "hiragana" ? "\u3072\u3089" : "\u30AB\u30BF"
+            },
+            s
+          )) }),
+          /* @__PURE__ */ jsx17("div", { className: "flex gap-1", children: ["basic", "voiced", "small"].map((sec) => /* @__PURE__ */ jsx17(
+            "button",
+            {
+              type: "button",
+              onClick: () => reset(onSectionChange)(sec),
+              "aria-pressed": section === sec,
+              className: `${TOGGLE} ${section === sec ? TOGGLE_ON : TOGGLE_OFF}`,
+              children: SECTION_LABELS[sec]
+            },
+            sec
+          )) })
+        ] }),
+        open !== void 0 && /* @__PURE__ */ jsx17(
+          "div",
+          {
+            role: "group",
+            "aria-label": `${open[0]} row`,
+            className: "grid grid-cols-5 gap-1 rounded-xl bg-rokusho-800 p-1",
+            children: open.map((kana) => /* @__PURE__ */ jsx17("button", { type: "button", onClick: () => pick(kana), className: KEY, children: kana }, kana))
+          }
+        ),
+        /* @__PURE__ */ jsxs9("div", { className: "grid grid-cols-3 gap-1", children: [
+          groups.map((group, i) => /* @__PURE__ */ jsx17(
+            "button",
+            {
+              type: "button",
+              "aria-expanded": openGroup === i,
+              "aria-label": `${group[0]} row`,
+              onClick: () => setOpenGroup(openGroup === i ? null : i),
+              className: openGroup === i ? KEY_OPEN : KEY,
+              children: group[0]
+            },
+            group[0]
+          )),
+          /* @__PURE__ */ jsx17("button", { type: "button", onClick: () => pick("\u30FC"), className: KEY, children: "\u30FC" }),
+          /* @__PURE__ */ jsx17(
+            "button",
+            {
+              type: "button",
+              onClick: onBackspace,
+              "aria-label": "Backspace",
+              className: KEY,
+              children: /* @__PURE__ */ jsx17(BackspaceIcon, { className: "h-5 w-5" })
+            }
+          )
+        ] })
+      ]
+    }
+  );
 }
 
 // src/components/VoiceInput.tsx
@@ -846,13 +865,13 @@ function GradeRow({ onGrade }) {
   ] });
 }
 function Round({ onExhausted, from }) {
-  const [index, setIndex] = useState(0);
-  const [step, setStep] = useState(from);
-  const [marks, setMarks] = useState(
+  const [index, setIndex] = useState2(0);
+  const [step, setStep] = useState2(from);
+  const [marks, setMarks] = useState2(
     // A summary linked to directly needs a round behind it.
     from === "summary" ? ["recalled", "review", "recalled", "recalled"] : []
   );
-  const [audio, setAudio] = useState("idle");
+  const [audio, setAudio] = useState2("idle");
   const phrase = PHRASES[index];
   const done = marks.length;
   const recalled = marks.filter((m) => m === "recalled").length;
@@ -992,7 +1011,7 @@ function ErrorScreen({ onRetry }) {
   ] });
 }
 function CheckedScreen() {
-  const [outcome, setOutcome] = useState("review");
+  const [outcome, setOutcome] = useState2("review");
   const phrase = PHRASES[0];
   return /* @__PURE__ */ jsxs15(Fragment3, { children: [
     /* @__PURE__ */ jsx23(AppHeader, { title: "Fill in the blank", subtitle: "transit \xB7 1 of 4" }),
@@ -1024,10 +1043,10 @@ var STATES = [
 ];
 var STEPS = ["prompt", "reveal", "summary"];
 function FlashcardRound() {
-  const [state, setState] = useState(
+  const [state, setState] = useState2(
     fromUrl("state", STATES.map((s) => s.id), "round")
   );
-  const [nonce, setNonce] = useState(0);
+  const [nonce, setNonce] = useState2(0);
   const step = fromUrl("step", STEPS, "prompt");
   function reset(next) {
     setState(next);
@@ -1053,7 +1072,7 @@ function FlashcardRound() {
 }
 
 // ui_kits/flows/kana-practice.tsx
-import { useState as useState2 } from "react";
+import { useState as useState3 } from "react";
 
 // src/lib/romajiToKana.ts
 var CONSONANTS = new Set("bcdfghjklmnpqrstvwxyz");
@@ -1102,9 +1121,9 @@ var DECK = [
   { kana: "\u3086", romaji: "yu", choices: ["yo", "ya", "wa", "yu"] }
 ];
 function ChartScreen({ onPractise }) {
-  const [script, setScript] = useState2("hiragana");
-  const [audio, setAudio] = useState2("idle");
-  const [heard, setHeard] = useState2(null);
+  const [script, setScript] = useState3("hiragana");
+  const [audio, setAudio] = useState3("idle");
+  const [heard, setHeard] = useState3(null);
   const rows = CHART[script];
   const learnedInScript = [...LEARNED].filter(
     (k) => rows.some((row) => row.some((c) => c?.kana === k))
@@ -1199,10 +1218,10 @@ function DrillScreen({
   onFinish,
   answeredFirst
 }) {
-  const [index, setIndex] = useState2(0);
-  const [picked, setPicked] = useState2(answeredFirst ? "nu" : null);
-  const [marks, setMarks] = useState2([]);
-  const [audio, setAudio] = useState2("idle");
+  const [index, setIndex] = useState3(0);
+  const [picked, setPicked] = useState3(answeredFirst ? "nu" : null);
+  const [marks, setMarks] = useState3([]);
+  const [audio, setAudio] = useState3("idle");
   const card = DECK[index];
   function pick(choice) {
     if (picked !== null) return;
@@ -1250,31 +1269,26 @@ function DrillScreen({
   ] });
 }
 function KeyboardScreen({ onDone }) {
-  const [value, setValue] = useState2("");
-  const [script, setScript] = useState2("hiragana");
-  const [section, setSection] = useState2("basic");
+  const [value, setValue] = useState3("");
+  const [script, setScript] = useState3("hiragana");
+  const [section, setSection] = useState3("basic");
   return /* @__PURE__ */ jsxs16(Fragment4, { children: [
     /* @__PURE__ */ jsx24(AppHeader, { title: "Kana practice", subtitle: "write it \xB7 2 of 4" }),
     /* @__PURE__ */ jsx24(SessionProgress, { value: 0.25 }),
-    /* @__PURE__ */ jsxs16("div", { className: "flex flex-1 flex-col overflow-hidden", children: [
-      /* @__PURE__ */ jsxs16("div", { className: "flex flex-col gap-2 px-3 pt-3", children: [
-        /* @__PURE__ */ jsxs16("p", { className: "text-center text-body-sm text-fg-subtle", children: [
-          "Write the kana for ",
-          /* @__PURE__ */ jsx24("span", { className: "font-semibold text-fg", children: "nu" })
-        ] }),
-        /* @__PURE__ */ jsxs16("div", { className: "flex items-stretch gap-2", children: [
-          /* @__PURE__ */ jsx24(
-            "div",
-            {
-              lang: "ja",
-              className: "flex min-h-[48px] flex-1 items-center rounded-xl border-2 border-border-strong bg-surface px-4 font-jp text-jp-lg text-fg-heading",
-              children: value !== "" ? value : /* @__PURE__ */ jsx24("span", { className: "font-sans text-body text-fg-faint", children: "Tap the keys below" })
-            }
-          ),
-          /* @__PURE__ */ jsx24(Button, { size: "sm", disabled: value === "", onClick: onDone, children: "Check" })
-        ] })
+    /* @__PURE__ */ jsxs16(Screen, { children: [
+      /* @__PURE__ */ jsxs16("div", { className: "flex flex-col items-center gap-3 rounded-2xl border border-transparent bg-accent-ai-bg p-6 shadow-card", children: [
+        /* @__PURE__ */ jsx24("p", { className: "text-body-sm text-fg-subtle", children: "Write the kana for" }),
+        /* @__PURE__ */ jsx24("p", { className: "text-heading font-semibold text-fg", children: "nu" })
       ] }),
-      /* @__PURE__ */ jsx24("div", { className: "mt-auto p-2", children: /* @__PURE__ */ jsx24(
+      /* @__PURE__ */ jsx24(
+        "div",
+        {
+          lang: "ja",
+          className: "flex min-h-14 items-center rounded-xl border-2 border-border-strong bg-surface px-4 py-3 font-jp text-jp-lg text-fg-heading",
+          children: value !== "" ? value : /* @__PURE__ */ jsx24("span", { className: "font-sans text-body text-fg-faint", children: "Tap the keys below" })
+        }
+      ),
+      /* @__PURE__ */ jsx24(
         KanaKeyboard,
         {
           script,
@@ -1284,7 +1298,8 @@ function KeyboardScreen({ onDone }) {
           onKey: (k) => setValue(value + k),
           onBackspace: () => setValue([...value].slice(0, -1).join(""))
         }
-      ) })
+      ),
+      /* @__PURE__ */ jsx24(Button, { fullWidth: true, disabled: value === "", onClick: onDone, children: "Check answer" })
     ] })
   ] });
 }
@@ -1330,11 +1345,11 @@ var STATES2 = [
 ];
 var SAMPLE_MARKS = ["recalled", "review", "recalled", "recalled"];
 function KanaPractice() {
-  const [state, setState] = useState2(
+  const [state, setState] = useState3(
     fromUrl("state", STATES2.map((s) => s.id), "chart")
   );
-  const [marks, setMarks] = useState2(SAMPLE_MARKS);
-  const [nonce, setNonce] = useState2(0);
+  const [marks, setMarks] = useState3(SAMPLE_MARKS);
+  const [nonce, setNonce] = useState3(0);
   function go(next) {
     setState(next);
     setNonce(nonce + 1);
