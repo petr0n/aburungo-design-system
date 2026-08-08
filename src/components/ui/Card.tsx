@@ -18,7 +18,7 @@ export function Card(props: CardProps) {
   const { children, compact = false, className, ...rest } = props
 
   const classes = [
-    'rounded-2xl border border-border bg-bg shadow-card',
+    'rounded-2xl border border-border bg-surface shadow-card',
     compact ? 'p-4' : 'p-6',
     className ?? '',
   ].filter((c) => c !== '').join(' ')

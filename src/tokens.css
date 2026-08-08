@@ -105,8 +105,8 @@
   --color-fg-on-inverse-2: #A4A4A4;
 
   /* ── Surfaces. ───────────────────────────────────────────────────── */
-  --color-bg:         #FFFDF8;
-  --color-surface:    #F7F6F1;
+  --color-bg:         var(--color-stone-50);   /* page ground */
+  --color-surface:    var(--color-stone-0);    /* cards — lighter than the page, so they lift */
   --color-surface-2:  #EFEDE5;
   --color-bg-inverse: #2D2D2D;
 

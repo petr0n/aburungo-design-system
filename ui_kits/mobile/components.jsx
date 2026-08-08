@@ -23,7 +23,7 @@ function Button({
   };
   const classes = [
     'inline-flex items-center justify-center gap-2 rounded-lg font-medium select-none transition-colors',
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
     variants[variant], sizes[size], fullWidth ? 'w-full' : '', className,
   ].filter(Boolean).join(' ');
   return (
@@ -44,7 +44,7 @@ function TextInput({ label, hint, error, type = 'text', ...rest }) {
         className={[
           'min-h-[44px] w-full rounded-md border bg-bg px-3 py-2',
           'text-body text-fg placeholder:text-fg-faint',
-          'focus:outline-none focus:ring-2 focus:ring-focus',
+          'focus:outline-none focus:ring-2 focus:ring-focus focus:ring-offset-2 focus:ring-offset-bg',
           error ? 'border-error-500' : 'border-border-strong focus:border-fg-subtle',
         ].join(' ')}
       />
@@ -56,7 +56,7 @@ function TextInput({ label, hint, error, type = 'text', ...rest }) {
 
 function Card({ children, compact = false, className = '' }) {
   return (
-    <article className={['rounded-2xl border border-border bg-bg shadow-card',
+    <article className={['rounded-2xl border border-border bg-surface shadow-card',
       compact ? 'p-4' : 'p-6', className].join(' ')}>
       {children}
     </article>
@@ -91,7 +91,7 @@ function IconButton({ 'aria-label': ariaLabel, variant = 'default', shape = 'rou
       className={[
         'inline-flex items-center justify-center select-none transition-colors h-11 w-11 min-h-[44px] min-w-[44px]',
         shape === 'round' ? 'rounded-full' : 'rounded-lg',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
         'disabled:opacity-50',
         variants[variant],
       ].join(' ')}>
@@ -560,7 +560,7 @@ function FillInput({
             onChange={(e) => onRomajiChange(e.target.value)} onKeyDown={handleKeyDown}
             disabled={disabled} placeholder="Type romaji here…"
             autoComplete="off" autoCorrect="off" autoCapitalize="none" spellCheck={false}
-            className="h-12 w-full rounded-xl border border-border-strong px-4 text-body text-fg placeholder:text-fg-faint focus:border-fg-subtle focus:outline-none focus:ring-2 focus:ring-focus disabled:opacity-50"/>
+            className="h-12 w-full rounded-xl border border-border-strong px-4 text-body text-fg placeholder:text-fg-faint focus:border-fg-subtle focus:outline-none focus:ring-2 focus:ring-focus focus:ring-offset-2 focus:ring-offset-bg disabled:opacity-50"/>
         </div>
       )}
 
@@ -581,7 +581,7 @@ function FillInput({
             onChange={(e) => onSystemChange(e.target.value)} onKeyDown={handleKeyDown}
             disabled={disabled} placeholder={placeholder ?? 'Type in Japanese…'}
             lang="ja" inputMode="text" autoComplete="off" autoCorrect="off" spellCheck={false}
-            className="h-12 w-full rounded-xl border border-border-strong px-4 font-jp text-jp text-fg placeholder:font-sans placeholder:text-body placeholder:text-fg-faint focus:border-fg-subtle focus:outline-none focus:ring-2 focus:ring-focus disabled:opacity-50"/>
+            className="h-12 w-full rounded-xl border border-border-strong px-4 font-jp text-jp text-fg placeholder:font-sans placeholder:text-body placeholder:text-fg-faint focus:border-fg-subtle focus:outline-none focus:ring-2 focus:ring-focus focus:ring-offset-2 focus:ring-offset-bg disabled:opacity-50"/>
           <div className="flex items-start gap-2">
             <p className="text-body-sm text-fg-subtle">Switch your device keyboard to Japanese (日本語).</p>
             <button type="button" onClick={onToggleSystemHint}

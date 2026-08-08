@@ -47,7 +47,7 @@ export function TextInput(props: TextInputProps) {
   const inputClasses = [
     'min-h-[44px] w-full rounded-md border bg-bg px-3 py-2',
     'text-body text-fg placeholder:text-fg-faint',
-    'focus:outline-none focus:ring-2 focus:ring-focus',
+    'focus:outline-none focus:ring-2 focus:ring-focus focus:ring-offset-2 focus:ring-offset-bg',
     'disabled:opacity-50',
     error !== undefined ? 'border-error-500' : 'border-border-strong focus:border-fg-subtle',
     className ?? '',

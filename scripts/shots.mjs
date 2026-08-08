@@ -37,6 +37,7 @@ const SURFACES = [
   ['badges', '/preview/20-badges.html', 760, 200],
   ['progress', '/preview/24-progress.html', 760, 240],
   ['progress-contrast', '/preview/28-progress-contrast.html', 1080, 780],
+  ['sandbox-surfaces', '/preview/_sandbox/surfaces-1-current.html', 900, 420],
   ['phrasecard', '/preview/22-phrase-card.html', 760, 320],
   ['kana-key', '/preview/23-kana-key.html', 760, 260],
   ['empty-state', '/preview/25-empty-state.html', 760, 260],

@@ -29,6 +29,16 @@ const RULES = [
     msg: 'Raw hex colour — use a design-system colour token.',
   },
   {
+    // A focus ring without an offset sits on the control's edge. On a filled
+    // control that is 2.25:1 (primary) or 1.03:1 (accent) — invisible. The
+    // offset puts page colour between control and ring so it reads against
+    // the page instead. Removing it silently breaks keyboard focus.
+    name: 'focus-ring-without-offset',
+    re: /ring-focus(?![-a-z])/,
+    msg: 'Focus ring with no ring-offset — add `ring-offset-2 ring-offset-bg`.',
+    unless: /ring-offset/,
+  },
+  {
     name: 'non-ds-font',
     re: /font-family\s*:\s*(?!['"]?(?:Noto Sans|M PLUS Rounded 1c|var\(|inherit))/i,
     msg: 'Font not in the design system. Available: Noto Sans, M PLUS Rounded 1c.',
@@ -40,9 +50,12 @@ let violations = 0
 
 for (const file of files) {
   readFileSync(file, 'utf8').split('\n').forEach((line, i) => {
+    // Comments describe the rules; they are not violations of them.
+    if (/^\s*(\/\/|\*|\/\*)/.test(line)) return
     for (const rule of RULES) {
       const hit = rule.re.exec(line)
       if (hit === null) continue
+      if (rule.unless !== undefined && rule.unless.test(line)) continue
       violations += 1
       console.error(`${file}:${i + 1}  ${rule.name}  ${hit[0].trim()}\n    ${rule.msg}`)
     }

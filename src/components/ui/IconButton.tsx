@@ -53,7 +53,7 @@ export function IconButton(props: IconButtonProps) {
 
   const classes = [
     'inline-flex items-center justify-center select-none transition-colors',
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
     'disabled:opacity-50',
     SHAPE_CLASSES[shape],
     SIZE_CLASSES[size],

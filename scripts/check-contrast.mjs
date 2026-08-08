@@ -76,6 +76,12 @@ const CHECKS = [
   ['--color-focus', '--color-surface-2', UI, 'focus ring on well'],
   ['--color-focus-on-inverse', '--color-bg-inverse', UI, 'focus ring on inverse chrome'],
   ['--color-progress-fill', '--color-progress-track', UI, 'progress fill on track'],
+  // The focus ring is NOT checked against filled controls. Every interactive
+  // primitive uses `ring-offset-2 ring-offset-bg`, so the ring is separated
+  // from the control by page colour and reads against the page — which the
+  // three checks above already cover. scripts/check-adherence.mjs enforces
+  // that the offset is present; without it, focus on a primary button drops
+  // to 2.25:1 and on an Akane surface to 1.03:1.
 ]
 
 /**

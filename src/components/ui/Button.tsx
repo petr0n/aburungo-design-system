@@ -53,7 +53,7 @@ export function Button(props: ButtonProps) {
 
   const classes = [
     'inline-flex items-center justify-center gap-2 rounded-lg font-medium select-none transition-colors',
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
     VARIANT_CLASSES[variant],
     SIZE_CLASSES[size],
     fullWidth ? 'w-full' : '',

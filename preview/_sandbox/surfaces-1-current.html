@@ -1,0 +1,43 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../dist/tokens.plain.css">
+<style>
+ body{margin:0;padding:28px;font-family:var(--font-sans);color:var(--fg);background:var(--bg)}
+ h1{font-size:17px;margin:0 0 2px} .s{color:var(--fg-muted);margin:0 0 20px;font-size:13px}
+ .grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+ .col h2{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-subtle);margin:0 0 10px}
+ .page{padding:18px;border-radius:14px}
+ .card{border-radius:16px;border:1px solid var(--border);padding:16px;box-shadow:var(--shadow-card)}
+ .well{border-radius:12px;padding:12px;margin-top:10px}
+ .lbl{font:500 10px ui-monospace,Menlo,monospace;color:var(--fg-subtle);margin-top:6px}
+ .sw{display:flex;gap:6px;align-items:center;font:500 10px ui-monospace,Menlo,monospace;color:var(--fg-subtle);margin-top:3px}
+ .chip{width:12px;height:12px;border-radius:3px;border:1px solid var(--border)}
+</style></head><body>
+<h1>Card on page — before / after</h1>
+<p class="s">v3 says stone-0 <code>#FFFDF8</code> is “Cards” and stone-50 <code>#F7F6F1</code> is “Page ground”. The before panel is pinned to literal hexes so it stays a record; the after panel reads live tokens.</p>
+<div class="grid">
+  <div class="col"><h2>Before — page and card identical</h2>
+    <div class="page" style="background:#FFFDF8">
+      <div class="card" style="background:#FFFDF8">
+        <div style="font-weight:600">Card</div>
+        <div style="font-size:13px;color:var(--fg-muted)">Only the hairline separates this from the page.</div>
+        <div class="well" style="background:#F7F6F1">A KanaGrid / ScoreCard container — <b>darker</b> than the page.</div>
+      </div>
+      <div class="lbl">page var(--bg) · card var(--bg) · container var(--surface)</div>
+      <div class="sw"><span class="chip" style="background:#FFFDF8"></span>page = card</div>
+    </div>
+  </div>
+  <div class="col"><h2>After — shipped 2026-08-08</h2>
+    <div class="page" style="background:var(--stone-50)">
+      <div class="card" style="background:var(--stone-0)">
+        <div style="font-weight:600">Card</div>
+        <div style="font-size:13px;color:var(--fg-muted)">Lighter than the page, so it lifts tonally.</div>
+        <div class="well" style="background:var(--stone-100)">A well / inset — darker than the card.</div>
+      </div>
+      <div class="lbl">page stone-50 · card stone-0 · well stone-100</div>
+      <div class="sw"><span class="chip" style="background:var(--stone-50)"></span>page
+        <span class="chip" style="background:var(--stone-0)"></span>card
+        <span class="chip" style="background:var(--stone-100)"></span>well</div>
+    </div>
+  </div>
+</div>
+</body></html>
