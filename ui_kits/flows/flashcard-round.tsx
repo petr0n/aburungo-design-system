@@ -148,7 +148,11 @@ function Round({ onExhausted, from }: { onExhausted: () => void; from: Step }) {
         <AppHeader title="Round complete" subtitle={`${PHRASES.length} phrases`} />
         <SessionProgress value={1} />
         <Screen>
-          <ScoreCard correct={recalled} total={PHRASES.length}>
+          <ScoreCard
+            correct={recalled}
+            total={PHRASES.length}
+            tone="rokusho"
+          >
             {/* The per-answer mark row §3.0 calls for, composed at the call
                 site to check the existing `children` slot carries it before
                 ScoreCard grows an API for it. */}

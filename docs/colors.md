@@ -211,6 +211,46 @@ the variable disagreed and only the variable was ever rendered.
 Renamed here to `--color-inverse`, which generates `bg-inverse` as written.
 Found by putting `AppHeader` on a screen (`ui_kits/flows/`), not by any check.
 
+## Where the colour goes — decided 2026-08-08
+
+**The card body carries the accent. The page ground does not.**
+
+The palette was landing as hairlines: a 3px card rule, a tag pill, coloured
+type, one solid button. Every large surface stayed warm white. The kana
+keyboard was the proof — the only screen that read as colourful, and the only
+one with a large colour field.
+
+Three options were rendered across four screens and reviewed by the palette
+author:
+
+| | Where colour lands | Outcome |
+|---|---|---|
+| A | edges only — the shipped treatment | control |
+| B | **the card body**, at the accent's 100 step | **chosen** |
+| C | the page ground and the header band | not chosen |
+
+B keeps the header band Sumi-iro, so a screen still has exactly one dark slab,
+and it makes the scenario legible across a whole surface rather than in a
+badge.
+
+Implemented as a fourth member of the accent set — `--color-accent-<hue>-bg`
+alongside `-<hue>` and `-<hue>-fg` — so a card's accent stays one input.
+`Card` gained `tone="bare"` for it: two `bg-*` utilities on one element have
+equal specificity, so which wins depends on stylesheet order rather than the
+order they are written, and `PhraseCard` takes the background off rather than
+racing it.
+
+Applied to every content surface, not just `PhraseCard`: `AnswerResult`'s
+reveal block moved off `surface-2` for the same reason — it holds Japanese, and
+Ai-iro is the Japanese-content colour. `ScoreCard` gained `tone`, and the round
+summary uses Rokushō: the end of a round is the one moment a screen is allowed
+to be emphatic, and it was the most colourless screen in the product.
+
+Text holds on all four grounds — Ai-iro headings 8.9–9.6:1, Sumi-iro body
+10.9–11.7:1, Rokushō readings 5.0–5.4:1. `fg-subtle` on the Ai ground lands at
+4.49:1 against a 4.5 target; left alone deliberately rather than dulling the
+palette over 0.01.
+
 ## Correct/incorrect vs success/error (task 2.3b)
 
 **Decision: they stay the same tokens. No separate `--color-correct`.**

@@ -8,10 +8,18 @@
 import type { ReactNode } from 'react'
 import { ProgressBar } from '../../src/components'
 
-/** A phone-shaped viewport. 390px is the iPhone 15/16 logical width. */
+/**
+ * A phone-shaped viewport. 390px is the iPhone 15/16 logical width.
+ *
+ * `data-phone` is the handle screenshot tooling clips to — capturing the
+ * screen alone rather than the harness page around it.
+ */
 export function Phone({ children }: { children: ReactNode }) {
   return (
-    <div className="w-[390px] shrink-0 overflow-hidden rounded-[2.25rem] border-8 border-inverse bg-bg shadow-card">
+    <div
+      data-phone
+      className="w-[390px] shrink-0 overflow-hidden rounded-[2.25rem] border-8 border-inverse bg-bg shadow-card"
+    >
       <div className="flex h-[780px] flex-col">{children}</div>
     </div>
   )
@@ -23,6 +31,7 @@ export function Screen({ children }: { children: ReactNode }) {
     <div className="flex flex-1 flex-col gap-5 overflow-y-auto px-4 pb-8 pt-5">{children}</div>
   )
 }
+
 
 /**
  * ProgressBar flush under the header put a Rokushō fill directly against the

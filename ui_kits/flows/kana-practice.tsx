@@ -238,7 +238,9 @@ function DrillScreen({
       <AppHeader title="Kana practice" subtitle={`${index + 1} of ${DECK.length}`} />
       <SessionProgress value={index / DECK.length} />
       <Screen>
-        <div className="flex flex-col items-center gap-4 rounded-2xl border border-border bg-surface p-6 shadow-card">
+        {/* The kana is the whole content of this card, so it takes the Ai
+            ground the phrase card now uses — same rule, same reason. */}
+        <div className="flex flex-col items-center gap-4 rounded-2xl border border-transparent bg-accent-ai-bg p-6 shadow-card">
           <p className="text-body-sm text-fg-subtle">Which sound is this?</p>
           <p lang="ja" className="font-jp text-jp-display-lg text-fg-heading">
             {card.kana}
@@ -333,7 +335,11 @@ function ResultScreen({ marks, onAgain }: { marks: AnswerOutcome[]; onAgain: () 
       <AppHeader title="Round complete" subtitle={`${DECK.length} kana`} />
       <SessionProgress value={1} />
       <Screen>
-        <ScoreCard correct={recalled} total={DECK.length}>
+        <ScoreCard
+          correct={recalled}
+          total={DECK.length}
+          tone="rokusho"
+        >
           <ul className="flex flex-col gap-2">
             {marks.map((outcome, i) => (
               <li
