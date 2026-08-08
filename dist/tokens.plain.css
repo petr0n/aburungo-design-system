@@ -75,6 +75,10 @@
   --color-accent-rokusho-fg: var(--color-stone-0);
   --color-accent-akane: var(--color-akane-500);
   --color-accent-akane-fg: var(--color-stone-0);
+  --color-accent-ogon-bg: var(--color-ogon-100);
+  --color-accent-ai-bg: var(--color-ai-100);
+  --color-accent-rokusho-bg: var(--color-rokusho-100);
+  --color-accent-akane-bg: var(--color-akane-100);
   --color-keyboard-bg: var(--color-rokusho-700);
   --color-keyboard-rule: var(--color-rokusho-800);
   --color-key-bg: var(--color-stone-0);
@@ -271,6 +275,10 @@
   --accent-rokusho-fg: var(--color-accent-rokusho-fg);
   --accent-akane: var(--color-accent-akane);
   --accent-akane-fg: var(--color-accent-akane-fg);
+  --accent-ogon-bg: var(--color-accent-ogon-bg);
+  --accent-ai-bg: var(--color-accent-ai-bg);
+  --accent-rokusho-bg: var(--color-accent-rokusho-bg);
+  --accent-akane-bg: var(--color-accent-akane-bg);
   --keyboard-bg: var(--color-keyboard-bg);
   --keyboard-rule: var(--color-keyboard-rule);
   --key-bg: var(--color-key-bg);

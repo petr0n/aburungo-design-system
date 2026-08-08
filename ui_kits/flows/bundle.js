@@ -56,9 +56,10 @@ import { jsx as jsx2, jsxs } from "react/jsx-runtime";
 // src/components/ui/Card.tsx
 import { jsx as jsx3 } from "react/jsx-runtime";
 function Card(props) {
-  const { children, compact = false, className, ...rest } = props;
+  const { children, compact = false, tone = "surface", className, ...rest } = props;
   const classes = [
-    "rounded-2xl border border-border bg-surface shadow-card",
+    "rounded-2xl border border-border shadow-card",
+    tone === "surface" ? "bg-surface" : "",
     compact ? "p-4" : "p-6",
     className ?? ""
   ].filter((c) => c !== "").join(" ");
@@ -128,9 +129,16 @@ var TAG = {
   akane: "bg-accent-akane text-accent-akane-fg",
   none: "bg-tag-bg text-tag-fg"
 };
+var BODY = {
+  ogon: "bg-accent-ogon-bg",
+  ai: "bg-accent-ai-bg",
+  rokusho: "bg-accent-rokusho-bg",
+  akane: "bg-accent-akane-bg",
+  none: "bg-surface"
+};
 function PhraseCard(props) {
   const { japanese, reading, english, scenario, audioSlot, footer, notes, accent = "ogon" } = props;
-  return /* @__PURE__ */ jsx6(Card, { className: RULE[accent], children: /* @__PURE__ */ jsxs2("div", { className: "flex flex-col gap-6", children: [
+  return /* @__PURE__ */ jsx6(Card, { tone: "bare", className: `${RULE[accent]} ${BODY[accent]}`, children: /* @__PURE__ */ jsxs2("div", { className: "flex flex-col gap-6", children: [
     /* @__PURE__ */ jsxs2(CardHeader, { children: [
       scenario !== void 0 ? /* @__PURE__ */ jsx6(
         "span",
@@ -339,17 +347,23 @@ function ErrorState({ message, description, action }) {
 
 // src/components/ScoreCard.tsx
 import { jsx as jsx15, jsxs as jsxs7 } from "react/jsx-runtime";
-function ScoreCard({ correct, total, label = "recalled", children }) {
+var TONE = {
+  plain: { box: "border-border bg-surface", num: "text-fg", sub: "text-fg-subtle" },
+  rokusho: { box: "border-transparent bg-accent-rokusho", num: "text-accent-rokusho-fg", sub: "text-accent-rokusho-fg" },
+  ai: { box: "border-transparent bg-accent-ai", num: "text-accent-ai-fg", sub: "text-accent-ai-fg" }
+};
+function ScoreCard({ correct, total, label = "recalled", tone = "plain", children }) {
+  const t = TONE[tone];
   return /* @__PURE__ */ jsxs7("div", { className: "flex flex-col gap-6", children: [
-    /* @__PURE__ */ jsxs7("div", { className: "rounded-2xl border border-border bg-surface p-6 text-center", children: [
-      /* @__PURE__ */ jsxs7("p", { className: "text-display font-bold text-fg", children: [
+    /* @__PURE__ */ jsxs7("div", { className: `rounded-2xl border p-6 text-center ${t.box}`, children: [
+      /* @__PURE__ */ jsxs7("p", { className: `text-display font-bold ${t.num}`, children: [
         correct,
-        /* @__PURE__ */ jsxs7("span", { className: "text-heading-lg text-fg-subtle", children: [
+        /* @__PURE__ */ jsxs7("span", { className: `text-heading-lg opacity-70 ${t.sub}`, children: [
           " / ",
           total
         ] })
       ] }),
-      /* @__PURE__ */ jsx15("p", { className: "mt-1 text-body-sm text-fg-subtle", children: label })
+      /* @__PURE__ */ jsx15("p", { className: `mt-1 text-body-sm opacity-80 ${t.sub}`, children: label })
     ] }),
     children
   ] });
@@ -702,14 +716,21 @@ function AnswerResult({ outcome, userAnswer, children }) {
         userAnswer
       ] })
     ] }),
-    /* @__PURE__ */ jsx21("div", { className: "flex flex-col items-center gap-1 rounded-xl bg-surface-2 p-4 text-center", children })
+    /* @__PURE__ */ jsx21("div", { className: "flex flex-col items-center gap-1 rounded-xl bg-accent-ai-bg p-4 text-center", children })
   ] });
 }
 
 // ui_kits/flows/shell.tsx
 import { jsx as jsx22, jsxs as jsxs14 } from "react/jsx-runtime";
 function Phone({ children }) {
-  return /* @__PURE__ */ jsx22("div", { className: "w-[390px] shrink-0 overflow-hidden rounded-[2.25rem] border-8 border-inverse bg-bg shadow-card", children: /* @__PURE__ */ jsx22("div", { className: "flex h-[780px] flex-col", children }) });
+  return /* @__PURE__ */ jsx22(
+    "div",
+    {
+      "data-phone": true,
+      className: "w-[390px] shrink-0 overflow-hidden rounded-[2.25rem] border-8 border-inverse bg-bg shadow-card",
+      children: /* @__PURE__ */ jsx22("div", { className: "flex h-[780px] flex-col", children })
+    }
+  );
 }
 function Screen({ children }) {
   return /* @__PURE__ */ jsx22("div", { className: "flex flex-1 flex-col gap-5 overflow-y-auto px-4 pb-8 pt-5", children });
@@ -855,20 +876,28 @@ function Round({ onExhausted, from }) {
       /* @__PURE__ */ jsx23(AppHeader, { title: "Round complete", subtitle: `${PHRASES.length} phrases` }),
       /* @__PURE__ */ jsx23(SessionProgress, { value: 1 }),
       /* @__PURE__ */ jsxs15(Screen, { children: [
-        /* @__PURE__ */ jsx23(ScoreCard, { correct: recalled, total: PHRASES.length, children: /* @__PURE__ */ jsx23("ul", { className: "flex flex-col gap-2", children: marks.map((outcome, i) => /* @__PURE__ */ jsxs15(
-          "li",
+        /* @__PURE__ */ jsx23(
+          ScoreCard,
           {
-            className: "flex items-start gap-3 rounded-xl border border-border bg-surface px-4 py-3",
-            children: [
-              /* @__PURE__ */ jsx23(Maru, { outcome, className: "w-5 shrink-0 pt-1 text-heading-sm" }),
-              /* @__PURE__ */ jsxs15("div", { className: "flex min-w-0 flex-col", children: [
-                /* @__PURE__ */ jsx23("span", { lang: "ja", className: "font-jp text-jp text-fg-heading", children: PHRASES[i].japanese }),
-                /* @__PURE__ */ jsx23("span", { className: "text-body-sm text-fg-subtle", children: PHRASES[i].english })
-              ] })
-            ]
-          },
-          PHRASES[i].japanese
-        )) }) }),
+            correct: recalled,
+            total: PHRASES.length,
+            tone: "rokusho",
+            children: /* @__PURE__ */ jsx23("ul", { className: "flex flex-col gap-2", children: marks.map((outcome, i) => /* @__PURE__ */ jsxs15(
+              "li",
+              {
+                className: "flex items-start gap-3 rounded-xl border border-border bg-surface px-4 py-3",
+                children: [
+                  /* @__PURE__ */ jsx23(Maru, { outcome, className: "w-5 shrink-0 pt-1 text-heading-sm" }),
+                  /* @__PURE__ */ jsxs15("div", { className: "flex min-w-0 flex-col", children: [
+                    /* @__PURE__ */ jsx23("span", { lang: "ja", className: "font-jp text-jp text-fg-heading", children: PHRASES[i].japanese }),
+                    /* @__PURE__ */ jsx23("span", { className: "text-body-sm text-fg-subtle", children: PHRASES[i].english })
+                  ] })
+                ]
+              },
+              PHRASES[i].japanese
+            )) })
+          }
+        ),
         /* @__PURE__ */ jsxs15("div", { className: "flex flex-col gap-3", children: [
           /* @__PURE__ */ jsx23(Button, { fullWidth: true, onClick: onExhausted, children: "Finish" }),
           /* @__PURE__ */ jsx23(
@@ -1202,7 +1231,7 @@ function DrillScreen({
     /* @__PURE__ */ jsx24(AppHeader, { title: "Kana practice", subtitle: `${index + 1} of ${DECK.length}` }),
     /* @__PURE__ */ jsx24(SessionProgress, { value: index / DECK.length }),
     /* @__PURE__ */ jsxs16(Screen, { children: [
-      /* @__PURE__ */ jsxs16("div", { className: "flex flex-col items-center gap-4 rounded-2xl border border-border bg-surface p-6 shadow-card", children: [
+      /* @__PURE__ */ jsxs16("div", { className: "flex flex-col items-center gap-4 rounded-2xl border border-transparent bg-accent-ai-bg p-6 shadow-card", children: [
         /* @__PURE__ */ jsx24("p", { className: "text-body-sm text-fg-subtle", children: "Which sound is this?" }),
         /* @__PURE__ */ jsx24("p", { lang: "ja", className: "font-jp text-jp-display-lg text-fg-heading", children: card.kana }),
         /* @__PURE__ */ jsx24(AudioButton, { state: audio, onPress: play, label: "Hear this kana" })
@@ -1265,18 +1294,26 @@ function ResultScreen({ marks, onAgain }) {
     /* @__PURE__ */ jsx24(AppHeader, { title: "Round complete", subtitle: `${DECK.length} kana` }),
     /* @__PURE__ */ jsx24(SessionProgress, { value: 1 }),
     /* @__PURE__ */ jsxs16(Screen, { children: [
-      /* @__PURE__ */ jsx24(ScoreCard, { correct: recalled, total: DECK.length, children: /* @__PURE__ */ jsx24("ul", { className: "flex flex-col gap-2", children: marks.map((outcome, i) => /* @__PURE__ */ jsxs16(
-        "li",
+      /* @__PURE__ */ jsx24(
+        ScoreCard,
         {
-          className: "flex items-center gap-3 rounded-xl border border-border bg-surface px-4 py-3",
-          children: [
-            /* @__PURE__ */ jsx24(Maru, { outcome, className: "w-5 shrink-0 text-heading-sm" }),
-            /* @__PURE__ */ jsx24("span", { lang: "ja", className: "font-jp text-jp-lg text-fg-heading", children: DECK[i].kana }),
-            /* @__PURE__ */ jsx24("span", { className: "ml-auto text-body-sm text-fg-subtle", children: DECK[i].romaji })
-          ]
-        },
-        DECK[i].kana
-      )) }) }),
+          correct: recalled,
+          total: DECK.length,
+          tone: "rokusho",
+          children: /* @__PURE__ */ jsx24("ul", { className: "flex flex-col gap-2", children: marks.map((outcome, i) => /* @__PURE__ */ jsxs16(
+            "li",
+            {
+              className: "flex items-center gap-3 rounded-xl border border-border bg-surface px-4 py-3",
+              children: [
+                /* @__PURE__ */ jsx24(Maru, { outcome, className: "w-5 shrink-0 text-heading-sm" }),
+                /* @__PURE__ */ jsx24("span", { lang: "ja", className: "font-jp text-jp-lg text-fg-heading", children: DECK[i].kana }),
+                /* @__PURE__ */ jsx24("span", { className: "ml-auto text-body-sm text-fg-subtle", children: DECK[i].romaji })
+              ]
+            },
+            DECK[i].kana
+          )) })
+        }
+      ),
       /* @__PURE__ */ jsx24(Button, { fullWidth: true, onClick: onAgain, children: "Back to the chart" })
     ] })
   ] });
