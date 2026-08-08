@@ -68,13 +68,13 @@ const CHECKS = [
   ['--color-success-fg', '--color-success-bg', TEXT, 'recalled banner'],
   ['--color-error-fg', '--color-error-bg', TEXT, 'not-quite banner'],
   ['--color-tag-fg', '--color-tag-bg', TEXT, 'scenario tag'],
-  ['--color-fg-inverse', '--color-bg-inverse', TEXT, 'text on inverse chrome'],
+  ['--color-fg-inverse', '--color-inverse', TEXT, 'text on inverse chrome'],
   // Non-text indicators — the focus ring has to read on every ground it can
   // land on, which is what made the v3 Ogon ring fail its own review.
   ['--color-focus', '--color-bg', UI, 'focus ring on page'],
   ['--color-focus', '--color-surface', UI, 'focus ring on card'],
   ['--color-focus', '--color-surface-2', UI, 'focus ring on well'],
-  ['--color-focus-on-inverse', '--color-bg-inverse', UI, 'focus ring on inverse chrome'],
+  ['--color-focus-on-inverse', '--color-inverse', UI, 'focus ring on inverse chrome'],
   ['--color-progress-fill', '--color-progress-track', UI, 'progress fill on track'],
   // The focus ring is NOT checked against filled controls. Every interactive
   // primitive uses `ring-offset-2 ring-offset-bg`, so the ring is separated
