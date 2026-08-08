@@ -1,0 +1,86 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../dist/tokens.plain.css">
+<link rel="stylesheet" href="../../colors_and_type.css">
+<style>
+ body{margin:0;padding:26px;background:var(--bg);color:var(--fg);font-family:var(--font-sans)}
+ h1{font-size:18px;margin:0 0 18px}
+ .grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+ h2{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-subtle);margin:0 0 10px}
+ .screen{border-radius:16px;overflow:hidden;border:1px solid var(--border);background:var(--bg)}
+ .band{display:flex;align-items:center;gap:10px;padding:10px 14px;min-height:56px}
+ .mark{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+       font-family:var(--font-jp);font-weight:700;font-size:16px}
+ .ttl{font-weight:600;font-size:15px} .sub{font-size:11px}
+ .body{padding:14px;display:flex;flex-direction:column;gap:10px}
+ .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:12px;box-shadow:var(--shadow-card)}
+ .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+ .btn{height:40px;padding:0 16px;border-radius:12px;font-weight:500;font-size:14px;display:inline-flex;align-items:center;border:none}
+ .tag{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:9999px}
+ .kb{border-radius:14px;padding:8px;display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
+ .key{height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:var(--font-jp);font-size:14px}
+ .tog{height:26px;padding:0 10px;border-radius:8px;font-size:11px;font-weight:600;display:inline-flex;align-items:center;font-family:var(--font-jp)}
+ .bar{height:5px;border-radius:9999px;overflow:hidden} .fill{height:100%;width:62%;border-radius:9999px}
+</style></head><body>
+<h1>Where the palette actually lands — before / after</h1>
+<div class="grid">
+
+<div><h2>Before — tints only</h2>
+ <div class="screen">
+  <div class="band" style="background:var(--bg);border-bottom:1px solid var(--border)">
+    <div class="ttl" style="margin:0 auto;color:var(--fg)">Kana practice</div>
+  </div>
+  <div class="body">
+   <div class="card">
+     <span class="tag" style="background:#f6ecd2;color:#8a6a2b">restaurant</span>
+     <div class="row" style="margin-top:10px">
+       <button class="btn" style="background:var(--action);color:var(--action-fg)">Check answer</button>
+       <button class="btn" style="background:#eef6f4;color:#33685e;border:1px solid #b3d7cf">Show answer</button>
+     </div>
+     <div class="bar" style="background:var(--progress-track);margin-top:12px"><div class="fill" style="background:#418176"></div></div>
+   </div>
+   <div class="kb" style="background:var(--surface);border:1px solid var(--border)">
+     <span class="tog" style="background:#2D2D2D;color:#FFFDF8;grid-column:span 2">ひら</span>
+     <span></span><span></span><span></span>
+     <div class="key" style="background:#FFFDF8;border:1px solid var(--border);color:var(--fg)">あ</div>
+     <div class="key" style="background:#FFFDF8;border:1px solid var(--border);color:var(--fg)">い</div>
+     <div class="key" style="background:#FFFDF8;border:1px solid var(--border);color:var(--fg)">う</div>
+     <div class="key" style="background:#FFFDF8;border:1px solid var(--border);color:var(--fg)">え</div>
+     <div class="key" style="background:#FFFDF8;border:1px solid var(--border);color:var(--fg)">お</div>
+   </div>
+  </div>
+ </div>
+</div>
+
+<div><h2>After — A + B</h2>
+ <div class="screen">
+  <div class="band" style="background:var(--bg-inverse);border-bottom:2px solid var(--rule-on-inverse)">
+    <div class="mark" style="background:var(--accent);color:var(--accent-fg)">ア</div>
+    <div style="margin:0 auto;text-align:center">
+      <div class="ttl" style="color:var(--fg-inverse)">Kana practice</div>
+      <div class="sub" style="color:var(--fg-on-inverse-2)">hiragana · 12 of 46</div>
+    </div>
+    <div style="width:32px"></div>
+  </div>
+  <div class="body">
+   <div class="card">
+     <span class="tag" style="background:var(--tag-bg);color:var(--tag-fg)">restaurant</span>
+     <div class="row" style="margin-top:10px">
+       <button class="btn" style="background:var(--action);color:var(--action-fg)">Check answer</button>
+       <button class="btn" style="background:var(--action-2-bg);color:var(--action-2-fg);border:1px solid var(--action-2-border)">Show answer</button>
+     </div>
+     <div class="bar" style="background:var(--progress-track);margin-top:12px"><div class="fill" style="background:var(--progress-fill)"></div></div>
+   </div>
+   <div class="kb" style="background:var(--bg-inverse);border:2px solid var(--rule-on-inverse)">
+     <span class="tog" style="background:var(--focus);color:var(--inverse-on-ogon);grid-column:span 2">ひら</span>
+     <span></span><span></span><span></span>
+     <div class="key" style="background:var(--stone-700);color:var(--fg-inverse)">あ</div>
+     <div class="key" style="background:var(--stone-700);color:var(--fg-inverse)">い</div>
+     <div class="key" style="background:var(--stone-700);color:var(--fg-inverse)">う</div>
+     <div class="key" style="background:var(--stone-700);color:var(--fg-inverse)">え</div>
+     <div class="key" style="background:var(--stone-700);color:var(--fg-inverse)">お</div>
+   </div>
+  </div>
+ </div>
+</div>
+
+</div></body></html>

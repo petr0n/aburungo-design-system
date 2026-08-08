@@ -51,7 +51,7 @@ export function KanaKeyboard({
   const rows = GRID[script][section]
 
   return (
-    <div className="flex w-full flex-col gap-2 rounded-2xl border border-border bg-surface p-3">
+    <div className="flex w-full flex-col gap-2 rounded-2xl border-2 border-rule-on-inverse bg-inverse p-3">
       {/* Script + section toggles */}
       <div className="flex items-center justify-between gap-2">
         <div className="flex gap-1">
@@ -63,8 +63,8 @@ export function KanaKeyboard({
               className={[
                 'h-9 rounded-lg px-3 font-jp text-sm font-medium transition-colors',
                 script === s
-                  ? 'bg-inverse text-fg-inverse'
-                  : 'border border-border-strong text-fg-muted active:bg-surface-2',
+                  ? 'bg-focus text-inverse-on-ogon'
+                  : 'border border-rule-on-inverse text-fg-on-inverse-2 active:bg-stone-700',
               ].join(' ')}
             >
               {s === 'hiragana' ? 'ひら' : 'カタ'}
@@ -81,8 +81,8 @@ export function KanaKeyboard({
               className={[
                 'h-9 rounded-lg px-3 font-jp text-sm font-medium transition-colors',
                 section === sec
-                  ? 'bg-inverse text-fg-inverse'
-                  : 'border border-border-strong text-fg-muted active:bg-surface-2',
+                  ? 'bg-focus text-inverse-on-ogon'
+                  : 'border border-rule-on-inverse text-fg-on-inverse-2 active:bg-stone-700',
               ].join(' ')}
             >
               {SECTION_LABELS[sec]}
@@ -103,7 +103,7 @@ export function KanaKeyboard({
                   key={colIdx}
                   type="button"
                   onClick={() => onKey(cell)}
-                  className="flex h-11 items-center justify-center rounded-xl border border-border bg-bg font-jp text-jp text-fg shadow-key active:bg-surface-2"
+                  className="flex h-11 items-center justify-center rounded-xl bg-stone-700 font-jp text-jp text-fg-inverse shadow-key active:bg-stone-600"
                 >
                   {cell}
                 </button>
@@ -119,7 +119,7 @@ export function KanaKeyboard({
         <button
           type="button"
           onClick={() => onKey('ー')}
-          className="flex h-11 items-center justify-center rounded-xl border border-border bg-bg font-jp text-jp text-fg shadow-key active:bg-surface-2"
+          className="flex h-11 items-center justify-center rounded-xl bg-stone-700 font-jp text-jp text-fg-inverse shadow-key active:bg-stone-600"
         >
           ー
         </button>
@@ -127,7 +127,7 @@ export function KanaKeyboard({
           type="button"
           onClick={onBackspace}
           aria-label="Backspace"
-          className="flex h-11 items-center justify-center rounded-xl border border-border bg-bg text-fg-muted shadow-key active:bg-surface-2"
+          className="flex h-11 items-center justify-center rounded-xl bg-stone-700 text-fg-on-inverse-2 shadow-key active:bg-stone-600"
         >
           <BackspaceIcon className="h-5 w-5" />
         </button>

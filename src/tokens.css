@@ -115,14 +115,16 @@
   --color-border-strong:   #CFC9B9;
   --color-border-focus:    #5c7aa8;
   --color-rule-on-inverse: #8a6a2b;
+  /* Label on an Ogon fill — Sumi-iro reads on gold, warm paper does not. */
+  --color-inverse-on-ogon: var(--color-stone-800);
 
   /* ── Action roles. Primary is Ai-iro. Secondary is Rokushō-tinted. ── */
   --color-action:          #1F3A66;
   --color-action-press:    #16294a;
   --color-action-fg:       #FFFDF8;
-  --color-action-2-bg:     #eef6f4;
+  --color-action-2-bg:     var(--color-rokusho-100);
   --color-action-2-fg:     #33685e;
-  --color-action-2-border: #b3d7cf;
+  --color-action-2-border: var(--color-rokusho-500);
 
   /* ── Accent. Akane is the brand mark. It is NOT a call to action. ─── */
   --color-accent:    #D72E2E;
@@ -131,8 +133,8 @@
   /* ── Focus, tags, links. ─────────────────────────────────────────── */
   /* --color-focus is deliberately NOT set here. v3's #C9A045 fails WCAG
      1.4.11 on every light ground; the split correction is below. */
-  --color-tag-bg:  #f6ecd2;
-  --color-tag-fg:  var(--color-ogon-800);  /* OUR CORRECTION: v3 ships ogon-700 at 4.27:1 */
+  --color-tag-bg:  var(--color-ogon-200);
+  --color-tag-fg:  var(--color-ogon-700);
   --color-link:    #33685e;
 
   /* ── Semantic feedback — correctness banners only, never decorative. */
@@ -145,7 +147,7 @@
 
   /* ── Progress. Fill is Rokushō; a completed bar caps with Ōgon. ───── */
   --color-progress-track:    #EFEDE5;
-  --color-progress-fill:     var(--color-rokusho-600);  /* 500 unlocked by the palette author
+  --color-progress-fill:     var(--color-rokusho-500);  /* 500 unlocked by the palette author
                                                             2026-08-08: Rokusho 500 was 2.77:1 on the
                                                             track, 600 is 3.87:1 */
   --color-progress-complete: #C9A045;
@@ -280,7 +282,7 @@
      near-black chrome. Split the role exactly as v3 already splits borders.
      Both values are already in the palette; this invents nothing.
      Recorded in docs/colors.md as a correction to send back. */
-  --color-focus:            var(--color-ogon-700);
+  --color-focus:            var(--color-ogon-500);
   --color-focus-on-inverse: var(--color-ogon-500);
 
   /* Press states. Touch-first means `active:` is required, so a role without
