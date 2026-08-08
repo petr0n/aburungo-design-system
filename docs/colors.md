@@ -156,7 +156,7 @@ no component changes, no preview edits.
 | `--color-link` | links | `brand-500` | Rokushō 700 `#33685e` |
 | `--color-progress-track` / `-fill` / `-complete` | progress | `surface-2` / `brand-500` / `brand-500` | stone-100 / Rokushō / Ōgon |
 | `--color-bg-inverse` | header band, keyboard frame | `fg` | Sumi-iro 墨色 |
-| `--color-fg-on-inverse` / `-2` | text on inverse | `fg-inverse` / `fg-faint` | warm paper / Ishi-iro |
+| `--color-fg-inverse` / `--color-fg-on-inverse-2` | text on inverse chrome, primary / secondary | `fg-inverse` / `fg-faint` | warm paper `#FFFDF8` / Ishi-iro `#A4A4A4` |
 | `--color-rule-on-inverse` | hairline on dark chrome | `fg-subtle` | Ōgon 700 |
 | `--color-fg-heading` | headings, JP content | `fg` | Ai-iro |
 
