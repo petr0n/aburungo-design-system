@@ -1,5 +1,13 @@
 # AburunGo — Mobile UI kit
 
+> **This kit is a hand-written mirror and it has drifted.** `components.jsx` and
+> `screens.jsx` retype every component in browser JSX rather than importing
+> `src/components`, so they lag the real ones — `screens.jsx` still renders a
+> bare-`<h1>` `AppHeader` and v2 colours.
+>
+> For anything screen-shaped, use [`../flows/`](../flows/README.md) instead. It
+> imports the real components and is bundled, so it cannot drift.
+
 A click-through high-fidelity recreation of the actual AburunGo mobile surface, built on top of the design system's primitives.
 
 ## What's here

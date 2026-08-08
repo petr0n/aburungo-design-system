@@ -43,7 +43,8 @@ Check `MEMORY.md` there at the start of every conversation.
 | `dist/tokens.plain.css` | **Generated** from `src/tokens.css`. The only `dist/` file that is committed, because the preview pages import it and are served with no build step |
 | `colors_and_type.css` | Preview harness stylesheet. Imports the generated tokens; declares only non-colour harness primitives |
 | `storybook/` | Custom HTML storybook (uses JSX mirrors in `ui_kits/mobile/components.jsx`) |
-| `ui_kits/` | JSX component mirrors and screen mockups for design/preview use |
+| `ui_kits/flows/` | **Flow mockups built from the real components** — TSX importing `src/components`, bundled by `pnpm build:flows`. Deep-linkable states (`?state=empty`) |
+| `ui_kits/` | JSX component *mirrors* and screen mockups. Hand-written copies — see the drift warning below |
 | `preview/` | Static HTML design spec pages |
 | `PRODUCT.md` | Durable product truth — users, purpose, constraints, brand commitments |
 | `DESIGN.md` | The visual system + per-surface taste dials + which skill generators are disabled |
@@ -74,7 +75,22 @@ pnpm dev          tsup --watch for live rebuilds during development
 pnpm typecheck    tsc --noEmit
 pnpm lint         oxlint (adherence config) + scripts/check-adherence.mjs
 pnpm build:tokens regenerate dist/tokens.plain.css and the harness @theme blocks
+pnpm build:flows  bundle ui_kits/flows/*.tsx -> ui_kits/flows/bundle.js
+pnpm shots        render every surface to scripts/.shots-out/ (gitignored)
 ```
+
+## ⚠️ Two kinds of harness — know which one you are looking at
+
+`ui_kits/mobile/`, `ui_kits/app/` and `storybook/` are **hand-written mirrors**.
+Each component is typed out a second time in browser JSX. They do not import
+`src/components`, so a component can be correct in TSX and wrong on screen —
+`ui_kits/mobile/screens.jsx` still renders a bare-`<h1>` `AppHeader` and v2
+colours. Adding a component means mirroring it by hand, in the same commit.
+
+`ui_kits/flows/` is **not a mirror.** It imports `src/components` and is
+bundled. Prefer it for anything screen-shaped: it cannot drift, and it is where
+`bg-inverse` was caught rendering nothing after passing typecheck, lint, and
+the contrast gate. Build a flow before trusting a component.
 
 `build:tokens` runs **after** `tsup` — tsup has `clean: true` and would otherwise
 delete the generated sheet.

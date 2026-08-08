@@ -182,7 +182,7 @@ as a token and silently never getting built.
 
 | Role | Owner it should have | Lands in |
 |---|---|---|
-| `bg-inverse`, `rule-on-inverse`, `fg-on-inverse-2` | `KanaKeyboard` first, then `AppHeader` | Phase 3B / 5.5b |
+| ~~`bg-inverse`~~ → `inverse`, `rule-on-inverse`, `fg-on-inverse-2` | `AppHeader` **(built)**, `KanaKeyboard` still to come | Phase 3B / 5.5b |
 | `progress-complete` | `ProgressBar` — does a finished bar cap in Ōgon, or is that ornament? | Phase 3B |
 | `tag-bg` / `tag-fg` | `Badge` emphasis. **`HANDOFF.md` §4 claims this shipped; `Badge.tsx:23` is still `bg-surface-2 text-fg-subtle`. Trust the code** | Phase 5.5c |
 | `link` | no component exists | Phase 3B — build one or record that the app applies it ad-hoc |
@@ -193,6 +193,23 @@ as a token and silently never getting built.
 `KanaKeyboard` currently reaches for `bg-fg` where it means `bg-inverse` — the
 right pixel from the wrong role. Correct today because body text and inverse
 chrome are the same value; wrong the moment v3 makes them diverge.
+
+### Correction sent back to the drop: `--color-bg-inverse` → `--color-inverse`
+
+The drop names the role `--color-bg-inverse`. Tailwind v4 builds a utility from
+whatever follows `--color-`, so that token yields `bg-bg-inverse` and **no
+`bg-inverse` at all**. `AppHeader` asked for `bg-inverse`, got nothing, and
+rendered a transparent band with near-white `fg-inverse` text on the page
+ground — an invisible title, and no error anywhere: not in `typecheck`, not in
+`lint`, not in the contrast gate, which reads tokens rather than utilities.
+
+It survived because the sandbox pages that approved the treatment
+(`preview/_sandbox/vibrancy-1-before-after.html`,`kana-2-green.html`) use
+`var(--bg-inverse)` — the plain CSS alias, which resolved fine. The utility and
+the variable disagreed and only the variable was ever rendered.
+
+Renamed here to `--color-inverse`, which generates `bg-inverse` as written.
+Found by putting `AppHeader` on a screen (`ui_kits/flows/`), not by any check.
 
 ## Correct/incorrect vs success/error (task 2.3b)
 

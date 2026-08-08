@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AburunGo Design System</title>
+
+<!-- Generated from src/tokens.css by scripts/build-tokens.mjs. -->
+<link rel="stylesheet" href="dist/tokens.plain.css">
+<link rel="stylesheet" href="src/brand.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap">
+
+<style>
+  @font-face {
+    font-family: "Noto Sans";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("fonts/NotoSans-VariableFont_wdth_wght.ttf") format("truetype-variations"),
+         url("fonts/NotoSans-VariableFont_wdth_wght.ttf") format("truetype");
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-size: var(--body);
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* The one dark slab. Sumi-iro ground, Ogon hairline, Akane hanko. */
+  .band {
+    background: var(--inverse);
+    border-bottom: 2px solid var(--rule-on-inverse);
+  }
+  .band-inner {
+    max-width: 52rem; margin: 0 auto;
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 20px;
+  }
+  .band h1 { margin: 0; font-size: var(--heading-sm); font-weight: 600; color: var(--fg-inverse); }
+  .band p  { margin: 0; font-size: var(--caption); color: var(--fg-on-inverse-2); }
+
+  main { max-width: 52rem; margin: 0 auto; padding: 28px 20px 64px; }
+
+  .lede { font-size: var(--body-lg); color: var(--fg-muted); margin: 0 0 32px; max-width: 42rem; }
+  .lede strong { color: var(--fg-heading); font-weight: 600; }
+
+  h2 {
+    font-size: var(--caption); font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--fg-faint); margin: 36px 0 12px;
+  }
+
+  .cards { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .cards { grid-template-columns: 1fr 1fr; } }
+
+  a.card {
+    display: block; text-decoration: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--rule, var(--accent-ogon));
+    border-radius: var(--radius-xl);
+    padding: 18px 20px;
+    min-height: 44px;
+    transition: border-color .15s;
+  }
+  a.card:active { background: var(--surface-2); }
+  a.card:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+  a.card .t { display: block; font-size: var(--body-lg); font-weight: 600; color: var(--fg-heading); }
+  a.card .d { display: block; font-size: var(--body-sm); color: var(--fg-subtle); margin-top: 4px; }
+  .rule-ai      { --rule: var(--accent-ai); }
+  .rule-rokusho { --rule: var(--accent-rokusho); }
+  .rule-ogon    { --rule: var(--accent-ogon); }
+  .rule-akane   { --rule: var(--accent-akane); }
+
+  ul.links { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  ul.links a {
+    display: inline-flex; align-items: center; min-height: 44px;
+    padding: 0 14px; border-radius: var(--radius-lg);
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--link); text-decoration: none; font-size: var(--body-sm); font-weight: 500;
+  }
+  ul.links a:active { background: var(--surface-2); }
+  ul.links a:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+  footer {
+    margin-top: 48px; padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: var(--body-sm); color: var(--fg-subtle);
+  }
+  footer a { color: var(--link); }
+  code {
+    font-family: var(--font-mono); font-size: var(--body-sm);
+    background: var(--surface-2); padding: 1px 5px; border-radius: var(--radius-sm);
+  }
+</style>
+</head>
+<body>
+
+<div class="band">
+  <div class="band-inner">
+    <span class="hanko" style="font-size:var(--heading-lg)" aria-hidden="true"></span>
+    <div>
+      <h1>AburunGo Design System</h1>
+      <p>v3 &ldquo;Zuihoden&rdquo; &middot; five colours on warm stone</p>
+    </div>
+  </div>
+</div>
+
+<main>
+  <p class="lede">
+    Component library and token source for AburunGo, a practical-Japanese app.
+    <strong>Start with the flows</strong> &mdash; whole screens built from the
+    shipped components, with every state a real session reaches.
+  </p>
+
+  <h2>Flows</h2>
+  <div class="cards">
+    <a class="card rule-ai" href="ui_kits/flows/?flow=flashcard">
+      <span class="t">Flashcard round</span>
+      <span class="d">Prompt, reveal, self-grade, summary &mdash; plus loading, empty, error. Clickable.</span>
+    </a>
+    <a class="card rule-rokusho" href="ui_kits/flows/?flow=kana">
+      <span class="t">Kana practice</span>
+      <span class="d">Chart, drill, the maru on the tiles, the Rokush&#333; keyboard, result.</span>
+    </a>
+  </div>
+
+  <h2>Components</h2>
+  <div class="cards">
+    <a class="card rule-ogon" href="storybook/">
+      <span class="t">Storybook</span>
+      <span class="d">Every component in isolation, with its variants.</span>
+    </a>
+    <a class="card rule-akane" href="ui_kits/mobile/">
+      <span class="t">Mobile UI kit</span>
+      <span class="d">Older hand-written mirror. Has drifted &mdash; kept for reference.</span>
+    </a>
+  </div>
+
+  <h2>Design spec &mdash; 28 pages</h2>
+  <ul class="links">
+    <li><a href="preview/03-color-brand.html">Palette</a></li>
+    <li><a href="preview/05-color-semantic.html">Semantic roles</a></li>
+    <li><a href="preview/08-type-scale.html">Type scale</a></li>
+    <li><a href="preview/09-type-japanese.html">Japanese type</a></li>
+    <li><a href="preview/15-buttons.html">Buttons</a></li>
+    <li><a href="preview/17-inputs.html">Inputs</a></li>
+    <li><a href="preview/20-badges.html">Badges</a></li>
+    <li><a href="preview/22-phrase-card.html">Phrase card</a></li>
+    <li><a href="preview/23-kana-key.html">Kana key</a></li>
+    <li><a href="preview/24-progress.html">Progress</a></li>
+    <li><a href="preview/25-empty-state.html">Empty state</a></li>
+    <li><a href="preview/26-iconography.html">Icons</a></li>
+    <li><a href="preview/28-progress-contrast.html">Contrast working</a></li>
+  </ul>
+
+  <footer>
+    <p>
+      Source: <a href="https://github.com/petr0n/aburungo-design-system">github.com/petr0n/aburungo-design-system</a>.
+      Published by <code>.github/workflows/pages.yml</code> on every push to
+      <code>main</code>; the flow bundle is rebuilt from
+      <code>src/components/</code> each time, so these pages cannot drift from
+      the components they show.
+    </p>
+  </footer>
+</main>
+
+</body>
+</html>

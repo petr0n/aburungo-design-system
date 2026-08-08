@@ -17,6 +17,7 @@ export { IconButton } from './ui/IconButton'
 
 // Domain components
 export { PhraseCard } from './PhraseCard'
+export type { PhraseAccent } from './PhraseCard'
 export { KanaGrid } from './KanaGrid'
 export type { KanaCell } from './KanaGrid'
 export { ProgressBar } from './ProgressBar'

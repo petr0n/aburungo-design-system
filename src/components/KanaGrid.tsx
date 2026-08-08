@@ -8,7 +8,7 @@
  * Purely presentational.  Owner of the keyboard composes rows from kana
  * data and listens for onSelect(kana).
  */
-import type { KeyboardEvent } from 'react'
+import type { KeyboardEvent, ReactNode } from 'react'
 
 export type KanaCell = {
   kana: string
@@ -21,11 +21,18 @@ type KanaGridProps = {
   rows: readonly KanaRow[]
   onSelect: (kana: string) => void
   /** Optional render for the JP key glyph.  Defaults to the kana itself. */
-  renderKey?: (cell: KanaCell) => string
+  renderKey?: (cell: KanaCell) => ReactNode
+  /**
+   * Kana the learner has settled.  Marked with a Rokushō ring, never a fill —
+   * a background wash puts the state on top of the character and the character
+   * is the thing being read.  The ring also leaves the cell's own surface free
+   * for press and focus, which a fill would fight.
+   */
+  learned?: ReadonlySet<string>
 }
 
 export function KanaGrid(props: KanaGridProps) {
-  const { rows, onSelect, renderKey } = props
+  const { rows, onSelect, renderKey, learned } = props
 
   function handleKeyDown(event: KeyboardEvent<HTMLButtonElement>, kana: string) {
     if (event.key === 'Enter' || event.key === ' ') {
@@ -46,15 +53,19 @@ export function KanaGrid(props: KanaGridProps) {
                 key={colIdx}
                 type="button"
                 aria-label={`${cell.kana} (${cell.romaji})`}
+                data-learned={learned?.has(cell.kana) === true ? '' : undefined}
                 onClick={() => onSelect(cell.kana)}
                 onKeyDown={(event) => handleKeyDown(event, cell.kana)}
                 className={[
-                  'flex h-11 min-h-[44px] items-center justify-center',
+                  'flex min-h-[44px] flex-col items-center justify-center gap-0.5 py-1',
                   'rounded-lg border border-border bg-bg shadow-key',
                   'font-jp text-jp-lg text-fg',
                   'transition-colors active:bg-surface-2',
+                  learned?.has(cell.kana) === true
+                    ? 'ring-2 ring-progress-fill ring-inset'
+                    : '',
                   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
-                ].join(' ')}
+                ].filter((c) => c !== '').join(' ')}
               >
                 {renderKey !== undefined ? renderKey(cell) : cell.kana}
               </button>

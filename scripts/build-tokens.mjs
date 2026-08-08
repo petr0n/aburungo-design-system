@@ -32,6 +32,7 @@ const HARNESSES = [
   'ui_kits/mobile/index.html',
   'ui_kits/app/index.html',
   'ui_kits/desktop-explore.html',
+  'ui_kits/flows/index.html',
 ]
 const START = '/* build-tokens:start */'
 const END = '/* build-tokens:end */'

@@ -503,17 +503,62 @@ This is where the skills earn their place. Everything below is work the drop spe
 
 **Branch:** `feat/flow-mockups` · **Static HTML/JSX only.** No routing, no state management, no Supabase — `CLAUDE.md` boundary. Real wiring happens in `../aburungo` later via `/handoff-to-app`.
 
-Land in `ui_kits/mobile/screens.jsx` + `preview/`. Mirror the 11 pages that already exist in `../aburungo/src/pages/` rather than inventing new ones:
+**Where they land — changed 2026-08-08.** Not `ui_kits/mobile/screens.jsx`. That
+file is a hand-written mirror: every component typed out a second time in
+browser JSX, and every one of them a palette behind. Building 25 mockups on it
+would triple the drift.
+
+Flows live in **`ui_kits/flows/`** and import `src/components` directly.
+`scripts/build-flows.mjs` bundles them with esbuild (React external, from the
+host page's import map) into a committed `bundle.js` — committed for the same
+reason `dist/tokens.plain.css` is: the pages are static, and a preview that
+needs a build first is a preview nobody looks at. `pnpm build:flows`, or `pnpm
+build`. There is no second copy, so a component change shows up in the flow the
+next time it is built.
+
+Each state is deep-linkable — `?state=empty`, `?step=summary` — so `pnpm shots`
+captures them without driving clicks.
+
+Mirror the 11 pages that already exist in `../aburungo/src/pages/` rather than inventing new ones:
 
 | Flow | Mirrors | Screens |
 |---|---|---|
 | Session start | `LearnPage`, `PracticePage` | entry, unit select, session config |
-| Flashcard round | `FlashcardPage` | prompt, reveal, self-grade, round summary |
-| Kana practice | `KanaPage`, `KanaPracticePage` | grid, drill, keyboard entry, result |
+| **Flashcard round ✅ built** | `FlashcardPage` | prompt, reveal, self-grade, round summary + loading / empty / error |
+| **Kana practice ✅ built** | `KanaPage`, `KanaPracticePage` | chart, drill, answered, keyboard entry, result + loading / empty / error |
 | Pronunciation | `ConversationPage` | idle, recording, processing, scored, retry |
 | Progress | `ProfilePage` | overview, per-unit detail |
 
 Each flow ships **all five states** — loading, empty, error, success, in-progress — not just the happy path. That's `/impeccable harden` + `onboard` territory, and it's where v1's "strengthen stateful experiences" bullet becomes checkable: 5 flows × 5 states = 25 mockups, each either present or not.
+
+### What the first flow found (2026-08-08)
+
+The point of building a screen is the things a component in isolation cannot
+show. Four, from one flow:
+
+| # | Finding | Status |
+|---|---|---|
+| 1 | **`bg-inverse` resolved to nothing.** The token was `--color-bg-inverse`, which Tailwind turns into `bg-bg-inverse`. `AppHeader`'s band rendered transparent with near-white text on the page ground — an invisible title. No check caught it: the contrast gate reads tokens, not utilities, and the sandbox pages that approved the treatment used the CSS variable, which resolved fine | **fixed** — token renamed `--color-inverse`. Written up in [`docs/colors.md`](colors.md#orphaned-roles-task-26) as a correction to send back |
+| 2 | **The self-grade pair sits on the wrong colour.** `Button variant="secondary"` is Rokushō-tinted — the correctness colour — so ✕ *Worth another look* renders a red glyph on a success-green field, saying two things at once. Overridden at the call site for now | **open** — `Button` needs an outcome-aware variant, or the pair needs its own component. §3.0's "`FlipCard` self-grade buttons carry ○ / ✕" is not finished until this is decided |
+| 3 | **`FlipCard` faces are not equal height.** The back is positioned `absolute inset-0`, so it inherits the front's height and clips when it is taller — which it always is, since the back adds the English and the note. Every call site has to pin a floor | **open** — belongs in `FlipCard`, not in each caller |
+| 4 | **`ProgressBar` flush under `AppHeader`** puts a Rokushō fill directly against the band's Ōgon hairline; the two read as one two-tone rule | **open** — spacing decision, cheap either way |
+
+Two of these are §3.0 work the component pass has not reached yet, which is the
+argument for building flows early rather than last.
+
+### What the kana flow found (2026-08-08)
+
+| # | Finding | Status |
+|---|---|---|
+| 5 | **`KanaKeyboard` does not fit a phone.** The gojūon grid is ten rows at the 44px touch floor, plus the script/section toggles and the utility row: **596px of a 780px screen.** The entry screen only works because the keyboard docks to the bottom and the prompt collapses to a single line — no card, no reveal, no second control. Worse for `FillInput`, which embeds the keyboard *inside* a bordered display block on the flashcard screen; that combination cannot fit at any viewport a phone has | **open, and the biggest one.** Either the keyboard gets a compact layout (flick-style 3×4, or a section-per-screen default other than あ〜ん), or every surface that uses it must dock it. A call-site fix does not scale — `FillInput` is the one the app actually imports |
+| 6 | **`KanaGrid` had no way to show a learned kana.** §3.0 specified a ring rather than a fill; the component had neither, and `renderKey` returned `string`, so a reference chart could not show romaji under the character either | **fixed** — `learned?: ReadonlySet<string>` draws an inset Rokushō ring, and `renderKey` widened to `ReactNode`. The ring reads clearly at a glance without touching the character's legibility, which was the argument for it |
+| 7 | **The multiple-choice tile is not a component.** §3.0 puts the maru on `KanaPracticePage`'s choice tiles, and the tile — neutral, then ○ on the answer and ✕ on the wrong pick — is composed in the flow file. Any other multiple-choice surface will retype it | **open** — extract once a second caller exists, not before |
+| 8 | Once answered, the two unpicked tiles keep full opacity (deliberate, so the correct answer stays readable) but are disabled, so they still read as tappable | **open** — small, cosmetic |
+
+**Two answered questions**, both of which needed a screen:
+
+- **The Rokushō keyboard is right.** Sumi-iro band at the top, Rokushō slab at the bottom, warm stone between: the screen has two coloured fields and neither reads as a second near-black. The v3 default of a Sumi-iro keyboard would have.
+- **The maru boundary holds.** ○ / ✕ on the choice tiles are per-answer and vanish on `Next`; the result screen's mark row is per-round and vanishes with the round. Nothing survives onto a profile, which is the §3.0 line.
 
 ---
 
