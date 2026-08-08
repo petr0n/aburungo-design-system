@@ -1,0 +1,81 @@
+name: Pages
+
+# Publishes the design surfaces — flow mockups, storybook, the 28 preview
+# pages — so they can be reviewed from a phone, on someone else's network,
+# without a checkout and a local http.server.
+#
+# The pages are static and their generated files (dist/tokens.plain.css,
+# ui_kits/flows/bundle.js) are committed, so this could deploy straight from
+# the branch. It builds anyway: Pages is the surface work gets judged on, and a
+# stale bundle there is worse than a slow deploy.
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+# One deploy at a time; let a newer commit finish rather than cancelling it.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Brand check (forbidden mark)
+        run: node scripts/check-forbidden-assets.mjs
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "pnpm"
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm build
+
+      # A project Pages site is served from /<repo>/, so the absolute paths in
+      # brand.css and index.css resolve to the wrong origin root and 404 —
+      # the hanko loses its mask, the pages lose Noto Sans.
+      #
+      # Rewritten here rather than in the source, because absolute is CORRECT
+      # for the consuming app: ../aburungo ships its own copies at
+      # public/assets/ and public/fonts/ and serves them from its own root.
+      # Making the source relative would break the actual product to fix a
+      # preview. So the deploy artifact is a rewritten copy; the source is not.
+      - name: Rebase absolute asset paths onto the Pages prefix
+        run: |
+          base="/${GITHUB_REPOSITORY#*/}"
+          sed -i "s|url(\"/assets/|url(\"${base}/assets/|g" src/brand.css
+          sed -i "s|url(\"/fonts/|url(\"${base}/fonts/|g" src/index.css
+          grep -n 'url("' src/brand.css src/index.css
+
+      # Without this, Pages runs Jekyll, which drops every path starting with
+      # an underscore — preview/_sandbox/ and preview/_card.css among them.
+      - run: touch .nojekyll
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
