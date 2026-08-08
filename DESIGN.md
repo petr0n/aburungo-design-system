@@ -110,6 +110,14 @@ components:
 > the focus ring is split light/dark, the kana keyboard is Rokushō rather than a
 > second Sumi-iro slab, and card accents are a prop rather than one fixed colour.
 
+## Status of these decisions
+
+**Provisional until seen in a whole screen.** Every rule below was decided against
+components rendered in isolation. The palette author has not yet seen the app as a
+working interface, so these are guidelines with a date on them, not a frozen spec.
+Where two rules conflict, raise it and propose a resolution rather than treating
+the older one as binding. Revisit the lot once the flow mockups exist.
+
 ## Overview
 
 **Creative North Star: "Quiet form, warm intelligence"**

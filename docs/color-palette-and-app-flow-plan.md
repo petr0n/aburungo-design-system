@@ -1,6 +1,6 @@
 # AburunGo — Palette Migration & Flow Plan (v2)
 
-**Status:** draft — not started · **Scope:** `aburungo-design-system` only · **Palette:** v3 "Zuihoden", in hand and reviewed · **Branch prefix:** `feat/tokens-*`, `feat/flow-*`
+**Status:** Phases 0–2 and 5 complete, Phase 3 in progress · **Decisions here are provisional — see below** · **Scope:** `aburungo-design-system` only · **Palette:** v3 "Zuihoden", in hand and reviewed · **Branch prefix:** `feat/tokens-*`, `feat/flow-*`
 
 > **Posture: this repo is the source of truth. The drop is an input, not an authority.**
 >
@@ -9,6 +9,36 @@
 > So the plan does not wait for a better drop. It takes the palette, closes the gaps here, and sends corrections back. Everything missing is either mechanical (apply a token) or ordinary design work the skills in this plan exist to do. Nothing on the gap list requires going back to the source.
 
 ---
+
+## Decisions in this plan are provisional
+
+**Added 2026-08-08 by the palette author.** Everything decided here — including
+answers given in review, and including answers that contradict each other — is a
+**guideline, not a hard rule.**
+
+The reason is structural, not indecision. Design calls are being made on
+components rendered in isolation: a button on a blank page, a card with no screen
+around it, a keyboard with nothing above it. Nobody has yet seen what the app
+*looks like* or *behaves like* as a whole. A colour that reads well on a lone card
+may be wrong once it sits under a header, beside a progress bar, three screens
+into a session.
+
+So:
+
+- **Contradictory answers are expected and fine.** When two decisions conflict,
+  raise the conflict, propose the resolution, and keep moving. Do not stall, and
+  do not treat the earlier answer as binding over the later one.
+- **Nothing here is frozen until it has been seen in context.** A decision made
+  against an isolated component is a working assumption with a date on it.
+- **Prefer designs that keep the choice open.** `PhraseCard`'s accent became a
+  prop rather than a fixed colour for exactly this reason — it defers the call to
+  the point where there is enough on screen to make it well.
+- **The job is to get to a screen.** Anything that shortens the path to a whole
+  flow, rendered and clickable, is worth more than another round of polish on a
+  component in a vacuum.
+
+Revisit every colour and density decision once Phase 4's flow mockups exist and a
+real session can be walked end to end.
 
 ## Why v1 was rewritten
 

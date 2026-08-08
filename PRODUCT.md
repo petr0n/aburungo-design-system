@@ -47,6 +47,13 @@ Two things distinguish this from an ordinary internal component library:
 
 **No gamification:** no XP, hearts, badges, streaks, mascots, or reward-loop ornaments.
 
+**How decisions are made here.** Design calls are currently made against
+components in isolation — no screen, no flow, no session. They are therefore
+**provisional**, including ones that contradict each other. Raise conflicts,
+propose a resolution, keep moving; nothing is frozen until it has been seen in
+context. Designs that keep the choice open (a prop rather than a fixed value)
+are preferred for the same reason.
+
 **Explicitly undecided:**
 - Whether Akane should stay confined to the mark and error states. It is currently available as a card accent too, which overlaps with its error meaning. Recorded, not settled.
 - Whether `.emboss-bg` and link styling get component owners, or stay ad-hoc in the app.
