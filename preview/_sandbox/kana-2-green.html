@@ -1,0 +1,73 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../dist/tokens.plain.css">
+<link rel="stylesheet" href="../../colors_and_type.css">
+<style>
+ body{margin:0;padding:26px;background:var(--bg);color:var(--fg);font-family:var(--font-sans)}
+ h1{font-size:18px;margin:0 0 4px} p.s{margin:0 0 20px;color:var(--fg-muted);font-size:13px}
+ .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;align-items:start}
+ h2{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--fg-subtle);margin:0 0 8px}
+ .band{display:flex;align-items:center;gap:9px;padding:9px 12px;min-height:48px;border-radius:12px 12px 0 0;
+       background:var(--bg-inverse);border-bottom:2px solid var(--rule-on-inverse)}
+ .mark{width:26px;height:26px;border-radius:50%;background:var(--accent);color:var(--accent-fg);
+       display:flex;align-items:center;justify-content:center;font-family:var(--font-jp);font-weight:700;font-size:13px}
+ .ttl{color:var(--fg-inverse);font-weight:600;font-size:13px;margin:0 auto}
+ .kb{border-radius:0 0 12px 12px;padding:9px;display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
+ .key{height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+      font-family:var(--font-jp);font-size:14px;font-weight:500}
+ .tog{height:24px;padding:0 10px;border-radius:7px;font-size:11px;font-weight:600;
+      display:inline-flex;align-items:center;font-family:var(--font-jp);grid-column:span 2}
+ .cap{font:500 10px ui-monospace,Menlo,monospace;color:var(--fg-subtle);margin-top:7px;line-height:1.5}
+</style></head><body>
+<h1>Kana keyboard — green variants</h1>
+<p class="s">The header band stays Sumi-iro. The keyboard moves off it so the screen has one dark slab, not two.</p>
+<div class="grid">
+
+<div><h2>1 · shipped now (Sumi-iro)</h2>
+ <div class="band"><div class="mark">ア</div><div class="ttl">Kana practice</div><div style="width:26px"></div></div>
+ <div class="kb" style="background:var(--bg-inverse);border:2px solid var(--rule-on-inverse);border-top:none">
+  <span class="tog" style="background:var(--focus);color:var(--inverse-on-ogon)">ひら</span><span></span><span></span><span></span>
+  <div class="key" style="background:var(--stone-700);color:var(--fg-inverse)">あ</div>
+  <div class="key" style="background:var(--stone-700);color:var(--fg-inverse)">い</div>
+  <div class="key" style="background:var(--stone-700);color:var(--fg-inverse)">う</div>
+  <div class="key" style="background:var(--stone-700);color:var(--fg-inverse)">え</div>
+  <div class="key" style="background:var(--stone-700);color:var(--fg-inverse)">お</div>
+ </div>
+ <div class="cap">frame Sumi-iro<br>keys stone-700</div></div>
+
+<div><h2>2 · deep green, paper keys</h2>
+ <div class="band"><div class="mark">ア</div><div class="ttl">Kana practice</div><div style="width:26px"></div></div>
+ <div class="kb" style="background:var(--rokusho-700);border:2px solid var(--rokusho-800);border-top:none">
+  <span class="tog" style="background:var(--focus);color:var(--inverse-on-ogon)">ひら</span><span></span><span></span><span></span>
+  <div class="key" style="background:var(--stone-0);color:var(--rokusho-900)">あ</div>
+  <div class="key" style="background:var(--stone-0);color:var(--rokusho-900)">い</div>
+  <div class="key" style="background:var(--stone-0);color:var(--rokusho-900)">う</div>
+  <div class="key" style="background:var(--stone-0);color:var(--rokusho-900)">え</div>
+  <div class="key" style="background:var(--stone-0);color:var(--rokusho-900)">お</div>
+ </div>
+ <div class="cap">frame Rokushō 700<br>keys warm paper</div></div>
+
+<div><h2>3 · deep green, green keys</h2>
+ <div class="band"><div class="mark">ア</div><div class="ttl">Kana practice</div><div style="width:26px"></div></div>
+ <div class="kb" style="background:var(--rokusho-700);border:2px solid var(--rokusho-800);border-top:none">
+  <span class="tog" style="background:var(--focus);color:var(--inverse-on-ogon)">ひら</span><span></span><span></span><span></span>
+  <div class="key" style="background:var(--rokusho-100);color:var(--rokusho-900)">あ</div>
+  <div class="key" style="background:var(--rokusho-100);color:var(--rokusho-900)">い</div>
+  <div class="key" style="background:var(--rokusho-100);color:var(--rokusho-900)">う</div>
+  <div class="key" style="background:var(--rokusho-100);color:var(--rokusho-900)">え</div>
+  <div class="key" style="background:var(--rokusho-100);color:var(--rokusho-900)">お</div>
+ </div>
+ <div class="cap">frame Rokushō 700<br>keys Rokushō 100</div></div>
+
+<div><h2>4 · mid green, white keys</h2>
+ <div class="band"><div class="mark">ア</div><div class="ttl">Kana practice</div><div style="width:26px"></div></div>
+ <div class="kb" style="background:var(--rokusho-500);border:2px solid var(--rokusho-600);border-top:none">
+  <span class="tog" style="background:var(--focus);color:var(--inverse-on-ogon)">ひら</span><span></span><span></span><span></span>
+  <div class="key" style="background:var(--stone-0);color:var(--rokusho-900)">あ</div>
+  <div class="key" style="background:var(--stone-0);color:var(--rokusho-900)">い</div>
+  <div class="key" style="background:var(--stone-0);color:var(--rokusho-900)">う</div>
+  <div class="key" style="background:var(--stone-0);color:var(--rokusho-900)">え</div>
+  <div class="key" style="background:var(--stone-0);color:var(--rokusho-900)">お</div>
+ </div>
+ <div class="cap">frame Rokushō 500<br>keys warm paper</div></div>
+
+</div></body></html>

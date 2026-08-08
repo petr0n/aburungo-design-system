@@ -118,6 +118,17 @@
   /* Label on an Ogon fill — Sumi-iro reads on gold, warm paper does not. */
   --color-inverse-on-ogon: var(--color-stone-800);
 
+  /* Kana keyboard. Rokusho rather than Sumi-iro: v3 assigns the keyboard
+     frame to Sumi-iro, but that puts two near-black slabs on one screen.
+     Deep green gives the second colour block without competing with the
+     header band, and warm-paper keys keep the kana maximally legible --
+     reading them is the task. Deviation from v3, decided 2026-08-08. */
+  --color-keyboard-bg:     var(--color-rokusho-700);
+  --color-keyboard-rule:   var(--color-rokusho-800);
+  --color-key-bg:          var(--color-stone-0);
+  --color-key-fg:          var(--color-rokusho-900);
+  --color-key-press:       var(--color-rokusho-100);
+
   /* ── Action roles. Primary is Ai-iro. Secondary is Rokushō-tinted. ── */
   --color-action:          #1F3A66;
   --color-action-press:    #16294a;
