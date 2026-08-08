@@ -1,130 +1,132 @@
-# AburunGo · color tokens
+# AburunGo · color tokens · v3 "Zuihoden"
 
-Locked from your swatch (`uploads/aburungo.png`), plus a small number of derived tokens needed for the system to hang together (off-white background, ink tints for secondary text, border tones). Every derived value is called out below.
+Five colors, one job each. Warm stone neutrals underneath. This file is the
+rationale; `src/index.css` (Tailwind `@theme`) and `colors_and_type.css`
+(vanilla mirror) are the implementations, and the three must stay in step.
 
-## Brand
+## Where the palette comes from
 
-| Token                      | Hex       | RGB             | Role                                                                                                     |
-| -------------------------- | --------- | --------------- | -------------------------------------------------------------------------------------------------------- |
-| `--brand`                  | `#753686` | `117, 54, 134`  | Primary action. The maru. Scenario tags. Focus rings. Brand-fill surfaces. Used liberally per direction. |
-| `--brand-press`            | `#662e75` | `102, 46, 117`  | Active / press state on brand-colored surfaces.                                                          |
-| `--brand-tint` _(derived)_ | `#efe5f1` | `239, 229, 241` | Brand-tinted surface for promotional callouts that need warmth without going full brand.                 |
+Zuihōden is the lacquered mausoleum at Sendai — vermilion columns, ink-black
+beams, gold leaf in the joinery, verdigris on the copper roof, all sitting on
+weathered cedar. That is the whole palette: saturated color used **sparingly
+and structurally**, against a warm, aged ground. Not a decorative theme. The
+discipline is what carries over.
 
-## Ink (text + heavy surfaces)
+The previous system ran one purple accent across a cool zinc UI. It read
+clinical — closer to a banking app than to anything Japanese. v3 keeps the
+same restraint but changes what the restraint is made of.
 
-| Token                 | Hex       | RGB            | Role                                                                                                   |
-| --------------------- | --------- | -------------- | ------------------------------------------------------------------------------------------------------ |
-| `--ink`               | `#150918` | `21, 9, 24`    | Primary text. Body. Headings. Sits naturally next to brand purple without clashing (shared undertone). |
-| `--ink-2` _(derived)_ | `#3a2540` | `58, 37, 64`   | Secondary text. Captions. Supporting copy. Kana reading beneath JP phrase.                             |
-| `--ink-3` _(derived)_ | `#6a5470` | `106, 84, 112` | Tertiary text on light surfaces. Placeholders. Hint copy.                                              |
+## The five
 
-## Surfaces
+| Color | Hex | Role — and only this role |
+|---|---|---|
+| **Akane** 茜色 | `#D72E2E` | The brand mark (the hanko) and error states. **Never a CTA.** |
+| **Ai-iro** 藍色 | `#1F3A66` | Structure. Primary action, headings, Japanese content, chrome text. |
+| **Rokushō** 緑青 | `#4F9C8D` | Progress, correctness, secondary action, links. |
+| **Ōgon** 黄金 | `#C9A045` | Focus rings, scenario tags, hairlines on dark chrome. |
+| **Sumi-iro** 墨色 | `#2D2D2D` | Inverse chrome — the header band and the kana keyboard frame. |
 
-| Token                      | Hex       | RGB             | Role                                                                           |
-| -------------------------- | --------- | --------------- | ------------------------------------------------------------------------------ |
-| `--paper`                  | `#ffffff` | `255, 255, 255` | Default surface. Cards. App background. Print stock. Pure white per direction. |
-| `--paper-warm` _(derived)_ | `#faf7f9` | `250, 247, 249` | Slightly warm off-white. Page background where pure white feels too clinical.  |
-| `--mist`                   | `#ebe5e9` | `235, 229, 233` | Subtle surface. Input wells. Mode pickers. Secondary buttons. Neutral ground.  |
+Each ramp runs 50–900 for component states; the **500 step is the locked brand
+value** in every case. `#A4A4A4` (Ishi-iro 石色) sits at `stone-400` and
+Sumi-iro at `stone-800`; both are locked too.
 
-## Accents
+### The one rule people get wrong
 
-| Token    | Hex       | RGB             | Role                                                                                                   |
-| -------- | --------- | --------------- | ------------------------------------------------------------------------------------------------------ |
-| `--rose` | `#e6bbd7` | `230, 187, 215` | Inverse accent. The maru on ink/brand backgrounds. Selection highlight. Underlines on dark OG.         |
-| `--dusk` | `#a6799b` | `166, 121, 155` | Tertiary text / decorative. Meta labels. Kickers. Vertical katakana sidebar. Dashed dividers in print. |
+**Akane is not the primary button.** It is the seal and the error state.
+Reaching for red because it is the "brand color" is exactly the mistake this
+table exists to prevent — primary action is Ai-iro. A red focus ring reads as
+a validation failure, which is why focus is Ōgon.
 
-## Borders
+## Warm stone — the neutrals
 
-| Token                  | Hex       | RGB             | Role                                                        |
-| ---------------------- | --------- | --------------- | ----------------------------------------------------------- |
-| `--line` _(derived)_   | `#e3d9de` | `227, 217, 222` | Default 1px border. Reads neutrally on both paper and mist. |
-| `--line-2` _(derived)_ | `#ece3e8` | `236, 227, 232` | Lighter border for nested divisions inside cards.           |
+| Token | Hex | Where |
+|---|---|---|
+| `stone-0` | `#FFFDF8` | Cards. Warm paper white. |
+| `stone-50` | `#F7F6F1` | Page ground. |
+| `stone-100` | `#EFEDE5` | Input wells, mode pickers. |
+| `stone-200` | `#E2DED2` | Default 1px border. |
+| `stone-300` | `#CFC9B9` | Field edges, secondary-button border. |
+| `stone-400` | `#A4A4A4` | Ishi-iro 石色 — placeholders. |
+| `stone-500` | `#78736B` | Meta, hints. |
+| `stone-600` | `#57534C` | Secondary text. |
+| `stone-700` | `#403D38` | Keys on dark chrome. |
+| `stone-800` | `#2D2D2D` | Sumi-iro 墨色 — inverse chrome. |
+| `stone-900` | `#1A1815` | Deepest ink. |
 
-## Semantic (feedback)
+The warmth is load-bearing, not decoration. Against a cool grey the Ai-iro
+reads as a *tint of the surface*; against warm paper it reads as **ink on a
+page**. This was the single change that moved the system from institutional to
+lacquered, and it is the thing most likely to get "cleaned up" by someone who
+thinks `#FFFDF8` is a mistake for `#FFFFFF`. It is not.
 
-Unchanged from the original design system. Surfaces feedback only — never decorative.
-
-| Token         | Hex       | RGB             | Role                           |
-| ------------- | --------- | --------------- | ------------------------------ |
-| `--green-50`  | `#f0fdf4` | `240, 253, 244` | Correctness banner background. |
-| `--green-500` | `#22c55e` | `34, 197, 94`   | Correctness icon / accent.     |
-| `--green-700` | `#15803d` | `21, 128, 61`   | Correctness banner text.       |
-| `--red-50`    | `#fef2f2` | `254, 242, 242` | Error banner background.       |
-| `--red-500`   | `#ef4444` | `239, 68, 68`   | Error icon / accent.           |
-| `--red-700`   | `#b91c1c` | `185, 28, 28`   | Error banner text.             |
-
----
-
-## Provenance
-
-**From your swatch (6 colors):**
-`--brand`, `--brand-press`, `--ink`, `--mist`, `--rose`, `--dusk`
-
-**Derived for the system:**
-`--brand-tint`, `--ink-2`, `--ink-3`, `--paper-warm`, `--line`, `--line-2`
-
-The derived tokens are needed because a brand palette without a secondary-text color, a border tone, and a soft background doesn't produce real UI — it produces six rectangles. Each derived value sits in the same hue family as a swatched color (purple-tinted neutrals, not zinc-neutral) so the whole interface reads of-a-piece.
-
----
-
-## Drop-in CSS
+## Role tokens — prefer these over raw ramp steps
 
 ```css
-:root {
-  /* Brand */
-  --brand: #753686;
-  --brand-press: #662e75;
-  --brand-tint: #efe5f1; /* derived */
-
-  /* Ink */
-  --ink: #150918;
-  --ink-2: #3a2540; /* derived */
-  --ink-3: #6a5470; /* derived */
-
-  /* Surfaces */
-  --paper: #ffffff;
-  --paper-warm: #faf7f9; /* derived */
-  --mist: #ebe5e9;
-
-  /* Accents */
-  --rose: #e6bbd7;
-  --dusk: #a6799b;
-
-  /* Borders */
-  --line: #e3d9de; /* derived */
-  --line-2: #ece3e8; /* derived */
-
-  /* Semantic — unchanged from original system */
-  --green-50: #f0fdf4;
-  --green-500: #22c55e;
-  --green-700: #15803d;
-  --red-50: #fef2f2;
-  --red-500: #ef4444;
-  --red-700: #b91c1c;
-}
+--action            #1F3A66   primary button fill
+--action-press      #16294a   its press state
+--action-fg         #FFFDF8   text on primary
+--action-2-bg       #eef6f4   secondary button fill      (Rokushō 50)
+--action-2-fg       #33685e   secondary button text      (Rokushō 700)
+--action-2-border   #b3d7cf   secondary button border    (Rokushō 200)
+--accent            #D72E2E   the hanko. NOT a CTA.
+--focus-ring        #C9A045   2px ring, every interactive element
+--tag-bg            #f6ecd2   scenario tag background    (Ōgon 100)
+--tag-fg            #8a6a2b   scenario tag text          (Ōgon 700)
+--link              #33685e   links, deepening to Ai-iro on hover
+--progress-track    #EFEDE5
+--progress-fill     #4F9C8D   Rokushō
+--progress-complete #C9A045   a finished bar caps with Ōgon
+--bg-inverse        #2D2D2D   header band, keyboard frame
+--rule-on-inverse   #8a6a2b   the Ōgon hairline on dark chrome
+--fg-heading        #1F3A66   headings and JP content
 ```
 
----
+## Feedback
 
-## Where each color does what, by surface
+Correctness banners only — never decorative tints.
 
-| Surface                     | `--brand`               | `--ink`   | `--mist` | Accent                 |
-| --------------------------- | ----------------------- | --------- | -------- | ---------------------- |
-| **Primary button**          | fill                    | —         | —        | —                      |
-| **Secondary button**        | —                       | text      | fill     | —                      |
-| **The maru**                | fill (on paper/mist)    | —         | —        | `--rose` on dark/brand |
-| **Scenario tag**            | text                    | —         | —        | —                      |
-| **Body text**               | —                       | fill      | —        | —                      |
-| **Caption text**            | —                       | `--ink-2` | —        | —                      |
-| **Card border**             | —                       | —         | —        | `--line`               |
-| **Input well**              | —                       | text      | fill     | —                      |
-| **Focus ring**              | fill (2px outset)       | —         | —        | —                      |
-| **Correctness banner**      | —                       | —         | —        | `--green-*`            |
-| **Error banner**            | —                       | —         | —        | `--red-*`              |
-| **OG card hero**            | full fill (one variant) | —         | —        | —                      |
-| **Print footer / colophon** | —                       | text      | —        | `--dusk` for meta      |
+| Token | Hex | Note |
+|---|---|---|
+| `success-bg` / `success-fg` | `#eef6f4` / `#33685e` | Rokushō. Correctness is the same green as progress, deliberately. |
+| `error-bg` / `error-fg` | `#fbe3e1` / `#951e1e` | Akane. The second of its two jobs. |
+
+## Legacy names
+
+Every v1 (`zinc-*`, purple `brand-*`) and v2 (`ink`, `mist`, `paper`, `rose`,
+`dusk`, `line`, plum `brand-*`) token still resolves, remapped onto v3 values,
+so existing markup does not break. `--rose` now points at Ōgon and `--dusk` at
+Ishi-iro. Prefer the role tokens above in anything new; treat the legacy names
+as a migration bridge, not as API.
+
 
 ---
+
+# Corrections applied to the v3 drop
+
+Send these back as a diff, not a complaint. Every one is either already in the
+palette or a defect in the drop's own documentation.
+
+| # | Correction | Why |
+|---|---|---|
+| 1 | **Focus ring split.** `--color-focus` → Ōgon 700 `#8a6a2b`; new `--color-focus-on-inverse` → Ōgon 500 `#C9A045` | v3 routes every focus ring to Ōgon 500, which scores **2.26:1** on page ground, 2.40:1 on card, 2.08:1 on well — all under the 3:1 WCAG 2.1 SC 1.4.11 requires. Gold on warm paper is low-contrast by construction, so no single step clears both paper and near-black chrome. Splitting the role mirrors what v3 already does for borders (`border` / `rule-on-inverse`) and invents no new value |
+| 2 | **`--color-tag-fg`** → Ōgon 800 `#654d1f` | v3 ships Ōgon 700 on Ōgon 100 at **4.27:1**, under the 4.5:1 for text. Ōgon 800 gives 6.77:1 |
+| 3 | **`Badge` neutral repainted** to `bg-tag-bg text-tag-fg` | `HANDOFF.md` §4 item 5 states this shipped. It did not — the drop's own `Badge.tsx:23` still reads `bg-surface-2 text-fg-subtle`. Trust the code, not the table |
+| 4 | **`--color-cream-deboss` preserved** | v3 aliases nearly every v2 name but not this one, and `brand.css` `.hanko.cream` draws its inset ring with it. A wholesale port breaks the mark |
+| 5 | **Card animation tokens preserved** | v3 defines no `--animate-card-*` and no keyframes. `FlipCard` depends on both, and Tailwind does not error on a missing animation token — the class silently stops generating and the flip dies quietly |
+| 6 | **`.hanko` repointed** from `var(--color-brand-500)` to `var(--color-accent)` (9 sites in `brand.css`) | `HANDOFF.md` calls legacy names "a migration bridge, not API". Retire them and the brand mark loses its fill |
+| 7 | **Stale comments fixed** | `TextInput.tsx:8` said "focus ring is Akane" — it is Ōgon. `ProgressBar.tsx:5` said "solid fill in the Akane" — it is Rokushō |
+
+## Unresolved — needs the palette author
+
+| Check | Ratio | Needs | Analysis |
+|---|---|---|---|
+| `progress-fill` on `progress-track` | **2.77:1** | 3:1 | No in-palette fix. Darkening the track makes it *worse* (stone-200 → 2.41) because the fill is mid-tone; lightening to stone-50 reaches only 2.9984; stone-0 makes the track the same colour as the card. Fixing the fill means moving off Rokushō 500, which this document locks |
+| `fg-faint` on card | **2.30:1** | 4.5:1 | Ishi-iro `#A4A4A4`. **Worse than v2's 3.39:1** — the third palette running whose faint-text role fails. Placeholders only, never content. Send the threshold with the brief next time |
+| `fg-subtle` on `surface-2` | **4.01:1** | 4.5:1 | The one real occurrence was `Badge` neutral, now on the tag roles. No component sustains the pairing; kept as a gate check so one cannot reintroduce it |
+
+All three are recorded as accepted known failures in `scripts/check-contrast.mjs`,
+which prints them on every build. They do not fail the gate; they are visible
+rather than forgotten.
 
 # The semantic contract (Phase 2)
 

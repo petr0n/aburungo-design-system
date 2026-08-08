@@ -1,141 +1,196 @@
 /* ─────────────────────────────────────────────────────────────────────────
-   AburunGo design tokens — importable without @import "tailwindcss".
-   Consumers add this to their own CSS after their tailwindcss import:
+   AburunGo design tokens — v3 "Zuihoden".  Importable without
+   @import "tailwindcss".  Consumers add this after their tailwindcss import:
 
      @import 'aburungo-design-system/src/tokens.css';
 
    Do NOT add @import "tailwindcss" here — consumers handle that.
+
+   THIS FILE IS THE SINGLE SOURCE OF TOKEN VALUES.  scripts/build-tokens.mjs
+   propagates it to dist/tokens.plain.css and regenerates the @theme block in
+   the storybook and all three UI kits.  Never hand-edit those copies.
    ───────────────────────────────────────────────────────────────────────── */
 
 @theme {
-  /* ── Brand purple — the only accent.  Locked from the brand swatch.
-        Tints 50–900 are derived from --brand for usable component states. */
-  --color-brand-50:  #f5eff7;
-  --color-brand-100: #efe5f1;   /* promotional callouts, badges */
-  --color-brand-200: #d9c3e0;
-  --color-brand-300: #b88dc5;
-  --color-brand-400: #9658a8;
-  --color-brand-500: #753686;   /* primary action — THE brand color */
-  --color-brand-600: #662e75;   /* active / press state */
-  --color-brand-700: #5a2868;
-  --color-brand-800: #4d1f59;   /* plum, dark variant for big surfaces */
-  --color-brand-900: #2a0f30;
 
-  /* ── Ink (text + heavy surfaces) — purple-undertone, sits with brand. */
-  --color-ink:        #150918;
-  --color-ink-2:      #3a2540;
-  --color-ink-3:      #6a5470;
+  /* ═══════════════════════════════════════════════════════════════════
+     ZUIHODEN · the five colors
+     ═══════════════════════════════════════════════════════════════════
+     Named for the lacquered mausoleum at Sendai — vermilion, ink, gold
+     leaf and verdigris on warm cedar. Five colors, one job each. A color
+     appearing anywhere in the UI signals its role; nothing is decorative.
 
-  /* ── Surfaces. */
-  --color-paper:      #ffffff;
-  --color-paper-warm: #faf7f9;
-  --color-mist:       #ebe5e9;
-  --color-cream:      #f5eee7;   /* warm cream surface — letterhead, hero stages */
-  --color-cream-warm: #ede4d7;   /* deeper warm cream — pressed insets */
-  --color-cream-deboss: #c0ad95; /* inset shadow ring on cream fills */
-  --color-cream-line: #d9c8b8;
+       Akane    茜色  #D72E2E   brand mark + errors ONLY
+       Ai-iro   藍色  #1F3A66   structure, primary action, headings, JP
+       Rokushō  緑青  #4F9C8D   progress, correctness, secondary, links
+       Ōgon     黄金  #C9A045   focus rings, scenario tags, dark hairlines
+       Sumi-iro 墨色  #2D2D2D   inverse chrome (header, keyboard frame)
 
-  /* ── Accents. */
-  --color-rose:       #e6bbd7;   /* inverse maru, selection highlight on dark */
-  --color-rose-deep:  #d49bc1;   /* deeper rose for pressed/hover states */
-  --color-dusk:       #a6799b;   /* tertiary text on light, decorative meta */
+     Ramps are derived for component states. The 500 step is the locked
+     brand value in every case.
+     ═══════════════════════════════════════════════════════════════════ */
 
-  /* ── Borders. */
-  --color-line:       #e3d9de;
-  --color-line-2:     #ece3e8;
+  /* ── Akane 茜色 — the hanko, and error states. Never a CTA. ─────────── */
+  --color-akane-50:  #fdf3f2;
+  --color-akane-100: #fbe3e1;
+  --color-akane-200: #f5c2be;
+  --color-akane-300: #ec9791;
+  --color-akane-400: #e26059;
+  --color-akane-500: #D72E2E;
+  --color-akane-600: #b82525;
+  --color-akane-700: #951e1e;
+  --color-akane-800: #6f1616;
+  --color-akane-900: #4a1010;
 
-  /* ── Foreground role aliases (semantic — preferred over raw ink tokens). */
-  --color-fg:         #150918;   /* primary text         (= --ink) */
-  --color-fg-muted:   #3a2540;   /* secondary text       (= --ink-2) */
-  --color-fg-subtle:  #6a5470;   /* tertiary text        (= --ink-3) */
-  --color-fg-faint:   #a6799b;   /* placeholders, meta   (= --dusk) */
-  --color-fg-inverse: #ffffff;
+  /* ── Ai-iro 藍色 — the structural color. Primary action lives here. ── */
+  --color-ai-50:  #eff3f9;
+  --color-ai-100: #dde5f1;
+  --color-ai-200: #bcc9e0;
+  --color-ai-300: #8fa5c7;
+  --color-ai-400: #5c7aa8;
+  --color-ai-500: #1F3A66;
+  --color-ai-600: #1a3157;
+  --color-ai-700: #16294a;
+  --color-ai-800: #101d34;
+  --color-ai-900: #0a1322;
 
-  /* ── Background / surface role aliases. */
-  --color-bg:         #ffffff;
-  --color-surface:    #faf7f9;
-  --color-surface-2:  #ebe5e9;
+  /* ── Rokushō 緑青 — verdigris. Progress, correctness, secondary. ───── */
+  --color-rokusho-50:  #eef6f4;
+  --color-rokusho-100: #d9ebe7;
+  --color-rokusho-200: #b3d7cf;
+  --color-rokusho-300: #85bfb3;
+  --color-rokusho-400: #63a99a;
+  --color-rokusho-500: #4F9C8D;
+  --color-rokusho-600: #418176;
+  --color-rokusho-700: #33685e;
+  --color-rokusho-800: #264d46;
+  --color-rokusho-900: #18322d;
 
-  /* ── Border role aliases. */
-  --color-border:        #e3d9de;
-  --color-border-strong: #d9c8b8;
+  /* ── Ōgon 黄金 — gold leaf. Focus, tags, hairlines on dark chrome. ─── */
+  --color-ogon-50:  #fbf6ea;
+  --color-ogon-100: #f6ecd2;
+  --color-ogon-200: #ecd9a5;
+  --color-ogon-300: #dfc074;
+  --color-ogon-400: #d3ad55;
+  --color-ogon-500: #C9A045;
+  --color-ogon-600: #ab8639;
+  --color-ogon-700: #8a6a2b;
+  --color-ogon-800: #654d1f;
+  --color-ogon-900: #423214;
 
-  /* ─────────────────────────────────────────────────────────────────────
-     ROLE TOKENS — the semantic contract.
+  /* ── Stone — warm neutrals. Paper, not screen-grey.
+        This is what keeps Ai-iro reading as ink on a page rather than as
+        a tint of the surface itself. Ishi-iro 石色 sits at 400 and
+        Sumi-iro 墨色 at 800; both are locked brand values. ──────────── */
+  --color-stone-0:   #FFFDF8;   /* Shiro 白 — warm paper white. Cards. */
+  --color-stone-50:  #F7F6F1;   /* page ground */
+  --color-stone-100: #EFEDE5;   /* wells, mode pickers */
+  --color-stone-200: #E2DED2;   /* default border */
+  --color-stone-300: #CFC9B9;   /* field edges, strong border */
+  --color-stone-400: #A4A4A4;   /* Ishi-iro 石色 — placeholders */
+  --color-stone-500: #78736B;   /* meta, hints */
+  --color-stone-600: #57534C;   /* secondary text */
+  --color-stone-700: #403D38;   /* keys on dark chrome */
+  --color-stone-800: #2D2D2D;   /* Sumi-iro 墨色 — inverse chrome */
+  --color-stone-900: #1A1815;
 
-     Every one points at a v2 value today. The incoming v3 "Zuihoden" palette
-     repoints them and changes nothing else: no role name changes, no
-     component changes, no preview edits. That is the whole point of this
-     layer — a palette swap edits values in this file and stops there.
+  /* ── Foreground roles. Headings are Ai-iro; body is Sumi-iro. ─────── */
+  --color-fg:              #2D2D2D;
+  --color-fg-heading:      #1F3A66;
+  --color-fg-muted:        #57534C;
+  --color-fg-subtle:       #78736B;
+  --color-fg-faint:        #A4A4A4;
+  --color-fg-inverse:      #FFFDF8;
+  --color-fg-on-inverse-2: #A4A4A4;
 
-     Components must reference these, not the value tokens above.
-     ───────────────────────────────────────────────────────────────────── */
+  /* ── Surfaces. ───────────────────────────────────────────────────── */
+  --color-bg:         #FFFDF8;
+  --color-surface:    #F7F6F1;
+  --color-surface-2:  #EFEDE5;
+  --color-bg-inverse: #2D2D2D;
 
-  /* Primary action. v2: solid ink. v3: Ai-iro 藍色 — never Akane. */
-  --color-action:          var(--color-fg);
-  --color-action-press:    var(--color-fg-muted);
-  --color-action-fg:       var(--color-fg-inverse);
+  /* ── Borders. On Sumi-iro chrome, rules are a thin Ōgon hairline. ─── */
+  --color-border:          #E2DED2;
+  --color-border-strong:   #CFC9B9;
+  --color-border-focus:    #5c7aa8;
+  --color-rule-on-inverse: #8a6a2b;
 
-  /* Secondary action. v2: hairline on paper. v3: Rokushō 緑青 tints. */
-  --color-action-2-bg:     var(--color-bg);
-  --color-action-2-fg:     var(--color-fg-muted);
-  --color-action-2-border: var(--color-border-strong);
+  /* ── Action roles. Primary is Ai-iro. Secondary is Rokushō-tinted. ── */
+  --color-action:          #1F3A66;
+  --color-action-press:    #16294a;
+  --color-action-fg:       #FFFDF8;
+  --color-action-2-bg:     #eef6f4;
+  --color-action-2-fg:     #33685e;
+  --color-action-2-border: #b3d7cf;
 
-  /* The brand mark. v2: plum. v3: Akane 茜色 — mark and errors, NEVER a CTA. */
-  --color-accent:          var(--color-brand-500);
-  --color-accent-press:    var(--color-brand-600);
-  --color-accent-fg:       var(--color-fg-inverse);
+  /* ── Accent. Akane is the brand mark. It is NOT a call to action. ─── */
+  --color-accent:    #D72E2E;
+  --color-accent-fg: #FFFDF8;
 
-  /* Every interactive role has a press state. Touch-first means `active:` is
-     required, not optional, so a role without one is an unfinished role.
-     Disabled is deliberately NOT a colour: it is opacity-40 on a filled
-     control and opacity-50 on a hairline one, so it composes with any variant
-     and survives a palette change untouched. */
-  --color-action-2-press:  var(--color-surface-2);
+  /* ── Focus, tags, links. ─────────────────────────────────────────── */
+  /* --color-focus is deliberately NOT set here. v3's #C9A045 fails WCAG
+     1.4.11 on every light ground; the split correction is below. */
+  --color-tag-bg:  #f6ecd2;
+  --color-tag-fg:  var(--color-ogon-800);  /* OUR CORRECTION: v3 ships ogon-700 at 4.27:1 */
+  --color-link:    #33685e;
 
-  /* Focus. v2: the accent. v3: Ōgon 黄金, split light/inverse because no
-     single gold step clears 3:1 on both warm paper and near-black chrome. */
-  --color-focus:            var(--color-brand-500);
-  --color-focus-on-inverse: var(--color-brand-300);
+  /* ── Semantic feedback — correctness banners only, never decorative. */
+  --color-success-bg:  #eef6f4;
+  --color-success-fg:  #33685e;
+  --color-success-500: #4F9C8D;
+  --color-error-bg:    #fbe3e1;
+  --color-error-fg:    #951e1e;
+  --color-error-500:   #D72E2E;
 
-  /* Scenario tags. v2: neutral grey. v3: Ōgon 100/700. */
-  --color-tag-bg:          var(--color-surface-2);
-  --color-tag-fg:          var(--color-fg-subtle);
+  /* ── Progress. Fill is Rokushō; a completed bar caps with Ōgon. ───── */
+  --color-progress-track:    #EFEDE5;
+  --color-progress-fill:     #4F9C8D;
+  --color-progress-complete: #C9A045;
 
-  /* Links. No component owns this yet — see docs/colors.md §orphans. */
-  --color-link:            var(--color-brand-500);
-
-  /* Progress. v3 caps a completed bar with Ōgon; v2 has no such step, so
-     complete resolves to the fill and the cap is invisible until Phase 5. */
-  --color-progress-track:    var(--color-surface-2);
-  --color-progress-fill:     var(--color-brand-500);
-  --color-progress-complete: var(--color-brand-500);
-
-  /* Inverse chrome. v2 reaches for --color-fg, which is the right pixel from
-     the wrong role: body text and inverse chrome are the same value today and
-     diverge under v3. */
-  --color-bg-inverse:       var(--color-fg);
-  --color-fg-on-inverse:    var(--color-fg-inverse);
-  --color-fg-on-inverse-2:  var(--color-fg-faint);
-  --color-rule-on-inverse:  var(--color-fg-subtle);
-
-  /* Headings and Japanese content. v3 sets these in Ai-iro. */
-  --color-fg-heading:      var(--color-fg);
-
-  /* ── Semantic feedback — used ONLY in correctness banners. */
-  --color-success-bg:  #f0fdf4;
-  --color-success-fg:  #15803d;
-  --color-success-500: #22c55e;
-  --color-error-bg:    #fef2f2;
-  --color-error-fg:    #b91c1c;
-  --color-error-500:   #ef4444;
+  /* ── Legacy aliases — v1 (zinc/brand-purple) and v2 (plum) names still
+        resolve so existing markup does not break. Prefer the role tokens
+        above in anything new. ──────────────────────────────────────── */
+  --color-brand-50:  #fdf3f2;
+  --color-brand-100: #fbe3e1;
+  --color-brand-200: #f5c2be;
+  --color-brand-300: #ec9791;
+  --color-brand-400: #e26059;
+  --color-brand-500: #D72E2E;
+  --color-brand-600: #b82525;
+  --color-brand-700: #951e1e;
+  --color-brand-800: #6f1616;
+  --color-brand-900: #4a1010;
+  --color-ink:        #2D2D2D;
+  --color-ink-2:      #57534C;
+  --color-ink-3:      #78736B;
+  --color-paper:      #FFFDF8;
+  --color-paper-warm: #F7F6F1;
+  --color-mist:       #EFEDE5;
+  --color-cream:      #F7F6F1;
+  --color-cream-line: #CFC9B9;
+  --color-rose:       #C9A045;
+  --color-dusk:       #A4A4A4;
+  --color-line:       #E2DED2;
+  --color-line-2:     #EFEDE5;
+  --color-zinc-0:   #FFFDF8;
+  --color-zinc-50:  #F7F6F1;
+  --color-zinc-100: #EFEDE5;
+  --color-zinc-200: #E2DED2;
+  --color-zinc-300: #CFC9B9;
+  --color-zinc-400: #A4A4A4;
+  --color-zinc-500: #78736B;
+  --color-zinc-600: #57534C;
+  --color-zinc-700: #403D38;
+  --color-zinc-800: #2D2D2D;
+  --color-zinc-900: #1A1815;
 
   /* ── Fonts.  Noto Sans for English UI, M PLUS Rounded 1c for Japanese. */
   --font-sans: "Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-jp:   "M PLUS Rounded 1c", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
 
-  /* ── Type scale.  JP variants get larger line-heights for kanji + furigana. */
+  /* ── Type scale.  See README "Visual foundations" for usage rationale.
+        JP variants get larger line-heights to give kanji + furigana room. */
   --text-caption: 0.75rem;                                  /* 12 */
   --text-caption--line-height: 1rem;
   --text-caption--font-weight: 500;
@@ -191,7 +246,7 @@
   /* ── Spacing — 4px base. */
   --spacing: 0.25rem;
 
-  /* ── Radii. */
+  /* ── Radii.  The rounded type wants rounded everything else.  */
   --radius-sm:   0.375rem;       /*  6px */
   --radius-md:   0.5rem;         /*  8px — form inputs, banners */
   --radius-lg:   0.75rem;        /* 12px — buttons, kana keys */
@@ -200,12 +255,39 @@
   --radius-full: 9999px;
 
   /* ── Elevation.  One hairline drop, that's the whole system. */
-  --shadow-card: 0 1px 2px 0 rgb(21 9 24 / 0.05);
-  --shadow-key:  0 1px 2px 0 rgb(21 9 24 / 0.04);
+  --shadow-card: 0 1px 2px 0 rgb(45 45 45 / 0.05);
+  --shadow-key:  0 1px 2px 0 rgb(45 45 45 / 0.04);
+  --shadow-key-on-inverse: 0 1px 2px 0 rgb(0 0 0 / 0.24);
 
-  /* ── Card animations */
+  /* ═══════════════════════════════════════════════════════════════════
+     PRESERVED ACROSS THE v3 MERGE — v3 does not define these.
+     ═══════════════════════════════════════════════════════════════════ */
+
+  /* FlipCard depends on both. v3 ships neither, and Tailwind does not error
+     on a missing animation token — the class silently stops generating and
+     the flip dies quietly. Plan task 2.4b. */
   --animate-card-enter: card-enter 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
   --animate-card-exit:  card-exit  0.2s  ease-in                        both;
+
+  /* Focus-ring split — OUR CORRECTION TO v3, not v3 as shipped.
+     v3 routes every focus ring to Ogon 500 (#C9A045), which scores 2.26:1 on
+     page ground, 2.40:1 on card and 2.08:1 on well — all under the 3:1 that
+     WCAG 2.1 SC 1.4.11 wants for non-text indicators. Gold on warm paper is
+     low-contrast by construction, so no single step clears both paper and
+     near-black chrome. Split the role exactly as v3 already splits borders.
+     Both values are already in the palette; this invents nothing.
+     Recorded in docs/colors.md as a correction to send back. */
+  --color-focus:            var(--color-ogon-700);
+  --color-focus-on-inverse: var(--color-ogon-500);
+
+  /* Press states. Touch-first means `active:` is required, so a role without
+     a press state is unfinished. v3 defines action-press but not these. */
+  --color-accent-press:     var(--color-akane-700);
+  --color-action-2-press:   var(--color-rokusho-100);
+
+  /* brand.css `.hanko.cream` draws an inset ring with this. v3 aliases most
+     v2 names but not this one, so a wholesale port breaks the mark. */
+  --color-cream-deboss:     var(--color-stone-300);
 }
 
 /* ─────────────────────────────────────────────────────────────────────────

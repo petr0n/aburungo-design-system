@@ -63,7 +63,7 @@ export function KanaKeyboard({
               className={[
                 'h-9 rounded-lg px-3 font-jp text-sm font-medium transition-colors',
                 script === s
-                  ? 'bg-fg text-fg-inverse'
+                  ? 'bg-inverse text-fg-inverse'
                   : 'border border-border-strong text-fg-muted active:bg-surface-2',
               ].join(' ')}
             >
@@ -81,7 +81,7 @@ export function KanaKeyboard({
               className={[
                 'h-9 rounded-lg px-3 font-jp text-sm font-medium transition-colors',
                 section === sec
-                  ? 'bg-fg text-fg-inverse'
+                  ? 'bg-inverse text-fg-inverse'
                   : 'border border-border-strong text-fg-muted active:bg-surface-2',
               ].join(' ')}
             >

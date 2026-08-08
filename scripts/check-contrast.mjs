@@ -68,7 +68,7 @@ const CHECKS = [
   ['--color-success-fg', '--color-success-bg', TEXT, 'recalled banner'],
   ['--color-error-fg', '--color-error-bg', TEXT, 'not-quite banner'],
   ['--color-tag-fg', '--color-tag-bg', TEXT, 'scenario tag'],
-  ['--color-fg-on-inverse', '--color-bg-inverse', TEXT, 'text on inverse chrome'],
+  ['--color-fg-inverse', '--color-bg-inverse', TEXT, 'text on inverse chrome'],
   // Non-text indicators — the focus ring has to read on every ground it can
   // land on, which is what made the v3 Ogon ring fail its own review.
   ['--color-focus', '--color-bg', UI, 'focus ring on page'],
@@ -78,9 +78,33 @@ const CHECKS = [
   ['--color-progress-fill', '--color-progress-track', UI, 'progress fill on track'],
 ]
 
-/** Failures accepted for now, with the reason. An incoming palette must beat these. */
+/**
+ * Failures accepted with a written reason. These are corrections to send back
+ * to the palette author, not things to silently re-tint — see docs/colors.md.
+ * Anything not listed here fails the build.
+ */
 const KNOWN = new Map([
-  ['placeholder on card', 'v2 fg-faint is 3.39:1. Placeholders only, never content. Second palette running to fail this role — send the threshold with the brief.'],
+  [
+    'placeholder on card',
+    'v3 fg-faint (Ishi-iro #A4A4A4) is 2.30:1 — worse than v2\'s 3.39:1. ' +
+      'Third palette running to fail its faint-text role. Placeholders only, ' +
+      'never content. Send the threshold with the brief next time.',
+  ],
+  [
+    'progress fill on track',
+    'No in-palette fix exists. Darkening the track makes it worse (stone-200 ' +
+      'drops it to 2.41) because the fill is mid-tone; lightening to stone-50 ' +
+      'reaches only 2.9984, still short; stone-0 would make the track the same ' +
+      'colour as the card. Fixing the fill means moving off Rokusho 500, which ' +
+      'colors.md locks. Genuinely needs the palette author.',
+  ],
+  [
+    'tertiary text on well',
+    'stone-500 on stone-100 is 4.01:1. The one real occurrence was Badge ' +
+      'neutral, now repainted to the tag roles (task 5.5c), so no component ' +
+      'sustains this pairing — FillInput only hits surface-2 as a transient ' +
+      'active state. Kept as a check so a future component cannot reintroduce it.',
+  ],
 ])
 
 let hard = 0

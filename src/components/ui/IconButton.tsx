@@ -25,7 +25,7 @@ type IconButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'className'
 
 const VARIANT_CLASSES: Record<IconButtonVariant, string> = {
   default: 'border border-border bg-bg text-fg-muted active:bg-surface-2',
-  filled:  'bg-fg text-fg-inverse active:bg-fg-muted',
+  filled:  'bg-action text-action-fg active:bg-action-press',
   danger:  'bg-error-500 text-fg-inverse active:bg-error-fg',
 }
 
@@ -53,7 +53,7 @@ export function IconButton(props: IconButtonProps) {
 
   const classes = [
     'inline-flex items-center justify-center select-none transition-colors',
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus',
     'disabled:opacity-50',
     SHAPE_CLASSES[shape],
     SIZE_CLASSES[size],

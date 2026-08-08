@@ -13,10 +13,9 @@ function Button({
   ...rest
 }) {
   const variants = {
-    primary: 'bg-fg text-fg-inverse active:bg-fg-muted disabled:opacity-40',
-    secondary: 'border border-border-strong bg-bg text-fg-muted active:bg-surface-2 disabled:opacity-50',
+    primary: 'bg-action text-action-fg active:bg-action-press disabled:opacity-40',
+    secondary: 'border border-action-2-border bg-action-2-bg text-action-2-fg active:bg-surface-2 disabled:opacity-50',
     ghost: 'bg-transparent text-fg-muted active:bg-surface-2 disabled:opacity-50',
-    accent: 'bg-brand-500 text-fg-inverse active:opacity-80 disabled:opacity-50',
   };
   const sizes = {
     md: 'min-h-[44px] h-12 px-5 text-body',
@@ -24,7 +23,7 @@ function Button({
   };
   const classes = [
     'inline-flex items-center justify-center gap-2 rounded-lg font-medium select-none transition-colors',
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus',
     variants[variant], sizes[size], fullWidth ? 'w-full' : '', className,
   ].filter(Boolean).join(' ');
   return (
@@ -45,7 +44,7 @@ function TextInput({ label, hint, error, type = 'text', ...rest }) {
         className={[
           'min-h-[44px] w-full rounded-md border bg-bg px-3 py-2',
           'text-body text-fg placeholder:text-fg-faint',
-          'focus:outline-none focus:ring-2 focus:ring-brand-500',
+          'focus:outline-none focus:ring-2 focus:ring-focus',
           error ? 'border-error-500' : 'border-border-strong focus:border-fg-subtle',
         ].join(' ')}
       />
@@ -66,7 +65,7 @@ function Card({ children, compact = false, className = '' }) {
 
 function Badge({ variant = 'neutral', emphasis = false, children }) {
   const variants = {
-    neutral: 'bg-surface-2 text-fg-subtle',
+    neutral: 'bg-tag-bg text-tag-fg',
     success: 'bg-success-bg text-success-fg',
     error: 'bg-error-bg text-error-fg',
   };
@@ -83,7 +82,7 @@ function IconButton({ 'aria-label': ariaLabel, variant = 'default', shape = 'rou
                      onClick, disabled, children }) {
   const variants = {
     default: 'border border-border bg-bg text-fg-muted active:bg-surface-2',
-    filled: 'bg-fg text-fg-inverse active:bg-fg-muted',
+    filled: 'bg-action text-action-fg active:bg-action-press',
     danger: 'bg-error-500 text-fg-inverse active:bg-error-fg',
   };
   return (
@@ -92,7 +91,7 @@ function IconButton({ 'aria-label': ariaLabel, variant = 'default', shape = 'rou
       className={[
         'inline-flex items-center justify-center select-none transition-colors h-11 w-11 min-h-[44px] min-w-[44px]',
         shape === 'round' ? 'rounded-full' : 'rounded-lg',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus',
         'disabled:opacity-50',
         variants[variant],
       ].join(' ')}>
@@ -142,7 +141,7 @@ function ProgressBar({ value, label = 'Session progress' }) {
   return (
     <div role="progressbar" aria-label={label} aria-valuemin={0} aria-valuemax={1} aria-valuenow={v}
       className="relative h-1 w-full overflow-hidden rounded-full bg-surface-2">
-      <div className="h-full bg-brand-500 transition-[width] duration-200 ease-out"
+      <div className="h-full bg-progress-fill transition-[width] duration-200 ease-out"
         style={{ width: `${(v * 100).toFixed(1)}%` }}/>
     </div>
   );
@@ -364,7 +363,7 @@ function KanaKeyboard({ script, section, onScriptChange, onSectionChange, onKey,
               className={[
                 'h-9 rounded-lg px-3 font-jp text-sm font-medium transition-colors',
                 script === s
-                  ? 'bg-fg text-fg-inverse'
+                  ? 'bg-inverse text-fg-inverse'
                   : 'border border-border-strong text-fg-muted active:bg-surface-2',
               ].join(' ')}>
               {s === 'hiragana' ? 'ひら' : 'カタ'}
@@ -377,7 +376,7 @@ function KanaKeyboard({ script, section, onScriptChange, onSectionChange, onKey,
               className={[
                 'h-9 rounded-lg px-3 font-jp text-sm font-medium transition-colors',
                 section === sec
-                  ? 'bg-fg text-fg-inverse'
+                  ? 'bg-inverse text-fg-inverse'
                   : 'border border-border-strong text-fg-muted active:bg-surface-2',
               ].join(' ')}>
               {_SECTION_LABELS[sec]}
@@ -561,7 +560,7 @@ function FillInput({
             onChange={(e) => onRomajiChange(e.target.value)} onKeyDown={handleKeyDown}
             disabled={disabled} placeholder="Type romaji here…"
             autoComplete="off" autoCorrect="off" autoCapitalize="none" spellCheck={false}
-            className="h-12 w-full rounded-xl border border-border-strong px-4 text-body text-fg placeholder:text-fg-faint focus:border-fg-subtle focus:outline-none focus:ring-2 focus:ring-brand-500 disabled:opacity-50"/>
+            className="h-12 w-full rounded-xl border border-border-strong px-4 text-body text-fg placeholder:text-fg-faint focus:border-fg-subtle focus:outline-none focus:ring-2 focus:ring-focus disabled:opacity-50"/>
         </div>
       )}
 
@@ -582,7 +581,7 @@ function FillInput({
             onChange={(e) => onSystemChange(e.target.value)} onKeyDown={handleKeyDown}
             disabled={disabled} placeholder={placeholder ?? 'Type in Japanese…'}
             lang="ja" inputMode="text" autoComplete="off" autoCorrect="off" spellCheck={false}
-            className="h-12 w-full rounded-xl border border-border-strong px-4 font-jp text-jp text-fg placeholder:font-sans placeholder:text-body placeholder:text-fg-faint focus:border-fg-subtle focus:outline-none focus:ring-2 focus:ring-brand-500 disabled:opacity-50"/>
+            className="h-12 w-full rounded-xl border border-border-strong px-4 font-jp text-jp text-fg placeholder:font-sans placeholder:text-body placeholder:text-fg-faint focus:border-fg-subtle focus:outline-none focus:ring-2 focus:ring-focus disabled:opacity-50"/>
           <div className="flex items-start gap-2">
             <p className="text-body-sm text-fg-subtle">Switch your device keyboard to Japanese (日本語).</p>
             <button type="button" onClick={onToggleSystemHint}

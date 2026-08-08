@@ -2,7 +2,7 @@
  * ProgressBar — purely visual session progress (0–1).
  *
  * No numbers, no labels, no segmentation.  Just a hairline track and a
- * solid fill in the brand purple.  Used to show how far through the
+ * solid fill in Rokusho (bg-progress-fill).  Used to show how far through the
  * current review batch the learner is.
  *
  * Anti-goal: this is NOT a gamification element.  It does not celebrate
@@ -38,7 +38,7 @@ export function ProgressBar(props: ProgressBarProps) {
       className="relative h-1 w-full overflow-hidden rounded-full bg-surface-2"
     >
       <div
-        className="h-full bg-brand-500 transition-[width] duration-200 ease-out"
+        className="h-full bg-progress-fill transition-[width] duration-200 ease-out"
         style={{ width: pct }}
       />
     </div>

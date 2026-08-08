@@ -34,26 +34,18 @@ const ButtonStories = {
     argTypes: { label: { control: 'text' } },
     code: (a) => `<Button variant="ghost" size="sm">${a.label}</Button>`,
   },
-  Accent: {
-    render: (a) => <Button variant="accent" size="md">{a.label}</Button>,
-    args: { label: 'Create account' },
-    argTypes: { label: { control: 'text' } },
-    code: (a) => `<Button variant="accent" size="md">${a.label}</Button>`,
-  },
   'All variants': {
     render: () => (
       <div className="flex flex-wrap gap-3">
         <Button variant="primary">Primary</Button>
         <Button variant="secondary">Secondary</Button>
         <Button variant="ghost">Ghost</Button>
-        <Button variant="accent">Accent</Button>
         <Button variant="primary" disabled>Disabled</Button>
       </div>
     ),
     code: () => `<Button variant="primary">Primary</Button>
 <Button variant="secondary">Secondary</Button>
 <Button variant="ghost">Ghost</Button>
-<Button variant="accent">Accent</Button>
 <Button variant="primary" disabled>Disabled</Button>`,
   },
 };

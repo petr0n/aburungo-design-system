@@ -931,31 +931,9 @@
     "severity": "advisory",
     "category": "quality",
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
-    "line": 26,
-    "snippet": "Undocumented color #18181b is outside DESIGN.md colors",
-    "ignoreValue": "#18181b"
-  },
-  {
-    "antipattern": "design-system-color",
-    "name": "Color outside DESIGN.md",
-    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
-    "severity": "advisory",
-    "category": "quality",
-    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
-    "line": 155,
-    "snippet": "Undocumented color #e4e4e7 is outside DESIGN.md colors",
-    "ignoreValue": "#e4e4e7"
-  },
-  {
-    "antipattern": "design-system-color",
-    "name": "Color outside DESIGN.md",
-    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
-    "severity": "advisory",
-    "category": "quality",
-    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
-    "line": 159,
-    "snippet": "Undocumented color #71717a is outside DESIGN.md colors",
-    "ignoreValue": "#71717a"
+    "line": 0,
+    "snippet": "background rgb(247, 246, 241) on body \"function Caret() { return ( <svg classNa\" is outside DESIGN.md colors",
+    "ignoreValue": "rgb(247, 246, 241)"
   },
   {
     "antipattern": "design-system-font-size",
@@ -964,29 +942,18 @@
     "severity": "advisory",
     "category": "quality",
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
-    "line": 159,
+    "line": 270,
     "snippet": "font-size: 13px is off the DESIGN.md type ramp",
     "ignoreValue": "13px"
   },
   {
-    "antipattern": "design-system-color",
-    "name": "Color outside DESIGN.md",
-    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
-    "severity": "advisory",
-    "category": "quality",
-    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
-    "line": 167,
-    "snippet": "Undocumented color #3f3f46 is outside DESIGN.md colors",
-    "ignoreValue": "#3f3f46"
-  },
-  {
     "antipattern": "design-system-font-size",
     "name": "Font size outside DESIGN.md",
     "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
     "severity": "advisory",
     "category": "quality",
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
-    "line": 176,
+    "line": 287,
     "snippet": "font-size: 11px is off the DESIGN.md type ramp",
     "ignoreValue": "11px"
   },
@@ -997,64 +964,19 @@
     "severity": "advisory",
     "category": "quality",
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
-    "line": 177,
-    "snippet": "Undocumented color #a1a1aa is outside DESIGN.md colors",
-    "ignoreValue": "#a1a1aa"
-  },
-  {
-    "antipattern": "design-system-color",
-    "name": "Color outside DESIGN.md",
-    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
-    "severity": "advisory",
-    "category": "quality",
-    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
-    "line": 195,
-    "snippet": "Undocumented color #52525b is outside DESIGN.md colors",
-    "ignoreValue": "#52525b"
-  },
-  {
-    "antipattern": "design-system-color",
-    "name": "Color outside DESIGN.md",
-    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
-    "severity": "advisory",
-    "category": "quality",
-    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
-    "line": 198,
-    "snippet": "Undocumented color #ede6ff is outside DESIGN.md colors",
-    "ignoreValue": "#ede6ff"
-  },
-  {
-    "antipattern": "design-system-color",
-    "name": "Color outside DESIGN.md",
-    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
-    "severity": "advisory",
-    "category": "quality",
-    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
-    "line": 198,
-    "snippet": "Undocumented color #5e0bbf is outside DESIGN.md colors",
-    "ignoreValue": "#5e0bbf"
-  },
-  {
-    "antipattern": "design-system-color",
-    "name": "Color outside DESIGN.md",
-    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
-    "severity": "advisory",
-    "category": "quality",
-    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
-    "line": 203,
+    "line": 314,
     "snippet": "Undocumented color rgba(0,0,0,0.25) is outside DESIGN.md colors",
     "ignoreValue": "rgba(0,0,0,0.25)"
   },
   {
-    "antipattern": "design-system-color",
-    "name": "Color outside DESIGN.md",
-    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
-    "severity": "advisory",
-    "category": "quality",
+    "antipattern": "cream-palette",
+    "name": "Cream / beige palette",
+    "description": "A warm cream or beige page background has become the default \"tasteful\" AI surface, reached for by reflex. Choose a background that comes from a deliberate palette, not the safe warm off-white.",
+    "severity": "warning",
+    "category": "slop",
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/storybook/index.html",
-    "line": 215,
-    "snippet": "Undocumented color #d4d4d8 is outside DESIGN.md colors",
-    "ignoreValue": "#d4d4d8"
+    "line": 0,
+    "snippet": "cream/beige page background rgb(247, 246, 241)"
   },
   {
     "antipattern": "codex-grid-background",
@@ -1067,15 +989,14 @@
     "snippet": "px-tiled hairline line-field background"
   },
   {
-    "antipattern": "design-system-color",
-    "name": "Color outside DESIGN.md",
-    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
-    "severity": "advisory",
-    "category": "quality",
+    "antipattern": "cream-palette",
+    "name": "Cream / beige palette",
+    "description": "A warm cream or beige page background has become the default \"tasteful\" AI surface, reached for by reflex. Choose a background that comes from a deliberate palette, not the safe warm off-white.",
+    "severity": "warning",
+    "category": "slop",
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/app/index.html",
-    "line": 25,
-    "snippet": "Undocumented color #18181b is outside DESIGN.md colors",
-    "ignoreValue": "#18181b"
+    "line": 0,
+    "snippet": "cream/beige page background rgb(255, 253, 248)"
   },
   {
     "antipattern": "design-system-font-size",
@@ -1373,48 +1294,24 @@
     "ignoreValue": "#bbb"
   },
   {
-    "antipattern": "design-system-color",
-    "name": "Color outside DESIGN.md",
-    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
-    "severity": "advisory",
-    "category": "quality",
-    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/mobile/index.html",
-    "line": 155,
-    "snippet": "Undocumented color #18181b is outside DESIGN.md colors",
-    "ignoreValue": "#18181b"
+    "antipattern": "cream-palette",
+    "name": "Cream / beige palette",
+    "description": "A warm cream or beige page background has become the default \"tasteful\" AI surface, reached for by reflex. Choose a background that comes from a deliberate palette, not the safe warm off-white.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/desktop-explore.html",
+    "line": 0,
+    "snippet": "cream/beige page background rgb(255, 253, 248)"
   },
   {
-    "antipattern": "design-system-color",
-    "name": "Color outside DESIGN.md",
-    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
-    "severity": "advisory",
-    "category": "quality",
+    "antipattern": "cream-palette",
+    "name": "Cream / beige palette",
+    "description": "A warm cream or beige page background has become the default \"tasteful\" AI surface, reached for by reflex. Choose a background that comes from a deliberate palette, not the safe warm off-white.",
+    "severity": "warning",
+    "category": "slop",
     "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/mobile/index.html",
-    "line": 178,
-    "snippet": "Undocumented color #71717a is outside DESIGN.md colors",
-    "ignoreValue": "#71717a"
-  },
-  {
-    "antipattern": "design-system-color",
-    "name": "Color outside DESIGN.md",
-    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
-    "severity": "advisory",
-    "category": "quality",
-    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/mobile/index.html",
-    "line": 183,
-    "snippet": "Undocumented color #52525b is outside DESIGN.md colors",
-    "ignoreValue": "#52525b"
-  },
-  {
-    "antipattern": "design-system-color",
-    "name": "Color outside DESIGN.md",
-    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
-    "severity": "advisory",
-    "category": "quality",
-    "file": "/Users/peterabeln/Documents/japanese/aburungo-design-system/ui_kits/mobile/index.html",
-    "line": 183,
-    "snippet": "Undocumented color #e4e4e7 is outside DESIGN.md colors",
-    "ignoreValue": "#e4e4e7"
+    "line": 0,
+    "snippet": "cream/beige page background rgb(255, 253, 248)"
   },
   {
     "antipattern": "design-system-color",
