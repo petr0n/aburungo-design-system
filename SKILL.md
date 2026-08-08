@@ -17,7 +17,7 @@ If the user invokes this skill without any other guidance, ask them what they wa
 1. **No gamification.** No points, XP, streaks, hearts, badges, mascots, level-ups, or any reward-loop ornament. The reward is using the language.
 2. **Mobile-first and touch-first.** Every interactive element ≥ 44px tall. No hover-only affordances; use `active:` press states.
 3. **Solid white surfaces.** No gradients, no full-bleed imagery, no glass/blur.
-4. **One accent.** Brand purple `#aa3bff` only on auth CTAs, focus rings, and the logo. Everything else is the zinc scale.
+4. **One accent.** Colour lands on CTAs, focus rings, and the mark — nowhere else. Everything else is the neutral ramp. Use the role token, never a hex.
 5. **Noto Sans** for English UI, **M PLUS Rounded 1c** for Japanese content (`.jp` class / `lang="ja"`).
 6. **Voice:** plain, declarative, second person. No emoji. No exclamation marks unless load-bearing.
 7. **Iconography:** filled inline SVG only. No emoji, no unicode glyph icons, no outline icons.

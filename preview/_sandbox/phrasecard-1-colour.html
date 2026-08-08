@@ -1,0 +1,68 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../dist/tokens.plain.css">
+<link rel="stylesheet" href="../../colors_and_type.css">
+<style>
+ body{margin:0;padding:26px;background:var(--bg);color:var(--fg);font-family:var(--font-sans)}
+ h1{font-size:18px;margin:0 0 4px} p.s{margin:0 0 20px;color:var(--fg-muted);font-size:13px;max-width:82ch}
+ .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;align-items:start}
+ h2{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--fg-subtle);margin:0 0 9px}
+ .card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:18px;
+       box-shadow:var(--shadow-card);display:flex;flex-direction:column;gap:16px}
+ .hdr{display:flex;align-items:center;justify-content:space-between}
+ .tag{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:9999px;
+      background:var(--tag-bg);color:var(--tag-fg)}
+ .audio{width:34px;height:34px;border-radius:9999px;border:1px solid var(--border);background:var(--bg);
+        display:flex;align-items:center;justify-content:center;color:var(--fg-muted);font-size:14px}
+ .jp{font-family:var(--font-jp);font-size:27px;line-height:1.45;font-weight:500;text-align:center;margin:0}
+ .rd{font-family:var(--font-jp);font-size:15px;text-align:center;margin:0}
+ hr{border:none;border-top:1px solid var(--border);margin:0}
+ .en{font-size:16px;text-align:center;margin:0}
+ .note{font-size:12px;text-align:center;margin:0;color:var(--fg-subtle)}
+ .cap{font:500 10px ui-monospace,Menlo,monospace;color:var(--fg-subtle);margin-top:8px;line-height:1.6}
+</style></head><body>
+<h1>PhraseCard — how far colour goes</h1>
+<p class="s">The Japanese phrase is the most important text in the product. v3 assigns <code>--color-fg-heading</code> (Ai-iro) to “headings and JP content”, and nothing uses it. Akane is currently restricted to the mark and error states.</p>
+<div class="grid">
+
+<div><h2>1 · shipped now</h2>
+ <div class="card">
+  <div class="hdr"><span class="tag">restaurant</span><span class="audio">▶</span></div>
+  <p class="jp" lang="ja" style="color:var(--fg)">これをください</p>
+  <p class="rd" lang="ja" style="color:var(--fg-muted)">これをください</p>
+  <hr><p class="en" style="color:var(--fg)">I'll have this.</p>
+  <p class="note">Said while pointing.</p>
+ </div>
+ <div class="cap">JP → --fg (Sumi-iro)<br>all neutral</div></div>
+
+<div><h2>2 · Ai-iro on JP</h2>
+ <div class="card">
+  <div class="hdr"><span class="tag">restaurant</span><span class="audio">▶</span></div>
+  <p class="jp" lang="ja" style="color:var(--fg-heading)">これをください</p>
+  <p class="rd" lang="ja" style="color:var(--action-2-fg)">これをください</p>
+  <hr><p class="en" style="color:var(--fg)">I'll have this.</p>
+  <p class="note">Said while pointing.</p>
+ </div>
+ <div class="cap">JP → --fg-heading (Ai-iro)<br>reading → Rokushō 700</div></div>
+
+<div><h2>3 · Ai-iro + Akane accent</h2>
+ <div class="card" style="border-top:3px solid var(--accent)">
+  <div class="hdr"><span class="tag" style="background:var(--accent);color:var(--accent-fg)">restaurant</span><span class="audio">▶</span></div>
+  <p class="jp" lang="ja" style="color:var(--fg-heading)">これをください</p>
+  <p class="rd" lang="ja" style="color:var(--action-2-fg)">これをください</p>
+  <hr><p class="en" style="color:var(--fg)">I'll have this.</p>
+  <p class="note">Said while pointing.</p>
+ </div>
+ <div class="cap">+ Akane rule on the card<br>+ Akane scenario tag</div></div>
+
+<div><h2>4 · Ai-iro card, inverted</h2>
+ <div class="card" style="background:var(--ai-800);border-color:var(--ai-700)">
+  <div class="hdr"><span class="tag" style="background:var(--ogon-500);color:var(--stone-800)">restaurant</span>
+    <span class="audio" style="background:transparent;border-color:var(--ogon-700);color:var(--ogon-500)">▶</span></div>
+  <p class="jp" lang="ja" style="color:var(--stone-0)">これをください</p>
+  <p class="rd" lang="ja" style="color:var(--rokusho-300)">これをください</p>
+  <hr style="border-top-color:var(--ai-700)"><p class="en" style="color:var(--stone-0)">I'll have this.</p>
+  <p class="note" style="color:var(--ai-300)">Said while pointing.</p>
+ </div>
+ <div class="cap">whole card on Ai-iro 800<br>Ōgon tag, Rokushō reading</div></div>
+
+</div></body></html>

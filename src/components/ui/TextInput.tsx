@@ -5,7 +5,7 @@
  * labels (no placeholder-as-label).  Error and hint are mutually exclusive —
  * if an error is present, the hint is suppressed.
  *
- * Touch-first: control is min-h-[44px]; focus ring is brand purple.
+ * Touch-first: control is min-h-[44px]; focus ring is Ogon (ring-focus) — Akane is the mark and errors, never focus.
  */
 import { useId } from 'react'
 import type { InputHTMLAttributes } from 'react'
@@ -47,7 +47,7 @@ export function TextInput(props: TextInputProps) {
   const inputClasses = [
     'min-h-[44px] w-full rounded-md border bg-bg px-3 py-2',
     'text-body text-fg placeholder:text-fg-faint',
-    'focus:outline-none focus:ring-2 focus:ring-brand-500',
+    'focus:outline-none focus:ring-2 focus:ring-focus focus:ring-offset-2 focus:ring-offset-bg',
     'disabled:opacity-50',
     error !== undefined ? 'border-error-500' : 'border-border-strong focus:border-fg-subtle',
     className ?? '',

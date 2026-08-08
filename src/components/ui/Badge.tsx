@@ -19,8 +19,12 @@ type BadgeProps = Omit<HTMLAttributes<HTMLSpanElement>, 'className'> & {
   className?: string
 }
 
+// `neutral` is the scenario tag, and it takes the dedicated tag role rather
+// than generic neutrals. HANDOFF.md §4 item 5 states this repaint already
+// shipped in the drop; it did not — the drop's Badge still reads
+// `bg-surface-2 text-fg-subtle`. Trust the code, not the table.
 const VARIANT_CLASSES: Record<BadgeVariant, string> = {
-  neutral: 'bg-surface-2 text-fg-subtle',
+  neutral: 'bg-tag-bg text-tag-fg',
   success: 'bg-success-bg text-success-fg',
   error:   'bg-error-bg text-error-fg',
 }

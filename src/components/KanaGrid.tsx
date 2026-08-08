@@ -53,7 +53,7 @@ export function KanaGrid(props: KanaGridProps) {
                   'rounded-lg border border-border bg-bg shadow-key',
                   'font-jp text-jp-lg text-fg',
                   'transition-colors active:bg-surface-2',
-                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500',
+                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
                 ].join(' ')}
               >
                 {renderKey !== undefined ? renderKey(cell) : cell.kana}

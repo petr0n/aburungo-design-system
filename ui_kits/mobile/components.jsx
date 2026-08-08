@@ -13,10 +13,9 @@ function Button({
   ...rest
 }) {
   const variants = {
-    primary: 'bg-fg text-fg-inverse active:bg-fg-muted disabled:opacity-40',
-    secondary: 'border border-border-strong bg-bg text-fg-muted active:bg-surface-2 disabled:opacity-50',
+    primary: 'bg-action text-action-fg active:bg-action-press disabled:opacity-40',
+    secondary: 'border border-action-2-border bg-action-2-bg text-action-2-fg active:bg-surface-2 disabled:opacity-50',
     ghost: 'bg-transparent text-fg-muted active:bg-surface-2 disabled:opacity-50',
-    accent: 'bg-brand-500 text-fg-inverse active:opacity-80 disabled:opacity-50',
   };
   const sizes = {
     md: 'min-h-[44px] h-12 px-5 text-body',
@@ -24,7 +23,7 @@ function Button({
   };
   const classes = [
     'inline-flex items-center justify-center gap-2 rounded-lg font-medium select-none transition-colors',
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
     variants[variant], sizes[size], fullWidth ? 'w-full' : '', className,
   ].filter(Boolean).join(' ');
   return (
@@ -45,7 +44,7 @@ function TextInput({ label, hint, error, type = 'text', ...rest }) {
         className={[
           'min-h-[44px] w-full rounded-md border bg-bg px-3 py-2',
           'text-body text-fg placeholder:text-fg-faint',
-          'focus:outline-none focus:ring-2 focus:ring-brand-500',
+          'focus:outline-none focus:ring-2 focus:ring-focus focus:ring-offset-2 focus:ring-offset-bg',
           error ? 'border-error-500' : 'border-border-strong focus:border-fg-subtle',
         ].join(' ')}
       />
@@ -57,7 +56,7 @@ function TextInput({ label, hint, error, type = 'text', ...rest }) {
 
 function Card({ children, compact = false, className = '' }) {
   return (
-    <article className={['rounded-2xl border border-border bg-bg shadow-card',
+    <article className={['rounded-2xl border border-border bg-surface shadow-card',
       compact ? 'p-4' : 'p-6', className].join(' ')}>
       {children}
     </article>
@@ -66,7 +65,7 @@ function Card({ children, compact = false, className = '' }) {
 
 function Badge({ variant = 'neutral', emphasis = false, children }) {
   const variants = {
-    neutral: 'bg-surface-2 text-fg-subtle',
+    neutral: 'bg-tag-bg text-tag-fg',
     success: 'bg-success-bg text-success-fg',
     error: 'bg-error-bg text-error-fg',
   };
@@ -83,7 +82,7 @@ function IconButton({ 'aria-label': ariaLabel, variant = 'default', shape = 'rou
                      onClick, disabled, children }) {
   const variants = {
     default: 'border border-border bg-bg text-fg-muted active:bg-surface-2',
-    filled: 'bg-fg text-fg-inverse active:bg-fg-muted',
+    filled: 'bg-action text-action-fg active:bg-action-press',
     danger: 'bg-error-500 text-fg-inverse active:bg-error-fg',
   };
   return (
@@ -92,7 +91,7 @@ function IconButton({ 'aria-label': ariaLabel, variant = 'default', shape = 'rou
       className={[
         'inline-flex items-center justify-center select-none transition-colors h-11 w-11 min-h-[44px] min-w-[44px]',
         shape === 'round' ? 'rounded-full' : 'rounded-lg',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
         'disabled:opacity-50',
         variants[variant],
       ].join(' ')}>
@@ -142,13 +141,19 @@ function ProgressBar({ value, label = 'Session progress' }) {
   return (
     <div role="progressbar" aria-label={label} aria-valuemin={0} aria-valuemax={1} aria-valuenow={v}
       className="relative h-1 w-full overflow-hidden rounded-full bg-surface-2">
-      <div className="h-full bg-brand-500 transition-[width] duration-200 ease-out"
+      <div className="h-full bg-progress-fill transition-[width] duration-200 ease-out"
         style={{ width: `${(v * 100).toFixed(1)}%` }}/>
     </div>
   );
 }
 
-function PhraseCard({ japanese, reading, english, scenario, audioSlot, footer, notes }) {
+const PC_RULE = { ogon:'border-t-[3px] border-t-accent-ogon', ai:'border-t-[3px] border-t-accent-ai',
+  rokusho:'border-t-[3px] border-t-accent-rokusho', akane:'border-t-[3px] border-t-accent-akane', none:'' };
+const PC_TAG = { ogon:'bg-accent-ogon text-accent-ogon-fg', ai:'bg-accent-ai text-accent-ai-fg',
+  rokusho:'bg-accent-rokusho text-accent-rokusho-fg', akane:'bg-accent-akane text-accent-akane-fg',
+  none:'bg-tag-bg text-tag-fg' };
+
+function PhraseCard({ japanese, reading, english, scenario, audioSlot, footer, notes, accent = 'ogon' }) {
   return (
     <Card>
       <div className="flex flex-col gap-6">
@@ -158,7 +163,7 @@ function PhraseCard({ japanese, reading, english, scenario, audioSlot, footer, n
         </header>
         <div className="flex flex-col items-center gap-2 text-center">
           <p lang="ja" className="font-jp text-jp-display text-fg">{japanese}</p>
-          <p lang="ja" className="font-jp text-jp text-fg-muted">{reading}</p>
+          <p lang="ja" className="font-jp text-jp text-action-2-fg">{reading}</p>
         </div>
         {english !== undefined ? (
           <>
@@ -207,12 +212,24 @@ function KanaGrid({ rows, onSelect, onBackspace }) {
 
 // ─── Layout / state components ────────────────────────────────────────────────
 
-function AppHeader({ title, left, right }) {
+function AppHeader({ title, subtitle, left, right, mark = true }) {
+  const showMark = mark && left === undefined;
   return (
-    <header className="grid min-h-[56px] grid-cols-[1fr_auto_1fr] items-center py-2">
-      <div className="flex items-center">{left}</div>
-      <h1 className="text-heading-sm font-semibold text-fg">{title}</h1>
-      <div className="flex items-center justify-end">{right}</div>
+    <header className="border-b-2 border-rule-on-inverse bg-inverse">
+      <div className="mx-auto grid min-h-[56px] w-full max-w-3xl grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-2">
+        <div className="flex items-center">
+          {showMark ? (
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent font-jp text-body font-bold text-accent-fg" aria-hidden="true">ア</span>
+          ) : left}
+        </div>
+        <div className="text-center">
+          <h1 className="text-heading-sm font-semibold text-fg-inverse">{title}</h1>
+          {subtitle !== undefined && subtitle !== '' && (
+            <p className="text-caption text-fg-on-inverse-2">{subtitle}</p>
+          )}
+        </div>
+        <div className="flex items-center justify-end">{right}</div>
+      </div>
     </header>
   );
 }
@@ -272,7 +289,7 @@ function Maru({ outcome, label, className = '' }) {
   );
 }
 
-const AR_BANNER = { recalled: 'bg-success-bg', review: 'bg-error-bg' };
+const AR_BANNER = { recalled: 'bg-success-bg border border-success-border', review: 'bg-error-bg' };
 const AR_TEXT = { recalled: 'text-success-fg', review: 'text-error-fg' };
 const AR_HEADLINE = { recalled: 'Recalled!', review: 'Not quite' };
 
@@ -356,7 +373,7 @@ function KanaKeyboard({ script, section, onScriptChange, onSectionChange, onKey,
   const rows = KANA_GRIDS[script][section];
 
   return (
-    <div className="flex w-full flex-col gap-2 rounded-2xl border border-border bg-surface p-3">
+    <div className="flex w-full flex-col gap-2 rounded-2xl border-2 border-keyboard-rule bg-keyboard-bg p-3">
       <div className="flex items-center justify-between gap-2">
         <div className="flex gap-1">
           {['hiragana', 'katakana'].map((s) => (
@@ -364,8 +381,8 @@ function KanaKeyboard({ script, section, onScriptChange, onSectionChange, onKey,
               className={[
                 'h-9 rounded-lg px-3 font-jp text-sm font-medium transition-colors',
                 script === s
-                  ? 'bg-fg text-fg-inverse'
-                  : 'border border-border-strong text-fg-muted active:bg-surface-2',
+                  ? 'bg-focus text-inverse-on-ogon'
+                  : 'border border-key-bg/40 text-key-bg active:bg-rokusho-800',
               ].join(' ')}>
               {s === 'hiragana' ? 'ひら' : 'カタ'}
             </button>
@@ -377,8 +394,8 @@ function KanaKeyboard({ script, section, onScriptChange, onSectionChange, onKey,
               className={[
                 'h-9 rounded-lg px-3 font-jp text-sm font-medium transition-colors',
                 section === sec
-                  ? 'bg-fg text-fg-inverse'
-                  : 'border border-border-strong text-fg-muted active:bg-surface-2',
+                  ? 'bg-focus text-inverse-on-ogon'
+                  : 'border border-key-bg/40 text-key-bg active:bg-rokusho-800',
               ].join(' ')}>
               {_SECTION_LABELS[sec]}
             </button>
@@ -393,7 +410,7 @@ function KanaKeyboard({ script, section, onScriptChange, onSectionChange, onKey,
               cell === null
                 ? <div key={ci}/>
                 : <button key={ci} type="button" onClick={() => onKey(cell)}
-                    className="flex h-11 items-center justify-center rounded-xl border border-border bg-bg font-jp text-jp text-fg shadow-key active:bg-surface-2">
+                    className="flex h-11 items-center justify-center rounded-xl bg-key-bg font-jp text-jp text-key-fg shadow-key active:bg-key-press">
                     {cell}
                   </button>
             )}
@@ -404,11 +421,11 @@ function KanaKeyboard({ script, section, onScriptChange, onSectionChange, onKey,
       <div className="grid grid-cols-5 gap-1">
         <div className="col-span-3"/>
         <button type="button" onClick={() => onKey('ー')}
-          className="flex h-11 items-center justify-center rounded-xl border border-border bg-bg font-jp text-jp text-fg shadow-key active:bg-surface-2">
+          className="flex h-11 items-center justify-center rounded-xl bg-key-bg font-jp text-jp text-key-fg shadow-key active:bg-key-press">
           ー
         </button>
         <button type="button" onClick={onBackspace} aria-label="Backspace"
-          className="flex h-11 items-center justify-center rounded-xl border border-border bg-bg text-fg-muted shadow-key active:bg-surface-2">
+          className="flex h-11 items-center justify-center rounded-xl bg-key-bg text-key-fg shadow-key active:bg-key-press">
           <BackspaceIcon className="h-5 w-5"/>
         </button>
       </div>
@@ -561,7 +578,7 @@ function FillInput({
             onChange={(e) => onRomajiChange(e.target.value)} onKeyDown={handleKeyDown}
             disabled={disabled} placeholder="Type romaji here…"
             autoComplete="off" autoCorrect="off" autoCapitalize="none" spellCheck={false}
-            className="h-12 w-full rounded-xl border border-border-strong px-4 text-body text-fg placeholder:text-fg-faint focus:border-fg-subtle focus:outline-none focus:ring-2 focus:ring-brand-500 disabled:opacity-50"/>
+            className="h-12 w-full rounded-xl border border-border-strong px-4 text-body text-fg placeholder:text-fg-faint focus:border-fg-subtle focus:outline-none focus:ring-2 focus:ring-focus focus:ring-offset-2 focus:ring-offset-bg disabled:opacity-50"/>
         </div>
       )}
 
@@ -582,7 +599,7 @@ function FillInput({
             onChange={(e) => onSystemChange(e.target.value)} onKeyDown={handleKeyDown}
             disabled={disabled} placeholder={placeholder ?? 'Type in Japanese…'}
             lang="ja" inputMode="text" autoComplete="off" autoCorrect="off" spellCheck={false}
-            className="h-12 w-full rounded-xl border border-border-strong px-4 font-jp text-jp text-fg placeholder:font-sans placeholder:text-body placeholder:text-fg-faint focus:border-fg-subtle focus:outline-none focus:ring-2 focus:ring-brand-500 disabled:opacity-50"/>
+            className="h-12 w-full rounded-xl border border-border-strong px-4 font-jp text-jp text-fg placeholder:font-sans placeholder:text-body placeholder:text-fg-faint focus:border-fg-subtle focus:outline-none focus:ring-2 focus:ring-focus focus:ring-offset-2 focus:ring-offset-bg disabled:opacity-50"/>
           <div className="flex items-start gap-2">
             <p className="text-body-sm text-fg-subtle">Switch your device keyboard to Japanese (日本語).</p>
             <button type="button" onClick={onToggleSystemHint}

@@ -1,0 +1,95 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../dist/tokens.plain.css">
+<style>
+  :root{ --ink:var(--color-fg); --muted:var(--color-fg-muted);
+         --subtle:var(--color-fg-subtle); --line:var(--color-border); }
+  *{box-sizing:border-box}
+  body{margin:0;padding:32px 36px;background:var(--color-bg);color:var(--ink);
+       font-family:"Noto Sans",system-ui,-apple-system,sans-serif;font-size:14px;line-height:1.5}
+  h1{font-size:20px;font-weight:600;margin:0 0 4px}
+  .sub{color:var(--muted);margin:0 0 28px;max-width:78ch}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start}
+  h2{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+     color:var(--subtle);margin:0 0 14px}
+  .row{display:grid;grid-template-columns:82px 1fr 62px 34px;gap:12px;align-items:center;margin-bottom:9px}
+  .step{font:500 11px ui-monospace,Menlo,monospace;color:var(--muted)}
+  .track{height:12px;border-radius:9999px;overflow:hidden}
+  .fill{height:100%;width:62%;background:var(--color-progress-fill);border-radius:9999px}
+  .ratio{font:500 12px ui-monospace,Menlo,monospace;text-align:right}
+  .tag{font:600 10px ui-monospace,Menlo,monospace;text-align:center;border-radius:4px;padding:2px 0}
+  .pass{background:var(--color-success-bg);color:var(--color-success-fg)}
+  .fail{background:var(--color-error-bg);color:var(--color-error-fg)}
+  .cur{outline:2px solid var(--ink);outline-offset:3px;border-radius:9999px}
+  .chart{position:relative;height:290px;border-left:1px solid var(--line);border-bottom:1px solid var(--line);margin:26px 0 30px 34px}
+  .pt{position:absolute;width:9px;height:9px;border-radius:50%;background:var(--ink);transform:translate(-50%,50%)}
+  .pt.on{background:var(--color-progress-fill);width:13px;height:13px}
+  .lbl{position:absolute;font:500 9px ui-monospace,Menlo,monospace;color:var(--subtle);transform:translate(-50%,50%)}
+  .thr{position:absolute;left:0;right:0;border-top:1px dashed #C9A045}
+  .thrl{position:absolute;left:38%;top:-15px;font:600 10px ui-monospace,Menlo,monospace;color:var(--color-tag-fg)}
+  .yl{position:absolute;left:-28px;font:500 10px ui-monospace,Menlo,monospace;color:var(--subtle);transform:translateY(50%)}
+  .fillmark{position:absolute;top:0;bottom:0;border-left:2px solid var(--fill)}
+  .fillmark span{position:absolute;top:-20px;left:50%;transform:translateX(-50%);font:600 10px ui-monospace,Menlo,monospace;color:#33685e;white-space:nowrap}
+  .xax{position:absolute;bottom:-22px;font:500 10px ui-monospace,Menlo,monospace;color:var(--subtle)}
+  svg.curve{position:absolute;inset:0;overflow:visible;pointer-events:none}
+  .note{margin-top:26px;padding:14px 16px;background:var(--color-tag-bg);border-radius:10px;color:var(--color-tag-fg);max-width:80ch}
+  .note b{color:#4a3714}
+  code{font:500 12px ui-monospace,Menlo,monospace;background:var(--color-surface-2);padding:1px 5px;border-radius:4px}
+</style></head><body>
+
+<h1>Why darkening the progress track makes contrast worse</h1>
+<p class="sub">Contrast is how different two colours are in <strong>brightness</strong>. The green fill <code id="fillhex"></code> is medium brightness. The track is already lighter than it — so making the track darker moves it <em>towards</em> the green, not away, and the bar gets harder to read. It only improves again once the track is darker than the green itself.</p>
+
+<div class="cols">
+<div>
+  <h2>Rendered — fill on each track step</h2>
+  <div id="bars"></div>
+</div>
+<div>
+  <h2>Contrast at each track brightness</h2>
+  <div class="chart" id="chart"></div>
+</div>
+</div>
+
+<div class="note">
+  <b>Why there is no fix inside the palette.</b> Every darker step — <code>stone-200</code>, <code>stone-300</code> — makes it worse, and <code>stone-400</code> is worst of all because it is the closest in brightness to the green. Only two steps clear 3:1. <code>stone-0</code> is the card colour, so the empty part of the bar would disappear into the card behind it. <code>stone-700</code> and darker read as a header band, not an input well. Changing the <em>fill</em> would work — Rokushō 600 gives 3.87:1 — but that means moving off the locked 500 step, which is a palette decision, not a component one.
+</div>
+
+<script>
+const STEPS=["0","50","100","200","300","400","500","600","700","800","900"];
+const cs=getComputedStyle(document.documentElement);
+const tok=n=>cs.getPropertyValue(n).trim();
+function lum(h){h=h.replace('#','');if(h.length===3)h=[...h].map(c=>c+c).join('');
+  const c=[0,2,4].map(i=>parseInt(h.slice(i,i+2),16)/255)
+    .map(x=>x<=0.03928?x/12.92:Math.pow((x+0.055)/1.055,2.4));
+  return 0.2126*c[0]+0.7152*c[1]+0.0722*c[2];}
+function ratio(a,b){const[x,y]=[lum(a),lum(b)].sort((m,n)=>n-m);return (x+0.05)/(y+0.05);}
+const FILL=tok('--color-progress-fill')||'#4F9C8D';
+const FILL_L=lum(FILL);
+const DATA=STEPS.map(s=>{const h=tok('--color-stone-'+s);return [s,h,lum(h),Math.round(ratio(FILL,h)*100)/100];})
+                .filter(d=>d[1]);
+document.getElementById('bars').innerHTML=DATA.map(([s,h,l,r])=>{
+  const ok=r>=3, cur=s==="100";
+  return `<div class="row">
+    <span class="step">stone-${s}</span>
+    <div class="track ${cur?'cur':''}" style="background:${h}"><div class="fill"></div></div>
+    <span class="ratio">${r.toFixed(2)}:1</span>
+    <span class="tag ${ok?'pass':'fail'}">${ok?'PASS':'FAIL'}</span>
+  </div>`}).join('');
+const H=290,W=360,maxR=6;
+const x=l=>(1-l)*W, y=r=>H-(r/maxR)*H;
+let h='';
+h+=`<div class="thr" style="top:${y(3)}px"><span class="thrl">minimum 3:1</span></div>`;
+[0,2,4,6].forEach(v=>h+=`<div class="yl" style="top:${y(v)}px">${v}:1</div>`);
+h+=`<div class="fillmark" style="left:${x(FILL_L)}px"><span>brightness of the green fill</span></div>`;
+const pts=[...DATA].sort((a,b)=>b[2]-a[2]);
+h+=`<svg class="curve"><polyline fill="none" stroke="#57534C" stroke-width="1.5" stroke-dasharray="3 3"
+     points="${pts.map(([s,hx,l,r])=>`${x(l)},${y(r)}`).join(' ')}"/></svg>`;
+DATA.forEach(([s,hex,l,r])=>{
+  h+=`<div class="pt" style="left:${x(l)}px;bottom:${H-y(r)}px;background:${hex};box-shadow:0 0 0 1.5px #57534C"></div>`;
+  h+=`<div class="lbl" style="left:${x(l)}px;bottom:${H-y(r)+16}px">${s}</div>`;
+});
+h+=`<div class="xax" style="left:0">lighter</div><div class="xax" style="left:${W}px;transform:translateX(-100%)">darker</div>`;
+document.getElementById('fillhex').textContent=FILL;
+document.getElementById('chart').innerHTML=h;
+document.getElementById('chart').style.width=W+'px';
+</script></body></html>

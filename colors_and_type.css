@@ -1,16 +1,17 @@
 /* ──────────────────────────────────────────────────────────────────────────
-   AburunGo — Colors, Type & Tokens
+   AburunGo — Colors, Type & Tokens (preview harness stylesheet)
    --------------------------------------------------------------------------
-   The brand reward is being able to use the language. The visual system
-   reinforces that: clarity, speed, usability. No gamification ornament.
+   Colour, type family, radius, and elevation tokens are NOT defined here.
+   They are generated from src/tokens.css — the single source of truth — by
+   scripts/build-tokens.mjs, and imported below. Run `pnpm build` to refresh.
 
-   Source of truth from the codebase:
-     - src/index.css (Tailwind v4 theme — font-sans, font-jp on M PLUS Rounded 1c)
-     - components use zinc-50…zinc-900 + accent purple (#aa3bff)
-     - favicon → assets/logo-a-128.png (the ア hanko)
-     - hero.png → violet metallic stacked-card motif
+   Only the harness-local primitives Tailwind v4 expresses as *modifiers*
+   rather than standalone tokens (font sizes, weights, line-heights, tracking)
+   plus the spacing and motion scale the spec pages lay themselves out with
+   are still declared here. None of them are colour.
    ────────────────────────────────────────────────────────────────────────── */
 
+@import url("./dist/tokens.plain.css");
 @import url("https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap");
 
 /* ── Brand font — Noto Sans (uploaded variable font, axis: wght 100..900, wdth 62.5..100) */
@@ -32,64 +33,9 @@
 }
 
 :root {
-  /* ── Brand purple — primary accent ───────────────────────────────────── */
-  --brand-50:  #f5efff;
-  --brand-100: #ede6ff;
-  --brand-200: #dccaff;
-  --brand-300: #c4a5ff;
-  --brand-400: #aa7bff;
-  --brand-500: #aa3bff;   /* primary accent — auth CTA in code */
-  --brand-600: #863bff;   /* dark step */
-  --brand-700: #7e14ff;   /* darkest step / pressed */
-  --brand-800: #5e0bbf;
-  --brand-900: #3d077a;
-
-  /* ── Neutrals — Tailwind zinc, the workhorse scale ───────────────────── */
-  --zinc-0:   #ffffff;
-  --zinc-50:  #fafafa;
-  --zinc-100: #f4f4f5;
-  --zinc-200: #e4e4e7;
-  --zinc-300: #d4d4d8;
-  --zinc-400: #a1a1aa;
-  --zinc-500: #71717a;
-  --zinc-600: #52525b;
-  --zinc-700: #3f3f46;
-  --zinc-800: #27272a;
-  --zinc-900: #18181b;
-
-  /* ── Semantic — feedback used in result banners ──────────────────────── */
-  --green-50:  #f0fdf4;
-  --green-500: #22c55e;
-  --green-700: #15803d;
-  --red-50:    #fef2f2;
-  --red-500:   #ef4444;
-  --red-700:   #b91c1c;
-
-  /* ── Foreground / background semantic tokens ─────────────────────────── */
-  --bg:           var(--zinc-0);
-  --bg-subtle:    var(--zinc-50);
-  --bg-muted:     var(--zinc-100);
-  --fg:           var(--zinc-900);   /* primary text */
-  --fg-2:         var(--zinc-700);   /* secondary text — labels */
-  --fg-3:         var(--zinc-500);   /* tertiary text — meta, hints */
-  --fg-4:         var(--zinc-400);   /* quaternary — placeholders */
-  --fg-inverse:   var(--zinc-0);
-
-  --border:       var(--zinc-200);   /* default border */
-  --border-strong:var(--zinc-300);   /* form fields, primary buttons-secondary */
-  --border-focus: var(--zinc-500);
-
-  --accent:       var(--brand-500);  /* primary accent */
-  --accent-fg:    var(--zinc-0);
-  --accent-press: var(--brand-600);
-
-  --action:       var(--zinc-900);   /* primary action buttons (non-auth) */
-  --action-press: var(--zinc-800);
-
-  /* ── Type — Noto Sans for English, M PLUS Rounded 1c for Japanese ────── */
-  --font-sans: "Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --font-jp:   "M PLUS Rounded 1c", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  /* Harness-local, non-colour. Tailwind v4 carries these as modifiers on the
+     size token (--text-body--line-height), so they have no standalone
+     equivalent to import. Kept deliberately, not by oversight. */
 
   /* Type scale — mobile-first, never below 14px in interactive UI */
   --fs-xs:   12px;   /* meta only — uppercase scenario tag */
@@ -116,7 +62,7 @@
   --fw-semibold:600;
   --fw-bold:    700;
 
-  /* ── Spacing — 4px base, mobile-first ────────────────────────────────── */
+  /* Spacing — 4px base, mobile-first */
   --space-1:  4px;
   --space-2:  8px;
   --space-3:  12px;
@@ -131,20 +77,11 @@
   /* Touch — non-negotiable per CLAUDE.md "Touch targets ≥ 44px" */
   --touch-min: 44px;
 
-  /* ── Radius — soft, rounded, friendly. Match M PLUS Rounded's tone. ──── */
-  --radius-sm:   6px;
-  --radius-md:   8px;    /* form fields, small buttons */
-  --radius-lg:   12px;   /* buttons, kana keys */
-  --radius-xl:   16px;   /* cards-inner, mode pickers, banners */
-  --radius-2xl:  20px;   /* main review card */
-  --radius-full: 9999px; /* pills, mic, audio button */
+  /* Elevation beyond the one hairline tokens.css ships as --shadow-card */
+  --shadow-md: 0 4px 12px -2px rgb(21 9 24 / 0.08), 0 2px 4px -2px rgb(21 9 24 / 0.04);
+  --shadow-focus: 0 0 0 2px var(--brand-500);
 
-  /* ── Elevation — minimal. shadow-sm + borders do the work. ───────────── */
-  --shadow-sm: 0 1px 2px 0 rgba(24, 24, 27, 0.05);
-  --shadow-md: 0 4px 12px -2px rgba(24, 24, 27, 0.08), 0 2px 4px -2px rgba(24, 24, 27, 0.04);
-  --shadow-focus: 0 0 0 2px var(--accent);
-
-  /* ── Motion — fast, no bounce. Touch-first apps don't need anim flair. ─ */
+  /* Motion — fast, no bounce. Touch-first apps don't need anim flair. */
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --dur-fast:   120ms;
   --dur-normal: 180ms;
@@ -205,9 +142,9 @@ p, .body {
   color: var(--fg);
 }
 
-.body-sm   { font-size: var(--fs-sm);  color: var(--fg-2); }
-.caption   { font-size: var(--fs-xs);  color: var(--fg-3); }
-.meta      { font-size: var(--fs-xs);  color: var(--fg-3); text-transform: uppercase; letter-spacing: var(--tracking-wide); font-weight: var(--fw-medium); }
+.body-sm   { font-size: var(--fs-sm);  color: var(--fg-muted); }
+.caption   { font-size: var(--fs-xs);  color: var(--fg-subtle); }
+.meta      { font-size: var(--fs-xs);  color: var(--fg-subtle); text-transform: uppercase; letter-spacing: var(--tracking-wide); font-weight: var(--fw-medium); }
 
 /* Japanese text — kanji + kana */
 .jp, [lang="ja"] {
@@ -223,13 +160,13 @@ p, .body {
 .jp-reading {           /* the hiragana reading below */
   font-family: var(--font-jp);
   font-size: var(--fs-lg);
-  color: var(--fg-2);
+  color: var(--fg-muted);
   font-weight: var(--fw-regular);
 }
 .romaji {
   font-size: var(--fs-sm);
   font-style: italic;
-  color: var(--fg-3);
+  color: var(--fg-subtle);
 }
 
 /* Furigana — match the source code's <ruby> rules */

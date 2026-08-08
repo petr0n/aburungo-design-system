@@ -30,8 +30,8 @@ type AnswerResultProps = {
 }
 
 const BANNER_CLASSES: Record<AnswerOutcome, string> = {
-  recalled: 'bg-success-bg',
-  review:   'bg-error-bg',
+  recalled: 'bg-success-bg border border-success-border',
+  review:   'bg-error-bg border border-error-border',
 }
 
 const TEXT_CLASSES: Record<AnswerOutcome, string> = {

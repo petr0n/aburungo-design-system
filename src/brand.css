@@ -28,7 +28,7 @@
    ═══════════════════════════════════════════════════════════════════════ */
 
 .hanko{
-  background: var(--color-brand-500);
+  background: var(--color-accent);
   color: var(--color-fg-inverse);
   border-radius: 50%;
   display: inline-flex;
@@ -71,17 +71,17 @@
 /* Variants. */
 .hanko.paper{
   background: var(--color-paper);
-  color: var(--color-brand-500);
-  box-shadow: inset 0 0 0 1.5px var(--color-brand-500);
+  color: var(--color-accent);
+  box-shadow: inset 0 0 0 1.5px var(--color-accent);
 }
 .hanko.cream{
   background: var(--color-cream);
-  color: var(--color-brand-500);
+  color: var(--color-accent);
   box-shadow: inset 0 0 0 1.5px var(--color-cream-deboss);
 }
 .hanko.rose{
   background: var(--color-rose);
-  color: var(--color-brand-500);
+  color: var(--color-accent);
 }
 .hanko.outline{
   background: transparent;
@@ -162,7 +162,7 @@
   display: inline-block;
   width: .22em;
   height: .22em;
-  background: var(--color-brand-500);
+  background: var(--color-accent);
   border-radius: 50%;
   margin-left: .05em;
   transform: translateY(-.02em);
@@ -219,7 +219,7 @@
 }
 .kata-vert.rose  { color: var(--color-rose) }
 .kata-vert.paper { color: var(--color-paper) }
-.kata-vert.brand { color: var(--color-brand-500) }
+.kata-vert.brand { color: var(--color-accent) }
 
 /* ═══════════════════════════════════════════════════════════════════════
    C LOCKUP · .ctype
@@ -292,7 +292,7 @@
   max-width: 100%;
   min-width: 0;
 }
-.frame.brand { border-color: var(--color-brand-500) }
+.frame.brand { border-color: var(--color-accent) }
 .frame.paper { border-color: var(--color-paper) }
 .frame.rose  { border-color: var(--color-rose) }
 
@@ -325,7 +325,7 @@
   gap: 8px;
   flex-wrap: wrap;
 }
-.frame .footer .mark{ color: var(--color-brand-500) }
+.frame .footer .mark{ color: var(--color-accent) }
 .frame.brand .footer .mark,
 .frame.paper .footer .mark,
 .frame.rose  .footer .mark{ color: inherit; opacity: .7 }

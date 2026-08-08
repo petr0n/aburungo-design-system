@@ -26,9 +26,9 @@ type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'className'> & 
 
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary:
-    'bg-fg text-fg-inverse active:bg-fg-muted disabled:opacity-40',
+    'bg-action text-action-fg active:bg-action-press disabled:opacity-40',
   secondary:
-    'border border-border-strong bg-bg text-fg-muted active:bg-surface-2 disabled:opacity-50',
+    'border border-action-2-border bg-action-2-bg text-action-2-fg active:bg-surface-2 disabled:opacity-50',
   ghost:
     'bg-transparent text-fg-muted active:bg-surface-2 disabled:opacity-50',
 }
@@ -53,7 +53,7 @@ export function Button(props: ButtonProps) {
 
   const classes = [
     'inline-flex items-center justify-center gap-2 rounded-lg font-medium select-none transition-colors',
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
     VARIANT_CLASSES[variant],
     SIZE_CLASSES[size],
     fullWidth ? 'w-full' : '',
