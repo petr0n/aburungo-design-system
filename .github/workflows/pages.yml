@@ -64,6 +64,11 @@ jobs:
       # an underscore — preview/_sandbox/ and preview/_card.css among them.
       - run: touch .nojekyll
 
+      # upload-pages-artifact excludes .git and .github but not node_modules,
+      # and `path: .` would ship every dependency. Nothing served needs it —
+      # React arrives from esm.sh, and the bundle is already built.
+      - run: rm -rf node_modules
+
       - uses: actions/configure-pages@v5
 
       - uses: actions/upload-pages-artifact@v3
