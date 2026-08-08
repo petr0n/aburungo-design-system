@@ -23,3 +23,6 @@ dist/*
 .github/agents/
 .github/hooks/
 .github/skills/
+
+# Rendered design screenshots (scripts/shots.mjs)
+scripts/.shots-out/

@@ -39,7 +39,8 @@
     "typecheck": "tsc --noEmit",
     "prepare": "tsup",
     "build:tokens": "node scripts/build-tokens.mjs",
-    "check:contrast": "node scripts/check-contrast.mjs"
+    "check:contrast": "node scripts/check-contrast.mjs",
+    "shots": "node scripts/shots.mjs"
   },
   "peerDependencies": {
     "react": ">=18",
@@ -50,6 +51,7 @@
     "@types/react-dom": "^19.2.3",
     "impeccable": "^3.5.0",
     "oxlint": "^1.77.0",
+    "puppeteer-core": "^25.5.0",
     "tsup": "^8.5.0",
     "typescript": "^5.8.3"
   }
