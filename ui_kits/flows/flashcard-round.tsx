@@ -203,13 +203,7 @@ function Round({ onExhausted, from }: { onExhausted: () => void; from: Step }) {
       />
       <SessionProgress value={done / PHRASES.length} />
       <Screen>
-        {/* FlipCard positions the back face absolutely, so it inherits the
-            front's height. The back is taller (English + note), so the faces
-            are pinned to a common floor here. Logged as a FlipCard finding —
-            equal-height faces belong in the component, not every call site. */}
-        <div className="[&_article]:min-h-[340px]">
           <FlipCard front={front} back={back} flipped={step === 'reveal'} />
-        </div>
         {step === 'reveal' && <GradePair onGrade={grade} />}
       </Screen>
     </>

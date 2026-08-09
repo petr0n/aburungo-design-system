@@ -338,24 +338,25 @@ function GradePair({ onGrade, disabled = false }) {
 }
 
 function FlipCard({ front, back, flipped, phase = 'idle', onEntered, onExited }) {
-  const slideClass =
-    phase === 'entering' ? 'animate-card-enter' :
-    phase === 'exiting'  ? 'animate-card-exit'  : '';
-
+  const slide = phase === 'entering' ? 'animate-card-enter'
+              : phase === 'exiting'  ? 'animate-card-exit' : '';
   function handleAnimationEnd() {
-    if (phase === 'entering' && onEntered) onEntered();
-    if (phase === 'exiting'  && onExited)  onExited();
+    if (phase === 'entering') onEntered && onEntered();
+    if (phase === 'exiting') onExited && onExited();
   }
-
+  // Both faces share one grid cell so the card is as tall as its taller face.
+  // Absolute positioning took the back out of flow and it clipped.
   return (
-    <div className={slideClass} onAnimationEnd={handleAnimationEnd} style={{ perspective: '1200px' }}>
-      <div className="relative w-full" style={{
+    <div className={`w-full ${slide}`} onAnimationEnd={handleAnimationEnd}
+         style={{ perspective: '1200px' }}>
+      <div className="grid w-full" style={{
         transformStyle: 'preserve-3d',
         transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
         transition: 'transform 0.45s cubic-bezier(0.4, 0, 0.2, 1)',
       }}>
-        <div className="w-full" style={{ backfaceVisibility: 'hidden' }}>{front}</div>
-        <div className="absolute inset-0 w-full" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>{back}</div>
+        <div className="grid" style={{ gridArea: '1 / 1', backfaceVisibility: 'hidden' }}>{front}</div>
+        <div className="grid" style={{ gridArea: '1 / 1', backfaceVisibility: 'hidden',
+                      transform: 'rotateY(180deg)' }}>{back}</div>
       </div>
     </div>
   );

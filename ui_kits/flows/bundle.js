@@ -391,19 +391,23 @@ function FlipCard({ front, back, flipped, phase = "idle", onEntered, onExited })
       children: /* @__PURE__ */ jsxs8(
         "div",
         {
-          className: "relative w-full",
+          className: "grid w-full",
           style: {
             transformStyle: "preserve-3d",
             transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
             transition: "transform 0.45s cubic-bezier(0.4, 0, 0.2, 1)"
           },
           children: [
-            /* @__PURE__ */ jsx16("div", { className: "w-full", style: { backfaceVisibility: "hidden" }, children: front }),
+            /* @__PURE__ */ jsx16("div", { className: "grid", style: { gridArea: "1 / 1", backfaceVisibility: "hidden" }, children: front }),
             /* @__PURE__ */ jsx16(
               "div",
               {
-                className: "absolute inset-0 w-full",
-                style: { backfaceVisibility: "hidden", transform: "rotateY(180deg)" },
+                className: "grid",
+                style: {
+                  gridArea: "1 / 1",
+                  backfaceVisibility: "hidden",
+                  transform: "rotateY(180deg)"
+                },
                 children: back
               }
             )
@@ -992,7 +996,7 @@ function Round({ onExhausted, from }) {
     ),
     /* @__PURE__ */ jsx24(SessionProgress, { value: done / PHRASES.length }),
     /* @__PURE__ */ jsxs16(Screen, { children: [
-      /* @__PURE__ */ jsx24("div", { className: "[&_article]:min-h-[340px]", children: /* @__PURE__ */ jsx24(FlipCard, { front, back, flipped: step === "reveal" }) }),
+      /* @__PURE__ */ jsx24(FlipCard, { front, back, flipped: step === "reveal" }),
       step === "reveal" && /* @__PURE__ */ jsx24(GradePair, { onGrade: grade })
     ] })
   ] });
