@@ -576,6 +576,14 @@ const AnswerResultStories = {
   <p lang="ja" className="font-jp text-jp text-fg-muted">おねがいします</p>
 </AnswerResult>`,
   },
+  'GradePair — the learner grades': {
+    render: () => (
+      <div className="max-w-sm">
+        <GradePair onGrade={() => {}}/>
+      </div>
+    ),
+    code: () => `<GradePair onGrade={(outcome) => ...}/>`,
+  },
   'Maru on its own': {
     render: () => (
       <div className="flex items-center gap-6 text-heading">

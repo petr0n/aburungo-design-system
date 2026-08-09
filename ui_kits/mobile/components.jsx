@@ -4,6 +4,7 @@
 
 function Button({
   variant = 'primary',
+  tone = 'neutral',
   size = 'md',
   fullWidth = false,
   loading = false,
@@ -17,6 +18,12 @@ function Button({
     secondary: 'border border-action-2-border bg-action-2-bg text-action-2-fg active:bg-surface-2 disabled:opacity-50',
     ghost: 'bg-transparent text-fg-muted active:bg-surface-2 disabled:opacity-50',
   };
+  // Replaces `secondary`'s chrome wholesale, never stacked on it.
+  const tones = {
+    success: 'border border-success-border bg-success-bg text-success-fg active:bg-success-press disabled:opacity-50',
+    error: 'border border-error-border bg-error-bg text-error-fg active:bg-error-press disabled:opacity-50',
+  };
+  const chrome = tone !== 'neutral' && variant === 'secondary' ? tones[tone] : variants[variant];
   const sizes = {
     md: 'min-h-[44px] h-12 px-5 text-body',
     sm: 'min-h-[44px] h-11 px-4 text-body-sm',
@@ -24,7 +31,7 @@ function Button({
   const classes = [
     'inline-flex items-center justify-center gap-2 rounded-lg font-medium select-none transition-colors',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
-    variants[variant], sizes[size], fullWidth ? 'w-full' : '', className,
+    chrome, sizes[size], fullWidth ? 'w-full' : '', className,
   ].filter(Boolean).join(' ');
   return (
     <button type="button" disabled={disabled || loading} className={classes} {...rest}>
@@ -305,6 +312,27 @@ function AnswerResult({ outcome, userAnswer, children }) {
       <div className="flex flex-col items-center gap-1 rounded-xl bg-surface-2 p-4 text-center">
         {children}
       </div>
+    </div>
+  );
+}
+
+// Wording is not passable here, same as the real component -- that mechanism
+// is the point. `secondary` is Rokusho, so the review button takes tone=error.
+const GRADE_LABEL = { recalled: 'Recalled', review: 'Worth another look' };
+
+function GradePair({ onGrade, disabled = false }) {
+  return (
+    <div className="flex flex-col gap-3">
+      <Button variant="secondary" tone="success" fullWidth disabled={disabled}
+              onClick={() => onGrade('recalled')}>
+        <Maru outcome="recalled" className="text-heading-sm"/>
+        {GRADE_LABEL.recalled}
+      </Button>
+      <Button variant="secondary" tone="error" fullWidth disabled={disabled}
+              onClick={() => onGrade('review')}>
+        <Maru outcome="review" className="text-heading-sm"/>
+        {GRADE_LABEL.review}
+      </Button>
     </div>
   );
 }
@@ -625,5 +653,6 @@ Object.assign(window, {
   AppHeader, LoadingPlaceholder, EmptyState, ErrorState, ScoreCard, FlipCard,
   KanaKeyboard, VoiceInput,
   FillInput, convertRomaji, finalizeRomaji,
+  Maru, AnswerResult, GradePair,
   KANA_GRIDS,
 });

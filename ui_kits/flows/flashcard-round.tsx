@@ -21,6 +21,7 @@ import {
   EmptyState,
   ErrorState,
   FlipCard,
+  GradePair,
   LoadingPlaceholder,
   Maru,
   PhraseCard,
@@ -82,35 +83,6 @@ const PHRASES: Phrase[] = [
 // ─── The round ─────────────────────────────────────────────────────────────
 
 type Step = 'prompt' | 'reveal' | 'summary'
-
-/**
- * The two self-grade buttons. `Maru` supplies the glyph and the screen-reader
- * label, the button text supplies the third channel — glyph + colour + words,
- * never the glyph alone.
- */
-function GradeRow({ onGrade }: { onGrade: (outcome: AnswerOutcome) => void }) {
-  return (
-    <div className="flex flex-col gap-3">
-      <Button variant="secondary" fullWidth onClick={() => onGrade('recalled')}>
-        <Maru outcome="recalled" className="text-heading-sm" />
-        Recalled
-      </Button>
-      {/* `secondary` is Rokushō-tinted — the correctness colour. A ✕ on that
-          field says two things at once, so the review button is repainted to
-          the error role here. Logged: the pair needs an outcome-aware Button
-          variant, not a call-site override. */}
-      <Button
-        variant="secondary"
-        fullWidth
-        onClick={() => onGrade('review')}
-        className="border-error-border bg-error-bg text-error-fg active:bg-akane-200"
-      >
-        <Maru outcome="review" className="text-heading-sm" />
-        Worth another look
-      </Button>
-    </div>
-  )
-}
 
 function Round({ onExhausted, from }: { onExhausted: () => void; from: Step }) {
   const [index, setIndex] = useState(0)
@@ -238,7 +210,7 @@ function Round({ onExhausted, from }: { onExhausted: () => void; from: Step }) {
         <div className="[&_article]:min-h-[340px]">
           <FlipCard front={front} back={back} flipped={step === 'reveal'} />
         </div>
-        {step === 'reveal' && <GradeRow onGrade={grade} />}
+        {step === 'reveal' && <GradePair onGrade={grade} />}
       </Screen>
     </>
   )
