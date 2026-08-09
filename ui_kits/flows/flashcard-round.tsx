@@ -21,13 +21,14 @@ import {
   EmptyState,
   ErrorState,
   FlipCard,
+  GradePair,
   LoadingPlaceholder,
   Maru,
   PhraseCard,
   ScoreCard,
 } from '../../src/components'
 import type { AnswerOutcome, PhraseAccent } from '../../src/components'
-import { FlowPage, Phone, Screen, SessionProgress, fromUrl } from './shell'
+import { FlowPage, Phone, Screen, fromUrl } from './shell'
 import type { FlowState } from './shell'
 
 // ─── Content — real phrases, from src/content/phrases/*.yaml ────────────────
@@ -83,35 +84,6 @@ const PHRASES: Phrase[] = [
 
 type Step = 'prompt' | 'reveal' | 'summary'
 
-/**
- * The two self-grade buttons. `Maru` supplies the glyph and the screen-reader
- * label, the button text supplies the third channel — glyph + colour + words,
- * never the glyph alone.
- */
-function GradeRow({ onGrade }: { onGrade: (outcome: AnswerOutcome) => void }) {
-  return (
-    <div className="flex flex-col gap-3">
-      <Button variant="secondary" fullWidth onClick={() => onGrade('recalled')}>
-        <Maru outcome="recalled" className="text-heading-sm" />
-        Recalled
-      </Button>
-      {/* `secondary` is Rokushō-tinted — the correctness colour. A ✕ on that
-          field says two things at once, so the review button is repainted to
-          the error role here. Logged: the pair needs an outcome-aware Button
-          variant, not a call-site override. */}
-      <Button
-        variant="secondary"
-        fullWidth
-        onClick={() => onGrade('review')}
-        className="border-error-border bg-error-bg text-error-fg active:bg-akane-200"
-      >
-        <Maru outcome="review" className="text-heading-sm" />
-        Worth another look
-      </Button>
-    </div>
-  )
-}
-
 function Round({ onExhausted, from }: { onExhausted: () => void; from: Step }) {
   const [index, setIndex] = useState(0)
   const [step, setStep] = useState<Step>(from)
@@ -145,10 +117,13 @@ function Round({ onExhausted, from }: { onExhausted: () => void; from: Step }) {
   if (step === 'summary') {
     return (
       <>
-        <AppHeader title="Round complete" subtitle={`${PHRASES.length} phrases`} />
-        <SessionProgress value={1} />
+        <AppHeader title="Round complete" subtitle={`${PHRASES.length} phrases`} progress={1} />
         <Screen>
-          <ScoreCard correct={recalled} total={PHRASES.length}>
+          <ScoreCard
+            correct={recalled}
+            total={PHRASES.length}
+            tone="rokusho"
+          >
             {/* The per-answer mark row §3.0 calls for, composed at the call
                 site to check the existing `children` slot carries it before
                 ScoreCard grows an API for it. */}
@@ -224,17 +199,11 @@ function Round({ onExhausted, from }: { onExhausted: () => void; from: Step }) {
       <AppHeader
         title="Flashcards"
         subtitle={`${phrase.scenario} · ${index + 1} of ${PHRASES.length}`}
+        progress={done / PHRASES.length}
       />
-      <SessionProgress value={done / PHRASES.length} />
       <Screen>
-        {/* FlipCard positions the back face absolutely, so it inherits the
-            front's height. The back is taller (English + note), so the faces
-            are pinned to a common floor here. Logged as a FlipCard finding —
-            equal-height faces belong in the component, not every call site. */}
-        <div className="[&_article]:min-h-[340px]">
-          <FlipCard front={front} back={back} flipped={step === 'reveal'} />
-        </div>
-        {step === 'reveal' && <GradeRow onGrade={grade} />}
+        <FlipCard front={front} back={back} flipped={step === 'reveal'} />
+        {step === 'reveal' && <GradePair onGrade={grade} />}
       </Screen>
     </>
   )
@@ -245,8 +214,7 @@ function Round({ onExhausted, from }: { onExhausted: () => void; from: Step }) {
 function LoadingScreen() {
   return (
     <>
-      <AppHeader title="Flashcards" subtitle="Loading" />
-      <SessionProgress value={0} />
+      <AppHeader title="Flashcards" subtitle="Loading" progress={0} />
       <Screen>
         <LoadingPlaceholder label="Building your round…" />
       </Screen>
@@ -305,8 +273,7 @@ function CheckedScreen() {
 
   return (
     <>
-      <AppHeader title="Fill in the blank" subtitle="transit · 1 of 4" />
-      <SessionProgress value={0.25} />
+      <AppHeader title="Fill in the blank" subtitle="transit · 1 of 4" progress={0.25} />
       <Screen>
         <AnswerResult outcome={outcome} userAnswer="eki wa doku desu ka">
           <p lang="ja" className="font-jp text-jp-lg text-fg-heading">

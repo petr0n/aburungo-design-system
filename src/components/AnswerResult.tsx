@@ -66,7 +66,10 @@ export function AnswerResult({ outcome, userAnswer, children }: AnswerResultProp
         )}
       </div>
 
-      <div className="flex flex-col items-center gap-1 rounded-xl bg-surface-2 p-4 text-center">
+      {/* The reveal takes the Ai ground the phrase card uses. It holds the
+          Japanese, and Ai-iro is the Japanese-content colour — on `surface-2`
+          it was the last flat grey field left on a screen of coloured ones. */}
+      <div className="flex flex-col items-center gap-1 rounded-xl bg-accent-ai-bg p-4 text-center">
         {children}
       </div>
     </div>

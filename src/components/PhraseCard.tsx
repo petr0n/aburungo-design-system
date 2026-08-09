@@ -37,6 +37,26 @@ const TAG: Record<PhraseAccent, string> = {
   none:    'bg-tag-bg text-tag-fg',
 }
 
+/**
+ * The card's ground.
+ *
+ * Decided 2026-08-08 against three rendered options. Before this the accent was
+ * a 3px rule and a tag pill on a warm-white card — colour on an edge, which
+ * does not read. The whole surface carries it now, so the scenario is legible
+ * at a glance across the card rather than in a badge.
+ *
+ * The page ground deliberately does NOT take the accent: that was the option
+ * this beat, and keeping the page warm stone leaves the header band as the
+ * screen's one dark slab.
+ */
+const BODY: Record<PhraseAccent, string> = {
+  ogon:    'bg-accent-ogon-bg',
+  ai:      'bg-accent-ai-bg',
+  rokusho: 'bg-accent-rokusho-bg',
+  akane:   'bg-accent-akane-bg',
+  none:    'bg-surface',
+}
+
 type PhraseCardProps = {
   /** Native form, may contain kanji.  e.g. "駅はどこですか" */
   japanese: string
@@ -60,7 +80,7 @@ export function PhraseCard(props: PhraseCardProps) {
   const { japanese, reading, english, scenario, audioSlot, footer, notes, accent = 'ogon' } = props
 
   return (
-    <Card className={RULE[accent]}>
+    <Card tone="bare" className={`${RULE[accent]} ${BODY[accent]}`}>
       <div className="flex flex-col gap-6">
         <CardHeader>
           {scenario !== undefined ? (

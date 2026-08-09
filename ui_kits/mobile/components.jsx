@@ -4,6 +4,7 @@
 
 function Button({
   variant = 'primary',
+  tone = 'neutral',
   size = 'md',
   fullWidth = false,
   loading = false,
@@ -17,6 +18,12 @@ function Button({
     secondary: 'border border-action-2-border bg-action-2-bg text-action-2-fg active:bg-surface-2 disabled:opacity-50',
     ghost: 'bg-transparent text-fg-muted active:bg-surface-2 disabled:opacity-50',
   };
+  // Replaces `secondary`'s chrome wholesale, never stacked on it.
+  const tones = {
+    success: 'border border-success-border bg-success-bg text-success-fg active:bg-success-press disabled:opacity-50',
+    error: 'border border-error-border bg-error-bg text-error-fg active:bg-error-press disabled:opacity-50',
+  };
+  const chrome = tone !== 'neutral' && variant === 'secondary' ? tones[tone] : variants[variant];
   const sizes = {
     md: 'min-h-[44px] h-12 px-5 text-body',
     sm: 'min-h-[44px] h-11 px-4 text-body-sm',
@@ -24,7 +31,7 @@ function Button({
   const classes = [
     'inline-flex items-center justify-center gap-2 rounded-lg font-medium select-none transition-colors',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
-    variants[variant], sizes[size], fullWidth ? 'w-full' : '', className,
+    chrome, sizes[size], fullWidth ? 'w-full' : '', className,
   ].filter(Boolean).join(' ');
   return (
     <button type="button" disabled={disabled || loading} className={classes} {...rest}>
@@ -136,13 +143,16 @@ function AudioButton({ state = 'idle', onPress, label = 'Play audio' }) {
   );
 }
 
-function ProgressBar({ value, label = 'Session progress' }) {
-  const v = Math.max(0, Math.min(1, value || 0));
+function ProgressBar({ value, label = 'Session progress', tone = 'default' }) {
+  // Matches clamp01 in the real component: isFinite rejects undefined and
+  // null too, which `Number.isNaN` does not — that gap rendered width: NaN%.
+  const v = !Number.isFinite(value) ? 0 : Math.min(1, Math.max(0, value));
+  const tracks = { default: 'bg-progress-track', inverse: 'bg-progress-track-on-inverse' };
   return (
     <div role="progressbar" aria-label={label} aria-valuemin={0} aria-valuemax={1} aria-valuenow={v}
-      className="relative h-1 w-full overflow-hidden rounded-full bg-surface-2">
+         className={`relative h-1 w-full overflow-hidden rounded-full ${tracks[tone]}`}>
       <div className="h-full bg-progress-fill transition-[width] duration-200 ease-out"
-        style={{ width: `${(v * 100).toFixed(1)}%` }}/>
+           style={{ width: `${(v * 100).toFixed(2)}%` }}/>
     </div>
   );
 }
@@ -212,24 +222,29 @@ function KanaGrid({ rows, onSelect, onBackspace }) {
 
 // ─── Layout / state components ────────────────────────────────────────────────
 
-function AppHeader({ title, subtitle, left, right, mark = true }) {
+function AppHeader({ title, subtitle, left, right, mark = true, progress }) {
   const showMark = mark && left === undefined;
   return (
     <header className="border-b-2 border-rule-on-inverse bg-inverse">
       <div className="mx-auto grid min-h-[56px] w-full max-w-3xl grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-2">
         <div className="flex items-center">
-          {showMark ? (
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent font-jp text-body font-bold text-accent-fg" aria-hidden="true">ア</span>
-          ) : left}
+          {showMark
+            ? <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent font-jp text-body font-bold text-accent-fg" aria-hidden="true">ア</span>
+            : left}
         </div>
         <div className="text-center">
           <h1 className="text-heading-sm font-semibold text-fg-inverse">{title}</h1>
-          {subtitle !== undefined && subtitle !== '' && (
-            <p className="text-caption text-fg-on-inverse-2">{subtitle}</p>
-          )}
+          {subtitle ? <p className="text-caption text-fg-on-inverse-2">{subtitle}</p> : null}
         </div>
         <div className="flex items-center justify-end">{right}</div>
       </div>
+      {/* Inside the band: flush below, the bar sits against the Ogon hairline
+          and the two read as one two-tone rule. */}
+      {progress !== undefined && (
+        <div className="mx-auto w-full max-w-3xl px-4 pb-2">
+          <ProgressBar value={progress} tone="inverse"/>
+        </div>
+      )}
     </header>
   );
 }
@@ -309,25 +324,47 @@ function AnswerResult({ outcome, userAnswer, children }) {
   );
 }
 
-function FlipCard({ front, back, flipped, phase = 'idle', onEntered, onExited }) {
-  const slideClass =
-    phase === 'entering' ? 'animate-card-enter' :
-    phase === 'exiting'  ? 'animate-card-exit'  : '';
+// Wording is not passable here, same as the real component -- that mechanism
+// is the point. `secondary` is Rokusho, so the review button takes tone=error.
+const GRADE_LABEL = { recalled: 'Recalled', review: 'Worth another look' };
 
-  function handleAnimationEnd() {
-    if (phase === 'entering' && onEntered) onEntered();
-    if (phase === 'exiting'  && onExited)  onExited();
-  }
-
+function GradePair({ onGrade, disabled = false }) {
   return (
-    <div className={slideClass} onAnimationEnd={handleAnimationEnd} style={{ perspective: '1200px' }}>
-      <div className="relative w-full" style={{
+    <div className="flex flex-col gap-3">
+      <Button variant="secondary" tone="success" fullWidth disabled={disabled}
+              onClick={() => onGrade('recalled')}>
+        <Maru outcome="recalled" className="text-heading-sm"/>
+        {GRADE_LABEL.recalled}
+      </Button>
+      <Button variant="secondary" tone="error" fullWidth disabled={disabled}
+              onClick={() => onGrade('review')}>
+        <Maru outcome="review" className="text-heading-sm"/>
+        {GRADE_LABEL.review}
+      </Button>
+    </div>
+  );
+}
+
+function FlipCard({ front, back, flipped, phase = 'idle', onEntered, onExited }) {
+  const slide = phase === 'entering' ? 'animate-card-enter'
+              : phase === 'exiting'  ? 'animate-card-exit' : '';
+  function handleAnimationEnd() {
+    if (phase === 'entering') onEntered && onEntered();
+    if (phase === 'exiting') onExited && onExited();
+  }
+  // Both faces share one grid cell so the card is as tall as its taller face.
+  // Absolute positioning took the back out of flow and it clipped.
+  return (
+    <div className={`w-full ${slide}`} onAnimationEnd={handleAnimationEnd}
+         style={{ perspective: '1200px' }}>
+      <div className="grid w-full" style={{
         transformStyle: 'preserve-3d',
         transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
         transition: 'transform 0.45s cubic-bezier(0.4, 0, 0.2, 1)',
       }}>
-        <div className="w-full" style={{ backfaceVisibility: 'hidden' }}>{front}</div>
-        <div className="absolute inset-0 w-full" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>{back}</div>
+        <div className="grid" style={{ gridArea: '1 / 1', backfaceVisibility: 'hidden' }}>{front}</div>
+        <div className="grid" style={{ gridArea: '1 / 1', backfaceVisibility: 'hidden',
+                      transform: 'rotateY(180deg)' }}>{back}</div>
       </div>
     </div>
   );
@@ -625,5 +662,6 @@ Object.assign(window, {
   AppHeader, LoadingPlaceholder, EmptyState, ErrorState, ScoreCard, FlipCard,
   KanaKeyboard, VoiceInput,
   FillInput, convertRomaji, finalizeRomaji,
+  Maru, AnswerResult, GradePair,
   KANA_GRIDS,
 });

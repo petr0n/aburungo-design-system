@@ -6,12 +6,19 @@
  * inside `<Phone>`.
  */
 import type { ReactNode } from 'react'
-import { ProgressBar } from '../../src/components'
 
-/** A phone-shaped viewport. 390px is the iPhone 15/16 logical width. */
+/**
+ * A phone-shaped viewport. 390px is the iPhone 15/16 logical width.
+ *
+ * `data-phone` is the handle screenshot tooling clips to — capturing the
+ * screen alone rather than the harness page around it.
+ */
 export function Phone({ children }: { children: ReactNode }) {
   return (
-    <div className="w-[390px] shrink-0 overflow-hidden rounded-[2.25rem] border-8 border-inverse bg-bg shadow-card">
+    <div
+      data-phone
+      className="w-[390px] shrink-0 overflow-hidden rounded-[2.25rem] border-8 border-inverse bg-bg shadow-card"
+    >
       <div className="flex h-[780px] flex-col">{children}</div>
     </div>
   )
@@ -24,19 +31,7 @@ export function Screen({ children }: { children: ReactNode }) {
   )
 }
 
-/**
- * ProgressBar flush under the header put a Rokushō fill directly against the
- * band's Ōgon hairline — the two read as one two-tone rule rather than a rule
- * and a progress bar. The gap is the fix; noted as an AppHeader adjacency
- * finding rather than a component change made from one screen.
- */
-export function SessionProgress({ value }: { value: number }) {
-  return (
-    <div className="px-4 pt-4">
-      <ProgressBar value={value} />
-    </div>
-  )
-}
+
 
 /**
  * `?flow=kana`, `?state=empty`, `?step=summary` — deep links, so a state can be

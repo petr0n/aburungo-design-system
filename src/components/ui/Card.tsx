@@ -11,14 +11,24 @@ type CardProps = Omit<HTMLAttributes<HTMLDivElement>, 'className'> & {
   children: ReactNode
   /** Tighten padding on small surfaces (e.g. inline list rows).  Defaults to roomy. */
   compact?: boolean
+  /**
+   * `bare` omits the background so the caller supplies its own.
+   *
+   * Two `bg-*` utilities on one element is a coin toss — they have equal
+   * specificity, so which wins depends on stylesheet order, not on the order
+   * they appear in `className`. `PhraseCard` needs an accent ground, so it
+   * takes the background off rather than racing it.
+   */
+  tone?: 'surface' | 'bare'
   className?: string
 }
 
 export function Card(props: CardProps) {
-  const { children, compact = false, className, ...rest } = props
+  const { children, compact = false, tone = 'surface', className, ...rest } = props
 
   const classes = [
-    'rounded-2xl border border-border bg-surface shadow-card',
+    'rounded-2xl border border-border shadow-card',
+    tone === 'surface' ? 'bg-surface' : '',
     compact ? 'p-4' : 'p-6',
     className ?? '',
   ].filter((c) => c !== '').join(' ')

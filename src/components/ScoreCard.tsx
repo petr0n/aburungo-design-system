@@ -1,5 +1,14 @@
 import type { ReactNode } from 'react'
 
+/**
+ * The score block's ground.
+ *
+ * `plain` is warm paper like every other card. `rokusho` and `ai` make it a
+ * solid field — this is the end of a round, the one moment a screen is allowed
+ * to be emphatic, and on paper it was the most colourless screen in the app.
+ */
+type ScoreTone = 'plain' | 'rokusho' | 'ai'
+
 type Props = {
   correct: number
   total: number
@@ -8,18 +17,27 @@ type Props = {
    * "correct" is verdict prose and is not used anywhere in the product.
    */
   label?: string
+  tone?: ScoreTone
   children?: ReactNode
 }
 
-export function ScoreCard({ correct, total, label = "recalled", children }: Props) {
+const TONE: Record<ScoreTone, { box: string; num: string; sub: string }> = {
+  plain:   { box: 'border-border bg-surface',                 num: 'text-fg',         sub: 'text-fg-subtle' },
+  rokusho: { box: 'border-transparent bg-accent-rokusho',     num: 'text-accent-rokusho-fg', sub: 'text-accent-rokusho-fg' },
+  ai:      { box: 'border-transparent bg-accent-ai',          num: 'text-accent-ai-fg',      sub: 'text-accent-ai-fg' },
+}
+
+export function ScoreCard({ correct, total, label = "recalled", tone = 'plain', children }: Props) {
+  const t = TONE[tone]
+
   return (
     <div className="flex flex-col gap-6">
-      <div className="rounded-2xl border border-border bg-surface p-6 text-center">
-        <p className="text-display font-bold text-fg">
+      <div className={`rounded-2xl border p-6 text-center ${t.box}`}>
+        <p className={`text-display font-bold ${t.num}`}>
           {correct}
-          <span className="text-heading-lg text-fg-subtle"> / {total}</span>
+          <span className={`text-heading-lg opacity-70 ${t.sub}`}> / {total}</span>
         </p>
-        <p className="mt-1 text-body-sm text-fg-subtle">{label}</p>
+        <p className={`mt-1 text-body-sm opacity-80 ${t.sub}`}>{label}</p>
       </div>
       {children}
     </div>

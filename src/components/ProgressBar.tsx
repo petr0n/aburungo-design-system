@@ -14,17 +14,30 @@ type ProgressBarProps = {
   value: number
   /** Accessible description.  Defaults to "Session progress". */
   label?: string
+  /** `inverse` for the dark header band, where the light track would glare. */
+  tone?: 'default' | 'inverse'
 }
 
+/** Swapped, never stacked — two `bg-*` utilities have equal specificity. */
+const TRACK: Record<'default' | 'inverse', string> = {
+  default: 'bg-progress-track',
+  inverse: 'bg-progress-track-on-inverse',
+}
+
+/**
+ * `Number.isFinite` rather than an `isNaN` check: it also rejects `undefined`,
+ * `null` and non-numbers, which the type says cannot arrive but the untyped
+ * JSX mirror could pass — and did, rendering `width: NaN%`.
+ */
 function clamp01(v: number): number {
+  if (!Number.isFinite(v)) return 0
   if (v < 0) return 0
   if (v > 1) return 1
-  if (Number.isNaN(v)) return 0
   return v
 }
 
 export function ProgressBar(props: ProgressBarProps) {
-  const { value, label = 'Session progress' } = props
+  const { value, label = 'Session progress', tone = 'default' } = props
   const clamped = clamp01(value)
   const pct = `${(clamped * 100).toFixed(2)}%`
 
@@ -35,7 +48,7 @@ export function ProgressBar(props: ProgressBarProps) {
       aria-valuemin={0}
       aria-valuemax={1}
       aria-valuenow={clamped}
-      className="relative h-1 w-full overflow-hidden rounded-full bg-surface-2"
+      className={`relative h-1 w-full overflow-hidden rounded-full ${TRACK[tone]}`}
     >
       <div
         className="h-full bg-progress-fill transition-[width] duration-200 ease-out"
