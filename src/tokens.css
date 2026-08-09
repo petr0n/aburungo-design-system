@@ -197,6 +197,11 @@
 
   /* ── Progress. Fill is Rokushō; a completed bar caps with Ōgon. ───── */
   --color-progress-track:    #EFEDE5;
+  /* The track on inverse chrome. Rokushō over the Ōgon hairline was the
+     tempting version — progress filling the brand rule — but it scores
+     1.55:1, half of the 3:1 a non-text indicator needs. stone-700 clears it
+     at 3.33:1 and stays quiet against the band. */
+  --color-progress-track-on-inverse: var(--color-stone-700);
   --color-progress-fill:     var(--color-rokusho-500);  /* 500 unlocked by the palette author
                                                             2026-08-08: Rokusho 500 was 2.77:1 on the
                                                             track, 600 is 3.87:1 */

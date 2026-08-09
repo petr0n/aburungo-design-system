@@ -28,7 +28,7 @@ import {
   ScoreCard,
 } from '../../src/components'
 import type { AnswerOutcome, PhraseAccent } from '../../src/components'
-import { FlowPage, Phone, Screen, SessionProgress, fromUrl } from './shell'
+import { FlowPage, Phone, Screen, fromUrl } from './shell'
 import type { FlowState } from './shell'
 
 // ─── Content — real phrases, from src/content/phrases/*.yaml ────────────────
@@ -117,8 +117,7 @@ function Round({ onExhausted, from }: { onExhausted: () => void; from: Step }) {
   if (step === 'summary') {
     return (
       <>
-        <AppHeader title="Round complete" subtitle={`${PHRASES.length} phrases`} />
-        <SessionProgress value={1} />
+        <AppHeader title="Round complete" subtitle={`${PHRASES.length} phrases`} progress={1} />
         <Screen>
           <ScoreCard
             correct={recalled}
@@ -200,10 +199,10 @@ function Round({ onExhausted, from }: { onExhausted: () => void; from: Step }) {
       <AppHeader
         title="Flashcards"
         subtitle={`${phrase.scenario} · ${index + 1} of ${PHRASES.length}`}
+        progress={done / PHRASES.length}
       />
-      <SessionProgress value={done / PHRASES.length} />
       <Screen>
-          <FlipCard front={front} back={back} flipped={step === 'reveal'} />
+        <FlipCard front={front} back={back} flipped={step === 'reveal'} />
         {step === 'reveal' && <GradePair onGrade={grade} />}
       </Screen>
     </>
@@ -215,8 +214,7 @@ function Round({ onExhausted, from }: { onExhausted: () => void; from: Step }) {
 function LoadingScreen() {
   return (
     <>
-      <AppHeader title="Flashcards" subtitle="Loading" />
-      <SessionProgress value={0} />
+      <AppHeader title="Flashcards" subtitle="Loading" progress={0} />
       <Screen>
         <LoadingPlaceholder label="Building your round…" />
       </Screen>
@@ -275,8 +273,7 @@ function CheckedScreen() {
 
   return (
     <>
-      <AppHeader title="Fill in the blank" subtitle="transit · 1 of 4" />
-      <SessionProgress value={0.25} />
+      <AppHeader title="Fill in the blank" subtitle="transit · 1 of 4" progress={0.25} />
       <Screen>
         <AnswerResult outcome={outcome} userAnswer="eki wa doku desu ka">
           <p lang="ja" className="font-jp text-jp-lg text-fg-heading">

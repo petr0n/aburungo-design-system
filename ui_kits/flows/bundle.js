@@ -212,6 +212,10 @@ function KanaGrid(props) {
 
 // src/components/ProgressBar.tsx
 import { jsx as jsx8 } from "react/jsx-runtime";
+var TRACK = {
+  default: "bg-progress-track",
+  inverse: "bg-progress-track-on-inverse"
+};
 function clamp01(v) {
   if (v < 0) return 0;
   if (v > 1) return 1;
@@ -219,7 +223,7 @@ function clamp01(v) {
   return v;
 }
 function ProgressBar(props) {
-  const { value, label = "Session progress" } = props;
+  const { value, label = "Session progress", tone = "default" } = props;
   const clamped = clamp01(value);
   const pct = `${(clamped * 100).toFixed(2)}%`;
   return /* @__PURE__ */ jsx8(
@@ -230,7 +234,7 @@ function ProgressBar(props) {
       "aria-valuemin": 0,
       "aria-valuemax": 1,
       "aria-valuenow": clamped,
-      className: "relative h-1 w-full overflow-hidden rounded-full bg-surface-2",
+      className: `relative h-1 w-full overflow-hidden rounded-full ${TRACK[tone]}`,
       children: /* @__PURE__ */ jsx8(
         "div",
         {
@@ -305,23 +309,26 @@ function AudioButton(props) {
 
 // src/components/AppHeader.tsx
 import { jsx as jsx11, jsxs as jsxs4 } from "react/jsx-runtime";
-function AppHeader({ title, subtitle, left, right, mark = true }) {
+function AppHeader({ title, subtitle, left, right, mark = true, progress }) {
   const showMark = mark && left === void 0;
-  return /* @__PURE__ */ jsx11("header", { className: "border-b-2 border-rule-on-inverse bg-inverse", children: /* @__PURE__ */ jsxs4("div", { className: "mx-auto grid min-h-[56px] w-full max-w-3xl grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-2", children: [
-    /* @__PURE__ */ jsx11("div", { className: "flex items-center", children: showMark ? /* @__PURE__ */ jsx11(
-      "span",
-      {
-        className: "flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent font-jp text-body font-bold text-accent-fg",
-        "aria-hidden": "true",
-        children: "\u30A2"
-      }
-    ) : left }),
-    /* @__PURE__ */ jsxs4("div", { className: "text-center", children: [
-      /* @__PURE__ */ jsx11("h1", { className: "text-heading-sm font-semibold text-fg-inverse", children: title }),
-      subtitle !== void 0 && subtitle !== "" && /* @__PURE__ */ jsx11("p", { className: "text-caption text-fg-on-inverse-2", children: subtitle })
+  return /* @__PURE__ */ jsxs4("header", { className: "border-b-2 border-rule-on-inverse bg-inverse", children: [
+    /* @__PURE__ */ jsxs4("div", { className: "mx-auto grid min-h-[56px] w-full max-w-3xl grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-2", children: [
+      /* @__PURE__ */ jsx11("div", { className: "flex items-center", children: showMark ? /* @__PURE__ */ jsx11(
+        "span",
+        {
+          className: "flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent font-jp text-body font-bold text-accent-fg",
+          "aria-hidden": "true",
+          children: "\u30A2"
+        }
+      ) : left }),
+      /* @__PURE__ */ jsxs4("div", { className: "text-center", children: [
+        /* @__PURE__ */ jsx11("h1", { className: "text-heading-sm font-semibold text-fg-inverse", children: title }),
+        subtitle !== void 0 && subtitle !== "" && /* @__PURE__ */ jsx11("p", { className: "text-caption text-fg-on-inverse-2", children: subtitle })
+      ] }),
+      /* @__PURE__ */ jsx11("div", { className: "flex items-center justify-end", children: right })
     ] }),
-    /* @__PURE__ */ jsx11("div", { className: "flex items-center justify-end", children: right })
-  ] }) });
+    progress !== void 0 && /* @__PURE__ */ jsx11("div", { className: "mx-auto w-full max-w-3xl px-4 pb-2", children: /* @__PURE__ */ jsx11(ProgressBar, { value: progress, tone: "inverse" }) })
+  ] });
 }
 
 // src/components/LoadingPlaceholder.tsx
@@ -802,9 +809,6 @@ function Phone({ children }) {
 function Screen({ children }) {
   return /* @__PURE__ */ jsx23("div", { className: "flex flex-1 flex-col gap-5 overflow-y-auto px-4 pb-8 pt-5", children });
 }
-function SessionProgress({ value }) {
-  return /* @__PURE__ */ jsx23("div", { className: "px-4 pt-4", children: /* @__PURE__ */ jsx23(ProgressBar, { value }) });
-}
 function fromUrl(key, allowed, fallback) {
   const raw = new URLSearchParams(window.location.search).get(key);
   return allowed.find((v) => v === raw) ?? fallback;
@@ -919,8 +923,7 @@ function Round({ onExhausted, from }) {
   }
   if (step === "summary") {
     return /* @__PURE__ */ jsxs16(Fragment3, { children: [
-      /* @__PURE__ */ jsx24(AppHeader, { title: "Round complete", subtitle: `${PHRASES.length} phrases` }),
-      /* @__PURE__ */ jsx24(SessionProgress, { value: 1 }),
+      /* @__PURE__ */ jsx24(AppHeader, { title: "Round complete", subtitle: `${PHRASES.length} phrases`, progress: 1 }),
       /* @__PURE__ */ jsxs16(Screen, { children: [
         /* @__PURE__ */ jsx24(
           ScoreCard,
@@ -991,10 +994,10 @@ function Round({ onExhausted, from }) {
       AppHeader,
       {
         title: "Flashcards",
-        subtitle: `${phrase.scenario} \xB7 ${index + 1} of ${PHRASES.length}`
+        subtitle: `${phrase.scenario} \xB7 ${index + 1} of ${PHRASES.length}`,
+        progress: done / PHRASES.length
       }
     ),
-    /* @__PURE__ */ jsx24(SessionProgress, { value: done / PHRASES.length }),
     /* @__PURE__ */ jsxs16(Screen, { children: [
       /* @__PURE__ */ jsx24(FlipCard, { front, back, flipped: step === "reveal" }),
       step === "reveal" && /* @__PURE__ */ jsx24(GradePair, { onGrade: grade })
@@ -1003,8 +1006,7 @@ function Round({ onExhausted, from }) {
 }
 function LoadingScreen() {
   return /* @__PURE__ */ jsxs16(Fragment3, { children: [
-    /* @__PURE__ */ jsx24(AppHeader, { title: "Flashcards", subtitle: "Loading" }),
-    /* @__PURE__ */ jsx24(SessionProgress, { value: 0 }),
+    /* @__PURE__ */ jsx24(AppHeader, { title: "Flashcards", subtitle: "Loading", progress: 0 }),
     /* @__PURE__ */ jsx24(Screen, { children: /* @__PURE__ */ jsx24(LoadingPlaceholder, { label: "Building your round\u2026" }) })
   ] });
 }
@@ -1041,8 +1043,7 @@ function CheckedScreen() {
   const [outcome, setOutcome] = useState2("review");
   const phrase = PHRASES[0];
   return /* @__PURE__ */ jsxs16(Fragment3, { children: [
-    /* @__PURE__ */ jsx24(AppHeader, { title: "Fill in the blank", subtitle: "transit \xB7 1 of 4" }),
-    /* @__PURE__ */ jsx24(SessionProgress, { value: 0.25 }),
+    /* @__PURE__ */ jsx24(AppHeader, { title: "Fill in the blank", subtitle: "transit \xB7 1 of 4", progress: 0.25 }),
     /* @__PURE__ */ jsxs16(Screen, { children: [
       /* @__PURE__ */ jsxs16(AnswerResult, { outcome, userAnswer: "eki wa doku desu ka", children: [
         /* @__PURE__ */ jsx24("p", { lang: "ja", className: "font-jp text-jp-lg text-fg-heading", children: phrase.japanese }),
@@ -1162,8 +1163,7 @@ function ChartScreen({ onPractise }) {
     window.setTimeout(() => setAudio("idle"), 900);
   }
   return /* @__PURE__ */ jsxs17(Fragment4, { children: [
-    /* @__PURE__ */ jsx25(AppHeader, { title: "Kana", subtitle: `${learnedInScript} of ${total} settled` }),
-    /* @__PURE__ */ jsx25(SessionProgress, { value: learnedInScript / total }),
+    /* @__PURE__ */ jsx25(AppHeader, { title: "Kana", subtitle: `${learnedInScript} of ${total} settled`, progress: learnedInScript / total }),
     /* @__PURE__ */ jsxs17(Screen, { children: [
       /* @__PURE__ */ jsxs17("div", { className: "flex items-center justify-between gap-3", children: [
         /* @__PURE__ */ jsx25("div", { className: "inline-flex gap-1 rounded-xl border border-border bg-surface p-1", children: ["hiragana", "katakana"].map((s) => /* @__PURE__ */ jsx25(
@@ -1219,9 +1219,10 @@ function ChartScreen({ onPractise }) {
 function ChoiceTile({
   choice,
   outcome,
+  answered,
   onPick
 }) {
-  const state = outcome === "recalled" ? "border-success-border bg-success-bg text-success-fg" : outcome === "review" ? "border-error-border bg-error-bg text-error-fg" : "border-border bg-surface text-fg active:bg-surface-2";
+  const state = outcome === "recalled" ? "border-success-border bg-success-bg text-success-fg" : outcome === "review" ? "border-error-border bg-error-bg text-error-fg" : answered ? "border-border bg-surface text-fg-subtle" : "border-border bg-surface text-fg active:bg-surface-2";
   return /* @__PURE__ */ jsxs17(
     "button",
     {
@@ -1274,8 +1275,7 @@ function DrillScreen({
     window.setTimeout(() => setAudio("idle"), 900);
   }
   return /* @__PURE__ */ jsxs17(Fragment4, { children: [
-    /* @__PURE__ */ jsx25(AppHeader, { title: "Kana practice", subtitle: `${index + 1} of ${DECK.length}` }),
-    /* @__PURE__ */ jsx25(SessionProgress, { value: index / DECK.length }),
+    /* @__PURE__ */ jsx25(AppHeader, { title: "Kana practice", subtitle: `${index + 1} of ${DECK.length}`, progress: index / DECK.length }),
     /* @__PURE__ */ jsxs17(Screen, { children: [
       /* @__PURE__ */ jsxs17("div", { className: "flex flex-col items-center gap-4 rounded-2xl border border-transparent bg-accent-ai-bg p-6 shadow-card", children: [
         /* @__PURE__ */ jsx25("p", { className: "text-body-sm text-fg-subtle", children: "Which sound is this?" }),
@@ -1287,6 +1287,7 @@ function DrillScreen({
         {
           choice,
           outcome: outcomeFor(choice),
+          answered: picked !== null,
           onPick: () => pick(choice)
         },
         choice
@@ -1300,8 +1301,7 @@ function KeyboardScreen({ onDone }) {
   const [script, setScript] = useState3("hiragana");
   const [section, setSection] = useState3("basic");
   return /* @__PURE__ */ jsxs17(Fragment4, { children: [
-    /* @__PURE__ */ jsx25(AppHeader, { title: "Kana practice", subtitle: "write it \xB7 2 of 4" }),
-    /* @__PURE__ */ jsx25(SessionProgress, { value: 0.25 }),
+    /* @__PURE__ */ jsx25(AppHeader, { title: "Kana practice", subtitle: "write it \xB7 2 of 4", progress: 0.25 }),
     /* @__PURE__ */ jsxs17(Screen, { children: [
       /* @__PURE__ */ jsxs17("div", { className: "flex flex-col items-center gap-3 rounded-2xl border border-transparent bg-accent-ai-bg p-6 shadow-card", children: [
         /* @__PURE__ */ jsx25("p", { className: "text-body-sm text-fg-subtle", children: "Write the kana for" }),
@@ -1333,8 +1333,7 @@ function KeyboardScreen({ onDone }) {
 function ResultScreen({ marks, onAgain }) {
   const recalled = marks.filter((m) => m === "recalled").length;
   return /* @__PURE__ */ jsxs17(Fragment4, { children: [
-    /* @__PURE__ */ jsx25(AppHeader, { title: "Round complete", subtitle: `${DECK.length} kana` }),
-    /* @__PURE__ */ jsx25(SessionProgress, { value: 1 }),
+    /* @__PURE__ */ jsx25(AppHeader, { title: "Round complete", subtitle: `${DECK.length} kana`, progress: 1 }),
     /* @__PURE__ */ jsxs17(Screen, { children: [
       /* @__PURE__ */ jsx25(
         ScoreCard,

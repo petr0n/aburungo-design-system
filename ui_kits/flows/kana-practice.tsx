@@ -28,7 +28,7 @@ import {
 } from '../../src/components'
 import type { AnswerOutcome, KanaCell, KanaScript, KanaSection } from '../../src/components'
 import { HIRAGANA_BASIC, KATAKANA_BASIC, KANA_PRACTICE_CARDS } from '../../src/lib'
-import { FlowPage, Phone, Screen, SessionProgress, fromUrl } from './shell'
+import { FlowPage, Phone, Screen, fromUrl } from './shell'
 import type { FlowState } from './shell'
 
 // ─── Content ───────────────────────────────────────────────────────────────
@@ -85,8 +85,7 @@ function ChartScreen({ onPractise }: { onPractise: () => void }) {
 
   return (
     <>
-      <AppHeader title="Kana" subtitle={`${learnedInScript} of ${total} settled`} />
-      <SessionProgress value={learnedInScript / total} />
+      <AppHeader title="Kana" subtitle={`${learnedInScript} of ${total} settled`} progress={learnedInScript / total} />
       <Screen>
         <div className="flex items-center justify-between gap-3">
           {/* Script toggle. Kept on the page ground rather than in the header —
@@ -160,10 +159,13 @@ function ChartScreen({ onPractise }: { onPractise: () => void }) {
 function ChoiceTile({
   choice,
   outcome,
+  answered,
   onPick,
 }: {
   choice: string
   outcome: AnswerOutcome | null
+  /** Whether the question is settled — the tiles that are neither go quiet. */
+  answered: boolean
   onPick: () => void
 }) {
   const state =
@@ -171,7 +173,12 @@ function ChoiceTile({
       ? 'border-success-border bg-success-bg text-success-fg'
       : outcome === 'review'
         ? 'border-error-border bg-error-bg text-error-fg'
-        : 'border-border bg-surface text-fg active:bg-surface-2'
+        : answered
+          // Neither the answer nor the pick. Kept legible rather than faded
+          // out — it is still one of the options that was on offer — but
+          // muted, because at full strength it read as still tappable.
+          ? 'border-border bg-surface text-fg-subtle'
+          : 'border-border bg-surface text-fg active:bg-surface-2'
 
   return (
     <button
@@ -235,8 +242,7 @@ function DrillScreen({
 
   return (
     <>
-      <AppHeader title="Kana practice" subtitle={`${index + 1} of ${DECK.length}`} />
-      <SessionProgress value={index / DECK.length} />
+      <AppHeader title="Kana practice" subtitle={`${index + 1} of ${DECK.length}`} progress={index / DECK.length} />
       <Screen>
         {/* The kana is the whole content of this card, so it takes the Ai
             ground the phrase card now uses — same rule, same reason. */}
@@ -254,6 +260,7 @@ function DrillScreen({
               key={choice}
               choice={choice}
               outcome={outcomeFor(choice)}
+              answered={picked !== null}
               onPick={() => pick(choice)}
             />
           ))}
@@ -278,8 +285,7 @@ function KeyboardScreen({ onDone }: { onDone: () => void }) {
 
   return (
     <>
-      <AppHeader title="Kana practice" subtitle="write it · 2 of 4" />
-      <SessionProgress value={0.25} />
+      <AppHeader title="Kana practice" subtitle="write it · 2 of 4" progress={0.25} />
 
       <Screen>
         <div className="flex flex-col items-center gap-3 rounded-2xl border border-transparent bg-accent-ai-bg p-6 shadow-card">
@@ -324,8 +330,7 @@ function ResultScreen({ marks, onAgain }: { marks: AnswerOutcome[]; onAgain: () 
 
   return (
     <>
-      <AppHeader title="Round complete" subtitle={`${DECK.length} kana`} />
-      <SessionProgress value={1} />
+      <AppHeader title="Round complete" subtitle={`${DECK.length} kana`} progress={1} />
       <Screen>
         <ScoreCard
           correct={recalled}
