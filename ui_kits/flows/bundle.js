@@ -217,9 +217,9 @@ var TRACK = {
   inverse: "bg-progress-track-on-inverse"
 };
 function clamp01(v) {
+  if (!Number.isFinite(v)) return 0;
   if (v < 0) return 0;
   if (v > 1) return 1;
-  if (Number.isNaN(v)) return 0;
   return v;
 }
 function ProgressBar(props) {
@@ -612,7 +612,7 @@ function KanaKeyboard({
 }) {
   const [openGroup, setOpenGroup] = useState(null);
   const rows = GRID[script][section];
-  const groups = rows.map((row) => row.filter((c) => c !== null));
+  const groups = rows.map((row) => row.filter((c) => c !== null)).filter((group) => group.length > 0);
   const open = openGroup !== null ? groups[openGroup] : void 0;
   function reset(change) {
     return (value) => {

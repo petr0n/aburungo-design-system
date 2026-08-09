@@ -196,7 +196,17 @@
   --color-error-press:    var(--color-akane-200);
 
   /* ── Progress. Fill is Rokushō; a completed bar caps with Ōgon. ───── */
-  --color-progress-track:    #EFEDE5;
+  /* stone-0, not stone-100. Rokushō 500 on #EFEDE5 is 2.77:1, under the 3:1
+     SC 1.4.11 wants for a non-text indicator; on #FFFDF8 it is 3.19:1.
+     Fixed on the TRACK because the fill is the palette author's decision —
+     500 was unlocked, dulled to 600, and deliberately restored. Lightening
+     the track clears the gate without touching a brand value, and it is the
+     same "lighter lifts" move the system already uses for cards on the page.
+     Trade: on a stone-0 card the track itself is invisible. In this product
+     the bar lives in the Sumi band on the inverse track, so that path is
+     API-surface rather than a screen we ship. Raising the fill to Rokushō 600
+     (3.87:1) is the alternative if the author prefers it. */
+  --color-progress-track:    var(--color-stone-0);
   /* The track on inverse chrome. Rokushō over the Ōgon hairline was the
      tempting version — progress filling the brand rule — but it scores
      1.55:1, half of the 3:1 a non-text indicator needs. stone-700 clears it

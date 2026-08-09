@@ -85,7 +85,12 @@ export function KanaKeyboard({
   const [openGroup, setOpenGroup] = useState<number | null>(null)
 
   const rows = GRID[script][section]
-  const groups = rows.map((row) => row.filter((c): c is string => c !== null))
+  // Empty rows are dropped rather than indexed into. Today's data has none,
+  // but `group[0]` on an empty row yields an undefined React key, an
+  // "undefined row" aria-label and a blank key face — all silent.
+  const groups = rows
+    .map((row) => row.filter((c): c is string => c !== null))
+    .filter((group) => group.length > 0)
   const open = openGroup !== null ? groups[openGroup] : undefined
 
   // Switching script or section invalidates the open group's index.

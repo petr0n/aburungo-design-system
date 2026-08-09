@@ -24,10 +24,15 @@ const TRACK: Record<'default' | 'inverse', string> = {
   inverse: 'bg-progress-track-on-inverse',
 }
 
+/**
+ * `Number.isFinite` rather than an `isNaN` check: it also rejects `undefined`,
+ * `null` and non-numbers, which the type says cannot arrive but the untyped
+ * JSX mirror could pass — and did, rendering `width: NaN%`.
+ */
 function clamp01(v: number): number {
+  if (!Number.isFinite(v)) return 0
   if (v < 0) return 0
   if (v > 1) return 1
-  if (Number.isNaN(v)) return 0
   return v
 }
 

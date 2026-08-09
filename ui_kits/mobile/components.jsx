@@ -144,7 +144,9 @@ function AudioButton({ state = 'idle', onPress, label = 'Play audio' }) {
 }
 
 function ProgressBar({ value, label = 'Session progress', tone = 'default' }) {
-  const v = Number.isNaN(value) ? 0 : Math.min(1, Math.max(0, value));
+  // Matches clamp01 in the real component: isFinite rejects undefined and
+  // null too, which `Number.isNaN` does not — that gap rendered width: NaN%.
+  const v = !Number.isFinite(value) ? 0 : Math.min(1, Math.max(0, value));
   const tracks = { default: 'bg-progress-track', inverse: 'bg-progress-track-on-inverse' };
   return (
     <div role="progressbar" aria-label={label} aria-valuemin={0} aria-valuemax={1} aria-valuenow={v}
