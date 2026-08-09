@@ -143,13 +143,14 @@ function AudioButton({ state = 'idle', onPress, label = 'Play audio' }) {
   );
 }
 
-function ProgressBar({ value, label = 'Session progress' }) {
-  const v = Math.max(0, Math.min(1, value || 0));
+function ProgressBar({ value, label = 'Session progress', tone = 'default' }) {
+  const v = Number.isNaN(value) ? 0 : Math.min(1, Math.max(0, value));
+  const tracks = { default: 'bg-progress-track', inverse: 'bg-progress-track-on-inverse' };
   return (
     <div role="progressbar" aria-label={label} aria-valuemin={0} aria-valuemax={1} aria-valuenow={v}
-      className="relative h-1 w-full overflow-hidden rounded-full bg-surface-2">
+         className={`relative h-1 w-full overflow-hidden rounded-full ${tracks[tone]}`}>
       <div className="h-full bg-progress-fill transition-[width] duration-200 ease-out"
-        style={{ width: `${(v * 100).toFixed(1)}%` }}/>
+           style={{ width: `${(v * 100).toFixed(2)}%` }}/>
     </div>
   );
 }
@@ -219,24 +220,29 @@ function KanaGrid({ rows, onSelect, onBackspace }) {
 
 // ─── Layout / state components ────────────────────────────────────────────────
 
-function AppHeader({ title, subtitle, left, right, mark = true }) {
+function AppHeader({ title, subtitle, left, right, mark = true, progress }) {
   const showMark = mark && left === undefined;
   return (
     <header className="border-b-2 border-rule-on-inverse bg-inverse">
       <div className="mx-auto grid min-h-[56px] w-full max-w-3xl grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-2">
         <div className="flex items-center">
-          {showMark ? (
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent font-jp text-body font-bold text-accent-fg" aria-hidden="true">ア</span>
-          ) : left}
+          {showMark
+            ? <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent font-jp text-body font-bold text-accent-fg" aria-hidden="true">ア</span>
+            : left}
         </div>
         <div className="text-center">
           <h1 className="text-heading-sm font-semibold text-fg-inverse">{title}</h1>
-          {subtitle !== undefined && subtitle !== '' && (
-            <p className="text-caption text-fg-on-inverse-2">{subtitle}</p>
-          )}
+          {subtitle ? <p className="text-caption text-fg-on-inverse-2">{subtitle}</p> : null}
         </div>
         <div className="flex items-center justify-end">{right}</div>
       </div>
+      {/* Inside the band: flush below, the bar sits against the Ogon hairline
+          and the two read as one two-tone rule. */}
+      {progress !== undefined && (
+        <div className="mx-auto w-full max-w-3xl px-4 pb-2">
+          <ProgressBar value={progress} tone="inverse"/>
+        </div>
+      )}
     </header>
   );
 }

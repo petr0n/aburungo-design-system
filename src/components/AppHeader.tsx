@@ -10,6 +10,7 @@
  * product is allowed to be emphatic, and everything below it stays calm.
  */
 import type { ReactNode } from 'react'
+import { ProgressBar } from './ProgressBar'
 
 type Props = {
   title: string
@@ -19,9 +20,18 @@ type Props = {
   right?: ReactNode
   /** Show the ア hanko at the left. Off when `left` is supplied. */
   mark?: boolean
+  /**
+   * Session progress, 0..1. Rendered inside the band.
+   *
+   * It lives here rather than under the header because a bar dropped flush
+   * below the band sits directly against the Ōgon hairline, and the two read
+   * as one two-tone rule. Inside, the band's own padding separates them and no
+   * call site has to remember a spacer.
+   */
+  progress?: number
 }
 
-export function AppHeader({ title, subtitle, left, right, mark = true }: Props) {
+export function AppHeader({ title, subtitle, left, right, mark = true, progress }: Props) {
   const showMark = mark && left === undefined
 
   return (
@@ -49,6 +59,12 @@ export function AppHeader({ title, subtitle, left, right, mark = true }: Props) 
 
         <div className="flex items-center justify-end">{right}</div>
       </div>
+
+      {progress !== undefined && (
+        <div className="mx-auto w-full max-w-3xl px-4 pb-2">
+          <ProgressBar value={progress} tone="inverse" />
+        </div>
+      )}
     </header>
   )
 }
