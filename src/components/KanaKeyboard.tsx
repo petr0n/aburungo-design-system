@@ -53,8 +53,13 @@ const GRID: Record<KanaScript, Record<KanaSection, readonly KanaRow[]>> = {
   katakana: { basic: KATAKANA_BASIC, voiced: KATAKANA_VOICED, small: KATAKANA_SMALL },
 }
 
-/** Chrome buttons on the Rokushō ground: script and section toggles. */
-const TOGGLE = 'h-11 min-h-[44px] rounded-lg px-3 font-jp text-body-sm font-medium transition-colors ' +
+// Chrome buttons on the Rokushō ground: script and section toggles.
+//
+// `whitespace-nowrap` and tight padding because these have to survive a narrow
+// container. Inside a Card the keyboard gets ~310px rather than the ~360px it
+// has standalone, and five toggles at `px-3` wrapped their labels — "ひら"
+// stacking to two lines — which silently doubled the row's height.
+const TOGGLE = 'h-11 min-h-[44px] shrink-0 whitespace-nowrap rounded-lg px-2 font-jp text-caption font-medium transition-colors ' +
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-on-inverse focus-visible:ring-offset-2 focus-visible:ring-offset-keyboard-bg'
 const TOGGLE_ON = 'bg-focus text-inverse-on-ogon'
 const TOGGLE_OFF = 'border border-key-bg/40 text-key-bg active:bg-rokusho-800'

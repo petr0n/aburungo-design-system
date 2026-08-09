@@ -41,11 +41,23 @@ build step first is a preview nobody looks at.
 |---|---|---|
 | `flashcard-round.tsx` | `FlashcardPage.tsx` | built |
 | `kana-practice.tsx` | `KanaPage.tsx`, `KanaPracticePage.tsx` | built |
+| `fill-blank.tsx` | `FillBlankCard.tsx` (the `LearnPage` review step) | built |
 
 `shell.tsx` is the harness around them — phone frame, state rail, legend.
 Nothing in it ships.
 
 Session start, pronunciation, and progress are still to come.
+
+**`?flow=fill`**
+
+| URL | State |
+|---|---|
+| `?state=romaji` | typed, with the live kana preview |
+| `?state=kana` | the whole card plus the keyboard — the fit test |
+| `?state=system` | device IME, with the how-to hint |
+| `?state=speak` | `VoiceInput`, on a screen for the first time |
+| `?state=recalled` / `review` | `AnswerResult` in its real context |
+| `?state=loading` / `empty` / `error` | the three non-happy states |
 
 ## Deep links
 

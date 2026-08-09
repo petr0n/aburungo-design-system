@@ -416,7 +416,7 @@ function KanaKeyboard({ script, section, onScriptChange, onSectionChange, onKey,
           {['hiragana', 'katakana'].map((s) => (
             <button key={s} type="button" onClick={() => onScriptChange(s)}
               className={[
-                'h-9 rounded-lg px-3 font-jp text-sm font-medium transition-colors',
+                'h-11 min-h-[44px] shrink-0 whitespace-nowrap rounded-lg px-2 font-jp text-caption font-medium transition-colors',
                 script === s
                   ? 'bg-focus text-inverse-on-ogon'
                   : 'border border-key-bg/40 text-key-bg active:bg-rokusho-800',
@@ -429,7 +429,7 @@ function KanaKeyboard({ script, section, onScriptChange, onSectionChange, onKey,
           {['basic', 'voiced', 'small'].map((sec) => (
             <button key={sec} type="button" onClick={() => onSectionChange(sec)}
               className={[
-                'h-9 rounded-lg px-3 font-jp text-sm font-medium transition-colors',
+                'h-11 min-h-[44px] shrink-0 whitespace-nowrap rounded-lg px-2 font-jp text-caption font-medium transition-colors',
                 section === sec
                   ? 'bg-focus text-inverse-on-ogon'
                   : 'border border-key-bg/40 text-key-bg active:bg-rokusho-800',
@@ -646,10 +646,7 @@ function FillInput({
         </div>
       )}
 
-      <button type="button" onClick={onSubmit} disabled={!canSubmit}
-        className="h-12 w-full rounded-xl bg-fg text-body font-medium text-fg-inverse transition-colors hover:bg-fg-muted disabled:opacity-40 active:bg-fg-muted">
-        Check answer
-      </button>
+      <Button fullWidth disabled={!canSubmit} onClick={onSubmit}>Check answer</Button>
     </div>
   );
 }

@@ -526,6 +526,7 @@ Mirror the 11 pages that already exist in `../aburungo/src/pages/` rather than i
 | Session start | `LearnPage`, `PracticePage` | entry, unit select, session config |
 | **Flashcard round ✅ built** | `FlashcardPage` | prompt, reveal, self-grade, round summary + loading / empty / error |
 | **Kana practice ✅ built** | `KanaPage`, `KanaPracticePage` | chart, drill, answered, keyboard entry, result + loading / empty / error |
+| **Fill in the blank ✅ built** | `FillBlankCard` / `GrammarClozeCard`, the `LearnPage` review step | romaji, kana keyboard, JP keyboard, speak, both judgments + loading / empty / error |
 | Pronunciation | `ConversationPage` | idle, recording, processing, scored, retry |
 | Progress | `ProfilePage` | overview, per-unit detail |
 
@@ -546,6 +547,17 @@ show. Four, from one flow:
 Two of these are §3.0 work the component pass has not reached yet, which is the
 argument for building flows early rather than last.
 
+### The plan's five flows miss the one that matters most
+
+`FillInput` is the component the app actually imports, through a wrapper, and it
+appears in **none** of the five rows above. It lives in `FillBlankCard` and
+`GrammarClozeCard` — the review step inside `LearnPage`, which the table folds
+into "Session start" and describes as *entry, unit select, session config*.
+
+So a **sixth flow** was added. It is not padding: it is the only surface that
+renders `FillInput`, `VoiceInput` and `AnswerResult`-in-context, and the only
+one that could test whether the rewritten keyboard actually fits its real host.
+
 ### What the kana flow found (2026-08-08)
 
 | # | Finding | Status |
@@ -559,6 +571,16 @@ argument for building flows early rather than last.
 
 - **The Rokushō keyboard is right.** Sumi-iro band at the top, Rokushō slab at the bottom, warm stone between: the screen has two coloured fields and neither reads as a second near-black. The v3 default of a Sumi-iro keyboard would have.
 - **The maru boundary holds.** ○ / ✕ on the choice tiles are per-answer and vanish on `Next`; the result screen's mark row is per-round and vanishes with the round. Nothing survives onto a profile, which is the §3.0 line.
+
+---
+
+### What the fill-in-the-blank flow found (2026-08-09)
+
+| # | Finding | Status |
+|---|---|---|
+| 9 | **The keyboard rewrite was not enough on its own.** Finding 5 was justified by "`FillInput` cannot fit at any viewport", and the fix was shipped without ever rendering `FillInput`. Measured here, the card still ran **54px past a 390×844 phone** — better than the ~390px before, but scrolling. The cause was not the keyboard: the card stacked **two segmented controls**, Type/Speak above `FillInput`'s own Romaji/Kana/JP picker, before a learner could type | **fixed** at the call site — Type/Speak moved onto the card header. All nine states now measure `content == viewport`. **Open for the component:** whether the two pickers should merge into one four-way control, which is a product decision rather than a layout one |
+| 10 | **`KanaKeyboard`'s toggle row wrapped in a narrow container.** Inside a `Card` the keyboard gets ~310px rather than the ~360px it has standalone; five toggles at `px-3` wrapped their labels — "ひら" stacking to two lines — silently doubling the row from 44px to 88px | **fixed** — `whitespace-nowrap`, `px-2`, caption type. A component that is only ever tested at full width hides this |
+| 11 | **`FillInput`'s submit was off-palette.** A hand-rolled button on `bg-fg` — Sumi-iro, a v2 holdover — while every other primary action in the product is Ai-iro. Two different "primary" buttons could appear on one screen | **fixed** — it uses `Button` now, which is also one less hand-rolled control |
 
 ---
 
