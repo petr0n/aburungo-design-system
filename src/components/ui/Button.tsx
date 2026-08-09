@@ -14,8 +14,22 @@ import type { ButtonHTMLAttributes, ReactNode } from 'react'
 type ButtonVariant = 'primary' | 'secondary' | 'ghost'
 type ButtonSize = 'md' | 'sm'
 
+/**
+ * Semantic tint, for controls whose meaning is an outcome rather than a rank.
+ *
+ * `secondary` is Rokushō — the same colour the system uses for correctness —
+ * so a control meaning "I got this wrong" could only be built by overriding it
+ * at the call site, and every call site had to remember. A ✕ on a
+ * success-green field says two things at once.
+ *
+ * Applies to `secondary` only: `primary` is Ai-iro by definition, and `ghost`
+ * has no chrome to tint.
+ */
+type ButtonTone = 'neutral' | 'success' | 'error'
+
 type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'className'> & {
   variant?: ButtonVariant
+  tone?: ButtonTone
   size?: ButtonSize
   loading?: boolean
   fullWidth?: boolean
@@ -33,6 +47,15 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
     'bg-transparent text-fg-muted active:bg-surface-2 disabled:opacity-50',
 }
 
+/** Replaces `secondary`'s chrome wholesale — never stacked on top of it, since
+ *  two `bg-*` utilities have equal specificity and stylesheet order decides. */
+const TONE_CLASSES: Record<Exclude<ButtonTone, 'neutral'>, string> = {
+  success:
+    'border border-success-border bg-success-bg text-success-fg active:bg-success-press disabled:opacity-50',
+  error:
+    'border border-error-border bg-error-bg text-error-fg active:bg-error-press disabled:opacity-50',
+}
+
 const SIZE_CLASSES: Record<ButtonSize, string> = {
   md: 'min-h-[44px] h-12 px-5 text-body',
   sm: 'min-h-[44px] h-11 px-4 text-body-sm',
@@ -41,6 +64,7 @@ const SIZE_CLASSES: Record<ButtonSize, string> = {
 export function Button(props: ButtonProps) {
   const {
     variant = 'primary',
+    tone = 'neutral',
     size = 'md',
     loading = false,
     fullWidth = false,
@@ -54,7 +78,9 @@ export function Button(props: ButtonProps) {
   const classes = [
     'inline-flex items-center justify-center gap-2 rounded-lg font-medium select-none transition-colors',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
-    VARIANT_CLASSES[variant],
+    tone !== 'neutral' && variant === 'secondary'
+      ? TONE_CLASSES[tone]
+      : VARIANT_CLASSES[variant],
     SIZE_CLASSES[size],
     fullWidth ? 'w-full' : '',
     className ?? '',

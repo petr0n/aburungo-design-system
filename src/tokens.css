@@ -189,6 +189,11 @@
   --color-error-500:   #D72E2E;
   --color-error-border: var(--color-akane-300);
   --color-success-border: var(--color-rokusho-300);
+  /* Press states for feedback-toned controls. `secondary` presses to
+     `surface-2`, a warm grey that drains a tinted button rather than
+     deepening it. */
+  --color-success-press:  var(--color-rokusho-200);
+  --color-error-press:    var(--color-akane-200);
 
   /* ── Progress. Fill is Rokushō; a completed bar caps with Ōgon. ───── */
   --color-progress-track:    #EFEDE5;

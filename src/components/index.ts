@@ -42,6 +42,7 @@ export type { FillInputProps, InputMode } from './FillInput'
 export { Maru } from './Maru'
 export type { AnswerOutcome } from './Maru'
 export { AnswerResult } from './AnswerResult'
+export { GradePair } from './GradePair'
 
 // Iconography (named exports — tree-shake by import)
 export {
