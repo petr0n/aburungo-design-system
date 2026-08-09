@@ -726,7 +726,7 @@ function VoiceInput({ status, onPress, disabled, errorMessage }) {
   const isProcessing = status === "processing";
   return /* @__PURE__ */ jsxs10("div", { className: "flex flex-col items-center gap-3", children: [
     /* @__PURE__ */ jsxs10("div", { className: "relative flex items-center justify-center", children: [
-      isListening && /* @__PURE__ */ jsx18("span", { className: "absolute inline-flex h-16 w-16 animate-ping rounded-full bg-error-500 opacity-30" }),
+      isListening && /* @__PURE__ */ jsx18("span", { className: "absolute inline-flex h-16 w-16 animate-ping rounded-full bg-recording opacity-30" }),
       /* @__PURE__ */ jsx18(
         "button",
         {
@@ -736,7 +736,7 @@ function VoiceInput({ status, onPress, disabled, errorMessage }) {
           "aria-label": isListening ? "Stop listening" : "Start voice input",
           className: [
             "relative z-10 flex h-14 w-14 items-center justify-center rounded-full transition-colors",
-            isListening ? "bg-error-500 text-fg-inverse active:bg-error-fg" : "border-2 border-border-strong bg-bg text-fg-muted active:bg-surface-2",
+            isListening ? "bg-recording text-recording-fg active:bg-rokusho-600" : "border-2 border-border-strong bg-bg text-fg-muted active:bg-surface-2",
             disabled ?? isProcessing ? "opacity-50" : ""
           ].join(" "),
           children: isProcessing ? /* @__PURE__ */ jsx18(SpinnerIcon, { className: "h-5 w-5 animate-spin" }) : /* @__PURE__ */ jsx18(MicIcon, { className: "h-6 w-6" })
@@ -1506,6 +1506,7 @@ function ChannelToggle({
 function InputScreen({
   startMode,
   startChannel,
+  startVoice = "idle",
   onSubmit
 }) {
   const [channel, setChannel] = useState3(startChannel);
@@ -1514,7 +1515,7 @@ function InputScreen({
   const [kana, setKana] = useState3("");
   const [script, setScript] = useState3("hiragana");
   const [section, setSection] = useState3("basic");
-  const [voice, setVoice] = useState3("idle");
+  const [voice, setVoice] = useState3(startVoice);
   const [hint, setHint] = useState3(false);
   const [audio, setAudio] = useState3("idle");
   const { converted, pending } = convertRomaji(romaji);
@@ -1581,13 +1582,22 @@ var STATES2 = [
   { id: "romaji", label: "Romaji", note: "typed, with the live kana preview" },
   { id: "kana", label: "Kana keyboard", note: "the whole card plus the keyboard \u2014 the fit test" },
   { id: "system", label: "JP keyboard", note: "device IME, with the how-to hint" },
-  { id: "speak", label: "Speak", note: "VoiceInput, on a screen for the first time" },
+  { id: "speak", label: "Speak \xB7 idle", note: "tap to start" },
+  { id: "listening", label: "Speak \xB7 recording", note: "was Akane \u2014 the error colour \u2014 now its own role" },
+  { id: "processing", label: "Speak \xB7 processing", note: "transcribing" },
+  { id: "voice-error", label: "Speak \xB7 failed", note: "the state recording used to be confused with" },
   { id: "recalled", label: "Recalled", note: "AnswerResult in its real context" },
   { id: "review", label: "Not quite", note: "with the answer the learner gave" },
   { id: "loading", label: "Loading", note: "card being fetched" },
   { id: "empty", label: "Empty", note: "nothing due" },
   { id: "error", label: "Error", note: "load failed" }
 ];
+var VOICE = {
+  speak: "idle",
+  listening: "listening",
+  processing: "processing",
+  "voice-error": "error"
+};
 var AS_MODE = {
   romaji: "romaji",
   kana: "kana",
@@ -1613,7 +1623,15 @@ function FillBlank() {
       onSelect: go,
       children: /* @__PURE__ */ jsxs17(Phone, { children: [
         inputMode !== void 0 && /* @__PURE__ */ jsx25(InputScreen, { startMode: inputMode, startChannel: "text", onSubmit: () => go("review") }),
-        state === "speak" && /* @__PURE__ */ jsx25(InputScreen, { startMode: "romaji", startChannel: "voice", onSubmit: () => go("recalled") }),
+        VOICE[state] !== void 0 && /* @__PURE__ */ jsx25(
+          InputScreen,
+          {
+            startMode: "romaji",
+            startChannel: "voice",
+            startVoice: VOICE[state],
+            onSubmit: () => go("recalled")
+          }
+        ),
         state === "recalled" && /* @__PURE__ */ jsx25(CheckedScreen2, { outcome: "recalled", onNext: () => go("romaji") }),
         state === "review" && /* @__PURE__ */ jsx25(CheckedScreen2, { outcome: "review", onNext: () => go("romaji") }),
         state === "loading" && /* @__PURE__ */ jsxs17(Fragment4, { children: [

@@ -117,10 +117,12 @@ function ChannelToggle({
 function InputScreen({
   startMode,
   startChannel,
+  startVoice = 'idle',
   onSubmit,
 }: {
   startMode: InputMode
   startChannel: 'text' | 'voice'
+  startVoice?: VoiceInputStatus
   onSubmit: () => void
 }) {
   const [channel, setChannel] = useState<'text' | 'voice'>(startChannel)
@@ -129,7 +131,7 @@ function InputScreen({
   const [kana, setKana] = useState('')
   const [script, setScript] = useState<KanaScript>('hiragana')
   const [section, setSection] = useState<KanaSection>('basic')
-  const [voice, setVoice] = useState<VoiceInputStatus>('idle')
+  const [voice, setVoice] = useState<VoiceInputStatus>(startVoice)
   const [hint, setHint] = useState(false)
   const [audio, setAudio] = useState<'idle' | 'loading' | 'playing'>('idle')
 
@@ -215,7 +217,8 @@ function CheckedScreen({ outcome, onNext }: { outcome: AnswerOutcome; onNext: ()
 // ─── Host ──────────────────────────────────────────────────────────────────
 
 type StateId =
-  | 'romaji' | 'kana' | 'system' | 'speak'
+  | 'romaji' | 'kana' | 'system'
+  | 'speak' | 'listening' | 'processing' | 'voice-error'
   | 'recalled' | 'review'
   | 'loading' | 'empty' | 'error'
 
@@ -223,13 +226,23 @@ const STATES: readonly FlowState<StateId>[] = [
   { id: 'romaji', label: 'Romaji', note: 'typed, with the live kana preview' },
   { id: 'kana', label: 'Kana keyboard', note: 'the whole card plus the keyboard — the fit test' },
   { id: 'system', label: 'JP keyboard', note: 'device IME, with the how-to hint' },
-  { id: 'speak', label: 'Speak', note: 'VoiceInput, on a screen for the first time' },
+  { id: 'speak', label: 'Speak · idle', note: 'tap to start' },
+  { id: 'listening', label: 'Speak · recording', note: 'was Akane — the error colour — now its own role' },
+  { id: 'processing', label: 'Speak · processing', note: 'transcribing' },
+  { id: 'voice-error', label: 'Speak · failed', note: 'the state recording used to be confused with' },
   { id: 'recalled', label: 'Recalled', note: 'AnswerResult in its real context' },
   { id: 'review', label: 'Not quite', note: 'with the answer the learner gave' },
   { id: 'loading', label: 'Loading', note: 'card being fetched' },
   { id: 'empty', label: 'Empty', note: 'nothing due' },
   { id: 'error', label: 'Error', note: 'load failed' },
 ]
+
+const VOICE: Partial<Record<StateId, VoiceInputStatus>> = {
+  speak: 'idle',
+  listening: 'listening',
+  processing: 'processing',
+  'voice-error': 'error',
+}
 
 const AS_MODE: Partial<Record<StateId, InputMode>> = {
   romaji: 'romaji',
@@ -262,8 +275,13 @@ export function FillBlank() {
         {inputMode !== undefined && (
           <InputScreen startMode={inputMode} startChannel="text" onSubmit={() => go('review')} />
         )}
-        {state === 'speak' && (
-          <InputScreen startMode="romaji" startChannel="voice" onSubmit={() => go('recalled')} />
+        {VOICE[state] !== undefined && (
+          <InputScreen
+            startMode="romaji"
+            startChannel="voice"
+            startVoice={VOICE[state]}
+            onSubmit={() => go('recalled')}
+          />
         )}
         {state === 'recalled' && <CheckedScreen outcome="recalled" onNext={() => go('romaji')} />}
         {state === 'review' && <CheckedScreen outcome="review" onNext={() => go('romaji')} />}

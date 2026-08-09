@@ -527,7 +527,7 @@ Mirror the 11 pages that already exist in `../aburungo/src/pages/` rather than i
 | **Flashcard round ✅ built** | `FlashcardPage` | prompt, reveal, self-grade, round summary + loading / empty / error |
 | **Kana practice ✅ built** | `KanaPage`, `KanaPracticePage` | chart, drill, answered, keyboard entry, result + loading / empty / error |
 | **Fill in the blank ✅ built** | `FillBlankCard` / `GrammarClozeCard`, the `LearnPage` review step | romaji, kana keyboard, JP keyboard, speak, both judgments + loading / empty / error |
-| Pronunciation | `ConversationPage` | idle, recording, processing, scored, retry |
+| ~~Pronunciation~~ **Conversation** | `ConversationPage` | **The row was wrong.** `ConversationPage` is an LLM chat at a JLPT level — `setup` → `chat`, streaming messages. There is no pronunciation scoring anywhere in the app, and the five states listed here do not exist. `VoiceInput`'s real home is the fill-blank card's Speak channel. Real screens: level select, empty thread, streaming reply, send failure |
 | Progress | `ProfilePage` | overview, per-unit detail |
 
 Each flow ships **all five states** — loading, empty, error, success, in-progress — not just the happy path. That's `/impeccable harden` + `onboard` territory, and it's where v1's "strengthen stateful experiences" bullet becomes checkable: 5 flows × 5 states = 25 mockups, each either present or not.
@@ -581,6 +581,8 @@ one that could test whether the rewritten keyboard actually fits its real host.
 | 9 | **The keyboard rewrite was not enough on its own.** Finding 5 was justified by "`FillInput` cannot fit at any viewport", and the fix was shipped without ever rendering `FillInput`. Measured here, the card still ran **54px past a 390×844 phone** — better than the ~390px before, but scrolling. The cause was not the keyboard: the card stacked **two segmented controls**, Type/Speak above `FillInput`'s own Romaji/Kana/JP picker, before a learner could type | **fixed** at the call site — Type/Speak moved onto the card header. All nine states now measure `content == viewport`. **Open for the component:** whether the two pickers should merge into one four-way control, which is a product decision rather than a layout one |
 | 10 | **`KanaKeyboard`'s toggle row wrapped in a narrow container.** Inside a `Card` the keyboard gets ~310px rather than the ~360px it has standalone; five toggles at `px-3` wrapped their labels — "ひら" stacking to two lines — silently doubling the row from 44px to 88px | **fixed** — `whitespace-nowrap`, `px-2`, caption type. A component that is only ever tested at full width hides this |
 | 11 | **`FillInput`'s submit was off-palette.** A hand-rolled button on `bg-fg` — Sumi-iro, a v2 holdover — while every other primary action in the product is Ai-iro. Two different "primary" buttons could appear on one screen | **fixed** — it uses `Button` now, which is also one less hand-rolled control |
+
+| 12 | **`VoiceInput` dressed recording in Akane.** `bg-error-500` for the mic fill and the `animate-ping` halo — the colour this palette reserves for the mark and for errors. The one moment the app is working correctly looked like the moment it failed, and `listening` was indistinguishable from `error` | **fixed** — new `--color-recording` role on Rokushō, which already carries in-progress. Every voice state is now deep-linkable in the fill-blank flow, so the two can be compared side by side rather than assumed distinct |
 
 ---
 

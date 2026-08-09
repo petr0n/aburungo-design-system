@@ -90,7 +90,7 @@ function IconButton({ 'aria-label': ariaLabel, variant = 'default', shape = 'rou
   const variants = {
     default: 'border border-border bg-bg text-fg-muted active:bg-surface-2',
     filled: 'bg-action text-action-fg active:bg-action-press',
-    danger: 'bg-error-500 text-fg-inverse active:bg-error-fg',
+    danger: 'bg-recording text-recording-fg active:bg-rokusho-600',
   };
   return (
     <button
@@ -480,7 +480,7 @@ function VoiceInput({ status, onPress, disabled, errorMessage }) {
     <div className="flex flex-col items-center gap-3">
       <div className="relative flex items-center justify-center">
         {isListening && (
-          <span className="absolute inline-flex h-16 w-16 animate-ping rounded-full bg-error-500 opacity-30"/>
+          <span className="absolute inline-flex h-16 w-16 animate-ping rounded-full bg-recording opacity-30"/>
         )}
         <button type="button" onClick={onPress}
           disabled={disabled || isProcessing}
@@ -488,7 +488,7 @@ function VoiceInput({ status, onPress, disabled, errorMessage }) {
           className={[
             'relative z-10 flex h-14 w-14 items-center justify-center rounded-full transition-colors',
             isListening
-              ? 'bg-error-500 text-fg-inverse active:bg-error-fg'
+              ? 'bg-recording text-recording-fg active:bg-rokusho-600'
               : 'border-2 border-border-strong bg-bg text-fg-muted active:bg-surface-2',
             (disabled || isProcessing) ? 'opacity-50' : '',
           ].join(' ')}>

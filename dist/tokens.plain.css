@@ -102,6 +102,8 @@
   --color-error-fg: var(--color-akane-800);
   --color-error-500: #D72E2E;
   --color-error-border: var(--color-akane-300);
+  --color-recording: var(--color-rokusho-500);
+  --color-recording-fg: var(--color-stone-0);
   --color-success-border: var(--color-rokusho-300);
   --color-success-press: var(--color-rokusho-200);
   --color-error-press: var(--color-akane-200);
@@ -305,6 +307,8 @@
   --error-fg: var(--color-error-fg);
   --error-500: var(--color-error-500);
   --error-border: var(--color-error-border);
+  --recording: var(--color-recording);
+  --recording-fg: var(--color-recording-fg);
   --success-border: var(--color-success-border);
   --success-press: var(--color-success-press);
   --error-press: var(--color-error-press);
