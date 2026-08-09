@@ -1,4 +1,5 @@
 import type React from 'react'
+import { Button } from './ui/Button'
 import { KanaKeyboard } from './KanaKeyboard'
 import type { KanaScript, KanaSection } from './KanaKeyboard'
 
@@ -189,15 +190,12 @@ export function FillInput({
         </div>
       )}
 
-      {/* Submit */}
-      <button
-        type="button"
-        onClick={onSubmit}
-        disabled={!canSubmit}
-        className="h-12 w-full rounded-xl bg-fg text-body font-medium text-fg-inverse transition-colors hover:bg-fg-muted disabled:opacity-40 active:bg-fg-muted"
-      >
+      {/* Submit. Was a hand-rolled button on `bg-fg` — Sumi-iro, a v2
+          holdover — while every other primary action in the product is
+          Ai-iro. Two different "primary" buttons could sit on one screen. */}
+      <Button fullWidth disabled={!canSubmit} onClick={onSubmit}>
         Check answer
-      </button>
+      </Button>
     </div>
   )
 }

@@ -79,10 +79,25 @@ function CardBody({ children, className }) {
 
 // src/components/ui/Badge.tsx
 import { jsx as jsx4 } from "react/jsx-runtime";
+var VARIANT_CLASSES2 = {
+  neutral: "bg-tag-bg text-tag-fg",
+  success: "bg-success-bg text-success-fg",
+  error: "bg-error-bg text-error-fg"
+};
+function Badge(props) {
+  const { variant = "neutral", emphasis = false, children, className, ...rest } = props;
+  const classes = [
+    "inline-flex items-center rounded-md px-2 py-0.5 font-medium",
+    emphasis ? "text-caption uppercase tracking-wider" : "text-body-sm",
+    VARIANT_CLASSES2[variant],
+    className ?? ""
+  ].filter((c) => c !== "").join(" ");
+  return /* @__PURE__ */ jsx4("span", { className: classes, ...rest, children });
+}
 
 // src/components/ui/IconButton.tsx
 import { jsx as jsx5 } from "react/jsx-runtime";
-var VARIANT_CLASSES2 = {
+var VARIANT_CLASSES3 = {
   default: "border border-border bg-bg text-fg-muted active:bg-surface-2",
   filled: "bg-action text-action-fg active:bg-action-press",
   danger: "bg-error-500 text-fg-inverse active:bg-error-fg"
@@ -112,7 +127,7 @@ function IconButton(props) {
     "disabled:opacity-50",
     SHAPE_CLASSES[shape],
     SIZE_CLASSES2[size],
-    VARIANT_CLASSES2[variant],
+    VARIANT_CLASSES3[variant],
     className ?? ""
   ].filter((c) => c !== "").join(" ");
   return /* @__PURE__ */ jsx5("button", { type: type ?? "button", disabled, className: classes, ...rest, children });
@@ -261,6 +276,15 @@ function SpeakerIcon(props) {
     {
       fill: "currentColor",
       d: "M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4.03v8.06A4.5 4.5 0 0 0 16.5 12zM14 3.23v2.06a7 7 0 0 1 0 13.42v2.06A9 9 0 0 0 14 3.23z"
+    }
+  ) });
+}
+function MicIcon(props) {
+  return /* @__PURE__ */ jsx9("svg", { ...withDefaults(props), children: /* @__PURE__ */ jsx9(
+    "path",
+    {
+      fill: "currentColor",
+      d: "M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1-9c0-.55.45-1 1-1s1 .45 1 1v6c0 .55-.45 1-1 1s-1-.45-1-1V5zm6 6c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"
     }
   ) });
 }
@@ -596,7 +620,7 @@ var GRID = {
   hiragana: { basic: HIRAGANA_BASIC, voiced: HIRAGANA_VOICED, small: HIRAGANA_SMALL },
   katakana: { basic: KATAKANA_BASIC, voiced: KATAKANA_VOICED, small: KATAKANA_SMALL }
 };
-var TOGGLE = "h-11 min-h-[44px] rounded-lg px-3 font-jp text-body-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-on-inverse focus-visible:ring-offset-2 focus-visible:ring-offset-keyboard-bg";
+var TOGGLE = "h-11 min-h-[44px] shrink-0 whitespace-nowrap rounded-lg px-2 font-jp text-caption font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-on-inverse focus-visible:ring-offset-2 focus-visible:ring-offset-keyboard-bg";
 var TOGGLE_ON = "bg-focus text-inverse-on-ogon";
 var TOGGLE_OFF = "border border-key-bg/40 text-key-bg active:bg-rokusho-800";
 var KEY_BASE = "flex h-11 min-h-[44px] items-center justify-center rounded-xl font-jp text-jp shadow-key transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-on-inverse focus-visible:ring-offset-2 focus-visible:ring-offset-keyboard-bg";
@@ -697,9 +721,158 @@ function KanaKeyboard({
 
 // src/components/VoiceInput.tsx
 import { jsx as jsx18, jsxs as jsxs10 } from "react/jsx-runtime";
+function VoiceInput({ status, onPress, disabled, errorMessage }) {
+  const isListening = status === "listening";
+  const isProcessing = status === "processing";
+  return /* @__PURE__ */ jsxs10("div", { className: "flex flex-col items-center gap-3", children: [
+    /* @__PURE__ */ jsxs10("div", { className: "relative flex items-center justify-center", children: [
+      isListening && /* @__PURE__ */ jsx18("span", { className: "absolute inline-flex h-16 w-16 animate-ping rounded-full bg-recording opacity-30" }),
+      /* @__PURE__ */ jsx18(
+        "button",
+        {
+          type: "button",
+          onClick: onPress,
+          disabled: disabled ?? isProcessing,
+          "aria-label": isListening ? "Stop listening" : "Start voice input",
+          className: [
+            "relative z-10 flex h-14 w-14 items-center justify-center rounded-full transition-colors",
+            isListening ? "bg-recording text-recording-fg active:bg-rokusho-600" : "border-2 border-border-strong bg-bg text-fg-muted active:bg-surface-2",
+            disabled ?? isProcessing ? "opacity-50" : ""
+          ].join(" "),
+          children: isProcessing ? /* @__PURE__ */ jsx18(SpinnerIcon, { className: "h-5 w-5 animate-spin" }) : /* @__PURE__ */ jsx18(MicIcon, { className: "h-6 w-6" })
+        }
+      )
+    ] }),
+    /* @__PURE__ */ jsxs10("p", { className: "text-body-sm text-fg-subtle", children: [
+      status === "idle" && "Tap to speak",
+      status === "listening" && "Listening\u2026 tap to stop",
+      status === "processing" && "Processing\u2026",
+      status === "error" && /* @__PURE__ */ jsx18("span", { className: "text-error-fg", children: errorMessage ?? "Could not hear you. Try again." })
+    ] })
+  ] });
+}
 
 // src/components/FillInput.tsx
 import { Fragment as Fragment2, jsx as jsx19, jsxs as jsxs11 } from "react/jsx-runtime";
+var MODE_LABELS = {
+  romaji: "Romaji",
+  kana: "Kana grid",
+  system: "JP keyboard"
+};
+var SYSTEM_HINT = "Switch your keyboard to Japanese (\u65E5\u672C\u8A9E) \u2014 on iOS: Settings \u2192 General \u2192 Keyboard \u2192 Keyboards \u2192 Add New Keyboard \u2192 Japanese. On Android: Settings \u2192 General Management \u2192 Language \u2192 On-screen Keyboard \u2192 add Japanese.";
+function FillInput({
+  mode,
+  romajiValue,
+  kanaValue,
+  converted,
+  pending,
+  kanaScript,
+  kanaSection,
+  canSubmit,
+  disabled,
+  placeholder,
+  showSystemHint,
+  inputRef,
+  onModeChange,
+  onRomajiChange,
+  onKanaKey,
+  onKanaBackspace,
+  onKanaScriptChange,
+  onKanaSectionChange,
+  onSystemChange,
+  onSubmit,
+  onToggleSystemHint
+}) {
+  function handleKeyDown(e) {
+    if (e.key === "Enter") onSubmit();
+  }
+  return /* @__PURE__ */ jsxs11("div", { className: "flex w-full flex-col gap-3", children: [
+    /* @__PURE__ */ jsx19("div", { className: "flex gap-1 rounded-xl border border-border bg-surface p-1", children: ["romaji", "kana", "system"].map((m) => /* @__PURE__ */ jsx19(
+      "button",
+      {
+        type: "button",
+        onClick: () => onModeChange(m),
+        className: [
+          "flex-1 rounded-lg py-2 text-sm font-medium transition-colors",
+          mode === m ? "bg-bg text-fg shadow-card" : "text-fg-subtle hover:text-fg active:bg-surface-2"
+        ].join(" "),
+        children: MODE_LABELS[m]
+      },
+      m
+    )) }),
+    mode === "romaji" && /* @__PURE__ */ jsxs11("div", { className: "flex flex-col gap-2", children: [
+      /* @__PURE__ */ jsx19("div", { className: "min-h-10 rounded-xl border border-border bg-surface px-4 py-2 font-jp text-jp-lg text-fg", children: converted !== "" || pending !== "" ? /* @__PURE__ */ jsxs11(Fragment2, { children: [
+        /* @__PURE__ */ jsx19("span", { children: converted }),
+        /* @__PURE__ */ jsx19("span", { className: "text-fg-faint", children: pending })
+      ] }) : /* @__PURE__ */ jsx19("span", { className: "text-body text-fg-faint", children: placeholder ?? "Kana preview" }) }),
+      /* @__PURE__ */ jsx19(
+        "input",
+        {
+          ref: inputRef,
+          type: "text",
+          value: romajiValue,
+          onChange: (e) => onRomajiChange(e.target.value),
+          onKeyDown: handleKeyDown,
+          disabled,
+          placeholder: "Type romaji here\u2026",
+          autoComplete: "off",
+          autoCorrect: "off",
+          autoCapitalize: "none",
+          spellCheck: false,
+          className: "h-12 w-full rounded-xl border border-border-strong px-4 text-body text-fg placeholder:text-fg-faint focus:border-fg-subtle focus:outline-none focus:ring-2 focus:ring-focus focus:ring-offset-2 focus:ring-offset-bg disabled:opacity-50"
+        }
+      )
+    ] }),
+    mode === "kana" && /* @__PURE__ */ jsxs11("div", { className: "flex flex-col gap-2", children: [
+      /* @__PURE__ */ jsx19("div", { className: "min-h-12 rounded-xl border border-border bg-surface px-4 py-2 font-jp text-jp-lg text-fg", children: kanaValue !== "" ? kanaValue : /* @__PURE__ */ jsx19("span", { className: "text-body text-fg-faint", children: placeholder ?? "Tap kana below\u2026" }) }),
+      /* @__PURE__ */ jsx19(
+        KanaKeyboard,
+        {
+          script: kanaScript,
+          section: kanaSection,
+          onScriptChange: onKanaScriptChange,
+          onSectionChange: onKanaSectionChange,
+          onKey: onKanaKey,
+          onBackspace: onKanaBackspace
+        }
+      )
+    ] }),
+    mode === "system" && /* @__PURE__ */ jsxs11("div", { className: "flex flex-col gap-2", children: [
+      /* @__PURE__ */ jsx19(
+        "input",
+        {
+          ref: inputRef,
+          type: "text",
+          value: kanaValue,
+          onChange: (e) => onSystemChange(e.target.value),
+          onKeyDown: handleKeyDown,
+          disabled,
+          placeholder: placeholder ?? "Type in Japanese\u2026",
+          lang: "ja",
+          inputMode: "text",
+          autoComplete: "off",
+          autoCorrect: "off",
+          spellCheck: false,
+          className: "h-12 w-full rounded-xl border border-border-strong px-4 font-jp text-jp text-fg placeholder:font-sans placeholder:text-body placeholder:text-fg-faint focus:border-fg-subtle focus:outline-none focus:ring-2 focus:ring-focus focus:ring-offset-2 focus:ring-offset-bg disabled:opacity-50"
+        }
+      ),
+      /* @__PURE__ */ jsxs11("div", { className: "flex items-start gap-2", children: [
+        /* @__PURE__ */ jsx19("p", { className: "text-body-sm text-fg-subtle", children: "Switch your device keyboard to Japanese (\u65E5\u672C\u8A9E)." }),
+        /* @__PURE__ */ jsx19(
+          "button",
+          {
+            type: "button",
+            onClick: onToggleSystemHint,
+            className: "shrink-0 text-body-sm text-fg-faint underline hover:text-fg-muted active:text-fg-muted",
+            children: "How?"
+          }
+        )
+      ] }),
+      showSystemHint && /* @__PURE__ */ jsx19("p", { className: "rounded-xl bg-surface p-3 text-body-sm text-fg-muted", children: SYSTEM_HINT })
+    ] }),
+    /* @__PURE__ */ jsx19(Button, { fullWidth: true, disabled: !canSubmit, onClick: onSubmit, children: "Check answer" })
+  ] });
+}
 
 // src/components/Maru.tsx
 import { jsx as jsx20, jsxs as jsxs12 } from "react/jsx-runtime";
@@ -1099,15 +1272,405 @@ function FlashcardRound() {
   );
 }
 
-// ui_kits/flows/kana-practice.tsx
+// ui_kits/flows/fill-blank.tsx
 import { useState as useState3 } from "react";
 
 // src/lib/romajiToKana.ts
+var ROMAJI_MAP = [
+  // 3-char compound sounds
+  ["sha", "\u3057\u3083"],
+  ["shi", "\u3057"],
+  ["shu", "\u3057\u3085"],
+  ["she", "\u3057\u3047"],
+  ["sho", "\u3057\u3087"],
+  ["sya", "\u3057\u3083"],
+  ["syu", "\u3057\u3085"],
+  ["syo", "\u3057\u3087"],
+  ["chi", "\u3061"],
+  ["cha", "\u3061\u3083"],
+  ["chu", "\u3061\u3085"],
+  ["che", "\u3061\u3047"],
+  ["cho", "\u3061\u3087"],
+  ["tya", "\u3061\u3083"],
+  ["tyu", "\u3061\u3085"],
+  ["tyo", "\u3061\u3087"],
+  ["tsu", "\u3064"],
+  ["kya", "\u304D\u3083"],
+  ["kyu", "\u304D\u3085"],
+  ["kyo", "\u304D\u3087"],
+  ["nya", "\u306B\u3083"],
+  ["nyu", "\u306B\u3085"],
+  ["nyo", "\u306B\u3087"],
+  ["hya", "\u3072\u3083"],
+  ["hyu", "\u3072\u3085"],
+  ["hyo", "\u3072\u3087"],
+  ["mya", "\u307F\u3083"],
+  ["myu", "\u307F\u3085"],
+  ["myo", "\u307F\u3087"],
+  ["rya", "\u308A\u3083"],
+  ["ryu", "\u308A\u3085"],
+  ["ryo", "\u308A\u3087"],
+  ["gya", "\u304E\u3083"],
+  ["gyu", "\u304E\u3085"],
+  ["gyo", "\u304E\u3087"],
+  ["zya", "\u3058\u3083"],
+  ["zyu", "\u3058\u3085"],
+  ["zyo", "\u3058\u3087"],
+  ["bya", "\u3073\u3083"],
+  ["byu", "\u3073\u3085"],
+  ["byo", "\u3073\u3087"],
+  ["pya", "\u3074\u3083"],
+  ["pyu", "\u3074\u3085"],
+  ["pyo", "\u3074\u3087"],
+  ["dya", "\u3062\u3083"],
+  ["dyu", "\u3062\u3085"],
+  ["dyo", "\u3062\u3087"],
+  // 2-char
+  ["ka", "\u304B"],
+  ["ki", "\u304D"],
+  ["ku", "\u304F"],
+  ["ke", "\u3051"],
+  ["ko", "\u3053"],
+  ["sa", "\u3055"],
+  ["si", "\u3057"],
+  ["su", "\u3059"],
+  ["se", "\u305B"],
+  ["so", "\u305D"],
+  ["ta", "\u305F"],
+  ["ti", "\u3061"],
+  ["tu", "\u3064"],
+  ["te", "\u3066"],
+  ["to", "\u3068"],
+  ["na", "\u306A"],
+  ["ni", "\u306B"],
+  ["nu", "\u306C"],
+  ["ne", "\u306D"],
+  ["no", "\u306E"],
+  ["ha", "\u306F"],
+  ["hi", "\u3072"],
+  ["fu", "\u3075"],
+  ["hu", "\u3075"],
+  ["he", "\u3078"],
+  ["ho", "\u307B"],
+  ["ma", "\u307E"],
+  ["mi", "\u307F"],
+  ["mu", "\u3080"],
+  ["me", "\u3081"],
+  ["mo", "\u3082"],
+  ["ya", "\u3084"],
+  ["yu", "\u3086"],
+  ["yo", "\u3088"],
+  ["ra", "\u3089"],
+  ["ri", "\u308A"],
+  ["ru", "\u308B"],
+  ["re", "\u308C"],
+  ["ro", "\u308D"],
+  ["wa", "\u308F"],
+  ["wi", "\u3090"],
+  ["we", "\u3091"],
+  ["wo", "\u3092"],
+  ["ga", "\u304C"],
+  ["gi", "\u304E"],
+  ["gu", "\u3050"],
+  ["ge", "\u3052"],
+  ["go", "\u3054"],
+  ["za", "\u3056"],
+  ["zi", "\u3058"],
+  ["zu", "\u305A"],
+  ["ze", "\u305C"],
+  ["zo", "\u305E"],
+  ["ji", "\u3058"],
+  ["ja", "\u3058\u3083"],
+  ["ju", "\u3058\u3085"],
+  ["je", "\u3058\u3047"],
+  ["jo", "\u3058\u3087"],
+  ["da", "\u3060"],
+  ["di", "\u3062"],
+  ["du", "\u3065"],
+  ["de", "\u3067"],
+  ["do", "\u3069"],
+  ["ba", "\u3070"],
+  ["bi", "\u3073"],
+  ["bu", "\u3076"],
+  ["be", "\u3079"],
+  ["bo", "\u307C"],
+  ["pa", "\u3071"],
+  ["pi", "\u3074"],
+  ["pu", "\u3077"],
+  ["pe", "\u307A"],
+  ["po", "\u307D"],
+  ["xa", "\u3041"],
+  ["xi", "\u3043"],
+  ["xu", "\u3045"],
+  ["xe", "\u3047"],
+  ["xo", "\u3049"],
+  ["nn", "\u3093"],
+  // 1-char vowels
+  ["a", "\u3042"],
+  ["i", "\u3044"],
+  ["u", "\u3046"],
+  ["e", "\u3048"],
+  ["o", "\u304A"]
+];
 var CONSONANTS = new Set("bcdfghjklmnpqrstvwxyz");
 var VOWELS = new Set("aeiou");
+function convertRomaji(input) {
+  const lower = input.toLowerCase();
+  let pos = 0;
+  let converted = "";
+  while (pos < lower.length) {
+    const remaining = lower.slice(pos);
+    if (remaining.length >= 2 && remaining[0] === remaining[1] && CONSONANTS.has(remaining[0]) && remaining[0] !== "n") {
+      converted += "\u3063";
+      pos += 1;
+      continue;
+    }
+    if (remaining.length >= 3 && remaining[0] === "n" && remaining[1] === "n" && VOWELS.has(remaining[2])) {
+      converted += "\u3093";
+      pos += 1;
+      continue;
+    }
+    if (remaining[0] === "n" && remaining.length >= 2 && CONSONANTS.has(remaining[1]) && remaining[1] !== "n" && !VOWELS.has(remaining[1])) {
+      converted += "\u3093";
+      pos += 1;
+      continue;
+    }
+    let matched = false;
+    for (const [romaji, kana] of ROMAJI_MAP) {
+      if (remaining.startsWith(romaji)) {
+        converted += kana;
+        pos += romaji.length;
+        matched = true;
+        break;
+      }
+    }
+    if (matched) continue;
+    const isPending = ROMAJI_MAP.some(([romaji]) => romaji.startsWith(remaining));
+    if (isPending) break;
+    converted += remaining[0];
+    pos += 1;
+  }
+  return { converted, pending: lower.slice(pos) };
+}
+
+// ui_kits/flows/fill-blank.tsx
+import { Fragment as Fragment4, jsx as jsx25, jsxs as jsxs17 } from "react/jsx-runtime";
+var CARD = {
+  english: "Where is the station?",
+  japanese: "\u99C5\u306F\u3069\u3053\u3067\u3059\u304B",
+  reading: "\u3048\u304D\u306F\u3069\u3053\u3067\u3059\u304B",
+  romaji: "eki wa doko desu ka",
+  scenario: "transit",
+  notes: "Works at info desks, on the street, at hotel front desks."
+};
+function Prompt({
+  audio,
+  onPlay,
+  channel,
+  onChannel
+}) {
+  return /* @__PURE__ */ jsxs17(Fragment4, { children: [
+    /* @__PURE__ */ jsxs17("header", { className: "flex items-center justify-between gap-3", children: [
+      /* @__PURE__ */ jsx25(Badge, { emphasis: true, children: CARD.scenario }),
+      /* @__PURE__ */ jsxs17("div", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsx25(ChannelToggle, { channel, onChange: onChannel }),
+        /* @__PURE__ */ jsx25(AudioButton, { state: audio, onPress: onPlay })
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxs17("div", { className: "flex flex-col items-center gap-1 text-center", children: [
+      /* @__PURE__ */ jsx25("p", { className: "text-body-sm text-fg-subtle", children: "How do you say\u2026" }),
+      /* @__PURE__ */ jsx25("p", { className: "text-heading font-semibold text-fg", children: CARD.english })
+    ] })
+  ] });
+}
+function ChannelToggle({
+  channel,
+  onChange
+}) {
+  return /* @__PURE__ */ jsx25("div", { className: "flex gap-1 rounded-xl border border-border bg-surface p-1", children: ["text", "voice"].map((c) => /* @__PURE__ */ jsx25(
+    "button",
+    {
+      type: "button",
+      onClick: () => onChange(c),
+      "aria-pressed": channel === c,
+      className: [
+        "min-h-[44px] rounded-lg px-3 text-body-sm font-medium transition-colors",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg",
+        channel === c ? "bg-action text-action-fg" : "text-fg-subtle active:bg-surface-2"
+      ].join(" "),
+      children: c === "text" ? "Type" : "Speak"
+    },
+    c
+  )) });
+}
+function InputScreen({
+  startMode,
+  startChannel,
+  startVoice = "idle",
+  onSubmit
+}) {
+  const [channel, setChannel] = useState3(startChannel);
+  const [mode, setMode] = useState3(startMode);
+  const [romaji, setRomaji] = useState3(startMode === "romaji" ? "eki wa dok" : "");
+  const [kana, setKana] = useState3("");
+  const [script, setScript] = useState3("hiragana");
+  const [section, setSection] = useState3("basic");
+  const [voice, setVoice] = useState3(startVoice);
+  const [hint, setHint] = useState3(false);
+  const [audio, setAudio] = useState3("idle");
+  const { converted, pending } = convertRomaji(romaji);
+  const answered = mode === "romaji" ? romaji.trim() !== "" : kana.trim() !== "";
+  function play() {
+    setAudio("playing");
+    window.setTimeout(() => setAudio("idle"), 900);
+  }
+  function speak() {
+    setVoice(voice === "listening" ? "processing" : "listening");
+    if (voice === "listening") window.setTimeout(onSubmit, 700);
+  }
+  return /* @__PURE__ */ jsxs17(Fragment4, { children: [
+    /* @__PURE__ */ jsx25(AppHeader, { title: "Fill in the blank", subtitle: "transit \xB7 1 of 4", progress: 0 }),
+    /* @__PURE__ */ jsx25(Screen, { children: /* @__PURE__ */ jsx25(Card, { children: /* @__PURE__ */ jsxs17("div", { className: "flex flex-col gap-5", children: [
+      /* @__PURE__ */ jsx25(Prompt, { audio, onPlay: play, channel, onChannel: setChannel }),
+      channel === "text" ? /* @__PURE__ */ jsx25(
+        FillInput,
+        {
+          mode,
+          romajiValue: romaji,
+          kanaValue: kana,
+          converted,
+          pending,
+          kanaScript: script,
+          kanaSection: section,
+          canSubmit: answered,
+          showSystemHint: hint,
+          onModeChange: setMode,
+          onRomajiChange: setRomaji,
+          onKanaKey: (c) => setKana(kana + c),
+          onKanaBackspace: () => setKana([...kana].slice(0, -1).join("")),
+          onKanaScriptChange: setScript,
+          onKanaSectionChange: setSection,
+          onSystemChange: setKana,
+          onSubmit,
+          onToggleSystemHint: () => setHint(!hint)
+        }
+      ) : /* @__PURE__ */ jsx25(VoiceInput, { status: voice, onPress: speak })
+    ] }) }) })
+  ] });
+}
+function CheckedScreen2({ outcome, onNext }) {
+  return /* @__PURE__ */ jsxs17(Fragment4, { children: [
+    /* @__PURE__ */ jsx25(AppHeader, { title: "Fill in the blank", subtitle: "transit \xB7 1 of 4", progress: 0.25 }),
+    /* @__PURE__ */ jsxs17(Screen, { children: [
+      /* @__PURE__ */ jsxs17(
+        AnswerResult,
+        {
+          outcome,
+          userAnswer: outcome === "recalled" ? void 0 : "\u3048\u304D\u306F\u3069\u304F\u3067\u3059\u304B",
+          children: [
+            /* @__PURE__ */ jsx25("p", { lang: "ja", className: "font-jp text-jp-lg text-fg-heading", children: CARD.japanese }),
+            /* @__PURE__ */ jsx25("p", { lang: "ja", className: "font-jp text-jp text-action-2-fg", children: CARD.reading }),
+            /* @__PURE__ */ jsx25("p", { className: "text-body-sm text-fg-subtle", children: CARD.romaji })
+          ]
+        }
+      ),
+      /* @__PURE__ */ jsx25(Button, { fullWidth: true, onClick: onNext, children: "Next" })
+    ] })
+  ] });
+}
+var STATES2 = [
+  { id: "romaji", label: "Romaji", note: "typed, with the live kana preview" },
+  { id: "kana", label: "Kana keyboard", note: "the whole card plus the keyboard \u2014 the fit test" },
+  { id: "system", label: "JP keyboard", note: "device IME, with the how-to hint" },
+  { id: "speak", label: "Speak \xB7 idle", note: "tap to start" },
+  { id: "listening", label: "Speak \xB7 recording", note: "was Akane \u2014 the error colour \u2014 now its own role" },
+  { id: "processing", label: "Speak \xB7 processing", note: "transcribing" },
+  { id: "voice-error", label: "Speak \xB7 failed", note: "the state recording used to be confused with" },
+  { id: "recalled", label: "Recalled", note: "AnswerResult in its real context" },
+  { id: "review", label: "Not quite", note: "with the answer the learner gave" },
+  { id: "loading", label: "Loading", note: "card being fetched" },
+  { id: "empty", label: "Empty", note: "nothing due" },
+  { id: "error", label: "Error", note: "load failed" }
+];
+var VOICE = {
+  speak: "idle",
+  listening: "listening",
+  processing: "processing",
+  "voice-error": "error"
+};
+var AS_MODE = {
+  romaji: "romaji",
+  kana: "kana",
+  system: "system"
+};
+function FillBlank() {
+  const [state, setState] = useState3(
+    fromUrl("state", STATES2.map((s) => s.id), "romaji")
+  );
+  const [nonce, setNonce] = useState3(0);
+  function go(next) {
+    setState(next);
+    setNonce(nonce + 1);
+  }
+  const inputMode = AS_MODE[state];
+  return /* @__PURE__ */ jsx25(
+    FlowPage,
+    {
+      title: "Fill in the blank",
+      blurb: "The review-step card: prompt, an input channel, then the app's judgment. This is where FillInput and VoiceInput reach a screen for the first time \u2014 and where the rewritten kana keyboard has to fit inside a card rather than on its own.",
+      states: STATES2,
+      current: state,
+      onSelect: go,
+      children: /* @__PURE__ */ jsxs17(Phone, { children: [
+        inputMode !== void 0 && /* @__PURE__ */ jsx25(InputScreen, { startMode: inputMode, startChannel: "text", onSubmit: () => go("review") }),
+        VOICE[state] !== void 0 && /* @__PURE__ */ jsx25(
+          InputScreen,
+          {
+            startMode: "romaji",
+            startChannel: "voice",
+            startVoice: VOICE[state],
+            onSubmit: () => go("recalled")
+          }
+        ),
+        state === "recalled" && /* @__PURE__ */ jsx25(CheckedScreen2, { outcome: "recalled", onNext: () => go("romaji") }),
+        state === "review" && /* @__PURE__ */ jsx25(CheckedScreen2, { outcome: "review", onNext: () => go("romaji") }),
+        state === "loading" && /* @__PURE__ */ jsxs17(Fragment4, { children: [
+          /* @__PURE__ */ jsx25(AppHeader, { title: "Fill in the blank", subtitle: "Loading", progress: 0 }),
+          /* @__PURE__ */ jsx25(Screen, { children: /* @__PURE__ */ jsx25(LoadingPlaceholder, { label: "Finding your next card\u2026" }) })
+        ] }),
+        state === "empty" && /* @__PURE__ */ jsxs17(Fragment4, { children: [
+          /* @__PURE__ */ jsx25(AppHeader, { title: "Fill in the blank" }),
+          /* @__PURE__ */ jsx25(Screen, { children: /* @__PURE__ */ jsxs17("div", { className: "flex flex-col items-center gap-6 pt-10", children: [
+            /* @__PURE__ */ jsx25("span", { className: "hanko text-display-lg", "aria-hidden": "true" }),
+            /* @__PURE__ */ jsx25(
+              EmptyState,
+              {
+                message: "Nothing to fill in right now",
+                description: "These come back once a phrase has been seen a few times.",
+                action: /* @__PURE__ */ jsx25(Button, { variant: "secondary", onClick: () => go("romaji"), children: "Practise anyway" })
+              }
+            )
+          ] }) })
+        ] }),
+        state === "error" && /* @__PURE__ */ jsxs17(Fragment4, { children: [
+          /* @__PURE__ */ jsx25(AppHeader, { title: "Fill in the blank" }),
+          /* @__PURE__ */ jsx25(Screen, { children: /* @__PURE__ */ jsx25(
+            ErrorState,
+            {
+              message: "Couldn't load this card",
+              description: "Your answer wasn't lost. This is usually the connection.",
+              action: /* @__PURE__ */ jsx25(Button, { onClick: () => go("romaji"), children: "Try again" })
+            }
+          ) })
+        ] })
+      ] }, nonce)
+    }
+  );
+}
 
 // ui_kits/flows/kana-practice.tsx
-import { Fragment as Fragment4, jsx as jsx25, jsxs as jsxs17 } from "react/jsx-runtime";
+import { useState as useState4 } from "react";
+import { Fragment as Fragment5, jsx as jsx26, jsxs as jsxs18 } from "react/jsx-runtime";
 var ROMAJI = new Map(KANA_PRACTICE_CARDS.map((c) => [c.kana, c.romaji]));
 function toCells(rows) {
   return rows.map(
@@ -1149,9 +1712,9 @@ var DECK = [
   { kana: "\u3086", romaji: "yu", choices: ["yo", "ya", "wa", "yu"] }
 ];
 function ChartScreen({ onPractise }) {
-  const [script, setScript] = useState3("hiragana");
-  const [audio, setAudio] = useState3("idle");
-  const [heard, setHeard] = useState3(null);
+  const [script, setScript] = useState4("hiragana");
+  const [audio, setAudio] = useState4("idle");
+  const [heard, setHeard] = useState4(null);
   const rows = CHART[script];
   const learnedInScript = [...LEARNED].filter(
     (k) => rows.some((row) => row.some((c) => c?.kana === k))
@@ -1162,11 +1725,11 @@ function ChartScreen({ onPractise }) {
     setAudio("playing");
     window.setTimeout(() => setAudio("idle"), 900);
   }
-  return /* @__PURE__ */ jsxs17(Fragment4, { children: [
-    /* @__PURE__ */ jsx25(AppHeader, { title: "Kana", subtitle: `${learnedInScript} of ${total} settled`, progress: learnedInScript / total }),
-    /* @__PURE__ */ jsxs17(Screen, { children: [
-      /* @__PURE__ */ jsxs17("div", { className: "flex items-center justify-between gap-3", children: [
-        /* @__PURE__ */ jsx25("div", { className: "inline-flex gap-1 rounded-xl border border-border bg-surface p-1", children: ["hiragana", "katakana"].map((s) => /* @__PURE__ */ jsx25(
+  return /* @__PURE__ */ jsxs18(Fragment5, { children: [
+    /* @__PURE__ */ jsx26(AppHeader, { title: "Kana", subtitle: `${learnedInScript} of ${total} settled`, progress: learnedInScript / total }),
+    /* @__PURE__ */ jsxs18(Screen, { children: [
+      /* @__PURE__ */ jsxs18("div", { className: "flex items-center justify-between gap-3", children: [
+        /* @__PURE__ */ jsx26("div", { className: "inline-flex gap-1 rounded-xl border border-border bg-surface p-1", children: ["hiragana", "katakana"].map((s) => /* @__PURE__ */ jsx26(
           "button",
           {
             type: "button",
@@ -1181,7 +1744,7 @@ function ChartScreen({ onPractise }) {
           },
           s
         )) }),
-        /* @__PURE__ */ jsx25(
+        /* @__PURE__ */ jsx26(
           AudioButton,
           {
             state: audio,
@@ -1190,8 +1753,8 @@ function ChartScreen({ onPractise }) {
           }
         )
       ] }),
-      /* @__PURE__ */ jsxs17("div", { className: "flex items-center gap-2 text-body-sm text-fg-subtle", children: [
-        /* @__PURE__ */ jsx25(
+      /* @__PURE__ */ jsxs18("div", { className: "flex items-center gap-2 text-body-sm text-fg-subtle", children: [
+        /* @__PURE__ */ jsx26(
           "span",
           {
             "aria-hidden": "true",
@@ -1200,19 +1763,19 @@ function ChartScreen({ onPractise }) {
         ),
         "Settled \u2014 tap any character to hear it"
       ] }),
-      /* @__PURE__ */ jsx25(
+      /* @__PURE__ */ jsx26(
         KanaGrid,
         {
           rows,
           learned: LEARNED,
           onSelect: play,
-          renderKey: (cell) => /* @__PURE__ */ jsxs17(Fragment4, { children: [
-            /* @__PURE__ */ jsx25("span", { className: "leading-none", children: cell.kana }),
-            /* @__PURE__ */ jsx25("span", { className: "font-sans text-caption leading-none text-fg-faint", children: cell.romaji })
+          renderKey: (cell) => /* @__PURE__ */ jsxs18(Fragment5, { children: [
+            /* @__PURE__ */ jsx26("span", { className: "leading-none", children: cell.kana }),
+            /* @__PURE__ */ jsx26("span", { className: "font-sans text-caption leading-none text-fg-faint", children: cell.romaji })
           ] })
         }
       ),
-      /* @__PURE__ */ jsx25(Button, { fullWidth: true, onClick: onPractise, children: "Practise these" })
+      /* @__PURE__ */ jsx26(Button, { fullWidth: true, onClick: onPractise, children: "Practise these" })
     ] })
   ] });
 }
@@ -1223,7 +1786,7 @@ function ChoiceTile({
   onPick
 }) {
   const state = outcome === "recalled" ? "border-success-border bg-success-bg text-success-fg" : outcome === "review" ? "border-error-border bg-error-bg text-error-fg" : answered ? "border-border bg-surface text-fg-subtle" : "border-border bg-surface text-fg active:bg-surface-2";
-  return /* @__PURE__ */ jsxs17(
+  return /* @__PURE__ */ jsxs18(
     "button",
     {
       type: "button",
@@ -1236,7 +1799,7 @@ function ChoiceTile({
         state
       ].join(" "),
       children: [
-        outcome !== null && /* @__PURE__ */ jsx25(Maru, { outcome, className: "text-heading-sm" }),
+        outcome !== null && /* @__PURE__ */ jsx26(Maru, { outcome, className: "text-heading-sm" }),
         choice
       ]
     }
@@ -1246,10 +1809,10 @@ function DrillScreen({
   onFinish,
   answeredFirst
 }) {
-  const [index, setIndex] = useState3(0);
-  const [picked, setPicked] = useState3(answeredFirst ? "nu" : null);
-  const [marks, setMarks] = useState3([]);
-  const [audio, setAudio] = useState3("idle");
+  const [index, setIndex] = useState4(0);
+  const [picked, setPicked] = useState4(answeredFirst ? "nu" : null);
+  const [marks, setMarks] = useState4([]);
+  const [audio, setAudio] = useState4("idle");
   const card = DECK[index];
   function pick(choice) {
     if (picked !== null) return;
@@ -1274,15 +1837,15 @@ function DrillScreen({
     setAudio("playing");
     window.setTimeout(() => setAudio("idle"), 900);
   }
-  return /* @__PURE__ */ jsxs17(Fragment4, { children: [
-    /* @__PURE__ */ jsx25(AppHeader, { title: "Kana practice", subtitle: `${index + 1} of ${DECK.length}`, progress: index / DECK.length }),
-    /* @__PURE__ */ jsxs17(Screen, { children: [
-      /* @__PURE__ */ jsxs17("div", { className: "flex flex-col items-center gap-4 rounded-2xl border border-transparent bg-accent-ai-bg p-6 shadow-card", children: [
-        /* @__PURE__ */ jsx25("p", { className: "text-body-sm text-fg-subtle", children: "Which sound is this?" }),
-        /* @__PURE__ */ jsx25("p", { lang: "ja", className: "font-jp text-jp-display-lg text-fg-heading", children: card.kana }),
-        /* @__PURE__ */ jsx25(AudioButton, { state: audio, onPress: play, label: "Hear this kana" })
+  return /* @__PURE__ */ jsxs18(Fragment5, { children: [
+    /* @__PURE__ */ jsx26(AppHeader, { title: "Kana practice", subtitle: `${index + 1} of ${DECK.length}`, progress: index / DECK.length }),
+    /* @__PURE__ */ jsxs18(Screen, { children: [
+      /* @__PURE__ */ jsxs18("div", { className: "flex flex-col items-center gap-4 rounded-2xl border border-transparent bg-accent-ai-bg p-6 shadow-card", children: [
+        /* @__PURE__ */ jsx26("p", { className: "text-body-sm text-fg-subtle", children: "Which sound is this?" }),
+        /* @__PURE__ */ jsx26("p", { lang: "ja", className: "font-jp text-jp-display-lg text-fg-heading", children: card.kana }),
+        /* @__PURE__ */ jsx26(AudioButton, { state: audio, onPress: play, label: "Hear this kana" })
       ] }),
-      /* @__PURE__ */ jsx25("div", { className: "grid grid-cols-2 gap-3", children: card.choices.map((choice) => /* @__PURE__ */ jsx25(
+      /* @__PURE__ */ jsx26("div", { className: "grid grid-cols-2 gap-3", children: card.choices.map((choice) => /* @__PURE__ */ jsx26(
         ChoiceTile,
         {
           choice,
@@ -1292,30 +1855,30 @@ function DrillScreen({
         },
         choice
       )) }),
-      picked !== null && /* @__PURE__ */ jsx25(Button, { fullWidth: true, onClick: next, children: index + 1 < DECK.length ? "Next" : "See the round" })
+      picked !== null && /* @__PURE__ */ jsx26(Button, { fullWidth: true, onClick: next, children: index + 1 < DECK.length ? "Next" : "See the round" })
     ] })
   ] });
 }
 function KeyboardScreen({ onDone }) {
-  const [value, setValue] = useState3("");
-  const [script, setScript] = useState3("hiragana");
-  const [section, setSection] = useState3("basic");
-  return /* @__PURE__ */ jsxs17(Fragment4, { children: [
-    /* @__PURE__ */ jsx25(AppHeader, { title: "Kana practice", subtitle: "write it \xB7 2 of 4", progress: 0.25 }),
-    /* @__PURE__ */ jsxs17(Screen, { children: [
-      /* @__PURE__ */ jsxs17("div", { className: "flex flex-col items-center gap-3 rounded-2xl border border-transparent bg-accent-ai-bg p-6 shadow-card", children: [
-        /* @__PURE__ */ jsx25("p", { className: "text-body-sm text-fg-subtle", children: "Write the kana for" }),
-        /* @__PURE__ */ jsx25("p", { className: "text-heading font-semibold text-fg", children: "nu" })
+  const [value, setValue] = useState4("");
+  const [script, setScript] = useState4("hiragana");
+  const [section, setSection] = useState4("basic");
+  return /* @__PURE__ */ jsxs18(Fragment5, { children: [
+    /* @__PURE__ */ jsx26(AppHeader, { title: "Kana practice", subtitle: "write it \xB7 2 of 4", progress: 0.25 }),
+    /* @__PURE__ */ jsxs18(Screen, { children: [
+      /* @__PURE__ */ jsxs18("div", { className: "flex flex-col items-center gap-3 rounded-2xl border border-transparent bg-accent-ai-bg p-6 shadow-card", children: [
+        /* @__PURE__ */ jsx26("p", { className: "text-body-sm text-fg-subtle", children: "Write the kana for" }),
+        /* @__PURE__ */ jsx26("p", { className: "text-heading font-semibold text-fg", children: "nu" })
       ] }),
-      /* @__PURE__ */ jsx25(
+      /* @__PURE__ */ jsx26(
         "div",
         {
           lang: "ja",
           className: "flex min-h-14 items-center rounded-xl border-2 border-border-strong bg-surface px-4 py-3 font-jp text-jp-lg text-fg-heading",
-          children: value !== "" ? value : /* @__PURE__ */ jsx25("span", { className: "font-sans text-body text-fg-faint", children: "Tap the keys below" })
+          children: value !== "" ? value : /* @__PURE__ */ jsx26("span", { className: "font-sans text-body text-fg-faint", children: "Tap the keys below" })
         }
       ),
-      /* @__PURE__ */ jsx25(
+      /* @__PURE__ */ jsx26(
         KanaKeyboard,
         {
           script,
@@ -1326,40 +1889,40 @@ function KeyboardScreen({ onDone }) {
           onBackspace: () => setValue([...value].slice(0, -1).join(""))
         }
       ),
-      /* @__PURE__ */ jsx25(Button, { fullWidth: true, disabled: value === "", onClick: onDone, children: "Check answer" })
+      /* @__PURE__ */ jsx26(Button, { fullWidth: true, disabled: value === "", onClick: onDone, children: "Check answer" })
     ] })
   ] });
 }
 function ResultScreen({ marks, onAgain }) {
   const recalled = marks.filter((m) => m === "recalled").length;
-  return /* @__PURE__ */ jsxs17(Fragment4, { children: [
-    /* @__PURE__ */ jsx25(AppHeader, { title: "Round complete", subtitle: `${DECK.length} kana`, progress: 1 }),
-    /* @__PURE__ */ jsxs17(Screen, { children: [
-      /* @__PURE__ */ jsx25(
+  return /* @__PURE__ */ jsxs18(Fragment5, { children: [
+    /* @__PURE__ */ jsx26(AppHeader, { title: "Round complete", subtitle: `${DECK.length} kana`, progress: 1 }),
+    /* @__PURE__ */ jsxs18(Screen, { children: [
+      /* @__PURE__ */ jsx26(
         ScoreCard,
         {
           correct: recalled,
           total: DECK.length,
           tone: "rokusho",
-          children: /* @__PURE__ */ jsx25("ul", { className: "flex flex-col gap-2", children: marks.map((outcome, i) => /* @__PURE__ */ jsxs17(
+          children: /* @__PURE__ */ jsx26("ul", { className: "flex flex-col gap-2", children: marks.map((outcome, i) => /* @__PURE__ */ jsxs18(
             "li",
             {
               className: "flex items-center gap-3 rounded-xl border border-border bg-surface px-4 py-3",
               children: [
-                /* @__PURE__ */ jsx25(Maru, { outcome, className: "w-5 shrink-0 text-heading-sm" }),
-                /* @__PURE__ */ jsx25("span", { lang: "ja", className: "font-jp text-jp-lg text-fg-heading", children: DECK[i].kana }),
-                /* @__PURE__ */ jsx25("span", { className: "ml-auto text-body-sm text-fg-subtle", children: DECK[i].romaji })
+                /* @__PURE__ */ jsx26(Maru, { outcome, className: "w-5 shrink-0 text-heading-sm" }),
+                /* @__PURE__ */ jsx26("span", { lang: "ja", className: "font-jp text-jp-lg text-fg-heading", children: DECK[i].kana }),
+                /* @__PURE__ */ jsx26("span", { className: "ml-auto text-body-sm text-fg-subtle", children: DECK[i].romaji })
               ]
             },
             DECK[i].kana
           )) })
         }
       ),
-      /* @__PURE__ */ jsx25(Button, { fullWidth: true, onClick: onAgain, children: "Back to the chart" })
+      /* @__PURE__ */ jsx26(Button, { fullWidth: true, onClick: onAgain, children: "Back to the chart" })
     ] })
   ] });
 }
-var STATES2 = [
+var STATES3 = [
   { id: "chart", label: "Chart", note: "reference grid, settled kana ringed" },
   { id: "drill", label: "Drill", note: "multiple choice, unanswered" },
   { id: "answered", label: "Answered", note: "\u25CB / \u2715 on the tiles" },
@@ -1371,11 +1934,11 @@ var STATES2 = [
 ];
 var SAMPLE_MARKS = ["recalled", "review", "recalled", "recalled"];
 function KanaPractice() {
-  const [state, setState] = useState3(
-    fromUrl("state", STATES2.map((s) => s.id), "chart")
+  const [state, setState] = useState4(
+    fromUrl("state", STATES3.map((s) => s.id), "chart")
   );
-  const [marks, setMarks] = useState3(SAMPLE_MARKS);
-  const [nonce, setNonce] = useState3(0);
+  const [marks, setMarks] = useState4(SAMPLE_MARKS);
+  const [nonce, setNonce] = useState4(0);
   function go(next) {
     setState(next);
     setNonce(nonce + 1);
@@ -1384,45 +1947,45 @@ function KanaPractice() {
     setMarks(result.length > 0 ? result : SAMPLE_MARKS);
     go("result");
   }
-  return /* @__PURE__ */ jsx25(
+  return /* @__PURE__ */ jsx26(
     FlowPage,
     {
       title: "Kana practice",
       blurb: "The reference chart, the drill, keyboard entry, and the result. This is the first screen where the Rokush\u014D keyboard and the Sumi-iro header band appear together \u2014 the reason the keyboard is not a second dark slab.",
-      states: STATES2,
+      states: STATES3,
       current: state,
       onSelect: go,
-      children: /* @__PURE__ */ jsxs17(Phone, { children: [
-        state === "chart" && /* @__PURE__ */ jsx25(ChartScreen, { onPractise: () => go("drill") }),
-        (state === "drill" || state === "answered") && /* @__PURE__ */ jsx25(DrillScreen, { answeredFirst: state === "answered", onFinish: finish }),
-        state === "keyboard" && /* @__PURE__ */ jsx25(KeyboardScreen, { onDone: () => go("result") }),
-        state === "result" && /* @__PURE__ */ jsx25(ResultScreen, { marks, onAgain: () => go("chart") }),
-        state === "loading" && /* @__PURE__ */ jsxs17(Fragment4, { children: [
-          /* @__PURE__ */ jsx25(AppHeader, { title: "Kana practice", subtitle: "Loading" }),
-          /* @__PURE__ */ jsx25(Screen, { children: /* @__PURE__ */ jsx25(LoadingPlaceholder, { label: "Building your deck\u2026" }) })
+      children: /* @__PURE__ */ jsxs18(Phone, { children: [
+        state === "chart" && /* @__PURE__ */ jsx26(ChartScreen, { onPractise: () => go("drill") }),
+        (state === "drill" || state === "answered") && /* @__PURE__ */ jsx26(DrillScreen, { answeredFirst: state === "answered", onFinish: finish }),
+        state === "keyboard" && /* @__PURE__ */ jsx26(KeyboardScreen, { onDone: () => go("result") }),
+        state === "result" && /* @__PURE__ */ jsx26(ResultScreen, { marks, onAgain: () => go("chart") }),
+        state === "loading" && /* @__PURE__ */ jsxs18(Fragment5, { children: [
+          /* @__PURE__ */ jsx26(AppHeader, { title: "Kana practice", subtitle: "Loading" }),
+          /* @__PURE__ */ jsx26(Screen, { children: /* @__PURE__ */ jsx26(LoadingPlaceholder, { label: "Building your deck\u2026" }) })
         ] }),
-        state === "empty" && /* @__PURE__ */ jsxs17(Fragment4, { children: [
-          /* @__PURE__ */ jsx25(AppHeader, { title: "Kana practice" }),
-          /* @__PURE__ */ jsx25(Screen, { children: /* @__PURE__ */ jsxs17("div", { className: "flex flex-col items-center gap-6 pt-10", children: [
-            /* @__PURE__ */ jsx25("span", { className: "hanko text-display-lg", "aria-hidden": "true" }),
-            /* @__PURE__ */ jsx25(
+        state === "empty" && /* @__PURE__ */ jsxs18(Fragment5, { children: [
+          /* @__PURE__ */ jsx26(AppHeader, { title: "Kana practice" }),
+          /* @__PURE__ */ jsx26(Screen, { children: /* @__PURE__ */ jsxs18("div", { className: "flex flex-col items-center gap-6 pt-10", children: [
+            /* @__PURE__ */ jsx26("span", { className: "hanko text-display-lg", "aria-hidden": "true" }),
+            /* @__PURE__ */ jsx26(
               EmptyState,
               {
                 message: "Every kana is settled",
                 description: "Nothing is due for review. The chart is always there if you want to run through it.",
-                action: /* @__PURE__ */ jsx25(Button, { variant: "secondary", onClick: () => go("chart"), children: "Open the chart" })
+                action: /* @__PURE__ */ jsx26(Button, { variant: "secondary", onClick: () => go("chart"), children: "Open the chart" })
               }
             )
           ] }) })
         ] }),
-        state === "error" && /* @__PURE__ */ jsxs17(Fragment4, { children: [
-          /* @__PURE__ */ jsx25(AppHeader, { title: "Kana practice" }),
-          /* @__PURE__ */ jsx25(Screen, { children: /* @__PURE__ */ jsx25(
+        state === "error" && /* @__PURE__ */ jsxs18(Fragment5, { children: [
+          /* @__PURE__ */ jsx26(AppHeader, { title: "Kana practice" }),
+          /* @__PURE__ */ jsx26(Screen, { children: /* @__PURE__ */ jsx26(
             ErrorState,
             {
               message: "Couldn't load the deck",
               description: "Nothing was lost. This is usually the connection.",
-              action: /* @__PURE__ */ jsx25(Button, { onClick: () => go("drill"), children: "Try again" })
+              action: /* @__PURE__ */ jsx26(Button, { onClick: () => go("drill"), children: "Try again" })
             }
           ) })
         ] })
@@ -1432,17 +1995,18 @@ function KanaPractice() {
 }
 
 // ui_kits/flows/main.tsx
-import { Fragment as Fragment5, jsx as jsx26, jsxs as jsxs18 } from "react/jsx-runtime";
+import { Fragment as Fragment6, jsx as jsx27, jsxs as jsxs19 } from "react/jsx-runtime";
 var FLOWS = {
-  flashcard: { label: "Flashcard round", render: () => /* @__PURE__ */ jsx26(FlashcardRound, {}) },
-  kana: { label: "Kana practice", render: () => /* @__PURE__ */ jsx26(KanaPractice, {}) }
+  flashcard: { label: "Flashcard round", render: () => /* @__PURE__ */ jsx27(FlashcardRound, {}) },
+  kana: { label: "Kana practice", render: () => /* @__PURE__ */ jsx27(KanaPractice, {}) },
+  fill: { label: "Fill in the blank", render: () => /* @__PURE__ */ jsx27(FillBlank, {}) }
 };
 var IDS = Object.keys(FLOWS);
 var current = fromUrl("flow", IDS, "flashcard");
 function FlowNav() {
-  return /* @__PURE__ */ jsx26("nav", { className: "border-b border-border bg-surface", children: /* @__PURE__ */ jsxs18("div", { className: "mx-auto flex w-full max-w-5xl flex-wrap items-center gap-1 px-6 py-3", children: [
-    /* @__PURE__ */ jsx26("span", { className: "mr-2 text-caption font-semibold uppercase tracking-wider text-fg-faint", children: "Flows" }),
-    IDS.map((id) => /* @__PURE__ */ jsx26(
+  return /* @__PURE__ */ jsx27("nav", { className: "border-b border-border bg-surface", children: /* @__PURE__ */ jsxs19("div", { className: "mx-auto flex w-full max-w-5xl flex-wrap items-center gap-1 px-6 py-3", children: [
+    /* @__PURE__ */ jsx27("span", { className: "mr-2 text-caption font-semibold uppercase tracking-wider text-fg-faint", children: "Flows" }),
+    IDS.map((id) => /* @__PURE__ */ jsx27(
       "a",
       {
         href: `?flow=${id}`,
@@ -1461,8 +2025,8 @@ function FlowNav() {
 var host = document.getElementById("root");
 if (host === null) throw new Error("ui_kits/flows: no #root in the host page");
 createRoot(host).render(
-  /* @__PURE__ */ jsxs18(Fragment5, { children: [
-    /* @__PURE__ */ jsx26(FlowNav, {}),
+  /* @__PURE__ */ jsxs19(Fragment6, { children: [
+    /* @__PURE__ */ jsx27(FlowNav, {}),
     FLOWS[current].render()
   ] })
 );
