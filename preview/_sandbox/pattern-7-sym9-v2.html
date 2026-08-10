@@ -1,0 +1,38 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="../../dist/tokens.plain.css">
+<style>
+ body{margin:0;padding:28px;font-family:var(--font-sans);color:var(--fg);background:var(--bg)}
+ h1{font-size:17px;margin:0 0 2px} .s{color:var(--fg-muted);margin:0 0 20px;font-size:13px;max-width:70ch}
+ .lbl{font:500 10px ui-monospace,Menlo,monospace;color:var(--fg-subtle);margin-top:6px}
+ .spec{height:260px;width:260px;border-radius:12px;background:var(--stone-0);border:1px solid var(--border);
+   display:flex;align-items:center;justify-content:center}
+ .ink{width:190px;height:190px;background:var(--fg);
+   -webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat}
+</style></head><body>
+<h1>Symbol 9 — corrected: two heart lobes + four-dot cluster</h1>
+<p class="s">Two large heart-shaped lobes meeting at a center cleft, small 4-dot cluster below. Traced directly, unenclosed per the standing no-circle rule.</p>
+<div class="spec"><div class="ink" style="--m:var(--svg-sym9)"></div></div>
+
+<script>
+const svgs = {
+sym9: `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+<defs>
+ <path id="tl" d="M0 0 C-8.5 -5 -11 -14.5 -5.5 -17 C-2.5 -18.3 0 -17 0 -15.2 C0 -17 2.5 -18.3 5.5 -17 C11 -14.5 8.5 -5 0 0 Z"/>
+</defs>
+<g fill="#fff" transform="translate(50 56)">
+ <g transform="rotate(-38) scale(2.15)"><use href="#tl"/></g>
+ <g transform="rotate(38) scale(2.15)"><use href="#tl"/></g>
+ <circle cx="-7" cy="15" r="4.2"/>
+ <circle cx="7" cy="15" r="4.2"/>
+ <circle cx="-7" cy="25" r="4.2"/>
+ <circle cx="7" cy="25" r="4.2"/>
+</g>
+</svg>`,
+};
+const root = document.documentElement;
+for (const [k, v] of Object.entries(svgs))
+  root.style.setProperty('--svg-' + k,
+    `url("data:image/svg+xml;utf8,${encodeURIComponent(v.trim())}")`);
+</script>
+</body></html>

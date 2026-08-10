@@ -1,0 +1,67 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="../../dist/tokens.plain.css">
+<style>
+ body{margin:0;padding:28px;font-family:var(--font-sans);color:var(--fg);background:var(--bg)}
+ h1{font-size:17px;margin:0 0 2px} .s{color:var(--fg-muted);margin:0 0 20px;font-size:13px;max-width:70ch}
+ .lbl{font:500 10px ui-monospace,Menlo,monospace;color:var(--fg-subtle);margin-top:6px}
+ .row{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;max-width:900px}
+ .tile{height:280px;border-radius:12px;border:1px solid var(--border);background-color:var(--stone-50);
+   background-repeat:repeat;filter:grayscale(1) contrast(.9);opacity:.34}
+</style></head><body>
+<h1>Real assets, smaller, brick-offset tiling</h1>
+<p class="s">Same two real PNGs, no redrawing. Cell size dropped from 130px to 90px. Rows now
+alternate a half-cell horizontal offset, built as a proper SVG repeat tile (two positioned copies
+per tile, one wrapped for seamless edges) rather than a CSS background-position trick — matching
+the staggered layout in your reference image.</p>
+
+<div class="row">
+  <div><div class="tile" style="background-image:var(--pat1)"></div><div class="lbl">flower-symbol1.png — offset tile</div></div>
+  <div><div class="tile" style="background-image:var(--pat2)"></div><div class="lbl">flower-symbol2.png — offset tile</div></div>
+</div>
+
+<script>
+// cell = size of one medallion; row = vertical spacing between rows (< cell for a
+// snug hex-like pack without the circles actually overlapping, since the source
+// PNGs carry a little margin around the ring).
+// circle = rendered medallion size. colSpace/rowSpace are the repeat spacing —
+// both larger than circle so there's a visible gap, and rowSpace > circle so a
+// row's image never exceeds its own band and gets clipped at the tile edge
+// (that was the earlier cutoff bug: rowSpace was smaller than circle).
+const circle = 70, colSpace = 112, rowSpace = 96;
+const tileW = colSpace, tileH = rowSpace * 2;
+
+// SVGs used as a CSS background-image run sandboxed and cannot fetch external
+// resources, even same-origin — an <image href="/assets/x.png"> inside one
+// silently loads nothing. Fix: inline the real PNG bytes as a base64 data-URI
+// so the SVG is fully self-contained.
+async function toDataURL(path) {
+  const blob = await (await fetch(path)).blob();
+  return new Promise((res) => {
+    const reader = new FileReader();
+    reader.onload = () => res(reader.result);
+    reader.readAsDataURL(blob);
+  });
+}
+
+function offsetPattern(dataUrl) {
+  const cy0 = (rowSpace - circle) / 2;       // center row 0's band vertically
+  const cy1 = rowSpace + (rowSpace - circle) / 2; // center row 1's band
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${tileW}" height="${tileH}">
+<image href="${dataUrl}" x="0" y="${cy0}" width="${circle}" height="${circle}"/>
+<image href="${dataUrl}" x="${colSpace/2}" y="${cy1}" width="${circle}" height="${circle}"/>
+<image href="${dataUrl}" x="${colSpace/2 - colSpace}" y="${cy1}" width="${circle}" height="${circle}"/>
+</svg>`;
+  return `url("data:image/svg+xml;utf8,${encodeURIComponent(svg)}")`;
+}
+
+(async () => {
+  const [d1, d2] = await Promise.all([
+    toDataURL('/assets/flower-symbol1.png'),
+    toDataURL('/assets/flower-symbol2.png'),
+  ]);
+  document.documentElement.style.setProperty('--pat1', offsetPattern(d1));
+  document.documentElement.style.setProperty('--pat2', offsetPattern(d2));
+})();
+</script>
+</body></html>

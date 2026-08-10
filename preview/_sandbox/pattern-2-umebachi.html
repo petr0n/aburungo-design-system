@@ -1,0 +1,261 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="../../dist/tokens.plain.css">
+<style>
+ body{margin:0;padding:28px;font-family:var(--font-sans);color:var(--fg);background:var(--bg)}
+ h1{font-size:17px;margin:0 0 2px} .s{color:var(--fg-muted);margin:0 0 20px;font-size:13px;max-width:70ch}
+ h2{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-subtle);margin:28px 0 10px}
+ .lbl{font:500 10px ui-monospace,Menlo,monospace;color:var(--fg-subtle);margin-top:6px}
+ .row{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+ .row4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+
+ .pat{position:relative;isolation:isolate;overflow:hidden}
+ .pat>*{position:relative;z-index:1}
+ .pat::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+   background:var(--ink,var(--fg));opacity:var(--lvl,.1);
+   -webkit-mask-image:var(--m);mask-image:var(--m);
+   -webkit-mask-repeat:repeat;mask-repeat:repeat;
+   -webkit-mask-size:var(--sz,56px) auto;mask-size:var(--sz,56px) auto}
+ .p-seigaiha{--m:var(--svg-seigaiha);--sz:56px}
+ .p-umebachi{--m:var(--svg-umebachi);--sz:72px}
+ .p-katabami{--m:var(--svg-katabami);--sz:64px}
+ .p-kikyo{--m:var(--svg-kikyo);--sz:68px}
+ .p-asanoha{--m:var(--svg-asanoha);--sz:46px}
+ .ghost{--lvl:.055;--ink:var(--fg)}
+ .present{--lvl:.13;--ink:var(--fg)}
+ .on-dark{--ink:var(--ogon-500);--lvl:.28}
+
+ .crest::before{-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+   -webkit-mask-position:var(--pos,center);mask-position:var(--pos,center);
+   -webkit-mask-size:var(--sz);mask-size:var(--sz)}
+
+ .tile{height:150px;border-radius:12px;background:var(--stone-50);border:1px solid var(--border)}
+ .band{height:76px;border-radius:10px;background:var(--inverse);display:flex;align-items:center;padding:0 16px;
+   color:var(--fg-inverse);font-weight:600;font-size:14px}
+ .spec{height:170px;border-radius:12px;background:var(--stone-0);border:1px solid var(--border);
+   display:flex;align-items:center;justify-content:center}
+ .spec .ink{width:120px;height:120px;background:var(--fg);
+   -webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat}
+
+ .phone{width:390px;border-radius:22px;border:1px solid var(--border-strong);overflow:hidden;box-shadow:var(--shadow-card)}
+ .phone .hdr{background:var(--inverse);color:var(--fg-inverse);padding:18px 18px 22px;position:relative}
+ .phone .hdr .t{font-weight:600;font-size:15px}
+ .bokashi::after{content:"";position:absolute;left:0;right:0;bottom:0;height:16px;z-index:2;
+   background:linear-gradient(to bottom,transparent,color-mix(in oklab,var(--ogon-500) 22%,transparent))}
+ .phone .pg{padding:22px 18px 26px;min-height:330px}
+ .card{background:var(--stone-0);border:1px solid var(--border);border-radius:20px;padding:22px 20px;box-shadow:var(--shadow-card)}
+ .jp{font-family:var(--font-jp);font-size:26px;line-height:40px;color:var(--ai-700,#1F3A66)}
+ .rom{font-size:13px;color:var(--fg-muted);margin-top:6px}
+ .cta{margin-top:14px;background:var(--action);color:var(--action-fg);border-radius:12px;height:44px;
+   display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px}
+</style></head><body>
+<h1>Pattern library v2 — yagasuri out, kamon-scatter motifs in</h1>
+<p class="s">Iteration on <code>pattern-1-library.html</code> after review: arrow fletching rejected.
+The third pattern slot is now a scattered crest motif (mon-chirashi, the komon-fabric tradition)
+drawn from the reference chart. <b>Umebachi 梅鉢</b> is the recommended pick — the plum crest of
+Tenjin shrines, the god of scholarship. Katabami and kikyō below as alternates.</p>
+
+<h2>1 · The proposed set at PRESENT level — seigaiha · umebachi · asanoha</h2>
+<div class="row">
+  <div><div class="tile pat present p-seigaiha"></div><div class="lbl">seigaiha 青海波 · wave fans</div></div>
+  <div><div class="tile pat present p-umebachi"></div><div class="lbl">umebachi 梅鉢 · plum, scholarship</div></div>
+  <div><div class="tile pat present p-asanoha"></div><div class="lbl">asanoha 麻の葉 · hemp-leaf</div></div>
+</div>
+
+<h2>1b · Alternates for the third slot, from the chart</h2>
+<div class="row">
+  <div><div class="tile pat present p-katabami"></div><div class="lbl">katabami 片喰 · wood sorrel (#8)</div></div>
+  <div><div class="tile pat present p-kikyo"></div><div class="lbl">kikyō 桔梗 · bellflower (#7)</div></div>
+</div>
+
+<h2>2 · Ghost level, card on top (task surfaces — the card stays paper)</h2>
+<div class="row">
+  <div><div class="tile pat ghost p-seigaiha" style="padding:16px"><div class="card" style="padding:12px 14px"><span class="jp" style="font-size:18px;line-height:26px">これをください</span></div></div><div class="lbl">ghost seigaiha</div></div>
+  <div><div class="tile pat ghost p-umebachi" style="padding:16px"><div class="card" style="padding:12px 14px"><span class="jp" style="font-size:18px;line-height:26px">これをください</span></div></div><div class="lbl">ghost umebachi</div></div>
+  <div><div class="tile pat ghost p-asanoha" style="padding:16px"><div class="card" style="padding:12px 14px"><span class="jp" style="font-size:18px;line-height:26px">これをください</span></div></div><div class="lbl">ghost asanoha</div></div>
+</div>
+
+<h2>3 · The header band — Ōgon ink on Sumi</h2>
+<div class="row">
+  <div><div class="band pat on-dark p-seigaiha">aburungo</div><div class="lbl">seigaiha · ōgon .28</div></div>
+  <div><div class="band pat on-dark p-umebachi">aburungo</div><div class="lbl">umebachi · ōgon .28</div></div>
+  <div><div class="band pat on-dark p-asanoha">aburungo</div><div class="lbl">asanoha · ōgon .28</div></div>
+</div>
+
+<h2>4 · Kamon candidates — unchanged from v1, still to be chosen</h2>
+<div class="row4">
+  <div><div class="spec"><div class="ink" style="--m:var(--svg-koiHishi)"></div></div><div class="lbl">A · koi in hishi frame</div></div>
+  <div><div class="spec"><div class="ink" style="--m:var(--svg-koiLeap)"></div></div><div class="lbl">B · leaping koi, unenclosed</div></div>
+  <div><div class="spec"><div class="ink" style="--m:var(--svg-suzume)"></div></div><div class="lbl">C · suzume, unenclosed</div></div>
+  <div><div class="spec"><div class="ink" style="--m:var(--svg-suzumeHishi)"></div></div><div class="lbl">D · suzume in hishi frame</div></div>
+</div>
+
+<h2>5 · The two tiers together — umebachi header, seigaiha page, koi ghost</h2>
+<div style="display:flex;gap:24px;align-items:flex-start">
+  <div class="phone">
+    <div class="hdr pat on-dark p-umebachi bokashi"><span class="t">aburungo</span></div>
+    <div class="pg pat ghost p-seigaiha">
+      <div class="card">
+        <div class="jp">すみません、これをください。</div>
+        <div class="rom">sumimasen, kore o kudasai</div>
+        <div class="cta">Show answer</div>
+      </div>
+      <div class="pat crest" style="--m:var(--svg-koiLeap);--sz:120px;--lvl:.09;--pos:right -14px bottom -18px;height:150px"></div>
+    </div>
+  </div>
+  <p class="s" style="max-width:34ch">Same two-tier screen as v1 with the umebachi header.
+  The plum scatter on dark chrome reads as printed endpaper; the page stays seigaiha ghost;
+  the card stays paper.</p>
+</div>
+
+<script>
+const svgs = {
+seigaiha: `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="20">
+<defs>
+<g id="f">
+ <circle r="20" fill="#000"/>
+ <circle r="18" fill="none" stroke="#fff" stroke-width="2"/>
+ <circle r="14" fill="none" stroke="#fff" stroke-width="2"/>
+ <circle r="10" fill="none" stroke="#fff" stroke-width="2"/>
+ <circle r="6" fill="none" stroke="#fff" stroke-width="2"/>
+ <circle r="2" fill="#fff"/>
+</g>
+<mask id="m">
+ <rect width="40" height="20" fill="#000"/>
+ <use href="#f" x="-20" y="-10"/><use href="#f" x="20" y="-10"/><use href="#f" x="60" y="-10"/>
+ <use href="#f" x="0" y="0"/><use href="#f" x="40" y="0"/>
+ <use href="#f" x="-20" y="10"/><use href="#f" x="20" y="10"/><use href="#f" x="60" y="10"/>
+ <use href="#f" x="0" y="20"/><use href="#f" x="40" y="20"/>
+ <use href="#f" x="-20" y="30"/><use href="#f" x="20" y="30"/><use href="#f" x="60" y="30"/>
+</mask>
+</defs>
+<rect width="40" height="20" fill="#fff" mask="url(#m)"/>
+</svg>`,
+
+umebachi: `<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80">
+<defs><g id="u" fill="#fff">
+ <circle r="4.5"/>
+ <circle cx="0" cy="-12" r="6.5"/>
+ <circle cx="11.41" cy="-3.71" r="6.5"/>
+ <circle cx="7.05" cy="9.71" r="6.5"/>
+ <circle cx="-7.05" cy="9.71" r="6.5"/>
+ <circle cx="-11.41" cy="-3.71" r="6.5"/>
+</g></defs>
+<use href="#u" x="20" y="20"/><use href="#u" x="60" y="60"/>
+</svg>`,
+
+katabami: `<svg xmlns="http://www.w3.org/2000/svg" width="72" height="72">
+<defs>
+ <path id="lf" d="M0 0 C-7 -4 -9 -12 -4.5 -14 C-2 -15.2 0 -14 0 -12.5 C0 -14 2 -15.2 4.5 -14 C9 -12 7 -4 0 0 Z" fill="#fff"/>
+ <g id="k">
+  <use href="#lf"/>
+  <use href="#lf" transform="rotate(120)"/>
+  <use href="#lf" transform="rotate(240)"/>
+ </g>
+</defs>
+<use href="#k" x="18" y="18"/><use href="#k" x="54" y="54"/>
+</svg>`,
+
+kikyo: `<svg xmlns="http://www.w3.org/2000/svg" width="76" height="76">
+<defs>
+ <path id="pt" d="M0 0 C-4.2 -5 -4.2 -12 0 -16.5 C4.2 -12 4.2 -5 0 0 Z" fill="#fff"/>
+ <g id="q">
+  <use href="#pt"/>
+  <use href="#pt" transform="rotate(72)"/>
+  <use href="#pt" transform="rotate(144)"/>
+  <use href="#pt" transform="rotate(216)"/>
+  <use href="#pt" transform="rotate(288)"/>
+  <circle r="2.8" fill="#fff"/>
+ </g>
+</defs>
+<use href="#q" x="19" y="19"/><use href="#q" x="57" y="57"/>
+</svg>`,
+
+asanoha: `<svg xmlns="http://www.w3.org/2000/svg" width="23.094" height="40">
+<path fill="none" stroke="#fff" stroke-width="1.1" d="
+ M0 0H23.094 M0 20H23.094 M0 40H23.094
+ M0 0L23.094 40 M0 40L23.094 0
+ M11.547 6.667L0 0 M11.547 6.667L23.094 0 M11.547 6.667L11.547 20
+ M0 13.333L0 0 M0 13.333L11.547 20
+ M23.094 13.333L23.094 0 M23.094 13.333L11.547 20
+ M0 26.667L0 40 M0 26.667L11.547 20
+ M23.094 26.667L23.094 40 M23.094 26.667L11.547 20
+ M11.547 33.333L0 40 M11.547 33.333L23.094 40 M11.547 33.333L11.547 20"/>
+</svg>`,
+
+koiHishi: `<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120">
+<mask id="m">
+ <rect width="120" height="120" fill="#000"/>
+ <path d="M60 6 L114 60 L60 114 L6 60 Z" fill="none" stroke="#fff" stroke-width="3.5"/>
+ <path d="M60 15 L105 60 L60 105 L15 60 Z" fill="none" stroke="#fff" stroke-width="1.2"/>
+ <path d="M30 60 C42 45 76 45 88 60 C76 75 42 75 30 60 Z" fill="#fff"/>
+ <path d="M84 60 L100 47 L95 60 L100 73 Z" fill="#fff"/>
+ <path d="M52 46 C57 39 67 38 73 45 C66 43 58 43 52 46 Z" fill="#fff"/>
+ <path d="M31 56 Q26 53 24 49" fill="none" stroke="#fff" stroke-width="1.5"/>
+ <path d="M31 64 Q26 67 24 71" fill="none" stroke="#fff" stroke-width="1.5"/>
+ <circle cx="41" cy="55" r="2.8" fill="#000"/>
+ <path d="M48 49 Q44 60 48 71" fill="none" stroke="#000" stroke-width="2.2"/>
+ <path d="M60 47 Q55 60 60 73" fill="none" stroke="#000" stroke-width="2"/>
+ <path d="M70 46 Q65 60 70 74" fill="none" stroke="#000" stroke-width="2"/>
+</mask>
+<rect width="120" height="120" fill="#fff" mask="url(#m)"/>
+</svg>`,
+
+koiLeap: `<svg xmlns="http://www.w3.org/2000/svg" width="120" height="130">
+<mask id="m">
+ <rect width="120" height="130" fill="#000"/>
+ <path d="M74 16 C44 26 32 58 50 98 C60 74 62 48 86 28 C84 20 80 16 74 16 Z" fill="#fff"/>
+ <path d="M50 98 C40 96 28 96 18 102 C28 108 40 108 48 104 Z" fill="#fff"/>
+ <path d="M50 98 C46 106 40 114 32 120 C42 118 50 112 54 104 Z" fill="#fff"/>
+ <path d="M62 46 C70 50 74 58 72 66 C66 60 62 54 62 46 Z" fill="#fff"/>
+ <path d="M76 22 Q82 20 86 22" fill="none" stroke="#fff" stroke-width="1.5"/>
+ <circle cx="72" cy="26" r="3" fill="#000"/>
+ <path d="M66 22 Q60 32 64 40" fill="none" stroke="#000" stroke-width="2.5"/>
+ <path d="M56 44 Q48 58 52 72" fill="none" stroke="#000" stroke-width="2"/>
+ <path d="M50 58 Q44 70 48 84" fill="none" stroke="#000" stroke-width="2"/>
+</mask>
+<rect width="120" height="130" fill="#fff" mask="url(#m)"/>
+</svg>`,
+
+suzume: `<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120">
+<mask id="m">
+ <rect width="120" height="120" fill="#000"/>
+ <circle cx="66" cy="38" r="12" fill="#fff"/>
+ <ellipse cx="52" cy="62" rx="21" ry="17" transform="rotate(12 52 62)" fill="#fff"/>
+ <path d="M77 35 L85 38 L76 42 Z" fill="#fff"/>
+ <path d="M34 58 L14 48 L22 60 Z" fill="#fff"/>
+ <path d="M34 62 L12 58 L20 68 Z" fill="#fff"/>
+ <path d="M50 78 L48 88 M58 78 L57 88" stroke="#fff" stroke-width="2"/>
+ <circle cx="69" cy="35" r="2.4" fill="#000"/>
+ <path d="M44 54 Q56 48 68 54" fill="none" stroke="#000" stroke-width="2.5"/>
+ <path d="M48 60 Q58 56 66 60" fill="none" stroke="#000" stroke-width="2"/>
+</mask>
+<rect width="120" height="120" fill="#fff" mask="url(#m)"/>
+</svg>`,
+
+suzumeHishi: `<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120">
+<mask id="m">
+ <rect width="120" height="120" fill="#000"/>
+ <path d="M60 6 L114 60 L60 114 L6 60 Z" fill="none" stroke="#fff" stroke-width="3.5"/>
+ <path d="M60 15 L105 60 L60 105 L15 60 Z" fill="none" stroke="#fff" stroke-width="1.2"/>
+ <g transform="translate(60 62) scale(.62) translate(-52 -60)">
+  <circle cx="66" cy="38" r="12" fill="#fff"/>
+  <ellipse cx="52" cy="62" rx="21" ry="17" transform="rotate(12 52 62)" fill="#fff"/>
+  <path d="M77 35 L85 38 L76 42 Z" fill="#fff"/>
+  <path d="M34 58 L14 48 L22 60 Z" fill="#fff"/>
+  <path d="M34 62 L12 58 L20 68 Z" fill="#fff"/>
+  <path d="M50 78 L48 88 M58 78 L57 88" stroke="#fff" stroke-width="2"/>
+  <circle cx="69" cy="35" r="2.4" fill="#000"/>
+  <path d="M44 54 Q56 48 68 54" fill="none" stroke="#000" stroke-width="2.5"/>
+  <path d="M48 60 Q58 56 66 60" fill="none" stroke="#000" stroke-width="2"/>
+ </g>
+</mask>
+<rect width="120" height="120" fill="#fff" mask="url(#m)"/>
+</svg>`,
+};
+const root = document.documentElement;
+for (const [k, v] of Object.entries(svgs))
+  root.style.setProperty('--svg-' + k,
+    `url("data:image/svg+xml;utf8,${encodeURIComponent(v.trim())}")`);
+</script>
+</body></html>

@@ -1,0 +1,70 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="../../dist/tokens.plain.css">
+<style>
+ body{margin:0;padding:28px;font-family:var(--font-sans);color:var(--fg);background:var(--bg)}
+ h1{font-size:17px;margin:0 0 2px} .s{color:var(--fg-muted);margin:0 0 20px;font-size:13px;max-width:70ch}
+ h2{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-subtle);margin:24px 0 10px}
+ .lbl{font:500 10px ui-monospace,Menlo,monospace;color:var(--fg-subtle);margin-top:6px}
+ .row{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;max-width:600px}
+ .spec{height:220px;border-radius:12px;background:var(--stone-0);border:1px solid var(--border);
+   display:flex;align-items:center;justify-content:center}
+ .ink{width:150px;height:150px;background:var(--fg);
+   -webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat}
+ .tile{height:130px;border-radius:12px;background:var(--stone-50);border:1px solid var(--border);position:relative;overflow:hidden}
+ .ghost{width:100px;height:100px;background:var(--fg);opacity:.09;position:absolute;right:14px;bottom:10px;
+   -webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat}
+</style></head><body>
+<h1>Mokkō and katabami — redrawn against your reference</h1>
+<p class="s">Same two crests you sent, no others. Full-size specimen ink on top, ghosted-corner scale below.</p>
+
+<h2>Specimen</h2>
+<div class="row">
+  <div><div class="spec"><div class="ink" style="--m:var(--svg-mokko)"></div></div><div class="lbl">mokkō</div></div>
+  <div><div class="spec"><div class="ink" style="--m:var(--svg-katabami)"></div></div><div class="lbl">katabami</div></div>
+</div>
+
+<h2>Ghosted, as it sits in a corner</h2>
+<div class="row">
+  <div><div class="tile"><div class="ghost" style="--m:var(--svg-mokko)"></div></div><div class="lbl">mokkō ghosted</div></div>
+  <div><div class="tile"><div class="ghost" style="--m:var(--svg-katabami)"></div></div><div class="lbl">katabami ghosted</div></div>
+</div>
+
+<script>
+const svgs = {
+mokko: `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+<defs>
+ <circle id="pet" cx="0" cy="-15" r="15"/>
+ <circle id="notch" cx="0" cy="-28" r="5.5"/>
+</defs>
+<mask id="mo">
+ <rect width="100" height="100" fill="#000"/>
+ <g transform="translate(50 50)">
+  <use href="#pet" fill="#fff"/><use href="#notch" fill="#000"/>
+  <g transform="rotate(90)"><use href="#pet" fill="#fff"/><use href="#notch" fill="#000"/></g>
+  <g transform="rotate(180)"><use href="#pet" fill="#fff"/><use href="#notch" fill="#000"/></g>
+  <g transform="rotate(270)"><use href="#pet" fill="#fff"/><use href="#notch" fill="#000"/></g>
+  <circle r="9" fill="#fff"/>
+ </g>
+</mask>
+<rect width="100" height="100" fill="#fff" mask="url(#mo)"/>
+</svg>`,
+
+katabami: `<svg xmlns="http://www.w3.org/2000/svg" width="90" height="98" viewBox="0 0 90 98">
+<defs>
+ <path id="lf" d="M0 0 C-8.5 -5 -11 -14.5 -5.5 -17 C-2.5 -18.3 0 -17 0 -15.2 C0 -17 2.5 -18.3 5.5 -17 C11 -14.5 8.5 -5 0 0 Z"/>
+</defs>
+<g fill="#fff" transform="translate(45 50)">
+ <use href="#lf"/>
+ <use href="#lf" transform="rotate(120)"/>
+ <use href="#lf" transform="rotate(240)"/>
+ <rect x="-2" y="0" width="4" height="26" rx="2"/>
+</g>
+</svg>`,
+};
+const root = document.documentElement;
+for (const [k, v] of Object.entries(svgs))
+  root.style.setProperty('--svg-' + k,
+    `url("data:image/svg+xml;utf8,${encodeURIComponent(v.trim())}")`);
+</script>
+</body></html>

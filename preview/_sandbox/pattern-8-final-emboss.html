@@ -1,0 +1,74 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="../../dist/tokens.plain.css">
+<style>
+ body{margin:0;padding:28px;font-family:var(--font-sans);color:var(--fg);background:var(--bg)}
+ h1{font-size:17px;margin:0 0 2px} .s{color:var(--fg-muted);margin:0 0 20px;font-size:13px;max-width:70ch}
+ .lbl{font:500 10px ui-monospace,Menlo,monospace;color:var(--fg-subtle);margin-top:6px}
+ .row{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;max-width:640px}
+ .spec{height:240px;border-radius:12px;background:var(--stone-50);border:1px solid var(--border);
+   display:flex;align-items:center;justify-content:center}
+ /* soft-relief emboss: three stacked masked layers (shadow, highlight, solid base)
+    with the shadow/highlight offset + blurred so they peek out from behind the
+    base along the light-from-upper-left edges. drop-shadow-on-mask rendered
+    nothing in headless Chrome, so this reuses the offset-mask mechanism already
+    proven earlier in this file series, just with translate+blur instead of a
+    crisp 1px mask-position nudge. */
+ .relief{position:relative;width:170px;height:170px}
+ .relief i{position:absolute;inset:0;-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat}
+ .relief i.base{background:var(--fg);z-index:2}
+ .relief i.sh{background:#000;opacity:.45;transform:translate(3px,3.5px);filter:blur(1.8px);z-index:0}
+ .relief i.hi{background:var(--stone-0);opacity:.85;transform:translate(-2.2px,-2.6px);filter:blur(1.2px);z-index:1}
+</style></head><body>
+<h1>Crest A and B — soft emboss, matching clan-symbol-flower.png's relief</h1>
+<p class="s">Traced from <code>japanese-flower1 2.png</code> and <code>pasted-1779754339988-0.png</code>
+directly. Emboss is now a blurred highlight/shadow pair via CSS <code>drop-shadow</code>, light source
+upper-left, instead of the earlier crisp offset trick — closer to the soft relief in your reference.
+Ink and highlight use the app's own tokens (sumi ink, paper highlight), not literal silver.</p>
+
+<div class="row">
+  <div><div class="spec"><div class="relief" style="--m:var(--svg-crestA)"><i class="sh"></i><i class="hi"></i><i class="base"></i></div></div><div class="lbl">crest A — japanese-flower1 2.png</div></div>
+  <div><div class="spec"><div class="relief" style="--m:var(--svg-crestB)"><i class="sh"></i><i class="hi"></i><i class="base"></i></div></div><div class="lbl">crest B — pasted-...-0.png</div></div>
+</div>
+
+<script>
+const svgs = {
+crestA: `<svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" viewBox="0 0 90 90">
+<defs>
+ <g id="lobe9">
+  <path fill="#fff" d="M0 0 C-10 -4 -13 -13 -9 -18 C-6 -21 6 -21 9 -18 C13 -13 10 -4 0 0 Z"/>
+  <path stroke="#000" stroke-width="1.6" fill="none" stroke-linecap="round" d="M0 -3 L0 -17"/>
+ </g>
+</defs>
+<mask id="ca">
+ <rect width="90" height="90" fill="#000"/>
+ <g transform="translate(45 50)">
+  <use href="#lobe9"/>
+  <use href="#lobe9" transform="rotate(120)"/>
+  <use href="#lobe9" transform="rotate(240)"/>
+  <circle r="5" fill="#fff"/>
+ </g>
+</mask>
+<rect width="90" height="90" fill="#fff" mask="url(#ca)"/>
+</svg>`,
+
+crestB: `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+<defs>
+ <path id="tl" d="M0 0 C-8.5 -5 -11 -14.5 -5.5 -17 C-2.5 -18.3 0 -17 0 -15.2 C0 -17 2.5 -18.3 5.5 -17 C11 -14.5 8.5 -5 0 0 Z"/>
+</defs>
+<g fill="#fff" transform="translate(50 58)">
+ <g transform="rotate(-58) scale(1.65)"><use href="#tl"/></g>
+ <g transform="rotate(58) scale(1.65)"><use href="#tl"/></g>
+ <circle cx="-7" cy="13" r="4"/>
+ <circle cx="7" cy="13" r="4"/>
+ <circle cx="-7" cy="22" r="4"/>
+ <circle cx="7" cy="22" r="4"/>
+</g>
+</svg>`,
+};
+const root = document.documentElement;
+for (const [k, v] of Object.entries(svgs))
+  root.style.setProperty('--svg-' + k,
+    `url("data:image/svg+xml;utf8,${encodeURIComponent(v.trim())}")`);
+</script>
+</body></html>
