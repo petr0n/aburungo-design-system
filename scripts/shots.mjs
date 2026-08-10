@@ -68,6 +68,7 @@ const SURFACES = [
   ['sandbox-pattern8', '/preview/_sandbox/pattern-8-final-emboss.html', 750, 450],
   ['sandbox-pattern9', '/preview/_sandbox/pattern-9-real-assets.html', 950, 450],
   ['sandbox-pattern10', '/preview/_sandbox/pattern-10-offset-tile.html', 950, 480],
+  ['sandbox-pattern11', '/preview/_sandbox/pattern-11-clan-symbols.html', 950, 1250],
   ['sandbox-surfaces', '/preview/_sandbox/surfaces-1-current.html', 900, 420],
   ['sandbox-vibrancy', '/preview/_sandbox/vibrancy-1-before-after.html', 1000, 560],
   ['sandbox-kana', '/preview/_sandbox/kana-2-green.html', 1180, 400],
