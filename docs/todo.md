@@ -219,6 +219,39 @@ between.
   deliberately does not use. `check-adherence.mjs` runs on `src/` in *this* repo,
   so it never saw them.
 
+### 4a. Every focus ring in the app is Akane
+
+**Found 2026-08-10**, while re-auditing orphaned roles against both repos. This is
+the sharpest instance of the ramp problem above, and it is a live defect rather
+than a tidiness one.
+
+The app styles focus **8 times** on `ring-brand-500` / `focus:border-brand-500`,
+and uses this package's `ring-focus` **zero times**. `--color-brand-500` resolves
+to `#D72E2E` — **Akane**. So a focused input draws a ring in the colour reserved
+for errors and for the hanko: focused and errored look identical.
+
+Nobody wrote this bug. `brand-500` was v2 purple, a purple ring was unremarkable,
+and repointing the alias to Akane turned all 8 red without one file changing.
+
+Sites: `HanaChat.tsx:142`, `FeedbackSheet.tsx:80`, `KanaPage.tsx:122,130`,
+`KanaPracticePage.tsx:402`, `AdminLoginPage.tsx:161,178`, `AdminLogsPage.tsx:97`.
+
+Coverage is separately thin: 32 app files contain interactive elements, 7 have
+any focus styling at all.
+
+Nothing can catch this. `scripts/check-adherence.mjs` has a
+`focus-ring-without-offset` rule, but it scans `src/components/**` *in this repo*
+— the app's focus styling is ungated by anything, here or there.
+
+**Do not simply repoint the 8 sites to `ring-focus`.** That trades a semantic bug
+for a contrast one: `--color-focus` is Ōgon, which is **2.26:1 on the page** and
+is one of the four `KNOWN` failures in `check-contrast.mjs`. Plan task 5.7 already
+reserves the focus ring for the palette author. **Two repos now wait on that one
+decision, which is the argument for raising it rather than working around it.**
+
+Order: (1) settle Ōgon-or-darker with the palette author, (2) repoint all 8 in one
+pass, (3) decide whether adherence should run against the app's `src/` too.
+
 **What to work out when this is picked up:**
 
 - Which of the five are genuinely app-shaped (routing, streaming, API state) and

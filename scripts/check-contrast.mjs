@@ -71,6 +71,12 @@ const CHECKS = [
   ['--color-success-fg', '--color-success-bg', TEXT, 'recalled banner'],
   ['--color-error-fg', '--color-error-bg', TEXT, 'not-quite banner'],
   ['--color-tag-fg', '--color-tag-bg', TEXT, 'scenario tag'],
+  // `link` is a raw value rather than a Rokusho alias for exactly this reason:
+  // Rokusho 500 is 3.00:1 on the page and fails AA as text. Gate it so the
+  // darkening that justifies the token cannot be undone by tidying it back to
+  // var(--color-rokusho-500).
+  ['--color-link', '--color-bg', TEXT, 'link on page'],
+  ['--color-link', '--color-surface', TEXT, 'link on card'],
   ['--color-fg-inverse', '--color-inverse', TEXT, 'text on inverse chrome'],
   // Non-text indicators — the focus ring has to read on every ground it can
   // land on, which is what made the v3 Ogon ring fail its own review.

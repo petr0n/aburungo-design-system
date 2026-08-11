@@ -180,15 +180,20 @@ Roles now defined with **no component using them**. Defining a token is not
 implementing it; this is the list that stops v3's design intent from arriving
 as a token and silently never getting built.
 
-| Role | Owner it should have | Lands in |
+**Re-audited 2026-08-10 against both repos** — this repo *and* `../aburungo`,
+which imports `src/tokens.css` and so can consume any role as a utility. Checking
+only this repo was the original mistake; a control grep (`fg-subtle` → 177 hits
+in the app) confirms a zero here means zero.
+
+| Role | Owner it should have | Status |
 |---|---|---|
-| ~~`bg-inverse`~~ → `inverse`, `rule-on-inverse`, `fg-on-inverse-2` | `AppHeader` **(built)**, `KanaKeyboard` still to come | Phase 3B / 5.5b |
-| `progress-complete` | `ProgressBar` — does a finished bar cap in Ōgon, or is that ornament? | Phase 3B |
-| `tag-bg` / `tag-fg` | `Badge` emphasis. **`HANDOFF.md` §4 claims this shipped; `Badge.tsx:23` is still `bg-surface-2 text-fg-subtle`. Trust the code** | Phase 5.5c |
-| `link` | no component exists | Phase 3B — build one or record that the app applies it ad-hoc |
-| `action`, `action-2-*`, `accent`, `fg-heading` | `Button`, `.hanko`, headings | Phase 5, with the repaint |
-| `shadow-key-on-inverse` | `KanaKeyboard` | Phase 3B — not yet defined as a token either |
-| `border-focus` `#5c7aa8` | unclear in v3, distinct from `focus` | decide an owner or delete it |
+| ~~`bg-inverse`~~ → `inverse`, `rule-on-inverse`, `fg-on-inverse-2` | `AppHeader`, `KanaKeyboard` | ✅ **both built** — `AppHeader.tsx:38`, and `KanaKeyboard` wears the Rokushō slab |
+| `tag-bg` / `tag-fg` | `Badge` emphasis | ✅ **shipped.** This row used to say `Badge.tsx:23` was still `bg-surface-2 text-fg-subtle` and to trust the code over `HANDOFF.md`. The code has since caught up: `ui/Badge.tsx:27` and `PhraseCard.tsx:37` |
+| `action`, `action-2-*`, `accent`, `fg-heading` | `Button`, `.hanko`, headings | ✅ **done** — 3 / 1 / 4 / 1 component files. `.hanko` fills `var(--color-accent)`, closing plan task 5.5d |
+| `link` | no component | ⚠️ **kept, and justified.** Used once, in `ui_kits/flows/main.tsx:39`, nowhere in the package or the app. **Not a candidate for deletion:** Rokushō 500 is 3.00:1 on the page and fails AA as text, so `#33685e` is Rokushō darkened to 5.91:1. That reason now lives beside the token and is gated by `check-contrast.mjs`, so it cannot be tidied back into an alias |
+| `shadow-key-on-inverse` | `KanaKeyboard` key treatment | ⚠️ **queued, not orphaned.** The token now exists; the key treatment is the remaining piece of the inverse-chrome work. **Trigger: the `KanaKeyboard` key-shadow pass in Phase 3B.** Delete it if that pass is dropped |
+| `progress-complete` | `ProgressBar` | ❌ **still open — a taste call, deliberately unresolved.** Does a finished bar cap in Ōgon, or is that ornament? Not decided by argument: render both and look. Held 2026-08-10 rather than guessed |
+| ~~`border-focus` `#5c7aa8`~~ | — | 🗑️ **deleted 2026-08-10.** An off-palette blue that appears nowhere in Zuihoden, carried from v2, unused in both repos. v3's ring is `--color-focus` |
 
 `KanaKeyboard` currently reaches for `bg-fg` where it means `bg-inverse` — the
 right pixel from the wrong role. Correct today because body text and inverse

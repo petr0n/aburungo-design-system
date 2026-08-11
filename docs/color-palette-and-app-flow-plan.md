@@ -368,7 +368,7 @@ Audited across both the drop and this repo. Eight roles have **zero implementati
 | `progress-complete` `#C9A045` | "a completed bar caps with Ōgon" | `ProgressBar` |
 | `tag-bg` / `tag-fg` | scenario tags | `Badge` (emphasis variant) |
 | `link` `#33685E` | links | **no component exists** |
-| `border-focus` `#5c7aa8` | — unclear, distinct from `focus` | unassigned |
+| ~~`border-focus` `#5c7aa8`~~ | — off-palette blue, v2 leftover | **deleted 2026-08-10** — unused in both repos; v3's ring is `focus` |
 
 Note the shape of it: **`AppHeader` and `KanaKeyboard` are two of the nine components the drop doesn't ship**, and four of the eight orphans exist specifically to style them. v3 designed the inverse-chrome treatment and had no component to apply it to. That intent survives only if someone goes looking for it.
 
@@ -493,7 +493,7 @@ This is where the skills earn their place. Everything below is work the drop spe
 | **Inverse chrome — `AppHeader` second** — same treatment, applied after the kana keyboard settles it | **`AppHeader` has zero importers in `../aburungo`** (verified 2026-08-07), alongside `PhraseCard` and `IconButton`. Doing the plan's most expensive design work on an unimported component is the wrong order. Either confirm it is meant for a shell that isn't built yet, or let `KanaKeyboard` establish the treatment and apply it here cheaply | reuse the `KanaKeyboard` result | shell 3 / 2 / 1 |
 | **Scenario card** — `.emboss-bg` has no component owner | **real design work**, and the one surface where the pattern is sanctioned | `frontend-design` — this is its best target in the whole plan | 3 / 3 / 2 |
 | Link treatment (`--color-link`) | solved pattern — don't design it, look it up | `ui-ux-pro-max` checklist | — |
-| `border-focus` `#5c7aa8` | purpose unclear in v3 | decide an owner or delete the token | — |
+| ~~`border-focus` `#5c7aa8`~~ | purpose unclear in v3 | ~~decide an owner or delete the token~~ — **deleted 2026-08-10**, it was neither on the palette nor used | done |
 
 **Sequencing note:** the two "real design work" rows are the only ones that go through the full explore beat with variants in `preview/_sandbox/`. The mechanical rows are done directly — running a generative skill over a one-line token fix is exactly the waste this plan is trying to avoid.
 
@@ -626,7 +626,7 @@ This is a **merge, not a copy.** The drop is ahead on tokens and assets and behi
 5. `preview/_sandbox/` — the variant workshop, where skill output gets tried before it gets shipped
 6. 20 components passing the eight-point gate
 7. A correctness vocabulary — `Maru` as the sole ○ / ✕ definition, consumed across the mark surfaces, with `AnswerResult` owning the app-checks-answer case and its non-overridable wording — plus the boundary rule that keeps it from becoming a badge
-7b. Zero orphaned roles — every token v3 defines has an implementation or a written reason, and `docs/colors.md` carries the corrections as a diff to send back
+7b. Every token v3 defines has an implementation, a written reason, or a deletion — and `docs/colors.md` carries the corrections as a diff to send back. ~~Zero orphaned roles~~ **Corrected 2026-08-10** after re-auditing against **both** repos (the app imports `src/tokens.css`, so it can consume any role; checking only this repo was the original error). Result: `inverse`/`rule-on-inverse`, `tag-bg`/`tag-fg`, `action*`, `accent` and `fg-heading` are **built**; `border-focus` was **deleted** as an off-palette v2 leftover; `link` is **kept with its reason gated** (Rokushō 500 is 3.00:1 and fails AA as text — `#33685e` is it darkened to 5.91:1); `shadow-key-on-inverse` is **queued** behind the `KanaKeyboard` key pass; `progress-complete` is **the one still open**, and deliberately so — it is a taste call to be settled by rendering, not arguing
 8. 25 flow mockups (5 flows × 5 states) in `ui_kits/` + `preview/`
 9. A palette swap that is a one-file diff
 

@@ -119,7 +119,10 @@
   /* ── Borders. On Sumi-iro chrome, rules are a thin Ōgon hairline. ─── */
   --color-border:          #E2DED2;
   --color-border-strong:   #CFC9B9;
-  --color-border-focus:    #5c7aa8;
+  /* --color-border-focus: #5c7aa8 deleted 2026-08-10. An off-palette blue —
+     it appears nowhere in Zuihoden — carried over from v2, with no owner in
+     either repo. v3's focus ring is --color-focus (Ogon). Two tokens named
+     for focus, one of them off-palette, is how the wrong one gets picked. */
   --color-rule-on-inverse: #8a6a2b;
   /* Label on an Ogon fill — Sumi-iro reads on gold, warm paper does not. */
   --color-inverse-on-ogon: var(--color-stone-800);
@@ -178,6 +181,10 @@
      1.4.11 on every light ground; the split correction is below. */
   --color-tag-bg:  var(--color-ogon-200);
   --color-tag-fg:  var(--color-ogon-700);
+  /* Links are Rokusho's job per CLAUDE.md, but Rokusho 500 #4F9C8D on the page
+     is 3.00:1 — it fails AA as text. This is Rokusho darkened to clear it:
+     5.91:1. That is the whole reason the token exists as a raw value rather
+     than var(--color-rokusho-500), and check-contrast.mjs gates it. */
   --color-link:    #33685e;
 
   /* ── Semantic feedback — correctness banners only, never decorative. */
