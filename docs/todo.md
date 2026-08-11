@@ -243,14 +243,23 @@ Nothing can catch this. `scripts/check-adherence.mjs` has a
 `focus-ring-without-offset` rule, but it scans `src/components/**` *in this repo*
 — the app's focus styling is ungated by anything, here or there.
 
-**Do not simply repoint the 8 sites to `ring-focus`.** That trades a semantic bug
-for a contrast one: `--color-focus` is Ōgon, which is **2.26:1 on the page** and
-is one of the four `KNOWN` failures in `check-contrast.mjs`. Plan task 5.7 already
-reserves the focus ring for the palette author. **Two repos now wait on that one
-decision, which is the argument for raising it rather than working around it.**
+**Unblocked 2026-08-11.** The reason to wait is gone: `--color-focus` moved to
+Ōgon 700 `#8a6a2b`, which clears 4.65 / 4.95 / 4.29 on page / card / well against
+a 3:1 bar. Repointing to `ring-focus` no longer trades a semantic bug for a
+contrast one. (`docs/colors.md` had prescribed Ōgon 700 as correction #1 all
+along — the correction was written and never applied to `tokens.css`.)
 
-Order: (1) settle Ōgon-or-darker with the palette author, (2) repoint all 8 in one
-pass, (3) decide whether adherence should run against the app's `src/` too.
+**The change, ready to run:** `ring-brand-500` → `ring-focus` and
+`focus:border-brand-500` → `focus:border-focus` at the 8 sites above, plus
+`ring-offset-2 ring-offset-bg` where missing — a ring with no offset sits on the
+control's edge, which is what `check-adherence.mjs` enforces in this repo.
+
+**Not done here.** It is a second repo, and at the time of writing that tree is
+on `main` with five unrelated files already modified. It wants its own branch and
+a clean tree, not a change folded into someone else's work in progress.
+
+Still open: (3) decide whether adherence should run against the app's `src/` too.
+Nothing catches this class of bug there today.
 
 **What to work out when this is picked up:**
 

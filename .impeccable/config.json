@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "design-system-font-size",
+        "value": "48px",
+        "createdAt": "2026-08-11T16:56:10.769Z",
+        "reason": "wm is fluid watermark display type; clamp endpoints cannot sit on a fixed ramp"
+      }
+    ]
+  }
+}

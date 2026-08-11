@@ -130,14 +130,10 @@ const KNOWN = new Map([
     'Ogon 600 on Ogon 200 — 3.60:1. Palette-author call, not ours to re-tint: ' +
       'the tag is a scenario label and the pair comes from the v3 drop.',
   ],
-  [
-    'focus ring on page',
-    'Ogon focus ring, 2.26:1 against warm stone. Plan task 5.7: resolve with ' +
-      'the palette author, do not silently re-tint. The ring is the one v3 ' +
-      'role that fails its own review.',
-  ],
-  ['focus ring on card', 'Same Ogon ring, 2.40:1. See "focus ring on page".'],
-  ['focus ring on well', 'Same Ogon ring, 2.08:1 — the worst of the three. See "focus ring on page".'],
+  // The three focus-ring entries were removed 2026-08-11 when --color-focus
+  // moved to Ogon 700. They now pass at 4.65 / 4.95 / 4.29 against a 3:1 bar.
+  // Deleted rather than left in place: a KNOWN entry for a check that passes
+  // is a mask waiting for a regression to hide under.
 ])
 
 let hard = 0
