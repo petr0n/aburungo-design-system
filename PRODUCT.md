@@ -37,7 +37,7 @@ Two things distinguish this from an ordinary internal component library:
 
 ## Capabilities and Constraints
 
-**Contents:** 20 components — 5 primitives (`Button`, `TextInput`, `Card`, `Badge`, `IconButton`) and 15 domain components — plus design tokens, brand CSS utilities, and a second entry point (`/lib`) for pure logic (`kanaData`, `romajiToKana`).
+**Contents:** 21 components, 24 exports (`Card` also ships `CardHeader` / `CardBody` / `CardFooter`) — 5 primitives (`Button`, `TextInput`, `Card`, `Badge`, `IconButton`) and 16 domain components — plus design tokens, brand CSS utilities, and a second entry point (`/lib`) for pure logic (`kanaData`, `romajiToKana`).
 
 **Hard boundaries:** no routing, no Supabase, no Zustand, no runtime dependencies. Components are pure React + TypeScript.
 

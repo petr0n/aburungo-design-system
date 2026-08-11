@@ -71,7 +71,7 @@ Check `MEMORY.md` there at the start of every conversation.
 
 | Path | Purpose |
 | --- | --- |
-| `src/components/` | TypeScript React components — the shipped package source (20 components) |
+| `src/components/` | TypeScript React components — the shipped package source (21 components, 24 exports) |
 | `src/tokens.css` | Tailwind v4 `@theme` block — **the design token source of truth** |
 | `src/index.css` | Package entry: `@import "tailwindcss"`, `@import "./tokens.css"`, `@font-face`, base resets |
 | `src/brand.css` | Brand utilities — `.hanko`, `.maru`, `.wm`, `.kata-vert`, `.ctype`, `.frame`, `.emboss-bg` |

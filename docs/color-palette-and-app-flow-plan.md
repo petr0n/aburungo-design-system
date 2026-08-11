@@ -115,7 +115,7 @@ Its instructions assume a repo that has only the 9 components it ships. This rep
 
 ### The good news: almost nothing in those nine actually breaks
 
-Verified — every distinct token suffix the 20 components reference resolves under v3, all 13 type tokens exist, radii and shadows exist. Nothing errors, because v3 aliases every legacy name. (`Maru` and `AnswerResult` were re-checked separately on 2026-08-07 and introduce no new suffix: all ten they use — `success-500`, `error-500`, `success-bg`, `error-bg`, `success-fg`, `error-fg`, `surface-2`, `heading-sm`, `body-sm`, `jp` — resolve.)
+Verified — every distinct token suffix the 21 components reference resolves under v3, all 13 type tokens exist, radii and shadows exist. Nothing errors, because v3 aliases every legacy name. (`Maru` and `AnswerResult` were re-checked separately on 2026-08-07 and introduce no new suffix: all ten they use — `success-500`, `error-500`, `success-bg`, `error-bg`, `success-fg`, `error-fg`, `surface-2`, `heading-sm`, `body-sm`, `jp` — resolve.)
 
 **Exactly one real defect:** `FillInput` uses `ring-brand-500`, and under v3 `brand-500` resolves to **Akane red** — a red focus ring, indistinguishable from an error state. `HANDOFF.md` §4 flags this precise trap and fixes it in the four components it ships; `FillInput` isn't one of them. The other eight repo-only components are already role-based and repaint correctly for free.
 
@@ -177,7 +177,7 @@ For `fg-faint`, note this is now the *second* palette in a row whose faint-text 
 
 ### Inventory to work against
 
-20 components: 5 primitives (`Button`, `TextInput`, `Card`, `Badge`, `IconButton`) + 15 domain (`PhraseCard`, `KanaGrid`, `KanaKeyboard`, `FlipCard`, `FillInput`, `VoiceInput`, `AudioButton`, `ProgressBar`, `ScoreCard`, `AppHeader`, `EmptyState`, `ErrorState`, `LoadingPlaceholder`, `Maru`, `AnswerResult`). 1,216 lines total. Every one has a JSX mirror in `ui_kits/mobile/components.jsx` that must be kept in sync by hand — the second drift machine after the tokens.
+**21 components** (24 exports — `Card` also ships `CardHeader` / `CardBody` / `CardFooter`): 5 primitives (`Button`, `TextInput`, `Card`, `Badge`, `IconButton`) + 16 domain (`PhraseCard`, `KanaGrid`, `KanaKeyboard`, `FlipCard`, `FillInput`, `VoiceInput`, `AudioButton`, `ProgressBar`, `ScoreCard`, `AppHeader`, `EmptyState`, `ErrorState`, `LoadingPlaceholder`, `Maru`, `AnswerResult`, **`GradePair`**). Counted 2026-08-11; `src/components/icons.tsx` is a shared helper, not a component, and is excluded. Every one has a JSX mirror in `ui_kits/mobile/components.jsx` that must be kept in sync by hand — the second drift machine after the tokens.
 
 ---
 
@@ -362,7 +362,7 @@ That test *is* the Phase 5 dry run.
 
 | # | Task | Done when |
 |---|---|---|
-| 2.1 | Adopt v3's role vocabulary as the contract. Audit which of the 20 components still reference a *value* token (`brand-500`, `rose`, `dusk`) rather than a role | role-vs-value table in `docs/colors.md`; known offender list starts at `FillInput` |
+| 2.1 | Adopt v3's role vocabulary as the contract. Audit which of the 21 components still reference a *value* token (`brand-500`, `rose`, `dusk`) rather than a role | role-vs-value table in `docs/colors.md`; known offender list starts at `FillInput` |
 | 2.2 | Convert value references to roles — **only in the nine components the drop does not ship.** In practice that is `FillInput` alone: `ring-brand-500` → `ring-focus`, which under v3 is currently Akane red and reads as an error. **Leave `Button`, `TextInput`, `IconButton`, `KanaGrid`, `ProgressBar` alone** — the drop repaints those and 5.4 verifies them | `grep -rE "(ring\|bg\|text)-(brand-[0-9]+\|rose\|dusk)" src/components/FillInput.tsx` returns nothing |
 | 2.3 | Fill the gaps v3 leaves: disabled state, and a documented press state for every interactive role | new role aliases present; no component uses a numbered scale token for a semantic purpose |
 | 2.3b | Decide whether `--color-correct` / `--color-incorrect` stay distinct from `success-*` / `error-*`. v3 gives them the same hexes (Rokushō / Akane) but different stated intent — "progress, correctness" vs "correctness banners". Distinct role names cost nothing now and prevent a future error-styling change from silently restyling study grading | decision recorded in `docs/colors.md` with the rationale |
@@ -525,7 +525,7 @@ This is where the skills earn their place. Everything below is work the drop spe
 
 **Where they land — changed 2026-08-08.** Not `ui_kits/mobile/screens.jsx`. That
 file is a hand-written mirror: every component typed out a second time in
-browser JSX, and every one of them a palette behind. Building 25 mockups on it
+browser JSX, and every one of them a palette behind. Building the mockups on it
 would triple the drift.
 
 Flows live in **`ui_kits/flows/`** and import `src/components` directly.
@@ -550,7 +550,9 @@ Mirror the 11 pages that already exist in `../aburungo/src/pages/` rather than i
 | ~~Pronunciation~~ **Conversation** | `ConversationPage` | **The row was wrong.** `ConversationPage` is an LLM chat at a JLPT level — `setup` → `chat`, streaming messages. There is no pronunciation scoring anywhere in the app, and the five states listed here do not exist. `VoiceInput`'s real home is the fill-blank card's Speak channel. Real screens: level select, empty thread, streaming reply, send failure |
 | Progress | `ProfilePage` | overview, per-unit detail |
 
-Each flow ships **all five states** — loading, empty, error, success, in-progress — not just the happy path. That's `/impeccable harden` + `onboard` territory, and it's where v1's "strengthen stateful experiences" bullet becomes checkable: 5 flows × 5 states = 25 mockups, each either present or not.
+Each flow ships **all five states** — loading, empty, error, success, in-progress — not just the happy path. That's `/impeccable harden` + `onboard` territory, and it's where v1's "strengthen stateful experiences" bullet becomes checkable: every state either present or not.
+
+> **Amended 2026-08-11.** This originally set a target of "5 flows × 5 states = 25 mockups" and the arithmetic was doing work the flows should do. **Built: 3 flows, 21 deep-linked states** — `kana-practice` (8), `flashcard-round` (7), `fill-blank` (6). States are not uniform across flows and should not be: `kana` has `chart` / `drill` / `answered` / `keyboard` / `result`, `fill` has `romaji` / `kana` / `system` / `speak` / `review`. Forcing each flow to exactly five would mean inventing states to hit a number, or dropping real ones. **The count is an output, not a target** — what matters is that loading, empty and error exist wherever they can occur, which `scripts/shots.mjs` renders on demand.
 
 ### What the first flow found (2026-08-08)
 
@@ -642,10 +644,10 @@ This is a **merge, not a copy.** The drop is ahead on tokens and assets and behi
 3. `PRODUCT.md` + `DESIGN.md` — the brief, machine-readable, written in roles not hexes
 4. `.impeccable/baseline.json` — a committed **design record** of the sandbox, N = 134. ~~+ a CI gate that fails on regression~~ **Corrected 2026-08-10: there is no CI gate, and one was deliberately not built.** Four reasons, in order of weight. (a) **It would gate the wrong thing.** `check-adherence` scans `src/components/**` and says so — `preview/` and `ui_kits/` are the sandbox. The baseline is the exact complement: 88 HTML, 37 JSX, 9 CSS, zero `.tsx`. A gate on it is a gate on throwaway variants, which taxes the cheapness the sandbox exists for. (b) **Nothing in it is an error** — 84 advisory, 50 warning. (c) **The paths are machine-specific**, all absolute `/Users/peterabeln/...`; a runner is `/home/runner/work/...`, so a naive diff reports 134 fixed and 134 new. (d) **The line anchors drift** — the `border-radius: 14px` finding recorded at `brand.css:289` is at 304 today, moved by an unrelated edit above it. What actually gates the repo: `check-forbidden-assets` (CI, pre-install + pre-commit), `pnpm lint` (oxlint + adherence + contrast), `pnpm typecheck`, `pnpm build`. What actually enforces the impeccable rules day to day is its **local Write/Edit hook**, which is per-machine and protects no one else's commits — do not mistake it for repo-level cover
 5. `preview/_sandbox/` — the variant workshop, where skill output gets tried before it gets shipped
-6. 20 components passing the eight-point gate
+6. 21 components passing the eight-point gate
 7. A correctness vocabulary — `Maru` as the sole ○ / ✕ definition, consumed across the mark surfaces, with `AnswerResult` owning the app-checks-answer case and its non-overridable wording — plus the boundary rule that keeps it from becoming a badge
 7b. Every token v3 defines has an implementation, a written reason, or a deletion — and `docs/colors.md` carries the corrections as a diff to send back. ~~Zero orphaned roles~~ **Corrected 2026-08-10** after re-auditing against **both** repos (the app imports `src/tokens.css`, so it can consume any role; checking only this repo was the original error). Result: `inverse`/`rule-on-inverse`, `tag-bg`/`tag-fg`, `action*`, `accent` and `fg-heading` are **built**; `border-focus` was **deleted** as an off-palette v2 leftover; `link` is **kept with its reason gated** (Rokushō 500 is 3.00:1 and fails AA as text — `#33685e` is it darkened to 5.91:1); `shadow-key-on-inverse` is **queued** behind the `KanaKeyboard` key pass; `progress-complete` was **deleted** — filed as an open taste call, but `ProgressBar.tsx`'s anti-goal had already ruled out changing colour at 100%, so code beat plan and there was nothing to decide. **Zero orphans now stands, for real**
-8. 25 flow mockups (5 flows × 5 states) in `ui_kits/` + `preview/`
+8. **3 flows, 21 deep-linked states** in `ui_kits/flows/` — `kana-practice` (8), `flashcard-round` (7), `fill-blank` (6), every one rendered by `pnpm shots`. ~~25 flow mockups (5 flows × 5 states)~~ **Corrected 2026-08-11.** Fewer mockups than planned, and better ones than planned: these are not hand-drawn, they `import` from `src/components`, so they cannot drift from the package the way `ui_kits/mobile/` does. This is the harness that caught `bg-inverse` rendering nothing after typecheck, lint and the contrast gate all passed
 9. A palette swap that is a one-file diff
 
 ---
@@ -653,7 +655,7 @@ This is a **merge, not a copy.** The drop is ahead on tokens and assets and behi
 ## Explicitly out of scope
 
 - **App-side work.** No changes in `../aburungo`. Flows ship as mockups; integration happens later via `/handoff-to-app`.
-- ~~**New components.** 18 is enough.~~ **Amended 2026-08-07.** This exclusion was wrong in one specific way: the components that actually judge an answer in the shipped app — `FillBlankCard`, `GrammarClozeCard`, `KanaPracticePage` — were *not* design-system components, so §3.0's correctness vocabulary reached none of them. `AnswerResult` and `Maru` were added to close that (ADS #9, app #60). The library is now **20**. The exclusion otherwise stands: anything new is speculative until a flow mockup or a real consumer proves it's missing.
+- ~~**New components.** 18 is enough.~~ **Amended 2026-08-07.** This exclusion was wrong in one specific way: the components that actually judge an answer in the shipped app — `FillBlankCard`, `GrammarClozeCard`, `KanaPracticePage` — were *not* design-system components, so §3.0's correctness vocabulary reached none of them. `AnswerResult` and `Maru` were added to close that (ADS #9, app #60), and `GradePair` followed for the same reason — the self-grade pair was reaching for `Button secondary`, which is Rokusho, so the ✕ button rendered a red glyph on a success-green field. The library is now **21**. The exclusion otherwise stands: anything new is speculative until a flow mockup or a real consumer proves it's missing.
 - **Killing the JSX mirrors.** `ui_kits/mobile/components.jsx` duplicating all 20 TSX components is a real drift machine and the obvious next cleanup, but consolidating it is its own project. Noted, deferred, not smuggled into this plan.
 - **Dark mode.** Not in the brief, not in the tokens, not requested.
 - **The fuller motif system (option C).** Section stamps, progress notation, serial-number framing from `.frame`, and the `.emboss-bg` sakura pattern on scenario cards. Rejected for now — every one of those is a taste call rather than a pedagogical one, and they're the surfaces that walk toward the badge line. Consequently `assets/pattern-sakura.png` is **not** needed; only `logo-a-tile.png` is (task 0.7). Revisit once the correctness vocabulary has shipped and proven itself.
