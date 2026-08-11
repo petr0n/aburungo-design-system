@@ -90,7 +90,7 @@ Located at `~/Downloads/AburunGo project setup Zuihoden/_ds/aburungo-design-syst
 | Components | **9** | **20** |
 | `brand.css` | `.hanko` + `.emboss-bg` only (151 lines) | + `.maru`, `.wm`, `.kata-vert`, `.ctype`, `.frame` (343 lines) |
 | Card animations | **absent** | `--animate-card-enter` / `-exit` + keyframes |
-| Mark assets | `logo-a-tile.png`, `pattern-sakura.png`, `logo-a-128.png` | none |
+| Mark assets | `logo-a-tile.png`, `logo-a-128.png` — **plus `clan-symbol1.png` / `clan-symbol2.png`, which replaced `pattern-sakura.png` (never copied, see 0.7)** | none |
 | Adherence lint | `_adherence.oxlintrc.json` | none |
 
 ### Following INTEGRATION.md verbatim would cause three regressions
@@ -173,9 +173,11 @@ For `fg-faint`, note this is now the *second* palette in a row whose faint-text 
 
 Each ships defaults that conflict with this brand. The conflicts are called out because **unconfigured, all four make the product worse** — three of them will happily generate a palette, a font pairing, or a UI style over the top of ones that are already decided.
 
-### 1. `impeccable` (pbakaus) → **the CI gate**
+### 1. `impeccable` (pbakaus) → **the detector**
 
-The only one of the four that produces a deterministic, machine-checkable artifact: a standalone detector CLI, 59 rules, no AI harness or API key required, JSON output. That belongs in CI, not in a conversation.
+The only one of the four that produces a deterministic, machine-checkable artifact: a standalone detector CLI, 59 rules, no AI harness or API key required, JSON output.
+
+> **Amended 2026-08-10.** This section originally called it "the CI gate" and said the JSON "belongs in CI, not in a conversation." It never went to CI, and on the evidence it shouldn't — its findings land almost entirely in `preview/` and `ui_kits/`, which are the sandbox, and its baseline is not portable across machines. See Deliverable 4 for the four reasons. It earns its place as a **detector you run and read**, plus a local edit-time hook. Everything below still holds; only the word "gate" was wrong.
 
 - **Use:** `npx impeccable install` → `/impeccable init` generates `PRODUCT.md` + `DESIGN.md`. Seed both from `docs/design-direction.md` — don't let it interview from scratch, the brief already exists and is better than anything an interview produces.
 - **Commands in rotation:** `critique` (per component), `audit` (a11y/perf), `harden` (edge cases), `adapt` (responsive), `polish`.
@@ -212,7 +214,7 @@ Three properties decide when each skill fires. Getting these wrong is how skills
 |---|---|---|---|
 | `taste-skill` | surface | once per surface, **before** design starts | constraint — feeds the generative step |
 | `frontend-design` | surface | once per surface | **generative** — trial and error lives here |
-| `impeccable` | component + repo | `shape`/`critique` per component; `detect` every build | both — `shape` generates, `detect` gates |
+| `impeccable` | component + repo | `shape`/`critique` per component; `detect` read by hand, not on every build | both — `shape` generates, `detect` **reports** (it does not gate — see Deliverable 4) |
 | `ui-ux-pro-max` | component | once per component, at the end | gate |
 
 Two generate, two constrain-or-check. Running them in the wrong order is the main failure mode: generate first and the dials become an argument with work that already exists.
@@ -224,7 +226,7 @@ The pattern for every surface. Beats 1–2 are cheap and disposable; beat 4 is w
 1. **Constrain** — `taste-skill`. Set the three dials for this surface from the table below. Dials go first because they narrow what beat 2 produces. Skip this and you get dashboard-density flashcards.
 2. **Explore** — `frontend-design` loop + `/impeccable shape`. Generate 2–3 variants. **This is the trial-and-error beat**, and it runs in the sandbox, never in `src/components/`.
 3. **Build** — the chosen variant only. TSX → JSX mirror → story.
-4. **Gate** — `ui-ux-pro-max` pre-delivery checklist + `impeccable detect`. Pass/fail, no discussion.
+4. **Gate** — `ui-ux-pro-max` pre-delivery checklist + `pnpm lint`. Pass/fail, no discussion. `impeccable detect` runs alongside as a report you read, not a pass/fail — see Deliverable 4.
 
 ### Where trial and error goes
 
@@ -304,10 +306,10 @@ Density low by default per the Muji brief; raised only where real data density e
 | 0.3 | `npx skills add https://github.com/Leonxlnx/taste-skill` | dials table above copied into `DESIGN.md` |
 | 0.4 | `/plugin marketplace add nextlevelbuilder/ui-ux-pro-max-skill`, then install | `DESIGN.md` records generators-disabled |
 | 0.5 | Vendor `frontend-design` into `.claude/skills/` | skill loads |
-| 0.6 | Baseline detector run over `src/ preview/ storybook/ ui_kits/`, JSON to `.impeccable/baseline.json` | baseline committed; finding count recorded → **N = ____** |
-| 0.7 | ~~Source or redraw `assets/logo-a-tile.png`~~ — **closed by the v3 drop.** Copy `logo-a-tile.png`, `pattern-sakura.png`, `logo-a-128.png` from the drop's `assets/`. They're hue-remapped rasters, good enough to ship; have the mark redrawn as vector in Akane before any large or print use | `.hanko` renders the ア at 24 / 48 / 96px |
+| 0.6 | Baseline detector run over `src/ preview/ storybook/ ui_kits/`, JSON to `.impeccable/baseline.json` | **done.** Baseline committed 2026-08-08. **N = 134** — 84 advisory, 50 warning, no errors. By rule: 44 `design-system-font-size`, 30 `design-system-color`, 22 `all-caps-body`, 12 `flat-type-hierarchy`, 9 `design-system-radius`, 9 `tiny-text`, 4 `cream-palette`, 2 `broken-image`, 1 `design-system-font`, 1 `codex-grid-background`. **By file type: 88 HTML, 37 JSX, 9 CSS — and zero `.tsx`.** The detector found nothing in `src/components/`, which is what makes this a record rather than a gate; see Deliverable 4 |
+| 0.7 | ~~Source or redraw `assets/logo-a-tile.png`~~ — **closed by the v3 drop.** Copy `logo-a-tile.png`, `logo-a-128.png` from the drop's `assets/`. They're hue-remapped rasters, good enough to ship; have the mark redrawn as vector in Akane before any large or print use. **`pattern-sakura.png` was never copied and is not needed** (see the exclusions section) — `.emboss-bg` ships the two clan crests instead, and its blend presets, which existed only to suit that white tile, were deleted 2026-08-10 | `.hanko` renders the ア at 24 / 48 / 96px |
 | 0.8 | Write the maru boundary rule (§3.0) into `DESIGN.md` | rule present verbatim; impeccable won't flag ○/✕ as ornament |
-| 0.9 | Adopt the drop's `_adherence.oxlintrc.json` as a second deterministic gate — bans raw hex, raw px, non-DS fonts, and deep imports past the barrel | `pnpm lint` runs it; findings recorded alongside the impeccable baseline |
+| 0.9 | ~~Adopt the drop's `_adherence.oxlintrc.json`~~ — **done, under a different name.** It landed as `.oxlintrc.json`, keeping the rule that matters: `no-restricted-imports`, which forces barrel imports and stops consumers reaching past the public API. Raw hex and non-DS fonts are enforced by `scripts/check-adherence.mjs` instead, which catches more than the oxlint selectors could — those only match string literals in JS/TS. The drop's `x-omelette` block (a frozen ~300-token snapshot for its own generator) was correctly dropped: `build-tokens.mjs` derives tokens from `src/tokens.css` live, so a hardcoded list would go stale on the next palette move. **The raw-px rule was deliberately skipped** (2026-08-10) — in a Tailwind codebase raw px shows up as arbitrary values like `min-h-[44px]`, which is the touch-target rule, not a violation | done — `pnpm lint` runs `oxlint` + adherence + contrast |
 
 `DESIGN.md` is written against the brand *rules*, not against specific hex values — it has to survive the palette swap without edits.
 
@@ -460,7 +462,7 @@ Colour-dependent findings get logged, not fixed — they're revisited in one pas
 **Per-component gate — all of these must pass before the next component starts:**
 
 - [ ] `pnpm typecheck` clean
-- [ ] `npx impeccable detect src/components/<X>.tsx` — no new findings vs baseline
+- [ ] `pnpm lint` clean on the file — oxlint + `check-adherence` + `check-contrast`. ~~`npx impeccable detect <X>.tsx` — no new findings vs baseline~~ **rescoped 2026-08-10:** the baseline holds zero `.tsx` findings, so "no new findings vs baseline" silently meant "zero findings allowed" against a baseline that had never seen a component. `check-adherence` covers `src/components/**` and is what actually runs. Run `impeccable detect` on the file by hand if you want a second opinion; it is not the gate
 - [ ] Touch target ≥ 44px; `active:` state present; no hover-only affordance
 - [ ] Visible keyboard focus ring; text contrast ≥ 4.5:1
 - [ ] Renders at 375 / 768 / 1024 / 1440
@@ -595,16 +597,16 @@ This is a **merge, not a copy.** The drop is ahead on tokens and assets and behi
 | # | Task | Guard |
 |---|---|---|
 | 5.1 | Port v3's `@theme` block into `src/tokens.css`, **keeping** the card-animation tokens and keyframes (task 2.4b) | `FlipCard` still animates |
-| 5.2 | Copy `assets/logo-a-tile.png`, `pattern-sakura.png`, `logo-a-128.png` | `.hanko` renders the ア |
+| 5.2 | Copy `assets/logo-a-tile.png`, `logo-a-128.png`. **Not `pattern-sakura.png`** — see 0.7 | `.hanko` renders the ア |
 | 5.3 | **Merge** v3's `brand.css` — take its `.hanko` / `.emboss-bg` updates, keep our `.maru`, `.wm`, `.kata-vert`, `.ctype`, `.frame`, `.hanko.ink` | `brand.css` still exports all six utility groups; §3.0's maru survives |
 | 5.4 | **Verify** the five component repaints from `HANDOFF.md` §4 — `Button` primary/secondary, focus rings on `Button`/`TextInput`/`IconButton`/`KanaGrid`, `ProgressBar` fill, `Badge` emphasised → scenario tag. The drop ships these five already repainted, so this is a diff review, not a hand-edit. **Do not apply §4 by hand** — 2.2 deliberately left these files untouched so the drop's versions land clean | each of the five matches §4; `Badge` is the known exception (§2.6 finding 1 — `HANDOFF.md` claims a repaint that was never made) |
 | 5.5 | **Repaint the nine the drop doesn't ship.** Only `FillInput` has a legacy-token defect (`ring-brand-500` → red); the other eight are role-based already and just need verifying | `grep` for legacy tokens in `src/components/` returns nothing |
 | 5.5b | **Apply the inverse-chrome treatment the drop designed but never built** — `AppHeader` and `KanaKeyboard` take `bg-inverse`, `rule-on-inverse`, `fg-on-inverse-2`, `shadow-key-on-inverse`. Fix `KanaKeyboard`'s `bg-fg` → `bg-inverse` while there | the four inverse roles have implementations |
 | 5.5c | Build the rest of the orphan list from §2.6 — `progress-complete` cap on `ProgressBar`, `tag-bg`/`tag-fg` on `Badge` emphasis (**`HANDOFF.md` claims this shipped; it did not**) | orphan count reaches zero or each remainder has a written reason |
-| 5.5d | Repoint `.hanko` from `var(--color-brand-500)` to `var(--color-accent)` so the brand mark stops depending on a deprecated alias | mark renders with legacy aliases removed |
+| 5.5d | ~~Repoint `.hanko` from `var(--color-brand-500)` to `var(--color-accent)`~~ — **done, verified 2026-08-10.** `.hanko` fills with `var(--color-accent)`, which is `#D72E2E` at `src/tokens.css:173`; `brand.css` contains no `brand-500` reference at all, so the "eight other sites" are gone too. CSS mark and raster mark now match. **Still open:** `.wm`, `.frame` and `.ctype` reference seven other legacy aliases (`ink`, `paper`, `rose`, `cream`, `cream-deboss`, `dusk`, `brand-800`) — note that `--color-rose` now resolves to Ōgon `#C9A045`, a yellow | **done** — mark renders Akane with no legacy alias |
 | 5.6 | Migrate the deprecated `Button` `accent` variant to `primary` and drop it | no call sites remain |
 | 5.7 | `pnpm build` — contrast gate runs against real v3 values | the seven known failures above are either fixed or explicitly accepted; **the focus-ring failure should be resolved with the palette author, not silently re-tinted** |
-| 5.8 | `npx impeccable detect` + oxlint adherence — compare to baseline | no regression |
+| 5.8 | `pnpm lint` — oxlint + adherence + contrast, over `src/components/**`. Then `npx impeccable detect` over `preview/ storybook/ ui_kits/` **by hand**, eyeballed against N = 134 | lint clean. The impeccable pass is a look, not a pass/fail: its baseline carries absolute `/Users/...` paths and line anchors that drift on any edit above them, so a mechanical diff reports noise. Regenerate the baseline after the palette lands rather than trying to diff across it |
 | 5.9 | Work the deferred colour queue from Phase 3 | accent placement, correct/incorrect semantics, focus-ring contrast per surface |
 | 5.10 | Visual sweep: storybook + 3 UI kits + 27 preview pages | all render v3 |
 | 5.11 | Replace `docs/colors.md` with the drop's v3 version; fold `HANDOFF.md` in as provenance | palette rationale matches what ships |
@@ -620,7 +622,7 @@ This is a **merge, not a copy.** The drop is ahead on tokens and assets and behi
 1. `scripts/build-tokens.mjs` — one token source, six consumers, zero hand-copies
 2. `scripts/check-contrast.mjs` — a contrast gate that scores any palette on `pnpm build`
 3. `PRODUCT.md` + `DESIGN.md` — the brief, machine-readable, written in roles not hexes
-4. `.impeccable/baseline.json` + a CI gate that fails on regression
+4. `.impeccable/baseline.json` — a committed **design record** of the sandbox, N = 134. ~~+ a CI gate that fails on regression~~ **Corrected 2026-08-10: there is no CI gate, and one was deliberately not built.** Four reasons, in order of weight. (a) **It would gate the wrong thing.** `check-adherence` scans `src/components/**` and says so — `preview/` and `ui_kits/` are the sandbox. The baseline is the exact complement: 88 HTML, 37 JSX, 9 CSS, zero `.tsx`. A gate on it is a gate on throwaway variants, which taxes the cheapness the sandbox exists for. (b) **Nothing in it is an error** — 84 advisory, 50 warning. (c) **The paths are machine-specific**, all absolute `/Users/peterabeln/...`; a runner is `/home/runner/work/...`, so a naive diff reports 134 fixed and 134 new. (d) **The line anchors drift** — the `border-radius: 14px` finding recorded at `brand.css:289` is at 304 today, moved by an unrelated edit above it. What actually gates the repo: `check-forbidden-assets` (CI, pre-install + pre-commit), `pnpm lint` (oxlint + adherence + contrast), `pnpm typecheck`, `pnpm build`. What actually enforces the impeccable rules day to day is its **local Write/Edit hook**, which is per-machine and protects no one else's commits — do not mistake it for repo-level cover
 5. `preview/_sandbox/` — the variant workshop, where skill output gets tried before it gets shipped
 6. 20 components passing the eight-point gate
 7. A correctness vocabulary — `Maru` as the sole ○ / ✕ definition, consumed across the mark surfaces, with `AnswerResult` owning the app-checks-answer case and its non-overridable wording — plus the boundary rule that keeps it from becoming a badge

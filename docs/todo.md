@@ -104,19 +104,35 @@ controls. Techniques worth stealing directly:
 
 ### What already exists and is going to waste
 
-[`src/brand.css`](../src/brand.css) ships a **complete embossed-pattern system**
-that nothing uses:
+**Updated 2026-08-10 — the utility now works and is measured.** What follows
+described a system that was painting nothing; that is fixed. What remains true
+is that **zero components use it**, so `.emboss-bg` is still a §2.6 orphan role
+and this item is still its answer.
 
-- `.emboss-bg` — tiling ground with `isolation`, z-indexed children, blend modes
-- per-surface presets: `.on-paper` `.on-warm` `.on-cream` `.on-mist`
-- dark-surface handling: `.on-brand` / `.on-plum` invert the tile and switch to
-  `soft-light`, so a pattern reads as embossed shadow rather than a bleached blob
-- density modifiers: `.tile-sm` and friends
+[`src/brand.css`](../src/brand.css) ships:
 
-**Zero components use it**, and its asset is missing: `brand.css:123` points at
-`/assets/pattern-sakura.png`, which is not in `assets/`. It has been painting
-nothing, silently, because a failed `background-image` just doesn't render.
-`.emboss-bg` is also a §2.6 orphan role with no owner — this is its answer.
+- `.emboss-bg` — tiling ground with `isolation` and z-indexed children
+- `.crest-1` / `.crest-2` — which clan crest tiles the ground
+- density modifiers: `.tile-sm` / `.tile-md` / `.tile-lg`
+- knobs: `--emboss-opacity` (default `.35`), `--tile-size`, `--emboss-blend`
+
+Three things changed and matter to this item:
+
+1. **The missing asset is fixed.** It pointed at `/assets/pattern-sakura.png`,
+   which did not exist — a failed `background-image` renders nothing, silently.
+   It now uses `assets/clan-symbol1.png` / `clan-symbol2.png`, relative so the
+   consuming app's bundler rewrites them.
+2. **The six surface presets were deleted** (`.on-paper` `.on-warm` `.on-cream`
+   `.on-mist` `.on-brand` `.on-plum`). v2 holdovers — two named tokens that no
+   longer exist, the rest named legacy aliases, and all tuned for the deleted
+   white sakura tile. Set the knobs directly.
+3. **Legibility is settled, and it constrains this item.** See The Patterned
+   Ground Rule in `DESIGN.md`: a pattern carries `fg`, `fg-heading` and
+   `fg-muted` only — **`fg-subtle` and `fg-faint` fail at any opacity that
+   leaves the pattern visible.** `EmptyState` and `ErrorState` use
+   `text-fg-subtle` for their description, so step 1 below cannot simply drop a
+   pattern behind them; the pattern goes behind the card, or that line promotes
+   to `fg`. `scripts/check-contrast.mjs` now covers this and fails the build.
 
 Also unused and relevant: `.wm` (oversized watermark type), `.kata-vert`
 (vertical katakana), `.frame`, `.ctype`.
@@ -166,3 +182,53 @@ to empty states and chrome only.
 
 Render options rather than argue them: every colour decision in this project has
 been made by putting three versions on a phone and looking.
+
+---
+
+## 4. The app is growing surfaces that never touch the design system
+
+**Found 2026-08-10**, while auditing the migration plan. Not scheduled — parked
+here so it doesn't get re-derived.
+
+Five components landed on the app's `feature/terminal-checkpoints` branch. **None
+of them import `aburungo-design-system`.** Not one line:
+
+| App component | Lines | What it is |
+|---|---|---|
+| `CanDoCheckpoint.tsx` | 255 | a checkpoint gate |
+| `HanaChat.tsx` | 155 | a streaming chat UI |
+| `CheckpointSweep.tsx` | 111 | a sweep queue runner |
+| `UnitConversation.tsx` | 104 | scoped conversation entry |
+| `FeedbackSheet.tsx` | 96 | a feedback sheet |
+
+Their only imports are React, `@/types`, `@/api/*`, `@/srs/*`, and each other.
+
+**What they do use** is the token sheet — the app imports
+`aburungo-design-system/src/tokens.css`, so `text-fg-subtle`, `text-body-sm`,
+`rounded-2xl` all resolve. So this is not a rogue visual language. It is ~720
+lines of hand-rolled layout sitting *on top of* our tokens, with no component
+between.
+
+**Two things that make it worse than "they'll import later":**
+
+- **They are on the outgoing ramp.** `bg-brand-700`, `text-brand-600` — the v2
+  purple, the exact vocabulary v3 replaces. Every one of these files is v3
+  migration work that nobody has counted.
+- **`text-white` appears in all five.** That is a raw Tailwind colour, not a role
+  token. On warm stone (`#FFFDF8`) pure white is the thing the palette
+  deliberately does not use. `check-adherence.mjs` runs on `src/` in *this* repo,
+  so it never saw them.
+
+**What to work out when this is picked up:**
+
+- Which of the five are genuinely app-shaped (routing, streaming, API state) and
+  which are DS-shaped surfaces that got built in the wrong repo. `HanaChat`'s
+  message bubbles and `FeedbackSheet` are the obvious candidates.
+- Whether the boundary is even discoverable. A developer in the app has no signal
+  telling them a sheet or a bubble belongs here — which is the same gap that let
+  `FillBlankCard` and `GrammarClozeCard` drift apart before `AnswerResult`.
+- Whether `check-adherence` should run against the app's `src/` too, or whether
+  that is the app's own gate to own.
+
+**Do not start by rewriting these.** The app branch is active. Read it after it
+lands, or the diff moves under us.
