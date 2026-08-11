@@ -181,6 +181,17 @@ screen should be near-black; the kana keyboard is Rokushō for exactly this reas
 **The No Raw Value Rule.** Components reference role tokens, never hexes. Enforced
 by `scripts/check-adherence.mjs`, which fails the build.
 
+**The Patterned Ground Rule.** A `.emboss-bg` ground carries `fg` and `fg-heading`
+only. `fg-muted` is permitted; `fg-subtle` and `fg-faint` are not. The tile darkens
+what sits under it, so text is judged against the darkest pixel of the pattern, not
+against the surface token — measured worst case at the `.35` default is 8.40:1 for
+`fg`, 6.91:1 for `fg-heading`, 4.66:1 for `fg-muted`, and **3.47:1 for `fg-subtle`**.
+This is not an opacity problem: carrying `fg-subtle` at 4.5:1 needs roughly `.16`,
+by which point the pattern is invisible. Put the pattern behind a card and the fine
+print on the card. `EmptyState` and `ErrorState` are the live case — their
+description line is `text-fg-subtle`. Checked by `scripts/check-contrast.mjs`
+against a measured stand-in; re-measure if a crest is added or the opacity raised.
+
 ## Typography
 
 **Body Font:** Noto Sans (variable, shipped locally) — all English UI.
@@ -279,7 +290,7 @@ Where the app grades rather than the learner, `AnswerResult` owns the treatment:
 - **Do** use role tokens (`bg-surface`, `text-fg-muted`) rather than value tokens (`brand-500`) or raw hex.
 - **Do** give every interactive element a visible `active:` state and a visible focus ring.
 - **Do** keep touch targets ≥44px, padding the hit area when the visual element must be smaller.
-- **Do** run `scripts/check-contrast.mjs` and read what it says. WCAG 2.1 AA — 4.5:1 text, 3:1 non-text — is the **target**, and the script reports every miss on each build. It is advisory, not a veto: the palette author owns the call, and some misses are deliberate. Do not silently re-tint a brand value to make a number go green.
+- **Do** run `scripts/check-contrast.mjs` and read what it says. WCAG 2.1 AA — 4.5:1 text, 3:1 non-text — is the **target**, and the script checks it on every build. Since 2026-08-10 it **fails the build** on any miss that has no recorded reason; before that it printed and exited 0, so it never stopped anything. The palette author still owns the call, and some misses are deliberate — record those in the `KNOWN` map with a written reason rather than re-tinting. Four are recorded today: the scenario tag and the Ōgon focus ring on three grounds. Do not silently re-tint a brand value to make a number go green, and do not add a `KNOWN` entry without a reason worth reading.
 - **Do** put charm in empty states, progress language, and example sentences.
 - **Do** give Japanese text its own looser line-height and its own font.
 - **Do** use filled inline SVG icons.

@@ -4,15 +4,16 @@
    These are the ONLY non-Tailwind classes the design system ships:
      .hanko         — the circular mark.  Renders the ア logo + maru dot.
      .hanko.*       — color variants (paper, cream, rose, outline).
-     .emboss-bg     — the sakura-mon embossed paper texture.
-     .emboss-bg.*   — surface presets (on-paper / -warm / -cream / -mist / -brand / -plum).
+     .emboss-bg     — the clan-crest embossed paper texture.
+     .crest-1/2     — which crest tiles the ground.
      .tile-sm/md/lg — pattern density variants.
 
    Import this AFTER src/index.css so the brand tokens are available.
 
-   Required assets (drop in /public/assets or update paths below):
-     /assets/logo-a-tile.png      ← the official ア mark (transparent PNG)
-     /assets/pattern-sakura.png   ← the embossed pattern tile (transparent PNG)
+   Required assets:
+     assets/logo-a-tile.png     ← the official ア mark (transparent PNG)
+     assets/clan-symbol1.png    ← crest 1 (transparent PNG, black on alpha)
+     assets/clan-symbol2.png    ← crest 2
    ───────────────────────────────────────────────────────────────────────── */
 
 /* ═══════════════════════════════════════════════════════════════════════
@@ -90,21 +91,51 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
-   THE PATTERN · sakura-mon embossed background
+   THE PATTERN · clan-crest embossed background
    ═══════════════════════════════════════════════════════════════════════
-   The PNG already has highlights & shadows baked in, on a transparent
-   background.  We tile it and pick a blend mode per surface:
-     – light surfaces: multiply blend (gray shadows darken the paper)
-     – dark surfaces:  invert + soft-light blend (so it reads as pressed-in
-                       detail rather than blooming into a bright blob)
+   The PNGs have highlights & shadows baked in, on a transparent background,
+   and the art is black on alpha.  Straight alpha over the ground is correct
+   for both light and dark surfaces: on paper it reads as an emboss, on a
+   saturated ground as a deboss.  No per-surface blend is needed, which is
+   why the presets that used to live here are gone.
 
    Usage:
-     <div class="emboss-bg on-cream">…</div>
-     <div class="emboss-bg on-brand tile-sm">…</div>
+     <div class="emboss-bg crest-1">…</div>
+     <div class="emboss-bg crest-2 tile-sm">…</div>
+     <div class="emboss-bg crest-1" style="--emboss-opacity:.25">…</div>
 
    Where NOT to use it: dense in-product UI (flashcards mid-review, form
    inputs, anywhere fine text needs perfect legibility).  Reserved for
    hero stages, scenario cards, stationery surfaces.
+
+   ── LEGIBILITY RULE — a patterned ground carries only fg and fg-heading ──
+
+   The tile darkens whatever is under it, so text on a patterned ground is
+   judged against the DARKEST pixel of the tile, not against the surface
+   token.  Measured by rendering these classes and reading composited pixels
+   back (2026-08-10), worst case across both crests on page / card / well at
+   the .35 default:
+
+     fg          #2D2D2D   8.40:1   ok
+     fg-heading  #1F3A66   6.91:1   ok
+     fg-muted    #57534C   4.66:1   ok
+     fg-subtle   #6B665E   3.47:1   ✗ FAILS WCAG AA
+
+   fg-subtle and fg-faint are the same token (stone-500) and neither may sit
+   on a patterned ground.  This is not fixable by lowering the opacity: to
+   carry fg-subtle at 4.5:1 you need ~.16, at which the pattern is invisible.
+   Put the pattern BEHIND a card and the fine print on the card, or promote
+   the text to fg.
+
+   This matters immediately for EmptyState and ErrorState, whose description
+   line is text-fg-subtle and which docs/todo.md queues as the first surface
+   to receive the pattern.
+
+   scripts/check-contrast.mjs checks the three passing roles against a
+   conservative flat stand-in for the darkest patterned pixel.  It cannot
+   see a NEW asset — re-measure if you add a crest or raise --emboss-opacity
+   above .35.  There is no longer any preset that can raise it behind your
+   back; the six that could were deleted for that reason among others.
    ═══════════════════════════════════════════════════════════════════════ */
 
 .emboss-bg{
@@ -120,29 +151,44 @@
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  background-image: url("/assets/pattern-sakura.png");
+  background-image: var(--emboss-image, url("../assets/clan-symbol1.png"));
   background-repeat: repeat;
   background-size: var(--tile-size, 100px) auto;
-  opacity: var(--emboss-opacity, .55);
-  mix-blend-mode: var(--emboss-blend, multiply);
+  /* .35, not .55 — see the legibility rule above. At .55 crest-2 drops
+     fg-muted to 4.09:1. .35 clears every allowed role with headroom. */
+  opacity: var(--emboss-opacity, .35);
+  mix-blend-mode: var(--emboss-blend, normal);
 }
 
-/* Light surface presets — multiply blend darkens the paper subtly. */
-.emboss-bg.on-paper{ --emboss-opacity: .85; --emboss-blend: multiply }
-.emboss-bg.on-warm { --emboss-opacity: .80; --emboss-blend: multiply }
-.emboss-bg.on-cream{ --emboss-opacity: .75; --emboss-blend: multiply }
-.emboss-bg.on-mist { --emboss-opacity: .85; --emboss-blend: multiply }
+/* ── The two crests ──────────────────────────────────────────────────────
+   Both are 160×160 finished repeat tiles with the brick offset baked in, so
+   they need no re-tiling — plain repeat is correct.
 
-/* Dark surface presets — invert the PNG (white → dark) so the pattern reads
-   as embossed shadow detail rather than a bleached blob.  Soft-light blend
-   keeps it readable without painting on top of the surface. */
-.emboss-bg.on-brand::before,
-.emboss-bg.on-plum::before{
-  filter: invert(1);
-  mix-blend-mode: soft-light;
-}
-.emboss-bg.on-brand::before{ opacity: .45 }
-.emboss-bg.on-plum::before { opacity: .55 }
+   The art is black (0,0,0) on transparency with soft alpha edges, which is
+   why the base blend is `normal`: straight alpha darkens the ground into a
+   deboss.  `multiply` would paint the crest flat black instead of tinting
+   the surface, and the transparent gaps would stop reading.
+
+   Paths are relative so they survive bundling in the consuming app — an
+   absolute `/assets/…` is treated as a public-dir reference and is not
+   rewritten, so it 404s once the package is installed. */
+.emboss-bg.crest-1{ --emboss-image: url("../assets/clan-symbol1.png") }
+.emboss-bg.crest-2{ --emboss-image: url("../assets/clan-symbol2.png") }
+
+/* Removed 2026-08-10: the six surface presets .on-paper / .on-warm /
+   .on-cream / .on-mist / .on-brand / .on-plum.
+
+   They arrived with this file (PR #5) and were v2 holdovers twice over.
+   --color-plum and --color-warm no longer exist at all; paper, cream, mist
+   and brand-* survive only in the legacy-alias block in tokens.css, which
+   says in as many words not to use them in anything new. Their blend values
+   were tuned for the white sakura tile that has since been deleted — the
+   dark pair inverted the PNG, which is actively wrong for the current
+   black-on-alpha crests (invert turns them white, then soft-light bleaches
+   rather than debosses). Nothing in the repo referenced any of them.
+
+   Set --emboss-opacity / --tile-size / --emboss-blend directly instead.
+   Those are measured against the legibility rule above; the presets were not. */
 
 /* Density modifiers.  The PNG's natural ratio is 320×243 (≈ 4:3) — width
    drives height, so changing the tile width keeps the aspect intact. */
@@ -286,7 +332,7 @@
   flex-direction: column;
   padding: clamp(20px, 3vw, 32px) clamp(24px, 3.5vw, 36px);
   border: 1.5px solid var(--color-ink);
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
   gap: clamp(14px, 2vw, 20px);
   background: transparent;
   max-width: 100%;

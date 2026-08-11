@@ -1,0 +1,66 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="../../dist/tokens.plain.css">
+<link rel="stylesheet" href="../../src/brand.css">
+<style>
+ body{margin:0;padding:28px;font-family:var(--font-sans);color:var(--fg);background:var(--bg)}
+ h1{font-size:var(--text-heading-sm);margin:0 0 2px}
+ h2{font-size:var(--text-body);margin:28px 0 10px;color:var(--fg-muted);font-weight:600}
+ .s{color:var(--fg-muted);margin:0 0 20px;font-size:var(--text-body-sm);max-width:74ch}
+ .lbl{font-family:var(--font-mono);font-size:var(--text-caption);font-weight:500;
+   color:var(--fg-subtle);margin-top:6px}
+ .row{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;max-width:900px}
+ .stage{min-height:190px;border-radius:var(--radius-xl);border:1px solid var(--border);
+   padding:24px;display:flex;align-items:center;justify-content:center}
+ .on-page{background-color:var(--stone-50)}
+ .on-card{background-color:var(--stone-0)}
+ .on-ai{background-color:var(--color-ai-500)}
+ .on-akane{background-color:var(--color-akane-500)}
+ .jp{font-family:var(--font-jp);font-size:var(--text-jp-lg);color:var(--fg-heading)}
+ .jp-inv{font-family:var(--font-jp);font-size:var(--text-jp-lg);color:var(--color-action-fg)}
+</style></head><body>
+
+<h1>.emboss-bg — the two crests through the real utility</h1>
+<p class="s">This page loads <code>src/brand.css</code> and uses the shipped classes, so it
+verifies the API rather than the raw PNGs. <code>.crest-1</code> and <code>.crest-2</code> set
+<code>--emboss-image</code>; everything else — <code>--tile-size</code>,
+<code>--emboss-opacity</code>, <code>--emboss-blend</code> — was already parameterised.</p>
+
+<h2>Default tile size, on paper and card</h2>
+<div class="row">
+  <div><div class="emboss-bg crest-1 stage on-page"><span class="jp" lang="ja">お願いします</span></div>
+    <div class="lbl">.emboss-bg.crest-1 · stone-50</div></div>
+  <div><div class="emboss-bg crest-2 stage on-page"><span class="jp" lang="ja">お願いします</span></div>
+    <div class="lbl">.emboss-bg.crest-2 · stone-50</div></div>
+  <div><div class="emboss-bg crest-1 stage on-card"><span class="jp" lang="ja">お願いします</span></div>
+    <div class="lbl">.emboss-bg.crest-1 · stone-0</div></div>
+  <div><div class="emboss-bg crest-2 stage on-card"><span class="jp" lang="ja">お願いします</span></div>
+    <div class="lbl">.emboss-bg.crest-2 · stone-0</div></div>
+</div>
+
+<h2>Density modifiers — .tile-sm / .tile-md / .tile-lg</h2>
+<div class="row" style="grid-template-columns:repeat(3,1fr)">
+  <div><div class="emboss-bg crest-1 stage on-page tile-sm"></div><div class="lbl">crest-1 · .tile-sm</div></div>
+  <div><div class="emboss-bg crest-1 stage on-page tile-md"></div><div class="lbl">crest-1 · .tile-md</div></div>
+  <div><div class="emboss-bg crest-1 stage on-page tile-lg"></div><div class="lbl">crest-1 · .tile-lg</div></div>
+  <div><div class="emboss-bg crest-2 stage on-page tile-sm"></div><div class="lbl">crest-2 · .tile-sm</div></div>
+  <div><div class="emboss-bg crest-2 stage on-page tile-md"></div><div class="lbl">crest-2 · .tile-md</div></div>
+  <div><div class="emboss-bg crest-2 stage on-page tile-lg"></div><div class="lbl">crest-2 · .tile-lg</div></div>
+</div>
+
+<h2>On saturated grounds — straight alpha, reads as a deboss</h2>
+<div class="row">
+  <div><div class="emboss-bg crest-1 stage on-ai"><span class="jp-inv" lang="ja">お願いします</span></div>
+    <div class="lbl">crest-1 · ai-500</div></div>
+  <div><div class="emboss-bg crest-2 stage on-akane"><span class="jp-inv" lang="ja">お願いします</span></div>
+    <div class="lbl">crest-2 · akane-500</div></div>
+</div>
+
+<h2>Opacity override — --emboss-opacity</h2>
+<div class="row" style="grid-template-columns:repeat(3,1fr)">
+  <div><div class="emboss-bg crest-1 stage on-page" style="--emboss-opacity:.55"></div><div class="lbl">crest-1 · .55 — fg-muted fails on crest-2</div></div>
+  <div><div class="emboss-bg crest-1 stage on-page" style="--emboss-opacity:.35"></div><div class="lbl">crest-1 · .35 (default)</div></div>
+  <div><div class="emboss-bg crest-1 stage on-page" style="--emboss-opacity:.25"></div><div class="lbl">crest-1 · .25</div></div>
+</div>
+
+</body></html>

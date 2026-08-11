@@ -25,6 +25,9 @@ for (const [, name, value] of css.matchAll(/^\s*(--color-[a-z0-9-]+):\s*([^;]+);
   raw.set(name, value.trim())
 }
 function resolve(name, seen = new Set()) {
+  // A literal hex passes through. Used for the patterned-ground stand-in
+  // below, which is a measurement rather than a token.
+  if (name.startsWith('#')) return name
   const v = raw.get(name)
   if (v === undefined) return null
   if (seen.has(name)) throw new Error(`circular token reference at ${name}`)
@@ -76,6 +79,24 @@ const CHECKS = [
   ['--color-focus', '--color-surface-2', UI, 'focus ring on well'],
   ['--color-focus-on-inverse', '--color-inverse', UI, 'focus ring on inverse chrome'],
   ['--color-progress-fill', '--color-progress-track', UI, 'progress fill on track'],
+  // Patterned grounds — `.emboss-bg` in src/brand.css.
+  //
+  // This script reads flat tokens, so it cannot see a background image. The
+  // stand-in below is a measurement: both crests were rendered over page,
+  // card and well at the .35 default, the composited pixels read back, and
+  // the darkest luminance found was 0.5945 (crest-2 on the well). #CACACA
+  // sits at 0.5906 — marginally darker, so checking against it is
+  // conservative.
+  //
+  // Only the three roles brand.css permits on a pattern are listed.
+  // fg-subtle / fg-faint (both stone-500) come to 3.47:1 and are barred by
+  // the legibility rule rather than tracked as a failure here — no opacity
+  // that leaves the pattern visible can carry them.
+  //
+  // Re-measure if a crest is added or --emboss-opacity is raised above .35.
+  ['--color-fg', '#CACACA', TEXT, 'body text on a patterned ground'],
+  ['--color-fg-heading', '#CACACA', TEXT, 'heading on a patterned ground'],
+  ['--color-fg-muted', '#CACACA', TEXT, 'secondary text on a patterned ground'],
   // The focus ring is NOT checked against filled controls. Every interactive
   // primitive uses `ring-offset-2 ring-offset-bg`, so the ring is separated
   // from the control by page colour and reads against the page — which the
@@ -90,9 +111,27 @@ const CHECKS = [
  * Anything not listed here fails the build.
  */
 const KNOWN = new Map([
-  // Empty. All three prior failures were resolved 2026-08-08 by the palette
+  // The three failures logged before 2026-08-08 were resolved by the palette
   // author: Rokusho 500 unlocked for progress-fill, and stone-500 darkened so
-  // text on a well clears 4.5:1. Add an entry here only with a written reason.
+  // text on a well clears 4.5:1.
+  //
+  // The four below are recorded 2026-08-10, when this script gained the power
+  // to fail a build (it had none before — see the note at the bottom). They
+  // are the state that was already shipping, written down rather than
+  // grandfathered in silently. Recording them is not resolving them.
+  [
+    'scenario tag',
+    'Ogon 600 on Ogon 200 — 3.60:1. Palette-author call, not ours to re-tint: ' +
+      'the tag is a scenario label and the pair comes from the v3 drop.',
+  ],
+  [
+    'focus ring on page',
+    'Ogon focus ring, 2.26:1 against warm stone. Plan task 5.7: resolve with ' +
+      'the palette author, do not silently re-tint. The ring is the one v3 ' +
+      'role that fails its own review.',
+  ],
+  ['focus ring on card', 'Same Ogon ring, 2.40:1. See "focus ring on page".'],
+  ['focus ring on well', 'Same Ogon ring, 2.08:1 — the worst of the three. See "focus ring on page".'],
 ])
 
 let hard = 0
@@ -124,9 +163,16 @@ if (known.length > 0) {
   known.forEach((k) => console.log(k))
 }
 
+// Until 2026-08-10 this printed the count and exited 0 — so it was a report
+// wearing the word "gate", and `pnpm build` was green no matter what the
+// palette did. It now fails. The escape hatch is KNOWN above, which forces a
+// written reason next to the number instead of silence.
 if (hard > 0) {
-  // ADVISORY, not a veto. The palette author owns these calls; the script's
-  // job is to surface the number, not to overrule a deliberate choice.
-  console.error(`\ncontrast: ${hard} below target (advisory — not blocking).`)
+  console.error(
+    `\ncontrast gate: FAIL — ${hard} below target with no recorded reason.\n` +
+      `Fix the value, or add an entry to KNOWN in ${process.argv[1].split('/').pop()} ` +
+      `explaining why it ships.`,
+  )
+  process.exit(1)
 }
 console.log(`\ncontrast gate: pass (${CHECKS.length - known.length}/${CHECKS.length} clear)`)
