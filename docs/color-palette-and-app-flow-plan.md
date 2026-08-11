@@ -54,25 +54,37 @@ v1 was a list of adjectives, not a plan. Every task was unfalsifiable ("stronger
 
 ## Ground truth
 
-### Six token sources, no single source of truth
+### ~~Six token sources, no single source of truth~~ — SOLVED, verified 2026-08-11
 
-| # | File | Form | Feeds |
+**This was the plan's opening problem and its highest-value work. It is done.**
+Kept here rather than deleted because it is why `scripts/build-tokens.mjs`
+exists, and deleting the reason is how a solved problem comes back.
+
+| # | File | Then | Now |
 |---|---|---|---|
-| 1 | `src/tokens.css` | `@theme` | `src/components/**` — the shipped package |
-| 2 | `colors_and_type.css` | `:root` | all 27 `preview/*.html`, via `preview/_card.css` |
-| 3 | `storybook/index.html:35` | inline `@theme` | the storybook |
-| 4 | `storybook/stories.jsx:301` | hardcoded hex array | the color-swatch story |
-| 5 | `ui_kits/mobile/index.html:44` | inline `@theme` | mobile UI kit |
-| 6 | `ui_kits/app/index.html:40` | inline `@theme` | app UI kit |
-| 7 | `ui_kits/desktop-explore.html:28` | inline `@theme` | desktop explore |
+| 1 | `src/tokens.css` | `@theme` — the source | unchanged, still the only place a value is written |
+| 2 | `colors_and_type.css` | `:root`, 31 hand-copied declarations | **imports the generated sheet**; declares no colour at all, and says so at the top |
+| 3 | `storybook/index.html` | inline `@theme`, 26 declarations | **generated** between `build-tokens:start/end` |
+| 4 | `storybook/stories.jsx:301` | hardcoded hex array, 7 values | **reads tokens live** via `getComputedStyle` + `var(--color-…)` — no values in the file |
+| 5 | `ui_kits/mobile/index.html` | inline `@theme`, 43 declarations | **generated** |
+| 6 | `ui_kits/app/index.html` | inline `@theme`, 26 declarations | **generated** |
+| 7 | `ui_kits/desktop-explore.html` | inline `@theme`, 26 declarations | **generated** |
+| 8 | `ui_kits/flows/index.html` | did not exist | **generated** — a sixth consumer, wired from birth |
 
-Only #1 is the real one. **None of the other six read from it.** Every surface a human looks at — storybook, three UI kits, 27 preview pages — is disconnected from the token source, which is why they already drifted a full palette behind and why they'll drift again the moment the next one lands.
+All five harnesses carry the markers; `pnpm build` regenerates them after
+`tsup`. Confirmed in practice this week: deleting `--color-border-focus` from
+`src/tokens.css` removed it from `dist/tokens.plain.css` and all five harness
+blocks with no other edit. **A palette change is now a one-file diff**, which is
+exactly what this section asked for.
 
-**The v3 drop confirms this rather than fixing it.** Its harnesses carry the same hand-copied token blocks — 26 inline declarations in `storybook/index.html`, 43 in `ui_kits/mobile/index.html`, 26 each in `ui_kits/app/index.html` and `desktop-explore.html`, 31 in `colors_and_type.css`, plus 7 hardcoded hexes in `storybook/stories.jsx`. That's the third palette in a row propagated by hand into six places.
+The original complaint, for the record: three palettes in a row had been
+propagated by hand into six places, which is why every human-facing surface had
+drifted a full palette behind the package.
 
-Hand-fixing the values buys one clean day. Wiring the harnesses to the source is the actual work, and it's what turns a palette swap from a seven-file archaeology exercise into a one-file diff.
-
-Prose docs are stale too: `README.md`, `SKILL.md`, `CLAUDE.md`, `colors_and_type.css`.
+**What this does not cover** — the two drift machines that remain, both real:
+the hand-written JSX component mirrors in `ui_kits/mobile/components.jsx`, and
+the consuming app, which imports the token sheet but composes its own screens
+(see `docs/todo.md` items 4 and 4a).
 
 Two swatch pages (`preview/03-color-brand.html`, `preview/06-color-semantic-fg.html`) print hex values as literal page text rather than reading them from a variable. Whatever palette lands, they'll strand again unless that's fixed once.
 
@@ -315,9 +327,15 @@ Density low by default per the Muji brief; raised only where real data density e
 
 ---
 
-## Phase 1 — Collapse six token sources into one
+## Phase 1 — Collapse six token sources into one ✅ **COMPLETE**
 
 **Branch:** `feat/tokens-single-source` · **This is the phase that makes the inbound palette a one-file diff.**
+
+> **Done, verified 2026-08-11.** `scripts/build-tokens.mjs` emits
+> `dist/tokens.plain.css` and regenerates the `@theme` block in all five
+> harnesses between `build-tokens:start/end` markers. See the Ground truth
+> section above for the before/after on all eight consumers. The task rows
+> below are kept as the record of what was built.
 
 | # | Task | Done when |
 |---|---|---|
@@ -365,7 +383,7 @@ Audited across both the drop and this repo. Eight roles have **zero implementati
 | `rule-on-inverse` `#8a6a2b` | the Ōgon hairline on Sumi-iro chrome | `AppHeader`, `KanaKeyboard` |
 | `fg-on-inverse-2` `#A4A4A4` | secondary text on inverse surfaces | `AppHeader`, `KanaKeyboard` |
 | `shadow-key-on-inverse` | key elevation on dark chrome | `KanaKeyboard` |
-| `progress-complete` `#C9A045` | "a completed bar caps with Ōgon" | `ProgressBar` |
+| ~~`progress-complete` `#C9A045`~~ | "a completed bar caps with Ōgon" | **deleted 2026-08-11** — `ProgressBar`'s anti-goal already forbids changing colour at 100% |
 | `tag-bg` / `tag-fg` | scenario tags | `Badge` (emphasis variant) |
 | `link` `#33685E` | links | **no component exists** |
 | ~~`border-focus` `#5c7aa8`~~ | — off-palette blue, v2 leftover | **deleted 2026-08-10** — unused in both repos; v3's ring is `focus` |
@@ -488,7 +506,7 @@ This is where the skills earn their place. Everything below is work the drop spe
 | `.hanko` → `--color-accent` | mechanical — one-line alias fix | none | — |
 | `KanaKeyboard` `bg-fg` → `bg-inverse` | mechanical — right pixel, wrong role | none | — |
 | Focus-ring split (`focus` / `focus-on-inverse`) | decided above; apply + verify with the contrast gate | none | — |
-| `ProgressBar` completion cap (`progress-complete`) | small design call: does a finished bar cap in Ōgon, or is that ornament? | `/impeccable shape` | 6 / 3 / 2 |
+| ~~`ProgressBar` completion cap (`progress-complete`)~~ | ~~small design call: does a finished bar cap in Ōgon, or is that ornament?~~ **Not a design call — already decided.** `ProgressBar.tsx` says it "does not celebrate milestones, change colour at 100%" | none — token deleted 2026-08-11 | — |
 | **Inverse chrome — `KanaKeyboard` first** — Sumi-iro ground, Ōgon hairline, `fg-on-inverse-2`, `shadow-key-on-inverse` | **real design work.** v3 designed a treatment and shipped no component wearing it. `KanaKeyboard` leads because the app actually imports it | `frontend-design` explore → `impeccable critique` | kana 4 / 2 / 3 |
 | **Inverse chrome — `AppHeader` second** — same treatment, applied after the kana keyboard settles it | **`AppHeader` has zero importers in `../aburungo`** (verified 2026-08-07), alongside `PhraseCard` and `IconButton`. Doing the plan's most expensive design work on an unimported component is the wrong order. Either confirm it is meant for a shell that isn't built yet, or let `KanaKeyboard` establish the treatment and apply it here cheaply | reuse the `KanaKeyboard` result | shell 3 / 2 / 1 |
 | **Scenario card** — `.emboss-bg` has no component owner | **real design work**, and the one surface where the pattern is sanctioned | `frontend-design` — this is its best target in the whole plan | 3 / 3 / 2 |
@@ -602,7 +620,7 @@ This is a **merge, not a copy.** The drop is ahead on tokens and assets and behi
 | 5.4 | **Verify** the five component repaints from `HANDOFF.md` §4 — `Button` primary/secondary, focus rings on `Button`/`TextInput`/`IconButton`/`KanaGrid`, `ProgressBar` fill, `Badge` emphasised → scenario tag. The drop ships these five already repainted, so this is a diff review, not a hand-edit. **Do not apply §4 by hand** — 2.2 deliberately left these files untouched so the drop's versions land clean | each of the five matches §4; `Badge` is the known exception (§2.6 finding 1 — `HANDOFF.md` claims a repaint that was never made) |
 | 5.5 | **Repaint the nine the drop doesn't ship.** Only `FillInput` has a legacy-token defect (`ring-brand-500` → red); the other eight are role-based already and just need verifying | `grep` for legacy tokens in `src/components/` returns nothing |
 | 5.5b | **Apply the inverse-chrome treatment the drop designed but never built** — `AppHeader` and `KanaKeyboard` take `bg-inverse`, `rule-on-inverse`, `fg-on-inverse-2`, `shadow-key-on-inverse`. Fix `KanaKeyboard`'s `bg-fg` → `bg-inverse` while there | the four inverse roles have implementations |
-| 5.5c | Build the rest of the orphan list from §2.6 — `progress-complete` cap on `ProgressBar`, `tag-bg`/`tag-fg` on `Badge` emphasis (**`HANDOFF.md` claims this shipped; it did not**) | orphan count reaches zero or each remainder has a written reason |
+| 5.5c | ~~Build the rest of the orphan list from §2.6~~ — **done 2026-08-11.** `tag-bg`/`tag-fg` shipped on `Badge.tsx:27` and `PhraseCard.tsx:37`, so `HANDOFF.md` was right in the end and the note calling it false is retired. `progress-complete` was deleted rather than built — see §2.6 | **orphan count is zero**, each deletion with a written reason |
 | 5.5d | ~~Repoint `.hanko` from `var(--color-brand-500)` to `var(--color-accent)`~~ — **done, verified 2026-08-10.** `.hanko` fills with `var(--color-accent)`, which is `#D72E2E` at `src/tokens.css:173`; `brand.css` contains no `brand-500` reference at all, so the "eight other sites" are gone too. CSS mark and raster mark now match. **Still open:** `.wm`, `.frame` and `.ctype` reference seven other legacy aliases (`ink`, `paper`, `rose`, `cream`, `cream-deboss`, `dusk`, `brand-800`) — note that `--color-rose` now resolves to Ōgon `#C9A045`, a yellow | **done** — mark renders Akane with no legacy alias |
 | 5.6 | Migrate the deprecated `Button` `accent` variant to `primary` and drop it | no call sites remain |
 | 5.7 | `pnpm build` — contrast gate runs against real v3 values | the seven known failures above are either fixed or explicitly accepted; **the focus-ring failure should be resolved with the palette author, not silently re-tinted** |
@@ -626,7 +644,7 @@ This is a **merge, not a copy.** The drop is ahead on tokens and assets and behi
 5. `preview/_sandbox/` — the variant workshop, where skill output gets tried before it gets shipped
 6. 20 components passing the eight-point gate
 7. A correctness vocabulary — `Maru` as the sole ○ / ✕ definition, consumed across the mark surfaces, with `AnswerResult` owning the app-checks-answer case and its non-overridable wording — plus the boundary rule that keeps it from becoming a badge
-7b. Every token v3 defines has an implementation, a written reason, or a deletion — and `docs/colors.md` carries the corrections as a diff to send back. ~~Zero orphaned roles~~ **Corrected 2026-08-10** after re-auditing against **both** repos (the app imports `src/tokens.css`, so it can consume any role; checking only this repo was the original error). Result: `inverse`/`rule-on-inverse`, `tag-bg`/`tag-fg`, `action*`, `accent` and `fg-heading` are **built**; `border-focus` was **deleted** as an off-palette v2 leftover; `link` is **kept with its reason gated** (Rokushō 500 is 3.00:1 and fails AA as text — `#33685e` is it darkened to 5.91:1); `shadow-key-on-inverse` is **queued** behind the `KanaKeyboard` key pass; `progress-complete` is **the one still open**, and deliberately so — it is a taste call to be settled by rendering, not arguing
+7b. Every token v3 defines has an implementation, a written reason, or a deletion — and `docs/colors.md` carries the corrections as a diff to send back. ~~Zero orphaned roles~~ **Corrected 2026-08-10** after re-auditing against **both** repos (the app imports `src/tokens.css`, so it can consume any role; checking only this repo was the original error). Result: `inverse`/`rule-on-inverse`, `tag-bg`/`tag-fg`, `action*`, `accent` and `fg-heading` are **built**; `border-focus` was **deleted** as an off-palette v2 leftover; `link` is **kept with its reason gated** (Rokushō 500 is 3.00:1 and fails AA as text — `#33685e` is it darkened to 5.91:1); `shadow-key-on-inverse` is **queued** behind the `KanaKeyboard` key pass; `progress-complete` was **deleted** — filed as an open taste call, but `ProgressBar.tsx`'s anti-goal had already ruled out changing colour at 100%, so code beat plan and there was nothing to decide. **Zero orphans now stands, for real**
 8. 25 flow mockups (5 flows × 5 states) in `ui_kits/` + `preview/`
 9. A palette swap that is a one-file diff
 

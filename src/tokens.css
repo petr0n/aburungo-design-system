@@ -229,7 +229,13 @@
   --color-progress-fill:     var(--color-rokusho-500);  /* 500 unlocked by the palette author
                                                             2026-08-08: Rokusho 500 was 2.77:1 on the
                                                             track, 600 is 3.87:1 */
-  --color-progress-complete: #C9A045;
+  /* --color-progress-complete: #C9A045 deleted 2026-08-11. It existed for a
+     bar that caps in Ogon at 100%, and that question was already answered —
+     ProgressBar.tsx's anti-goal says in as many words that it "does not
+     celebrate milestones, change colour at 100%", and CLAUDE.md bans
+     reward-loop ornaments. The token was the design intent of a rule the
+     component had already rejected. Reinstate only by changing the anti-goal
+     first, deliberately, not by reaching for the token. */
 
   /* ── Legacy aliases — v1 (zinc/brand-purple) and v2 (plum) names still
         resolve so existing markup does not break. Prefer the role tokens

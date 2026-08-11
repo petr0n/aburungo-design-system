@@ -192,7 +192,7 @@ in the app) confirms a zero here means zero.
 | `action`, `action-2-*`, `accent`, `fg-heading` | `Button`, `.hanko`, headings | ✅ **done** — 3 / 1 / 4 / 1 component files. `.hanko` fills `var(--color-accent)`, closing plan task 5.5d |
 | `link` | no component | ⚠️ **kept, and justified.** Used once, in `ui_kits/flows/main.tsx:39`, nowhere in the package or the app. **Not a candidate for deletion:** Rokushō 500 is 3.00:1 on the page and fails AA as text, so `#33685e` is Rokushō darkened to 5.91:1. That reason now lives beside the token and is gated by `check-contrast.mjs`, so it cannot be tidied back into an alias |
 | `shadow-key-on-inverse` | `KanaKeyboard` key treatment | ⚠️ **queued, not orphaned.** The token now exists; the key treatment is the remaining piece of the inverse-chrome work. **Trigger: the `KanaKeyboard` key-shadow pass in Phase 3B.** Delete it if that pass is dropped |
-| `progress-complete` | `ProgressBar` | ❌ **still open — a taste call, deliberately unresolved.** Does a finished bar cap in Ōgon, or is that ornament? Not decided by argument: render both and look. Held 2026-08-10 rather than guessed |
+| ~~`progress-complete`~~ | `ProgressBar` | 🗑️ **deleted 2026-08-11 — the decision already existed.** This was filed as an open taste call ("does a finished bar cap in Ōgon, or is that ornament?") and queued for a render-and-look. That was wrong: `ProgressBar.tsx`'s anti-goal already says it *"does not celebrate milestones, change colour at 100%"*, and `CLAUDE.md` bans reward-loop ornaments. Per doc precedence — **code beats plan** — the component had answered it. The token was the drop's design intent for a rule this system had already rejected. Reinstating means changing the anti-goal first, on purpose |
 | ~~`border-focus` `#5c7aa8`~~ | — | 🗑️ **deleted 2026-08-10.** An off-palette blue that appears nowhere in Zuihoden, carried from v2, unused in both repos. v3's ring is `--color-focus` |
 
 `KanaKeyboard` currently reaches for `bg-fg` where it means `bg-inverse` — the
@@ -215,6 +215,43 @@ the variable disagreed and only the variable was ever rendered.
 
 Renamed here to `--color-inverse`, which generates `bg-inverse` as written.
 Found by putting `AppHeader` on a screen (`ui_kits/flows/`), not by any check.
+
+### Correction to send back: the focus ring fails on every ground it lands on
+
+**For the palette author. This is the one open v3 decision, and two repos now
+wait on it.** Raised 2026-08-11.
+
+Ōgon 500 `#C9A045` is assigned to focus rings. WCAG 2.1 SC 1.4.11 requires
+**3:1** for non-text UI indicators. It does not reach it anywhere:
+
+| Ring | Page `#F7F6F1` | Card `#FFFDF8` | Well `#EFEDE5` | Worst |
+|---|---|---|---|---|
+| **Ōgon 500 `#C9A045`** — today | 2.26 | 2.40 | 2.08 | **2.08 ✗** |
+| Ōgon 600 `#ab8639` | 3.13 | 3.33 | 2.89 | 2.89 ✗ |
+| **Ōgon 700 `#8a6a2b`** | 4.65 | 4.95 | 4.29 | **4.29 ✓** |
+
+These are the three carried in `check-contrast.mjs` as accepted `KNOWN`
+failures — the only ones in the set, and the only reason the gate is not clean.
+
+**Recommendation: repoint `--color-focus` to `var(--color-ogon-700)`.** It is an
+existing ramp step, not a new value, and it is already in the palette as
+`--color-rule-on-inverse`. No new hex to approve, and the token stays Ōgon.
+
+**The cost, stated plainly:** Ōgon 700 is browner and darker than Ōgon 500. It
+reads less like gold. That is a real loss on a colour chosen for its warmth, and
+it is the palette author's call to accept or refuse — which is why this is a
+note rather than an edit.
+
+**If that loss is unacceptable**, the near-miss is Ōgon 600, which clears page
+and card and fails the well by 0.11. Darkening `--color-surface-2` slightly
+would carry it. That trades a palette change for a neutrals change; it is the
+only other route that does not leave a failing ring.
+
+**What it unblocks.** All 8 focus rings in `../aburungo` are currently
+`ring-brand-500`, which resolves to Akane — a focused input is drawn in the
+error colour (`docs/todo.md` 4a). They cannot be repointed to `ring-focus` until
+this is settled, because that swaps a semantic bug for a contrast one. One
+decision, then an 8-site mechanical pass.
 
 ## Where the colour goes — decided 2026-08-08
 
