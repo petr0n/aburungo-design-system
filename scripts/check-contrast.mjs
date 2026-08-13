@@ -107,15 +107,22 @@ const CHECKS = [
   ['--color-fg-heading', '#CACACA', TEXT, 'heading on a patterned ground'],
   ['--color-fg-muted', '#CACACA', TEXT, 'secondary text on a patterned ground'],
   // The `.glass` panel — the only way fg-subtle is allowed over a pattern.
-  // #EAEAEA stands in for the measured worst-case field under the glass
-  // (luminance 0.8228 vs the 0.8280 measured on a card with crest-2), so it
-  // is marginally conservative. Blur is part of that measurement: without
-  // backdrop-filter the same gradient lands at 4.26 and fails, which is why
-  // brand.css ships a more opaque @supports fallback rather than the same
-  // fill at another alpha.
-  ['--color-fg', '#EAEAEA', TEXT, 'body text on glass over a pattern'],
-  ['--color-fg-heading', '#EAEAEA', TEXT, 'heading on glass over a pattern'],
-  ['--color-fg-subtle', '#EAEAEA', TEXT, 'fine print on glass over a pattern'],
+  //
+  // #EDEDED stands in for the darkest field measured under the shipped glass
+  // on a ground it is SUPPORTED on: 0.8469 against the 0.8522 measured on a
+  // card with crest-2, so marginally conservative.
+  //
+  // A patterned WELL is deliberately not modelled here. It measures 4.47 and
+  // fails, and brand.css bars the combination rather than re-tinting the
+  // glass to cover a case that should not arise. If a well ever needs a
+  // patterned ground, this gate will not catch it — read the note at .glass.
+  //
+  // Blur is part of the measurement: without backdrop-filter the same
+  // gradient lands at 4.26, which is why brand.css ships a more opaque
+  // @supports fallback rather than the same fill at another alpha.
+  ['--color-fg', '#EDEDED', TEXT, 'body text on glass over a pattern'],
+  ['--color-fg-heading', '#EDEDED', TEXT, 'heading on glass over a pattern'],
+  ['--color-fg-subtle', '#EDEDED', TEXT, 'fine print on glass over a pattern'],
   // The focus ring is NOT checked against filled controls. Every interactive
   // primitive uses `ring-offset-2 ring-offset-bg`, so the ring is separated
   // from the control by page colour and reads against the page — which the

@@ -228,11 +228,24 @@
    88% flat — far more opaque, not the same gradient at another alpha. The
    fallback measures 5.41 / 5.38, so it is the safer of the two.
 
-   Margin note: 4.76 on a card leaves 0.26 over the bar. A denser crest, an
+   WHERE IT WORKS, measured on the shipped values (fg-subtle, needs 4.5):
+
+       page   stone-50   4.95   ok
+       card   stone-0    4.89   ok
+       well   surface-2  4.47   ✗ — do NOT put glass on a patterned well
+
+   The well is darker to begin with, so the crest composites darker under
+   the panel and the margin runs out. That ground is for input wells and
+   mode pickers, and `.emboss-bg` is documented above as being for hero
+   stages and scenario cards, so the combination should not arise — but it
+   is recorded because it is three hundredths from passing and nobody would
+   catch it by eye.
+
+   Margin note: 4.89 on a card leaves 0.39 over the bar. A denser crest, an
    `--emboss-opacity` above .35, or a darker warm stone will break it. This
-   was the most transparent of five variants and was chosen on looks with
-   that trade-off stated. `check-contrast.mjs` gates it; re-measure rather
-   than assuming if any of those inputs change.
+   fill was the most transparent of five variants and was chosen on looks
+   with the trade-off stated. `check-contrast.mjs` gates it against the card
+   case; re-measure rather than assuming if any of those inputs change.
 
    Usage:
      <div class="emboss-bg crest-1">
@@ -245,13 +258,19 @@
   isolation: isolate;
   border-radius: var(--radius-xl);
   padding: 1.25rem 1.5rem;
-  border: 1px solid color-mix(in srgb, var(--color-stone-0) 40%, transparent);
-  box-shadow: var(--shadow-card);
+  /* 2px, and paper rather than a drawn line — it reads as the lit rim of a
+     pane. A 1px --color-border-strong edge was the alternative and read as a
+     hairline box instead of glass. */
+  border: 2px solid color-mix(in srgb, var(--color-stone-0) 62%, transparent);
+  box-shadow: var(--shadow-glass);
   background: linear-gradient(145deg,
     color-mix(in srgb, var(--color-stone-0) 36%, transparent) 0%,
     color-mix(in srgb, var(--color-stone-0) 16%, transparent) 100%);
-  -webkit-backdrop-filter: blur(8px) saturate(120%);
-  backdrop-filter: blur(8px) saturate(120%);
+  /* 4px, not 8px. At 8px the crest behind the panel turned to mush and the
+     texture stopped being legible as a pattern. Dropping to 4px costs 0.04 of
+     contrast, measured — the cliff is at zero blur, not on the way down. */
+  -webkit-backdrop-filter: blur(4px) saturate(115%);
+  backdrop-filter: blur(4px) saturate(115%);
 }
 
 /* The bright top-left lip. This is what makes the panel read as a pane
