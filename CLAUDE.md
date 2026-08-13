@@ -208,6 +208,10 @@ Identical to the AburunGo app:
 - **Commit format:** Conventional Commits — `<type>(<scope>): <description>`. Types: `feat`, `fix`, `refactor`, `docs`, `build`. Subject max 50 chars, no trailing period. ASCII only.
 - **Review before writing message:** Always run `git status` and `git diff` before crafting the commit message.
 - **Atomic commits:** Commit at logical boundaries. Do not bundle unrelated changes.
-- **Never push without explicit user confirmation.** After committing, stop and ask before running `git push`.
-- **Never create a PR unless asked.** Push the branch and wait.
-- **After pushing:** the user will review and merge via PR. Do not merge branches yourself.
+- **Push without asking.** Commit, then push. Do not stop for confirmation.
+- **Open a PR without asking**, and **give the full URL** — `https://github.com/petr0n/aburungo-design-system/pull/NN`, not "PR #NN". The author is often on a phone or another machine and cannot resolve a bare number. Same for any other link they need: artifact URLs, CI runs, deploy previews.
+- **Do not merge.** The author reviews and merges. This is the one step that stays manual.
+- **Exception: merge when asked.** The author will sometimes say "merge it" — then merge, and confirm CI was green first.
+- **Pause only for destructive or irreversible operations** — `git reset --hard`, force-push over shared history, deleting data, rewriting published history.
+
+> **This is the single source for git behaviour**, superseding anything narrower elsewhere. Set 2026-08-13, replacing a rule that required confirmation before every push and forbade PRs unless asked. The reasoning: this is pre-alpha with no public users, CI plus the brand and contrast gates are real protection, and a bad merge costs a revert — while a confirmation prompt on every push costs the author's time on every single change. Merging stays manual because this package is consumed by `../aburungo`, whose CI builds against **this repo's default branch**, so a merge here immediately changes what the app compiles against.
