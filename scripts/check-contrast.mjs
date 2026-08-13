@@ -130,10 +130,9 @@ const KNOWN = new Map([
   // at both: 700 reads brown, and Ogon is the warmth of this palette. DO NOT
   // re-tint it to make this number green.
   //
-  // The open route to having both is a two-tone ring — 1.4.11 measures the
-  // indicator against what abuts it, so a gold band with a dark outer
-  // hairline passes while still reading gold. This script cannot see that;
-  // it compares flat token pairs. If that ships, delete this entry.
+  // SETTLED, do not reopen. Ogon 700 and a two-tone gold-plus-hairline ring
+  // were both proposed and both rejected. These three entries are permanent
+  // unless the author raises it themselves.
   [
     'focus ring on page',
     'Ogon 500, 2.26:1. Author kept the gold over the ratio, 2026-08-13. ' +

@@ -70,7 +70,7 @@ const SURFACES = [
   ['sandbox-pattern10', '/preview/_sandbox/pattern-10-offset-tile.html', 950, 480],
   ['sandbox-pattern11', '/preview/_sandbox/pattern-11-clan-symbols.html', 950, 1250],
   ['sandbox-pattern12', '/preview/_sandbox/pattern-12-emboss-bg.html', 950, 1150],
-  ['sandbox-focus', '/preview/_sandbox/focus-1-options.html', 1060, 760],
+  ['sandbox-empty', '/preview/_sandbox/empty-1-pattern.html', 1380, 620],
   ['sandbox-surfaces', '/preview/_sandbox/surfaces-1-current.html', 900, 420],
   ['sandbox-vibrancy', '/preview/_sandbox/vibrancy-1-before-after.html', 1000, 560],
   ['sandbox-kana', '/preview/_sandbox/kana-2-green.html', 1180, 400],
