@@ -137,19 +137,23 @@ Three things changed and matter to this item:
 Also unused and relevant: `.wm` (oversized watermark type), `.kata-vert`
 (vertical katakana), `.frame`, `.ctype`.
 
-### The tension to resolve first
+### There was never a tension — settled 2026-08-13
 
-`CLAUDE.md` says **"restraint over decoration"** and bans gamification ornament.
-This item asks for more decoration. Both were written by the same person, so it
-is a real call, not a gotcha.
+This section used to raise "restraint over decoration vs. this item asks for
+decoration" as a call for the author to resolve. **It was not a real question and
+it was not the author's to answer.** The crest PNGs were hand-made and handed
+over with the ask; supplying an asset is stating the intent. The paragraph was
+written into this file by Claude and then escalated back to the author as though
+it had come from the brief.
 
-**Proposed reading, for the author to accept or reject:** the restraint rule is
-about *saturated colour on interactive surfaces* — it exists so an accent means
-something when it appears. Texture on a **ground** is a different axis. A
-low-contrast woodcut field behind a card does not compete with a button, and
-does not make a control ambiguous. Under that reading both rules stand and this
-work is unblocked. If the author disagrees, the rule wins and this item shrinks
-to empty states and chrome only.
+**Textured grounds are allowed.** The restraint rule governs saturated colour on
+interactive surfaces, so an accent still means something when it appears. Texture
+on a ground is a different axis and does not make a control ambiguous.
+
+The lesson worth keeping is procedural, not aesthetic: **do not invent a
+constraint, write it down, and then ask whether it applies.** If a rule seems to
+block something the author explicitly asked for, the reading is wrong — check
+before raising it.
 
 ### Cautions that are not negotiable
 

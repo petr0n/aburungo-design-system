@@ -180,7 +180,12 @@
   /* --color-focus is deliberately NOT set here. v3's #C9A045 fails WCAG
      1.4.11 on every light ground; the split correction is below. */
   --color-tag-bg:  var(--color-ogon-200);
-  --color-tag-fg:  var(--color-ogon-700);
+  /* Ogon 800, not 700. This is correction #2 in docs/colors.md, written when
+     the drop landed and left unapplied until 2026-08-13 — the third of three
+     found in that state, after the focus ring and the hanko. On our tag-bg
+     (Ogon 200, not the Ogon 100 the drop's numbers assumed) 700 scores 3.60:1
+     against a 4.5 bar; 800 gives 5.71:1. */
+  --color-tag-fg:  var(--color-ogon-800);
   /* Links are Rokusho's job per CLAUDE.md, but Rokusho 500 #4F9C8D on the page
      is 3.00:1 — it fails AA as text. This is Rokusho darkened to clear it:
      5.91:1. That is the whole reason the token exists as a raw value rather

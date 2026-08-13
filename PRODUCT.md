@@ -55,7 +55,7 @@ context. Designs that keep the choice open (a prop rather than a fixed value)
 are preferred for the same reason.
 
 **Explicitly undecided:**
-- Whether Akane should stay confined to the mark and error states. It is currently available as a card accent too, which overlaps with its error meaning. Recorded, not settled.
+- Whether Akane should stay confined to the mark and error states. It is currently available as a card accent too, which overlaps with its error meaning. **It stays in the accent set** and will be judged on a rendered screen, not argued — the author's standing rule. Raised as an argument on 2026-08-13 and correctly refused: an unrendered colour decision is not a decision anyone can make.
 - Whether `.emboss-bg` and link styling get component owners, or stay ad-hoc in the app.
 
 ## Brand Commitments

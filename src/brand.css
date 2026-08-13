@@ -364,7 +364,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: clamp(9px, 1vw, 11px);
+  /* Floor raised 9px -> 11px, 2026-08-13. 9px uppercase at .22em tracking is
+     below any legibility floor worth defending; unlike the .wm display clamps
+     this was a real finding, not a false positive, so it is fixed rather than
+     suppressed. The ceiling is unchanged, so nothing gets larger. */
+  font-size: 11px;
   letter-spacing: .22em;
   text-transform: uppercase;
   font-weight: 600;

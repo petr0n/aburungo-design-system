@@ -10,9 +10,13 @@
  * non-text UI indicators — focus rings, progress fills). PRODUCT.md records
  * WCAG 2.1 AA as binding, which is where these numbers come from.
  *
- * Known failures are listed in KNOWN below rather than silently tolerated:
- * the gate stays green on them but prints them, so an incoming palette has to
- * beat the outgoing one instead of merely matching it.
+ * This FAILS THE BUILD on any miss with no recorded reason. It did not until
+ * 2026-08-10 — it had no process.exit, so it printed its findings and returned
+ * 0, which made it a report wearing the word "gate".
+ *
+ * The escape hatch is KNOWN below: a failure ships only with a written reason
+ * sitting next to the number. That map is currently empty and every check
+ * passes.
  */
 import { readFileSync } from 'node:fs'
 
@@ -117,23 +121,23 @@ const CHECKS = [
  * Anything not listed here fails the build.
  */
 const KNOWN = new Map([
-  // The three failures logged before 2026-08-08 were resolved by the palette
-  // author: Rokusho 500 unlocked for progress-fill, and stone-500 darkened so
-  // text on a well clears 4.5:1.
+  // Empty, and worth keeping empty.
   //
-  // The four below are recorded 2026-08-10, when this script gained the power
-  // to fail a build (it had none before — see the note at the bottom). They
-  // are the state that was already shipping, written down rather than
-  // grandfathered in silently. Recording them is not resolving them.
-  [
-    'scenario tag',
-    'Ogon 600 on Ogon 200 — 3.60:1. Palette-author call, not ours to re-tint: ' +
-      'the tag is a scenario label and the pair comes from the v3 drop.',
-  ],
-  // The three focus-ring entries were removed 2026-08-11 when --color-focus
-  // moved to Ogon 700. They now pass at 4.65 / 4.95 / 4.29 against a 3:1 bar.
-  // Deleted rather than left in place: a KNOWN entry for a check that passes
-  // is a mask waiting for a regression to hide under.
+  // History, because the pattern matters: this map has been emptied three
+  // times. The first three failures were resolved by the palette author on
+  // 2026-08-08. Four more were recorded on 2026-08-10, when this script first
+  // gained the power to fail a build — they were the state already shipping,
+  // written down rather than grandfathered in silently. All four are now gone,
+  // and NONE of them needed a new decision:
+  //
+  //   focus ring, 3 grounds  — docs/colors.md correction #1 already said
+  //                            Ogon 700; it had never been applied (2026-08-11)
+  //   scenario tag           — correction #2 already said Ogon 800; likewise
+  //                            never applied (2026-08-13)
+  //
+  // Both were filed as "the palette author's call" when they were in fact
+  // corrections the palette author had already written down. Before adding an
+  // entry here, check docs/colors.md — the fix may already be prescribed.
 ])
 
 let hard = 0
