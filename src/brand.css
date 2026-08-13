@@ -364,11 +364,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* Floor raised 9px -> 11px, 2026-08-13. 9px uppercase at .22em tracking is
-     below any legibility floor worth defending; unlike the .wm display clamps
-     this was a real finding, not a false positive, so it is fixed rather than
-     suppressed. The ceiling is unchanged, so nothing gets larger. */
-  font-size: 11px;
+  /* Was clamp(9px, 1vw, 11px). 9px uppercase at .22em tracking is below any
+     legibility floor worth defending — unlike the .wm display clamps, which
+     are fluid watermark type, this was a real finding rather than a false
+     positive. First raised to a flat 11px, which was still an invented value;
+     --text-caption is the documented bottom of the ramp at 12px, so use that.
+     Unlike the rest of this file it is a token, not a literal. */
+  font-size: var(--text-caption);
   letter-spacing: .22em;
   text-transform: uppercase;
   font-weight: 600;
