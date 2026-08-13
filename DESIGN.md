@@ -192,6 +192,15 @@ print on the card. `EmptyState` and `ErrorState` are the live case — their
 description line is `text-fg-subtle`. Checked by `scripts/check-contrast.mjs`
 against a measured stand-in; re-measure if a crest is added or the opacity raised.
 
+**The empty-state treatment is decided — 2026-08-13, from four rendered options
+in `preview/_sandbox/empty-1-pattern.html`.** The pattern goes on the **page
+ground**; the content sits on a **flat card** above it. Built as `EmptyStage` in
+`ui_kits/flows/shell.tsx`. Two alternatives were rendered and rejected: pattern
+behind everything **fails** at 3.47:1, and promoting the description to `fg`
+passes but flattens the hierarchy — message and description become one block —
+and would change `EmptyState` everywhere, patterned or not. Do not re-open this
+by reaching for the simpler markup.
+
 ## Typography
 
 **Body Font:** Noto Sans (variable, shipped locally) — all English UI.

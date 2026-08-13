@@ -40,7 +40,7 @@ import type {
   VoiceInputStatus,
 } from '../../src/components'
 import { convertRomaji } from '../../src/lib'
-import { FlowPage, Phone, Screen, fromUrl } from './shell'
+import { EmptyStage, FlowPage, Phone, Screen, fromUrl } from './shell'
 import type { FlowState } from './shell'
 
 const CARD = {
@@ -297,7 +297,7 @@ export function FillBlank() {
           <>
             <AppHeader title="Fill in the blank" />
             <Screen>
-              <div className="flex flex-col items-center gap-6 pt-10">
+              <EmptyStage>
                 <span className="hanko text-display-lg" aria-hidden="true" />
                 <EmptyState
                   message="Nothing to fill in right now"
@@ -308,7 +308,7 @@ export function FillBlank() {
                     </Button>
                   }
                 />
-              </div>
+              </EmptyStage>
             </Screen>
           </>
         )}

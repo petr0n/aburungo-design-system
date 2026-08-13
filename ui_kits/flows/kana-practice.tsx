@@ -28,7 +28,7 @@ import {
 } from '../../src/components'
 import type { AnswerOutcome, KanaCell, KanaScript, KanaSection } from '../../src/components'
 import { HIRAGANA_BASIC, KATAKANA_BASIC, KANA_PRACTICE_CARDS } from '../../src/lib'
-import { FlowPage, Phone, Screen, fromUrl } from './shell'
+import { EmptyStage, FlowPage, Phone, Screen, fromUrl } from './shell'
 import type { FlowState } from './shell'
 
 // ─── Content ───────────────────────────────────────────────────────────────
@@ -421,7 +421,7 @@ export function KanaPractice() {
           <>
             <AppHeader title="Kana practice" />
             <Screen>
-              <div className="flex flex-col items-center gap-6 pt-10">
+              <EmptyStage>
                 <span className="hanko text-display-lg" aria-hidden="true" />
                 <EmptyState
                   message="Every kana is settled"
@@ -432,7 +432,7 @@ export function KanaPractice() {
                     </Button>
                   }
                 />
-              </div>
+              </EmptyStage>
             </Screen>
           </>
         )}

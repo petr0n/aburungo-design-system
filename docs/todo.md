@@ -174,8 +174,10 @@ before raising it.
 
 ### Where it should land, roughly in order
 
-1. **Empty states** — the hanko already anchors them; the most forgiving place
-   to establish the vocabulary and the least likely to hurt a task.
+1. ~~**Empty states**~~ — **DONE 2026-08-13.** Four options rendered, D chosen:
+   pattern on the page ground, content on a flat card. Shipped as `EmptyStage`
+   in `ui_kits/flows/shell.tsx` and applied to all three flows. Recorded in
+   `DESIGN.md` under The Patterned Ground Rule.
 2. **The header band** — Sumi-iro is a large flat field with an Ōgon hairline;
    a key-block texture there is nearly free.
 3. **Page grounds per scenario** — this is option C from the colour review,
