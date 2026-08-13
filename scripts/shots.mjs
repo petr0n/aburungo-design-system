@@ -24,7 +24,16 @@ import puppeteer from 'puppeteer-core'
 const PORT = 6099
 const OUT = 'scripts/.shots-out'
 
-/** name, path, viewport */
+/**
+ * name, path, viewport width, viewport height, [clip selector]
+ *
+ * A fifth entry clips the shot to that element instead of capturing the page.
+ * Use it with a phone-sized viewport to see a flow the way the app renders it:
+ * `EmptyState` sizes itself with `min-h-[30vh]`, and in the harness `vh` is the
+ * tall desktop page, not the phone — so the same markup that looks correct on a
+ * device shows a void in a full-page shot. That is a measurement artifact, not
+ * a layout bug, and it cost half an hour to establish once.
+ */
 const SURFACES = [
   ['storybook', '/storybook/', 1280, 900],
   ['uikit-mobile', '/ui_kits/mobile/', 430, 900],
@@ -37,6 +46,8 @@ const SURFACES = [
   ['kana-result', '/ui_kits/flows/?flow=kana&state=result', 1280, 1200],
   ['kana-loading', '/ui_kits/flows/?flow=kana&state=loading', 1280, 1200],
   ['kana-empty', '/ui_kits/flows/?flow=kana&state=empty', 1280, 1200],
+  ['phone-kana-empty', '/ui_kits/flows/?flow=kana&state=empty', 390, 780, '[data-phone]'],
+  ['phone-flow-empty', '/ui_kits/flows/?state=empty', 390, 780, '[data-phone]'],
   ['kana-error', '/ui_kits/flows/?flow=kana&state=error', 1280, 1200],
   ['fill-romaji', '/ui_kits/flows/?flow=fill&state=romaji', 1280, 1200],
   ['fill-kana', '/ui_kits/flows/?flow=fill&state=kana', 1280, 1400],
@@ -70,6 +81,8 @@ const SURFACES = [
   ['sandbox-pattern10', '/preview/_sandbox/pattern-10-offset-tile.html', 950, 480],
   ['sandbox-pattern11', '/preview/_sandbox/pattern-11-clan-symbols.html', 950, 1250],
   ['sandbox-pattern12', '/preview/_sandbox/pattern-12-emboss-bg.html', 950, 1150],
+  ['sandbox-glass2', '/preview/_sandbox/glass-2-transparency.html', 1480, 780],
+  ['sandbox-glass', '/preview/_sandbox/glass-1-scrim.html', 1400, 1120],
   ['sandbox-empty', '/preview/_sandbox/empty-1-pattern.html', 1380, 620],
   ['sandbox-surfaces', '/preview/_sandbox/surfaces-1-current.html', 900, 420],
   ['sandbox-vibrancy', '/preview/_sandbox/vibrancy-1-before-after.html', 1000, 560],
@@ -128,7 +141,7 @@ const browser = await puppeteer.launch({
 })
 
 let failed = 0
-for (const [name, path, w, h] of wanted) {
+for (const [name, path, w, h, clip] of wanted) {
   const page = await browser.newPage()
   const errors = []
   page.on('pageerror', (e) => errors.push(e.message))
@@ -141,7 +154,13 @@ for (const [name, path, w, h] of wanted) {
     const accent = await page.evaluate(() =>
       getComputedStyle(document.documentElement).getPropertyValue('--color-accent').trim(),
     )
-    await page.screenshot({ path: `${OUT}/${name}.png`, fullPage: true })
+    if (clip === undefined) {
+      await page.screenshot({ path: `${OUT}/${name}.png`, fullPage: true })
+    } else {
+      const el = await page.$(clip)
+      if (el === null) throw new Error(`clip selector ${clip} matched nothing`)
+      await el.screenshot({ path: `${OUT}/${name}.png` })
+    }
     const note = errors.length > 0 ? `  ⚠ ${errors.slice(0, 2).join('; ')}` : ''
     if (errors.length > 0) failed += 1
     console.log(`  ${name.padEnd(18)} accent=${(accent || '(unset)').padEnd(9)}${note}`)

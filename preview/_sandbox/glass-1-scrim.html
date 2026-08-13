@@ -1,0 +1,156 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="../../dist/tokens.plain.css">
+<link rel="stylesheet" href="../../src/brand.css">
+<style>
+ body{margin:0;padding:26px;font-family:var(--font-sans);color:var(--fg);background:var(--bg)}
+ h1{font-size:var(--text-heading-sm);margin:0 0 2px}
+ h2{font-size:var(--text-body);margin:30px 0 4px;color:var(--fg-muted);font-weight:600}
+ .s{color:var(--fg-muted);margin:0 0 16px;font-size:var(--text-body-sm);max-width:86ch}
+ .note{font-size:var(--text-body-sm);color:var(--fg-muted);margin:0 0 14px;max-width:86ch}
+ .row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:1340px;align-items:start}
+ .col{display:flex;flex-direction:column;gap:8px}
+ .hd{font-size:var(--text-body-sm);font-weight:650;margin:0}
+ .sub{font-size:var(--text-caption);color:var(--fg-muted);margin:0;min-height:2.6em}
+ .stage{min-height:210px;border-radius:var(--radius-xl);border:1px solid var(--border);
+   display:flex;align-items:center;justify-content:center;padding:22px;overflow:hidden}
+ .g-page{background-color:var(--color-stone-50)}
+ .g-card{background-color:var(--color-stone-0)}
+ .g-ai{background-color:var(--color-ai-500)}
+ .g-akane{background-color:var(--color-akane-500)}
+
+ .jp{font-family:var(--font-jp);font-size:var(--text-jp-lg);color:var(--color-fg-heading);
+   margin:0;line-height:1.5}
+ .jp-inv{color:var(--color-fg-inverse)}
+ .en{font-family:var(--font-sans);font-size:var(--text-body-sm);color:var(--fg-subtle);margin:6px 0 0}
+ .en-inv{color:var(--color-fg-inverse);opacity:.85}
+
+ /* Bare — what ships now. */
+ .bare{text-align:center}
+
+ /* Glass: a warm-paper scrim. backdrop-filter blurs the crest behind it, so
+    the texture stays present but stops competing with the strokes. */
+ .glass{
+   text-align:center; padding:20px 24px; border-radius:var(--radius-xl);
+   background:color-mix(in srgb, var(--color-stone-0) 72%, transparent);
+   -webkit-backdrop-filter:blur(7px) saturate(115%);
+   backdrop-filter:blur(7px) saturate(115%);
+   border:1px solid color-mix(in srgb, var(--color-stone-0) 55%, transparent);
+   box-shadow:var(--shadow-card);
+ }
+ /* Heavier scrim, no blur — the fallback where backdrop-filter is unavailable. */
+ .scrim{
+   text-align:center; padding:20px 24px; border-radius:var(--radius-xl);
+   background:color-mix(in srgb, var(--color-stone-0) 88%, transparent);
+   border:1px solid color-mix(in srgb, var(--color-border) 80%, transparent);
+ }
+ /* On saturated grounds the scrim is ink, not paper: a light panel there would
+    punch a hole in the colour block. */
+ .glass-dark{
+   text-align:center; padding:20px 24px; border-radius:var(--radius-xl);
+   background:color-mix(in srgb, var(--color-stone-800) 28%, transparent);
+   -webkit-backdrop-filter:blur(7px);
+   backdrop-filter:blur(7px);
+   border:1px solid color-mix(in srgb, var(--color-stone-0) 18%, transparent);
+ }
+ .lbl{font-family:var(--font-mono);font-size:var(--text-caption);color:var(--fg-subtle)}
+</style></head><body>
+
+<h1>Text on a patterned ground — a glass scrim</h1>
+<p class="s">The complaint: kana sitting straight on the crest tile reads badly on the pale grounds,
+while the saturated grounds carry it fine. A translucent panel is the middle route — it keeps the
+texture visible <em>through</em> the box rather than covering it, which an opaque card does not.
+Ratios below are measured off the rendered pixels, not calculated.</p>
+
+<h2>On the page ground — stone 50</h2>
+<p class="note">Left to right: what ships, glass with blur, heavier scrim without blur, and an opaque card for reference.</p>
+<div class="row">
+  <div class="col">
+    <p class="hd">A · Bare — ships now</p>
+    <p class="sub">Strokes and crest outlines cross each other.</p>
+    <div class="stage emboss-bg crest-1 g-page">
+      <div class="bare"><p class="jp" lang="ja">お願いします</p><p class="en">Please, if you would.</p></div>
+    </div>
+  </div>
+  <div class="col">
+    <p class="hd">B · Glass + blur</p>
+    <p class="sub">Paper scrim at 72%, backdrop blurred 7px.</p>
+    <div class="stage emboss-bg crest-1 g-page">
+      <div class="glass"><p class="jp" lang="ja">お願いします</p><p class="en">Please, if you would.</p></div>
+    </div>
+  </div>
+  <div class="col">
+    <p class="hd">C · Scrim, no blur</p>
+    <p class="sub">88% paper. The fallback, and it works everywhere.</p>
+    <div class="stage emboss-bg crest-1 g-page">
+      <div class="scrim"><p class="jp" lang="ja">お願いします</p><p class="en">Please, if you would.</p></div>
+    </div>
+  </div>
+  <div class="col">
+    <p class="hd">D · Opaque card</p>
+    <p class="sub">The empty-state treatment, for comparison.</p>
+    <div class="stage emboss-bg crest-1 g-page">
+      <div class="scrim" style="background:var(--color-surface)"><p class="jp" lang="ja">お願いします</p><p class="en">Please, if you would.</p></div>
+    </div>
+  </div>
+</div>
+
+<h2>On a card ground — stone 0</h2>
+<div class="row">
+  <div class="col">
+    <p class="hd">A · Bare</p><p class="sub"></p>
+    <div class="stage emboss-bg crest-2 g-card">
+      <div class="bare"><p class="jp" lang="ja">お願いします</p><p class="en">Please, if you would.</p></div>
+    </div>
+  </div>
+  <div class="col">
+    <p class="hd">B · Glass + blur</p><p class="sub"></p>
+    <div class="stage emboss-bg crest-2 g-card">
+      <div class="glass"><p class="jp" lang="ja">お願いします</p><p class="en">Please, if you would.</p></div>
+    </div>
+  </div>
+  <div class="col">
+    <p class="hd">C · Scrim, no blur</p><p class="sub"></p>
+    <div class="stage emboss-bg crest-2 g-card">
+      <div class="scrim"><p class="jp" lang="ja">お願いします</p><p class="en">Please, if you would.</p></div>
+    </div>
+  </div>
+  <div class="col">
+    <p class="hd">D · Opaque card</p><p class="sub"></p>
+    <div class="stage emboss-bg crest-2 g-card">
+      <div class="scrim" style="background:var(--color-surface)"><p class="jp" lang="ja">お願いします</p><p class="en">Please, if you would.</p></div>
+    </div>
+  </div>
+</div>
+
+<h2>On saturated grounds — where you said it already reads</h2>
+<p class="note">A light panel here would punch a hole in the colour block, so the dark variant tints
+with ink instead of paper. Shown against the bare version you already approved.</p>
+<div class="row">
+  <div class="col">
+    <p class="hd">Ai-iro · bare</p><p class="sub"></p>
+    <div class="stage emboss-bg crest-1 g-ai">
+      <div class="bare"><p class="jp jp-inv" lang="ja">お願いします</p><p class="en en-inv">Please, if you would.</p></div>
+    </div>
+  </div>
+  <div class="col">
+    <p class="hd">Ai-iro · ink glass</p><p class="sub"></p>
+    <div class="stage emboss-bg crest-1 g-ai">
+      <div class="glass-dark"><p class="jp jp-inv" lang="ja">お願いします</p><p class="en en-inv">Please, if you would.</p></div>
+    </div>
+  </div>
+  <div class="col">
+    <p class="hd">Akane · bare</p><p class="sub"></p>
+    <div class="stage emboss-bg crest-2 g-akane">
+      <div class="bare"><p class="jp jp-inv" lang="ja">お願いします</p><p class="en en-inv">Please, if you would.</p></div>
+    </div>
+  </div>
+  <div class="col">
+    <p class="hd">Akane · ink glass</p><p class="sub"></p>
+    <div class="stage emboss-bg crest-2 g-akane">
+      <div class="glass-dark"><p class="jp jp-inv" lang="ja">お願いします</p><p class="en en-inv">Please, if you would.</p></div>
+    </div>
+  </div>
+</div>
+
+</body></html>

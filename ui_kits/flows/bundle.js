@@ -983,7 +983,7 @@ function Screen({ children }) {
   return /* @__PURE__ */ jsx23("div", { className: "flex flex-1 flex-col gap-5 overflow-y-auto px-4 pb-8 pt-5", children });
 }
 function EmptyStage({ children }) {
-  return /* @__PURE__ */ jsx23("div", { className: "emboss-bg crest-1 -mx-4 -mt-5 flex flex-1 items-center justify-center px-4 py-10", children: /* @__PURE__ */ jsx23("div", { className: "w-full rounded-2xl border border-border bg-surface px-5 py-9 shadow-card", children: /* @__PURE__ */ jsx23("div", { className: "flex flex-col items-center gap-5", children }) }) });
+  return /* @__PURE__ */ jsx23("div", { className: "emboss-bg crest-1 -mx-4 -mt-5 flex flex-1 items-center justify-center px-4 py-10", children: /* @__PURE__ */ jsx23("div", { className: "glass w-full", children: /* @__PURE__ */ jsx23("div", { className: "flex flex-col items-center gap-5", children }) }) });
 }
 function fromUrl(key, allowed, fallback) {
   const raw = new URLSearchParams(window.location.search).get(key);

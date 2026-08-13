@@ -132,7 +132,7 @@ Restraint here is load-bearing rather than stylistic. Whitespace is what makes a
 - Calm, structured, adult — no cheerleading, no reward loop
 - Colour used sparingly and structurally — every hue has a job, none decorate
 - Touch-first, mobile-primary, ≥44px targets throughout
-- Flat surfaces; depth conveyed by tone, not shadow
+- Flat surfaces; depth conveyed by tone, not shadow — **one sanctioned exception**, `.glass` (2026-08-13), where the blur does legibility work rather than decoration
 - Bilingual by construction — Latin and Japanese type are separate systems, tuned separately
 - Charm lives in empty states and progress language, never in navigation or structure
 
@@ -181,8 +181,9 @@ screen should be near-black; the kana keyboard is Rokushō for exactly this reas
 **The No Raw Value Rule.** Components reference role tokens, never hexes. Enforced
 by `scripts/check-adherence.mjs`, which fails the build.
 
-**The Patterned Ground Rule.** A `.emboss-bg` ground carries `fg` and `fg-heading`
-only. `fg-muted` is permitted; `fg-subtle` and `fg-faint` are not. The tile darkens
+**The Patterned Ground Rule.** A *bare* `.emboss-bg` ground carries `fg` and
+`fg-heading` only. `fg-muted` is permitted; `fg-subtle` and `fg-faint` are not —
+**unless they sit on `.glass`**, which is what that utility is for. The tile darkens
 what sits under it, so text is judged against the darkest pixel of the pattern, not
 against the surface token — measured worst case at the `.35` default is 8.40:1 for
 `fg`, 6.91:1 for `fg-heading`, 4.66:1 for `fg-muted`, and **3.47:1 for `fg-subtle`**.

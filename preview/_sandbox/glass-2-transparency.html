@@ -1,0 +1,133 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="../../dist/tokens.plain.css">
+<link rel="stylesheet" href="../../src/brand.css">
+<style>
+ body{margin:0;padding:26px;font-family:var(--font-sans);color:var(--fg);background:var(--bg)}
+ h1{font-size:var(--text-heading-sm);margin:0 0 2px}
+ h2{font-size:var(--text-body);margin:30px 0 6px;color:var(--fg-muted);font-weight:600}
+ .s{color:var(--fg-muted);margin:0 0 16px;font-size:var(--text-body-sm);max-width:88ch}
+ .row{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;max-width:1440px;align-items:start}
+ .col{display:flex;flex-direction:column;gap:7px}
+ .hd{font-size:var(--text-body-sm);font-weight:650;margin:0}
+ .sub{font-size:var(--text-caption);color:var(--fg-muted);margin:0;min-height:2.4em;
+   font-family:var(--font-mono)}
+ .stage{min-height:200px;border-radius:var(--radius-xl);border:1px solid var(--border);
+   display:flex;align-items:center;justify-content:center;padding:20px;overflow:hidden}
+ .g-page{background-color:var(--color-stone-50)}
+ .g-card{background-color:var(--color-stone-0)}
+
+ .jp{font-family:var(--font-jp);font-size:var(--text-jp-lg);color:var(--color-fg-heading);
+   margin:0;line-height:1.5}
+ .en{font-family:var(--font-sans);font-size:var(--text-body-sm);color:var(--fg-subtle);margin:6px 0 0}
+
+ /* All variants share the geometry; only the fill changes. A gradient reads as
+    glass catching light across its face — brighter at the top-left edge,
+    thinner toward the bottom-right, which is where a real pane would fall off. */
+ .p{text-align:center;padding:20px 24px;border-radius:var(--radius-xl);
+    -webkit-backdrop-filter:blur(8px) saturate(120%);
+    backdrop-filter:blur(8px) saturate(120%);
+    border:1px solid color-mix(in srgb, var(--color-stone-0) 40%, transparent);
+    box-shadow:var(--shadow-card)}
+
+ /* Reference: the flat 72% from the last pass. */
+ .v72{background:color-mix(in srgb, var(--color-stone-0) 72%, transparent)}
+
+ /* Gradient variants, top-left bright to bottom-right thin. */
+ .v60{background:linear-gradient(145deg,
+        color-mix(in srgb, var(--color-stone-0) 68%, transparent) 0%,
+        color-mix(in srgb, var(--color-stone-0) 48%, transparent) 100%)}
+ .v50{background:linear-gradient(145deg,
+        color-mix(in srgb, var(--color-stone-0) 58%, transparent) 0%,
+        color-mix(in srgb, var(--color-stone-0) 36%, transparent) 100%)}
+ .v40{background:linear-gradient(145deg,
+        color-mix(in srgb, var(--color-stone-0) 48%, transparent) 0%,
+        color-mix(in srgb, var(--color-stone-0) 26%, transparent) 100%)}
+ .v28{background:linear-gradient(145deg,
+        color-mix(in srgb, var(--color-stone-0) 36%, transparent) 0%,
+        color-mix(in srgb, var(--color-stone-0) 16%, transparent) 100%)}
+
+ /* A brighter top edge sells the pane without adding opacity to the field. */
+ .lip{position:relative}
+ .lip::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+   background:linear-gradient(160deg,
+     color-mix(in srgb, var(--color-stone-0) 55%, transparent) 0%,
+     transparent 42%)}
+ .lip > *{position:relative}
+</style></head><body>
+
+<h1>Glass — how transparent can it go</h1>
+<p class="s">Every panel below is blurred 8px and gradient-filled, bright at the top-left falling off
+to the bottom-right. Only the opacity range changes. The percentages are the gradient's two stops.
+<b>Ratios are measured from the rendered pixels inside each panel</b>, at the darkest point the
+pattern reaches under the glass — so they are the worst case, not the average.</p>
+
+<h2>On the page ground</h2>
+<div class="row">
+  <div class="col">
+    <p class="hd">72% flat</p><p class="sub">the last pass</p>
+    <div class="stage emboss-bg crest-1 g-page">
+      <div class="p v72" data-probe><p class="jp" lang="ja">お願いします</p><p class="en">Please, if you would.</p></div>
+    </div>
+  </div>
+  <div class="col">
+    <p class="hd">68 &rarr; 48%</p><p class="sub">gradient</p>
+    <div class="stage emboss-bg crest-1 g-page">
+      <div class="p v60 lip" data-probe><p class="jp" lang="ja">お願いします</p><p class="en">Please, if you would.</p></div>
+    </div>
+  </div>
+  <div class="col">
+    <p class="hd">58 &rarr; 36%</p><p class="sub">gradient</p>
+    <div class="stage emboss-bg crest-1 g-page">
+      <div class="p v50 lip" data-probe><p class="jp" lang="ja">お願いします</p><p class="en">Please, if you would.</p></div>
+    </div>
+  </div>
+  <div class="col">
+    <p class="hd">48 &rarr; 26%</p><p class="sub">gradient</p>
+    <div class="stage emboss-bg crest-1 g-page">
+      <div class="p v40 lip" data-probe><p class="jp" lang="ja">お願いします</p><p class="en">Please, if you would.</p></div>
+    </div>
+  </div>
+  <div class="col">
+    <p class="hd">36 &rarr; 16%</p><p class="sub">barely there</p>
+    <div class="stage emboss-bg crest-1 g-page">
+      <div class="p v28 lip" data-probe><p class="jp" lang="ja">お願いします</p><p class="en">Please, if you would.</p></div>
+    </div>
+  </div>
+</div>
+
+<h2>On a card ground, with the denser crest</h2>
+<div class="row">
+  <div class="col">
+    <p class="hd">72% flat</p><p class="sub"></p>
+    <div class="stage emboss-bg crest-2 g-card">
+      <div class="p v72" data-probe><p class="jp" lang="ja">お願いします</p><p class="en">Please, if you would.</p></div>
+    </div>
+  </div>
+  <div class="col">
+    <p class="hd">68 &rarr; 48%</p><p class="sub"></p>
+    <div class="stage emboss-bg crest-2 g-card">
+      <div class="p v60 lip" data-probe><p class="jp" lang="ja">お願いします</p><p class="en">Please, if you would.</p></div>
+    </div>
+  </div>
+  <div class="col">
+    <p class="hd">58 &rarr; 36%</p><p class="sub"></p>
+    <div class="stage emboss-bg crest-2 g-card">
+      <div class="p v50 lip" data-probe><p class="jp" lang="ja">お願いします</p><p class="en">Please, if you would.</p></div>
+    </div>
+  </div>
+  <div class="col">
+    <p class="hd">48 &rarr; 26%</p><p class="sub"></p>
+    <div class="stage emboss-bg crest-2 g-card">
+      <div class="p v40 lip" data-probe><p class="jp" lang="ja">お願いします</p><p class="en">Please, if you would.</p></div>
+    </div>
+  </div>
+  <div class="col">
+    <p class="hd">36 &rarr; 16%</p><p class="sub"></p>
+    <div class="stage emboss-bg crest-2 g-card">
+      <div class="p v28 lip" data-probe><p class="jp" lang="ja">お願いします</p><p class="en">Please, if you would.</p></div>
+    </div>
+  </div>
+</div>
+
+</body></html>

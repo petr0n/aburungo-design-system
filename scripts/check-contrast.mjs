@@ -106,6 +106,16 @@ const CHECKS = [
   ['--color-fg', '#CACACA', TEXT, 'body text on a patterned ground'],
   ['--color-fg-heading', '#CACACA', TEXT, 'heading on a patterned ground'],
   ['--color-fg-muted', '#CACACA', TEXT, 'secondary text on a patterned ground'],
+  // The `.glass` panel — the only way fg-subtle is allowed over a pattern.
+  // #EAEAEA stands in for the measured worst-case field under the glass
+  // (luminance 0.8228 vs the 0.8280 measured on a card with crest-2), so it
+  // is marginally conservative. Blur is part of that measurement: without
+  // backdrop-filter the same gradient lands at 4.26 and fails, which is why
+  // brand.css ships a more opaque @supports fallback rather than the same
+  // fill at another alpha.
+  ['--color-fg', '#EAEAEA', TEXT, 'body text on glass over a pattern'],
+  ['--color-fg-heading', '#EAEAEA', TEXT, 'heading on glass over a pattern'],
+  ['--color-fg-subtle', '#EAEAEA', TEXT, 'fine print on glass over a pattern'],
   // The focus ring is NOT checked against filled controls. Every interactive
   // primitive uses `ring-offset-2 ring-offset-bg`, so the ring is separated
   // from the control by page colour and reads against the page — which the

@@ -122,10 +122,18 @@
      fg-subtle   #6B665E   3.47:1   ✗ FAILS WCAG AA
 
    fg-subtle and fg-faint are the same token (stone-500) and neither may sit
-   on a patterned ground.  This is not fixable by lowering the opacity: to
-   carry fg-subtle at 4.5:1 you need ~.16, at which the pattern is invisible.
-   Put the pattern BEHIND a card and the fine print on the card, or promote
-   the text to fg.
+   DIRECTLY on a patterned ground.  This is not fixable by lowering the
+   opacity: to carry fg-subtle at 4.5:1 you need ~.16, at which the pattern
+   is invisible.
+
+   Three ways out, in the order they were tried:
+     1. Put the pattern behind a card and the fine print on the card.
+     2. Promote the text to fg.  Passes, but message and description become
+        the same colour and stop being a hierarchy — rejected on sight.
+     3. `.glass` below.  Chosen 2026-08-13: a blurred translucent panel that
+        carries fg-subtle at 4.76 while the crest still reads through it.
+        This is the one to reach for; the others are recorded so they are not
+        rediscovered.
 
    This matters immediately for EmptyState and ErrorState, whose description
    line is text-fg-subtle and which docs/todo.md queues as the first surface
@@ -195,6 +203,85 @@
 .tile-sm{ --tile-size: 72px }
 .tile-md{ --tile-size: 100px }
 .tile-lg{ --tile-size: 140px }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   GLASS · the panel that carries text over a patterned ground
+   ═══════════════════════════════════════════════════════════════════════
+   Chosen 2026-08-13 from a rendered transparency sweep
+   (`preview/_sandbox/glass-2-transparency.html`). Values are the most
+   transparent of the five tested — the author picked it on looks after
+   seeing all five at size.
+
+   Why it exists: The Patterned Ground Rule in DESIGN.md bars `fg-subtle`
+   and `fg-faint` from a bare pattern (3.47:1). Under the glass they come
+   back. So this buys back the text roles the pattern costs, and unlike an
+   opaque card it keeps the texture visible through the panel.
+
+   THE BLUR IS LOAD-BEARING, not decoration — measured, not assumed. Same
+   gradient, blur toggled, `fg-subtle` on the panel field:
+
+       blur on    4.82 page   4.76 card    passes
+       blur off   4.38 page   4.26 card    FAILS
+
+   `backdrop-filter` smooths the crest before compositing, which lifts the
+   darkest pixels under the text. That is why the `@supports` fallback is
+   88% flat — far more opaque, not the same gradient at another alpha. The
+   fallback measures 5.41 / 5.38, so it is the safer of the two.
+
+   Margin note: 4.76 on a card leaves 0.26 over the bar. A denser crest, an
+   `--emboss-opacity` above .35, or a darker warm stone will break it. This
+   was the most transparent of five variants and was chosen on looks with
+   that trade-off stated. `check-contrast.mjs` gates it; re-measure rather
+   than assuming if any of those inputs change.
+
+   Usage:
+     <div class="emboss-bg crest-1">
+       <div class="glass">…</div>
+     </div>
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.glass{
+  position: relative;
+  isolation: isolate;
+  border-radius: var(--radius-xl);
+  padding: 1.25rem 1.5rem;
+  border: 1px solid color-mix(in srgb, var(--color-stone-0) 40%, transparent);
+  box-shadow: var(--shadow-card);
+  background: linear-gradient(145deg,
+    color-mix(in srgb, var(--color-stone-0) 36%, transparent) 0%,
+    color-mix(in srgb, var(--color-stone-0) 16%, transparent) 100%);
+  -webkit-backdrop-filter: blur(8px) saturate(120%);
+  backdrop-filter: blur(8px) saturate(120%);
+}
+
+/* The bright top-left lip. This is what makes the panel read as a pane
+   catching light rather than a flat wash — it adds the impression of
+   opacity without adding any to the field the text sits on. */
+.glass::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(160deg,
+    color-mix(in srgb, var(--color-stone-0) 55%, transparent) 0%,
+    transparent 42%);
+}
+
+/* Without backdrop-filter the crest arrives unsmoothed, so the field has to
+   do the work the blur was doing. 88% flat is the measured equivalent — it
+   is deliberately NOT the gradient above at a different alpha. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))){
+  .glass{
+    background: color-mix(in srgb, var(--color-stone-0) 88%, transparent);
+  }
+  .glass::before{ background: none }
+}
+
+/* On a saturated ground the text is already legible and a light panel would
+   punch a hole in the colour block — so there is no dark variant. Bare is
+   correct on Ai-iro and Akane; that was checked and deliberately left alone. */
 
 /* ═══════════════════════════════════════════════════════════════════════
    MARU · the brand punctuation dot
