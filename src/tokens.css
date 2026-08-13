@@ -373,18 +373,27 @@
      Both values are already in the palette; this invents nothing.
      Recorded in docs/colors.md as a correction to send back.
 
-     RESOLVED 2026-08-11. The light-ground ring moves to Ogon 700, which is
-     the only ramp step that clears 3:1 on all three grounds it lands on:
-     4.65 page, 4.95 card, 4.29 well, against 2.26 / 2.40 / 2.08 for Ogon 500.
-     Ogon 600 was the near-miss at 2.89 on the well. 700 already ships as
-     --color-rule-on-inverse, so no new value enters the palette. The cost is
-     real and was accepted rather than hidden: 700 is browner and reads less
-     like gold than 500 did.
+     Moved to Ogon 700 on 2026-08-11 and REVERTED to Ogon 500 on 2026-08-13
+     by the palette author. Ogon 700 cleared 3:1 everywhere (4.65 / 4.95 /
+     4.29) but read brown rather than gold, and Ogon is the warmth of this
+     palette — that is the job it was picked for. The author looked at both
+     and kept the gold.
 
-     focus-on-inverse stays Ogon 500 — on the Sumi-iro band it scores 5.64:1
-     and darkening it there would make it worse, which is the whole reason
-     this role is split. */
-  --color-focus:            var(--color-ogon-700);
+     So this ships a known WCAG 1.4.11 failure: 2.26 page, 2.40 card, 2.08
+     well, against a 3:1 bar. It is recorded in check-contrast.mjs KNOWN with
+     that reason rather than hidden, and PRODUCT.md's AA commitment is
+     annotated. DO NOT quietly re-tint this to make the number go green —
+     that call has been made twice now, in both directions, deliberately.
+
+     If you want the gold AND the ratio, the route is a two-tone ring rather
+     than a darker one: SC 1.4.11 measures the indicator against what abuts
+     it, so a gold band with a dark outer hairline passes while still reading
+     gold. Rendered options in preview/_sandbox/focus-1-options.html.
+
+     focus-on-inverse stays Ogon 500 — on the Sumi-iro band it scores 5.64:1,
+     and darkening it there would make it worse. That is why the role is
+     split. */
+  --color-focus:            var(--color-ogon-500);
   --color-focus-on-inverse: var(--color-ogon-500);
 
   /* Press states. Touch-first means `active:` is required, so a role without

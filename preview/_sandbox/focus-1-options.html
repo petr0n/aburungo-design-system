@@ -1,0 +1,76 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="../../dist/tokens.plain.css">
+<style>
+ body{margin:0;padding:28px;font-family:var(--font-sans);color:var(--fg);background:var(--bg)}
+ h1{font-size:var(--text-heading-sm);margin:0 0 2px}
+ h2{font-size:var(--text-body);margin:26px 0 4px;color:var(--fg-muted);font-weight:600}
+ .s{color:var(--fg-muted);margin:0 0 18px;font-size:var(--text-body-sm);max-width:80ch}
+ .note{font-size:var(--text-body-sm);color:var(--fg-muted);margin:0 0 14px;max-width:80ch}
+ .row{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;max-width:1000px;margin-bottom:8px}
+ .cell{display:flex;flex-direction:column;gap:10px}
+ .stage{padding:22px 18px;border-radius:var(--radius-xl);display:flex;justify-content:center}
+ .g-page{background:var(--color-stone-50)}
+ .g-card{background:var(--color-stone-0)}
+ .g-well{background:var(--color-stone-100)}
+ .btn{min-height:44px;padding:0 18px;border-radius:var(--radius-lg);border:none;
+   background:var(--color-action);color:var(--color-action-fg);
+   font-family:var(--font-sans);font-size:var(--text-body-sm);font-weight:600;
+   display:inline-flex;align-items:center}
+ /* A — what ships today: Ogon 500, 2px, offset by the ground. */
+ .a{box-shadow:0 0 0 2px var(--stage,var(--color-stone-50)),0 0 0 4px var(--color-ogon-500)}
+ /* B — two-tone: the same gold band, plus a dark outer hairline. SC 1.4.11
+       measures the indicator against what abuts it, and what abuts the page
+       here is the hairline, not the gold. */
+ .b{box-shadow:0 0 0 2px var(--stage,var(--color-stone-50)),
+             0 0 0 4px var(--color-ogon-500),
+             0 0 0 5px var(--color-ogon-800)}
+ /* C — rejected: Ogon 700 throughout. */
+ .c{box-shadow:0 0 0 2px var(--stage,var(--color-stone-50)),0 0 0 4px var(--color-ogon-700)}
+ .lbl{font-family:var(--font-mono);font-size:var(--text-caption);color:var(--fg-subtle);text-align:center}
+ .ratio{font-family:var(--font-mono);font-size:var(--text-caption);font-weight:600;text-align:center}
+ .fail{color:var(--color-error-fg)} .pass{color:var(--color-success-fg)}
+ .hd{font-size:var(--text-body-sm);font-weight:650;margin:0 0 6px}
+</style></head><body>
+
+<h1>Focus ring — keeping the gold</h1>
+<p class="s">Ōgon 500 is the ring the author chose and kept. It does not reach the 3:1 that
+WCAG&nbsp;2.1 SC&nbsp;1.4.11 asks of a non-text indicator on any ground it lands on. Option B
+is the route to having both: the criterion measures the indicator against the colour that
+<em>abuts</em> it, so adding a 1px dark outer edge means the page is judged against the
+hairline rather than against the gold. The band still reads gold.</p>
+
+<h2>A · Ōgon 500 — ships today</h2>
+<p class="note">2px gold, offset from the control by the page colour.</p>
+<div class="row">
+  <div class="cell"><div class="stage g-page" style="--stage:#F7F6F1"><button class="btn a">Check answer</button></div>
+    <div class="lbl">page</div><div class="ratio fail">2.26:1 — under 3</div></div>
+  <div class="cell"><div class="stage g-card" style="--stage:#FFFDF8"><button class="btn a">Check answer</button></div>
+    <div class="lbl">card</div><div class="ratio fail">2.40:1 — under 3</div></div>
+  <div class="cell"><div class="stage g-well" style="--stage:#EFEDE5"><button class="btn a">Check answer</button></div>
+    <div class="lbl">well</div><div class="ratio fail">2.08:1 — under 3</div></div>
+</div>
+
+<h2>B · Ōgon 500 + a 1px Ōgon 800 outer hairline</h2>
+<p class="note">Same gold, same weight. The outer edge is what the ground is measured against.</p>
+<div class="row">
+  <div class="cell"><div class="stage g-page" style="--stage:#F7F6F1"><button class="btn b">Check answer</button></div>
+    <div class="lbl">page</div><div class="ratio pass">7.37:1</div></div>
+  <div class="cell"><div class="stage g-card" style="--stage:#FFFDF8"><button class="btn b">Check answer</button></div>
+    <div class="lbl">card</div><div class="ratio pass">7.84:1</div></div>
+  <div class="cell"><div class="stage g-well" style="--stage:#EFEDE5"><button class="btn b">Check answer</button></div>
+    <div class="lbl">well</div><div class="ratio pass">6.80:1</div></div>
+</div>
+
+<h2>C · Ōgon 700 — built, then rejected</h2>
+<p class="note">Clears every ground, but reads brown rather than gold. Shown for comparison only.</p>
+<div class="row">
+  <div class="cell"><div class="stage g-page" style="--stage:#F7F6F1"><button class="btn c">Check answer</button></div>
+    <div class="lbl">page</div><div class="ratio pass">4.65:1</div></div>
+  <div class="cell"><div class="stage g-card" style="--stage:#FFFDF8"><button class="btn c">Check answer</button></div>
+    <div class="lbl">card</div><div class="ratio pass">4.95:1</div></div>
+  <div class="cell"><div class="stage g-well" style="--stage:#EFEDE5"><button class="btn c">Check answer</button></div>
+    <div class="lbl">well</div><div class="ratio pass">4.29:1</div></div>
+</div>
+
+</body></html>

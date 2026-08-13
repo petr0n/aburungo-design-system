@@ -15,8 +15,7 @@
  * 0, which made it a report wearing the word "gate".
  *
  * The escape hatch is KNOWN below: a failure ships only with a written reason
- * sitting next to the number. That map is currently empty and every check
- * passes.
+ * sitting next to the number.
  */
 import { readFileSync } from 'node:fs'
 
@@ -121,23 +120,27 @@ const CHECKS = [
  * Anything not listed here fails the build.
  */
 const KNOWN = new Map([
-  // Empty, and worth keeping empty.
+  // The focus ring on light grounds. Ogon 500 scores 2.26 / 2.40 / 2.08 on
+  // page / card / well against the 3:1 SC 1.4.11 wants for a non-text
+  // indicator.
   //
-  // History, because the pattern matters: this map has been emptied three
-  // times. The first three failures were resolved by the palette author on
-  // 2026-08-08. Four more were recorded on 2026-08-10, when this script first
-  // gained the power to fail a build — they were the state already shipping,
-  // written down rather than grandfathered in silently. All four are now gone,
-  // and NONE of them needed a new decision:
+  // This is a deliberate, twice-made call by the palette author, not an
+  // oversight. It was moved to Ogon 700 on 2026-08-11, which cleared every
+  // ground at 4.65 / 4.95 / 4.29, and moved back on 2026-08-13 after looking
+  // at both: 700 reads brown, and Ogon is the warmth of this palette. DO NOT
+  // re-tint it to make this number green.
   //
-  //   focus ring, 3 grounds  — docs/colors.md correction #1 already said
-  //                            Ogon 700; it had never been applied (2026-08-11)
-  //   scenario tag           — correction #2 already said Ogon 800; likewise
-  //                            never applied (2026-08-13)
-  //
-  // Both were filed as "the palette author's call" when they were in fact
-  // corrections the palette author had already written down. Before adding an
-  // entry here, check docs/colors.md — the fix may already be prescribed.
+  // The open route to having both is a two-tone ring — 1.4.11 measures the
+  // indicator against what abuts it, so a gold band with a dark outer
+  // hairline passes while still reading gold. This script cannot see that;
+  // it compares flat token pairs. If that ships, delete this entry.
+  [
+    'focus ring on page',
+    'Ogon 500, 2.26:1. Author kept the gold over the ratio, 2026-08-13. ' +
+      'See src/tokens.css and preview/_sandbox/focus-1-options.html.',
+  ],
+  ['focus ring on card', 'Ogon 500, 2.40:1. Same call as "focus ring on page".'],
+  ['focus ring on well', 'Ogon 500, 2.08:1 — the worst of the three. Same call.'],
 ])
 
 let hard = 0
