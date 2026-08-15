@@ -1,0 +1,134 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="../../dist/tokens.plain.css">
+<style>
+ body{margin:0;padding:28px;font-family:var(--font-sans);color:var(--fg);background:var(--bg)}
+ h1{font-size:var(--text-heading-sm);margin:0 0 2px}
+ h2{font-size:var(--text-body);margin:28px 0 10px;color:var(--fg-muted);font-weight:600}
+ .s{color:var(--fg-muted);margin:0 0 20px;font-size:var(--text-body-sm);max-width:74ch}
+ .lbl{font-family:var(--font-mono);font-size:var(--text-caption);font-weight:500;color:var(--fg-subtle);margin-top:6px}
+ .row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:900px}
+ .tile{height:200px;border-radius:var(--radius-lg);border:1px solid var(--border);
+   background-color:var(--stone-50);background-repeat:repeat}
+
+ /* the art is black (0,0,0) on transparency with soft alpha edges — it reads as a
+    light emboss on paper and as a deboss on colour. No grayscale/contrast filter
+    here; that treatment existed only to tame the coloured flower-symbol PNGs. */
+ .p1{background-image:url("../../assets/clan-symbol1.png")}
+ .p2{background-image:url("../../assets/clan-symbol2.png")}
+
+ .card{border-radius:var(--radius-xl);border:1px solid var(--border);background-color:var(--bg);
+   background-repeat:repeat;padding:28px;max-width:420px}
+ .card .jp{font-family:var(--font-jp);font-size:var(--text-jp-lg);color:var(--fg-heading);margin:0 0 4px}
+ .card .rd{font-family:var(--font-jp);font-size:var(--text-jp);color:var(--fg-muted);margin:0 0 12px}
+ .card .en{font-size:var(--text-body-sm);color:var(--fg-subtle);margin:0}
+ .ctx{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;max-width:900px}
+
+ /* colour grounds. the art is black-on-transparent, so it darkens whatever sits
+    behind it — straight alpha, no blend mode needed. */
+ .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;max-width:900px}
+ .sw{height:130px;border-radius:var(--radius-lg);background-repeat:repeat;background-size:90px}
+ .cap{font-family:var(--font-mono);font-size:var(--text-caption);font-weight:500;color:var(--fg-subtle);margin-top:5px}
+ .g-akane{background-color:var(--color-akane-500)}
+ .g-ai{background-color:var(--color-ai-500)}
+ .g-rokusho{background-color:var(--color-rokusho-500)}
+ .g-ogon{background-color:var(--color-ogon-500)}
+ .g-sumi{background-color:var(--color-stone-800)}
+ .g-stone{background-color:var(--color-stone-50)}
+ .g-paper{background-color:var(--color-stone-0)}
+ .g-well{background-color:var(--color-stone-100)}
+ .g-ai900{background-color:var(--color-ai-900)}
+ .g-akane900{background-color:var(--color-akane-900)}
+</style></head><body>
+
+<h1>clan-symbol1 / clan-symbol2 — used directly</h1>
+<p class="s">Both are 160&times;160 finished repeat tiles with the brick offset already baked in,
+so this is a plain <code>background-image</code> + <code>background-repeat: repeat</code>. No SVG
+wrapper, no base64 inlining, no JS — <code>pattern-10</code> needed all of that only because the
+source PNGs were single medallions that had to be re-tiled in the browser. Nothing is redrawn here.</p>
+
+<h2>Tile size — full strength</h2>
+<div class="row">
+  <div><div class="tile p1" style="background-size:80px"></div><div class="lbl">symbol1 · 80px</div></div>
+  <div><div class="tile p1" style="background-size:120px"></div><div class="lbl">symbol1 · 120px</div></div>
+  <div><div class="tile p1" style="background-size:160px"></div><div class="lbl">symbol1 · 160px (native)</div></div>
+  <div><div class="tile p2" style="background-size:80px"></div><div class="lbl">symbol2 · 80px</div></div>
+  <div><div class="tile p2" style="background-size:120px"></div><div class="lbl">symbol2 · 120px</div></div>
+  <div><div class="tile p2" style="background-size:160px"></div><div class="lbl">symbol2 · 160px (native)</div></div>
+</div>
+
+<h2>Knocked back — how faint before it stops reading</h2>
+<div class="row">
+  <div><div class="tile p1" style="background-size:120px;opacity:.6"></div><div class="lbl">symbol1 · 60%</div></div>
+  <div><div class="tile p1" style="background-size:120px;opacity:.35"></div><div class="lbl">symbol1 · 35%</div></div>
+  <div><div class="tile p1" style="background-size:120px;opacity:.2"></div><div class="lbl">symbol1 · 20%</div></div>
+  <div><div class="tile p2" style="background-size:120px;opacity:.6"></div><div class="lbl">symbol2 · 60%</div></div>
+  <div><div class="tile p2" style="background-size:120px;opacity:.35"></div><div class="lbl">symbol2 · 35%</div></div>
+  <div><div class="tile p2" style="background-size:120px;opacity:.2"></div><div class="lbl">symbol2 · 20%</div></div>
+</div>
+
+<h2>In context — behind real card content</h2>
+<div class="ctx">
+  <div>
+    <div class="card p1" style="background-size:110px">
+      <p class="jp" lang="ja">お願いします</p>
+      <p class="rd" lang="ja">おねがいします</p>
+      <p class="en">please / if you would</p>
+    </div>
+    <div class="lbl">symbol1 · 110px, on card ground</div>
+  </div>
+  <div>
+    <div class="card p2" style="background-size:110px">
+      <p class="jp" lang="ja">お願いします</p>
+      <p class="rd" lang="ja">おねがいします</p>
+      <p class="en">please / if you would</p>
+    </div>
+    <div class="lbl">symbol2 · 110px, on card ground</div>
+  </div>
+</div>
+
+<h2>On the brand colours — 90px tile, full strength</h2>
+<p class="s">The art is black on transparency, so on a saturated ground it reads as a deboss —
+a darker shade of whatever is behind it — rather than a white relief. Straight alpha, no blend mode.</p>
+<div class="grid">
+  <div><div class="sw p1 g-akane"></div><div class="cap">symbol1 · akane-500</div></div>
+  <div><div class="sw p1 g-ai"></div><div class="cap">symbol1 · ai-500</div></div>
+  <div><div class="sw p1 g-rokusho"></div><div class="cap">symbol1 · rokusho-500</div></div>
+  <div><div class="sw p1 g-ogon"></div><div class="cap">symbol1 · ogon-500</div></div>
+  <div><div class="sw p1 g-sumi"></div><div class="cap">symbol1 · stone-800 (sumi)</div></div>
+  <div><div class="sw p2 g-akane"></div><div class="cap">symbol2 · akane-500</div></div>
+  <div><div class="sw p2 g-ai"></div><div class="cap">symbol2 · ai-500</div></div>
+  <div><div class="sw p2 g-rokusho"></div><div class="cap">symbol2 · rokusho-500</div></div>
+  <div><div class="sw p2 g-ogon"></div><div class="cap">symbol2 · ogon-500</div></div>
+  <div><div class="sw p2 g-sumi"></div><div class="cap">symbol2 · stone-800 (sumi)</div></div>
+</div>
+
+<h2>Knocked back on colour — 35% and 20%</h2>
+<div class="grid">
+  <div><div class="sw p1 g-akane" style="opacity:.35"></div><div class="cap">symbol1 · akane · 35%</div></div>
+  <div><div class="sw p1 g-ai" style="opacity:.35"></div><div class="cap">symbol1 · ai · 35%</div></div>
+  <div><div class="sw p1 g-rokusho" style="opacity:.35"></div><div class="cap">symbol1 · rokushō · 35%</div></div>
+  <div><div class="sw p1 g-ogon" style="opacity:.35"></div><div class="cap">symbol1 · ōgon · 35%</div></div>
+  <div><div class="sw p1 g-sumi" style="opacity:.35"></div><div class="cap">symbol1 · sumi · 35%</div></div>
+  <div><div class="sw p2 g-akane" style="opacity:.2"></div><div class="cap">symbol2 · akane · 20%</div></div>
+  <div><div class="sw p2 g-ai" style="opacity:.2"></div><div class="cap">symbol2 · ai · 20%</div></div>
+  <div><div class="sw p2 g-rokusho" style="opacity:.2"></div><div class="cap">symbol2 · rokushō · 20%</div></div>
+  <div><div class="sw p2 g-ogon" style="opacity:.2"></div><div class="cap">symbol2 · ōgon · 20%</div></div>
+  <div><div class="sw p2 g-sumi" style="opacity:.2"></div><div class="cap">symbol2 · sumi · 20%</div></div>
+</div>
+
+<h2>Deepest grounds — where a deboss has the most room</h2>
+<div class="grid">
+  <div><div class="sw p1 g-ai900"></div><div class="cap">symbol1 · ai-900</div></div>
+  <div><div class="sw p1 g-akane900"></div><div class="cap">symbol1 · akane-900</div></div>
+  <div><div class="sw p1 g-well"></div><div class="cap">symbol1 · stone-100 (well)</div></div>
+  <div><div class="sw p1 g-stone"></div><div class="cap">symbol1 · stone-50 (page)</div></div>
+  <div><div class="sw p1 g-paper"></div><div class="cap">symbol1 · stone-0 (card)</div></div>
+  <div><div class="sw p2 g-ai900"></div><div class="cap">symbol2 · ai-900</div></div>
+  <div><div class="sw p2 g-akane900"></div><div class="cap">symbol2 · akane-900</div></div>
+  <div><div class="sw p2 g-well"></div><div class="cap">symbol2 · stone-100 (well)</div></div>
+  <div><div class="sw p2 g-stone"></div><div class="cap">symbol2 · stone-50 (page)</div></div>
+  <div><div class="sw p2 g-paper"></div><div class="cap">symbol2 · stone-0 (card)</div></div>
+</div>
+
+</body></html>

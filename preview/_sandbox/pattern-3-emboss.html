@@ -1,0 +1,173 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="../../dist/tokens.plain.css">
+<style>
+ body{margin:0;padding:28px;font-family:var(--font-sans);color:var(--fg);background:var(--bg)}
+ h1{font-size:17px;margin:0 0 2px} .s{color:var(--fg-muted);margin:0 0 20px;font-size:13px;max-width:74ch}
+ h2{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-subtle);margin:28px 0 10px}
+ .lbl{font:500 10px ui-monospace,Menlo,monospace;color:var(--fg-subtle);margin-top:6px}
+ .row{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+ .row4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+
+ /* ── genuine emboss: two offset mask layers (kento-style registration) ─
+    ::before = shadow, offset +1px+1px, sumi ink, low opacity
+    ::after  = highlight, offset 0/0, paper tone, higher opacity, on top
+    The overlap reads as relief pressed into the paper; only a thin dark
+    rim (bottom-right) and a thin light rim (top-left) show at the edges. */
+ .emb{position:relative;isolation:isolate;overflow:hidden}
+ .emb>*{position:relative;z-index:2}
+ .emb::before,.emb::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+   -webkit-mask-image:var(--m);mask-image:var(--m);
+   -webkit-mask-repeat:repeat;mask-repeat:repeat;
+   -webkit-mask-size:var(--sz,34px) auto;mask-size:var(--sz,34px) auto}
+ .emb::before{background:var(--emb-sh,var(--fg));opacity:var(--emb-sh-op,.16);
+   -webkit-mask-position:1.1px 1.1px;mask-position:1.1px 1.1px}
+ .emb::after{background:var(--emb-hi,var(--stone-0));opacity:var(--emb-hi-op,.6);z-index:1}
+
+ .p-umebachi{--m:var(--svg-umebachi);--sz:40px}
+ .p-uzumaki {--m:var(--svg-uzumaki); --sz:36px}
+ .p-genji   {--m:var(--svg-genji);   --sz:44px}
+
+ .present{--emb-sh-op:.18;--emb-hi-op:.65}
+ .ghost  {--emb-sh-op:.09; --emb-hi-op:.34}
+ .on-dark{--emb-hi:var(--ogon-300,#e2c988);--emb-hi-op:.5;--emb-sh:#000;--emb-sh-op:.4}
+
+ .crest{}
+ .crest::before,.crest::after{-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+   -webkit-mask-position:var(--pos,center);mask-position:var(--pos,center);
+   -webkit-mask-size:var(--sz);mask-size:var(--sz)}
+ .crest::before{-webkit-mask-position:calc(var(--posx,50%) + 1.2px) calc(var(--posy,50%) + 1.2px);
+   mask-position:calc(var(--posx,50%) + 1.2px) calc(var(--posy,50%) + 1.2px)}
+
+ .tile{height:140px;border-radius:12px;background:var(--stone-50);border:1px solid var(--border)}
+ .band{height:76px;border-radius:10px;background:var(--inverse);display:flex;align-items:center;padding:0 16px;
+   color:var(--fg-inverse);font-weight:600;font-size:14px}
+ .spec{height:150px;border-radius:12px;background:var(--stone-0);border:1px solid var(--border);
+   display:flex;align-items:center;justify-content:center}
+ .spec .ink{width:88px;height:88px;background:var(--fg);
+   -webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat}
+
+ .phone{width:390px;border-radius:22px;border:1px solid var(--border-strong);overflow:hidden;box-shadow:var(--shadow-card)}
+ .phone .hdr{background:var(--inverse);color:var(--fg-inverse);padding:18px 18px 22px;position:relative}
+ .phone .hdr .t{font-weight:600;font-size:15px}
+ .bokashi::after{content:"";position:absolute;left:0;right:0;bottom:0;height:14px;z-index:3;
+   background:linear-gradient(to bottom,transparent,color-mix(in oklab,var(--ogon-500) 18%,transparent))}
+ .phone .pg{padding:22px 18px 26px;min-height:300px}
+ .card{background:var(--stone-0);border:1px solid var(--border);border-radius:20px;padding:22px 20px;box-shadow:var(--shadow-card)}
+ .jp{font-family:var(--font-jp);font-size:26px;line-height:40px;color:var(--ai-700,#1F3A66)}
+ .rom{font-size:13px;color:var(--fg-muted);margin-top:6px}
+ .cta{margin-top:14px;background:var(--action);color:var(--action-fg);border-radius:12px;height:44px;
+   display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px}
+</style></head><body>
+<h1>Pattern library v3 — embossed, smaller, traced from the reference chart</h1>
+<p class="s">Two fixes from v2: (1) actual emboss — each motif now renders as two offset mask layers,
+a dark shadow nudged down-right and a paper-toned highlight on top, so it reads as pressed into the
+stone rather than flat-tinted; (2) every shape below is redrawn from your 20-crest reference sheet
+instead of invented — <b>umebachi</b> (#2, plum/scholarship, kept — you liked it), <b>uzumaki</b>
+(#13, spiral), <b>kashiwa</b> (#17, oak leaf), <b>genji-guruma</b> (#20, cart-wheel, drawn as rays
+only — no outer ring, so it stays clear of the "circular = maru" rule). Scale is down ~35-40% from
+v2 and the ghost level is quieter. I couldn't find a separate fish photo attached to your last
+message — only the crest chart came through — resend it if you still want a literal fish traced in.</p>
+
+<h2>1 · Embossed, PRESENT level (chrome, empty states) — smaller tile than v2</h2>
+<div class="row">
+  <div><div class="tile emb present p-umebachi"></div><div class="lbl">umebachi 梅鉢 (#2) · plum, scholarship</div></div>
+  <div><div class="tile emb present p-uzumaki"></div><div class="lbl">uzumaki 渦巻 (#13) · spiral</div></div>
+  <div><div class="tile emb present p-genji"></div><div class="lbl">genji-guruma 源氏車 (#20) · cart-wheel rays</div></div>
+</div>
+
+<h2>2 · Embossed, GHOST level, card on top (task surfaces)</h2>
+<div class="row">
+  <div><div class="tile emb ghost p-umebachi" style="padding:16px"><div class="card" style="padding:12px 14px"><span class="jp" style="font-size:18px;line-height:26px">これをください</span></div></div><div class="lbl">ghost umebachi</div></div>
+  <div><div class="tile emb ghost p-uzumaki" style="padding:16px"><div class="card" style="padding:12px 14px"><span class="jp" style="font-size:18px;line-height:26px">これをください</span></div></div><div class="lbl">ghost uzumaki</div></div>
+  <div><div class="tile emb ghost p-genji" style="padding:16px"><div class="card" style="padding:12px 14px"><span class="jp" style="font-size:18px;line-height:26px">これをください</span></div></div><div class="lbl">ghost genji-guruma</div></div>
+</div>
+
+<h2>3 · Header band — embossed Ōgon-on-Sumi (highlight ōgon, shadow black)</h2>
+<div class="row">
+  <div><div class="band emb on-dark p-umebachi">aburungo</div><div class="lbl">umebachi · embossed</div></div>
+  <div><div class="band emb on-dark p-uzumaki">aburungo</div><div class="lbl">uzumaki · embossed</div></div>
+  <div><div class="band emb on-dark p-genji">aburungo</div><div class="lbl">genji-guruma · embossed</div></div>
+</div>
+
+<h2>4 · Single-crest candidate (unenclosed, from the chart) — for the ghosted-corner placement</h2>
+<div class="row">
+  <div><div class="spec"><div class="ink" style="--m:var(--svg-kashiwa)"></div></div><div class="lbl">kashiwa 柏 (#17) · oak leaf</div></div>
+  <div><div class="spec"><div class="ink" style="--m:var(--svg-uzumaki)"></div></div><div class="lbl">uzumaki (#13) as single mark</div></div>
+  <div><div class="spec"><div class="ink" style="--m:var(--svg-genji)"></div></div><div class="lbl">genji-guruma rays (#20)</div></div>
+</div>
+
+<h2>5 · The two tiers together — embossed umebachi header, embossed uzumaki page, kashiwa ghost corner</h2>
+<div style="display:flex;gap:24px;align-items:flex-start">
+  <div class="phone">
+    <div class="hdr emb on-dark p-umebachi bokashi"><span class="t">aburungo</span></div>
+    <div class="pg emb ghost p-uzumaki">
+      <div class="card">
+        <div class="jp">すみません、これをください。</div>
+        <div class="rom">sumimasen, kore o kudasai</div>
+        <div class="cta">Show answer</div>
+      </div>
+      <div class="emb crest" style="--m:var(--svg-kashiwa);--sz:76px;--emb-hi-op:.4;--emb-sh-op:.1;--posx:calc(100% - 26px);--posy:calc(100% - 30px);height:140px"></div>
+    </div>
+  </div>
+  <p class="s" style="max-width:34ch">Everything at roughly 60% the size and a third the opacity of
+  the v2 mock, with the emboss duo instead of a flat tint. Judge on a real phone screen if you can —
+  emboss detail is easy to lose at preview zoom.</p>
+</div>
+
+<script>
+const svgs = {
+umebachi: `<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80">
+<defs><g id="u" fill="#fff">
+ <circle r="4.5"/>
+ <circle cx="0" cy="-12" r="6.5"/>
+ <circle cx="11.41" cy="-3.71" r="6.5"/>
+ <circle cx="7.05" cy="9.71" r="6.5"/>
+ <circle cx="-7.05" cy="9.71" r="6.5"/>
+ <circle cx="-11.41" cy="-3.71" r="6.5"/>
+</g></defs>
+<use href="#u" x="20" y="20"/><use href="#u" x="60" y="60"/>
+</svg>`,
+
+uzumaki: `<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60">
+<path d="M30 30 m0 -14 a14 14 0 1 1 -9.9 4.1" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+<path d="M30 30 m0 -8.5 a8.5 8.5 0 1 1 -6 2.5" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+<path d="M30 30 m0 -3 a3 3 0 1 1 -2.1 .9" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+</svg>`,
+
+genji: `<svg xmlns="http://www.w3.org/2000/svg" width="70" height="70">
+<defs><g id="ray"><path d="M0 -3 L0 -30 L0 -3 Z" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/></g></defs>
+<circle cx="35" cy="35" r="4.5" fill="#fff"/>
+<g transform="translate(35 35)">
+ <use href="#ray"/>
+ <use href="#ray" transform="rotate(30)"/>
+ <use href="#ray" transform="rotate(60)"/>
+ <use href="#ray" transform="rotate(90)"/>
+ <use href="#ray" transform="rotate(120)"/>
+ <use href="#ray" transform="rotate(150)"/>
+ <use href="#ray" transform="rotate(180)"/>
+ <use href="#ray" transform="rotate(210)"/>
+ <use href="#ray" transform="rotate(240)"/>
+ <use href="#ray" transform="rotate(270)"/>
+ <use href="#ray" transform="rotate(300)"/>
+ <use href="#ray" transform="rotate(330)"/>
+</g>
+</svg>`,
+
+kashiwa: `<svg xmlns="http://www.w3.org/2000/svg" width="90" height="146" viewBox="0 0 90 146">
+<mask id="km">
+ <rect width="90" height="146" fill="#000"/>
+ <path fill="#fff" d="M45 8 C68 8 78 36 78 60 C78 90 63 114 45 132 C27 114 12 90 12 60 C12 36 22 8 45 8 Z"/>
+ <path stroke="#000" stroke-width="6" fill="none" stroke-linecap="round"
+  d="M45 22 L45 120 M45 46 L27 34 M45 46 L63 34 M45 74 L25 60 M45 74 L65 60 M45 102 L28 90 M45 102 L62 90"/>
+ <rect x="41" y="130" width="8" height="16" fill="#fff"/>
+</mask>
+<rect width="90" height="146" fill="#fff" mask="url(#km)"/>
+</svg>`,
+};
+const root = document.documentElement;
+for (const [k, v] of Object.entries(svgs))
+  root.style.setProperty('--svg-' + k,
+    `url("data:image/svg+xml;utf8,${encodeURIComponent(v.trim())}")`);
+</script>
+</body></html>

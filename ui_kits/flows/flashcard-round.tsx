@@ -28,7 +28,7 @@ import {
   ScoreCard,
 } from '../../src/components'
 import type { AnswerOutcome, PhraseAccent } from '../../src/components'
-import { FlowPage, Phone, Screen, fromUrl } from './shell'
+import { EmptyStage, FlowPage, Phone, Screen, fromUrl } from './shell'
 import type { FlowState } from './shell'
 
 // ─── Content — real phrases, from src/content/phrases/*.yaml ────────────────
@@ -229,7 +229,7 @@ function EmptyScreen({ onRestart }: { onRestart: () => void }) {
           bar here reads as "you finished" rather than "nothing was due". */}
       <AppHeader title="Flashcards" />
       <Screen>
-        <div className="flex flex-col items-center gap-6 pt-10">
+        <EmptyStage>
           {/* .hanko draws the ア itself, from a mask. It takes no children. */}
           <span className="hanko text-display-lg" aria-hidden="true" />
           <EmptyState
@@ -241,7 +241,7 @@ function EmptyScreen({ onRestart }: { onRestart: () => void }) {
               </Button>
             }
           />
-        </div>
+        </EmptyStage>
       </Screen>
     </>
   )
@@ -325,7 +325,7 @@ export function FlashcardRound() {
   return (
     <FlowPage
       title="Flashcard round"
-      blurb="The five states of one flow, built from the shipped components \u2014 not a mirror of them. Click through the round: show the answer, grade yourself, reach the summary."
+      blurb="The five states of one flow, built from the shipped components — not a mirror of them. Click through the round: show the answer, grade yourself, reach the summary."
       states={STATES}
       current={state}
       onSelect={reset}

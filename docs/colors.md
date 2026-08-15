@@ -69,17 +69,23 @@ thinks `#FFFDF8` is a mistake for `#FFFFFF`. It is not.
 --action-2-fg       #33685e   secondary button text      (Rokushō 700)
 --action-2-border   #b3d7cf   secondary button border    (Rokushō 200)
 --accent            #D72E2E   the hanko. NOT a CTA.
---focus-ring        #C9A045   2px ring, every interactive element
+--focus              #8a6a2b   2px ring on light grounds   (Ogon 700)
+--focus-on-inverse   #C9A045   2px ring on dark chrome     (Ogon 500)
 --tag-bg            #f6ecd2   scenario tag background    (Ōgon 100)
 --tag-fg            #8a6a2b   scenario tag text          (Ōgon 700)
 --link              #33685e   links, deepening to Ai-iro on hover
 --progress-track    #EFEDE5
 --progress-fill     #4F9C8D   Rokushō
---progress-complete #C9A045   a finished bar caps with Ōgon
 --bg-inverse        #2D2D2D   header band, keyboard frame
 --rule-on-inverse   #8a6a2b   the Ōgon hairline on dark chrome
 --fg-heading        #1F3A66   headings and JP content
 ```
+
+Two deviations from the drop in that block, both applied and both recorded in
+the corrections table below: the focus ring is **split** (correction 1), and
+`--progress-complete` is **gone** — `ProgressBar.tsx`'s anti-goal already ruled
+out changing colour at 100%, so the token described a behaviour this system had
+rejected.
 
 ## Feedback
 
@@ -180,15 +186,20 @@ Roles now defined with **no component using them**. Defining a token is not
 implementing it; this is the list that stops v3's design intent from arriving
 as a token and silently never getting built.
 
-| Role | Owner it should have | Lands in |
+**Re-audited 2026-08-10 against both repos** — this repo *and* `../aburungo`,
+which imports `src/tokens.css` and so can consume any role as a utility. Checking
+only this repo was the original mistake; a control grep (`fg-subtle` → 177 hits
+in the app) confirms a zero here means zero.
+
+| Role | Owner it should have | Status |
 |---|---|---|
-| ~~`bg-inverse`~~ → `inverse`, `rule-on-inverse`, `fg-on-inverse-2` | `AppHeader` **(built)**, `KanaKeyboard` still to come | Phase 3B / 5.5b |
-| `progress-complete` | `ProgressBar` — does a finished bar cap in Ōgon, or is that ornament? | Phase 3B |
-| `tag-bg` / `tag-fg` | `Badge` emphasis. **`HANDOFF.md` §4 claims this shipped; `Badge.tsx:23` is still `bg-surface-2 text-fg-subtle`. Trust the code** | Phase 5.5c |
-| `link` | no component exists | Phase 3B — build one or record that the app applies it ad-hoc |
-| `action`, `action-2-*`, `accent`, `fg-heading` | `Button`, `.hanko`, headings | Phase 5, with the repaint |
-| `shadow-key-on-inverse` | `KanaKeyboard` | Phase 3B — not yet defined as a token either |
-| `border-focus` `#5c7aa8` | unclear in v3, distinct from `focus` | decide an owner or delete it |
+| ~~`bg-inverse`~~ → `inverse`, `rule-on-inverse`, `fg-on-inverse-2` | `AppHeader`, `KanaKeyboard` | ✅ **both built** — `AppHeader.tsx:38`, and `KanaKeyboard` wears the Rokushō slab |
+| `tag-bg` / `tag-fg` | `Badge` emphasis | ✅ **shipped.** This row used to say `Badge.tsx:23` was still `bg-surface-2 text-fg-subtle` and to trust the code over `HANDOFF.md`. The code has since caught up: `ui/Badge.tsx:27` and `PhraseCard.tsx:37` |
+| `action`, `action-2-*`, `accent`, `fg-heading` | `Button`, `.hanko`, headings | ✅ **done** — 3 / 1 / 4 / 1 component files. `.hanko` fills `var(--color-accent)`, closing plan task 5.5d |
+| `link` | no component | ⚠️ **kept, and justified.** Used once, in `ui_kits/flows/main.tsx:39`, nowhere in the package or the app. **Not a candidate for deletion:** Rokushō 500 is 3.00:1 on the page and fails AA as text, so `#33685e` is Rokushō darkened to 5.91:1. That reason now lives beside the token and is gated by `check-contrast.mjs`, so it cannot be tidied back into an alias |
+| `shadow-key-on-inverse` | `KanaKeyboard` key treatment | ⚠️ **queued, not orphaned.** The token now exists; the key treatment is the remaining piece of the inverse-chrome work. **Trigger: the `KanaKeyboard` key-shadow pass in Phase 3B.** Delete it if that pass is dropped |
+| ~~`progress-complete`~~ | `ProgressBar` | 🗑️ **deleted 2026-08-11 — the decision already existed.** This was filed as an open taste call ("does a finished bar cap in Ōgon, or is that ornament?") and queued for a render-and-look. That was wrong: `ProgressBar.tsx`'s anti-goal already says it *"does not celebrate milestones, change colour at 100%"*, and `CLAUDE.md` bans reward-loop ornaments. Per doc precedence — **code beats plan** — the component had answered it. The token was the drop's design intent for a rule this system had already rejected. Reinstating means changing the anti-goal first, on purpose |
+| ~~`border-focus` `#5c7aa8`~~ | — | 🗑️ **deleted 2026-08-10.** An off-palette blue that appears nowhere in Zuihoden, carried from v2, unused in both repos. v3's ring is `--color-focus` |
 
 `KanaKeyboard` currently reaches for `bg-fg` where it means `bg-inverse` — the
 right pixel from the wrong role. Correct today because body text and inverse
@@ -210,6 +221,45 @@ the variable disagreed and only the variable was ever rendered.
 
 Renamed here to `--color-inverse`, which generates `bg-inverse` as written.
 Found by putting `AppHeader` on a screen (`ui_kits/flows/`), not by any check.
+
+### ~~Correction to send back: the focus ring fails on every ground it lands on~~ — RESOLVED
+
+**Raised and settled 2026-08-11.** `--color-focus` is now `var(--color-ogon-700)`.
+All four focus checks pass and the three `KNOWN` entries that covered them were
+deleted from `check-contrast.mjs` — a recorded exception for a passing check is a
+mask waiting for a regression to hide under. Kept below as the reasoning.
+
+Ōgon 500 `#C9A045` is assigned to focus rings. WCAG 2.1 SC 1.4.11 requires
+**3:1** for non-text UI indicators. It does not reach it anywhere:
+
+| Ring | Page `#F7F6F1` | Card `#FFFDF8` | Well `#EFEDE5` | Worst |
+|---|---|---|---|---|
+| **Ōgon 500 `#C9A045`** — today | 2.26 | 2.40 | 2.08 | **2.08 ✗** |
+| Ōgon 600 `#ab8639` | 3.13 | 3.33 | 2.89 | 2.89 ✗ |
+| **Ōgon 700 `#8a6a2b`** | 4.65 | 4.95 | 4.29 | **4.29 ✓** |
+
+These are the three carried in `check-contrast.mjs` as accepted `KNOWN`
+failures — the only ones in the set, and the only reason the gate is not clean.
+
+**Done: `--color-focus` is `var(--color-ogon-700)`.** An existing ramp step, not a
+new value, and already in the palette as `--color-rule-on-inverse`. No new hex
+entered the palette and the token stays Ōgon. `--color-focus-on-inverse` stays
+Ōgon 500 — on the Sumi-iro band it scores 5.64:1 and darkening it there would
+make it worse, which is exactly why this role is split.
+
+**The cost, accepted rather than hidden:** Ōgon 700 is browner and darker than
+Ōgon 500. It reads less like gold. That is a real loss on a colour chosen for its
+warmth, and it was the palette author's call — taken 2026-08-11.
+
+**If that loss is unacceptable**, the near-miss is Ōgon 600, which clears page
+and card and fails the well by 0.11. Darkening `--color-surface-2` slightly
+would carry it. That trades a palette change for a neutrals change; it is the
+only other route that does not leave a failing ring.
+
+**What it unblocked.** The 8 focus rings in `../aburungo` were `ring-brand-500`,
+which resolves to Akane — a focused input drawn in the error colour
+(`docs/todo.md` 4a). With the ring settled they can be repointed to `ring-focus`
+without trading a semantic bug for a contrast one.
 
 ## Where the colour goes — decided 2026-08-08
 

@@ -119,7 +119,10 @@
   /* ── Borders. On Sumi-iro chrome, rules are a thin Ōgon hairline. ─── */
   --color-border:          #E2DED2;
   --color-border-strong:   #CFC9B9;
-  --color-border-focus:    #5c7aa8;
+  /* --color-border-focus: #5c7aa8 deleted 2026-08-10. An off-palette blue —
+     it appears nowhere in Zuihoden — carried over from v2, with no owner in
+     either repo. v3's focus ring is --color-focus (Ogon). Two tokens named
+     for focus, one of them off-palette, is how the wrong one gets picked. */
   --color-rule-on-inverse: #8a6a2b;
   /* Label on an Ogon fill — Sumi-iro reads on gold, warm paper does not. */
   --color-inverse-on-ogon: var(--color-stone-800);
@@ -177,7 +180,16 @@
   /* --color-focus is deliberately NOT set here. v3's #C9A045 fails WCAG
      1.4.11 on every light ground; the split correction is below. */
   --color-tag-bg:  var(--color-ogon-200);
-  --color-tag-fg:  var(--color-ogon-700);
+  /* Ogon 800, not 700. This is correction #2 in docs/colors.md, written when
+     the drop landed and left unapplied until 2026-08-13 — the third of three
+     found in that state, after the focus ring and the hanko. On our tag-bg
+     (Ogon 200, not the Ogon 100 the drop's numbers assumed) 700 scores 3.60:1
+     against a 4.5 bar; 800 gives 5.71:1. */
+  --color-tag-fg:  var(--color-ogon-800);
+  /* Links are Rokusho's job per CLAUDE.md, but Rokusho 500 #4F9C8D on the page
+     is 3.00:1 — it fails AA as text. This is Rokusho darkened to clear it:
+     5.91:1. That is the whole reason the token exists as a raw value rather
+     than var(--color-rokusho-500), and check-contrast.mjs gates it. */
   --color-link:    #33685e;
 
   /* ── Semantic feedback — correctness banners only, never decorative. */
@@ -222,7 +234,13 @@
   --color-progress-fill:     var(--color-rokusho-500);  /* 500 unlocked by the palette author
                                                             2026-08-08: Rokusho 500 was 2.77:1 on the
                                                             track, 600 is 3.87:1 */
-  --color-progress-complete: #C9A045;
+  /* --color-progress-complete: #C9A045 deleted 2026-08-11. It existed for a
+     bar that caps in Ogon at 100%, and that question was already answered —
+     ProgressBar.tsx's anti-goal says in as many words that it "does not
+     celebrate milestones, change colour at 100%", and CLAUDE.md bans
+     reward-loop ornaments. The token was the design intent of a rule the
+     component had already rejected. Reinstate only by changing the anti-goal
+     first, deliberately, not by reaching for the token. */
 
   /* ── Legacy aliases — v1 (zinc/brand-purple) and v2 (plum) names still
         resolve so existing markup does not break. Prefer the role tokens
@@ -333,6 +351,11 @@
 
   /* ── Elevation.  One hairline drop, that's the whole system. */
   --shadow-card: 0 1px 2px 0 rgb(45 45 45 / 0.05);
+  /* The glass panel lifting off a patterned ground. The three shadows above
+     are all `0 1px 2px`, tuned for a card sitting flat on a page — none of
+     them register against texture. Chosen 2026-08-13 from four rendered
+     variants; this is the deepest of them. */
+  --shadow-glass: 0 6px 20px 0 color-mix(in srgb, var(--color-stone-800) 13%, transparent);
   --shadow-key:  0 1px 2px 0 rgb(45 45 45 / 0.04);
   --shadow-key-on-inverse: 0 1px 2px 0 rgb(0 0 0 / 0.24);
 
@@ -353,7 +376,29 @@
      low-contrast by construction, so no single step clears both paper and
      near-black chrome. Split the role exactly as v3 already splits borders.
      Both values are already in the palette; this invents nothing.
-     Recorded in docs/colors.md as a correction to send back. */
+     Recorded in docs/colors.md as a correction to send back.
+
+     Moved to Ogon 700 on 2026-08-11 and REVERTED to Ogon 500 on 2026-08-13
+     by the palette author. Ogon 700 cleared 3:1 everywhere (4.65 / 4.95 /
+     4.29) but read brown rather than gold, and Ogon is the warmth of this
+     palette — that is the job it was picked for. The author looked at both
+     and kept the gold.
+
+     So this ships a known WCAG 1.4.11 failure: 2.26 page, 2.40 card, 2.08
+     well, against a 3:1 bar. It is recorded in check-contrast.mjs KNOWN with
+     that reason rather than hidden, and PRODUCT.md's AA commitment is
+     annotated. DO NOT quietly re-tint this to make the number go green —
+     that call has been made twice now, in both directions, deliberately.
+
+     SETTLED 2026-08-13, do not reopen. Ogon 700 was proposed and rejected;
+     a two-tone gold-plus-dark-hairline ring was proposed and rejected. The
+     ring is Ogon 500, flat, and the contrast number is accepted. Three
+     separate alternatives have now been offered and declined. Do not offer a
+     fourth.
+
+     focus-on-inverse stays Ogon 500 — on the Sumi-iro band it scores 5.64:1,
+     and darkening it there would make it worse. That is why the role is
+     split. */
   --color-focus:            var(--color-ogon-500);
   --color-focus-on-inverse: var(--color-ogon-500);
 

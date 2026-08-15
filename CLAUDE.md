@@ -16,11 +16,46 @@ It lived at `assets/logo.svg`, was described as "the brand mark" in `README.md` 
 | --- | --- |
 | CSS | `.hanko` / `.maru` in `src/brand.css` |
 | Raster | `assets/logo-a-128.png`, `assets/logo-a-tile.png` |
-| Colour | Akane 茜色 in the rasters — **the CSS does not match yet** |
+| Colour | Akane 茜色 `#D72E2E` — `var(--color-accent)` in CSS, matching the rasters |
 
-> **Known gap.** The rasters are Akane. `.hanko` fills with `var(--color-brand-500)`, which today is the outgoing purple, so the CSS mark and the raster mark are different colours. `--color-accent` does not exist yet; it arrives with the v3 palette. Plan task 5.5d repoints `.hanko` — and eight other `brand.css` sites — at it. Do not "fix" this by hard-coding Akane.
+> **Closed 2026-08-10.** This carried a "Known gap" saying `.hanko` filled with the outgoing purple and that `--color-accent` did not exist yet. Both are false now: `--color-accent` is defined at `src/tokens.css:173` as Akane `#D72E2E`, `.hanko` fills with `var(--color-accent)`, and `brand.css` contains no `brand-500` reference at all. The CSS mark and the raster mark are the same colour. Plan task 5.5d is done. The instruction that still stands: **do not hard-code Akane** — use `var(--color-accent)`.
 
 This is enforced, not just documented. `scripts/check-forbidden-assets.mjs` fails on the exact blob under any filename, on the bolt geometry even if recolored, and on any surviving `logo.svg` reference. It runs in `pnpm build`, in CI before install, and in `.git/hooks/pre-commit`. Run `sh scripts/install-hooks.sh` once per clone. **Do not weaken, skip, or allowlist your way past this check.**
+
+## 🔴 HIGH-PRIORITY RULE — never report a problem without a recommendation
+
+**Every finding ships with a fix.** If you tell the author about a gap, nit, caveat,
+risk, stale doc, failing check, "one thing to note", "worth flagging", or anything
+else you noticed — you must attach, in the same message:
+
+1. **What you recommend**, stated as a decision, not a menu. Lead with it.
+2. **The concrete fix** — the file, the line, the change. Not "this could be improved."
+3. **The cost**, if it isn't obvious: one line vs. an afternoon.
+4. **Options only when they genuinely differ**, and only after your recommendation.
+   Two or three, each with a one-line trade-off. Never a survey.
+
+Applies to every place a finding can appear: audits, reviews, sitreps, the last
+paragraph of an unrelated answer, and especially the trailing "one more thing"
+that used to get dropped with no follow-through.
+
+**Banned shapes:**
+
+- A finding with no recommendation attached.
+- "Worth deciding", "worth a look", "something to consider", "you may want to" —
+  with nothing after it. Decide, then say what you decided and why.
+- Ending a message on a problem. End on a proposed action.
+- Burying the recommendation under paragraphs of evidence. Recommendation first,
+  evidence under it.
+- Asking "want me to fix it?" *instead of* saying what the fix is. Say the fix,
+  then ask for the go-ahead.
+
+**If you genuinely can't recommend** — the call is the author's taste, or it needs
+information you don't have — say that explicitly, say what you'd need to decide,
+and give your best guess anyway. "I don't know" is not an acceptable stopping point;
+"here's my read, and here's what would change it" is.
+
+This rule outranks brevity. A shorter message that drops the recommendation is
+worse than a longer one that keeps it.
 
 ## Shared memory
 
@@ -36,7 +71,7 @@ Check `MEMORY.md` there at the start of every conversation.
 
 | Path | Purpose |
 | --- | --- |
-| `src/components/` | TypeScript React components — the shipped package source (20 components) |
+| `src/components/` | TypeScript React components — the shipped package source (21 components, 24 exports) |
 | `src/tokens.css` | Tailwind v4 `@theme` block — **the design token source of truth** |
 | `src/index.css` | Package entry: `@import "tailwindcss"`, `@import "./tokens.css"`, `@font-face`, base resets |
 | `src/brand.css` | Brand utilities — `.hanko`, `.maru`, `.wm`, `.kata-vert`, `.ctype`, `.frame`, `.emboss-bg` |
@@ -173,6 +208,10 @@ Identical to the AburunGo app:
 - **Commit format:** Conventional Commits — `<type>(<scope>): <description>`. Types: `feat`, `fix`, `refactor`, `docs`, `build`. Subject max 50 chars, no trailing period. ASCII only.
 - **Review before writing message:** Always run `git status` and `git diff` before crafting the commit message.
 - **Atomic commits:** Commit at logical boundaries. Do not bundle unrelated changes.
-- **Never push without explicit user confirmation.** After committing, stop and ask before running `git push`.
-- **Never create a PR unless asked.** Push the branch and wait.
-- **After pushing:** the user will review and merge via PR. Do not merge branches yourself.
+- **Push without asking.** Commit, then push. Do not stop for confirmation.
+- **Open a PR without asking**, and **give the full URL** — `https://github.com/petr0n/aburungo-design-system/pull/NN`, not "PR #NN". The author is often on a phone or another machine and cannot resolve a bare number. Same for any other link they need: artifact URLs, CI runs, deploy previews.
+- **Do not merge.** The author reviews and merges. This is the one step that stays manual.
+- **Exception: merge when asked.** The author will sometimes say "merge it" — then merge, and confirm CI was green first.
+- **Pause only for destructive or irreversible operations** — `git reset --hard`, force-push over shared history, deleting data, rewriting published history.
+
+> **This is the single source for git behaviour**, superseding anything narrower elsewhere. Set 2026-08-13, replacing a rule that required confirmation before every push and forbade PRs unless asked. The reasoning: this is pre-alpha with no public users, CI plus the brand and contrast gates are real protection, and a bad merge costs a revert — while a confirmation prompt on every push costs the author's time on every single change. Merging stays manual because this package is consumed by `../aburungo`, whose CI builds against **this repo's default branch**, so a merge here immediately changes what the app compiles against.

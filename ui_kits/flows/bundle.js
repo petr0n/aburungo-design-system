@@ -982,6 +982,9 @@ function Phone({ children }) {
 function Screen({ children }) {
   return /* @__PURE__ */ jsx23("div", { className: "flex flex-1 flex-col gap-5 overflow-y-auto px-4 pb-8 pt-5", children });
 }
+function EmptyStage({ children }) {
+  return /* @__PURE__ */ jsx23("div", { className: "emboss-bg crest-1 -mx-4 -mt-5 flex flex-1 items-center justify-center px-4 py-10", children: /* @__PURE__ */ jsx23("div", { className: "glass w-full", children: /* @__PURE__ */ jsx23("div", { className: "flex flex-col items-center gap-5", children }) }) });
+}
 function fromUrl(key, allowed, fallback) {
   const raw = new URLSearchParams(window.location.search).get(key);
   return allowed.find((v) => v === raw) ?? fallback;
@@ -1186,7 +1189,7 @@ function LoadingScreen() {
 function EmptyScreen({ onRestart }) {
   return /* @__PURE__ */ jsxs16(Fragment3, { children: [
     /* @__PURE__ */ jsx24(AppHeader, { title: "Flashcards" }),
-    /* @__PURE__ */ jsx24(Screen, { children: /* @__PURE__ */ jsxs16("div", { className: "flex flex-col items-center gap-6 pt-10", children: [
+    /* @__PURE__ */ jsx24(Screen, { children: /* @__PURE__ */ jsxs16(EmptyStage, { children: [
       /* @__PURE__ */ jsx24("span", { className: "hanko text-display-lg", "aria-hidden": "true" }),
       /* @__PURE__ */ jsx24(
         EmptyState,
@@ -1257,7 +1260,7 @@ function FlashcardRound() {
     FlowPage,
     {
       title: "Flashcard round",
-      blurb: "The five states of one flow, built from the shipped components \\u2014 not a mirror of them. Click through the round: show the answer, grade yourself, reach the summary.",
+      blurb: "The five states of one flow, built from the shipped components \u2014 not a mirror of them. Click through the round: show the answer, grade yourself, reach the summary.",
       states: STATES,
       current: state,
       onSelect: reset,
@@ -1640,7 +1643,7 @@ function FillBlank() {
         ] }),
         state === "empty" && /* @__PURE__ */ jsxs17(Fragment4, { children: [
           /* @__PURE__ */ jsx25(AppHeader, { title: "Fill in the blank" }),
-          /* @__PURE__ */ jsx25(Screen, { children: /* @__PURE__ */ jsxs17("div", { className: "flex flex-col items-center gap-6 pt-10", children: [
+          /* @__PURE__ */ jsx25(Screen, { children: /* @__PURE__ */ jsxs17(EmptyStage, { children: [
             /* @__PURE__ */ jsx25("span", { className: "hanko text-display-lg", "aria-hidden": "true" }),
             /* @__PURE__ */ jsx25(
               EmptyState,
@@ -1966,7 +1969,7 @@ function KanaPractice() {
         ] }),
         state === "empty" && /* @__PURE__ */ jsxs18(Fragment5, { children: [
           /* @__PURE__ */ jsx26(AppHeader, { title: "Kana practice" }),
-          /* @__PURE__ */ jsx26(Screen, { children: /* @__PURE__ */ jsxs18("div", { className: "flex flex-col items-center gap-6 pt-10", children: [
+          /* @__PURE__ */ jsx26(Screen, { children: /* @__PURE__ */ jsxs18(EmptyStage, { children: [
             /* @__PURE__ */ jsx26("span", { className: "hanko text-display-lg", "aria-hidden": "true" }),
             /* @__PURE__ */ jsx26(
               EmptyState,

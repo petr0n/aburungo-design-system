@@ -31,6 +31,37 @@ export function Screen({ children }: { children: ReactNode }) {
   )
 }
 
+/**
+ * The empty-state treatment — option D, chosen 2026-08-13 from four rendered
+ * variants in `preview/_sandbox/empty-1-pattern.html`.
+ *
+ * The crest pattern goes on the **page ground** and the content sits on a
+ * `.glass` panel above it — updated 2026-08-13 from an opaque card, which was
+ * chosen before the glass existed. Glass keeps the crest reading *through* the
+ * panel instead of covering it, and still carries the fine print.
+ *
+ * That is not a stylistic preference, it is what keeps the screen legible:
+ * `EmptyState`'s description is `text-fg-subtle`, which is 3.47:1 straight on
+ * the pattern against a 4.5 bar, and 4.76:1 on the glass.
+ *
+ * Rejected alternatives, so they are not retried: pattern behind everything
+ * **fails**; promoting the description to `fg` passes but flattens the
+ * hierarchy — message and description become one block — and would change
+ * `EmptyState` for every use, patterned or not.
+ *
+ * Negative margins cancel `Screen`'s padding so the texture bleeds edge to
+ * edge; the card puts it back. See The Patterned Ground Rule in `DESIGN.md`.
+ */
+export function EmptyStage({ children }: { children: ReactNode }) {
+  return (
+    <div className="emboss-bg crest-1 -mx-4 -mt-5 flex flex-1 items-center justify-center px-4 py-10">
+      <div className="glass w-full">
+        <div className="flex flex-col items-center gap-5">{children}</div>
+      </div>
+    </div>
+  )
+}
+
 
 
 /**

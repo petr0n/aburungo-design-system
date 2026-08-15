@@ -1,0 +1,206 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="../../dist/tokens.plain.css">
+<style>
+ body{margin:0;padding:28px;font-family:var(--font-sans);color:var(--fg);background:var(--bg)}
+ h1{font-size:17px;margin:0 0 2px} .s{color:var(--fg-muted);margin:0 0 20px;font-size:13px;max-width:74ch}
+ h2{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-subtle);margin:28px 0 10px}
+ .lbl{font:500 10px ui-monospace,Menlo,monospace;color:var(--fg-subtle);margin-top:6px}
+ .row{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+ .row4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+
+ .emb{position:relative;isolation:isolate;overflow:hidden}
+ .emb>*{position:relative;z-index:2}
+ .emb::before,.emb::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+   -webkit-mask-image:var(--m);mask-image:var(--m);
+   -webkit-mask-repeat:repeat;mask-repeat:repeat;
+   -webkit-mask-size:var(--sz,56px) auto;mask-size:var(--sz,56px) auto}
+ .emb::before{background:var(--emb-sh,var(--fg));opacity:var(--emb-sh-op,.16);
+   -webkit-mask-position:1.1px 1.1px;mask-position:1.1px 1.1px}
+ .emb::after{background:var(--emb-hi,var(--stone-0));opacity:var(--emb-hi-op,.6);z-index:1}
+
+ .p-seigaiha{--m:var(--svg-seigaiha);--sz:56px}
+ .p-umebachi{--m:var(--svg-umebachi);--sz:72px}
+ .p-asanoha {--m:var(--svg-asanoha); --sz:46px}
+
+ .present{--emb-sh-op:.16;--emb-hi-op:.6}
+ .ghost  {--emb-sh-op:.07; --emb-hi-op:.28}
+ .on-dark{--emb-hi:var(--ogon-300,#e2c988);--emb-hi-op:.5;--emb-sh:#000;--emb-sh-op:.4}
+
+ .crest::before,.crest::after{-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+   -webkit-mask-position:var(--pos,center);mask-position:var(--pos,center);
+   -webkit-mask-size:var(--sz);mask-size:var(--sz)}
+ .crest::before{-webkit-mask-position:calc(var(--posx,50%) + 1.2px) calc(var(--posy,50%) + 1.2px);
+   mask-position:calc(var(--posx,50%) + 1.2px) calc(var(--posy,50%) + 1.2px)}
+
+ .tile{height:150px;border-radius:12px;background:var(--stone-50);border:1px solid var(--border)}
+ .band{height:76px;border-radius:10px;background:var(--inverse);display:flex;align-items:center;padding:0 16px;
+   color:var(--fg-inverse);font-weight:600;font-size:14px}
+ .spec{height:160px;border-radius:12px;background:var(--stone-0);border:1px solid var(--border);
+   display:flex;align-items:center;justify-content:center}
+ .ink{background:var(--fg);
+   -webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat}
+ .spec .ink{width:104px;height:104px}
+ .ring{width:104px;height:104px;border-radius:50%;box-shadow:inset 0 0 0 3px var(--fg),inset 0 0 0 7px var(--stone-0),inset 0 0 0 9px var(--fg);
+   display:flex;align-items:center;justify-content:center}
+ .ring .ink{width:66px;height:66px}
+
+ .phone{width:390px;border-radius:22px;border:1px solid var(--border-strong);overflow:hidden;box-shadow:var(--shadow-card)}
+ .phone .hdr{background:var(--inverse);color:var(--fg-inverse);padding:18px 18px 22px;position:relative}
+ .phone .hdr .t{font-weight:600;font-size:15px}
+ .bokashi::after{content:"";position:absolute;left:0;right:0;bottom:0;height:14px;z-index:3;
+   background:linear-gradient(to bottom,transparent,color-mix(in oklab,var(--ogon-500) 18%,transparent))}
+ .phone .pg{padding:22px 18px 26px;min-height:300px}
+ .card{background:var(--stone-0);border:1px solid var(--border);border-radius:20px;padding:22px 20px;box-shadow:var(--shadow-card)}
+ .jp{font-family:var(--font-jp);font-size:26px;line-height:40px;color:var(--ai-700,#1F3A66)}
+ .rom{font-size:13px;color:var(--fg-muted);margin-top:6px}
+ .cta{margin-top:14px;background:var(--action);color:var(--action-fg);border-radius:12px;height:44px;
+   display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px}
+</style></head><body>
+<h1>Pattern library v4 — mokkō + katabami, wagara back to v2 scale</h1>
+<p class="s">Two corrections from your last note. (1) Uzumaki and genji-guruma are dropped — both
+rejected. (2) The wagara tile-size and spacing are restored to <code>pattern-2-umebachi.html</code>'s
+numbers (umebachi 72px, seigaiha 56px, asanoha 46px) — the shrink in v3 was the wrong axis; the emboss
+technique from v3 is kept. Sections 4–5 trace <b>mokkō 木瓜</b> and <b>katabami 片喰</b> from the two
+crests you attached, unenclosed per the no-circle rule; section 6 shows the same two <i>with</i> their
+ring, since that's what your reference actually has — compare and pick.</p>
+
+<h2>1 · Wagara at v2 scale, PRESENT level, with v3's real emboss (not flat tint)</h2>
+<div class="row">
+  <div><div class="tile emb present p-seigaiha"></div><div class="lbl">seigaiha 青海波</div></div>
+  <div><div class="tile emb present p-umebachi"></div><div class="lbl">umebachi 梅鉢 (#2)</div></div>
+  <div><div class="tile emb present p-asanoha"></div><div class="lbl">asanoha 麻の葉</div></div>
+</div>
+
+<h2>2 · Ghost level, card on top</h2>
+<div class="row">
+  <div><div class="tile emb ghost p-seigaiha" style="padding:16px"><div class="card" style="padding:12px 14px"><span class="jp" style="font-size:18px;line-height:26px">これをください</span></div></div><div class="lbl">ghost seigaiha</div></div>
+  <div><div class="tile emb ghost p-umebachi" style="padding:16px"><div class="card" style="padding:12px 14px"><span class="jp" style="font-size:18px;line-height:26px">これをください</span></div></div><div class="lbl">ghost umebachi</div></div>
+  <div><div class="tile emb ghost p-asanoha" style="padding:16px"><div class="card" style="padding:12px 14px"><span class="jp" style="font-size:18px;line-height:26px">これをください</span></div></div><div class="lbl">ghost asanoha</div></div>
+</div>
+
+<h2>3 · Header band — embossed Ōgon on Sumi</h2>
+<div class="row">
+  <div><div class="band emb on-dark p-seigaiha">aburungo</div><div class="lbl">seigaiha</div></div>
+  <div><div class="band emb on-dark p-umebachi">aburungo</div><div class="lbl">umebachi</div></div>
+  <div><div class="band emb on-dark p-asanoha">aburungo</div><div class="lbl">asanoha</div></div>
+</div>
+
+<h2>4 · Mokkō and katabami, UNENCLOSED — the approved no-circle treatment</h2>
+<div class="row">
+  <div><div class="spec"><div class="ink" style="--m:var(--svg-mokko)"></div></div><div class="lbl">mokkō 木瓜 · melon-flower</div></div>
+  <div><div class="spec"><div class="ink" style="--m:var(--svg-katabami)"></div></div><div class="lbl">katabami 片喰 · wood sorrel</div></div>
+</div>
+
+<h2>5 · Same two, ghosted — how they'd sit in a corner</h2>
+<div class="row">
+  <div><div class="tile emb crest ghost" style="--m:var(--svg-mokko);--sz:110px"></div><div class="lbl">mokkō ghosted</div></div>
+  <div><div class="tile emb crest ghost" style="--m:var(--svg-katabami);--sz:110px"></div><div class="lbl">katabami ghosted</div></div>
+</div>
+
+<h2>6 · The same two, WITH the ring — as your reference actually shows them</h2>
+<div class="row">
+  <div><div class="ring"><div class="ink" style="--m:var(--svg-mokko)"></div></div><div class="lbl">mokkō · ringed</div></div>
+  <div><div class="ring"><div class="ink" style="--m:var(--svg-katabami)"></div></div><div class="lbl">katabami · ringed</div></div>
+</div>
+
+<h2>7 · The two tiers together — embossed umebachi header at v2 scale, mokkō ghost corner</h2>
+<div style="display:flex;gap:24px;align-items:flex-start">
+  <div class="phone">
+    <div class="hdr emb on-dark p-umebachi bokashi"><span class="t">aburungo</span></div>
+    <div class="pg emb ghost p-seigaiha">
+      <div class="card">
+        <div class="jp">すみません、これをください。</div>
+        <div class="rom">sumimasen, kore o kudasai</div>
+        <div class="cta">Show answer</div>
+      </div>
+      <div class="emb crest" style="--m:var(--svg-mokko);--sz:120px;--emb-hi-op:.4;--emb-sh-op:.1;--posx:calc(100% - 24px);--posy:calc(100% - 28px);height:140px"></div>
+    </div>
+  </div>
+  <p class="s" style="max-width:34ch">Umebachi header back at 72px tile — should read as a flower
+  motif again, not noise. Mokkō ghosted bottom-right of the page, unenclosed.</p>
+</div>
+
+<script>
+const svgs = {
+seigaiha: `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="20">
+<defs><g id="f">
+ <circle r="20" fill="#000"/>
+ <circle r="18" fill="none" stroke="#fff" stroke-width="2"/>
+ <circle r="14" fill="none" stroke="#fff" stroke-width="2"/>
+ <circle r="10" fill="none" stroke="#fff" stroke-width="2"/>
+ <circle r="6" fill="none" stroke="#fff" stroke-width="2"/>
+ <circle r="2" fill="#fff"/>
+</g>
+<mask id="m">
+ <rect width="40" height="20" fill="#000"/>
+ <use href="#f" x="-20" y="-10"/><use href="#f" x="20" y="-10"/><use href="#f" x="60" y="-10"/>
+ <use href="#f" x="0" y="0"/><use href="#f" x="40" y="0"/>
+ <use href="#f" x="-20" y="10"/><use href="#f" x="20" y="10"/><use href="#f" x="60" y="10"/>
+ <use href="#f" x="0" y="20"/><use href="#f" x="40" y="20"/>
+ <use href="#f" x="-20" y="30"/><use href="#f" x="20" y="30"/><use href="#f" x="60" y="30"/>
+</mask>
+</defs>
+<rect width="40" height="20" fill="#fff" mask="url(#m)"/>
+</svg>`,
+
+umebachi: `<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80">
+<defs><g id="u" fill="#fff">
+ <circle r="4.5"/>
+ <circle cx="0" cy="-12" r="6.5"/>
+ <circle cx="11.41" cy="-3.71" r="6.5"/>
+ <circle cx="7.05" cy="9.71" r="6.5"/>
+ <circle cx="-7.05" cy="9.71" r="6.5"/>
+ <circle cx="-11.41" cy="-3.71" r="6.5"/>
+</g></defs>
+<use href="#u" x="20" y="20"/><use href="#u" x="60" y="60"/>
+</svg>`,
+
+asanoha: `<svg xmlns="http://www.w3.org/2000/svg" width="23.094" height="40">
+<path fill="none" stroke="#fff" stroke-width="1.1" d="
+ M0 0H23.094 M0 20H23.094 M0 40H23.094
+ M0 0L23.094 40 M0 40L23.094 0
+ M11.547 6.667L0 0 M11.547 6.667L23.094 0 M11.547 6.667L11.547 20
+ M0 13.333L0 0 M0 13.333L11.547 20
+ M23.094 13.333L23.094 0 M23.094 13.333L11.547 20
+ M0 26.667L0 40 M0 26.667L11.547 20
+ M23.094 26.667L23.094 40 M23.094 26.667L11.547 20
+ M11.547 33.333L0 40 M11.547 33.333L23.094 40 M11.547 33.333L11.547 20"/>
+</svg>`,
+
+mokko: `<svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" viewBox="0 0 90 90">
+<defs>
+ <ellipse id="pet" cx="0" cy="-16" rx="11" ry="16"/>
+ <circle id="notch" cx="0" cy="-32" r="7"/>
+</defs>
+<mask id="mo">
+ <rect width="90" height="90" fill="#000"/>
+ <g transform="translate(45 45)">
+  <use href="#pet" fill="#fff"/><use href="#notch" fill="#000"/>
+  <g transform="rotate(90)"><use href="#pet" fill="#fff"/><use href="#notch" fill="#000"/></g>
+  <g transform="rotate(180)"><use href="#pet" fill="#fff"/><use href="#notch" fill="#000"/></g>
+  <g transform="rotate(270)"><use href="#pet" fill="#fff"/><use href="#notch" fill="#000"/></g>
+  <circle r="6" fill="#fff"/>
+ </g>
+</mask>
+<rect width="90" height="90" fill="#fff" mask="url(#mo)"/>
+</svg>`,
+
+katabami: `<svg xmlns="http://www.w3.org/2000/svg" width="90" height="98" viewBox="0 0 90 98">
+<defs>
+ <path id="lf" d="M0 0 C-8.5 -5 -11 -14.5 -5.5 -17 C-2.5 -18.3 0 -17 0 -15.2 C0 -17 2.5 -18.3 5.5 -17 C11 -14.5 8.5 -5 0 0 Z"/>
+</defs>
+<g fill="#fff" transform="translate(45 50)">
+ <use href="#lf"/>
+ <use href="#lf" transform="rotate(120)"/>
+ <use href="#lf" transform="rotate(240)"/>
+ <rect x="-2" y="0" width="4" height="26" rx="2"/>
+</g>
+</svg>`,
+};
+const root = document.documentElement;
+for (const [k, v] of Object.entries(svgs))
+  root.style.setProperty('--svg-' + k,
+    `url("data:image/svg+xml;utf8,${encodeURIComponent(v.trim())}")`);
+</script>
+</body></html>

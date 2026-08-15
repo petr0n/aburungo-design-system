@@ -1,0 +1,107 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="../../dist/tokens.plain.css">
+<link rel="stylesheet" href="../../src/brand.css">
+<style>
+ body{margin:0;padding:26px;font-family:var(--font-sans);color:var(--fg);background:var(--bg)}
+ h1{font-size:var(--text-heading-sm);margin:0 0 2px}
+ .s{color:var(--fg-muted);margin:0 0 22px;font-size:var(--text-body-sm);max-width:86ch}
+ .row{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;max-width:1320px;align-items:start}
+ .col{display:flex;flex-direction:column;gap:9px}
+ .hd{font-size:var(--text-body-sm);font-weight:650;margin:0}
+ .sub{font-size:var(--text-caption);color:var(--fg-muted);margin:0;min-height:3.2em}
+ .phone{border:1px solid var(--border);border-radius:var(--radius-xl);overflow:hidden;background:var(--bg)}
+
+ /* The real EmptyState markup, mirrored. */
+ .es{display:flex;flex-direction:column;align-items:center;justify-content:center;
+     gap:12px;text-align:center;padding:44px 20px}
+ .es .msg{font-size:var(--text-body);font-weight:500;color:var(--fg);margin:0}
+ .es .desc{font-size:var(--text-body-sm);color:var(--fg-subtle);margin:0}
+ .es .desc.promoted{color:var(--fg)}
+ .es .btn{margin-top:4px;min-height:44px;padding:0 18px;border-radius:var(--radius-lg);
+   border:none;background:var(--color-action);color:var(--color-action-fg);
+   font-family:var(--font-sans);font-size:var(--text-body-sm);font-weight:600;
+   display:inline-flex;align-items:center}
+ /* The real .hanko from brand.css sizes itself off font-size (1em square),
+    so this only picks a ramp step. No mirror, no invented value. */
+ .mark{font-size:var(--text-display)}
+
+ /* D — pattern on the page, card holds the content on a flat ground. */
+ .cardwrap{padding:26px 16px}
+ .inner{background:var(--color-surface);border:1px solid var(--border);
+   border-radius:var(--radius-xl);box-shadow:0 1px 2px rgba(45,45,45,.05)}
+ .inner .es{padding:32px 18px}
+
+ .ratio{font-family:var(--font-mono);font-size:var(--text-caption);font-weight:600}
+ .fail{color:var(--color-error-fg)} .pass{color:var(--color-success-fg)}
+</style></head><body>
+
+<h1>Empty state on a patterned ground — four ways</h1>
+<p class="s">The description line is <code>text-fg-subtle</code>. On the crest pattern it measures
+<b>3.47:1</b>, under the 4.5 AA wants for body text. Everything else on the screen is fine. These
+are the four ways out, rendered at the shipped <code>--emboss-opacity: .35</code>.</p>
+
+<div class="row">
+
+  <div class="col">
+    <p class="hd">A · No pattern — ships today</p>
+    <p class="sub">The current empty state. Nothing to fix, nothing gained.</p>
+    <div class="phone">
+      <div class="es">
+        <span class="hanko mark" lang="ja">ア</span>
+        <p class="msg">Nothing due right now</p>
+        <p class="desc">New cards unlock as you work through the unit.</p>
+        <button class="btn">Browse phrases</button>
+      </div>
+    </div>
+    <p class="ratio pass">description 5.26:1</p>
+  </div>
+
+  <div class="col">
+    <p class="hd">B · Pattern behind everything</p>
+    <p class="sub">Texture across the whole surface. The description sits directly on it.</p>
+    <div class="phone emboss-bg crest-1">
+      <div class="es">
+        <span class="hanko mark" lang="ja">ア</span>
+        <p class="msg">Nothing due right now</p>
+        <p class="desc">New cards unlock as you work through the unit.</p>
+        <button class="btn">Browse phrases</button>
+      </div>
+    </div>
+    <p class="ratio fail">description 3.47:1 — fails</p>
+  </div>
+
+  <div class="col">
+    <p class="hd">C · Pattern + description promoted</p>
+    <p class="sub">Same texture; the description moves from <code>fg-subtle</code> to <code>fg</code>.</p>
+    <div class="phone emboss-bg crest-1">
+      <div class="es">
+        <span class="hanko mark" lang="ja">ア</span>
+        <p class="msg">Nothing due right now</p>
+        <p class="desc promoted">New cards unlock as you work through the unit.</p>
+        <button class="btn">Browse phrases</button>
+      </div>
+    </div>
+    <p class="ratio pass">description 8.40:1</p>
+  </div>
+
+  <div class="col">
+    <p class="hd">D · Pattern behind a card</p>
+    <p class="sub">Texture on the page ground; the content sits on a flat card above it.</p>
+    <div class="phone emboss-bg crest-1">
+      <div class="cardwrap">
+        <div class="inner">
+          <div class="es">
+            <span class="hanko mark" lang="ja">ア</span>
+            <p class="msg">Nothing due right now</p>
+            <p class="desc">New cards unlock as you work through the unit.</p>
+            <button class="btn">Browse phrases</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="ratio pass">description 5.26:1</p>
+  </div>
+
+</div>
+</body></html>

@@ -1,0 +1,65 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="../../dist/tokens.plain.css">
+<style>
+ body{margin:0;padding:28px;font-family:var(--font-sans);color:var(--fg);background:var(--bg)}
+ h1{font-size:17px;margin:0 0 2px} .s{color:var(--fg-muted);margin:0 0 20px;font-size:13px;max-width:70ch}
+ h2{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-subtle);margin:24px 0 10px}
+ .lbl{font:500 10px ui-monospace,Menlo,monospace;color:var(--fg-subtle);margin-top:6px}
+ .row{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;max-width:600px}
+ .spec{height:220px;border-radius:12px;background:var(--stone-0);border:1px solid var(--border);
+   display:flex;align-items:center;justify-content:center}
+ .ink{width:150px;height:150px;background:var(--fg);
+   -webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat}
+</style></head><body>
+<h1>Symbol 8 and symbol 9 — from the numbered chart</h1>
+<p class="s">#8 (katabami, already correct — unchanged) and #9, drawn fresh: three smooth rounded
+lobes with a center vein groove, no stem, converging at a shared point. <b>Flagging honestly:</b> at
+chart-thumbnail resolution I can't fully rule out a 4th lobe or a different vein pattern on #9 — this
+is my best direct read, not a confident final. Say what's off if anything is.</p>
+
+<h2>Specimen</h2>
+<div class="row">
+  <div><div class="spec"><div class="ink" style="--m:var(--svg-sym8)"></div></div><div class="lbl">#8 katabami</div></div>
+  <div><div class="spec"><div class="ink" style="--m:var(--svg-sym9)"></div></div><div class="lbl">#9 — best-effort read</div></div>
+</div>
+
+<script>
+const svgs = {
+sym8: `<svg xmlns="http://www.w3.org/2000/svg" width="90" height="98" viewBox="0 0 90 98">
+<defs>
+ <path id="lf" d="M0 0 C-8.5 -5 -11 -14.5 -5.5 -17 C-2.5 -18.3 0 -17 0 -15.2 C0 -17 2.5 -18.3 5.5 -17 C11 -14.5 8.5 -5 0 0 Z"/>
+</defs>
+<g fill="#fff" transform="translate(45 50)">
+ <use href="#lf"/>
+ <use href="#lf" transform="rotate(120)"/>
+ <use href="#lf" transform="rotate(240)"/>
+ <rect x="-2" y="0" width="4" height="26" rx="2"/>
+</g>
+</svg>`,
+
+sym9: `<svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" viewBox="0 0 90 90">
+<defs>
+ <g id="lobe9">
+  <path fill="#fff" d="M0 0 C-10 -4 -13 -13 -9 -18 C-6 -21 6 -21 9 -18 C13 -13 10 -4 0 0 Z"/>
+  <path stroke="#000" stroke-width="1.6" fill="none" stroke-linecap="round" d="M0 -3 L0 -17"/>
+ </g>
+</defs>
+<mask id="k9">
+ <rect width="90" height="90" fill="#000"/>
+ <g transform="translate(45 50)">
+  <use href="#lobe9"/>
+  <use href="#lobe9" transform="rotate(120)"/>
+  <use href="#lobe9" transform="rotate(240)"/>
+  <circle r="5" fill="#fff"/>
+ </g>
+</mask>
+<rect width="90" height="90" fill="#fff" mask="url(#k9)"/>
+</svg>`,
+};
+const root = document.documentElement;
+for (const [k, v] of Object.entries(svgs))
+  root.style.setProperty('--svg-' + k,
+    `url("data:image/svg+xml;utf8,${encodeURIComponent(v.trim())}")`);
+</script>
+</body></html>

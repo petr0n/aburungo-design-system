@@ -1,0 +1,24 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="../../dist/tokens.plain.css">
+<style>
+ body{margin:0;padding:28px;font-family:var(--font-sans);color:var(--fg);background:var(--bg)}
+ h1{font-size:17px;margin:0 0 2px} .s{color:var(--fg-muted);margin:0 0 20px;font-size:13px;max-width:70ch}
+ .lbl{font:500 10px ui-monospace,Menlo,monospace;color:var(--fg-subtle);margin-top:6px}
+ .row{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;max-width:900px}
+ .tile{height:260px;border-radius:12px;border:1px solid var(--border);background-color:var(--stone-50);
+   background-repeat:repeat;filter:grayscale(1) contrast(.9);opacity:.34}
+ .t1{background-image:url("../../assets/flower-symbol1.png");background-size:130px auto}
+ .t2{background-image:url("../../assets/flower-symbol2.png");background-size:130px auto}
+</style></head><body>
+<h1>Real assets, desaturated + faded, tiled — exactly as asked</h1>
+<p class="s">The two PNGs you just gave me, used directly (no redrawing), with
+<code>filter: grayscale(1)</code> and <code>opacity: .34</code>, tiled via plain CSS
+<code>background-repeat</code>. Note the visible grid — the source images have a flat
+gray backdrop, not transparency, so tiling repeats a square, not a dissolving texture.</p>
+
+<div class="row">
+  <div><div class="tile t1"></div><div class="lbl">flower-symbol1.png — desaturated, faded, tiled</div></div>
+  <div><div class="tile t2"></div><div class="lbl">flower-symbol2.png — desaturated, faded, tiled</div></div>
+</div>
+</body></html>

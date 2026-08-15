@@ -28,7 +28,9 @@
     "dist",
     "src/index.css",
     "src/tokens.css",
-    "src/brand.css"
+    "src/brand.css",
+    "assets/clan-symbol1.png",
+    "assets/clan-symbol2.png"
   ],
   "scripts": {
     "check:brand": "node scripts/check-forbidden-assets.mjs",

@@ -10,9 +10,12 @@
  * non-text UI indicators — focus rings, progress fills). PRODUCT.md records
  * WCAG 2.1 AA as binding, which is where these numbers come from.
  *
- * Known failures are listed in KNOWN below rather than silently tolerated:
- * the gate stays green on them but prints them, so an incoming palette has to
- * beat the outgoing one instead of merely matching it.
+ * This FAILS THE BUILD on any miss with no recorded reason. It did not until
+ * 2026-08-10 — it had no process.exit, so it printed its findings and returned
+ * 0, which made it a report wearing the word "gate".
+ *
+ * The escape hatch is KNOWN below: a failure ships only with a written reason
+ * sitting next to the number.
  */
 import { readFileSync } from 'node:fs'
 
@@ -25,6 +28,9 @@ for (const [, name, value] of css.matchAll(/^\s*(--color-[a-z0-9-]+):\s*([^;]+);
   raw.set(name, value.trim())
 }
 function resolve(name, seen = new Set()) {
+  // A literal hex passes through. Used for the patterned-ground stand-in
+  // below, which is a measurement rather than a token.
+  if (name.startsWith('#')) return name
   const v = raw.get(name)
   if (v === undefined) return null
   if (seen.has(name)) throw new Error(`circular token reference at ${name}`)
@@ -68,6 +74,12 @@ const CHECKS = [
   ['--color-success-fg', '--color-success-bg', TEXT, 'recalled banner'],
   ['--color-error-fg', '--color-error-bg', TEXT, 'not-quite banner'],
   ['--color-tag-fg', '--color-tag-bg', TEXT, 'scenario tag'],
+  // `link` is a raw value rather than a Rokusho alias for exactly this reason:
+  // Rokusho 500 is 3.00:1 on the page and fails AA as text. Gate it so the
+  // darkening that justifies the token cannot be undone by tidying it back to
+  // var(--color-rokusho-500).
+  ['--color-link', '--color-bg', TEXT, 'link on page'],
+  ['--color-link', '--color-surface', TEXT, 'link on card'],
   ['--color-fg-inverse', '--color-inverse', TEXT, 'text on inverse chrome'],
   // Non-text indicators — the focus ring has to read on every ground it can
   // land on, which is what made the v3 Ogon ring fail its own review.
@@ -76,6 +88,41 @@ const CHECKS = [
   ['--color-focus', '--color-surface-2', UI, 'focus ring on well'],
   ['--color-focus-on-inverse', '--color-inverse', UI, 'focus ring on inverse chrome'],
   ['--color-progress-fill', '--color-progress-track', UI, 'progress fill on track'],
+  // Patterned grounds — `.emboss-bg` in src/brand.css.
+  //
+  // This script reads flat tokens, so it cannot see a background image. The
+  // stand-in below is a measurement: both crests were rendered over page,
+  // card and well at the .35 default, the composited pixels read back, and
+  // the darkest luminance found was 0.5945 (crest-2 on the well). #CACACA
+  // sits at 0.5906 — marginally darker, so checking against it is
+  // conservative.
+  //
+  // Only the three roles brand.css permits on a pattern are listed.
+  // fg-subtle / fg-faint (both stone-500) come to 3.47:1 and are barred by
+  // the legibility rule rather than tracked as a failure here — no opacity
+  // that leaves the pattern visible can carry them.
+  //
+  // Re-measure if a crest is added or --emboss-opacity is raised above .35.
+  ['--color-fg', '#CACACA', TEXT, 'body text on a patterned ground'],
+  ['--color-fg-heading', '#CACACA', TEXT, 'heading on a patterned ground'],
+  ['--color-fg-muted', '#CACACA', TEXT, 'secondary text on a patterned ground'],
+  // The `.glass` panel — the only way fg-subtle is allowed over a pattern.
+  //
+  // #EDEDED stands in for the darkest field measured under the shipped glass
+  // on a ground it is SUPPORTED on: 0.8469 against the 0.8522 measured on a
+  // card with crest-2, so marginally conservative.
+  //
+  // A patterned WELL is deliberately not modelled here. It measures 4.47 and
+  // fails, and brand.css bars the combination rather than re-tinting the
+  // glass to cover a case that should not arise. If a well ever needs a
+  // patterned ground, this gate will not catch it — read the note at .glass.
+  //
+  // Blur is part of the measurement: without backdrop-filter the same
+  // gradient lands at 4.26, which is why brand.css ships a more opaque
+  // @supports fallback rather than the same fill at another alpha.
+  ['--color-fg', '#EDEDED', TEXT, 'body text on glass over a pattern'],
+  ['--color-fg-heading', '#EDEDED', TEXT, 'heading on glass over a pattern'],
+  ['--color-fg-subtle', '#EDEDED', TEXT, 'fine print on glass over a pattern'],
   // The focus ring is NOT checked against filled controls. Every interactive
   // primitive uses `ring-offset-2 ring-offset-bg`, so the ring is separated
   // from the control by page colour and reads against the page — which the
@@ -90,9 +137,26 @@ const CHECKS = [
  * Anything not listed here fails the build.
  */
 const KNOWN = new Map([
-  // Empty. All three prior failures were resolved 2026-08-08 by the palette
-  // author: Rokusho 500 unlocked for progress-fill, and stone-500 darkened so
-  // text on a well clears 4.5:1. Add an entry here only with a written reason.
+  // The focus ring on light grounds. Ogon 500 scores 2.26 / 2.40 / 2.08 on
+  // page / card / well against the 3:1 SC 1.4.11 wants for a non-text
+  // indicator.
+  //
+  // This is a deliberate, twice-made call by the palette author, not an
+  // oversight. It was moved to Ogon 700 on 2026-08-11, which cleared every
+  // ground at 4.65 / 4.95 / 4.29, and moved back on 2026-08-13 after looking
+  // at both: 700 reads brown, and Ogon is the warmth of this palette. DO NOT
+  // re-tint it to make this number green.
+  //
+  // SETTLED, do not reopen. Ogon 700 and a two-tone gold-plus-hairline ring
+  // were both proposed and both rejected. These three entries are permanent
+  // unless the author raises it themselves.
+  [
+    'focus ring on page',
+    'Ogon 500, 2.26:1. Author kept the gold over the ratio, 2026-08-13. ' +
+      'See src/tokens.css and preview/_sandbox/focus-1-options.html.',
+  ],
+  ['focus ring on card', 'Ogon 500, 2.40:1. Same call as "focus ring on page".'],
+  ['focus ring on well', 'Ogon 500, 2.08:1 — the worst of the three. Same call.'],
 ])
 
 let hard = 0
@@ -124,9 +188,16 @@ if (known.length > 0) {
   known.forEach((k) => console.log(k))
 }
 
+// Until 2026-08-10 this printed the count and exited 0 — so it was a report
+// wearing the word "gate", and `pnpm build` was green no matter what the
+// palette did. It now fails. The escape hatch is KNOWN above, which forces a
+// written reason next to the number instead of silence.
 if (hard > 0) {
-  // ADVISORY, not a veto. The palette author owns these calls; the script's
-  // job is to surface the number, not to overrule a deliberate choice.
-  console.error(`\ncontrast: ${hard} below target (advisory — not blocking).`)
+  console.error(
+    `\ncontrast gate: FAIL — ${hard} below target with no recorded reason.\n` +
+      `Fix the value, or add an entry to KNOWN in ${process.argv[1].split('/').pop()} ` +
+      `explaining why it ships.`,
+  )
+  process.exit(1)
 }
 console.log(`\ncontrast gate: pass (${CHECKS.length - known.length}/${CHECKS.length} clear)`)
