@@ -30,17 +30,23 @@ same restraint but changes what the restraint is made of.
 |---|---|---|
 | **Akane** 茜色 | `#D72E2E` | The brand mark (the hanko) and error states. **Never a CTA.** |
 | **Ai-iro** 藍色 | `#1F3A66` | Structure. Primary action, headings, Japanese content, chrome text. |
-| **Rokushō** 緑青 | `#4F9C8D` | Progress, correctness, secondary action, links. |
-| **Ōgon** 黄金 | `#C9A045` | Focus rings, scenario tags, hairlines on dark chrome. |
+| **Rokushō** 緑青 | `#4F9C8D` | Progress, correctness, links. (Secondary action moved to Ōgon 2026-08-16.) |
+| **Ōgon** 黄金 | `#C9A045` | Focus rings, scenario tags, the band rule, **secondary action**. |
 | **Sumi-iro** 墨色 | `#2D2D2D` | Inverse chrome — the header band and the kana keyboard frame. |
 
 Each ramp runs 50–900 for component states; the **500 step is the locked brand
 value** in every case. `#A4A4A4` (Ishi-iro 石色) sits at `stone-400` and
 Sumi-iro at `stone-800`; both are locked too.
 
-### The one rule people get wrong
+### Akane is not the primary button — a deviation, not the drop's rule
 
-**Akane is not the primary button.** It is the seal and the error state.
+**This paragraph used to be headed "the one rule people get wrong" and read as
+though it came from the drop. It does not. The drop assigns Akane to "Main
+Actions / Brand".** This system overrides that, the override was unrecorded for
+eight days, and it is now correction 11 below, decided by the palette author on
+2026-08-16 from rendered comparisons.
+
+**Akane is the seal and the error state.**
 Reaching for red because it is the "brand color" is exactly the mistake this
 table exists to prevent — primary action is Ai-iro. A red focus ring reads as
 a validation failure, which is why focus is Ōgon.
@@ -81,9 +87,9 @@ generated from the token source.
 | `--action` | Ai-iro 500 | primary button fill |
 | `--action-press` | Ai-iro 700 | its press state |
 | `--action-fg` | stone-0 | text on primary |
-| `--action-2-bg` | Rokushō 100 | secondary button fill |
-| `--action-2-fg` | Rokushō 700 | secondary button text — raw `#33685e` |
-| `--action-2-border` | Rokushō 500 | secondary button border |
+| `--action-2-bg` | **Ōgon 100** | secondary button fill (was Rokushō 100) |
+| `--action-2-fg` | **Ōgon 800** | secondary button text. 700 is 4.27:1 here and fails |
+| `--action-2-border` | **Ōgon 600** | secondary button edge. The fill is 1.09:1 on page, so this stroke *is* the control's shape; 500 is 2.26:1 |
 | `--accent` | Akane 500 | the hanko. **NOT a CTA** — see the open question below |
 | `--focus` | **Ōgon 500** | 2px ring, light grounds. Settled — see below |
 | `--focus-on-inverse` | **Ōgon 500** | 2px ring, dark chrome |
@@ -93,7 +99,7 @@ generated from the token source.
 | `--progress-track` | stone-0 | |
 | `--progress-fill` | Rokushō 500 | |
 | `--inverse` | Sumi-iro | header band. **Renamed** from `--bg-inverse` — see below |
-| `--rule-on-inverse` | Ōgon 700 | the hairline on dark chrome |
+| `--rule-on-inverse` | **Ōgon 500** | the band rule on dark chrome, 6px. 700 was 2.74:1 on Sumi-iro and read brown |
 | `--fg-heading` | Ai-iro 500 | headings and JP content |
 
 One deviation from the drop in that block: `--progress-complete` is **gone** —
@@ -137,6 +143,10 @@ palette or a defect in the drop's own documentation.
 | 8 | **Card accents are a prop, not a fixed colour** | `PhraseCard` takes `accent` over the brand set (`ogon | ai | rokusho | akane | none`), driving the top rule and the scenario tag. Colour can then say *which scenario* rather than decorating. Decided by the palette author 2026-08-08: "the colors should be flexible" |
 | 9 | **Akane is available as a card accent** | `colors.md` says Akane is the mark and errors, never a CTA. It is now also offered in the accent set. This overlap is deliberate and **unsettled** — a red thing elsewhere still means an error, so spend it where that is worth it. Recorded in PRODUCT.md as undecided |
 | 10 | **Stale comments fixed** | `TextInput.tsx:8` said "focus ring is Akane" — it is Ōgon. `ProgressBar.tsx:5` said "solid fill in the Akane" — it is Rokushō |
+| 11 | **Primary action stays Ai-iro, not Akane.** Decided by the palette author 2026-08-16 | **The biggest deviation from the drop, and it went unrecorded for eight days** — stated at the top of this file as if it were the drop's own rule. The drop assigns Akane `#D72E2E` to "Main Actions / Brand". This system already spends that exact hex on `--color-error-500`, the incorrect mark: on the round summary a red `Finish` sits three rows under a red ✗ meaning *you got this wrong*, and on the error screen a red `Try again` is the way out of a failure drawn in the failure colour. Measured, Akane against `error-fg` is **2.40:1**, under the 3:1 two adjacent meanings need. Akane as a fill is also 4.78:1 against paper versus Ai-iro's 11.13:1. Rendered three ways in `preview/_sandbox/action-1-primary.html` — and on a screen with no error present, **Akane looked better**, which is why the drop is not wrong, only inconsistent with this system's use of red. Reversing this means first retiring `#D72E2E` from the incorrect mark |
+| 12 | **Secondary action moved from Rokushō to Ōgon**, 2026-08-16 | Rokushō was carrying progress, correctness, links *and* the kana keyboard while Ōgon appeared on no screen at all — one colour doing four jobs and one doing none. The steps are forced, not chosen: label must be Ōgon 800 (700 is 4.27:1 and fails), border must be Ōgon 600 — the Ōgon 100 fill is **1.09:1** against the page, so the border is the only thing giving the control a shape, and Ōgon 500 is 2.26:1 |
+| 13 | **Band rule raised to Ōgon 500 and 6px**, 2026-08-16 | `AppHeader` drew a 2px rule in `--color-rule-on-inverse`, then Ōgon 700, which is **2.74:1 on Sumi-iro** — under 3:1 and brown rather than gold at any visible weight. It had never been gated. Ōgon 500 is 5.64:1. Both this and the secondary button's edge are now checks in `check-contrast.mjs`, taking the gate from 24/27 to 26/29 |
+| 14 | **Radius flattened to one 4px step**, 2026-08-16 | The scale ran 6→20px and read as a friendly consumer app; one tight radius reads as a lacquered panel. All six `--radius-*` names are kept pointing at the same value so components still ask by role. `--radius-full` is untouched — it is the hanko and the maru, which are circles by cultural logic |
 
 ## Resolved by the palette author, 2026-08-08
 

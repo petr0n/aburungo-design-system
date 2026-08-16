@@ -318,6 +318,11 @@ const TokensStories = {
           dense: true,
         },
         {
+          title: 'The roles those steps carry',
+          note: 'Reach for these, not the ramp. A role survives a palette change; a ramp step does not. fg-subtle and fg-faint both sit at stone-500 — Ishi-iro stone-400 was too light to read at 2.30:1, so the placeholder role moved down and Ishi-iro stayed put for non-text use.',
+          items: ['surface','surface-2','border','border-strong','fg-faint','fg-subtle','fg-muted','fg'],
+        },
+        {
           title: 'Roles · action',
           note: 'Primary is Ai-iro. Akane is never a CTA.',
           items: ['action','action-press','action-fg','action-2-bg','action-2-fg','action-2-border'],
@@ -355,9 +360,9 @@ const TokensStories = {
                   'accent-akane','accent-akane-fg','accent-akane-bg'],
         },
         {
-          title: 'Roles · surfaces & text',
-          note: 'fg-heading is Ai-iro — headings and Japanese content.',
-          items: ['fg-heading','surface','surface-2','border','border-strong','fg','fg-muted','fg-subtle','fg-faint'],
+          title: 'Roles · text',
+          note: 'fg-heading is Ai-iro — headings and Japanese content. Ishi-iro stone-400 is not a text colour: it fails AA at 2.30:1 and is for disabled fills and hairlines.',
+          items: ['fg-heading','fg','fg-muted','fg-subtle','fg-faint'],
         },
         {
           title: 'Roles · feedback',

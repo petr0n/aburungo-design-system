@@ -81,6 +81,7 @@ const SURFACES = [
   ['sandbox-pattern11', '/preview/_sandbox/pattern-11-clan-symbols.html', 950, 1250],
   ['sandbox-pattern12', '/preview/_sandbox/pattern-12-emboss-bg.html', 950, 1150],
   ['sandbox-scenario', '/preview/_sandbox/scenario-1-card.html', 1340, 900],
+  ['sandbox-action', '/preview/_sandbox/action-1-primary.html', 1050, 2100],
   ['sandbox-glass3', '/preview/_sandbox/glass-3-edge.html', 1440, 900],
   ['sandbox-glass2', '/preview/_sandbox/glass-2-transparency.html', 1480, 780],
   ['sandbox-glass', '/preview/_sandbox/glass-1-scrim.html', 1400, 1120],

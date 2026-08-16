@@ -250,22 +250,22 @@ Both use ink-tinted rather than neutral black shadow, so they warm rather than g
 
 ## Shapes
 
-Generously but not softly rounded, on a deliberate scale where radius signals size and role: 6px for small chrome, 8px for inputs and banners, 12px for buttons and kana keys, 16px for input wells, 20px for the main review card, and full-round for badges and icon buttons.
+**One radius: 4px, everywhere.** Flattened 2026-08-16. The scale used to run 6px for small chrome up to 20px for the review card, on the theory that a larger surface needs a larger radius to read as the same physical curvature. That is sound, and it made the UI look like a friendly consumer app. A single tight radius reads as a lacquered panel instead, which is the Zuihōden reference.
 
-The progression matters — a larger surface takes a larger radius so the corner reads as the same physical curvature at every scale. Nothing in the system is sharp-cornered, and nothing is a pill except badges and circular icon buttons.
+Nothing is sharp-cornered and nothing is a pill. The six `--radius-*` tokens all resolve to the same value but are **kept as separate names**, so components still ask for a radius by role — restoring a scale is a six-line edit in `src/tokens.css` rather than a repo-wide sweep.
 
 The one distinctive form is the **hanko** — the circular ア seal that serves as the brand mark, and the **maru** (○) it shares its geometry with. Both are circles by cultural logic, not styling: a hanko is round because seals are round, and ○ means correct in Japanese schooling regardless of what this product decides.
 
 ## Components
 
 ### Buttons
-- **Shape:** 12px radius (`rounded-lg`), minimum 44px tall.
-- **Primary:** plum ground, paper text. One per screen — if two buttons are both primary, the screen has not decided what it wants.
-- **Secondary:** paper ground, ink-muted text, hairline stroke.
+- **Shape:** 4px radius (`rounded-lg`), minimum 44px tall.
+- **Primary:** **Ai-iro** ground, paper text. One per screen — if two buttons are both primary, the screen has not decided what it wants. Settled 2026-08-16 against the drop's Akane; see `docs/colors.md` correction 11.
+- **Secondary:** **Ōgon 100** ground, Ōgon 800 text, Ōgon 600 hairline. The fill is only 1.09:1 against the page, so the stroke is what gives the control its shape — it is not decoration and must stay ≥3:1.
 - **Active:** every button has a visible `active:` state. There are **no hover-only affordances** — the primary input is a thumb.
 
 ### Inputs / Fields
-- **Style:** paper ground, strong hairline stroke, 16px radius on wells and 8px on plain fields, 44px minimum height.
+- **Style:** paper ground, strong hairline stroke, 4px radius, 44px minimum height.
 - **Focus:** a visible ring, always. Focus is the one place where a second accent colour is legitimate.
 - **Japanese input** takes the JP font and its looser line-height; placeholder text reverts to Latin body.
 
