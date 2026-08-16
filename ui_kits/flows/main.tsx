@@ -47,24 +47,6 @@ function FlowNav() {
   )
 }
 
-/**
- * `?action=akane` repaints the primary-action role to Akane across every
- * component on the screen, for a like-for-like comparison against the shipped
- * Ai-iro.
- *
- * It exists because the v3 drop assigns Akane to "Main Actions / Brand" while
- * this repo ships Ai-iro and states "Akane is never a CTA" as a rule — an
- * override that was never recorded as a deviation from the drop. That is a
- * question about screens, not tokens, so it gets rendered rather than argued.
- *
- * Delete this block once the call is made and written into docs/colors.md.
- */
-if (new URLSearchParams(location.search).get('action') === 'akane') {
-  const root = document.documentElement.style
-  root.setProperty('--color-action', 'var(--color-akane-500)')
-  root.setProperty('--color-action-press', 'var(--color-akane-700)')
-}
-
 const host = document.getElementById('root')
 if (host === null) throw new Error('ui_kits/flows: no #root in the host page')
 

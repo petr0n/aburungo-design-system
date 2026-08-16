@@ -2025,11 +2025,6 @@ function FlowNav() {
     ))
   ] }) });
 }
-if (new URLSearchParams(location.search).get("action") === "akane") {
-  const root = document.documentElement.style;
-  root.setProperty("--color-action", "var(--color-akane-500)");
-  root.setProperty("--color-action-press", "var(--color-akane-700)");
-}
 var host = document.getElementById("root");
 if (host === null) throw new Error("ui_kits/flows: no #root in the host page");
 createRoot(host).render(

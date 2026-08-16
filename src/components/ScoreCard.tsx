@@ -3,9 +3,14 @@ import type { ReactNode } from 'react'
 /**
  * The score block's ground.
  *
- * `plain` is warm paper like every other card. `rokusho` and `ai` make it a
- * solid field — this is the end of a round, the one moment a screen is allowed
- * to be emphatic, and on paper it was the most colourless screen in the app.
+ * `plain` is warm paper like every other card. `ai` is a solid field — the end
+ * of a round is the one moment a screen is allowed to be emphatic, and on paper
+ * it was the most colourless screen in the app.
+ *
+ * `rokusho` was solid too until 2026-08-16 and is now a tint with a 1px rule:
+ * it sits directly above the phrase list, and a saturated block there won the
+ * screen away from the thing the learner is actually reading. Exactly one tone
+ * being allowed to shout is the point of having tones.
  */
 type ScoreTone = 'plain' | 'rokusho' | 'ai'
 
