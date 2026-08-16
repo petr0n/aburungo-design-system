@@ -206,6 +206,9 @@ Identical to the AburunGo app:
 - **Branching:** Check current branch with `git branch --show-current`. If on `main`, create and switch to a descriptive branch before making any changes: `feature/`, `fix/`, or `docs/` prefix as appropriate.
 - **Branch names must be descriptive.** No auto-generated or random strings. Examples: `feature/score-card`, `fix/flip-animation`, `docs/storybook-fill-input`.
 - **Commit format:** Conventional Commits — `<type>(<scope>): <description>`. Types: `feat`, `fix`, `refactor`, `docs`, `build`. Subject max 50 chars, no trailing period. ASCII only.
+- **⛔ No AI attribution, anywhere.** Not `Co-Authored-By: Claude`, not "Generated with Claude Code", not a 🤖 watermark — in commit messages, PR bodies, or code comments. **Enforced** by `scripts/check-commit-msg.mjs`, installed as a `commit-msg` hook and run in CI against the base branch. Do not weaken or allowlist past it.
+
+  > This rule existed in the shared memory file and in `../aburungo/CLAUDE.md` and was still broken **58 times**, because neither location is read at the moment a commit message is written. It is written here, next to the commit format, and enforced by a hook, for the same reason the lightning-bolt check exists: prose describing a rule does not enforce it.
 - **Review before writing message:** Always run `git status` and `git diff` before crafting the commit message.
 - **Atomic commits:** Commit at logical boundaries. Do not bundle unrelated changes.
 - **Push without asking.** Commit, then push. Do not stop for confirmation.

@@ -13,11 +13,22 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Full history: the commit-message check compares against the base
+          # branch, which a depth-1 clone does not have.
+          fetch-depth: 0
 
       # Runs before install so it cannot be skipped by a dependency failure.
       # Needs only git + node, both present on the runner.
       - name: Brand check (forbidden mark)
         run: node scripts/check-forbidden-assets.mjs
+
+      # The local commit-msg hook is not version-controlled, so a clone that
+      # never ran install-hooks.sh has no protection. This is the backstop.
+      - name: Commit message check (no AI attribution)
+        run: |
+          BASE="${{ github.event.pull_request.base.sha || 'HEAD~1' }}"
+          node scripts/check-commit-msg.mjs --range "$BASE..HEAD"
 
       - uses: pnpm/action-setup@v4
 
