@@ -23,7 +23,7 @@ A click-through high-fidelity recreation of the actual AburunGo mobile surface, 
 
 ## What the demo proves
 
-- Tokens applied: every utility class (`text-fg`, `bg-brand-500`, `text-jp-display`, `rounded-2xl`) resolves against the `@theme` block in `src/index.css` via the Tailwind v4 browser runtime.
+- Tokens applied: every utility class (`text-fg`, `bg-action`, `text-jp-display`, `rounded-2xl`) resolves against the `@theme` block injected into `index.html` by `scripts/build-tokens.mjs`, via the Tailwind v4 browser runtime.
 - Components compose: `PhraseCard` uses `Card` + `Badge` + the JP type tokens; `ReviewScreen` uses every primitive at least once.
 - Touch-first: every interactive element is ≥ 44px (try tapping in iOS Safari or a phone-sized window).
 

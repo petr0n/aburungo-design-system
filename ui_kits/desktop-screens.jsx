@@ -36,7 +36,7 @@ function CenteredVariant() {
         <div className="flex items-center gap-6">
           <span className="text-body-sm text-fg-subtle">3 of 8 due today</span>
           <div className="h-1 w-40 overflow-hidden rounded-full bg-surface-2">
-            <div className="h-full w-[37%] bg-brand-500"/>
+            <div className="h-full w-[37%] bg-progress-fill"/>
           </div>
           <Button variant="ghost" size="sm">Sign out</Button>
         </div>
@@ -88,7 +88,7 @@ function TwoPaneVariant() {
               <span className="font-medium">{s.label}</span>
               <span className={[
                 'rounded-md px-1.5 py-0.5 text-caption',
-                s.due > 0 ? 'bg-brand-100 text-brand-700' : 'bg-surface-2 text-fg-faint'
+                s.due > 0 ? 'bg-tag-bg text-tag-fg' : 'bg-surface-2 text-fg-faint'
               ].join(' ')}>{s.due > 0 ? `${s.due} due` : 'caught up'}</span>
             </button>
           ))}
@@ -99,7 +99,7 @@ function TwoPaneVariant() {
             <span>Today</span><span className="font-mono">15 / 23</span>
           </div>
           <div className="h-1 w-full overflow-hidden rounded-full bg-surface-2">
-            <div className="h-full bg-brand-500" style={{width: '65%'}}/>
+            <div className="h-full bg-progress-fill" style={{width: '65%'}}/>
           </div>
           <Button variant="ghost" size="sm" fullWidth>Sign out</Button>
         </div>
@@ -150,7 +150,7 @@ function FocusVariant() {
         <div className="flex items-center gap-6">
           <span className="text-caption uppercase tracking-wider text-fg-subtle">Restaurant · 6 of 12</span>
           <div className="h-1 w-48 overflow-hidden rounded-full bg-surface-2">
-            <div className="h-full bg-brand-500" style={{width: '50%'}}/>
+            <div className="h-full bg-progress-fill" style={{width: '50%'}}/>
           </div>
           <Button variant="ghost" size="sm">Exit session</Button>
         </div>
