@@ -335,7 +335,7 @@ function AudioButton(props) {
 import { jsx as jsx11, jsxs as jsxs4 } from "react/jsx-runtime";
 function AppHeader({ title, subtitle, left, right, mark = true, progress }) {
   const showMark = mark && left === void 0;
-  return /* @__PURE__ */ jsxs4("header", { className: "border-b-2 border-rule-on-inverse bg-inverse", children: [
+  return /* @__PURE__ */ jsxs4("header", { className: "border-b-[6px] border-rule-on-inverse bg-inverse", children: [
     /* @__PURE__ */ jsxs4("div", { className: "mx-auto grid min-h-[56px] w-full max-w-3xl grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-2", children: [
       /* @__PURE__ */ jsx11("div", { className: "flex items-center", children: showMark ? /* @__PURE__ */ jsx11(
         "span",
@@ -385,7 +385,7 @@ function ErrorState({ message, description, action }) {
 import { jsx as jsx15, jsxs as jsxs7 } from "react/jsx-runtime";
 var TONE = {
   plain: { box: "border-border bg-surface", num: "text-fg", sub: "text-fg-subtle" },
-  rokusho: { box: "border-transparent bg-accent-rokusho", num: "text-accent-rokusho-fg", sub: "text-accent-rokusho-fg" },
+  rokusho: { box: "border-accent-rokusho bg-accent-rokusho-bg", num: "text-success-fg", sub: "text-success-fg" },
   ai: { box: "border-transparent bg-accent-ai", num: "text-accent-ai-fg", sub: "text-accent-ai-fg" }
 };
 function ScoreCard({ correct, total, label = "recalled", tone = "plain", children }) {
@@ -2024,6 +2024,11 @@ function FlowNav() {
       id
     ))
   ] }) });
+}
+if (new URLSearchParams(location.search).get("action") === "akane") {
+  const root = document.documentElement.style;
+  root.setProperty("--color-action", "var(--color-akane-500)");
+  root.setProperty("--color-action-press", "var(--color-akane-700)");
 }
 var host = document.getElementById("root");
 if (host === null) throw new Error("ui_kits/flows: no #root in the host page");
