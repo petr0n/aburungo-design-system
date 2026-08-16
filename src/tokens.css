@@ -359,11 +359,22 @@
   --spacing: 0.25rem;
 
   /* ── Radii.  The rounded type wants rounded everything else.  */
-  --radius-sm:   0.375rem;       /*  6px */
-  --radius-md:   0.5rem;         /*  8px — form inputs, banners */
-  --radius-lg:   0.75rem;        /* 12px — buttons, kana keys */
-  --radius-xl:   1rem;           /* 16px — input wells */
-  --radius-2xl:  1.25rem;        /* 20px — main review card */
+  /* Flattened to one 4px step, 2026-08-16. The scale ran 6 -> 20px and gave
+     the UI a soft, app-like feel; a single tight radius reads as lacquered
+     panel rather than rounded card, which is the Zuihoden reference.
+
+     The names are kept and all point at the same value on purpose. Components
+     go on referring to radius-lg or radius-2xl by role, so restoring a scale
+     later is an edit to these six lines and nothing else. Do not "simplify"
+     the call sites down to one token — that is what would make a future
+     change a repo-wide sweep instead of a one-file diff. */
+  --radius-sm:   0.25rem;        /* 4px */
+  --radius-md:   0.25rem;        /* 4px — form inputs, banners */
+  --radius-lg:   0.25rem;        /* 4px — buttons, kana keys */
+  --radius-xl:   0.25rem;        /* 4px — input wells */
+  --radius-2xl:  0.25rem;        /* 4px — main review card */
+  /* Untouched: this is the ア hanko and the maru, which are circles by
+     definition. 0.25rem here would square off the brand mark. */
   --radius-full: 9999px;
 
   /* ── Elevation.  One hairline drop, that's the whole system. */
