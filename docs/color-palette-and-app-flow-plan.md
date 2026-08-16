@@ -307,7 +307,9 @@ Density low by default per the Muji brief; raised only where real data density e
 
 ---
 
-## Phase 0 — Toolchain and brief
+## Phase 0 — Toolchain and brief ✅ **COMPLETE**
+
+> Verified 2026-08-15. 0.1/0.2 installed, `PRODUCT.md` + `DESIGN.md` exist; 0.5 `frontend-design` vendored; 0.6 baseline committed (N=134); 0.7 and 0.9 closed with notes above; 0.8 the maru rule is in `DESIGN.md`. **0.3 `taste-skill` is not installed under that name** — a taste skill is available in the environment but not the one this row names. Left as-is: the dials it was wanted for are already written into `DESIGN.md`.
 
 **Branch:** `build/design-toolchain`
 
@@ -354,7 +356,9 @@ That test *is* the Phase 5 dry run.
 
 ---
 
-## Phase 2 — Freeze the semantic token contract
+## Phase 2 — Freeze the semantic token contract ✅ **COMPLETE**
+
+> Verified 2026-08-15. 2.1/2.2 — **no component references a value token**; the only `paper`/`brand` strings left in `src/components/` are inside comments, and `check-adherence` gates it. 2.3 press and disabled states exist on `Button`. 2.3b decided and recorded in `docs/colors.md`. 2.4 `check-contrast.mjs` exists, is wired into `pnpm build`, and now actually fails. 2.4b card-animation tokens survived the port. 2.5 the reduced-motion guard is in place. 2.6 the orphan audit is finished — zero orphans.
 
 **Branch:** `feat/tokens-semantic-contract` · Runs before the new palette lands, so the swap can't break 27 pages.
 
@@ -402,7 +406,13 @@ Note the shape of it: **`AppHeader` and `KanaKeyboard` are two of the nine compo
 
 ---
 
-## Phase 3 — Component pass
+## Phase 3 — Component pass ⚠️ **GATE NEVER FORMALLY RUN**
+
+> Verified 2026-08-15. §3.0 is decided and built — the correctness vocabulary ships as `Maru`, `AnswerResult` and `GradePair`, and the boundary rule is in `DESIGN.md`.
+>
+> **What has not happened is the eight-point gate being run, component by component, and recorded.** Six of its eight points are already green repo-wide and can be asserted now: `pnpm typecheck` clean, `pnpm lint` clean (oxlint + adherence + contrast), every component has a story and a JSX mirror, and no component references a value token. The two that genuinely need a human at a screen are **renders at 375 / 768 / 1024 / 1440** and **touch target / active-state / no-hover-only**, neither of which any script checks.
+>
+> So this is not "unstarted" — it is unrecorded. Closing it means one pass over 21 components ticking what is already true and finding what is not.
 
 **Branch:** `feat/component-audit` · Runs **before** the palette arrives — this is the ~70% that doesn't depend on color. Needs Phase 1 first only so the harnesses actually track the token source.
 
@@ -492,7 +502,15 @@ Note that most gate items are palette-independent; the two that aren't (contrast
 
 ---
 
-## Phase 3B — Close the gaps the drop left
+## Phase 3B — Close the gaps the drop left ⚠️ **ONE ITEM LEFT**
+
+> Verified 2026-08-15. Mechanical rows all done: `Badge` wears the tag tokens, `.hanko` is on `--color-accent`, `KanaKeyboard` moved off `bg-fg`, the focus split is applied (and the light ring subsequently reverted to Ogon 500 by the author), `progress-complete` was deleted rather than built, and the inverse-chrome treatment landed on both `KanaKeyboard` and `AppHeader`.
+>
+> **Still open — the scenario card.** `.emboss-bg` has **no component owner**: zero files in `src/components/` reference it. The plan calls this "real design work, and the one surface where the pattern is sanctioned", and it is the single largest piece of unbuilt work left anywhere in this document.
+>
+> Much of its groundwork now exists: the crests tile, `--emboss-opacity` is measured, `.glass` carries text over the pattern, and the contrast gate covers both. What has never been built is the component.
+>
+> Also unowned: **link treatment**. `--color-link` is kept and gated but no component uses it — recorded in §2.6 as a deliberate hold, not an oversight.
 
 **Branch:** `feat/close-gaps` · Runs inside Phase 3's four-beat loop, on the surfaces §2.6 identified as orphaned.
 
@@ -519,7 +537,9 @@ This is where the skills earn their place. Everything below is work the drop spe
 
 ---
 
-## Phase 4 — Flow mockups (static, in-repo)
+## Phase 4 — Flow mockups (static, in-repo) ✅ **COMPLETE**
+
+> Verified 2026-08-15. 3 flows, 21 deep-linked states, built from the real components. **All twelve findings are resolved** — findings 9–12 are marked open only by the absence of strikethrough; each carries a "fixed" resolution, and the code agrees (finding 11's `bg-fg` survives only in a comment describing what it replaced).
 
 **Branch:** `feat/flow-mockups` · **Static HTML/JSX only.** No routing, no state management, no Supabase — `CLAUDE.md` boundary. Real wiring happens in `../aburungo` later via `/handoff-to-app`.
 
@@ -608,7 +628,11 @@ one that could test whether the rewritten keyboard actually fits its real host.
 
 ---
 
-## Phase 5 — Merge the v3 drop
+## Phase 5 — Merge the v3 drop ⚠️ **SUBSTANTIALLY COMPLETE — 2 open**
+
+> Verified 2026-08-15. Done: 5.1 the palette is v3, 5.2 assets copied, 5.3 `brand.css` merged, 5.4 `Button` wears `bg-action`, 5.5 the nine repainted, 5.5b inverse chrome on both `AppHeader` and `KanaKeyboard`, 5.5c/5.5d closed above, 5.6 the `accent` variant is gone, 5.7/5.8 the gate and lint run green, 5.11 `docs/colors.md` is the v3 document.
+>
+> **Open: 5.9** the deferred colour queue from Phase 3, and **5.10** the visual sweep — storybook, three UI kits and 27 preview pages have never been walked end to end against v3 in one pass.
 
 **Branch:** `feat/palette-v3` · **No longer blocked** — the drop is in hand.
 
