@@ -287,12 +287,83 @@ const KanaGridStories = {
 const TokensStories = {
   Colors: {
     render: () => {
-      // Token names only — values are read from the live @theme at render time,
-      // so this story cannot drift from src/tokens.css the way a hex array did.
+      // Values are read from the live @theme at render time, so a swatch cannot
+      // show a stale hex. That is only half of drift, and this page learned the
+      // other half the hard way: it used to list `brand-50…700` — v2's purple
+      // ramp, surviving as a legacy alias remapped onto Akane — so it rendered
+      // six reds labelled "Brand" and showed none of Ai-iro, Rokushō, Ōgon or
+      // Sumi-iro. Live values, correct; the list of tokens, two palettes out of
+      // date. Anything added to src/tokens.css must be added here too.
+      const ramp = (hue) => [50,100,200,300,400,500,600,700,800,900].map((s) => `${hue}-${s}`);
       const groups = [
-        { title: 'Brand', items: ['brand-50','brand-100','brand-300','brand-500','brand-600','brand-700'] },
-        { title: 'Neutrals', items: ['surface','surface-2','border','border-strong','fg-faint','fg-subtle','fg-muted','fg'] },
-        { title: 'Semantic', items: ['success-bg','success-fg','error-bg','error-fg'] },
+        {
+          title: 'The five — one job each',
+          cols: 'sm:grid-cols-3 lg:grid-cols-5',
+          items: [
+            { token: 'akane-500',   jp: 'Akane 茜色',    job: 'The hanko, and error states. Never a CTA.' },
+            { token: 'ai-500',      jp: 'Ai-iro 藍色',   job: 'Primary action, headings, Japanese content.' },
+            { token: 'rokusho-500', jp: 'Rokushō 緑青',  job: 'Progress, correctness, secondary action, links.' },
+            { token: 'ogon-500',    jp: 'Ōgon 黄金',     job: 'Focus rings, scenario tags, hairlines on dark.' },
+            { token: 'stone-800',   jp: 'Sumi-iro 墨色', job: 'Body text and the header band.' },
+          ],
+        },
+        { title: 'Akane 茜色', items: ramp('akane'), dense: true },
+        { title: 'Ai-iro 藍色', items: ramp('ai'), dense: true },
+        { title: 'Rokushō 緑青', items: ramp('rokusho'), dense: true },
+        { title: 'Ōgon 黄金', items: ramp('ogon'), dense: true },
+        {
+          title: 'Warm stone — the neutrals',
+          note: 'Cards (stone-0) are lighter than the page (stone-50) so they lift without a shadow. #FFFDF8 is not a mistake for #FFFFFF.',
+          items: ['stone-0','stone-50','stone-100','stone-200','stone-300','stone-400','stone-500','stone-600','stone-700','stone-800','stone-900'],
+          dense: true,
+        },
+        {
+          title: 'Roles · action',
+          note: 'Primary is Ai-iro. Akane is never a CTA.',
+          items: ['action','action-press','action-fg','action-2-bg','action-2-fg','action-2-border'],
+        },
+        {
+          title: 'Roles · the mark',
+          note: 'Akane. The hanko and error states — its only two jobs.',
+          items: ['accent','accent-press','accent-fg'],
+        },
+        {
+          title: 'Roles · focus & scenario tags',
+          note: 'Ōgon. Focus is Ōgon 500 on both grounds — settled, kept over the contrast ratio deliberately.',
+          items: ['focus','focus-on-inverse','tag-bg','tag-fg'],
+        },
+        {
+          title: 'Roles · links & progress',
+          note: 'Rokushō. link is Rokushō darkened — 500 fails AA as text.',
+          items: ['link','progress-track','progress-fill'],
+        },
+        {
+          title: 'Roles · dark chrome',
+          note: 'One dark slab per screen: the header band is Sumi-iro, so the kana keyboard is Rokushō instead.',
+          items: ['inverse','fg-inverse','fg-on-inverse-2','rule-on-inverse'],
+        },
+        {
+          title: 'Roles · kana keyboard',
+          items: ['keyboard-bg','keyboard-rule','key-bg','key-fg','key-press'],
+        },
+        {
+          title: 'Roles · card accents',
+          note: 'An input, not a fixed colour. PhraseCard and ScoreCard take an accent so colour says which scenario. -bg tints the card body; the bare token is the rule and tag.',
+          items: ['accent-ogon','accent-ogon-fg','accent-ogon-bg',
+                  'accent-ai','accent-ai-fg','accent-ai-bg',
+                  'accent-rokusho','accent-rokusho-fg','accent-rokusho-bg',
+                  'accent-akane','accent-akane-fg','accent-akane-bg'],
+        },
+        {
+          title: 'Roles · surfaces & text',
+          note: 'fg-heading is Ai-iro — headings and Japanese content.',
+          items: ['fg-heading','surface','surface-2','border','border-strong','fg','fg-muted','fg-subtle','fg-faint'],
+        },
+        {
+          title: 'Roles · feedback',
+          note: 'Correctness banners only, never decorative tints. Correct/incorrect deliberately share tokens with success/error.',
+          items: ['success-bg','success-fg','error-bg','error-fg'],
+        },
       ];
       const readToken = (name) => {
         const raw = getComputedStyle(document.documentElement)
@@ -300,18 +371,35 @@ const TokensStories = {
         return raw || 'unset';
       };
       return (
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-8">
           {groups.map((g) => (
             <div key={g.title} className="flex flex-col gap-3">
-              <h3 className="text-caption uppercase tracking-wider text-fg-subtle">{g.title}</h3>
-              <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-6">
-                {g.items.map((name) => (
-                  <div key={name} className="flex flex-col gap-1.5">
-                    <div className="h-14 rounded-lg border border-border" style={{ background: `var(--color-${name})` }}/>
-                    <div className="text-body-sm font-medium text-fg">{name}</div>
-                    <div className="font-mono text-caption text-fg-subtle">{readToken(name)}</div>
-                  </div>
-                ))}
+              <div className="flex flex-col gap-1">
+                <h3 className="text-caption uppercase tracking-wider text-fg-subtle">{g.title}</h3>
+                {g.note && <p className="max-w-prose text-caption text-fg-faint">{g.note}</p>}
+              </div>
+              <div className={`grid gap-3 ${g.cols ?? (g.dense
+                ? 'grid-cols-4 sm:grid-cols-6 lg:grid-cols-11'
+                : 'grid-cols-3 sm:grid-cols-4 lg:grid-cols-6')}`}>
+                {g.items.map((item) => {
+                  const name = typeof item === 'string' ? item : item.token;
+                  return (
+                    <div key={name} className="flex flex-col gap-1.5">
+                      <div
+                        className={`${g.dense ? 'h-10' : 'h-14'} rounded-lg border border-border`}
+                        style={{ background: `var(--color-${name})` }}
+                      />
+                      {typeof item !== 'string' && (
+                        <div className="text-body-sm font-semibold text-fg-heading">{item.jp}</div>
+                      )}
+                      <div className="font-mono text-caption text-fg">{name}</div>
+                      <div className="font-mono text-caption text-fg-subtle">{readToken(name)}</div>
+                      {typeof item !== 'string' && (
+                        <div className="text-caption text-fg-muted">{item.job}</div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </div>
           ))}
@@ -319,7 +407,8 @@ const TokensStories = {
       );
     },
     code: () => `// Tailwind utilities generated from src/tokens.css @theme:
-//   bg-brand-500 / text-fg-muted / border-border / shadow-card …`,
+//   bg-action / text-fg-heading / border-border / ring-focus / bg-accent-ai …
+// Prefer a role token over a ramp step; prefer a ramp step over a hex.`,
   },
   Typography: {
     render: () => (
