@@ -1,0 +1,227 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="../../dist/tokens.plain.css">
+<link rel="stylesheet" href="../../src/brand.css">
+<style>
+ body{margin:0;padding:26px;font-family:var(--font-sans);color:var(--fg);background:var(--bg)}
+ h1{font-size:var(--heading-sm);margin:0 0 4px;color:var(--fg-heading)}
+ .lede{color:var(--fg-muted);margin:0 0 6px;font-size:var(--body-sm);max-width:96ch;line-height:1.5}
+ h2{font-size:var(--body);margin:34px 0 4px;color:var(--fg-heading)}
+ .note{font-size:var(--caption);color:var(--fg-muted);margin:0 0 16px;max-width:96ch;line-height:1.5}
+ .row{display:flex;gap:22px;flex-wrap:wrap;align-items:flex-start}
+ .col{display:flex;flex-direction:column;gap:8px;width:300px}
+ .cap{font-size:var(--caption);font-weight:600;color:var(--fg-heading)}
+ .cap span{font-weight:400;color:var(--fg-subtle);font-family:var(--font-mono)}
+
+ /* The only thing that differs between columns. */
+ .v-ai      { --act:var(--ai-500);      --act-press:var(--ai-700) }
+ .v-akane   { --act:var(--akane-500);   --act-press:var(--akane-700) }
+ .v-rokusho { --act:var(--rokusho-600); --act-press:var(--rokusho-800) }
+
+ .phone{border:1px solid var(--border-strong);border-radius:var(--radius-2xl);overflow:hidden;background:var(--bg)}
+ .band{background:var(--inverse);border-bottom:6px solid var(--rule-on-inverse);
+   padding:12px 14px;display:flex;align-items:center;gap:10px}
+ .band .mark{width:28px;height:28px;border-radius:999px;background:var(--accent);color:var(--accent-fg);
+   font-family:var(--font-jp);font-weight:700;font-size:var(--caption);
+   display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+ .band .t{color:var(--fg-inverse);font-weight:600;font-size:var(--body-sm)}
+ .band .s{color:var(--fg-on-inverse-2);font-size:var(--caption)}
+ .body{padding:14px;display:flex;flex-direction:column;gap:10px}
+
+ .score{background:var(--accent-rokusho-bg);color:var(--success-fg);
+   border:1px solid var(--accent-rokusho);border-radius:var(--radius-xl);
+   padding:18px;text-align:center}
+ .score b{display:block;font-size:var(--heading-sm);font-weight:700;line-height:1.1}
+ .score span{font-size:var(--caption)}
+
+ .item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);
+   padding:9px 11px;display:flex;gap:9px;align-items:flex-start}
+ .maru{font-size:var(--body);line-height:1.35;flex:0 0 auto}
+ .ok{color:var(--rokusho-600)}
+ .no{color:var(--error-500)}          /* #D72E2E — the incorrect mark */
+ .jp{font-family:var(--font-jp);color:var(--fg-heading);font-size:var(--body-sm);line-height:1.35}
+ .en{color:var(--fg-muted);font-size:var(--caption)}
+
+ .btn{min-height:44px;border-radius:var(--radius-lg);border:0;width:100%;
+   font-family:inherit;font-size:var(--body-sm);font-weight:600;cursor:pointer}
+ .primary{background:var(--act);color:var(--action-fg)}
+ .primary:active{background:var(--act-press)}
+ .secondary{background:var(--action-2-bg);color:var(--action-2-fg);
+   border:1px solid var(--action-2-border)}
+
+ .empty{padding:26px 14px;text-align:center;display:flex;flex-direction:column;gap:8px;align-items:center}
+ .empty h3{margin:0;font-size:var(--body);color:var(--fg-heading)}
+ .empty p{margin:0;font-size:var(--caption);color:var(--fg-muted);line-height:1.5}
+ .banner{background:var(--error-bg);color:var(--error-fg);border-radius:var(--radius-lg);
+   padding:10px 12px;font-size:var(--caption);font-weight:600;text-align:center}
+</style></head><body>
+
+<h1>Primary action — settled: Ai-iro 藍色</h1>
+<p class="lede"><b>Decided 2026-08-16 from these renders.</b> The v3 drop assigns Akane to
+&ldquo;Main Actions / Brand&rdquo;; this system keeps <b>Ai-iro <code>#1F3A66</code></b>, because Akane is
+already spent on the incorrect mark and on error states. Columns B and C are kept as the record of
+what was rejected and why. Written up as correction 11 in <code>docs/colors.md</code>.</p>
+<p class="lede">Two changes landed alongside the decision, both visible below: the <b>secondary button
+moved from Rokushō to Ōgon</b> — Rokushō already carried progress, correctness, links and the kana
+keyboard, while Ōgon appeared on no screen at all — and the <b>band rule went from 2px to 6px</b> at
+Ōgon 500, so the gold reads as a band rather than a hairline.</p>
+
+<h2>1 · Round summary — the CTA sits under the list</h2>
+<p class="note">This is the screen that decides it. The <span style="color:var(--error-500);font-weight:700">✗</span>
+marking the phrase you got wrong is <code>--color-error-500</code>, which is <code>#D72E2E</code> —
+<b>the same hex as the Akane button</b>. Same colour, 8px apart, opposite meanings.</p>
+<div class="row">
+
+  <div class="col v-ai">
+    <div class="cap">A · Ai-iro 藍色 <span>#1F3A66 — ships today</span></div>
+    <div class="phone">
+      <div class="band"><div class="mark">ア</div><div><div class="t">Round complete</div><div class="s">4 phrases</div></div></div>
+      <div class="body">
+        <div class="score"><b>3 / 4</b><span>recalled</span></div>
+        <div class="item"><span class="maru ok">○</span><div><div class="jp">駅はどこですか</div><div class="en">Where is the station?</div></div></div>
+        <div class="item"><span class="maru no">✗</span><div><div class="jp">これをください</div><div class="en">I'll have this.</div></div></div>
+        <div class="item"><span class="maru ok">○</span><div><div class="jp">お会計お願いします</div><div class="en">The check, please.</div></div></div>
+        <button class="btn primary">Finish</button>
+        <button class="btn secondary">Run it again</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="col v-akane">
+    <div class="cap">B · Akane 茜色 <span>#D72E2E — your drop</span></div>
+    <div class="phone">
+      <div class="band"><div class="mark">ア</div><div><div class="t">Round complete</div><div class="s">4 phrases</div></div></div>
+      <div class="body">
+        <div class="score"><b>3 / 4</b><span>recalled</span></div>
+        <div class="item"><span class="maru ok">○</span><div><div class="jp">駅はどこですか</div><div class="en">Where is the station?</div></div></div>
+        <div class="item"><span class="maru no">✗</span><div><div class="jp">これをください</div><div class="en">I'll have this.</div></div></div>
+        <div class="item"><span class="maru ok">○</span><div><div class="jp">お会計お願いします</div><div class="en">The check, please.</div></div></div>
+        <button class="btn primary">Finish</button>
+        <button class="btn secondary">Run it again</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="col v-rokusho">
+    <div class="cap">C · Rokushō 緑青 <span>#418176 — third option</span></div>
+    <div class="phone">
+      <div class="band"><div class="mark">ア</div><div><div class="t">Round complete</div><div class="s">4 phrases</div></div></div>
+      <div class="body">
+        <div class="score"><b>3 / 4</b><span>recalled</span></div>
+        <div class="item"><span class="maru ok">○</span><div><div class="jp">駅はどこですか</div><div class="en">Where is the station?</div></div></div>
+        <div class="item"><span class="maru no">✗</span><div><div class="jp">これをください</div><div class="en">I'll have this.</div></div></div>
+        <div class="item"><span class="maru ok">○</span><div><div class="jp">お会計お願いします</div><div class="en">The check, please.</div></div></div>
+        <button class="btn primary">Finish</button>
+        <button class="btn secondary">Run it again</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<h2>2 · Error recovery — the CTA <i>is</i> the way out of a failure</h2>
+<p class="note">A red &ldquo;Try again&rdquo; on a failure message puts the recovery action in the failure
+colour. Measured, Akane against <code>error-fg</code> is <b>2.40:1</b> — under the 3:1 two adjacent
+meanings need to separate.</p>
+<div class="row">
+
+  <div class="col v-ai">
+    <div class="cap">A · Ai-iro 藍色</div>
+    <div class="phone">
+      <div class="band"><div class="mark">ア</div><div class="t">Flashcards</div></div>
+      <div class="body">
+        <div class="banner">Couldn't reach the server</div>
+        <div class="empty">
+          <h3>Couldn't load this round</h3>
+          <p>Your progress is saved. This is usually the connection.</p>
+        </div>
+        <button class="btn primary">Try again</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="col v-akane">
+    <div class="cap">B · Akane 茜色</div>
+    <div class="phone">
+      <div class="band"><div class="mark">ア</div><div class="t">Flashcards</div></div>
+      <div class="body">
+        <div class="banner">Couldn't reach the server</div>
+        <div class="empty">
+          <h3>Couldn't load this round</h3>
+          <p>Your progress is saved. This is usually the connection.</p>
+        </div>
+        <button class="btn primary">Try again</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="col v-rokusho">
+    <div class="cap">C · Rokushō 緑青</div>
+    <div class="phone">
+      <div class="band"><div class="mark">ア</div><div class="t">Flashcards</div></div>
+      <div class="body">
+        <div class="banner">Couldn't reach the server</div>
+        <div class="empty">
+          <h3>Couldn't load this round</h3>
+          <p>Your progress is saved. This is usually the connection.</p>
+        </div>
+        <button class="btn primary">Try again</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<h2>3 · A neutral screen — no error anywhere</h2>
+<p class="note">The fairest case for Akane: nothing on screen means &ldquo;wrong&rdquo;, so red carries no
+competing meaning. This is the screen your drop's own mockup shows.</p>
+<div class="row">
+
+  <div class="col v-ai">
+    <div class="cap">A · Ai-iro 藍色</div>
+    <div class="phone">
+      <div class="band"><div class="mark">ア</div><div class="t">At the station</div></div>
+      <div class="body">
+        <div class="item" style="flex-direction:column;gap:6px;padding:16px">
+          <div class="jp" style="font-size:var(--body-lg)">次の電車は何時ですか</div>
+          <div class="en">What time is the next train?</div>
+        </div>
+        <button class="btn primary">Show the answer</button>
+        <button class="btn secondary">Skip</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="col v-akane">
+    <div class="cap">B · Akane 茜色</div>
+    <div class="phone">
+      <div class="band"><div class="mark">ア</div><div class="t">At the station</div></div>
+      <div class="body">
+        <div class="item" style="flex-direction:column;gap:6px;padding:16px">
+          <div class="jp" style="font-size:var(--body-lg)">次の電車は何時ですか</div>
+          <div class="en">What time is the next train?</div>
+        </div>
+        <button class="btn primary">Show the answer</button>
+        <button class="btn secondary">Skip</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="col v-rokusho">
+    <div class="cap">C · Rokushō 緑青</div>
+    <div class="phone">
+      <div class="band"><div class="mark">ア</div><div class="t">At the station</div></div>
+      <div class="body">
+        <div class="item" style="flex-direction:column;gap:6px;padding:16px">
+          <div class="jp" style="font-size:var(--body-lg)">次の電車は何時ですか</div>
+          <div class="en">What time is the next train?</div>
+        </div>
+        <button class="btn primary">Show the answer</button>
+        <button class="btn secondary">Skip</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body></html>
