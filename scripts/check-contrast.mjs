@@ -81,6 +81,12 @@ const CHECKS = [
   ['--color-link', '--color-bg', TEXT, 'link on page'],
   ['--color-link', '--color-surface', TEXT, 'link on card'],
   ['--color-fg-inverse', '--color-inverse', TEXT, 'text on inverse chrome'],
+  // The band rule and the secondary button's edge. Both were ungated, and both
+  // were the only thing giving a surface its shape: the secondary fill is
+  // 1.09:1 against the page, so if its border does not read, the control has no
+  // boundary at all. rule-on-inverse was Ogon 700 at 2.74:1 until 2026-08-16.
+  ['--color-rule-on-inverse', '--color-inverse', UI, 'band rule on inverse chrome'],
+  ['--color-action-2-border', '--color-bg', UI, 'secondary button edge on page'],
   // Non-text indicators — the focus ring has to read on every ground it can
   // land on, which is what made the v3 Ogon ring fail its own review.
   ['--color-focus', '--color-bg', UI, 'focus ring on page'],

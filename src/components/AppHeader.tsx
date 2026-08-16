@@ -35,7 +35,7 @@ export function AppHeader({ title, subtitle, left, right, mark = true, progress 
   const showMark = mark && left === undefined
 
   return (
-    <header className="border-b-2 border-rule-on-inverse bg-inverse">
+    <header className="border-b-[6px] border-rule-on-inverse bg-inverse">
       <div className="mx-auto grid min-h-[56px] w-full max-w-3xl grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-2">
         <div className="flex items-center">
           {showMark ? (

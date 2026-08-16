@@ -123,7 +123,12 @@
      it appears nowhere in Zuihoden — carried over from v2, with no owner in
      either repo. v3's focus ring is --color-focus (Ogon). Two tokens named
      for focus, one of them off-palette, is how the wrong one gets picked. */
-  --color-rule-on-inverse: #8a6a2b;
+  /* Ogon 500, not 700. Raised 2026-08-16 when the band rule went from 2px to
+     6px: at that weight it stops being a hairline and becomes a gold band, so
+     it has to actually read as gold. Ogon 700 on Sumi-iro is 2.74:1 — under
+     the 3:1 a non-text indicator needs, and brown rather than gold at any
+     visible weight. Ogon 500 is 5.64:1. This was never gated; it is now. */
+  --color-rule-on-inverse: var(--color-ogon-500);
   /* Label on an Ogon fill — Sumi-iro reads on gold, warm paper does not. */
   --color-inverse-on-ogon: var(--color-stone-800);
 
@@ -164,13 +169,25 @@
   --color-key-fg:          var(--color-rokusho-900);
   --color-key-press:       var(--color-rokusho-100);
 
-  /* ── Action roles. Primary is Ai-iro. Secondary is Rokushō-tinted. ── */
+  /* ── Action roles. Primary is Ai-iro. Secondary is Ogon-tinted. ──────
+     Primary settled 2026-08-16: the drop assigns Akane to "Main Actions",
+     this system keeps Ai-iro. See docs/colors.md correction 11 and
+     preview/_sandbox/action-1-primary.html for the rendered comparison.
+
+     Secondary moved off Rokusho to Ogon, 2026-08-16 — Rokusho already
+     carries progress, correctness and links, and Ogon appeared nowhere on
+     a screen despite being one of the five.
+
+     The steps are not free choices. On ogon-100 the label must be ogon-800
+     (6.77:1); ogon-700 is 4.27:1 and fails. The border must be ogon-600
+     (3.13:1 on page): the fill is 1.09:1 against the page, so the border is
+     the only thing that gives the control a shape, and ogon-500 is 2.26:1. */
   --color-action:          #1F3A66;
   --color-action-press:    #16294a;
   --color-action-fg:       #FFFDF8;
-  --color-action-2-bg:     var(--color-rokusho-100);
-  --color-action-2-fg:     #33685e;
-  --color-action-2-border: var(--color-rokusho-500);
+  --color-action-2-bg:     var(--color-ogon-100);
+  --color-action-2-fg:     var(--color-ogon-800);
+  --color-action-2-border: var(--color-ogon-600);
 
   /* ── Accent. Akane is the brand mark. It is NOT a call to action. ─── */
   --color-accent:    #D72E2E;
