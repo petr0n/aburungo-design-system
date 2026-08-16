@@ -612,10 +612,26 @@ const ScoreCardStories = {
     },
     code: (a) => `<ScoreCard correct={${a.correct}} total={${a.total}}/>`,
   },
+  Tones: {
+    render: () => (
+      <div className="flex w-full max-w-3xl flex-col gap-4 sm:flex-row">
+        {['plain', 'rokusho', 'ai'].map((tone) => (
+          <div key={tone} className="flex flex-1 flex-col gap-2">
+            <div className="font-mono text-caption text-fg-subtle">tone=&quot;{tone}&quot;</div>
+            <ScoreCard correct={18} total={25} tone={tone}/>
+          </div>
+        ))}
+      </div>
+    ),
+    code: () => `<ScoreCard correct={18} total={25} tone="rokusho"/>
+// rokusho is a tint with a 1px rule — it sits above the phrase list and a
+// saturated block there wins the screen away from what the learner is reading.
+// ai stays solid: exactly one tone is allowed to be emphatic.`,
+  },
   'With actions': {
     render: () => (
       <div className="w-full max-w-sm">
-        <ScoreCard correct={18} total={25}>
+        <ScoreCard correct={18} total={25} tone="rokusho">
           <Button variant="primary" fullWidth>Practice missed (7)</Button>
           <Button variant="secondary" fullWidth>Done</Button>
         </ScoreCard>

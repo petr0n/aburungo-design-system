@@ -225,7 +225,7 @@ function KanaGrid({ rows, onSelect, onBackspace }) {
 function AppHeader({ title, subtitle, left, right, mark = true, progress }) {
   const showMark = mark && left === undefined;
   return (
-    <header className="border-b-2 border-rule-on-inverse bg-inverse">
+    <header className="border-b-[6px] border-rule-on-inverse bg-inverse">
       <div className="mx-auto grid min-h-[56px] w-full max-w-3xl grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-2">
         <div className="flex items-center">
           {showMark
@@ -277,14 +277,24 @@ function ErrorState({ message, description, action }) {
   );
 }
 
-function ScoreCard({ correct, total, label = 'recalled', children }) {
+// Mirrors src/components/ScoreCard.tsx. `tone` was missing here entirely, so
+// the storybook could only ever show `plain` and the component's real API was
+// invisible in the one place people go to look at it.
+const SCORE_TONE = {
+  plain:   { box:'border-border bg-surface',                   num:'text-fg',           sub:'text-fg-subtle' },
+  rokusho: { box:'border-accent-rokusho bg-accent-rokusho-bg', num:'text-success-fg',   sub:'text-success-fg' },
+  ai:      { box:'border-transparent bg-accent-ai',            num:'text-accent-ai-fg', sub:'text-accent-ai-fg' },
+};
+
+function ScoreCard({ correct, total, label = 'recalled', tone = 'plain', children }) {
+  const t = SCORE_TONE[tone];
   return (
     <div className="flex flex-col gap-6">
-      <div className="rounded-2xl border border-border bg-surface p-6 text-center">
-        <p className="text-display font-bold text-fg">
-          {correct}<span className="text-heading-lg text-fg-subtle"> / {total}</span>
+      <div className={`rounded-2xl border p-6 text-center ${t.box}`}>
+        <p className={`text-display font-bold ${t.num}`}>
+          {correct}<span className={`text-heading-lg opacity-70 ${t.sub}`}> / {total}</span>
         </p>
-        <p className="mt-1 text-body-sm text-fg-subtle">{label}</p>
+        <p className={`mt-1 text-body-sm opacity-80 ${t.sub}`}>{label}</p>
       </div>
       {children}
     </div>

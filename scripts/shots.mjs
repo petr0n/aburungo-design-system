@@ -36,6 +36,7 @@ const OUT = 'scripts/.shots-out'
  */
 const SURFACES = [
   ['storybook', '/storybook/', 1280, 900],
+  ['storybook-score', '/storybook/#Layout/ScoreCard/Tones', 1280, 900],
   ['uikit-mobile', '/ui_kits/mobile/', 430, 900],
   ['uikit-app', '/ui_kits/app/', 1280, 900],
   ['uikit-desktop', '/ui_kits/desktop-explore.html', 1440, 900],
