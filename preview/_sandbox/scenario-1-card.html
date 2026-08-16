@@ -1,0 +1,156 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="../../dist/tokens.plain.css">
+<link rel="stylesheet" href="../../src/brand.css">
+<style>
+ body{margin:0;padding:26px;font-family:var(--font-sans);color:var(--fg);background:var(--bg)}
+ h1{font-size:var(--text-heading-sm);margin:0 0 2px}
+ h2{font-size:var(--text-body);margin:0 0 4px;color:var(--fg-muted);font-weight:600}
+ .s{color:var(--fg-muted);margin:0 0 22px;font-size:var(--text-body-sm);max-width:88ch}
+ .note{font-size:var(--text-caption);color:var(--fg-muted);margin:0 0 14px;max-width:46ch;min-height:3.4em}
+ .row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px;max-width:1280px;align-items:start}
+ .col{display:flex;flex-direction:column;gap:10px}
+ /* Phone-width column, because a lesson list is a phone surface. */
+ .phone{width:100%;max-width:390px;border:1px solid var(--color-border-strong);
+   border-radius:var(--radius-2xl);overflow:hidden;background:var(--bg)}
+ .band{background:var(--color-inverse);color:var(--color-fg-inverse);
+   border-bottom:2px solid var(--color-rule-on-inverse);
+   padding:14px 16px;font-size:var(--text-body);font-weight:600;text-align:center}
+ .list{display:flex;flex-direction:column;gap:12px;padding:16px}
+
+ /* Shared card innards so only the ground treatment differs. */
+ .tag{display:inline-block;font-size:var(--text-caption);font-weight:700;
+   letter-spacing:.06em;text-transform:uppercase;padding:.2rem .5rem;border-radius:999px}
+ .t-ogon{background:var(--color-accent-ogon);color:var(--color-accent-ogon-fg)}
+ .t-ai{background:var(--color-accent-ai);color:var(--color-accent-ai-fg)}
+ .t-rokusho{background:var(--color-accent-rokusho);color:var(--color-accent-rokusho-fg)}
+ .t-akane{background:var(--color-accent-akane);color:var(--color-accent-akane-fg)}
+ .title{font-size:var(--text-body-lg);font-weight:600;color:var(--color-fg-heading);margin:8px 0 2px}
+ .cando{font-size:var(--text-body-sm);color:var(--fg-muted);margin:0}
+ .meta{font-size:var(--text-caption);color:var(--fg-subtle);margin:8px 0 0}
+
+ /* ── A · pattern is the card ground, content on glass ─────────────── */
+ .a-card{border-radius:var(--radius-xl);overflow:hidden;
+   border:1px solid var(--color-border);box-shadow:var(--shadow-card)}
+ .a-card .inner{padding:14px}
+ .a-card .glass{padding:14px 16px}
+
+ /* ── B · pattern in a header strip, content on flat card ──────────── */
+ .b-card{border-radius:var(--radius-xl);overflow:hidden;background:var(--color-surface);
+   border:1px solid var(--color-border);box-shadow:var(--shadow-card)}
+ .b-strip{height:54px;display:flex;align-items:center;padding:0 14px}
+ .b-body{padding:12px 16px 16px}
+
+ /* ── C · pattern on the page, flat cards over it ──────────────────── */
+ .c-list{padding:16px}
+ .c-card{background:var(--color-surface);border:1px solid var(--color-border);
+   border-radius:var(--radius-xl);padding:14px 16px;box-shadow:var(--shadow-card)}
+
+ .accent-rule{border-top:3px solid}
+ .r-ogon{border-top-color:var(--color-accent-ogon)}
+ .r-ai{border-top-color:var(--color-accent-ai)}
+ .r-rokusho{border-top-color:var(--color-accent-rokusho)}
+ .r-akane{border-top-color:var(--color-accent-akane)}
+</style></head><body>
+
+<h1>Scenario card — three ways to spend the pattern</h1>
+<p class="s">Real lesson content: each has a <code>situation</code>, a <code>title</code> and a
+<code>canDo</code>. The situation drives the accent, so colour says <em>which scenario</em> — the rule
+`PhraseCard` already follows. The only thing that differs below is <b>where the crest pattern goes</b>.</p>
+
+<div class="row">
+
+  <!-- ═══ A ═══ -->
+  <div class="col">
+    <h2>A · Pattern is the card</h2>
+    <p class="note">Every card is a patterned ground with its content on glass. The texture is the
+    card's identity.</p>
+    <div class="phone">
+      <div class="band">Lessons</div>
+      <div class="list">
+        <div class="a-card emboss-bg crest-1">
+          <div class="inner"><div class="glass">
+            <span class="tag t-rokusho">Greetings &amp; basics</span>
+            <p class="title">Where are you from?</p>
+            <p class="cando">Introduce yourself</p>
+            <p class="meta">8 phrases · 3 settled</p>
+          </div></div>
+        </div>
+        <div class="a-card emboss-bg crest-2">
+          <div class="inner"><div class="glass">
+            <span class="tag t-ogon">Food &amp; drink</span>
+            <p class="title">At the café</p>
+            <p class="cando">Order a drink</p>
+            <p class="meta">11 phrases · not started</p>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ B ═══ -->
+  <div class="col">
+    <h2>B · Pattern in a header strip</h2>
+    <p class="note">A band of texture at the top of each card, tinted by the accent. Content sits on
+    flat paper below it.</p>
+    <div class="phone">
+      <div class="band">Lessons</div>
+      <div class="list">
+        <div class="b-card">
+          <div class="b-strip emboss-bg crest-1" style="background-color:var(--color-accent-rokusho)">
+            <span class="tag t-rokusho" style="background:var(--color-stone-0);color:var(--color-fg-heading)">Greetings &amp; basics</span>
+          </div>
+          <div class="b-body">
+            <p class="title">Where are you from?</p>
+            <p class="cando">Introduce yourself</p>
+            <p class="meta">8 phrases · 3 settled</p>
+          </div>
+        </div>
+        <div class="b-card">
+          <div class="b-strip emboss-bg crest-2" style="background-color:var(--color-accent-ogon)">
+            <span class="tag t-ogon" style="background:var(--color-stone-0);color:var(--color-fg-heading)">Food &amp; drink</span>
+          </div>
+          <div class="b-body">
+            <p class="title">At the café</p>
+            <p class="cando">Order a drink</p>
+            <p class="meta">11 phrases · not started</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ C ═══ -->
+  <div class="col">
+    <h2>C · Pattern on the page</h2>
+    <p class="note">Texture grounds the whole screen; cards stay flat paper with an accent rule. The
+    same shape the empty state uses.</p>
+    <div class="phone">
+      <div class="band">Lessons</div>
+      <div class="emboss-bg crest-1 c-list">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div class="c-card accent-rule r-rokusho">
+            <span class="tag t-rokusho">Greetings &amp; basics</span>
+            <p class="title">Where are you from?</p>
+            <p class="cando">Introduce yourself</p>
+            <p class="meta">8 phrases · 3 settled</p>
+          </div>
+          <div class="c-card accent-rule r-ogon">
+            <span class="tag t-ogon">Food &amp; drink</span>
+            <p class="title">At the café</p>
+            <p class="cando">Order a drink</p>
+            <p class="meta">11 phrases · not started</p>
+          </div>
+          <div class="c-card accent-rule r-ai">
+            <span class="tag t-ai">Getting around</span>
+            <p class="title">At the station</p>
+            <p class="cando">Buy a train ticket</p>
+            <p class="meta">9 phrases · not started</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body></html>

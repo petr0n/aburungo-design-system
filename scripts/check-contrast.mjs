@@ -153,7 +153,7 @@ const KNOWN = new Map([
   [
     'focus ring on page',
     'Ogon 500, 2.26:1. Author kept the gold over the ratio, 2026-08-13. ' +
-      'See src/tokens.css and preview/_sandbox/focus-1-options.html.',
+      'See src/tokens.css and docs/colors.md "The focus ring".',
   ],
   ['focus ring on card', 'Ogon 500, 2.40:1. Same call as "focus ring on page".'],
   ['focus ring on well', 'Ogon 500, 2.08:1 — the worst of the three. Same call.'],

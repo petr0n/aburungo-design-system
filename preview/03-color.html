@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css">
+<style>
+  /* Role rows: a swatch grid with a caption above it. Same shape as .row, but
+     laid out on a grid so short groups do not stretch their swatches wide. */
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(112px,1fr)); gap:12px }
+
+  /* _card.css sets .label, .name and .hex all to a literal 11px. That works
+     when a page is one small card — which every other preview page still is.
+     This one merges four of them into a 15-section reference, where a section
+     heading at caption size stops separating anything. So the headings move up
+     to --body and everything else onto the documented ramp; no literal sizes.
+     Scoped here rather than in _card.css because the single-card pages are
+     fine as they are. */
+  .card > .label {
+    font-size: var(--body); font-weight: 600;
+    text-transform: none; letter-spacing: normal;
+    color: var(--fg-heading);
+  }
+  .sub { font-size: var(--caption); color:var(--fg-subtle); margin:-4px 0 12px; max-width:70ch; line-height:1.5 }
+  .swatch .name, .swatch .hex { font-size: var(--caption) }
+  .card { gap: 12px; padding: 24px 24px 28px }
+  .card + .card { border-top: 1px solid var(--border) }
+</style>
+</head>
+<body>
+
+<!-- ── The five ─────────────────────────────────────────────────────────── -->
+<div class="card">
+  <div class="label">The five — one job each</div>
+  <div class="sub">Saturated colour used sparingly and structurally, on warm stone. Not one accent on
+    monochrome — that was v2. Colour carries meaning; it is never decoration.</div>
+  <div class="row">
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--akane-500)"></div><div class="name">Akane 茜色</div><div class="hex" data-token="--akane-500"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--ai-500)"></div><div class="name">Ai-iro 藍色</div><div class="hex" data-token="--ai-500"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--rokusho-500)"></div><div class="name">Rokushō 緑青</div><div class="hex" data-token="--rokusho-500"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--ogon-500)"></div><div class="name">Ōgon 黄金</div><div class="hex" data-token="--ogon-500"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--stone-800)"></div><div class="name">Sumi-iro 墨色</div><div class="hex" data-token="--stone-800"></div></div>
+  </div>
+  <div class="row" style="margin-top:4px;font-size:var(--caption);color:var(--fg-muted);line-height:1.5">
+    <div style="flex:1">The hanko, and error states. <b>Never a CTA.</b></div>
+    <div style="flex:1">Primary action, headings, Japanese content.</div>
+    <div style="flex:1">Progress, correctness, secondary action, links.</div>
+    <div style="flex:1">Focus rings, scenario tags, hairlines on dark chrome.</div>
+    <div style="flex:1">Body text and the header band.</div>
+  </div>
+</div>
+
+<!-- ── Ramps ────────────────────────────────────────────────────────────── -->
+<div class="card">
+  <div class="label">Akane 茜色 — the hanko, and error states</div>
+  <div class="row">
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--akane-50)"></div><div class="name">50</div><div class="hex" data-token="--akane-50"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--akane-100)"></div><div class="name">100</div><div class="hex" data-token="--akane-100"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--akane-200)"></div><div class="name">200</div><div class="hex" data-token="--akane-200"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--akane-300)"></div><div class="name">300</div><div class="hex" data-token="--akane-300"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--akane-400)"></div><div class="name">400</div><div class="hex" data-token="--akane-400"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--akane-500);outline:2px solid var(--akane-700);outline-offset:-4px;border-radius:var(--radius-lg)"></div><div class="name" style="color:var(--akane-700)">500 ●</div><div class="hex" data-token="--akane-500"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--akane-600)"></div><div class="name">600</div><div class="hex" data-token="--akane-600"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--akane-700)"></div><div class="name">700</div><div class="hex" data-token="--akane-700"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--akane-800)"></div><div class="name">800</div><div class="hex" data-token="--akane-800"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--akane-900)"></div><div class="name">900</div><div class="hex" data-token="--akane-900"></div></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="label">Ai-iro 藍色 — primary action, headings, Japanese content</div>
+  <div class="row">
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--ai-50)"></div><div class="name">50</div><div class="hex" data-token="--ai-50"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--ai-100)"></div><div class="name">100</div><div class="hex" data-token="--ai-100"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--ai-200)"></div><div class="name">200</div><div class="hex" data-token="--ai-200"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--ai-300)"></div><div class="name">300</div><div class="hex" data-token="--ai-300"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--ai-400)"></div><div class="name">400</div><div class="hex" data-token="--ai-400"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--ai-500);outline:2px solid var(--ai-700);outline-offset:-4px;border-radius:var(--radius-lg)"></div><div class="name" style="color:var(--ai-700)">500 ●</div><div class="hex" data-token="--ai-500"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--ai-600)"></div><div class="name">600</div><div class="hex" data-token="--ai-600"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--ai-700)"></div><div class="name">700</div><div class="hex" data-token="--ai-700"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--ai-800)"></div><div class="name">800</div><div class="hex" data-token="--ai-800"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--ai-900)"></div><div class="name">900</div><div class="hex" data-token="--ai-900"></div></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="label">Rokushō 緑青 — progress, correctness, secondary action, links</div>
+  <div class="row">
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--rokusho-50)"></div><div class="name">50</div><div class="hex" data-token="--rokusho-50"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--rokusho-100)"></div><div class="name">100</div><div class="hex" data-token="--rokusho-100"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--rokusho-200)"></div><div class="name">200</div><div class="hex" data-token="--rokusho-200"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--rokusho-300)"></div><div class="name">300</div><div class="hex" data-token="--rokusho-300"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--rokusho-400)"></div><div class="name">400</div><div class="hex" data-token="--rokusho-400"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--rokusho-500);outline:2px solid var(--rokusho-700);outline-offset:-4px;border-radius:var(--radius-lg)"></div><div class="name" style="color:var(--rokusho-700)">500 ●</div><div class="hex" data-token="--rokusho-500"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--rokusho-600)"></div><div class="name">600</div><div class="hex" data-token="--rokusho-600"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--rokusho-700)"></div><div class="name">700</div><div class="hex" data-token="--rokusho-700"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--rokusho-800)"></div><div class="name">800</div><div class="hex" data-token="--rokusho-800"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--rokusho-900)"></div><div class="name">900</div><div class="hex" data-token="--rokusho-900"></div></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="label">Ōgon 黄金 — focus rings, scenario tags, hairlines on dark chrome</div>
+  <div class="row">
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--ogon-50)"></div><div class="name">50</div><div class="hex" data-token="--ogon-50"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--ogon-100)"></div><div class="name">100</div><div class="hex" data-token="--ogon-100"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--ogon-200)"></div><div class="name">200</div><div class="hex" data-token="--ogon-200"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--ogon-300)"></div><div class="name">300</div><div class="hex" data-token="--ogon-300"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--ogon-400)"></div><div class="name">400</div><div class="hex" data-token="--ogon-400"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--ogon-500);outline:2px solid var(--ogon-700);outline-offset:-4px;border-radius:var(--radius-lg)"></div><div class="name" style="color:var(--ogon-700)">500 ●</div><div class="hex" data-token="--ogon-500"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--ogon-600)"></div><div class="name">600</div><div class="hex" data-token="--ogon-600"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--ogon-700)"></div><div class="name">700</div><div class="hex" data-token="--ogon-700"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--ogon-800)"></div><div class="name">800</div><div class="hex" data-token="--ogon-800"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--ogon-900)"></div><div class="name">900</div><div class="hex" data-token="--ogon-900"></div></div>
+  </div>
+</div>
+
+<!-- ── Warm stone ───────────────────────────────────────────────────────── -->
+<div class="card">
+  <div class="label">Warm stone — the neutrals</div>
+  <div class="sub">The warmth is load-bearing. Against cool grey, Ai-iro reads as a tint of the surface;
+    against warm paper it reads as ink on a page. Cards (0) sit <b>lighter</b> than the page (50) so they
+    lift without a shadow — <code>#FFFDF8</code> is not a mistake for <code>#FFFFFF</code>.</div>
+  <div class="row">
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--stone-0);border-color:var(--border)"></div><div class="name">0</div><div class="hex" data-token="--stone-0"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--stone-50)"></div><div class="name">50</div><div class="hex" data-token="--stone-50"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--stone-100)"></div><div class="name">100</div><div class="hex" data-token="--stone-100"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--stone-200)"></div><div class="name">200</div><div class="hex" data-token="--stone-200"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--stone-300)"></div><div class="name">300</div><div class="hex" data-token="--stone-300"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--stone-400)"></div><div class="name">400 · Ishi-iro</div><div class="hex" data-token="--stone-400"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--stone-500)"></div><div class="name">500</div><div class="hex" data-token="--stone-500"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--stone-600)"></div><div class="name">600</div><div class="hex" data-token="--stone-600"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--stone-700)"></div><div class="name">700</div><div class="hex" data-token="--stone-700"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--stone-800)"></div><div class="name">800 · Sumi-iro</div><div class="hex" data-token="--stone-800"></div></div>
+    <div class="swatch" style="flex:1"><div class="chip" style="background:var(--stone-900)"></div><div class="name">900</div><div class="hex" data-token="--stone-900"></div></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="label">The roles those steps carry</div>
+  <div class="sub"><b>Reach for these, not the ramp.</b> A role survives a palette change; a ramp step does
+    not. <code>fg-subtle</code> and <code>fg-faint</code> both sit at <code>stone-500</code> — Ishi-iro
+    <code>stone-400</code> was too light to read at 2.30:1, so the placeholder role moved down and Ishi-iro
+    stayed put for non-text use.</div>
+  <div class="grid">
+    <div class="swatch"><div class="chip" style="background:var(--surface);border-color:var(--border)"></div><div class="name">surface</div><div class="hex" data-token="--surface"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--surface-2)"></div><div class="name">surface-2</div><div class="hex" data-token="--surface-2"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--border)"></div><div class="name">border</div><div class="hex" data-token="--border"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--border-strong)"></div><div class="name">border-strong</div><div class="hex" data-token="--border-strong"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--fg-faint)"></div><div class="name">fg-faint</div><div class="hex" data-token="--fg-faint"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--fg-subtle)"></div><div class="name">fg-subtle</div><div class="hex" data-token="--fg-subtle"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--fg-muted)"></div><div class="name">fg-muted</div><div class="hex" data-token="--fg-muted"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--fg)"></div><div class="name">fg</div><div class="hex" data-token="--fg"></div></div>
+  </div>
+</div>
+
+<!-- ── Roles ────────────────────────────────────────────────────────────── -->
+<div class="card">
+  <div class="label">Roles · action</div>
+  <div class="sub">Primary is Ai-iro. Secondary is Rokushō-tinted. <b>Akane is never a CTA.</b></div>
+  <div class="grid">
+    <div class="swatch"><div class="chip" style="background:var(--action)"></div><div class="name">action</div><div class="hex" data-token="--action"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--action-press)"></div><div class="name">action-press</div><div class="hex" data-token="--action-press"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--action-fg);border-color:var(--border)"></div><div class="name">action-fg</div><div class="hex" data-token="--action-fg"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--action-2-bg)"></div><div class="name">action-2-bg</div><div class="hex" data-token="--action-2-bg"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--action-2-fg)"></div><div class="name">action-2-fg</div><div class="hex" data-token="--action-2-fg"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--action-2-border)"></div><div class="name">action-2-border</div><div class="hex" data-token="--action-2-border"></div></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="label">Roles · the mark</div>
+  <div class="sub">Akane. The hanko and error states — its only two jobs.</div>
+  <div class="grid">
+    <div class="swatch"><div class="chip" style="background:var(--accent)"></div><div class="name">accent</div><div class="hex" data-token="--accent"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--accent-press)"></div><div class="name">accent-press</div><div class="hex" data-token="--accent-press"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--accent-fg);border-color:var(--border)"></div><div class="name">accent-fg</div><div class="hex" data-token="--accent-fg"></div></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="label">Roles · focus &amp; scenario tags</div>
+  <div class="sub">Ōgon. Focus is Ōgon 500 on <b>both</b> grounds — settled 2026-08-13, the gold kept over the
+    contrast ratio deliberately. The three shortfalls are written exceptions in the contrast gate, not silent passes.</div>
+  <div class="grid">
+    <div class="swatch"><div class="chip" style="background:var(--focus)"></div><div class="name">focus</div><div class="hex" data-token="--focus"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--focus-on-inverse)"></div><div class="name">focus-on-inverse</div><div class="hex" data-token="--focus-on-inverse"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--tag-bg)"></div><div class="name">tag-bg</div><div class="hex" data-token="--tag-bg"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--tag-fg)"></div><div class="name">tag-fg</div><div class="hex" data-token="--tag-fg"></div></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="label">Roles · links &amp; progress</div>
+  <div class="sub">Rokushō. <code>link</code> is Rokushō darkened — 500 scores 3.00:1 on the page and fails AA as text.</div>
+  <div class="grid">
+    <div class="swatch"><div class="chip" style="background:var(--link)"></div><div class="name">link</div><div class="hex" data-token="--link"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--progress-track);border-color:var(--border)"></div><div class="name">progress-track</div><div class="hex" data-token="--progress-track"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--progress-fill)"></div><div class="name">progress-fill</div><div class="hex" data-token="--progress-fill"></div></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="label">Roles · dark chrome</div>
+  <div class="sub"><b>One dark slab per screen.</b> The header band is Sumi-iro, so the kana keyboard is
+    Rokushō instead — two near-black sections on one screen was the original problem.</div>
+  <div class="grid">
+    <div class="swatch"><div class="chip" style="background:var(--inverse)"></div><div class="name">inverse</div><div class="hex" data-token="--inverse"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--fg-inverse);border-color:var(--border)"></div><div class="name">fg-inverse</div><div class="hex" data-token="--fg-inverse"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--fg-on-inverse-2)"></div><div class="name">fg-on-inverse-2</div><div class="hex" data-token="--fg-on-inverse-2"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--rule-on-inverse)"></div><div class="name">rule-on-inverse</div><div class="hex" data-token="--rule-on-inverse"></div></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="label">Roles · kana keyboard</div>
+  <div class="sub">The second colour block. Warm-paper keys keep the kana legible — reading them is the task.</div>
+  <div class="grid">
+    <div class="swatch"><div class="chip" style="background:var(--keyboard-bg)"></div><div class="name">keyboard-bg</div><div class="hex" data-token="--keyboard-bg"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--keyboard-rule)"></div><div class="name">keyboard-rule</div><div class="hex" data-token="--keyboard-rule"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--key-bg);border-color:var(--border)"></div><div class="name">key-bg</div><div class="hex" data-token="--key-bg"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--key-fg)"></div><div class="name">key-fg</div><div class="hex" data-token="--key-fg"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--key-press)"></div><div class="name">key-press</div><div class="hex" data-token="--key-press"></div></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="label">Roles · card accents</div>
+  <div class="sub">An <b>input</b>, not a fixed colour. <code>PhraseCard</code> and <code>ScoreCard</code> take an
+    <code>accent</code> so colour says <i>which scenario</i> rather than decorating. <code>-bg</code> tints the
+    card body; the bare token draws the top rule and the tag.</div>
+  <div class="grid">
+    <div class="swatch"><div class="chip" style="background:var(--accent-ogon)"></div><div class="name">ogon</div><div class="hex" data-token="--accent-ogon"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--accent-ogon-bg)"></div><div class="name">ogon-bg</div><div class="hex" data-token="--accent-ogon-bg"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--accent-ai)"></div><div class="name">ai</div><div class="hex" data-token="--accent-ai"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--accent-ai-bg)"></div><div class="name">ai-bg</div><div class="hex" data-token="--accent-ai-bg"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--accent-rokusho)"></div><div class="name">rokusho</div><div class="hex" data-token="--accent-rokusho"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--accent-rokusho-bg)"></div><div class="name">rokusho-bg</div><div class="hex" data-token="--accent-rokusho-bg"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--accent-akane)"></div><div class="name">akane</div><div class="hex" data-token="--accent-akane"></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--accent-akane-bg)"></div><div class="name">akane-bg</div><div class="hex" data-token="--accent-akane-bg"></div></div>
+  </div>
+</div>
+
+<!-- ── Text ─────────────────────────────────────────────────────────────── -->
+<div class="card">
+  <div class="label">Roles · text</div>
+  <div style="display:grid;grid-template-columns:auto 1fr auto;gap:8px 20px;align-items:center;font-size:var(--body-sm)">
+    <span style="font-family:var(--font-mono);color:var(--fg-subtle);font-size:var(--caption)">--fg-heading</span>
+    <span style="color:var(--fg-heading);font-weight:600">Headings and Japanese content — Ai-iro</span>
+    <span class="hex" data-token="--fg-heading" style="font-family:var(--font-mono);color:var(--fg-subtle);font-size:var(--caption)"></span>
+
+    <span style="font-family:var(--font-mono);color:var(--fg-subtle);font-size:var(--caption)">--fg</span>
+    <span style="color:var(--fg);font-weight:600">Primary text — body, buttons</span>
+    <span class="hex" data-token="--fg" style="font-family:var(--font-mono);color:var(--fg-subtle);font-size:var(--caption)"></span>
+
+    <span style="font-family:var(--font-mono);color:var(--fg-subtle);font-size:var(--caption)">--fg-muted</span>
+    <span style="color:var(--fg-muted)">Labels, secondary copy, secondary button text</span>
+    <span class="hex" data-token="--fg-muted" style="font-family:var(--font-mono);color:var(--fg-subtle);font-size:var(--caption)"></span>
+
+    <span style="font-family:var(--font-mono);color:var(--fg-subtle);font-size:var(--caption)">--fg-subtle</span>
+    <span style="color:var(--fg-subtle)">Meta, hints, authoring notes</span>
+    <span class="hex" data-token="--fg-subtle" style="font-family:var(--font-mono);color:var(--fg-subtle);font-size:var(--caption)"></span>
+
+    <span style="font-family:var(--font-mono);color:var(--fg-subtle);font-size:var(--caption)">--fg-faint</span>
+    <span style="color:var(--fg-faint)">Placeholders, inactive states</span>
+    <span class="hex" data-token="--fg-faint" style="font-family:var(--font-mono);color:var(--fg-subtle);font-size:var(--caption)"></span>
+  </div>
+  <div class="sub" style="margin:14px 0 0">Ishi-iro <code>stone-400</code> is <b>not</b> a text colour — it fails AA
+    at 2.30:1. It is for disabled fills and hairlines. <code>fg-faint</code> moved to <code>stone-500</code> for that reason.</div>
+</div>
+
+<!-- ── Feedback ─────────────────────────────────────────────────────────── -->
+<div class="card">
+  <div class="label">Roles · feedback</div>
+  <div class="sub">Correctness banners only, never decorative tints. Correct/incorrect deliberately share
+    tokens with success/error — &ldquo;not quite&rdquo; <i>is</i> the error state of an answer.</div>
+  <div class="row">
+    <div style="flex:1;display:flex;flex-direction:column;gap:8px">
+      <div style="background:var(--success-bg);color:var(--success-fg);padding:14px 16px;border-radius:var(--radius-xl);text-align:center;font-weight:600">Recalled!</div>
+      <div style="display:flex;gap:8px;font-family:var(--font-mono);font-size:var(--caption);color:var(--fg-subtle)">
+        <span>bg <span class="hex" data-token="--success-bg"></span></span>
+        <span>fg <span class="hex" data-token="--success-fg"></span></span>
+      </div>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:8px">
+      <div style="background:var(--error-bg);color:var(--error-fg);padding:14px 16px;border-radius:var(--radius-xl);text-align:center;font-weight:600">Not quite</div>
+      <div style="display:flex;gap:8px;font-family:var(--font-mono);font-size:var(--caption);color:var(--fg-subtle)">
+        <span>bg <span class="hex" data-token="--error-bg"></span></span>
+        <span>fg <span class="hex" data-token="--error-fg"></span></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="_hex.js"></script>
+</body></html>

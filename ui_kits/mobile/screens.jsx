@@ -98,7 +98,7 @@ function SignInScreen({ onSubmit, onBack }) {
       </form>
       <p className="text-center text-body-sm text-fg-subtle">
         New here?{' '}
-        <button type="button" className="font-medium text-brand-500 underline-offset-2 hover:underline">
+        <button type="button" className="font-medium text-link underline-offset-2 hover:underline">
           Create an account
         </button>
       </p>

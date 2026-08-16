@@ -79,7 +79,11 @@
 
   /* Elevation beyond the one hairline tokens.css ships as --shadow-card */
   --shadow-md: 0 4px 12px -2px rgb(21 9 24 / 0.08), 0 2px 4px -2px rgb(21 9 24 / 0.04);
-  --shadow-focus: 0 0 0 2px var(--brand-500);
+  /* Ogon, via the role token. This was var(--brand-500) — the v2 alias, which
+     v3 remaps onto Akane — so every focus ring in the 28 preview pages drew in
+     the error colour. The alias resolved, so nothing failed; it was just wrong
+     on screen. Use --focus, never a ramp step or a legacy name. */
+  --shadow-focus: 0 0 0 2px var(--focus);
 
   /* Motion — fast, no bounce. Touch-first apps don't need anim flair. */
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
