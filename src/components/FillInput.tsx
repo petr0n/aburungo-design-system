@@ -84,7 +84,10 @@ export function FillInput({
             type="button"
             onClick={() => onModeChange(m)}
             className={[
-              'flex-1 rounded-lg py-2 text-sm font-medium transition-colors',
+              // min-h-[44px], not py-2 alone: py-2 on text-body-sm measured 36px
+              // tall, under the 44 CLAUDE.md requires. Nothing checked it until
+              // scripts/check-touch-targets.mjs started measuring rendered boxes.
+              'flex min-h-[44px] flex-1 items-center justify-center rounded-lg px-2 text-body-sm font-medium transition-colors',
               mode === m
                 ? 'bg-bg text-fg shadow-card'
                 : 'text-fg-subtle hover:text-fg active:bg-surface-2',

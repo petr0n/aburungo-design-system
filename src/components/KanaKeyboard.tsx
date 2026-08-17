@@ -59,7 +59,10 @@ const GRID: Record<KanaScript, Record<KanaSection, readonly KanaRow[]>> = {
 // container. Inside a Card the keyboard gets ~310px rather than the ~360px it
 // has standalone, and five toggles at `px-3` wrapped their labels — "ひら"
 // stacking to two lines — which silently doubled the row's height.
-const TOGGLE = 'h-11 min-h-[44px] shrink-0 whitespace-nowrap rounded-lg px-2 font-jp text-caption font-medium transition-colors ' +
+// min-w-[44px] as well as min-h: the height was right and the WIDTH was not.
+// Short labels -- 小 at 30px, ひら at 40px -- cleared the 44px height and were
+// still too narrow to hit, which reads as compliant in the source and is not.
+const TOGGLE = 'flex h-11 min-h-[44px] min-w-[44px] shrink-0 items-center justify-center whitespace-nowrap rounded-lg px-2 font-jp text-caption font-medium transition-colors ' +
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-on-inverse focus-visible:ring-offset-2 focus-visible:ring-offset-keyboard-bg'
 const TOGGLE_ON = 'bg-focus text-inverse-on-ogon'
 const TOGGLE_OFF = 'border border-key-bg/40 text-key-bg active:bg-rokusho-800'

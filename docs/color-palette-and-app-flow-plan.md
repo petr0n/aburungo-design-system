@@ -1,6 +1,6 @@
 # AburunGo — Palette Migration & Flow Plan (v2)
 
-**Status:** Phases 0–2 and 5 complete, Phase 3 in progress · **Decisions here are provisional — see below** · **Scope:** `aburungo-design-system` only · **Palette:** v3 "Zuihoden", in hand and reviewed · **Branch prefix:** `feat/tokens-*`, `feat/flow-*`
+**Status:** all phases complete (0–5) as of 2026-08-16 · **Decisions here are provisional — see below** · **Scope:** `aburungo-design-system` only · **Palette:** v3 "Zuihoden", in hand and reviewed · **Branch prefix:** `feat/tokens-*`, `feat/flow-*`
 
 > **Posture: this repo is the source of truth. The drop is an input, not an authority.**
 >
@@ -406,13 +406,36 @@ Note the shape of it: **`AppHeader` and `KanaKeyboard` are two of the nine compo
 
 ---
 
-## Phase 3 — Component pass ⚠️ **GATE NEVER FORMALLY RUN**
+## Phase 3 — Component pass ✅ **GATE RUN AND RECORDED**
 
-> Verified 2026-08-15. §3.0 is decided and built — the correctness vocabulary ships as `Maru`, `AnswerResult` and `GradePair`, and the boundary rule is in `DESIGN.md`.
+> **Closed 2026-08-16.** The gate is run, and six of its eight points are now
+> enforced by scripts rather than asserted in prose.
 >
-> **What has not happened is the eight-point gate being run, component by component, and recorded.** Six of its eight points are already green repo-wide and can be asserted now: `pnpm typecheck` clean, `pnpm lint` clean (oxlint + adherence + contrast), every component has a story and a JSX mirror, and no component references a value token. The two that genuinely need a human at a screen are **renders at 375 / 768 / 1024 / 1440** and **touch target / active-state / no-hover-only**, neither of which any script checks.
+> | # | Point | How it is checked now |
+> |---|---|---|
+> | 1 | `pnpm typecheck` clean | `tsc --noEmit` |
+> | 2 | `pnpm lint` clean | oxlint + adherence + contrast |
+> | 3 | story per component | present |
+> | 4 | JSX mirror per component | present |
+> | 5 | no value-token references | `check-adherence.mjs` |
+> | 6 | contrast per surface | `check-contrast.mjs` — 36/39, three written exceptions |
+> | 7 | **touch ≥44px / active / no hover-only** | **`check-touch-targets.mjs`, in `pnpm lint`** |
+> | 8 | **renders at 375 / 768 / 1024 / 1440** | **`pnpm shots:responsive`** |
 >
-> So this is not "unstarted" — it is unrecorded. Closing it means one pass over 21 components ticking what is already true and finding what is not.
+> Points 7 and 8 were recorded as needing a human at a screen. Point 7 did not:
+> it needed measuring rendered boxes instead of reading class names, and doing
+> that found **two shipped defects nothing else caught**. `KanaKeyboard`'s
+> script toggles cleared the 44px *height* and were 30–42px *wide* — 小 at 30px
+> — which reads as compliant in the source. `FillInput`'s mode picker was 36px
+> tall: `py-2` on `text-body-sm`, with no minimum at all. Both fixed; all 67
+> controls now measure clear.
+>
+> Point 8 still ends in a human looking, but the looking is at one page rather
+> than twenty-eight browser sessions. The first sweep reported all fourteen
+> surfaces overflowing at 375px by exactly +39 — the uniformity was the tell:
+> the harness pins its phone shell to 390px, so it could not render 375 at all.
+> `Phone` takes a width now, and the sweep sizes the shell to the viewport, so
+> the number measured is the product's and not the frame's.
 
 **Branch:** `feat/component-audit` · Runs **before** the palette arrives — this is the ~70% that doesn't depend on color. Needs Phase 1 first only so the harnesses actually track the token source.
 
@@ -502,7 +525,7 @@ Note that most gate items are palette-independent; the two that aren't (contrast
 
 ---
 
-## Phase 3B — Close the gaps the drop left ⚠️ **ONE ITEM LEFT**
+## Phase 3B — Close the gaps the drop left ✅ **COMPLETE**
 
 > Verified 2026-08-15. Mechanical rows all done: `Badge` wears the tag tokens, `.hanko` is on `--color-accent`, `KanaKeyboard` moved off `bg-fg`, the focus split is applied (and the light ring subsequently reverted to Ogon 500 by the author), `progress-complete` was deleted rather than built, and the inverse-chrome treatment landed on both `KanaKeyboard` and `AppHeader`.
 >
@@ -651,7 +674,7 @@ This is a **merge, not a copy.** The drop is ahead on tokens and assets and behi
 | 5.6 | Migrate the deprecated `Button` `accent` variant to `primary` and drop it | no call sites remain |
 | 5.7 | `pnpm build` — contrast gate runs against real v3 values | the seven known failures above are either fixed or explicitly accepted; **the focus-ring failure should be resolved with the palette author, not silently re-tinted** |
 | 5.8 | `pnpm lint` — oxlint + adherence + contrast, over `src/components/**`. Then `npx impeccable detect` over `preview/ storybook/ ui_kits/` **by hand**, eyeballed against N = 134 | lint clean. The impeccable pass is a look, not a pass/fail: its baseline carries absolute `/Users/...` paths and line anchors that drift on any edit above them, so a mechanical diff reports noise. Regenerate the baseline after the palette lands rather than trying to diff across it |
-| 5.9 | Work the deferred colour queue from Phase 3 | accent placement, correct/incorrect semantics, focus-ring contrast per surface |
+| 5.9 | ~~Work the deferred colour queue from Phase 3~~ — **closed 2026-08-16, all three already decided.** Accent placement: `docs/colors.md` "Where the colour goes", decided 2026-08-08, the card body carries it. Correct/incorrect semantics: they stay the same tokens as success/error, with the reasoning recorded. Focus-ring contrast per surface: settled 2026-08-13 on Ōgon 500, with three written gate exceptions. Two were reinforced this week — all four accent pairs are gated now, and the maru marks moved off the failing 500 steps | **done** — unrecorded, not unstarted |
 | 5.10 | Visual sweep: storybook + 3 UI kits + 27 preview pages | all render v3 |
 | 5.11 | Replace `docs/colors.md` with the drop's v3 version; fold `HANDOFF.md` in as provenance | palette rationale matches what ships |
 

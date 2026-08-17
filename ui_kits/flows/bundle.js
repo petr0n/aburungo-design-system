@@ -620,7 +620,7 @@ var GRID = {
   hiragana: { basic: HIRAGANA_BASIC, voiced: HIRAGANA_VOICED, small: HIRAGANA_SMALL },
   katakana: { basic: KATAKANA_BASIC, voiced: KATAKANA_VOICED, small: KATAKANA_SMALL }
 };
-var TOGGLE = "h-11 min-h-[44px] shrink-0 whitespace-nowrap rounded-lg px-2 font-jp text-caption font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-on-inverse focus-visible:ring-offset-2 focus-visible:ring-offset-keyboard-bg";
+var TOGGLE = "flex h-11 min-h-[44px] min-w-[44px] shrink-0 items-center justify-center whitespace-nowrap rounded-lg px-2 font-jp text-caption font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-on-inverse focus-visible:ring-offset-2 focus-visible:ring-offset-keyboard-bg";
 var TOGGLE_ON = "bg-focus text-inverse-on-ogon";
 var TOGGLE_OFF = "border border-key-bg/40 text-key-bg active:bg-rokusho-800";
 var KEY_BASE = "flex h-11 min-h-[44px] items-center justify-center rounded-xl font-jp text-jp shadow-key transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-on-inverse focus-visible:ring-offset-2 focus-visible:ring-offset-keyboard-bg";
@@ -793,7 +793,10 @@ function FillInput({
         type: "button",
         onClick: () => onModeChange(m),
         className: [
-          "flex-1 rounded-lg py-2 text-sm font-medium transition-colors",
+          // min-h-[44px], not py-2 alone: py-2 on text-body-sm measured 36px
+          // tall, under the 44 CLAUDE.md requires. Nothing checked it until
+          // scripts/check-touch-targets.mjs started measuring rendered boxes.
+          "flex min-h-[44px] flex-1 items-center justify-center rounded-lg px-2 text-body-sm font-medium transition-colors",
           mode === m ? "bg-bg text-fg shadow-card" : "text-fg-subtle hover:text-fg active:bg-surface-2"
         ].join(" "),
         children: MODE_LABELS[m]
@@ -970,11 +973,14 @@ function GradePair({ onGrade, disabled = false }) {
 // ui_kits/flows/shell.tsx
 import { jsx as jsx23, jsxs as jsxs15 } from "react/jsx-runtime";
 function Phone({ children }) {
+  const width = Number(new URLSearchParams(location.search).get("phone"));
+  const w = Number.isFinite(width) && width >= 280 && width <= 600 ? width : 390;
   return /* @__PURE__ */ jsx23(
     "div",
     {
       "data-phone": true,
-      className: "w-[390px] shrink-0 overflow-hidden rounded-[2.25rem] border-8 border-inverse bg-bg shadow-card",
+      style: { width: `${w}px` },
+      className: "shrink-0 overflow-hidden rounded-[2.25rem] border-8 border-inverse bg-bg shadow-card",
       children: /* @__PURE__ */ jsx23("div", { className: "flex h-[780px] flex-col", children })
     }
   );

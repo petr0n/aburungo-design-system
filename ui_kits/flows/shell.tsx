@@ -14,10 +14,18 @@ import type { ReactNode } from 'react'
  * screen alone rather than the harness page around it.
  */
 export function Phone({ children }: { children: ReactNode }) {
+  // `?phone=375` narrows the shell. The gate asks for renders at 375, and a
+  // shell pinned to 390 cannot answer that question -- it just overflowed the
+  // viewport by a constant 39px on every surface, which is a fact about the
+  // harness and not about the product inside it.
+  const width = Number(new URLSearchParams(location.search).get('phone'))
+  const w = Number.isFinite(width) && width >= 280 && width <= 600 ? width : 390
+
   return (
     <div
       data-phone
-      className="w-[390px] shrink-0 overflow-hidden rounded-[2.25rem] border-8 border-inverse bg-bg shadow-card"
+      style={{ width: `${w}px` }}
+      className="shrink-0 overflow-hidden rounded-[2.25rem] border-8 border-inverse bg-bg shadow-card"
     >
       <div className="flex h-[780px] flex-col">{children}</div>
     </div>

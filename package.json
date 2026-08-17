@@ -35,7 +35,7 @@
   "scripts": {
     "check:brand": "node scripts/check-forbidden-assets.mjs",
     "check:adherence": "node scripts/check-adherence.mjs",
-    "lint": "oxlint --config .oxlintrc.json src/ && pnpm check:adherence && pnpm check:contrast && pnpm test:harness",
+    "lint": "oxlint --config .oxlintrc.json src/ && pnpm check:adherence && pnpm check:contrast && pnpm test:harness && pnpm check:touch",
     "build": "pnpm check:brand && pnpm lint && tsup && pnpm build:tokens && pnpm build:flows",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
@@ -45,7 +45,9 @@
     "check:contrast": "node scripts/check-contrast.mjs",
     "shots": "node scripts/shots.mjs",
     "serve": "node scripts/serve.mjs",
-    "test:harness": "node scripts/lib/harness.test.mjs"
+    "test:harness": "node scripts/lib/harness.test.mjs",
+    "shots:responsive": "node scripts/shots-responsive.mjs",
+    "check:touch": "node scripts/check-touch-targets.mjs"
   },
   "peerDependencies": {
     "react": ">=18",
