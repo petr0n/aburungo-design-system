@@ -519,6 +519,32 @@ Colour-dependent findings get logged, not fixed — they're revisited in one pas
 
 **Per-component gate — all of these must pass before the next component starts:**
 
+> **Recorded 2026-08-16 — see Phase 3 above.** The boxes below stay unticked
+> because they are the *template* for building a new component, not a live
+> to-do. How each is verified today: 1–2 by `pnpm typecheck` and `pnpm lint`;
+> 3 and 5 by `check-touch-targets.mjs` and `pnpm shots:responsive`; 4 by
+> `check-contrast.mjs`. 6, 7 and 8 were asserted as "green repo-wide" before
+> anyone checked, and were checked on 2026-08-16:
+>
+> - **No emoji** in `src/components`. The ○ and ✕ are glyphs the product means,
+>   not decoration, and are covered by the aria rule below rather than this one.
+> - **Wording — user-facing verdict copy only**, which is what item 8 governs.
+>   Every string a learner reads is sanctioned: `Recalled!` and `Not quite`
+>   (`AnswerResult`), `Worth another look` (`GradePair`), and `Maru`'s
+>   screen-reader labels `recalled` / `worth another look`. **Zero banned words
+>   appear in rendered copy.** The words still exist as identifiers and in
+>   prose — `ScoreCard`'s `correct` prop is a count, and comments discuss
+>   "correctness" — and that is fine: the rule is about what the product says
+>   to a learner at the moment of judgment, not about the repo's vocabulary.
+>   Read as a repo-wide string claim it would simply be false.
+> - **Three channels:** `Maru` carries an `aria-hidden` glyph plus an `sr-only`
+>   label, `GradePair` inherits that by composing `Maru`, `AnswerResult` uses
+>   text and a tinted banner rather than a glyph so the rule does not apply, and
+>   `KanaGrid` labels its cells.
+>
+> All pass — but the assertion preceded the check, which is the thing to not
+> repeat.
+
 - [ ] `pnpm typecheck` clean
 - [ ] `pnpm lint` clean on the file — oxlint + `check-adherence` + `check-contrast`. ~~`npx impeccable detect <X>.tsx` — no new findings vs baseline~~ **rescoped 2026-08-10:** the baseline holds zero `.tsx` findings, so "no new findings vs baseline" silently meant "zero findings allowed" against a baseline that had never seen a component. `check-adherence` covers `src/components/**` and is what actually runs. Run `impeccable detect` on the file by hand if you want a second opinion; it is not the gate
 - [ ] Touch target ≥ 44px; `active:` state present; no hover-only affordance
@@ -658,11 +684,11 @@ one that could test whether the rewritten keyboard actually fits its real host.
 
 ---
 
-## Phase 5 — Merge the v3 drop ⚠️ **SUBSTANTIALLY COMPLETE — 2 open**
+## Phase 5 — Merge the v3 drop ✅ **COMPLETE**
 
 > Verified 2026-08-15. Done: 5.1 the palette is v3, 5.2 assets copied, 5.3 `brand.css` merged, 5.4 `Button` wears `bg-action`, 5.5 the nine repainted, 5.5b inverse chrome on both `AppHeader` and `KanaKeyboard`, 5.5c/5.5d closed above, 5.6 the `accent` variant is gone, 5.7/5.8 the gate and lint run green, 5.11 `docs/colors.md` is the v3 document.
 >
-> **Open: 5.9** the deferred colour queue from Phase 3, and **5.10** the visual sweep — storybook, three UI kits and 27 preview pages have never been walked end to end against v3 in one pass.
+> **Closed 2026-08-16.** 5.9 turned out to be already decided — see its row. 5.10, the visual sweep, ran across all 61 shot surfaces plus the 16 preview pages that had no shot coverage at all, which is how `12-radii.html` was found still showing a 6–20px scale a day after the radii were flattened.
 
 **Branch:** `feat/palette-v3` · **No longer blocked** — the drop is in hand.
 
@@ -682,7 +708,7 @@ This is a **merge, not a copy.** The drop is ahead on tokens and assets and behi
 | 5.7 | `pnpm build` — contrast gate runs against real v3 values | the seven known failures above are either fixed or explicitly accepted; **the focus-ring failure should be resolved with the palette author, not silently re-tinted** |
 | 5.8 | `pnpm lint` — oxlint + adherence + contrast, over `src/components/**`. Then `npx impeccable detect` over `preview/ storybook/ ui_kits/` **by hand**, eyeballed against N = 134 | lint clean. The impeccable pass is a look, not a pass/fail: its baseline carries absolute `/Users/...` paths and line anchors that drift on any edit above them, so a mechanical diff reports noise. Regenerate the baseline after the palette lands rather than trying to diff across it |
 | 5.9 | ~~Work the deferred colour queue from Phase 3~~ — **closed 2026-08-16, all three already decided.** Accent placement: `docs/colors.md` "Where the colour goes", decided 2026-08-08, the card body carries it. Correct/incorrect semantics: they stay the same tokens as success/error, with the reasoning recorded. Focus-ring contrast per surface: settled 2026-08-13 on Ōgon 500, with three written gate exceptions. Two were reinforced this week — all four accent pairs are gated now, and the maru marks moved off the failing 500 steps | **done** — unrecorded, not unstarted |
-| 5.10 | Visual sweep: storybook + 3 UI kits + 27 preview pages | all render v3 |
+| 5.10 | ~~Visual sweep: storybook + 3 UI kits + 27 preview pages~~ — **done 2026-08-16, PR #29.** Sixteen of twenty-seven preview pages had no shot coverage, which is why `12-radii.html` still showed the old scale. Fifty hardcoded pixel radii tokenised, three AA failures fixed (`Maru`'s recalled mark at 3.19:1, two banner glyphs), and `16-buttons-accent.html` — which recommended an Akane CTA, the one thing correction 11 forbids — replaced | **done** — all surfaces render v3, and every page now has a shot |
 | 5.11 | Replace `docs/colors.md` with the drop's v3 version; fold `HANDOFF.md` in as provenance | palette rationale matches what ships |
 
 **The Phase 1 test still applies to 5.1:** if porting the token block requires touching any file other than `src/tokens.css`, Phase 1 wasn't finished. Tasks 5.2–5.6 are the drop's *other* payload — components, assets, brand utilities — and were always going to be separate work.
