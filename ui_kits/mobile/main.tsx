@@ -20,13 +20,19 @@ import { FLOWS, flowById, renderFlow } from '../flows/registry'
 import { fromUrl } from '../flows/shell'
 import type { FlowDef } from '../flows/shell'
 import { Device } from './device'
-import { LandingScreen, SignInScreen } from './onboarding'
+import { OnboardingScreen } from './onboarding'
+import type { OnboardingPane } from './onboarding'
 
 type OnboardingId = 'landing' | 'signin'
 
-const ONBOARDING: { id: OnboardingId; label: string }[] = [
-  { id: 'landing', label: 'Landing' },
-  { id: 'signin', label: 'Sign in' },
+/**
+ * Two entries, one screen. Landing and sign-in are the same surface now --
+ * these deep-link into the two sides of its crossfade, so a review link and
+ * `check-touch-targets` can still address the fields directly.
+ */
+const ONBOARDING: { id: OnboardingId; label: string; pane: OnboardingPane }[] = [
+  { id: 'landing', label: 'Landing', pane: 'choose' },
+  { id: 'signin', label: 'Sign in', pane: 'signin' },
 ]
 
 const SCREEN_IDS = [...ONBOARDING.map((o) => o.id), ...FLOWS.map((f) => f.id)]
@@ -80,21 +86,24 @@ function OnboardingInDevice({ start }: { start: OnboardingId }) {
         current={screen}
         onSelect={setScreen}
       />
-      {/* No header band on these two, so the status bar sits on warm stone and
-          its glyphs have to be black. */}
+      {/* No header band here, so the status bar sits on warm stone and its
+          glyphs have to be black. */}
       <Device dark={false}>
-        {screen === 'landing' && <LandingScreen onStart={() => setScreen('signin')} />}
-        {screen === 'signin' && (
-          <SignInScreen onSubmit={() => setScreen('landing')} onBack={() => setScreen('landing')} />
-        )}
+        <OnboardingScreen
+          key={screen}
+          start={ONBOARDING.find((o) => o.id === screen)?.pane ?? 'choose'}
+        />
       </Device>
       <dl className="flex w-56 shrink-0 flex-col gap-3 text-body-sm">
         <div className="flex flex-col">
           <dt className="font-medium text-fg-muted">Before sign-in</dt>
           <dd className="text-fg-subtle">
-            The only two screens with no header band. Both rebuilt on the real
-            components — the versions here until 2026-08-17 rendered their
-            primary button as bare text.
+            One screen, not two. The mark holds still and the block under it
+            crossfades: the buttons fade out and the fields fade in in the same
+            place. Google sits outside the fade — it is an alternative to both
+            paths, so taking it should not mean backing out of the one you just
+            chose. The only surface with no header band, and the one the old kit
+            rendered with its primary button as bare text.
           </dd>
         </div>
       </dl>

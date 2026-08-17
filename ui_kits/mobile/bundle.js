@@ -2242,10 +2242,104 @@ function Device({ children, dark = true }) {
 }
 
 // ui_kits/mobile/onboarding.tsx
-import { useState as useState6 } from "react";
+import { useLayoutEffect, useState as useState6 } from "react";
 import { jsx as jsx29, jsxs as jsxs22 } from "react/jsx-runtime";
-function LandingScreen({ onStart }) {
-  return /* @__PURE__ */ jsxs22("main", { className: "flex flex-1 flex-col items-center justify-center gap-10 px-6 pb-16", children: [
+function GoogleMark() {
+  return /* @__PURE__ */ jsxs22("svg", { width: "18", height: "18", viewBox: "0 0 24 24", "aria-hidden": "true", children: [
+    /* @__PURE__ */ jsx29(
+      "path",
+      {
+        fill: "#4285F4",
+        d: "M23.52 12.27c0-.79-.07-1.54-.2-2.27H12v4.51h6.47c-.29 1.48-1.14 2.73-2.4 3.58v3h3.86c2.26-2.09 3.56-5.17 3.56-8.82z"
+      }
+    ),
+    /* @__PURE__ */ jsx29(
+      "path",
+      {
+        fill: "#34A853",
+        d: "M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.86-3c-1.08.72-2.45 1.16-4.07 1.16-3.13 0-5.78-2.11-6.73-4.96H1.29v3.09C3.26 21.3 7.31 24 12 24z"
+      }
+    ),
+    /* @__PURE__ */ jsx29(
+      "path",
+      {
+        fill: "#FBBC05",
+        d: "M5.27 14.29c-.24-.72-.38-1.49-.38-2.29s.14-1.57.38-2.29V6.62H1.29C.47 8.24 0 10.06 0 12s.47 3.76 1.29 5.38l3.98-3.09z"
+      }
+    ),
+    /* @__PURE__ */ jsx29(
+      "path",
+      {
+        fill: "#EA4335",
+        d: "M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.62l3.98 3.09C6.22 6.86 8.87 4.75 12 4.75z"
+      }
+    )
+  ] });
+}
+function GoogleButton({ onPress }) {
+  return /* @__PURE__ */ jsxs22(
+    "button",
+    {
+      type: "button",
+      onClick: onPress,
+      className: "flex min-h-[44px] w-full items-center justify-center gap-3 rounded-lg border border-border bg-surface px-4 text-body font-medium text-fg active:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg",
+      children: [
+        /* @__PURE__ */ jsx29(GoogleMark, {}),
+        "Continue with Google"
+      ]
+    }
+  );
+}
+function Pane({
+  show,
+  paneRef,
+  children
+}) {
+  return /* @__PURE__ */ jsx29(
+    "div",
+    {
+      ref: paneRef,
+      inert: !show,
+      "aria-hidden": !show,
+      className: [
+        "[grid-area:1/1] flex flex-col gap-3",
+        "motion-safe:transition-opacity motion-safe:duration-300 motion-safe:ease-out",
+        show ? "opacity-100" : "pointer-events-none opacity-0"
+      ].join(" "),
+      children
+    }
+  );
+}
+function useActivePaneHeight(active) {
+  const [height, setHeight] = useState6(null);
+  useLayoutEffect(() => {
+    if (active === null) return;
+    const measure = () => setHeight(active.getBoundingClientRect().height);
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(active);
+    return () => observer.disconnect();
+  }, [active]);
+  return height;
+}
+function OnboardingScreen({ start = "choose" }) {
+  const [pane, setPane] = useState6(start);
+  const [email, setEmail] = useState6("hello@aburungo.app");
+  const [password, setPassword] = useState6("correct-horse-battery");
+  const [loading, setLoading] = useState6(false);
+  const signingUp = pane === "signup";
+  const [choosePane, setChoosePane] = useState6(null);
+  const [formPane, setFormPane] = useState6(null);
+  const height = useActivePaneHeight(pane === "choose" ? choosePane : formPane);
+  function submit(e) {
+    e.preventDefault();
+    setLoading(true);
+    window.setTimeout(() => {
+      setLoading(false);
+      setPane("choose");
+    }, 700);
+  }
+  return /* @__PURE__ */ jsxs22("main", { className: "flex flex-1 flex-col gap-10 px-6 pb-10 pt-20", children: [
     /* @__PURE__ */ jsxs22("div", { className: "flex flex-col items-center gap-5 text-center", children: [
       /* @__PURE__ */ jsx29("span", { className: "hanko", style: { fontSize: 96 }, "aria-hidden": "true" }),
       /* @__PURE__ */ jsxs22("div", { className: "flex flex-col gap-2", children: [
@@ -2253,65 +2347,52 @@ function LandingScreen({ onStart }) {
         /* @__PURE__ */ jsx29("p", { className: "text-body-lg text-fg-muted", children: "Practical Japanese for real life." })
       ] })
     ] }),
-    /* @__PURE__ */ jsxs22("div", { className: "flex w-full flex-col gap-3", children: [
-      /* @__PURE__ */ jsx29(Button, { fullWidth: true, onClick: onStart, children: "Sign in" }),
-      /* @__PURE__ */ jsx29(Button, { variant: "secondary", fullWidth: true, onClick: onStart, children: "Create account" })
-    ] })
-  ] });
-}
-function SignInScreen({ onSubmit, onBack }) {
-  const [email, setEmail] = useState6("hello@aburungo.app");
-  const [password, setPassword] = useState6("correct-horse-battery");
-  const [loading, setLoading] = useState6(false);
-  function submit(e) {
-    e.preventDefault();
-    setLoading(true);
-    window.setTimeout(() => {
-      setLoading(false);
-      onSubmit();
-    }, 600);
-  }
-  return /* @__PURE__ */ jsxs22("main", { className: "flex flex-1 flex-col gap-8 px-6 pb-10 pt-4", children: [
-    /* @__PURE__ */ jsxs22("div", { className: "flex items-center justify-between", children: [
-      /* @__PURE__ */ jsx29(Button, { variant: "ghost", size: "sm", onClick: onBack, children: "\u2190 Back" }),
-      /* @__PURE__ */ jsx29("h2", { className: "text-body-lg font-semibold text-fg-heading", children: "Sign in" }),
-      /* @__PURE__ */ jsx29("span", { className: "w-16" })
-    ] }),
-    /* @__PURE__ */ jsxs22("form", { onSubmit: submit, className: "flex flex-col gap-4", children: [
-      /* @__PURE__ */ jsx29(
-        TextInput,
+    /* @__PURE__ */ jsxs22("div", { className: "flex flex-col gap-5", children: [
+      /* @__PURE__ */ jsxs22(
+        "div",
         {
-          label: "Email",
-          type: "email",
-          value: email,
-          onChange: (e) => setEmail(e.target.value),
-          autoComplete: "email"
+          className: "grid items-start overflow-hidden motion-safe:transition-[height] motion-safe:duration-300 motion-safe:ease-out",
+          style: height === null ? void 0 : { height },
+          children: [
+            /* @__PURE__ */ jsxs22(Pane, { show: pane === "choose", paneRef: setChoosePane, children: [
+              /* @__PURE__ */ jsx29(Button, { fullWidth: true, onClick: () => setPane("signin"), children: "Sign in" }),
+              /* @__PURE__ */ jsx29(Button, { variant: "secondary", fullWidth: true, onClick: () => setPane("signup"), children: "Create account" })
+            ] }),
+            /* @__PURE__ */ jsxs22(Pane, { show: pane !== "choose", paneRef: setFormPane, children: [
+              /* @__PURE__ */ jsxs22("form", { onSubmit: submit, className: "flex flex-col gap-3", children: [
+                /* @__PURE__ */ jsx29(
+                  TextInput,
+                  {
+                    label: "Email",
+                    type: "email",
+                    value: email,
+                    onChange: (e) => setEmail(e.target.value),
+                    autoComplete: "email"
+                  }
+                ),
+                /* @__PURE__ */ jsx29(
+                  TextInput,
+                  {
+                    label: "Password",
+                    type: "password",
+                    value: password,
+                    onChange: (e) => setPassword(e.target.value),
+                    autoComplete: signingUp ? "new-password" : "current-password"
+                  }
+                ),
+                /* @__PURE__ */ jsx29(Button, { fullWidth: true, type: "submit", loading, children: signingUp ? "Create account" : "Sign in" })
+              ] }),
+              /* @__PURE__ */ jsx29(Button, { variant: "ghost", fullWidth: true, onClick: () => setPane("choose"), children: "\u2190 Back" })
+            ] })
+          ]
         }
       ),
-      /* @__PURE__ */ jsx29(
-        TextInput,
-        {
-          label: "Password",
-          type: "password",
-          value: password,
-          onChange: (e) => setPassword(e.target.value),
-          autoComplete: "current-password"
-        }
-      ),
-      /* @__PURE__ */ jsx29(Button, { fullWidth: true, type: "submit", loading, children: "Sign in" })
-    ] }),
-    /* @__PURE__ */ jsxs22("p", { className: "text-center text-body-sm text-fg-subtle", children: [
-      "New here?",
-      " ",
-      /* @__PURE__ */ jsx29(
-        "button",
-        {
-          type: "button",
-          onClick: onSubmit,
-          className: "min-h-[44px] font-medium text-link underline-offset-2 active:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg",
-          children: "Create an account"
-        }
-      )
+      /* @__PURE__ */ jsxs22("div", { className: "flex items-center gap-3", "aria-hidden": "true", children: [
+        /* @__PURE__ */ jsx29("span", { className: "h-px flex-1 bg-border" }),
+        /* @__PURE__ */ jsx29("span", { className: "text-body-sm text-fg-subtle", children: "or" }),
+        /* @__PURE__ */ jsx29("span", { className: "h-px flex-1 bg-border" })
+      ] }),
+      /* @__PURE__ */ jsx29(GoogleButton, { onPress: () => setPane("choose") })
     ] })
   ] });
 }
@@ -2319,8 +2400,8 @@ function SignInScreen({ onSubmit, onBack }) {
 // ui_kits/mobile/main.tsx
 import { Fragment as Fragment7, jsx as jsx30, jsxs as jsxs23 } from "react/jsx-runtime";
 var ONBOARDING = [
-  { id: "landing", label: "Landing" },
-  { id: "signin", label: "Sign in" }
+  { id: "landing", label: "Landing", pane: "choose" },
+  { id: "signin", label: "Sign in", pane: "signin" }
 ];
 var SCREEN_IDS = [...ONBOARDING.map((o) => o.id), ...FLOWS.map((f) => f.id)];
 function FlowInDevice({ flow }) {
@@ -2363,13 +2444,16 @@ function OnboardingInDevice({ start }) {
         onSelect: setScreen
       }
     ),
-    /* @__PURE__ */ jsxs23(Device, { dark: false, children: [
-      screen === "landing" && /* @__PURE__ */ jsx30(LandingScreen, { onStart: () => setScreen("signin") }),
-      screen === "signin" && /* @__PURE__ */ jsx30(SignInScreen, { onSubmit: () => setScreen("landing"), onBack: () => setScreen("landing") })
-    ] }),
+    /* @__PURE__ */ jsx30(Device, { dark: false, children: /* @__PURE__ */ jsx30(
+      OnboardingScreen,
+      {
+        start: ONBOARDING.find((o) => o.id === screen)?.pane ?? "choose"
+      },
+      screen
+    ) }),
     /* @__PURE__ */ jsx30("dl", { className: "flex w-56 shrink-0 flex-col gap-3 text-body-sm", children: /* @__PURE__ */ jsxs23("div", { className: "flex flex-col", children: [
       /* @__PURE__ */ jsx30("dt", { className: "font-medium text-fg-muted", children: "Before sign-in" }),
-      /* @__PURE__ */ jsx30("dd", { className: "text-fg-subtle", children: "The only two screens with no header band. Both rebuilt on the real components \u2014 the versions here until 2026-08-17 rendered their primary button as bare text." })
+      /* @__PURE__ */ jsx30("dd", { className: "text-fg-subtle", children: "One screen, not two. The mark holds still and the block under it crossfades: the buttons fade out and the fields fade in in the same place. Google sits outside the fade \u2014 it is an alternative to both paths, so taking it should not mean backing out of the one you just chose. The only surface with no header band, and the one the old kit rendered with its primary button as bare text." })
     ] }) })
   ] });
 }
