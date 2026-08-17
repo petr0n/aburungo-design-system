@@ -52,6 +52,25 @@ export function Screen({ children }: { children: ReactNode }) {
  * Negative margins cancel `Screen`'s padding so the texture bleeds edge to
  * edge; the card puts it back. See The Patterned Ground Rule in `DESIGN.md`.
  */
+/**
+ * The crest ground for a scrolling list, rather than one centred panel.
+ *
+ * `EmptyStage` centres a single glass panel in the remaining height, which is
+ * right for an empty state and wrong for a list — the items would be pinned to
+ * the middle. Same negative margins, same bleed, no centring.
+ *
+ * `tile-sm` (72px), chosen 2026-08-16 from four sizes measured on this exact
+ * treatment in `preview/_sandbox/scenario-5-tile-size.html`. At 56px the crest
+ * reads as noise; at 140px as a few large medallions rather than a textile.
+ */
+export function PatternedStage({ children }: { children: ReactNode }) {
+  return (
+    <div className="emboss-bg crest-1 tile-sm -mx-4 -mt-5 flex flex-1 flex-col gap-3 px-4 py-4">
+      {children}
+    </div>
+  )
+}
+
 export function EmptyStage({ children }: { children: ReactNode }) {
   return (
     <div className="emboss-bg crest-1 -mx-4 -mt-5 flex flex-1 items-center justify-center px-4 py-10">

@@ -1,0 +1,128 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../dist/tokens.plain.css">
+<link rel="stylesheet" href="../../src/brand.css">
+<style>
+ body{margin:0;padding:26px;font-family:var(--font-sans);color:var(--fg);background:var(--bg)}
+ h1{font-size:var(--heading-sm);margin:0 0 4px;color:var(--fg-heading)}
+ .lede{color:var(--fg-muted);margin:0 0 20px;font-size:var(--body-sm);max-width:104ch;line-height:1.55}
+ h2{font-size:var(--body);margin:0 0 2px;color:var(--fg-heading)}
+ .note{font-size:var(--caption);color:var(--fg-muted);margin:0 0 12px;max-width:104ch;line-height:1.5}
+
+ table{border-collapse:collapse;margin-bottom:34px}
+ th{font-size:var(--caption);font-weight:600;color:var(--fg-subtle);text-align:left;
+    padding:0 10px 8px 0;vertical-align:bottom}
+ th.cond{width:210px}
+ td{padding:0 10px 10px 0;vertical-align:top}
+ .rowlab{font-size:var(--caption);color:var(--fg-heading);font-weight:600;width:190px;
+   padding-right:14px;line-height:1.4}
+ .rowlab span{display:block;font-weight:400;color:var(--fg-subtle);margin-top:2px}
+
+ .strip{width:200px;height:52px;display:flex;align-items:center;padding:0 12px;
+   border-radius:var(--radius-lg)}
+ .tag{display:inline-block;font-size:var(--caption);font-weight:700;letter-spacing:.06em;
+   text-transform:uppercase;padding:.25rem .6rem;border-radius:var(--radius-sm)}
+ .pill{background:var(--stone-0);color:var(--fg-heading)}
+
+ .a-rokusho{background:var(--accent-rokusho)}
+ .a-ogon   {background:var(--accent-ogon)}
+ .a-ai     {background:var(--accent-ai)}
+ .a-akane  {background:var(--accent-akane)}
+
+ /* The three conditions. Not artistic filters -- each stands for a real one. */
+ .c-normal {}
+ .c-grey   {filter:grayscale(1)}
+ .c-sun    {filter:contrast(.38) brightness(1.28)}
+
+ .verdict{font-family:var(--font-mono);font-size:var(--caption);margin-top:4px}
+ .pass{color:var(--success-fg);font-weight:700}
+ .fail{color:var(--error-fg);font-weight:700}
+</style></head><body>
+
+<h1>Why the tag numbers matter when nothing looks wrong</h1>
+<p class="lede">You asked whether you were supposed to see something on the last page. <b>Honestly: no.</b>
+On a good screen with full sight, a white pill on gold and a white pill on green both look fine — which is
+exactly why the measurement exists. A contrast ratio is not a prediction about your monitor; it predicts
+whether the thing survives <b>the conditions the product is actually used in</b>. AburunGo is a phone app
+for people standing in a station.<br><br>
+<b>These are not options to choose between.</b> Every row below shows <i>one</i> design — the first cell —
+and then the <i>same</i> cell twice more with a filter over it: once with colour removed, once with contrast
+crushed the way sunlight on a phone does. Nothing here is a proposal; it is one thing under three lenses.
+Watch the Ōgon and Rokushō pills vanish in the third cell while Ai-iro and Akane hold.</p>
+
+<h2>The paper pill — option B's tag, on each accent</h2>
+<p class="note"><b>Grey</b> strips out hue and leaves only luminance, which is what contrast ratio measures
+and roughly what a monochromat or a badly calibrated screen sees. <b>Sun</b> crushes contrast the way
+direct light on a phone does.</p>
+
+<table>
+  <tr>
+    <th class="rowlab"></th>
+    <th class="cond">The design</th>
+    <th class="cond">↳ same thing, colour removed</th>
+    <th class="cond">↳ same thing, in glare</th>
+    <th></th>
+  </tr>
+
+  <tr>
+    <td class="rowlab">Rokushō 緑青<span>2.82 : 1</span></td>
+    <td><div class="c-normal"><div class="strip a-rokusho emboss-bg crest-1"><span class="tag pill">Greetings</span></div></div></td>
+    <td><div class="c-grey"><div class="strip a-rokusho emboss-bg crest-1"><span class="tag pill">Greetings</span></div></div></td>
+    <td><div class="c-sun"><div class="strip a-rokusho emboss-bg crest-1"><span class="tag pill">Greetings</span></div></div></td>
+    <td class="verdict"><span class="fail">FAIL</span> needs 3</td>
+  </tr>
+
+  <tr>
+    <td class="rowlab">Ōgon 黄金<span>2.40 : 1 — the worst</span></td>
+    <td><div class="c-normal"><div class="strip a-ogon emboss-bg crest-2"><span class="tag pill">Food &amp; drink</span></div></div></td>
+    <td><div class="c-grey"><div class="strip a-ogon emboss-bg crest-2"><span class="tag pill">Food &amp; drink</span></div></div></td>
+    <td><div class="c-sun"><div class="strip a-ogon emboss-bg crest-2"><span class="tag pill">Food &amp; drink</span></div></div></td>
+    <td class="verdict"><span class="fail">FAIL</span> needs 3</td>
+  </tr>
+
+  <tr>
+    <td class="rowlab">Ai-iro 藍色<span>7.71 : 1</span></td>
+    <td><div class="c-normal"><div class="strip a-ai emboss-bg crest-1"><span class="tag pill">Getting around</span></div></div></td>
+    <td><div class="c-grey"><div class="strip a-ai emboss-bg crest-1"><span class="tag pill">Getting around</span></div></div></td>
+    <td><div class="c-sun"><div class="strip a-ai emboss-bg crest-1"><span class="tag pill">Getting around</span></div></div></td>
+    <td class="verdict"><span class="pass">PASS</span></td>
+  </tr>
+
+  <tr>
+    <td class="rowlab">Akane 茜色<span>4.58 : 1</span></td>
+    <td><div class="c-normal"><div class="strip a-akane emboss-bg crest-2"><span class="tag pill">Emergency</span></div></div></td>
+    <td><div class="c-grey"><div class="strip a-akane emboss-bg crest-2"><span class="tag pill">Emergency</span></div></div></td>
+    <td><div class="c-sun"><div class="strip a-akane emboss-bg crest-2"><span class="tag pill">Emergency</span></div></div></td>
+    <td class="verdict"><span class="pass">PASS</span></td>
+  </tr>
+</table>
+
+<h2>The token failure — <code>PhraseCard</code>'s Rokushō tag, shipping today</h2>
+<p class="note">This one is not about the scenario card and not about the crest. It is flat paper text on a
+flat Rokushō fill, <b>3.19:1</b>, in a component the app already uses. The fix row is the same fill with a
+<code>stone-900</code> label.</p>
+
+<table>
+  <tr>
+    <th class="rowlab"></th>
+    <th class="cond">The design</th>
+    <th class="cond">↳ same thing, colour removed</th>
+    <th class="cond">↳ same thing, in glare</th>
+    <th></th>
+  </tr>
+  <tr>
+    <td class="rowlab">Today<span>paper on Rokushō · 3.19 : 1</span></td>
+    <td><div class="c-normal"><div class="strip a-rokusho" style="color:var(--accent-rokusho-fg);font-weight:700;font-size:var(--body-sm)">Order a drink</div></div></td>
+    <td><div class="c-grey"><div class="strip a-rokusho" style="color:var(--accent-rokusho-fg);font-weight:700;font-size:var(--body-sm)">Order a drink</div></div></td>
+    <td><div class="c-sun"><div class="strip a-rokusho" style="color:var(--accent-rokusho-fg);font-weight:700;font-size:var(--body-sm)">Order a drink</div></div></td>
+    <td class="verdict"><span class="fail">FAIL</span> needs 4.5</td>
+  </tr>
+  <tr>
+    <td class="rowlab">Proposed<span>stone-900 on Rokushō · 5.46 : 1</span></td>
+    <td><div class="c-normal"><div class="strip a-rokusho" style="color:var(--stone-900);font-weight:700;font-size:var(--body-sm)">Order a drink</div></div></td>
+    <td><div class="c-grey"><div class="strip a-rokusho" style="color:var(--stone-900);font-weight:700;font-size:var(--body-sm)">Order a drink</div></div></td>
+    <td><div class="c-sun"><div class="strip a-rokusho" style="color:var(--stone-900);font-weight:700;font-size:var(--body-sm)">Order a drink</div></div></td>
+    <td class="verdict"><span class="pass">PASS</span></td>
+  </tr>
+</table>
+
+</body></html>

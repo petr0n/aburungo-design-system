@@ -147,7 +147,13 @@
   --color-accent-ai:          var(--color-ai-500);
   --color-accent-ai-fg:       var(--color-stone-0);
   --color-accent-rokusho:     var(--color-rokusho-500);
-  --color-accent-rokusho-fg:  var(--color-stone-0);
+  /* stone-900, not stone-0. Paper on Rokusho 500 is 3.19:1 -- a failing AA
+     pair shipping in PhraseCard's tag since the accent set was built, and
+     never gated. Rokusho 500 stays locked as the brand value; only the label
+     moves. stone-900 gives 5.46:1, and matches what Ogon already does: a dark
+     label on a light accent. Measured 2026-08-16, see
+     preview/_sandbox/scenario-3-why-it-matters.html. */
+  --color-accent-rokusho-fg:  var(--color-stone-900);
   --color-accent-akane:       var(--color-akane-500);
   --color-accent-akane-fg:    var(--color-stone-0);
 

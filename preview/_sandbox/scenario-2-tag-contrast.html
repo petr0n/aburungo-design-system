@@ -1,0 +1,158 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../dist/tokens.plain.css">
+<link rel="stylesheet" href="../../src/brand.css">
+<style>
+ body{margin:0;padding:26px;font-family:var(--font-sans);color:var(--fg);background:var(--bg)}
+ h1{font-size:var(--heading-sm);margin:0 0 4px;color:var(--fg-heading)}
+ .lede{color:var(--fg-muted);margin:0 0 8px;font-size:var(--body-sm);max-width:100ch;line-height:1.5}
+ h2{font-size:var(--body);margin:30px 0 4px;color:var(--fg-heading)}
+ .note{font-size:var(--caption);color:var(--fg-muted);margin:0 0 14px;max-width:100ch;line-height:1.5}
+ .row{display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start}
+ .col{width:290px;display:flex;flex-direction:column;gap:6px}
+ .cap{font-size:var(--caption);font-weight:600;color:var(--fg-heading)}
+
+ .card{border:1px solid var(--border);border-radius:var(--radius-xl);overflow:hidden;
+   background:var(--surface);box-shadow:var(--shadow-card)}
+ .strip{height:58px;display:flex;align-items:center;padding:0 14px}
+ .body{padding:12px 14px 14px}
+ .title{font-size:var(--body-lg);font-weight:600;color:var(--fg-heading);margin:0 0 2px}
+ .cando{font-size:var(--body-sm);color:var(--fg-muted);margin:0}
+
+ .tag{display:inline-block;font-size:var(--caption);font-weight:700;letter-spacing:.06em;
+   text-transform:uppercase;padding:.25rem .6rem;border-radius:var(--radius-sm)}
+ /* Treatment 1 — the paper pill the mockup used. */
+ .t-paper{background:var(--stone-0);color:var(--fg-heading)}
+ /* Treatment 2 — the accent's own -fg token, straight on the strip. */
+ .t-onfield{background:transparent}
+
+ .a-rokusho{background:var(--accent-rokusho)} .f-rokusho{color:var(--accent-rokusho-fg)}
+ .a-ogon   {background:var(--accent-ogon)}    .f-ogon   {color:var(--accent-ogon-fg)}
+ .a-ai     {background:var(--accent-ai)}      .f-ai     {color:var(--accent-ai-fg)}
+ .a-akane  {background:var(--accent-akane)}   .f-akane  {color:var(--accent-akane-fg)}
+
+ .out{font-family:var(--font-mono);font-size:var(--caption);color:var(--fg-subtle);min-height:1.4em}
+ .out b{font-weight:700}
+ .pass{color:var(--success-fg)} .fail{color:var(--error-fg)}
+</style></head><body>
+
+<h1>Scenario card B — does the tag hold on every accent?</h1>
+<p class="lede">Option B puts a scenario tag on a saturated strip with the crest debossed over it. The four
+accents are <b>nowhere near the same lightness</b> — Ai-iro is near-black, Ōgon is a light gold — so one tag
+treatment cannot sit on all four. Every number below is <b>measured from the rendered pixels</b>, crest
+included, not computed from the token values.</p>
+
+<h2>1 · Paper pill — the treatment the option-B mockup used</h2>
+<p class="note">A warm-paper pill with Ai-iro text. The number is the pill against the strip it sits on:
+this is whether the pill reads as <i>a shape at all</i>, so the bar is <b>3:1</b>.</p>
+<div class="row">
+  <div class="col"><div class="cap">Rokushō 緑青</div>
+    <div class="card"><div class="strip emboss-bg crest-1 a-rokusho"><span class="tag t-paper" data-probe="paper-rokusho">Greetings &amp; basics</span></div>
+      <div class="body"><p class="title">Where are you from?</p><p class="cando">Introduce yourself</p></div></div>
+    <div class="out" data-out="paper-rokusho"></div></div>
+
+  <div class="col"><div class="cap">Ōgon 黄金</div>
+    <div class="card"><div class="strip emboss-bg crest-2 a-ogon"><span class="tag t-paper" data-probe="paper-ogon">Food &amp; drink</span></div>
+      <div class="body"><p class="title">At the café</p><p class="cando">Order a drink</p></div></div>
+    <div class="out" data-out="paper-ogon"></div></div>
+
+  <div class="col"><div class="cap">Ai-iro 藍色</div>
+    <div class="card"><div class="strip emboss-bg crest-1 a-ai"><span class="tag t-paper" data-probe="paper-ai">Getting around</span></div>
+      <div class="body"><p class="title">At the station</p><p class="cando">Buy a train ticket</p></div></div>
+    <div class="out" data-out="paper-ai"></div></div>
+
+  <div class="col"><div class="cap">Akane 茜色</div>
+    <div class="card"><div class="strip emboss-bg crest-2 a-akane"><span class="tag t-paper" data-probe="paper-akane">Emergency</span></div>
+      <div class="body"><p class="title">Help, please</p><p class="cando">Ask for help</p></div></div>
+    <div class="out" data-out="paper-akane"></div></div>
+</div>
+
+<h2>2 · Text straight on the field, using each accent's own <code>-fg</code> token</h2>
+<p class="note">No pill. The number is the label against the crest-over-accent ground it sits on — that is
+text, so the bar is <b>4.5:1</b>. This is the treatment the accent tokens were actually designed for.</p>
+<div class="row">
+  <div class="col"><div class="cap">Rokushō 緑青</div>
+    <div class="card"><div class="strip emboss-bg crest-1 a-rokusho"><span class="tag t-onfield f-rokusho" data-probe="field-rokusho">Greetings &amp; basics</span></div>
+      <div class="body"><p class="title">Where are you from?</p><p class="cando">Introduce yourself</p></div></div>
+    <div class="out" data-out="field-rokusho"></div></div>
+
+  <div class="col"><div class="cap">Ōgon 黄金</div>
+    <div class="card"><div class="strip emboss-bg crest-2 a-ogon"><span class="tag t-onfield f-ogon" data-probe="field-ogon">Food &amp; drink</span></div>
+      <div class="body"><p class="title">At the café</p><p class="cando">Order a drink</p></div></div>
+    <div class="out" data-out="field-ogon"></div></div>
+
+  <div class="col"><div class="cap">Ai-iro 藍色</div>
+    <div class="card"><div class="strip emboss-bg crest-1 a-ai"><span class="tag t-onfield f-ai" data-probe="field-ai">Getting around</span></div>
+      <div class="body"><p class="title">At the station</p><p class="cando">Buy a train ticket</p></div></div>
+    <div class="out" data-out="field-ai"></div></div>
+
+  <div class="col"><div class="cap">Akane 茜色</div>
+    <div class="card"><div class="strip emboss-bg crest-2 a-akane"><span class="tag t-onfield f-akane" data-probe="field-akane">Emergency</span></div>
+      <div class="body"><p class="title">Help, please</p><p class="cando">Ask for help</p></div></div>
+    <div class="out" data-out="field-akane"></div></div>
+</div>
+
+<h2>3 · The strips side by side, no tag — the lightness spread</h2>
+<p class="note">The root cause. These are the same crest at the same opacity on each accent. Any single tag
+style has to work on all four of these grounds.</p>
+<div class="row">
+  <div class="col" style="width:180px"><div class="strip emboss-bg crest-1 a-rokusho" style="border-radius:var(--radius-xl)"></div><div class="out" data-out="ground-rokusho"></div></div>
+  <div class="col" style="width:180px"><div class="strip emboss-bg crest-2 a-ogon"    style="border-radius:var(--radius-xl)"></div><div class="out" data-out="ground-ogon"></div></div>
+  <div class="col" style="width:180px"><div class="strip emboss-bg crest-1 a-ai"      style="border-radius:var(--radius-xl)"></div><div class="out" data-out="ground-ai"></div></div>
+  <div class="col" style="width:180px"><div class="strip emboss-bg crest-2 a-akane"   style="border-radius:var(--radius-xl)"></div><div class="out" data-out="ground-akane"></div></div>
+</div>
+
+<h2>4 · The bigger problem this turned up — <code>accent-rokusho-fg</code> fails on its own accent</h2>
+<p class="note">Not a scenario-card issue. <code>PhraseCard</code> ships
+<code>bg-accent-rokusho text-accent-rokusho-fg</code> today, and that pair is <b>flat colour on flat
+colour</b> — no crest involved. <b>None of the four accent pairs were gated.</b> Numbers below are computed
+live from the tokens in this page, so they cannot go stale.</p>
+<div class="row" id="pairs"></div>
+
+<script>
+(function () {
+  const cs = getComputedStyle(document.documentElement)
+  const tok = (n) => cs.getPropertyValue(n).trim()
+  const toRGB = (v) => {
+    if (v.startsWith('#')) { const h = v.length === 4 ? v.slice(1).split('').map(c=>c+c).join('') : v.slice(1)
+      return [0,2,4].map(i => parseInt(h.slice(i,i+2),16)) }
+    return v.match(/\d+/g).slice(0,3).map(Number)
+  }
+  const lin = (c) => (c <= 0.04045 ? c/12.92 : ((c+0.055)/1.055)**2.4)
+  const L = (v) => { const [r,g,b] = toRGB(v).map(n=>n/255); return 0.2126*lin(r)+0.7152*lin(g)+0.0722*lin(b) }
+  const ratio = (a,b) => { const [x,y] = [L(a),L(b)].sort((p,q)=>q-p); return Math.round((x+0.05)/(y+0.05)*100)/100 }
+
+  const rows = [
+    ['Ōgon 黄金',    '--accent-ogon',    '--accent-ogon-fg'],
+    ['Ai-iro 藍色',  '--accent-ai',      '--accent-ai-fg'],
+    ['Rokushō 緑青', '--accent-rokusho', '--accent-rokusho-fg'],
+    ['Akane 茜色',   '--accent-akane',   '--accent-akane-fg'],
+  ]
+  const host = document.getElementById('pairs')
+  for (const [name, bgTok, fgTok] of rows) {
+    const bg = tok(bgTok), fg = tok(fgTok), r = ratio(fg, bg), ok = r >= 4.5
+    const el = document.createElement('div')
+    el.className = 'col'; el.style.width = '220px'
+    el.innerHTML =
+      '<div class="cap">' + name + '</div>' +
+      '<div style="background:' + bg + ';color:' + fg + ';padding:16px;border-radius:var(--radius-lg);' +
+        'font-weight:700;font-size:var(--body-sm);text-align:center">Order a drink</div>' +
+      '<div class="out"><b class="' + (ok ? 'pass' : 'fail') + '">' + (ok ? 'PASS' : 'FAIL') + '</b> ' +
+        r + ':1 &nbsp;(need 4.5)</div>'
+    host.appendChild(el)
+  }
+
+  // The fix, shown beside the failure rather than described.
+  const fixBg = tok('--accent-rokusho'), fixFg = tok('--stone-900')
+  const r = ratio(fixFg, fixBg)
+  const el = document.createElement('div')
+  el.className = 'col'; el.style.width = '220px'
+  el.innerHTML =
+    '<div class="cap">Rokushō — proposed fix</div>' +
+    '<div style="background:' + fixBg + ';color:' + fixFg + ';padding:16px;border-radius:var(--radius-lg);' +
+      'font-weight:700;font-size:var(--body-sm);text-align:center">Order a drink</div>' +
+    '<div class="out"><b class="pass">PASS</b> ' + r + ':1 &nbsp;<span style="color:var(--fg-faint)">fg &rarr; stone-900</span></div>'
+  host.appendChild(el)
+})()
+</script>
+
+</body></html>

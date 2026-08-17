@@ -241,9 +241,18 @@
    is recorded because it is three hundredths from passing and nobody would
    catch it by eye.
 
-   Margin note: 4.89 on a card leaves 0.39 over the bar. A denser crest, an
-   `--emboss-opacity` above .35, or a darker warm stone will break it. This
-   fill was the most transparent of five variants and was chosen on looks
+   Margin note: 4.89 on a card leaves 0.39 over the bar. An `--emboss-opacity`
+   above .35 or a darker warm stone will break it.
+
+   Density is NOT the risk, which this comment used to claim. Measured across
+   four tile sizes on the lesson-list treatment, smaller tiles come out very
+   slightly *better* -- 4.86 at 56px against 4.72 at 140px -- because the 4px
+   blur averages fine detail away while a large crest keeps broad dark areas
+   that survive it. What matters is crest feature size relative to the blur
+   radius, not how many tiles fit. Measured in
+   `preview/_sandbox/scenario-5-tile-size.html`.
+
+   This fill was the most transparent of five variants and was chosen on looks
    with the trade-off stated. `check-contrast.mjs` gates it against the card
    case; re-measure rather than assuming if any of those inputs change.
 
@@ -276,6 +285,24 @@
 /* The bright top-left lip. This is what makes the panel read as a pane
    catching light rather than a flat wash — it adds the impression of
    opacity without adding any to the field the text sits on. */
+/* The accent rule on a glass pane — which scenario a card belongs to.
+
+   These are modifiers rather than Tailwind utilities at the call site because
+   `.glass` sets a full `border: 2px solid`, and `border-t-[3px]
+   border-t-accent-rokusho` loses to it: both are single-class selectors, and
+   brand.css lands after the generated utilities, so the shorthand wins and
+   resets the top edge back to the paper rim.
+
+   The utilities were written first and rendered nothing at all — no error, no
+   warning, the cards simply had no accent. That is the same failure as
+   `bg-inverse` in docs/colors.md: a class that is correct-looking, silently
+   inert, and invisible to typecheck, lint and the contrast gate alike. Found
+   by putting it on a screen. Keep the rule here, next to what overrides it. */
+.glass.rule-ogon    { border-top-width: 3px; border-top-color: var(--color-accent-ogon) }
+.glass.rule-ai      { border-top-width: 3px; border-top-color: var(--color-accent-ai) }
+.glass.rule-rokusho { border-top-width: 3px; border-top-color: var(--color-accent-rokusho) }
+.glass.rule-akane   { border-top-width: 3px; border-top-color: var(--color-accent-akane) }
+
 .glass::before{
   content: "";
   position: absolute;
