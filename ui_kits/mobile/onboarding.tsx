@@ -41,6 +41,7 @@
  * it spent the accent variant on a call to action.
  */
 import { useLayoutEffect, useState } from 'react'
+import type { FormEvent, ReactNode, Ref } from 'react'
 import { Button, TextInput } from '../../src/components'
 
 export type OnboardingPane = 'choose' | 'signin' | 'signup'
@@ -111,8 +112,8 @@ function Pane({
   children,
 }: {
   show: boolean
-  paneRef?: React.Ref<HTMLDivElement>
-  children: React.ReactNode
+  paneRef?: Ref<HTMLDivElement>
+  children: ReactNode
 }) {
   return (
     <div
@@ -171,7 +172,7 @@ export function OnboardingScreen({ start = 'choose' }: { start?: OnboardingPane 
   const [formPane, setFormPane] = useState<HTMLDivElement | null>(null)
   const height = useActivePaneHeight(pane === 'choose' ? choosePane : formPane)
 
-  function submit(e: React.FormEvent) {
+  function submit(e: FormEvent) {
     e.preventDefault()
     setLoading(true)
     window.setTimeout(() => {
