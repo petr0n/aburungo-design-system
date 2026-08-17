@@ -61,6 +61,7 @@
     "oxlint": "^1.77.0",
     "puppeteer-core": "^25.5.0",
     "tsup": "^8.5.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "@puppeteer/browsers": "^2.4.0"
   }
 }

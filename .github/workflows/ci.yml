@@ -58,20 +58,20 @@ jobs:
       # build.
       # `npx puppeteer browsers install` needs the full `puppeteer` package,
       # which this repo does not have -- only `puppeteer-core`, which ships no
-      # installer. `@puppeteer/browsers` is the installer on its own.
+      # installer. `@puppeteer/browsers` is that installer standalone, and it
+      # is a devDependency rather than an `npx` fetch so the binary resolves
+      # the same way on every runner: `npx @puppeteer/browsers` died with
+      # "browsers: not found" on ubuntu while working locally.
       #
-      # The install prints the resolved binary path as its last field; feeding
-      # that to PUPPETEER_EXECUTABLE_PATH means CI never depends on guessing a
-      # cache layout, which is the portability trap findChrome was just fixed
-      # for.
+      # The install prints the resolved binary as its last line's last field.
+      # Feeding that to PUPPETEER_EXECUTABLE_PATH means CI never guesses a
+      # cache layout -- the portability trap findChrome was just fixed for.
       - name: Install headless Chrome
         run: |
-          npx --yes @puppeteer/browsers install chrome-headless-shell@stable \
-              --path "$HOME/.cache/puppeteer" | tee /tmp/chrome-install.txt
-          # Last line is `chrome-headless-shell@<build> <absolute path>`; the
-          # lines before it are download progress, so take the line then field.
+          pnpm exec browsers install chrome-headless-shell@stable \
+            --path "$HOME/.cache/puppeteer" | tee /tmp/chrome-install.txt
           bin=$(tail -1 /tmp/chrome-install.txt | awk '{print $NF}')
-          test -x "$bin" || { echo "installer gave no executable: $bin"; exit 1; }
+          test -x "$bin" || { echo "installer gave no executable: '$bin'"; exit 1; }
           echo "PUPPETEER_EXECUTABLE_PATH=$bin" >> "$GITHUB_ENV"
 
       - name: Touch targets and hover-only

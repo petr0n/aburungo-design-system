@@ -36,8 +36,63 @@ const SURFACES = [
   ['flows · fill kana', '/ui_kits/flows/?flow=fill&state=kana'],
   ['flows · lessons', '/ui_kits/flows/?flow=lessons&state=list'],
   ['flows · error', '/ui_kits/flows/?flow=flashcard&state=error'],
-  ['storybook', '/storybook/'],
 ]
+
+/**
+ * Storybook is hash-routed, and `/storybook/` alone renders only the first
+ * story -- Primitives/Button/Primary. Measuring that told us nothing about the
+ * other twenty components, and it showed: FillInput's MIRROR kept the 36px mode
+ * picker after the real component was fixed, which is precisely the drift this
+ * check exists to catch.
+ *
+ * `window.STORIES` is the registry index.html routes from, so the list comes
+ * from the same place the sidebar does and cannot fall behind it.
+ */
+async function storybookHashes(page) {
+  await page.goto(`http://localhost:${PORT}/storybook/`, { waitUntil: 'networkidle0' })
+  await new Promise((r) => setTimeout(r, 800))
+  return page.evaluate(() => {
+    const out = []
+    for (const section of window.STORIES ?? []) {
+      for (const component of section.components) {
+        for (const story of Object.keys(component.stories)) {
+          out.push({
+            label: `${component.name} · ${story}`,
+            hash: `#${encodeURIComponent(section.title)}/${encodeURIComponent(component.name)}/${encodeURIComponent(story)}`,
+          })
+        }
+      }
+    }
+    return out
+  })
+}
+
+/** Measure every interactive box inside `scope`, returning the undersized. */
+const PROBE = (min) => {
+  const sel = 'button, a[href], input:not([type=hidden]), select, textarea, [role="button"], [tabindex]:not([tabindex="-1"])'
+  const out = []
+  let seen = 0
+  // Measure the product, not the tool around it. `[data-phone]` is the flow
+  // harness's screen; `.sb-canvas` is the storybook's story area. The
+  // storybook's own chrome -- the Grid/Solid toggle, the Controls tabs, the
+  // args panel -- is a dev tool nobody uses with a thumb, and counting it
+  // reported 11 failures that were not product at all.
+  const scope = document.querySelector('[data-phone]') ?? document.querySelector('.sb-canvas')
+  for (const el of document.querySelectorAll(sel)) {
+    if (scope !== null && !scope.contains(el)) continue
+    const r = el.getBoundingClientRect()
+    if (r.width === 0 || r.height === 0) continue // not rendered in this state
+    seen += 1
+    if (r.height + 0.5 < min || r.width + 0.5 < min) {
+      out.push({
+        tag: el.tagName.toLowerCase(),
+        label: (el.getAttribute('aria-label') ?? el.textContent ?? '').trim().slice(0, 34),
+        w: Math.round(r.width), h: Math.round(r.height),
+      })
+    }
+  }
+  return { out, seen }
+}
 
 const server = await serveRepo({ port: PORT })
 const browser = await puppeteer.launch({
@@ -56,31 +111,7 @@ for (const [label, path] of SURFACES) {
   await page.goto(`http://localhost:${PORT}${path}`, { waitUntil: 'networkidle0', timeout: 45000 })
   await new Promise((r) => setTimeout(r, 900))
 
-  const small = await page.evaluate((min) => {
-    const sel = 'button, a[href], input:not([type=hidden]), select, textarea, [role="button"], [tabindex]:not([tabindex="-1"])'
-    const out = []
-    let seen = 0
-    // Measure the product, not the tool around it. `[data-phone]` is the flow
-    // harness's screen; `.sb-canvas` is the storybook's story area. The
-    // storybook's own chrome — the Grid/Solid toggle, the Controls tabs, the
-    // args panel — is a dev tool nobody uses with a thumb, and counting it
-    // reported 11 failures that were not product at all.
-    const scope = document.querySelector('[data-phone]') ?? document.querySelector('.sb-canvas')
-    for (const el of document.querySelectorAll(sel)) {
-      if (scope !== null && !scope.contains(el)) continue
-      const r = el.getBoundingClientRect()
-      if (r.width === 0 || r.height === 0) continue // not rendered in this state
-      seen += 1
-      if (r.height + 0.5 < min || r.width + 0.5 < min) {
-        out.push({
-          tag: el.tagName.toLowerCase(),
-          label: (el.getAttribute('aria-label') ?? el.textContent ?? '').trim().slice(0, 34),
-          w: Math.round(r.width), h: Math.round(r.height),
-        })
-      }
-    }
-    return { out, seen }
-  }, MIN)
+  const small = await page.evaluate(PROBE, MIN)
 
   measured += small.seen
   if (small.out.length === 0) {
@@ -95,22 +126,48 @@ for (const [label, path] of SURFACES) {
   await page.close()
 }
 
+// ── Every storybook story, i.e. every JSX mirror ─────────────────────────
+{
+  const page = await browser.newPage()
+  await page.setViewport({ width: 390, height: 900, deviceScaleFactor: 2 })
+  const stories = await storybookHashes(page)
+  let bad = 0
+  for (const { label, hash } of stories) {
+    await page.goto(`http://localhost:${PORT}/storybook/${hash}`, { waitUntil: 'networkidle0' })
+    await new Promise((r) => setTimeout(r, 260))
+    const small = await page.evaluate(PROBE, MIN)
+    measured += small.seen
+    if (small.out.length > 0) {
+      bad += small.out.length
+      failures += small.out.length
+      console.log(`  FAIL  storybook · ${label}`)
+      for (const c of small.out) {
+        console.log(`          ${String(c.w).padStart(3)}x${String(c.h).padEnd(3)}  <${c.tag}> ${c.label}`)
+      }
+    }
+  }
+  console.log(`  ${bad === 0 ? 'ok  ' : 'FAIL'}  ${`storybook · ${stories.length} stories`.padEnd(28)}`)
+  await page.close()
+}
+
 await browser.close()
 server.close()
 
 // ── Hover without active, from source ────────────────────────────────────
 console.log('\nhover-only affordances — source scan\n')
 
-async function* walk(dir) {
+async function collect(dir) {
+  const out = []
   for (const e of await readdir(dir, { withFileTypes: true })) {
     const p = join(dir, e.name)
-    if (e.isDirectory()) yield* walk(p)
-    else if (/\.(tsx|jsx)$/.test(e.name)) yield p
+    if (e.isDirectory()) out.push(...(await collect(p)))
+    else if (/\.(tsx|jsx)$/.test(e.name)) out.push(p)
   }
+  return out
 }
 
 let hoverOnly = 0
-for await (const file of walk('src/components')) {
+for await (const file of [...(await collect('src/components')), 'ui_kits/mobile/components.jsx']) {
   const src = await readFile(file, 'utf8')
   src.split('\n').forEach((line, i) => {
     if (!line.includes('hover:')) return

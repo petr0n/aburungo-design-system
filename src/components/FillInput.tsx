@@ -180,7 +180,7 @@ export function FillInput({
             <button
               type="button"
               onClick={onToggleSystemHint}
-              className="shrink-0 text-body-sm text-fg-faint underline hover:text-fg-muted active:text-fg-muted"
+              className="-my-3 inline-flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center text-body-sm text-fg-faint underline hover:text-fg-muted active:text-fg-muted"
             >
               How?
             </button>
