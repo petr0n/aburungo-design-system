@@ -430,7 +430,7 @@ function KanaKeyboard({ script, section, onScriptChange, onSectionChange, onKey,
           {['hiragana', 'katakana'].map((s) => (
             <button key={s} type="button" onClick={() => onScriptChange(s)}
               className={[
-                'h-11 min-h-[44px] shrink-0 whitespace-nowrap rounded-lg px-2 font-jp text-caption font-medium transition-colors',
+                'flex h-11 min-h-[44px] min-w-[44px] shrink-0 items-center justify-center whitespace-nowrap rounded-lg px-2 font-jp text-caption font-medium transition-colors',
                 script === s
                   ? 'bg-focus text-inverse-on-ogon'
                   : 'border border-key-bg/40 text-key-bg active:bg-rokusho-800',
@@ -443,7 +443,7 @@ function KanaKeyboard({ script, section, onScriptChange, onSectionChange, onKey,
           {['basic', 'voiced', 'small'].map((sec) => (
             <button key={sec} type="button" onClick={() => onSectionChange(sec)}
               className={[
-                'h-11 min-h-[44px] shrink-0 whitespace-nowrap rounded-lg px-2 font-jp text-caption font-medium transition-colors',
+                'flex h-11 min-h-[44px] min-w-[44px] shrink-0 items-center justify-center whitespace-nowrap rounded-lg px-2 font-jp text-caption font-medium transition-colors',
                 section === sec
                   ? 'bg-focus text-inverse-on-ogon'
                   : 'border border-key-bg/40 text-key-bg active:bg-rokusho-800',
@@ -608,7 +608,7 @@ function FillInput({
       <div className="flex gap-1 rounded-xl border border-border bg-surface p-1">
         {['romaji','kana','system'].map((m) => (
           <button key={m} type="button" onClick={() => onModeChange(m)}
-            className={['flex-1 rounded-lg py-2 text-sm font-medium transition-colors',
+            className={['flex min-h-[44px] flex-1 items-center justify-center rounded-lg px-2 text-body-sm font-medium transition-colors',
               mode === m ? 'bg-bg text-fg shadow-card' : 'text-fg-subtle hover:text-fg active:bg-surface-2',
             ].join(' ')}>
             {_MODE_LABELS[m]}
@@ -654,7 +654,7 @@ function FillInput({
           <div className="flex items-start gap-2">
             <p className="text-body-sm text-fg-subtle">Switch your device keyboard to Japanese (日本語).</p>
             <button type="button" onClick={onToggleSystemHint}
-              className="shrink-0 text-body-sm text-fg-faint underline hover:text-fg-muted active:text-fg-muted">How?</button>
+              className="-my-3 inline-flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center text-body-sm text-fg-faint underline hover:text-fg-muted active:text-fg-muted">How?</button>
           </div>
           {showSystemHint && <p className="rounded-xl bg-surface p-3 text-body-sm text-fg-muted">{_SYSTEM_HINT}</p>}
         </div>
