@@ -5,9 +5,15 @@ here into `color-palette-and-app-flow-plan.md` when they get picked up.
 
 ---
 
-## 1. Give the loading screen motion
+## 1. ~~Give the loading screen motion~~ — DONE 2026-08-17
 
 **Where:** [`src/components/LoadingPlaceholder.tsx`](../src/components/LoadingPlaceholder.tsx)
+
+> **Shipped as the card skeleton**, chosen from the two rendered side by side —
+> the spinner was nearly invisible against the crest ground, and the card is the
+> whole screen here so holding its shape stops the page jumping. `motion-safe:`
+> gated; under reduced motion the blocks stop pulsing but still hold the layout.
+> The rest of this entry is the brief it was built from.
 
 **What's wrong.** The whole component is one line of faint text, centred in a
 `min-h-[30vh]` box:
@@ -42,9 +48,19 @@ must survive `prefers-reduced-motion` without becoming invisible.
 
 ---
 
-## 2. Make an error look like an error
+## 2. ~~Make an error look like an error~~ — DONE 2026-08-17
 
 **Where:** [`src/components/ErrorState.tsx`](../src/components/ErrorState.tsx)
+
+> **Shipped as a filled Akane triangle over an Akane panel**, reusing
+> `error-bg` / `error-fg` — the roles `AnswerResult` already wears. Not a
+> circle: ○ is taken. The retry button stays Ai-iro. `EmptyState` kept its quiet
+> treatment, as this entry asked.
+>
+> The gate caught what the eye did not: the panel edge in `error-border`
+> measures **1.36:1** on the crest and Akane 500 measures 2.97:1, both under
+> 3:1 — so it draws in `error-fg` at 7.11:1. The rest of this entry is the
+> brief it was built from.
 
 **What's wrong.** `ErrorState` and `EmptyState` are the same component wearing
 different type sizes. Diffed, they differ on **three lines, all typographic**:
@@ -174,6 +190,10 @@ before raising it.
 
 ### Where it should land, roughly in order
 
+0. **The ground rule itself** — **DONE 2026-08-16.** The crest had reached 4 of
+   16 flow states, and those four were whichever files somebody had been editing.
+   `DESIGN.md` now carries the rule: a full-screen state not showing content
+   carries the crest, a state showing content does not.
 1. ~~**Empty states**~~ — **DONE 2026-08-13.** Four options rendered, D chosen:
    pattern on the page ground, content on a flat card. Shipped as `EmptyStage`
    in `ui_kits/flows/shell.tsx` and applied to all three flows. Recorded in

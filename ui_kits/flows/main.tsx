@@ -1,21 +1,9 @@
 import { createRoot } from 'react-dom/client'
-import { FlashcardRound } from './flashcard-round'
-import { FillBlank } from './fill-blank'
-import { KanaPractice } from './kana-practice'
-import { LessonList } from './lesson-list'
-import { fromUrl } from './shell'
+import { FLOWS, flowById, renderFlow } from './registry'
+import { RunFlow, fromUrl } from './shell'
 
-const FLOWS = {
-  flashcard: { label: 'Flashcard round', render: () => <FlashcardRound /> },
-  kana: { label: 'Kana practice', render: () => <KanaPractice /> },
-  fill: { label: 'Fill in the blank', render: () => <FillBlank /> },
-  lessons: { label: 'Lesson list', render: () => <LessonList /> },
-} as const
-
-type FlowId = keyof typeof FLOWS
-
-const IDS = Object.keys(FLOWS) as FlowId[]
-const current = fromUrl<FlowId>('flow', IDS, 'flashcard')
+const IDS = FLOWS.map((f) => f.id)
+const current = flowById(fromUrl('flow', IDS, IDS[0]))
 
 /**
  * Flow switcher. A link rather than state, so every flow keeps a shareable URL
@@ -28,22 +16,28 @@ function FlowNav() {
         <span className="mr-2 text-caption font-semibold uppercase tracking-wider text-fg-faint">
           Flows
         </span>
-        {IDS.map((id) => (
+        {FLOWS.map((flow) => (
           <a
-            key={id}
-            href={`?flow=${id}`}
-            aria-current={id === current ? 'page' : undefined}
+            key={flow.id}
+            href={`?flow=${flow.id}`}
+            aria-current={flow.id === current.id ? 'page' : undefined}
             className={[
               'inline-flex min-h-[44px] items-center rounded-lg px-3 text-body-sm font-medium transition-colors',
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
-              id === current
+              flow.id === current.id
                 ? 'bg-action text-action-fg'
                 : 'text-link active:bg-surface-2',
             ].join(' ')}
           >
-            {FLOWS[id].label}
+            {flow.label}
           </a>
         ))}
+        <a
+          href="../mobile/"
+          className="ml-auto inline-flex min-h-[44px] items-center rounded-lg px-3 text-body-sm font-medium text-link active:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+        >
+          Mobile kit →
+        </a>
       </div>
     </nav>
   )
@@ -55,6 +49,6 @@ if (host === null) throw new Error('ui_kits/flows: no #root in the host page')
 createRoot(host).render(
   <>
     <FlowNav />
-    {FLOWS[current].render()}
+    {renderFlow(current, (flow) => <RunFlow flow={flow} />)}
   </>,
 )
