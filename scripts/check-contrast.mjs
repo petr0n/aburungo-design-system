@@ -87,6 +87,12 @@ const CHECKS = [
   // boundary at all. rule-on-inverse was Ogon 700 at 2.74:1 until 2026-08-16.
   ['--color-rule-on-inverse', '--color-inverse', UI, 'band rule on inverse chrome'],
   ['--color-action-2-border', '--color-bg', UI, 'secondary button edge on page'],
+  // The maru marks. These carry the outcome -- a learner reads them to find out
+  // whether they got it right -- so they are text, not ornament. They drew in
+  // the 500 steps until 2026-08-16: success-500 was 3.19:1 on a card and 3.00:1
+  // on the page, i.e. failing even the 3:1 for a non-text indicator.
+  ['--color-success-fg', '--color-surface', TEXT, 'recalled mark on card'],
+  ['--color-error-fg', '--color-surface', TEXT, 'not-quite mark on card'],
   // Non-text indicators — the focus ring has to read on every ground it can
   // land on, which is what made the v3 Ogon ring fail its own review.
   ['--color-focus', '--color-bg', UI, 'focus ring on page'],

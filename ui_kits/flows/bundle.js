@@ -881,8 +881,8 @@ var GLYPH = {
   review: "\u2715"
 };
 var OUTCOME_CLASSES = {
-  recalled: "text-success-500",
-  review: "text-error-500"
+  recalled: "text-success-fg",
+  review: "text-error-fg"
 };
 var DEFAULT_LABEL = {
   recalled: "recalled",

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css">
+<link rel="stylesheet" href="../src/brand.css">
+<style>
+  .sub{font-size:var(--caption);color:var(--fg-subtle);margin:-4px 0 12px;max-width:80ch;line-height:1.5}
+  .tick{font-weight:700;font-size:var(--caption);letter-spacing:.06em;text-transform:uppercase}
+  .do  {color:var(--success-fg)}
+  .dont{color:var(--error-fg)}
+  .btn{height:48px;padding:0 24px;border:none;font:600 var(--body-sm)/1 var(--font-sans);
+       border-radius:var(--radius-md);cursor:pointer}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="label">Akane 茜色 — the mark, and errors. Never a CTA.</div>
+  <div class="sub">This page used to be headed <i>&ldquo;Accent CTA — brand purple is reserved for auth +
+    marketing&rdquo;</i> and rendered an Akane <b>Create account</b> button. Both halves were wrong: the purple
+    is v2, and an Akane CTA is the one thing the palette rules out. Settled 2026-08-16 —
+    <code>docs/colors.md</code> correction 11.</div>
+</div>
+
+<div class="card">
+  <div class="tick do">Do · the brand mark</div>
+  <div class="sub">The ア hanko is the whole reason Akane is in the palette. It is a seal, and seals are red.</div>
+  <div class="row" style="align-items:center;gap:20px">
+    <span class="hanko" style="font-size:var(--heading-lg)" aria-hidden="true"></span>
+    <img src="../assets/logo-a-128.png" alt="AburunGo mark" width="48" height="46">
+  </div>
+</div>
+
+<div class="card">
+  <div class="tick do">Do · error and &ldquo;not quite&rdquo;</div>
+  <div class="sub">Akane's second and only other job. The banner text is <code>error-fg</code>, not
+    <code>error-500</code> — the 500 step on the tint is 3.98:1 and fails AA.</div>
+  <div class="row" style="align-items:stretch">
+    <div style="flex:1;background:var(--error-bg);color:var(--error-fg);padding:16px;border-radius:var(--radius-xl);text-align:center">
+      <div style="font-size:var(--body-lg);font-weight:600">Not quite</div>
+    </div>
+    <div style="flex:1;display:flex;align-items:center;gap:10px;padding:16px">
+      <span style="color:var(--error-fg);font-size:var(--heading-sm)">✕</span>
+      <span style="font-size:var(--body-sm);color:var(--fg-muted)">the maru mark for a missed phrase</span>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="tick dont">Don't · a call to action</div>
+  <div class="sub">The button below is what this page used to recommend. On any screen that also shows a
+    missed answer or an error, it is the same red as the thing meaning <i>you got this wrong</i> —
+    <b>2.40:1</b> apart, under the 3:1 two adjacent meanings need. Primary action is <b>Ai-iro</b>.
+    Rendered three ways in <code>preview/_sandbox/action-1-primary.html</code>.</div>
+  <div class="row" style="align-items:center;gap:16px">
+    <button class="btn" style="background:var(--accent);color:var(--accent-fg);opacity:.45" disabled>Create account</button>
+    <span style="font-size:var(--caption);color:var(--error-fg);font-weight:600">✕ not this</span>
+    <button class="btn" style="background:var(--action);color:var(--action-fg)">Create account</button>
+    <span style="font-size:var(--caption);color:var(--success-fg);font-weight:600">○ this</span>
+  </div>
+  <div class="sub" style="margin:10px 0 0">Press state is <code>opacity 0.8</code> on the fill. Hover does
+    nothing — the primary input is a thumb. Never bg-shift, never shrink.</div>
+</div>
+
+</body></html>
