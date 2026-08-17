@@ -56,8 +56,23 @@ jobs:
       # when it cannot run is the failure mode this repo already had once, when
       # check-contrast printed "pass" unconditionally and had never failed a
       # build.
+      # `npx puppeteer browsers install` needs the full `puppeteer` package,
+      # which this repo does not have -- only `puppeteer-core`, which ships no
+      # installer. `@puppeteer/browsers` is the installer on its own.
+      #
+      # The install prints the resolved binary path as its last field; feeding
+      # that to PUPPETEER_EXECUTABLE_PATH means CI never depends on guessing a
+      # cache layout, which is the portability trap findChrome was just fixed
+      # for.
       - name: Install headless Chrome
-        run: npx puppeteer browsers install chrome-headless-shell
+        run: |
+          npx --yes @puppeteer/browsers install chrome-headless-shell@stable \
+              --path "$HOME/.cache/puppeteer" | tee /tmp/chrome-install.txt
+          # Last line is `chrome-headless-shell@<build> <absolute path>`; the
+          # lines before it are download progress, so take the line then field.
+          bin=$(tail -1 /tmp/chrome-install.txt | awk '{print $NF}')
+          test -x "$bin" || { echo "installer gave no executable: $bin"; exit 1; }
+          echo "PUPPETEER_EXECUTABLE_PATH=$bin" >> "$GITHUB_ENV"
 
       - name: Touch targets and hover-only
         run: pnpm check:touch
