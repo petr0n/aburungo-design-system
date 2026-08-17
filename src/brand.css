@@ -276,6 +276,24 @@
 /* The bright top-left lip. This is what makes the panel read as a pane
    catching light rather than a flat wash — it adds the impression of
    opacity without adding any to the field the text sits on. */
+/* The accent rule on a glass pane — which scenario a card belongs to.
+
+   These are modifiers rather than Tailwind utilities at the call site because
+   `.glass` sets a full `border: 2px solid`, and `border-t-[3px]
+   border-t-accent-rokusho` loses to it: both are single-class selectors, and
+   brand.css lands after the generated utilities, so the shorthand wins and
+   resets the top edge back to the paper rim.
+
+   The utilities were written first and rendered nothing at all — no error, no
+   warning, the cards simply had no accent. That is the same failure as
+   `bg-inverse` in docs/colors.md: a class that is correct-looking, silently
+   inert, and invisible to typecheck, lint and the contrast gate alike. Found
+   by putting it on a screen. Keep the rule here, next to what overrides it. */
+.glass.rule-ogon    { border-top-width: 3px; border-top-color: var(--color-accent-ogon) }
+.glass.rule-ai      { border-top-width: 3px; border-top-color: var(--color-accent-ai) }
+.glass.rule-rokusho { border-top-width: 3px; border-top-color: var(--color-accent-rokusho) }
+.glass.rule-akane   { border-top-width: 3px; border-top-color: var(--color-accent-akane) }
+
 .glass::before{
   content: "";
   position: absolute;

@@ -1,0 +1,127 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="../../dist/tokens.plain.css">
+<link rel="stylesheet" href="../../src/brand.css">
+<style>
+ body{margin:0;padding:26px;font-family:var(--font-sans);color:var(--fg);background:var(--bg)}
+ h1{font-size:var(--heading-sm);margin:0 0 4px;color:var(--fg-heading)}
+ .lede{color:var(--fg-muted);margin:0 0 18px;font-size:var(--body-sm);max-width:104ch;line-height:1.55}
+ .row{display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start}
+ .col{display:flex;flex-direction:column;gap:8px;width:300px}
+ .cap{font-size:var(--body-sm);font-weight:600;color:var(--fg-heading)}
+ .cap span{font-weight:400;color:var(--fg-subtle);font-family:var(--font-mono);font-size:var(--caption)}
+
+ .phone{width:300px;border:1px solid var(--border-strong);border-radius:var(--radius-2xl);
+   overflow:hidden;background:var(--bg)}
+ .band{background:var(--inverse);border-bottom:6px solid var(--rule-on-inverse);
+   padding:11px 13px;display:flex;align-items:center;gap:9px}
+ .band .mark{width:26px;height:26px;border-radius:var(--radius-full);background:var(--accent);
+   color:var(--accent-fg);font-family:var(--font-jp);font-weight:700;font-size:var(--caption);
+   display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+ .band .t{color:var(--fg-inverse);font-weight:600;font-size:var(--body-sm)}
+ .list{padding:13px;display:flex;flex-direction:column;gap:11px}
+
+ .gcard{padding:11px 13px;border-radius:var(--radius-xl)}
+ .gcard.accent-rule{border-top-width:3px;border-top-style:solid}
+ .r-rokusho{border-top-color:var(--accent-rokusho)}
+ .r-ogon{border-top-color:var(--accent-ogon)}
+ .r-ai{border-top-color:var(--accent-ai)}
+
+ .tag{display:inline-block;font-size:var(--caption);font-weight:700;letter-spacing:.06em;
+   text-transform:uppercase;padding:.2rem .5rem;border-radius:var(--radius-sm)}
+ .t-rokusho{background:var(--accent-rokusho);color:var(--accent-rokusho-fg)}
+ .t-ogon{background:var(--accent-ogon);color:var(--accent-ogon-fg)}
+ .t-ai{background:var(--accent-ai);color:var(--accent-ai-fg)}
+ .title{font-size:var(--body-lg);font-weight:600;color:var(--fg-heading);margin:7px 0 2px}
+ .cando{font-size:var(--body-sm);color:var(--fg-muted);margin:0}
+ .meta{font-size:var(--caption);color:var(--fg-subtle);margin:5px 0 0}
+ .out{font-family:var(--font-mono);font-size:var(--caption);color:var(--fg-subtle);min-height:1.3em}
+</style></head><body>
+
+<h1>Crest tile size — no new pattern needed</h1>
+<p class="lede">The crest size is a variable, not a property of the artwork: <code>--tile-size</code>, already
+exposed as <code>.tile-sm</code> / <code>.tile-md</code> / <code>.tile-lg</code>. You are currently seeing
+<b>100px</b>. Below are four sizes on the chosen glass-card treatment.<br><br>
+<b>The reason these are measured rather than just shown:</b> <code>brand.css</code> records the glass as
+sitting 0.39 over the contrast bar and warns that a denser crest breaks it. Smaller tile means more crest
+edges per card, so the composite under the panel darkens. Each column's number is the <code>meta</code>
+line — the lightest text on the card, and the first thing that fails.</p>
+
+<div class="row">
+  <div class="col" data-tile="56">
+    <div class="cap">56px <span>&mdash; smaller than any preset</span></div>
+    <div class="phone">
+      <div class="band"><div class="mark">ア</div><div class="t">Lessons</div></div>
+      <div class="emboss-bg crest-1 list" style="--tile-size:56px">
+        <div class="glass gcard accent-rule r-rokusho"><span class="tag t-rokusho">Greetings</span>
+          <p class="title">Where are you from?</p><p class="cando">Introduce yourself</p>
+          <p class="meta">8 phrases &middot; 3 settled</p></div>
+        <div class="glass gcard accent-rule r-ogon"><span class="tag t-ogon">Food &amp; drink</span>
+          <p class="title">At the café</p><p class="cando">Order a drink</p>
+          <p class="meta">11 phrases &middot; not started</p></div>
+        <div class="glass gcard accent-rule r-ai"><span class="tag t-ai">Getting around</span>
+          <p class="title">At the station</p><p class="cando">Buy a train ticket</p>
+          <p class="meta">9 phrases &middot; not started</p></div>
+      </div>
+    </div>
+    <div class="out" data-out="56"></div>
+  </div>
+
+  <div class="col" data-tile="72">
+    <div class="cap">72px <span>&mdash; .tile-sm</span></div>
+    <div class="phone">
+      <div class="band"><div class="mark">ア</div><div class="t">Lessons</div></div>
+      <div class="emboss-bg crest-1 list" style="--tile-size:72px">
+        <div class="glass gcard accent-rule r-rokusho"><span class="tag t-rokusho">Greetings</span>
+          <p class="title">Where are you from?</p><p class="cando">Introduce yourself</p>
+          <p class="meta">8 phrases &middot; 3 settled</p></div>
+        <div class="glass gcard accent-rule r-ogon"><span class="tag t-ogon">Food &amp; drink</span>
+          <p class="title">At the café</p><p class="cando">Order a drink</p>
+          <p class="meta">11 phrases &middot; not started</p></div>
+        <div class="glass gcard accent-rule r-ai"><span class="tag t-ai">Getting around</span>
+          <p class="title">At the station</p><p class="cando">Buy a train ticket</p>
+          <p class="meta">9 phrases &middot; not started</p></div>
+      </div>
+    </div>
+    <div class="out" data-out="72"></div>
+  </div>
+
+  <div class="col" data-tile="100">
+    <div class="cap">100px <span>&mdash; .tile-md, what you saw</span></div>
+    <div class="phone">
+      <div class="band"><div class="mark">ア</div><div class="t">Lessons</div></div>
+      <div class="emboss-bg crest-1 list" style="--tile-size:100px">
+        <div class="glass gcard accent-rule r-rokusho"><span class="tag t-rokusho">Greetings</span>
+          <p class="title">Where are you from?</p><p class="cando">Introduce yourself</p>
+          <p class="meta">8 phrases &middot; 3 settled</p></div>
+        <div class="glass gcard accent-rule r-ogon"><span class="tag t-ogon">Food &amp; drink</span>
+          <p class="title">At the café</p><p class="cando">Order a drink</p>
+          <p class="meta">11 phrases &middot; not started</p></div>
+        <div class="glass gcard accent-rule r-ai"><span class="tag t-ai">Getting around</span>
+          <p class="title">At the station</p><p class="cando">Buy a train ticket</p>
+          <p class="meta">9 phrases &middot; not started</p></div>
+      </div>
+    </div>
+    <div class="out" data-out="100"></div>
+  </div>
+
+  <div class="col" data-tile="140">
+    <div class="cap">140px <span>&mdash; .tile-lg</span></div>
+    <div class="phone">
+      <div class="band"><div class="mark">ア</div><div class="t">Lessons</div></div>
+      <div class="emboss-bg crest-1 list" style="--tile-size:140px">
+        <div class="glass gcard accent-rule r-rokusho"><span class="tag t-rokusho">Greetings</span>
+          <p class="title">Where are you from?</p><p class="cando">Introduce yourself</p>
+          <p class="meta">8 phrases &middot; 3 settled</p></div>
+        <div class="glass gcard accent-rule r-ogon"><span class="tag t-ogon">Food &amp; drink</span>
+          <p class="title">At the café</p><p class="cando">Order a drink</p>
+          <p class="meta">11 phrases &middot; not started</p></div>
+        <div class="glass gcard accent-rule r-ai"><span class="tag t-ai">Getting around</span>
+          <p class="title">At the station</p><p class="cando">Buy a train ticket</p>
+          <p class="meta">9 phrases &middot; not started</p></div>
+      </div>
+    </div>
+    <div class="out" data-out="140"></div>
+  </div>
+</div>
+</body></html>

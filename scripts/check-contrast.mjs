@@ -103,6 +103,15 @@ const CHECKS = [
   ['--color-error-fg', '--color-bg', TEXT, 'not-quite mark on page'],
   ['--color-success-fg', '--color-accent-ai-bg', TEXT, 'recalled mark on the Ai tint'],
   ['--color-error-fg', '--color-accent-ai-bg', TEXT, 'not-quite mark on the Ai tint'],
+  // The four card accents, as PhraseCard and ScoreCard actually use them:
+  // `bg-accent-<hue> text-accent-<hue>-fg`. None of these were gated, and the
+  // four hues are nowhere near the same lightness -- Ai-iro is near-black,
+  // Ogon a light gold -- so passing on one says nothing about the others.
+  // Rokusho was 3.19:1 with a paper label until 2026-08-16.
+  ['--color-accent-ogon-fg', '--color-accent-ogon', TEXT, 'label on the Ogon accent'],
+  ['--color-accent-ai-fg', '--color-accent-ai', TEXT, 'label on the Ai accent'],
+  ['--color-accent-rokusho-fg', '--color-accent-rokusho', TEXT, 'label on the Rokusho accent'],
+  ['--color-accent-akane-fg', '--color-accent-akane', TEXT, 'label on the Akane accent'],
   // Non-text indicators — the focus ring has to read on every ground it can
   // land on, which is what made the v3 Ogon ring fail its own review.
   ['--color-focus', '--color-bg', UI, 'focus ring on page'],

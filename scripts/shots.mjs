@@ -63,6 +63,9 @@ const SURFACES = [
   ['flow-empty', '/ui_kits/flows/?state=empty', 1280, 1100],
   ['flow-error', '/ui_kits/flows/?state=error', 1280, 1100],
   ['flow-checked', '/ui_kits/flows/?state=checked', 1280, 1100],
+  ['lessons-list', '/ui_kits/flows/?flow=lessons&state=list', 1280, 1200],
+  ['phone-lessons', '/ui_kits/flows/?flow=lessons&state=list', 390, 780, '[data-phone]'],
+  ['lessons-empty', '/ui_kits/flows/?flow=lessons&state=empty', 1280, 1100],
   ['color', '/preview/03-color.html', 900, 2400],
   // Every preview page gets a shot. Sixteen of them had none, which is how
   // 12-radii.html went on showing a 6-20px scale for a day after the radii were
@@ -101,6 +104,10 @@ const SURFACES = [
   ['sandbox-pattern11', '/preview/_sandbox/pattern-11-clan-symbols.html', 950, 1250],
   ['sandbox-pattern12', '/preview/_sandbox/pattern-12-emboss-bg.html', 950, 1150],
   ['sandbox-scenario', '/preview/_sandbox/scenario-1-card.html', 1340, 900],
+  ['sandbox-tagcontrast', '/preview/_sandbox/scenario-2-tag-contrast.html', 1300, 1500],
+  ['sandbox-whyitmatters', '/preview/_sandbox/scenario-3-why-it-matters.html', 1080, 900],
+  ['sandbox-glasscards', '/preview/_sandbox/scenario-4-glass-cards.html', 1140, 800],
+  ['sandbox-tilesize', '/preview/_sandbox/scenario-5-tile-size.html', 1360, 780],
   ['sandbox-action', '/preview/_sandbox/action-1-primary.html', 1050, 2100],
   ['sandbox-glass3', '/preview/_sandbox/glass-3-edge.html', 1440, 900],
   ['sandbox-glass2', '/preview/_sandbox/glass-2-transparency.html', 1480, 780],

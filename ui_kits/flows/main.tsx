@@ -2,12 +2,14 @@ import { createRoot } from 'react-dom/client'
 import { FlashcardRound } from './flashcard-round'
 import { FillBlank } from './fill-blank'
 import { KanaPractice } from './kana-practice'
+import { LessonList } from './lesson-list'
 import { fromUrl } from './shell'
 
 const FLOWS = {
   flashcard: { label: 'Flashcard round', render: () => <FlashcardRound /> },
   kana: { label: 'Kana practice', render: () => <KanaPractice /> },
   fill: { label: 'Fill in the blank', render: () => <FillBlank /> },
+  lessons: { label: 'Lesson list', render: () => <LessonList /> },
 } as const
 
 type FlowId = keyof typeof FLOWS

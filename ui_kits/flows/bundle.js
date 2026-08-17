@@ -982,6 +982,9 @@ function Phone({ children }) {
 function Screen({ children }) {
   return /* @__PURE__ */ jsx23("div", { className: "flex flex-1 flex-col gap-5 overflow-y-auto px-4 pb-8 pt-5", children });
 }
+function PatternedStage({ children }) {
+  return /* @__PURE__ */ jsx23("div", { className: "emboss-bg crest-1 tile-sm -mx-4 -mt-5 flex flex-1 flex-col gap-3 px-4 py-4", children });
+}
 function EmptyStage({ children }) {
   return /* @__PURE__ */ jsx23("div", { className: "emboss-bg crest-1 -mx-4 -mt-5 flex flex-1 items-center justify-center px-4 py-10", children: /* @__PURE__ */ jsx23("div", { className: "glass w-full", children: /* @__PURE__ */ jsx23("div", { className: "flex flex-col items-center gap-5", children }) }) });
 }
@@ -1997,19 +2000,131 @@ function KanaPractice() {
   );
 }
 
+// ui_kits/flows/lesson-list.tsx
+import { useState as useState5 } from "react";
+import { jsx as jsx27, jsxs as jsxs19 } from "react/jsx-runtime";
+var SITUATION_ACCENT = {
+  "Greetings & basics": "rokusho",
+  "Food & drink": "ogon",
+  "Getting around": "ai",
+  Emergency: "akane"
+};
+var LESSONS = [
+  { situation: "Greetings & basics", title: "Where are you from?", canDo: "Introduce yourself", phrases: 8, settled: 3 },
+  { situation: "Food & drink", title: "At the caf\xE9", canDo: "Order a drink", phrases: 11, settled: 0 },
+  { situation: "Getting around", title: "At the station", canDo: "Buy a train ticket", phrases: 9, settled: 0 },
+  { situation: "Emergency", title: "Help, please", canDo: "Ask for help", phrases: 6, settled: 0 },
+  // Second lesson in an existing situation -- proves the accent follows the
+  // situation rather than the row, which is the whole point of the mapping.
+  { situation: "Food & drink", title: "Paying the bill", canDo: "Ask for the check", phrases: 7, settled: 0 }
+];
+var TAG2 = {
+  rokusho: "bg-accent-rokusho text-accent-rokusho-fg",
+  ogon: "bg-accent-ogon text-accent-ogon-fg",
+  ai: "bg-accent-ai text-accent-ai-fg",
+  akane: "bg-accent-akane text-accent-akane-fg"
+};
+var RULE2 = {
+  rokusho: "rule-rokusho",
+  ogon: "rule-ogon",
+  ai: "rule-ai",
+  akane: "rule-akane"
+};
+function LessonCard({ lesson }) {
+  const { situation, title, canDo, phrases, settled } = lesson;
+  const accent = SITUATION_ACCENT[situation];
+  return /* @__PURE__ */ jsxs19(
+    "button",
+    {
+      type: "button",
+      className: [
+        "glass block w-full text-left",
+        RULE2[accent],
+        "px-3.5 py-3",
+        "active:brightness-[.97]",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+      ].join(" "),
+      children: [
+        /* @__PURE__ */ jsx27(
+          "span",
+          {
+            className: `inline-flex items-center rounded-sm px-2 py-0.5 text-caption font-bold uppercase tracking-wider ${TAG2[accent]}`,
+            children: situation
+          }
+        ),
+        /* @__PURE__ */ jsx27("span", { className: "mt-2 block text-body-lg font-semibold text-fg-heading", children: title }),
+        /* @__PURE__ */ jsx27("span", { className: "block text-body-sm text-fg-muted", children: canDo }),
+        /* @__PURE__ */ jsxs19("span", { className: "mt-1.5 block text-caption text-fg-subtle", children: [
+          phrases,
+          " phrases \xB7 ",
+          settled > 0 ? `${settled} settled` : "not started"
+        ] })
+      ]
+    }
+  );
+}
+var STATES4 = [
+  { id: "list", label: "List", note: "the scenario cards on the crest ground" },
+  { id: "loading", label: "Loading", note: "lessons being fetched" },
+  { id: "empty", label: "Empty", note: "no chapter picked yet" },
+  { id: "error", label: "Error", note: "load failed, progress intact" }
+];
+function LessonList() {
+  const [state, setState] = useState5(
+    fromUrl(
+      "state",
+      STATES4.map((s) => s.id),
+      "list"
+    )
+  );
+  return /* @__PURE__ */ jsx27(
+    FlowPage,
+    {
+      title: "Lesson list",
+      blurb: "Phase 3B's scenario card, treatment C: the crest grounds the whole list and every lesson is a glass pane over it, so the texture reads through rather than being covered. The accent says which situation \u2014 the rule PhraseCard already follows.",
+      states: STATES4,
+      current: state,
+      onSelect: setState,
+      children: /* @__PURE__ */ jsxs19(Phone, { children: [
+        /* @__PURE__ */ jsx27(AppHeader, { title: "Lessons" }),
+        /* @__PURE__ */ jsxs19(Screen, { children: [
+          state === "list" && /* @__PURE__ */ jsx27(PatternedStage, { children: LESSONS.map((lesson) => /* @__PURE__ */ jsx27(LessonCard, { lesson }, lesson.title)) }),
+          state === "loading" && /* @__PURE__ */ jsx27(LoadingPlaceholder, { label: "Loading lessons\u2026" }),
+          state === "empty" && /* @__PURE__ */ jsx27(PatternedStage, { children: /* @__PURE__ */ jsx27("div", { className: "glass", children: /* @__PURE__ */ jsx27(
+            EmptyState,
+            {
+              message: "No lessons yet",
+              description: "Pick a chapter to get started. Your progress is saved as you go."
+            }
+          ) }) }),
+          state === "error" && /* @__PURE__ */ jsx27(
+            ErrorState,
+            {
+              message: "Couldn't load your lessons",
+              description: "Your progress is saved. This is usually the connection.",
+              action: /* @__PURE__ */ jsx27(Button, { variant: "primary", onClick: () => setState("list"), children: "Try again" })
+            }
+          )
+        ] })
+      ] })
+    }
+  );
+}
+
 // ui_kits/flows/main.tsx
-import { Fragment as Fragment6, jsx as jsx27, jsxs as jsxs19 } from "react/jsx-runtime";
+import { Fragment as Fragment6, jsx as jsx28, jsxs as jsxs20 } from "react/jsx-runtime";
 var FLOWS = {
-  flashcard: { label: "Flashcard round", render: () => /* @__PURE__ */ jsx27(FlashcardRound, {}) },
-  kana: { label: "Kana practice", render: () => /* @__PURE__ */ jsx27(KanaPractice, {}) },
-  fill: { label: "Fill in the blank", render: () => /* @__PURE__ */ jsx27(FillBlank, {}) }
+  flashcard: { label: "Flashcard round", render: () => /* @__PURE__ */ jsx28(FlashcardRound, {}) },
+  kana: { label: "Kana practice", render: () => /* @__PURE__ */ jsx28(KanaPractice, {}) },
+  fill: { label: "Fill in the blank", render: () => /* @__PURE__ */ jsx28(FillBlank, {}) },
+  lessons: { label: "Lesson list", render: () => /* @__PURE__ */ jsx28(LessonList, {}) }
 };
 var IDS = Object.keys(FLOWS);
 var current = fromUrl("flow", IDS, "flashcard");
 function FlowNav() {
-  return /* @__PURE__ */ jsx27("nav", { className: "border-b border-border bg-surface", children: /* @__PURE__ */ jsxs19("div", { className: "mx-auto flex w-full max-w-5xl flex-wrap items-center gap-1 px-6 py-3", children: [
-    /* @__PURE__ */ jsx27("span", { className: "mr-2 text-caption font-semibold uppercase tracking-wider text-fg-faint", children: "Flows" }),
-    IDS.map((id) => /* @__PURE__ */ jsx27(
+  return /* @__PURE__ */ jsx28("nav", { className: "border-b border-border bg-surface", children: /* @__PURE__ */ jsxs20("div", { className: "mx-auto flex w-full max-w-5xl flex-wrap items-center gap-1 px-6 py-3", children: [
+    /* @__PURE__ */ jsx28("span", { className: "mr-2 text-caption font-semibold uppercase tracking-wider text-fg-faint", children: "Flows" }),
+    IDS.map((id) => /* @__PURE__ */ jsx28(
       "a",
       {
         href: `?flow=${id}`,
@@ -2028,8 +2143,8 @@ function FlowNav() {
 var host = document.getElementById("root");
 if (host === null) throw new Error("ui_kits/flows: no #root in the host page");
 createRoot(host).render(
-  /* @__PURE__ */ jsxs19(Fragment6, { children: [
-    /* @__PURE__ */ jsx27(FlowNav, {}),
+  /* @__PURE__ */ jsxs20(Fragment6, { children: [
+    /* @__PURE__ */ jsx28(FlowNav, {}),
     FLOWS[current].render()
   ] })
 );
