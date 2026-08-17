@@ -28,7 +28,7 @@ import {
 } from '../../src/components'
 import type { AnswerOutcome, KanaCell, KanaScript, KanaSection } from '../../src/components'
 import { HIRAGANA_BASIC, KATAKANA_BASIC, KANA_PRACTICE_CARDS } from '../../src/lib'
-import { EmptyStage, FlowPage, Phone, Screen, fromUrl } from './shell'
+import { EmptyStage, FlowPage, Phone, Screen, StateStage, fromUrl } from './shell'
 import type { FlowState } from './shell'
 
 // ─── Content ───────────────────────────────────────────────────────────────
@@ -413,7 +413,9 @@ export function KanaPractice() {
           <>
             <AppHeader title="Kana practice" subtitle="Loading" />
             <Screen>
-              <LoadingPlaceholder label="Building your deck…" />
+              <StateStage>
+                <LoadingPlaceholder label="Building your deck…" />
+              </StateStage>
             </Screen>
           </>
         )}
@@ -440,11 +442,13 @@ export function KanaPractice() {
           <>
             <AppHeader title="Kana practice" />
             <Screen>
-              <ErrorState
-                message="Couldn't load the deck"
-                description="Nothing was lost. This is usually the connection."
-                action={<Button onClick={() => go('drill')}>Try again</Button>}
-              />
+              <StateStage>
+                <ErrorState
+                  message="Couldn't load the deck"
+                  description="Nothing was lost. This is usually the connection."
+                  action={<Button onClick={() => go('drill')}>Try again</Button>}
+                />
+              </StateStage>
             </Screen>
           </>
         )}

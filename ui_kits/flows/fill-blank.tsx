@@ -40,7 +40,7 @@ import type {
   VoiceInputStatus,
 } from '../../src/components'
 import { convertRomaji } from '../../src/lib'
-import { EmptyStage, FlowPage, Phone, Screen, fromUrl } from './shell'
+import { EmptyStage, FlowPage, Phone, Screen, StateStage, fromUrl } from './shell'
 import type { FlowState } from './shell'
 
 const CARD = {
@@ -289,7 +289,9 @@ export function FillBlank() {
           <>
             <AppHeader title="Fill in the blank" subtitle="Loading" progress={0} />
             <Screen>
-              <LoadingPlaceholder label="Finding your next card…" />
+              <StateStage>
+                <LoadingPlaceholder label="Finding your next card…" />
+              </StateStage>
             </Screen>
           </>
         )}
@@ -316,11 +318,13 @@ export function FillBlank() {
           <>
             <AppHeader title="Fill in the blank" />
             <Screen>
-              <ErrorState
-                message="Couldn't load this card"
-                description="Your answer wasn't lost. This is usually the connection."
-                action={<Button onClick={() => go('romaji')}>Try again</Button>}
-              />
+              <StateStage>
+                <ErrorState
+                  message="Couldn't load this card"
+                  description="Your answer wasn't lost. This is usually the connection."
+                  action={<Button onClick={() => go('romaji')}>Try again</Button>}
+                />
+              </StateStage>
             </Screen>
           </>
         )}

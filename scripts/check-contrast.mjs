@@ -137,6 +137,23 @@ const CHECKS = [
   ['--color-fg', '#CACACA', TEXT, 'body text on a patterned ground'],
   ['--color-fg-heading', '#CACACA', TEXT, 'heading on a patterned ground'],
   ['--color-fg-muted', '#CACACA', TEXT, 'secondary text on a patterned ground'],
+  // `ErrorState`'s panel, added 2026-08-16 when the state stopped being
+  // `EmptyState` in a different type size. Its message reuses the pair already
+  // gated as "not-quite banner", but the description line is `fg-muted` on the
+  // Akane tint rather than on a card — a combination nothing measured before.
+  ['--color-fg-muted', '--color-error-bg', TEXT, 'error panel description'],
+  // The panel edge against the crest, which is what separates the two, and the
+  // reason the panel does not need a `.glass` pane under it the way
+  // `EmptyState` does.
+  //
+  // This is why `ErrorState` draws its edge in `error-fg` and not the
+  // `error-border` role it started with: akane-300 on the pattern measures
+  // **1.36:1**, and Akane 500 measures 2.97:1 — still short. The edge was
+  // there in the markup and gone on the screen — the same silent-inert failure
+  // as `bg-inverse` and the `.glass` border, caught here only because the pair
+  // got gated. `error-border` is unchanged and still right for `AnswerResult`,
+  // which sits on a card rather than on a crest.
+  ['--color-error-fg', '#CACACA', UI, 'error panel edge on a patterned ground'],
   // The `.glass` panel — the only way fg-subtle is allowed over a pattern.
   //
   // #EDEDED stands in for the darkest field measured under the shipped glass

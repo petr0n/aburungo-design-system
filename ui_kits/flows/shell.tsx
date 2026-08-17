@@ -71,20 +71,43 @@ export function Screen({ children }: { children: ReactNode }) {
  * treatment in `preview/_sandbox/scenario-5-tile-size.html`. At 56px the crest
  * reads as noise; at 140px as a few large medallions rather than a textile.
  */
+/**
+ * The crest ground, shared by every stage below.
+ *
+ * Negative margins cancel `Screen`'s padding so the texture bleeds edge to
+ * edge. `tile-sm` (72px) everywhere — it was chosen 2026-08-16 from four sizes
+ * measured on the lesson list, and `EmptyStage` was the one surface still on
+ * the default tile. Two tile sizes across three states that are meant to read
+ * as one family is the inconsistency this pass exists to remove.
+ */
+const CREST = 'emboss-bg crest-1 tile-sm -mx-4 -mt-5 flex flex-1 px-4'
+
 export function PatternedStage({ children }: { children: ReactNode }) {
-  return (
-    <div className="emboss-bg crest-1 tile-sm -mx-4 -mt-5 flex flex-1 flex-col gap-3 px-4 py-4">
-      {children}
-    </div>
-  )
+  return <div className={`${CREST} flex-col gap-3 py-4`}>{children}</div>
 }
 
 export function EmptyStage({ children }: { children: ReactNode }) {
   return (
-    <div className="emboss-bg crest-1 -mx-4 -mt-5 flex flex-1 items-center justify-center px-4 py-10">
+    <div className={`${CREST} items-center justify-center py-10`}>
       <div className="glass w-full">
         <div className="flex flex-col items-center gap-5">{children}</div>
       </div>
+    </div>
+  )
+}
+
+/**
+ * Loading and error, on the same ground as empty.
+ *
+ * No `.glass` here, unlike `EmptyStage`: both states bring their own surface —
+ * the skeleton is a card, and `ErrorState` is an Akane panel — so a glass pane
+ * under them would be a second sheet of paper for nothing. See "Which surfaces
+ * carry the ground" in `DESIGN.md`.
+ */
+export function StateStage({ children }: { children: ReactNode }) {
+  return (
+    <div className={`${CREST} items-center justify-center py-10`}>
+      <div className="w-full">{children}</div>
     </div>
   )
 }

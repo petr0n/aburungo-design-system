@@ -68,3 +68,27 @@ export function SpinnerIcon(props: IconBaseProps) {
     </svg>
   )
 }
+
+/**
+ * The error mark — a filled triangle, deliberately NOT a circle.
+ *
+ * ○ means "recalled" in this product and ✕ means "not quite"; `Maru` owns both.
+ * A round alert glyph next to a judgment would be a third circular mark with a
+ * fourth meaning, and `docs/todo.md` already banned circular crests near a
+ * judged answer for the same reason. A triangle collides with nothing.
+ *
+ * The bar and dot are cut out of the fill with `fillRule="evenodd"` rather than
+ * painted on top, so the glyph reads on any ground the panel is given.
+ */
+export function AlertIcon(props: IconBaseProps) {
+  return (
+    <svg {...withDefaults(props)}>
+      <path
+        fill="currentColor"
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M12.87 3.5a1 1 0 00-1.74 0L2.18 19a1 1 0 00.87 1.5h17.9A1 1 0 0021.82 19L12.87 3.5zM11 9.75a1 1 0 112 0v4.5a1 1 0 11-2 0v-4.5zM12 18.5a1.15 1.15 0 110-2.3 1.15 1.15 0 010 2.3z"
+      />
+    </svg>
+  )
+}

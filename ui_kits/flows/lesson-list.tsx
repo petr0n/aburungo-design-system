@@ -29,7 +29,7 @@
  */
 import { useState } from 'react'
 import { AppHeader, Button, EmptyState, ErrorState, LoadingPlaceholder } from '../../src/components'
-import { FlowPage, PatternedStage, Phone, Screen, fromUrl } from './shell'
+import { FlowPage, PatternedStage, Phone, Screen, StateStage, fromUrl } from './shell'
 
 type Accent = 'rokusho' | 'ogon' | 'ai' | 'akane'
 
@@ -153,7 +153,11 @@ export function LessonList() {
               ))}
             </PatternedStage>
           )}
-          {state === 'loading' && <LoadingPlaceholder label="Loading lessons…" />}
+          {state === 'loading' && (
+            <StateStage>
+              <LoadingPlaceholder label="Loading lessons…" />
+            </StateStage>
+          )}
           {state === 'empty' && (
             <PatternedStage>
               <div className="glass">
@@ -165,15 +169,17 @@ export function LessonList() {
             </PatternedStage>
           )}
           {state === 'error' && (
-            <ErrorState
-              message="Couldn't load your lessons"
-              description="Your progress is saved. This is usually the connection."
-              action={
-                <Button variant="primary" onClick={() => setState('list')}>
-                  Try again
-                </Button>
-              }
-            />
+            <StateStage>
+              <ErrorState
+                message="Couldn't load your lessons"
+                description="Your progress is saved. This is usually the connection."
+                action={
+                  <Button variant="primary" onClick={() => setState('list')}>
+                    Try again
+                  </Button>
+                }
+              />
+            </StateStage>
           )}
         </Screen>
       </Phone>
