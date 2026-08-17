@@ -19,8 +19,40 @@
  * .tsx and .css here, and oxlint parses only one of those.
  */
 import { readFileSync, globSync } from 'node:fs'
+import { execFileSync } from 'node:child_process'
 
 const TARGETS = ['src/components/**/*.{tsx,ts}']
+
+/**
+ * `dist/tokens.plain.css` is the one generated file that is committed — six
+ * harnesses and all 27 preview pages link it directly and are served with no
+ * build step, so a clone without it renders every page unstyled.
+ *
+ * It went missing on main in #31 and nobody noticed, because nothing looked.
+ * `tsup --clean` wipes `dist/` mid-build, and a broad `git add` a moment later
+ * stages the deletion alongside whatever the commit was actually about. The
+ * question is not "is it on disk" — a build always puts it back — it is "is it
+ * still in the index".
+ */
+function checkTokenSheetTracked() {
+  const path = 'dist/tokens.plain.css'
+  try {
+    execFileSync('git', ['rev-parse', '--is-inside-work-tree'], { stdio: 'ignore' })
+  } catch {
+    return 0 // published tarball, not a checkout — nothing to assert
+  }
+  try {
+    execFileSync('git', ['ls-files', '--error-unmatch', path], { stdio: 'ignore' })
+    return 0
+  } catch {
+    console.error(
+      `${path}  untracked-token-sheet\n` +
+        '    The committed token sheet is missing from git. The preview pages and\n' +
+        `    harnesses link it with no build step. Fix: pnpm build:tokens && git add ${path}`,
+    )
+    return 1
+  }
+}
 
 const RULES = [
   {
@@ -46,7 +78,7 @@ const RULES = [
 ]
 
 const files = TARGETS.flatMap((p) => globSync(p))
-let violations = 0
+let violations = checkTokenSheetTracked()
 
 for (const file of files) {
   readFileSync(file, 'utf8').split('\n').forEach((line, i) => {
