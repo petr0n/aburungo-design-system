@@ -29,14 +29,6 @@ import {
 } from '../../src/components'
 import type { AnswerOutcome, PhraseAccent } from '../../src/components'
 import { EmptyStage, FlowPage, Phone, Screen, StateStage, fromUrl } from './shell'
-
-/**
- * Temporary — `?loading=spinner` renders the other candidate so the two can be
- * compared on a phone before one is chosen. Delete this and the loser's branch
- * in `LoadingPlaceholder` once the call is made.
- */
-const LOADING_VARIANT =
-  new URLSearchParams(location.search).get('loading') === 'spinner' ? 'spinner' : 'skeleton'
 import type { FlowState } from './shell'
 
 // ─── Content — real phrases, from src/content/phrases/*.yaml ────────────────
@@ -225,7 +217,7 @@ function LoadingScreen() {
       <AppHeader title="Flashcards" subtitle="Loading" progress={0} />
       <Screen>
         <StateStage>
-          <LoadingPlaceholder label="Building your round…" variant={LOADING_VARIANT} />
+          <LoadingPlaceholder label="Building your round…" />
         </StateStage>
       </Screen>
     </>

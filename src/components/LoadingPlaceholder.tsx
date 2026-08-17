@@ -1,7 +1,5 @@
-import { SpinnerIcon } from './icons'
-
 /**
- * The loading state.
+ * The loading state — a skeleton of the card that is arriving.
  *
  * It used to be one line of `text-fg-faint`, which meant a learner who had lost
  * signal saw exactly what a learner two seconds from a round saw. Nothing moved,
@@ -9,38 +7,22 @@ import { SpinnerIcon } from './icons'
  * the product that gave no feedback at all, while the empty state next to it
  * carries the hanko.
  *
- * Both variants are motion-gated with `motion-safe:`. Under
- * `prefers-reduced-motion` the spinner still reads as an icon and the skeleton
- * still holds the card's shape, so neither becomes invisible — which is the
- * constraint `docs/todo.md` set for this work.
+ * **Skeleton over spinner, chosen 2026-08-17** from the two rendered side by
+ * side at `?flow=flashcard&state=loading`. The card is the whole screen here,
+ * so holding its shape means nothing jumps when content lands; and a 32px
+ * spinner on the crest ground read as almost nothing. `SpinnerIcon` stays in
+ * `icons.tsx` — `AudioButton` and `VoiceInput` use it for in-control loading,
+ * which is a different job from a whole screen waiting.
+ *
+ * `motion-safe:` gates the pulse. Under `prefers-reduced-motion` the blocks stop
+ * animating but still hold the card's shape, so the state never becomes
+ * invisible — the constraint `docs/todo.md` set for this work.
  */
 type Props = {
   label?: string
-  /**
-   * `skeleton` holds the layout of the card that is arriving; `spinner` is the
-   * cheaper signal and reuses the vocabulary `AudioButton` and `VoiceInput`
-   * already speak. Rendered side by side before choosing — see
-   * `?flow=flashcard&state=loading&loading=spinner`.
-   */
-  variant?: 'skeleton' | 'spinner'
 }
 
-export function LoadingPlaceholder({ label = 'Loading…', variant = 'skeleton' }: Props) {
-  if (variant === 'spinner') {
-    return (
-      <div
-        className="flex min-h-[30vh] flex-col items-center justify-center gap-3"
-        role="status"
-      >
-        <SpinnerIcon
-          className="h-8 w-8 text-action motion-safe:animate-spin"
-          aria-hidden="true"
-        />
-        <p className="text-body-sm text-fg-muted">{label}</p>
-      </div>
-    )
-  }
-
+export function LoadingPlaceholder({ label = 'Loading…' }: Props) {
   return (
     <div className="flex flex-col gap-4" role="status" aria-label={label}>
       <div className="rounded-lg border border-border bg-surface p-5">

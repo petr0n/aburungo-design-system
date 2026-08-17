@@ -368,26 +368,7 @@ function AppHeader({ title, subtitle, left, right, mark = true, progress }) {
 
 // src/components/LoadingPlaceholder.tsx
 import { jsx as jsx12, jsxs as jsxs5 } from "react/jsx-runtime";
-function LoadingPlaceholder({ label = "Loading\u2026", variant = "skeleton" }) {
-  if (variant === "spinner") {
-    return /* @__PURE__ */ jsxs5(
-      "div",
-      {
-        className: "flex min-h-[30vh] flex-col items-center justify-center gap-3",
-        role: "status",
-        children: [
-          /* @__PURE__ */ jsx12(
-            SpinnerIcon,
-            {
-              className: "h-8 w-8 text-action motion-safe:animate-spin",
-              "aria-hidden": "true"
-            }
-          ),
-          /* @__PURE__ */ jsx12("p", { className: "text-body-sm text-fg-muted", children: label })
-        ]
-      }
-    );
-  }
+function LoadingPlaceholder({ label = "Loading\u2026" }) {
   return /* @__PURE__ */ jsxs5("div", { className: "flex flex-col gap-4", role: "status", "aria-label": label, children: [
     /* @__PURE__ */ jsx12("div", { className: "rounded-lg border border-border bg-surface p-5", children: /* @__PURE__ */ jsxs5("div", { className: "flex flex-col gap-4", children: [
       /* @__PURE__ */ jsx12(Bar, { className: "h-5 w-28 rounded-sm" }),
@@ -1092,7 +1073,6 @@ function FlowPage({
 
 // ui_kits/flows/flashcard-round.tsx
 import { Fragment as Fragment3, jsx as jsx24, jsxs as jsxs17 } from "react/jsx-runtime";
-var LOADING_VARIANT = new URLSearchParams(location.search).get("loading") === "spinner" ? "spinner" : "skeleton";
 var PHRASES = [
   {
     japanese: "\u99C5\u306F\u3069\u3053\u3067\u3059\u304B",
@@ -1241,7 +1221,7 @@ function Round({ onExhausted, from }) {
 function LoadingScreen() {
   return /* @__PURE__ */ jsxs17(Fragment3, { children: [
     /* @__PURE__ */ jsx24(AppHeader, { title: "Flashcards", subtitle: "Loading", progress: 0 }),
-    /* @__PURE__ */ jsx24(Screen, { children: /* @__PURE__ */ jsx24(StateStage, { children: /* @__PURE__ */ jsx24(LoadingPlaceholder, { label: "Building your round\u2026", variant: LOADING_VARIANT }) }) })
+    /* @__PURE__ */ jsx24(Screen, { children: /* @__PURE__ */ jsx24(StateStage, { children: /* @__PURE__ */ jsx24(LoadingPlaceholder, { label: "Building your round\u2026" }) }) })
   ] });
 }
 function EmptyScreen({ onRestart }) {
