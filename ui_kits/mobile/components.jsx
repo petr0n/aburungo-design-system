@@ -287,7 +287,11 @@ const SCORE_TONE = {
 };
 
 function ScoreCard({ correct, total, label = 'recalled', tone = 'plain', children }) {
-  const t = SCORE_TONE[tone];
+  // Falls back rather than throwing. The real component has TypeScript to reject
+  // a bad tone; this mirror is plain JSX with nothing checking it, and an unknown
+  // value here would throw on `t.box` and blank the whole storybook page — the
+  // worst failure mode for the tool people use to look at components.
+  const t = SCORE_TONE[tone] ?? SCORE_TONE.plain;
   return (
     <div className="flex flex-col gap-6">
       <div className={`rounded-2xl border p-6 text-center ${t.box}`}>

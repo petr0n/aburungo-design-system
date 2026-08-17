@@ -637,7 +637,7 @@ const ScoreCardStories = {
         </ScoreCard>
       </div>
     ),
-    code: () => `<ScoreCard correct={18} total={25}>
+    code: () => `<ScoreCard correct={18} total={25} tone="rokusho">
   <Button variant="primary" fullWidth>Practice missed (7)</Button>
   <Button variant="secondary" fullWidth>Done</Button>
 </ScoreCard>`,
