@@ -13,13 +13,13 @@
      color:var(--subtle);margin:0 0 14px}
   .row{display:grid;grid-template-columns:82px 1fr 62px 34px;gap:12px;align-items:center;margin-bottom:9px}
   .step{font:500 11px ui-monospace,Menlo,monospace;color:var(--muted)}
-  .track{height:12px;border-radius:9999px;overflow:hidden}
-  .fill{height:100%;width:62%;background:var(--color-progress-fill);border-radius:9999px}
+  .track{height:12px;border-radius:var(--radius-full);overflow:hidden}
+  .fill{height:100%;width:62%;background:var(--color-progress-fill);border-radius:var(--radius-full)}
   .ratio{font:500 12px ui-monospace,Menlo,monospace;text-align:right}
-  .tag{font:600 10px ui-monospace,Menlo,monospace;text-align:center;border-radius:4px;padding:2px 0}
+  .tag{font:600 10px ui-monospace,Menlo,monospace;text-align:center;border-radius:var(--radius-sm);padding:2px 0}
   .pass{background:var(--color-success-bg);color:var(--color-success-fg)}
   .fail{background:var(--color-error-bg);color:var(--color-error-fg)}
-  .cur{outline:2px solid var(--ink);outline-offset:3px;border-radius:9999px}
+  .cur{outline:2px solid var(--ink);outline-offset:3px;border-radius:var(--radius-full)}
   .chart{position:relative;height:290px;border-left:1px solid var(--line);border-bottom:1px solid var(--line);margin:26px 0 30px 34px}
   .pt{position:absolute;width:9px;height:9px;border-radius:50%;background:var(--ink);transform:translate(-50%,50%)}
   .pt.on{background:var(--color-progress-fill);width:13px;height:13px}
@@ -31,9 +31,9 @@
   .fillmark span{position:absolute;top:-20px;left:50%;transform:translateX(-50%);font:600 10px ui-monospace,Menlo,monospace;color:#33685e;white-space:nowrap}
   .xax{position:absolute;bottom:-22px;font:500 10px ui-monospace,Menlo,monospace;color:var(--subtle)}
   svg.curve{position:absolute;inset:0;overflow:visible;pointer-events:none}
-  .note{margin-top:26px;padding:14px 16px;background:var(--color-tag-bg);border-radius:10px;color:var(--color-tag-fg);max-width:80ch}
+  .note{margin-top:26px;padding:14px 16px;background:var(--color-tag-bg);border-radius:var(--radius-lg);color:var(--color-tag-fg);max-width:80ch}
   .note b{color:#4a3714}
-  code{font:500 12px ui-monospace,Menlo,monospace;background:var(--color-surface-2);padding:1px 5px;border-radius:4px}
+  code{font:500 12px ui-monospace,Menlo,monospace;background:var(--color-surface-2);padding:1px 5px;border-radius:var(--radius-sm)}
 </style></head><body>
 
 <h1>Why darkening the progress track makes contrast worse</h1>

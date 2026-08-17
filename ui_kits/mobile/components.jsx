@@ -306,7 +306,7 @@ function ScoreCard({ correct, total, label = 'recalled', tone = 'plain', childre
 }
 
 const MARU_GLYPH = { recalled: '○', review: '✕' };
-const MARU_CLASSES = { recalled: 'text-success-500', review: 'text-error-500' };
+const MARU_CLASSES = { recalled: 'text-success-fg', review: 'text-error-fg' };
 const MARU_LABEL = { recalled: 'recalled', review: 'worth another look' };
 
 function Maru({ outcome, label, className = '' }) {

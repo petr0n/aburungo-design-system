@@ -87,6 +87,22 @@ const CHECKS = [
   // boundary at all. rule-on-inverse was Ogon 700 at 2.74:1 until 2026-08-16.
   ['--color-rule-on-inverse', '--color-inverse', UI, 'band rule on inverse chrome'],
   ['--color-action-2-border', '--color-bg', UI, 'secondary button edge on page'],
+  // The maru marks. These carry the outcome -- a learner reads them to find out
+  // whether they got it right -- so they are text, not ornament. They drew in
+  // the 500 steps until 2026-08-16: success-500 was 3.19:1 on a card and 3.00:1
+  // on the page, i.e. failing even the 3:1 for a non-text indicator.
+  //
+  // Every ground the mark actually lands on is checked, not just the card. The
+  // page number is the one that was worst, so gating only `surface` would have
+  // let exactly the failure this replaced come back unnoticed. On success-bg and
+  // error-bg the pairing is already covered by the banner checks above; the
+  // Ai tint is AnswerResult's reveal block, which holds the Japanese.
+  ['--color-success-fg', '--color-surface', TEXT, 'recalled mark on card'],
+  ['--color-error-fg', '--color-surface', TEXT, 'not-quite mark on card'],
+  ['--color-success-fg', '--color-bg', TEXT, 'recalled mark on page'],
+  ['--color-error-fg', '--color-bg', TEXT, 'not-quite mark on page'],
+  ['--color-success-fg', '--color-accent-ai-bg', TEXT, 'recalled mark on the Ai tint'],
+  ['--color-error-fg', '--color-accent-ai-bg', TEXT, 'not-quite mark on the Ai tint'],
   // Non-text indicators — the focus ring has to read on every ground it can
   // land on, which is what made the v3 Ogon ring fail its own review.
   ['--color-focus', '--color-bg', UI, 'focus ring on page'],

@@ -1,15 +1,37 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css"></head>
+<html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css">
+<!-- brand.css is not reached through _card.css; the hanko below needs it. -->
+<link rel="stylesheet" href="../src/brand.css">
+<style>
+  .sub{font-size:var(--caption);color:var(--fg-subtle);margin:-4px 0 12px;max-width:80ch;line-height:1.5}
+  .box{height:64px;background:var(--surface);border:1px solid var(--border-strong)}
+</style>
+</head>
 <body>
 <div class="card">
-  <div class="label">Radii — rounded but never accidental</div>
+  <div class="label">Radii — one step, 4px</div>
+  <div class="sub">Flattened 2026-08-16. Every box radius is <code>0.25rem</code>. The six token names are
+    kept and all resolve to the same value, so components still ask for a radius by role and restoring a
+    scale is a six-line edit in <code>src/tokens.css</code>. <b>Each swatch reads its value from the token
+    — this page cannot go stale.</b></div>
   <div class="row">
-    <div class="swatch" style="flex:1"><div style="height:64px;background:var(--surface);border:1px solid var(--border);border-radius:6px"></div><div class="name">sm · 6</div><div class="hex"></div></div>
-    <div class="swatch" style="flex:1"><div style="height:64px;background:var(--surface);border:1px solid var(--border);border-radius:8px"></div><div class="name">md · 8</div><div class="hex"></div></div>
-    <div class="swatch" style="flex:1"><div style="height:64px;background:var(--surface);border:1px solid var(--border);border-radius:12px"></div><div class="name">lg · 12</div><div class="hex"></div></div>
-    <div class="swatch" style="flex:1"><div style="height:64px;background:var(--surface);border:1px solid var(--border);border-radius:16px"></div><div class="name">xl · 16</div><div class="hex"></div></div>
-    <div class="swatch" style="flex:1"><div style="height:64px;background:var(--surface);border:1px solid var(--border);border-radius:20px"></div><div class="name">2xl · 20</div><div class="hex"></div></div>
-    <div class="swatch" style="flex:1"><div style="height:64px;width:64px;margin:0 auto;background:var(--surface);border:1px solid var(--border);border-radius:9999px"></div><div class="name">full</div><div class="hex"></div></div>
+    <div class="swatch" style="flex:1"><div class="box" style="border-radius:var(--radius-sm)"></div><div class="name">sm</div><div class="hex" data-token="--radius-sm"></div></div>
+    <div class="swatch" style="flex:1"><div class="box" style="border-radius:var(--radius-md)"></div><div class="name">md</div><div class="hex" data-token="--radius-md"></div></div>
+    <div class="swatch" style="flex:1"><div class="box" style="border-radius:var(--radius-lg)"></div><div class="name">lg</div><div class="hex" data-token="--radius-lg"></div></div>
+    <div class="swatch" style="flex:1"><div class="box" style="border-radius:var(--radius-xl)"></div><div class="name">xl</div><div class="hex" data-token="--radius-xl"></div></div>
+    <div class="swatch" style="flex:1"><div class="box" style="border-radius:var(--radius-2xl)"></div><div class="name">2xl</div><div class="hex" data-token="--radius-2xl"></div></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="label">The one exception — <code>--radius-full</code></div>
+  <div class="sub">Untouched by the flattening. It draws the <b>hanko</b> — the circular ア seal that is the
+    brand mark — and the <b>maru</b> ○ it shares its geometry with. Both are circles by cultural logic, not
+    styling: a hanko is round because seals are round, and ○ means correct in Japanese schooling regardless
+    of what this product decides. <code>0.25rem</code> here would square off the mark.</div>
+  <div class="row">
+    <div class="swatch"><div class="box" style="width:64px;border-radius:var(--radius-full)"></div><div class="name">full</div><div class="hex" data-token="--radius-full"></div></div>
+    <div class="swatch"><div class="hanko" style="font-size:var(--heading-lg)" aria-hidden="true"></div><div class="name">the hanko</div><div class="hex"></div></div>
   </div>
 </div>
 <script src="_hex.js"></script>
