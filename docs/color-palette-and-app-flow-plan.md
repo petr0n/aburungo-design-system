@@ -419,7 +419,7 @@ Note the shape of it: **`AppHeader` and `KanaKeyboard` are two of the nine compo
 > | 4 | JSX mirror per component | present |
 > | 5 | no value-token references | `check-adherence.mjs` |
 > | 6 | contrast per surface | `check-contrast.mjs` — 36/39, three written exceptions |
-> | 7 | **touch ≥44px / active / no hover-only** | **`check-touch-targets.mjs`, in `pnpm lint`** |
+> | 7 | **touch ≥44px / active / no hover-only** | **`check-touch-targets.mjs`, its own CI step** |
 > | 8 | **renders at 375 / 768 / 1024 / 1440** | **`pnpm shots:responsive`** |
 >
 > Points 7 and 8 were recorded as needing a human at a screen. Point 7 did not:
@@ -429,6 +429,13 @@ Note the shape of it: **`AppHeader` and `KanaKeyboard` are two of the nine compo
 > — which reads as compliant in the source. `FillInput`'s mode picker was 36px
 > tall: `py-2` on `text-body-sm`, with no minimum at all. Both fixed; all 67
 > controls now measure clear.
+>
+> It is a separate CI step rather than part of `pnpm lint`, because it measures
+> in a browser and `lint` runs inside `pnpm build` — making a build depend on a
+> Chrome download is a bad trade. It is **not** skipped when Chrome is missing:
+> a check that quietly passes when it cannot run is the failure this repo
+> already had once, when `check-contrast` printed "pass" unconditionally and had
+> never failed a build.
 >
 > Point 8 still ends in a human looking, but the looking is at one page rather
 > than twenty-eight browser sessions. The first sweep reported all fourteen

@@ -45,3 +45,19 @@ jobs:
 
       - name: Build
         run: pnpm build
+
+      # Touch targets are MEASURED in a browser, not inferred from class names
+      # -- that is the whole reason the check found two defects grep could not.
+      # So it needs Chrome, which `pnpm lint` must not: lint runs inside
+      # `pnpm build`, and making a build depend on a browser download is a bad
+      # trade. It gets its own step instead, which still fails the run.
+      #
+      # Not made skippable when Chrome is absent. A check that quietly passes
+      # when it cannot run is the failure mode this repo already had once, when
+      # check-contrast printed "pass" unconditionally and had never failed a
+      # build.
+      - name: Install headless Chrome
+        run: npx puppeteer browsers install chrome-headless-shell
+
+      - name: Touch targets and hover-only
+        run: pnpm check:touch
