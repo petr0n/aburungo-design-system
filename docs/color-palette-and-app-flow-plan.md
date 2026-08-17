@@ -524,12 +524,26 @@ Colour-dependent findings get logged, not fixed — they're revisited in one pas
 > to-do. How each is verified today: 1–2 by `pnpm typecheck` and `pnpm lint`;
 > 3 and 5 by `check-touch-targets.mjs` and `pnpm shots:responsive`; 4 by
 > `check-contrast.mjs`. 6, 7 and 8 were asserted as "green repo-wide" before
-> anyone checked, and were checked on 2026-08-16: no emoji in `src/components`,
-> no banned verdict wording, `Maru` carries `aria-hidden` glyph + `sr-only`
-> label, `GradePair` inherits it by composing `Maru`, `AnswerResult` uses text
-> and a tinted banner rather than a glyph so the rule does not apply, and
-> `KanaGrid` labels its cells. All pass — but the assertion preceded the check,
-> which is the thing to not repeat.
+> anyone checked, and were checked on 2026-08-16:
+>
+> - **No emoji** in `src/components`. The ○ and ✕ are glyphs the product means,
+>   not decoration, and are covered by the aria rule below rather than this one.
+> - **Wording — user-facing verdict copy only**, which is what item 8 governs.
+>   Every string a learner reads is sanctioned: `Recalled!` and `Not quite`
+>   (`AnswerResult`), `Worth another look` (`GradePair`), and `Maru`'s
+>   screen-reader labels `recalled` / `worth another look`. **Zero banned words
+>   appear in rendered copy.** The words still exist as identifiers and in
+>   prose — `ScoreCard`'s `correct` prop is a count, and comments discuss
+>   "correctness" — and that is fine: the rule is about what the product says
+>   to a learner at the moment of judgment, not about the repo's vocabulary.
+>   Read as a repo-wide string claim it would simply be false.
+> - **Three channels:** `Maru` carries an `aria-hidden` glyph plus an `sr-only`
+>   label, `GradePair` inherits that by composing `Maru`, `AnswerResult` uses
+>   text and a tinted banner rather than a glyph so the rule does not apply, and
+>   `KanaGrid` labels its cells.
+>
+> All pass — but the assertion preceded the check, which is the thing to not
+> repeat.
 
 - [ ] `pnpm typecheck` clean
 - [ ] `pnpm lint` clean on the file — oxlint + `check-adherence` + `check-contrast`. ~~`npx impeccable detect <X>.tsx` — no new findings vs baseline~~ **rescoped 2026-08-10:** the baseline holds zero `.tsx` findings, so "no new findings vs baseline" silently meant "zero findings allowed" against a baseline that had never seen a component. `check-adherence` covers `src/components/**` and is what actually runs. Run `impeccable detect` on the file by hand if you want a second opinion; it is not the gate
