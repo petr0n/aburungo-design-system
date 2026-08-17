@@ -241,8 +241,15 @@
    is recorded because it is three hundredths from passing and nobody would
    catch it by eye.
 
-   Margin note: 4.89 on a card leaves 0.39 over the bar. A denser crest, an
-   `--emboss-opacity` above .35, or a darker warm stone will break it. This
+   Margin note: 4.89 on a card leaves 0.39 over the bar. An `--emboss-opacity`
+   above .35 or a darker warm stone will break it.
+
+   Density is NOT the risk, which this comment used to claim. Measured across
+   four tile sizes on the lesson-list treatment, smaller tiles come out very
+   slightly *better* -- 4.86 at 56px against 4.72 at 140px -- because the 4px
+   blur averages fine detail away while a large crest keeps broad dark areas
+   that survive it. What matters is crest feature size relative to the blur
+   radius, not how many tiles fit. See preview/_sandbox/scenario-5-tile-size. This
    fill was the most transparent of five variants and was chosen on looks
    with the trade-off stated. `check-contrast.mjs` gates it against the card
    case; re-measure rather than assuming if any of those inputs change.
