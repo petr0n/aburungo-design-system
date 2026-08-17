@@ -14,12 +14,9 @@
  * Serves the repo root over http.server first. The harnesses do NOT work from
  * file:// — the token sheet and JSX are fetched relative to the server root.
  */
-import { createServer } from 'node:http'
-import { readFile, mkdir, readdir } from 'node:fs/promises'
-import { existsSync } from 'node:fs'
-import { extname, join, resolve } from 'node:path'
-import { homedir } from 'node:os'
+import { mkdir } from 'node:fs/promises'
 import puppeteer from 'puppeteer-core'
+import { findChrome, serveRepo } from './lib/harness.mjs'
 
 const PORT = 6099
 const OUT = 'scripts/.shots-out'
@@ -124,38 +121,6 @@ const SURFACES = [
   ['empty-state', '/preview/25-empty-state.html', 760, 260],
 ]
 
-const MIME = {
-  '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript',
-  '.jsx': 'text/javascript', '.mjs': 'text/javascript', '.json': 'application/json',
-  '.png': 'image/png', '.svg': 'image/svg+xml', '.ttf': 'font/ttf', '.woff2': 'font/woff2',
-}
-
-/** Chrome comes from puppeteer's cache; `npx impeccable` populates it. */
-async function findChrome() {
-  const base = join(homedir(), '.cache/puppeteer/chrome-headless-shell')
-  if (!existsSync(base)) {
-    throw new Error(
-      'No cached Chrome. Run:  npx puppeteer browsers install chrome-headless-shell',
-    )
-  }
-  const versions = (await readdir(base)).sort()
-  const bin = join(base, versions.at(-1), 'chrome-headless-shell-mac-arm64', 'chrome-headless-shell')
-  if (!existsSync(bin)) throw new Error(`Chrome not at expected path: ${bin}`)
-  return bin
-}
-
-const server = createServer(async (req, res) => {
-  let p = decodeURIComponent(req.url.split('?')[0])
-  if (p.endsWith('/')) p += 'index.html'
-  try {
-    const body = await readFile(resolve('.' + p))
-    res.writeHead(200, { 'Content-Type': MIME[extname(p)] ?? 'application/octet-stream' })
-    res.end(body)
-  } catch {
-    res.writeHead(404).end('not found')
-  }
-})
-
 const filters = process.argv.slice(2)
 const wanted = SURFACES.filter((s) => filters.length === 0 || filters.some((f) => s[0].includes(f)))
 if (wanted.length === 0) {
@@ -164,7 +129,7 @@ if (wanted.length === 0) {
 }
 
 await mkdir(OUT, { recursive: true })
-await new Promise((r) => server.listen(PORT, r))
+const server = await serveRepo({ port: PORT })
 const browser = await puppeteer.launch({
   executablePath: await findChrome(), headless: true, args: ['--no-sandbox'],
 })

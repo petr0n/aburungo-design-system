@@ -12,31 +12,16 @@
  *
  *   node scripts/measure-strip-contrast.mjs
  */
-import { createServer } from 'node:http'
-import { readFile, readdir } from 'node:fs/promises'
-import { extname, join, resolve } from 'node:path'
-import { homedir } from 'node:os'
 import puppeteer from 'puppeteer-core'
+import { findChrome, serveRepo } from './lib/harness.mjs'
 
 const PORT = 6097
 const PAGE = '/preview/_sandbox/scenario-2-tag-contrast.html'
-const MIME = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript',
-  '.png': 'image/png', '.svg': 'image/svg+xml', '.ttf': 'font/ttf', '.woff2': 'font/woff2' }
 
-const server = createServer(async (req, res) => {
-  let p = decodeURIComponent(req.url.split('?')[0])
-  if (p.endsWith('/')) p += 'index.html'
-  try {
-    const body = await readFile(resolve('.' + p))
-    res.writeHead(200, { 'Content-Type': MIME[extname(p)] ?? 'application/octet-stream' })
-    res.end(body)
-  } catch { res.writeHead(404).end('not found') }
+const server = await serveRepo({ port: PORT })
+const browser = await puppeteer.launch({
+  executablePath: await findChrome(), headless: true, args: ['--no-sandbox'],
 })
-await new Promise((r) => server.listen(PORT, r))
-
-const base = join(homedir(), '.cache/puppeteer/chrome-headless-shell')
-const bin = join(base, (await readdir(base)).sort().at(-1), 'chrome-headless-shell-mac-arm64', 'chrome-headless-shell')
-const browser = await puppeteer.launch({ executablePath: bin, headless: true, args: ['--no-sandbox'] })
 const page = await browser.newPage()
 await page.setViewport({ width: 1300, height: 1500, deviceScaleFactor: 2 })
 await page.goto(`http://localhost:${PORT}${PAGE}`, { waitUntil: 'networkidle0' })

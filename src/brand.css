@@ -249,8 +249,10 @@
    slightly *better* -- 4.86 at 56px against 4.72 at 140px -- because the 4px
    blur averages fine detail away while a large crest keeps broad dark areas
    that survive it. What matters is crest feature size relative to the blur
-   radius, not how many tiles fit. See preview/_sandbox/scenario-5-tile-size. This
-   fill was the most transparent of five variants and was chosen on looks
+   radius, not how many tiles fit. Measured in
+   `preview/_sandbox/scenario-5-tile-size.html`.
+
+   This fill was the most transparent of five variants and was chosen on looks
    with the trade-off stated. `check-contrast.mjs` gates it against the card
    case; re-measure rather than assuming if any of those inputs change.
 

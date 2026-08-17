@@ -35,7 +35,7 @@
   "scripts": {
     "check:brand": "node scripts/check-forbidden-assets.mjs",
     "check:adherence": "node scripts/check-adherence.mjs",
-    "lint": "oxlint --config .oxlintrc.json src/ && pnpm check:adherence && pnpm check:contrast",
+    "lint": "oxlint --config .oxlintrc.json src/ && pnpm check:adherence && pnpm check:contrast && pnpm test:harness",
     "build": "pnpm check:brand && pnpm lint && tsup && pnpm build:tokens && pnpm build:flows",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
@@ -44,7 +44,8 @@
     "build:flows": "node scripts/build-flows.mjs",
     "check:contrast": "node scripts/check-contrast.mjs",
     "shots": "node scripts/shots.mjs",
-    "serve": "node scripts/serve.mjs"
+    "serve": "node scripts/serve.mjs",
+    "test:harness": "node scripts/lib/harness.test.mjs"
   },
   "peerDependencies": {
     "react": ">=18",
