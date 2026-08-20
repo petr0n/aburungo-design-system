@@ -28,8 +28,8 @@ import {
   ScoreCard,
 } from '../../src/components'
 import type { AnswerOutcome, PhraseAccent } from '../../src/components'
-import { EmptyStage, FlowPage, Phone, Screen, fromUrl } from './shell'
-import type { FlowState } from './shell'
+import { EmptyStage, Screen, StateStage, fromUrl } from './shell'
+import type { FlowDef, FlowState } from './shell'
 
 // ─── Content — real phrases, from src/content/phrases/*.yaml ────────────────
 
@@ -216,7 +216,9 @@ function LoadingScreen() {
     <>
       <AppHeader title="Flashcards" subtitle="Loading" progress={0} />
       <Screen>
-        <LoadingPlaceholder label="Building your round…" />
+        <StateStage>
+          <LoadingPlaceholder label="Building your round…" />
+        </StateStage>
       </Screen>
     </>
   )
@@ -252,11 +254,13 @@ function ErrorScreen({ onRetry }: { onRetry: () => void }) {
     <>
       <AppHeader title="Flashcards" />
       <Screen>
-        <ErrorState
-          message="Couldn't load this round"
-          description="Your progress is saved. This is usually the connection."
-          action={<Button onClick={onRetry}>Try again</Button>}
-        />
+        <StateStage>
+          <ErrorState
+            message="Couldn't load this round"
+            description="Your progress is saved. This is usually the connection."
+            action={<Button onClick={onRetry}>Try again</Button>}
+          />
+        </StateStage>
       </Screen>
     </>
   )
@@ -296,7 +300,7 @@ function CheckedScreen() {
   )
 }
 
-// ─── Host ──────────────────────────────────────────────────────────────────
+// ─── The flow, as both harnesses consume it ────────────────────────────────
 
 type StateId = 'round' | 'loading' | 'empty' | 'error' | 'checked'
 
@@ -310,33 +314,26 @@ const STATES: readonly FlowState<StateId>[] = [
 
 const STEPS = ['prompt', 'reveal', 'summary'] as const
 
-export function FlashcardRound() {
-  const [state, setState] = useState<StateId>(
-    fromUrl('state', STATES.map((s) => s.id), 'round'),
-  )
-  const [nonce, setNonce] = useState(0)
-  const step = fromUrl('step', STEPS, 'prompt')
-
-  function reset(next: StateId) {
-    setState(next)
-    setNonce(nonce + 1)
-  }
-
-  return (
-    <FlowPage
-      title="Flashcard round"
-      blurb="The five states of one flow, built from the shipped components — not a mirror of them. Click through the round: show the answer, grade yourself, reach the summary."
-      states={STATES}
-      current={state}
-      onSelect={reset}
-    >
-      <Phone key={nonce}>
-        {state === 'round' && <Round from={step} onExhausted={() => reset('empty')} />}
+export const flashcardFlow: FlowDef<StateId> = {
+  id: 'flashcard',
+  label: 'Flashcard round',
+  title: 'Flashcard round',
+  blurb:
+    'The five states of one flow, built from the shipped components — not a mirror of them. Click through the round: show the answer, grade yourself, reach the summary.',
+  states: STATES,
+  initial: 'round',
+  Screens({ state, go }) {
+    // `?step=` deep-links into the middle of a round, so a summary can be
+    // linked to directly without clicking through four cards to reach it.
+    const step = fromUrl('step', STEPS, 'prompt')
+    return (
+      <>
+        {state === 'round' && <Round from={step} onExhausted={() => go('empty')} />}
         {state === 'loading' && <LoadingScreen />}
-        {state === 'empty' && <EmptyScreen onRestart={() => reset('round')} />}
-        {state === 'error' && <ErrorScreen onRetry={() => reset('round')} />}
+        {state === 'empty' && <EmptyScreen onRestart={() => go('round')} />}
+        {state === 'error' && <ErrorScreen onRetry={() => go('round')} />}
         {state === 'checked' && <CheckedScreen />}
-      </Phone>
-    </FlowPage>
-  )
+      </>
+    )
+  },
 }

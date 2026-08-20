@@ -36,6 +36,15 @@ const SURFACES = [
   ['flows · fill kana', '/ui_kits/flows/?flow=fill&state=kana'],
   ['flows · lessons', '/ui_kits/flows/?flow=lessons&state=list'],
   ['flows · error', '/ui_kits/flows/?flow=flashcard&state=error'],
+  // The mobile kit, since 2026-08-17. It renders the same flow definitions
+  // inside an iPhone frame, and its two onboarding screens exist nowhere else
+  // -- the landing screen's primary CTA was an unstyled `variant="accent"`
+  // that measured as a bare text node for as long as the kit existed.
+  ['mobile · landing', '/ui_kits/mobile/?screen=landing'],
+  ['mobile · sign in', '/ui_kits/mobile/?screen=signin'],
+  ['mobile · flashcard', '/ui_kits/mobile/?screen=flashcard&state=round'],
+  ['mobile · kana keyboard', '/ui_kits/mobile/?screen=kana&state=keyboard'],
+  ['mobile · lessons', '/ui_kits/mobile/?screen=lessons&state=list'],
 ]
 
 /**

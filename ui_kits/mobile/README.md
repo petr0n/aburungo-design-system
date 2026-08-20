@@ -1,34 +1,58 @@
 # AburunGo — Mobile UI kit
 
-> **This kit is a hand-written mirror and it has drifted.** `components.jsx` and
-> `screens.jsx` retype every component in browser JSX rather than importing
-> `src/components`, so they lag the real ones — `screens.jsx` still renders a
-> bare-`<h1>` `AppHeader` and v2 colours.
->
-> For anything screen-shaped, use [`../flows/`](../flows/README.md) instead. It
-> imports the real components and is bundled, so it cannot drift.
+Every product screen in an iPhone frame, **built from the shipped components**.
 
-A click-through high-fidelity recreation of the actual AburunGo mobile surface, built on top of the design system's primitives.
+Serve the repo (`pnpm serve`) and open
+[`/ui_kits/mobile/`](http://127.0.0.1:6006/ui_kits/mobile/). Every screen is
+deep-linkable: `?screen=lessons&state=list`, `?screen=flashcard&state=error`.
+
+## It is no longer a mirror
+
+Until 2026-08-17 this kit retyped every component in browser JSX — `components.jsx`,
+`screens.jsx`, `ios-frame.jsx` — rather than importing `src/components`. It was
+several palettes behind, and it had shipped two defects for as long as it existed:
+
+- **The landing screen's primary CTA rendered as bare text.** It asked for
+  `variant="accent"`, which no `Button` has ever implemented. The variant map
+  returned `undefined`, so the class list came out empty. Plain JSX with no
+  types cannot say that; TSX can, and now does.
+- **A violet 3D mark sat in the logo position** — `assets/hero.png`, a v2
+  artefact that survived the whole v3 merge on five surfaces. The mark is the
+  ア hanko. The asset is deleted.
+
+`main.tsx` now imports `src/components` and the *same* flow definitions
+[`../flows/`](../flows/README.md) renders, from `../flows/registry.ts`. A
+component cannot be right in TSX and wrong here, and adding a screen means
+adding it once.
 
 ## What's here
 
-- **`index.html`** — the demo host. Click through the four core screens:
-  1. **Landing** — hero, wordmark, sign-in / create-account CTAs
-  2. **Sign in** — email + password form, accent CTA
-  3. **Review** — fill-in-the-blank flashcard with three input modes (romaji / kana grid / JP keyboard) + audio button, result banner (Recalled! / Not quite)
-  4. **All caught up** — empty state
-- **`components.jsx`** — browser-runnable mirror of `src/components/ui/*` and the domain components (`PhraseCard`, `KanaGrid`, `AudioButton`, `ProgressBar`). Mirrors the canonical TSX in `src/components/` 1:1 but as plain Babel JSX so the demo runs without a build step.
-- **`screens.jsx`** — `LandingScreen`, `SignInScreen`, `ReviewScreen`, `EmptyScreen`. Composed entirely from `components.jsx`. Real phrase content from `src/content/phrases/*.yaml`.
-- **`ios-frame.jsx`** — iPhone device chrome (status bar, dynamic island, home indicator).
+| File | Purpose |
+| --- | --- |
+| `main.tsx` | The host — screen switcher, state rails, page chrome |
+| `device.tsx` | iPhone 16 Pro frame: status bar, Dynamic Island, home indicator |
+| `onboarding.tsx` | Landing and sign-in — the two screens with no header band, so they live here rather than in a flow |
+| `index.html` | Static host page. Loads `bundle.js`; `@theme` injected by `scripts/build-tokens.mjs` |
+| `bundle.js` | **Generated** by `pnpm build:flows`. Committed, so the page needs no build step |
 
-## What the demo proves
+Everything else — the four flows and all their states — comes from
+`../flows/*.tsx`.
 
-- Tokens applied: every utility class (`text-fg`, `bg-action`, `text-jp-display`, `rounded-2xl`) resolves against the `@theme` block injected into `index.html` by `scripts/build-tokens.mjs`, via the Tailwind v4 browser runtime.
-- Components compose: `PhraseCard` uses `Card` + `Badge` + the JP type tokens; `ReviewScreen` uses every primitive at least once.
-- Touch-first: every interactive element is ≥ 44px (try tapping in iOS Safari or a phone-sized window).
+`device.tsx` is the one file here that uses raw hex and inline styles on
+purpose. It is Apple's chrome, not ours: `#F2F2F7`, the black island and the
+0.25-alpha home indicator are iOS values, and writing them as AburunGo tokens
+would claim they belong to this palette. `check-adherence.mjs` scopes itself to
+`src/components/**` for exactly this reason.
+
+## Still a mirror, elsewhere
+
+`components.jsx` stays on disk because `storybook/index.html` and
+`ui_kits/app/` still load it. Those two are the remaining drift surface —
+converting them is follow-up work, not done here.
 
 ## Caveats
 
-- Tailwind v4 browser runtime is for design-system previews, not for production. The production app is built with `@tailwindcss/vite` per the AburunGo `package.json`.
-- The kana-to-romaji converter shown in `FillInput.tsx` is not wired up here — the romaji mode is a plain input. The kana-grid mode is fully interactive.
-- The audio button cycles through `idle → loading → playing → idle` on press but plays no audio. AburunGo has not chosen an audio source yet (recordings vs TTS vs licensed).
+- Tailwind's browser runtime is for previews, not production. The app builds
+  with `@tailwindcss/vite`.
+- The audio button cycles `idle → loading → playing` but plays nothing.
+  AburunGo has not chosen an audio source yet.

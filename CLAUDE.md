@@ -77,8 +77,9 @@ Check `MEMORY.md` there at the start of every conversation.
 | `src/brand.css` | Brand utilities — `.hanko`, `.maru`, `.wm`, `.kata-vert`, `.ctype`, `.frame`, `.emboss-bg` |
 | `dist/tokens.plain.css` | **Generated** from `src/tokens.css`. The only `dist/` file that is committed, because the preview pages import it and are served with no build step |
 | `colors_and_type.css` | Preview harness stylesheet. Imports the generated tokens; declares only non-colour harness primitives |
-| `storybook/` | Custom HTML storybook (uses JSX mirrors in `ui_kits/mobile/components.jsx`) |
+| `storybook/` | Custom HTML storybook — still a **hand-written mirror**, via `ui_kits/mobile/components.jsx` |
 | `ui_kits/flows/` | **Flow mockups built from the real components** — TSX importing `src/components`, bundled by `pnpm build:flows`. Deep-linkable states (`?state=empty`) |
+| `ui_kits/mobile/` | **The same flows in an iPhone frame**, plus landing and sign-in. Also real components; shares `ui_kits/flows/registry.ts` |
 | `ui_kits/` | JSX component *mirrors* and screen mockups. Hand-written copies — see the drift warning below |
 | `preview/` | Static HTML design spec pages |
 | `PRODUCT.md` | Durable product truth — users, purpose, constraints, brand commitments |
@@ -116,16 +117,24 @@ pnpm shots        render every surface to scripts/.shots-out/ (gitignored)
 
 ## ⚠️ Two kinds of harness — know which one you are looking at
 
-`ui_kits/mobile/`, `ui_kits/app/` and `storybook/` are **hand-written mirrors**.
-Each component is typed out a second time in browser JSX. They do not import
-`src/components`, so a component can be correct in TSX and wrong on screen —
-`ui_kits/mobile/screens.jsx` still renders a bare-`<h1>` `AppHeader` and v2
-colours. Adding a component means mirroring it by hand, in the same commit.
+`ui_kits/flows/` and `ui_kits/mobile/` are **not mirrors.** Both import
+`src/components`, share one flow registry (`ui_kits/flows/registry.ts`) and are
+bundled by `pnpm build:flows`. Prefer them for anything screen-shaped: they
+cannot drift, and the flows harness is where `bg-inverse` was caught rendering
+nothing after passing typecheck, lint, and the contrast gate. Build a flow
+before trusting a component.
 
-`ui_kits/flows/` is **not a mirror.** It imports `src/components` and is
-bundled. Prefer it for anything screen-shaped: it cannot drift, and it is where
-`bg-inverse` was caught rendering nothing after passing typecheck, lint, and
-the contrast gate. Build a flow before trusting a component.
+`ui_kits/app/` and `storybook/` are still **hand-written mirrors** of
+`ui_kits/mobile/components.jsx`. Each component is typed out a second time in
+browser JSX, so a component can be correct in TSX and wrong on screen. Adding a
+component means mirroring it by hand, in the same commit.
+
+> The mobile kit was a mirror until 2026-08-17, and it is what the warning was
+> written about. It rendered a landing screen whose primary CTA asked for
+> `variant="accent"` — a variant no `Button` has ever implemented — so the map
+> returned `undefined` and the button came out as bare text. Untyped JSX cannot
+> catch that. Converting it took the mirror surface from three harnesses to
+> two; `storybook/` is the one worth doing next, since it is 59 stories.
 
 `build:tokens` runs **after** `tsup` — tsup has `clean: true` and would otherwise
 delete the generated sheet.
@@ -197,7 +206,7 @@ Identical to the AburunGo app:
 3. Run `pnpm typecheck` to confirm no type errors.
 4. Run `pnpm lint` — adherence (no raw hex, no non-DS fonts) must pass.
 5. Run `pnpm build` to verify the dist output.
-6. Add a story to `storybook/stories.jsx` **and** a JSX mirror to `ui_kits/mobile/components.jsx`. A component with no mirror is invisible in every harness — this is the known drift machine, so do it in the same commit.
+6. Add a story to `storybook/stories.jsx` **and** a JSX mirror to `ui_kits/mobile/components.jsx`. Those two are still hand-written, and a component with no mirror is invisible in the storybook — this is the known drift machine, so do it in the same commit. `ui_kits/flows/` and `ui_kits/mobile/` need nothing: they import the real thing.
 7. Run `/handoff-to-app` to generate the integration spec for the AburunGo app.
 
 ## Git workflow

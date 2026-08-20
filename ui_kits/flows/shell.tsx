@@ -5,6 +5,7 @@
  * equivalent of a storybook frame. Nothing in here ships. Product surfaces go
  * inside `<Phone>`.
  */
+import { useState } from 'react'
 import type { ReactNode } from 'react'
 
 /**
@@ -40,48 +41,41 @@ export function Screen({ children }: { children: ReactNode }) {
 }
 
 /**
- * The empty-state treatment — option D, chosen 2026-08-13 from four rendered
- * variants in `preview/_sandbox/empty-1-pattern.html`.
- *
- * The crest pattern goes on the **page ground** and the content sits on a
- * `.glass` panel above it — updated 2026-08-13 from an opaque card, which was
- * chosen before the glass existed. Glass keeps the crest reading *through* the
- * panel instead of covering it, and still carries the fine print.
- *
- * That is not a stylistic preference, it is what keeps the screen legible:
- * `EmptyState`'s description is `text-fg-subtle`, which is 3.47:1 straight on
- * the pattern against a 4.5 bar, and 4.76:1 on the glass.
- *
- * Rejected alternatives, so they are not retried: pattern behind everything
- * **fails**; promoting the description to `fg` passes but flattens the
- * hierarchy — message and description become one block — and would change
- * `EmptyState` for every use, patterned or not.
+ * The crest ground, shared by every stage below.
  *
  * Negative margins cancel `Screen`'s padding so the texture bleeds edge to
- * edge; the card puts it back. See The Patterned Ground Rule in `DESIGN.md`.
+ * edge. `tile-sm` (72px) everywhere — it was chosen 2026-08-16 from four sizes
+ * measured on the lesson list, and `EmptyStage` was the one surface still on
+ * the default tile. Two tile sizes across three states that are meant to read
+ * as one family is the inconsistency this pass exists to remove.
  */
+const CREST = 'emboss-bg crest-1 tile-sm -mx-4 -mt-5 flex flex-1 px-4'
+
 /**
  * The crest ground for a scrolling list, rather than one centred panel.
- *
- * `EmptyStage` centres a single glass panel in the remaining height, which is
- * right for an empty state and wrong for a list — the items would be pinned to
- * the middle. Same negative margins, same bleed, no centring.
- *
- * `tile-sm` (72px), chosen 2026-08-16 from four sizes measured on this exact
- * treatment in `preview/_sandbox/scenario-5-tile-size.html`. At 56px the crest
- * reads as noise; at 140px as a few large medallions rather than a textile.
+ * Same bleed as the others, no centring — a list pinned to the middle is wrong.
  */
 export function PatternedStage({ children }: { children: ReactNode }) {
-  return (
-    <div className="emboss-bg crest-1 tile-sm -mx-4 -mt-5 flex flex-1 flex-col gap-3 px-4 py-4">
-      {children}
-    </div>
-  )
+  return <div className={`${CREST} flex-col gap-3 py-4`}>{children}</div>
 }
 
+/**
+ * The empty-state treatment — option D, chosen 2026-08-13 from four rendered
+ * variants in `preview/_sandbox/empty-1-pattern.html`, with the opaque card
+ * swapped for `.glass` the same day so the crest reads *through* the panel.
+ *
+ * The glass is doing legibility work, not decoration: `EmptyState`'s
+ * description is `text-fg-subtle`, which is 3.47:1 straight on the pattern
+ * against a 4.5 bar and 4.76:1 on the glass.
+ *
+ * Rejected, so they are not retried: pattern behind everything **fails**;
+ * promoting the description to `fg` passes but flattens message and description
+ * into one block, and would change `EmptyState` everywhere. Do not re-open this
+ * by reaching for the simpler markup. Full note in `DESIGN.md`.
+ */
 export function EmptyStage({ children }: { children: ReactNode }) {
   return (
-    <div className="emboss-bg crest-1 -mx-4 -mt-5 flex flex-1 items-center justify-center px-4 py-10">
+    <div className={`${CREST} items-center justify-center py-10`}>
       <div className="glass w-full">
         <div className="flex flex-col items-center gap-5">{children}</div>
       </div>
@@ -89,7 +83,21 @@ export function EmptyStage({ children }: { children: ReactNode }) {
   )
 }
 
-
+/**
+ * Loading and error, on the same ground as empty.
+ *
+ * No `.glass` here, unlike `EmptyStage`: both states bring their own surface —
+ * the skeleton is a card, and `ErrorState` is an Akane panel — so a glass pane
+ * under them would be a second sheet of paper for nothing. See "Which surfaces
+ * carry the ground" in `DESIGN.md`.
+ */
+export function StateStage({ children }: { children: ReactNode }) {
+  return (
+    <div className={`${CREST} items-center justify-center py-10`}>
+      <div className="w-full">{children}</div>
+    </div>
+  )
+}
 
 /**
  * `?flow=kana`, `?state=empty`, `?step=summary` — deep links, so a state can be
@@ -108,6 +116,72 @@ export type FlowState<T extends string> = {
   id: T
   label: string
   note: string
+}
+
+/**
+ * What a flow exports, so more than one harness can render it.
+ *
+ * `ui_kits/flows/` shows a flow in a plain shell next to a state rail;
+ * `ui_kits/mobile/` shows the same flow inside an iOS device frame. Before this
+ * type existed the mobile kit hand-copied its screens in browser JSX and went
+ * a palette behind — the drift `CLAUDE.md` warns about, which is also how a
+ * `variant="accent"` that no Button has ever implemented shipped there,
+ * rendering the landing screen's primary CTA as bare text.
+ *
+ * `Screens` renders only what goes *inside* a phone: `AppHeader` and `Screen`.
+ * The frame is the harness's business, and that is the whole point.
+ */
+export type FlowDef<T extends string> = {
+  id: string
+  label: string
+  title: string
+  blurb: string
+  states: readonly FlowState<T>[]
+  initial: T
+  /**
+   * `nonce` changes on every state switch. Apply it as a `key` to whichever
+   * screen holds progress that should not survive leaving and coming back — a
+   * half-finished round, a typed answer. It is deliberately NOT applied to the
+   * whole flow: `kana-practice` carries the drill's marks across into the
+   * result screen, and keying the lot would throw them away between the two.
+   */
+  Screens: (props: { state: T; go: (next: T) => void; nonce: number }) => ReactNode
+}
+
+/**
+ * Run a flow in this harness: state rail, phone shell, legend.
+ *
+ * `nonce` bumps on every state switch and is handed to the flow rather than
+ * applied here, so each flow decides what a switch resets. See `FlowDef`.
+ */
+export function RunFlow<T extends string>({ flow }: { flow: FlowDef<T> }) {
+  const [state, setState] = useState<T>(
+    fromUrl(
+      'state',
+      flow.states.map((s) => s.id),
+      flow.initial,
+    ),
+  )
+  const [nonce, setNonce] = useState(0)
+
+  function go(next: T) {
+    setState(next)
+    setNonce((n) => n + 1)
+  }
+
+  return (
+    <FlowPage
+      title={flow.title}
+      blurb={flow.blurb}
+      states={flow.states}
+      current={state}
+      onSelect={go}
+    >
+      <Phone>
+        <flow.Screens state={state} go={go} nonce={nonce} />
+      </Phone>
+    </FlowPage>
+  )
 }
 
 type FlowPageProps<T extends string> = {

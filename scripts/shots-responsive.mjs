@@ -41,6 +41,14 @@ const SURFACES = [
   ['lessons-empty', 'Lessons · empty', '/ui_kits/flows/?flow=lessons&state=empty'],
 ]
 
+// The mobile kit is deliberately NOT swept. Its frame is a fixed 402px iPhone,
+// so every surface reported +51 at 375 -- a fact about the device mockup, not
+// about the product, and the exact mistake the `?phone=` note above records.
+// A "375px iPhone 16 Pro" is not a thing. The four flows it renders are already
+// covered here through the flows harness, which narrows its shell; the two
+// screens that exist only there, landing and sign-in, are checked by
+// check-touch-targets instead.
+
 await mkdir(OUT, { recursive: true })
 const server = await serveRepo({ port: PORT })
 const browser = await puppeteer.launch({

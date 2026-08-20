@@ -68,7 +68,6 @@ const SURFACES = [
   // 12-radii.html went on showing a 6-20px scale for a day after the radii were
   // flattened to one step: nothing rendered it, so nothing could disagree.
   ['logo', '/preview/01-logo.html', 760, 300],
-  ['hero', '/preview/02-hero.html', 900, 560],
   ['type-families', '/preview/07-type-families.html', 900, 420],
   ['type-scale', '/preview/08-type-scale.html', 900, 700],
   ['type-japanese', '/preview/09-type-japanese.html', 900, 560],

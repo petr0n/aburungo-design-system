@@ -202,6 +202,29 @@ passes but flattens the hierarchy — message and description become one block �
 and would change `EmptyState` everywhere, patterned or not. Do not re-open this
 by reaching for the simpler markup.
 
+**Which surfaces carry the ground — settled 2026-08-16.** There was no rule
+until now, and it showed: the crest reached 4 of 16 flow states, and the four it
+reached were simply the ones somebody happened to be editing. Empty states got
+it when the empty-state work happened; the lesson list got it in #30; loading
+and error never did. The inconsistency was not a judgment call anybody made.
+
+> **A full-screen state that is not showing content carries the crest.
+> A state showing content does not.**
+
+| State | Ground | Why |
+| --- | --- | --- |
+| loading · empty · error | **crest** | the screen would otherwise be a message floating on bare stone |
+| lesson list | **crest** | decided in #30 — the cards are glass panes over it |
+| card, drill, chart, keyboard, summary | **bare** | the card needs its separation, and a texture behind a judged answer competes with the maru |
+
+Two consequences worth stating, because both were live bugs before this rule
+existed. **The rule is what makes loading, empty and error one family** — they
+are the three faces of "nothing to show yet", and they should differ by their
+signal (spinner, hanko, Akane triangle), not by whether the floor is there.
+And **the crest stays away from any surface where an answer is being judged**,
+which `docs/todo.md` already required for a different reason: kamon are
+circular, and ○ is taken.
+
 ## Typography
 
 **Body Font:** Noto Sans (variable, shipped locally) — all English UI.

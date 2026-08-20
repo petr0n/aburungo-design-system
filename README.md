@@ -166,7 +166,6 @@ overwrites it.
 | `preview/` | Static HTML design spec pages |
 | `colors_and_type.css` | Preview harness stylesheet — imports the generated tokens, then declares only the non-colour primitives the spec pages lay themselves out with |
 | `assets/logo-a-128.png` | Brand mark — the ア hanko |
-| `assets/hero.png` | Stacked‑card hero illustration |
 | `assets/icons/` | Inline SVG icons extracted from the codebase (audio, microphone, backspace, spinner) |
 
 ---
@@ -241,12 +240,12 @@ Values are not written here. `src/tokens.css` is the source of truth and `DESIGN
 - Single‑column. No multi‑column dashboards. Stacking and gap, not float or grid.
 
 ### Backgrounds
-- **Flat, calm grounds.** No imagery in app surfaces, no patterns, no gradients, no full‑bleed photography. The hero is the *only* illustration in the product (landing screen).
+- **Flat, calm grounds.** No gradients, no full‑bleed photography, no stock imagery. **One exception, sanctioned 2026-08-13:** the `.emboss-bg` crest ground, on full-screen states that are not showing content. See The Patterned Ground Rule and "Which surfaces carry the ground" in `DESIGN.md`.
 - The ground is whatever `bg` / `surface` resolve to — **do not hard-code white.** The incoming v3 palette uses warm stone (page `#F7F6F1`, cards `#FFFDF8`), and its warmth is load-bearing: "cleaning up" `#FFFDF8` to `#FFFFFF` is the specific regression v3 predicts.
 - Subtle neutral tints (`surface`) appear inside cards as faint container backgrounds for preview rows, mode pickers, the kana keyboard frame.
 
 ### Imagery
-- One illustration: **hero.png** — a stacked‑card 3D vignette in violet metallic gradient with a dashed ghost stack above. Hand‑rendered look, not photographic. Used at 220×220 only on the landing screen.
+- **No illustration.** The one that used to be here — `assets/hero.png`, a violet metallic stacked-card vignette — was deleted 2026-08-17. It was a v2 artefact that survived the whole v3 merge on five surfaces, sat in the logo position on the landing screen, and was described by this file as the brand illustration. The mark is the ア hanko (`.hanko`, `assets/logo-a-128.png`); identity work lives in `docs/todo.md` item 3.
 - No stock photo, no marketing photography, no people. The product is the UI.
 
 ### Animation & motion

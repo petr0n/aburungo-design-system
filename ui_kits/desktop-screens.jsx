@@ -229,7 +229,7 @@ function LandingHeroVariant() {
           </div>
         </div>
         <div className="flex items-center justify-center">
-          <img src="../assets/hero.png" alt="" width="360" height="360" className="select-none"/>
+          <span className="hanko select-none" style={{ fontSize: 240 }} aria-hidden="true"/>
         </div>
       </section>
     </div>
@@ -241,7 +241,7 @@ function LandingStackedVariant() {
     <div className="flex h-full w-full flex-col bg-bg">
       <LandingHeader/>
       <section className="flex flex-1 flex-col items-center justify-center gap-8 px-16 text-center">
-        <img src="../assets/hero.png" alt="" width="200" height="200" className="select-none"/>
+        <span className="hanko select-none" style={{ fontSize: 140 }} aria-hidden="true"/>
         <Badge emphasis>Practical Japanese</Badge>
         <h1 className="max-w-3xl text-display-lg font-bold tracking-tight text-fg">
           Ready to use Japanese in real life.

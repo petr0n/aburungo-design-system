@@ -18,7 +18,6 @@
  * vocabularies for one state, which is why `AnswerResult` owns its wording.
  * Composing the card here keeps that visible.
  */
-import { useState } from 'react'
 import {
   AnswerResult,
   AppHeader,
@@ -40,7 +39,9 @@ import type {
   VoiceInputStatus,
 } from '../../src/components'
 import { convertRomaji } from '../../src/lib'
-import { EmptyStage, FlowPage, Phone, Screen, fromUrl } from './shell'
+import { useState } from 'react'
+import { EmptyStage, Screen, StateStage } from './shell'
+import type { FlowDef } from './shell'
 import type { FlowState } from './shell'
 
 const CARD = {
@@ -250,81 +251,75 @@ const AS_MODE: Partial<Record<StateId, InputMode>> = {
   system: 'system',
 }
 
-export function FillBlank() {
-  const [state, setState] = useState<StateId>(
-    fromUrl('state', STATES.map((s) => s.id), 'romaji'),
-  )
-  const [nonce, setNonce] = useState(0)
-
-  function go(next: StateId) {
-    setState(next)
-    setNonce(nonce + 1)
-  }
-
-  const inputMode = AS_MODE[state]
-
-  return (
-    <FlowPage
-      title="Fill in the blank"
-      blurb="The review-step card: prompt, an input channel, then the app's judgment. This is where FillInput and VoiceInput reach a screen for the first time — and where the rewritten kana keyboard has to fit inside a card rather than on its own."
-      states={STATES}
-      current={state}
-      onSelect={go}
-    >
-      <Phone key={nonce}>
-        {inputMode !== undefined && (
-          <InputScreen startMode={inputMode} startChannel="text" onSubmit={() => go('review')} />
-        )}
-        {VOICE[state] !== undefined && (
-          <InputScreen
-            startMode="romaji"
-            startChannel="voice"
-            startVoice={VOICE[state]}
-            onSubmit={() => go('recalled')}
-          />
-        )}
-        {state === 'recalled' && <CheckedScreen outcome="recalled" onNext={() => go('romaji')} />}
-        {state === 'review' && <CheckedScreen outcome="review" onNext={() => go('romaji')} />}
-        {state === 'loading' && (
-          <>
-            <AppHeader title="Fill in the blank" subtitle="Loading" progress={0} />
-            <Screen>
+export const fillFlow: FlowDef<StateId> = {
+  id: 'fill',
+  label: 'Fill in the blank',
+  title: 'Fill in the blank',
+  blurb:
+    "The review-step card: prompt, an input channel, then the app's judgment. This is where FillInput and VoiceInput reach a screen for the first time — and where the rewritten kana keyboard has to fit inside a card rather than on its own.",
+  states: STATES,
+  initial: 'romaji',
+  Screens({ state, go }) {
+    const inputMode = AS_MODE[state]
+    return (
+      <>
+      {inputMode !== undefined && (
+        <InputScreen startMode={inputMode} startChannel="text" onSubmit={() => go('review')} />
+      )}
+      {VOICE[state] !== undefined && (
+        <InputScreen
+          startMode="romaji"
+          startChannel="voice"
+          startVoice={VOICE[state]}
+          onSubmit={() => go('recalled')}
+        />
+      )}
+      {state === 'recalled' && <CheckedScreen outcome="recalled" onNext={() => go('romaji')} />}
+      {state === 'review' && <CheckedScreen outcome="review" onNext={() => go('romaji')} />}
+      {state === 'loading' && (
+        <>
+          <AppHeader title="Fill in the blank" subtitle="Loading" progress={0} />
+          <Screen>
+            <StateStage>
               <LoadingPlaceholder label="Finding your next card…" />
-            </Screen>
-          </>
-        )}
-        {state === 'empty' && (
-          <>
-            <AppHeader title="Fill in the blank" />
-            <Screen>
-              <EmptyStage>
-                <span className="hanko text-display-lg" aria-hidden="true" />
-                <EmptyState
-                  message="Nothing to fill in right now"
-                  description="These come back once a phrase has been seen a few times."
-                  action={
-                    <Button variant="secondary" onClick={() => go('romaji')}>
-                      Practise anyway
-                    </Button>
-                  }
-                />
-              </EmptyStage>
-            </Screen>
-          </>
-        )}
-        {state === 'error' && (
-          <>
-            <AppHeader title="Fill in the blank" />
-            <Screen>
+            </StateStage>
+          </Screen>
+        </>
+      )}
+      {state === 'empty' && (
+        <>
+          <AppHeader title="Fill in the blank" />
+          <Screen>
+            <EmptyStage>
+              <span className="hanko text-display-lg" aria-hidden="true" />
+              <EmptyState
+                message="Nothing to fill in right now"
+                description="These come back once a phrase has been seen a few times."
+                action={
+                  <Button variant="secondary" onClick={() => go('romaji')}>
+                    Practise anyway
+                  </Button>
+                }
+              />
+            </EmptyStage>
+          </Screen>
+        </>
+      )}
+      {state === 'error' && (
+        <>
+          <AppHeader title="Fill in the blank" />
+          <Screen>
+            <StateStage>
               <ErrorState
                 message="Couldn't load this card"
                 description="Your answer wasn't lost. This is usually the connection."
                 action={<Button onClick={() => go('romaji')}>Try again</Button>}
               />
-            </Screen>
-          </>
-        )}
-      </Phone>
-    </FlowPage>
-  )
+            </StateStage>
+          </Screen>
+        </>
+      )}
+      </>
+    )
+  },
 }
