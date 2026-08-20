@@ -2,20 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <!-- Generated token sheet. The chrome CSS below is plain CSS and cannot
-       rely on Tailwind @theme tokens, which are only emitted when a utility
-       uses them. This defines every token as a real :root var. -->
-  <link rel="stylesheet" href="../../dist/tokens.plain.css">
-
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>AburunGo — Mobile UI kit</title>
+
+  <!-- Generated token sheet, for the plain CSS below and for brand.css, which
+       reads var(--color-*) directly rather than through Tailwind. -->
+  <link rel="stylesheet" href="../../dist/tokens.plain.css">
+  <link rel="stylesheet" href="../../src/brand.css">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap">
-  <!-- Noto Sans now ships locally per the brand-font upload — declared inline
-       so the demo doesn't need a Vite dev server to resolve /fonts. -->
   <style>
     @font-face {
       font-family: "Noto Sans";
@@ -25,19 +23,12 @@
       src: url("../../fonts/NotoSans-VariableFont_wdth_wght.ttf") format("truetype-variations"),
            url("../../fonts/NotoSans-VariableFont_wdth_wght.ttf") format("truetype");
     }
-    @font-face {
-      font-family: "Noto Sans";
-      font-style: italic;
-      font-weight: 100 900;
-      font-display: swap;
-      src: url("../../fonts/NotoSans-Italic-VariableFont_wdth_wght.ttf") format("truetype-variations"),
-           url("../../fonts/NotoSans-Italic-VariableFont_wdth_wght.ttf") format("truetype");
-    }
   </style>
 
-  <!-- Tailwind v4 browser runtime. Tokens are imported from src/tokens.css
-       inline <style type="text/tailwindcss"> blocks in the head, so the
-       token block is inlined here verbatim from src/index.css. -->
+  <!-- Tailwind v4 browser runtime. The @theme block below is injected by
+       scripts/build-tokens.mjs — the browser build will not read @theme out of
+       an @import, so it is regenerated here rather than imported. Edit
+       src/tokens.css; anything typed between the markers is overwritten. -->
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <style type="text/tailwindcss">
     /* build-tokens:start */
@@ -279,112 +270,26 @@
     /* build-tokens:end */
   </style>
 
-  <!-- React + Babel pinned per the canonical setup. -->
-  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js"
-          integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L"
-          crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"
-          integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm"
-          crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"
-          integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y"
-          crossorigin="anonymous"></script>
-
   <style>
-    html, body {
-      margin: 0;
-      min-height: 100vh;
-      background: var(--color-bg);
-      font-family: "Noto Sans", system-ui, sans-serif;
-      color: var(--color-fg);
-    }
-    .stage {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 36px;
-      padding: 48px 24px 80px;
-      min-height: 100vh;
-    }
-    .stage header.kit-head {
-      text-align: center;
-      max-width: 640px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .kit-head h1 {
-      margin: 0;
-      font-size: 36px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
-    .kit-head p { margin: 0; color: var(--color-fg-subtle); font-size: 16px; line-height: 1.55; }
-    .controls { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
-    .controls button {
-      height: 36px; padding: 0 14px; border-radius: 9999px;
-      font: 500 13px "Noto Sans", system-ui;
-      background: var(--color-bg); color: var(--color-fg-muted); border: 1px solid var(--color-border);
-      cursor: pointer;
-    }
-    .controls button[data-active="true"] { background: var(--color-fg); color: var(--color-bg); border-color: var(--color-fg); }
-    /* Device-frame inner background is iOS gray by default; we want white. */
-    .frame-shell { background: var(--color-bg) !important; }
+    body { background: var(--color-bg); color: var(--color-fg); }
   </style>
+
+  <!-- React is external to the bundle so the committed bundle stays our source
+       only. Pinned; the page already needs a CDN for Tailwind. -->
+  <script type="importmap">
+  {
+    "imports": {
+      "react": "https://esm.sh/react@19.2.0",
+      "react/jsx-runtime": "https://esm.sh/react@19.2.0/jsx-runtime",
+      "react-dom": "https://esm.sh/react-dom@19.2.0",
+      "react-dom/client": "https://esm.sh/react-dom@19.2.0/client?deps=react@19.2.0"
+    }
+  }
+  </script>
 </head>
 <body>
   <div id="root"></div>
-
-  <script type="text/babel" src="ios-frame.jsx"></script>
-  <script type="text/babel" src="components.jsx"></script>
-  <script type="text/babel" src="screens.jsx"></script>
-
-  <script type="text/babel">
-    function App() {
-      const [screen, setScreen] = React.useState('landing');
-
-      const screens = [
-        { id: 'landing', label: '1. Landing' },
-        { id: 'signin',  label: '2. Sign in' },
-        { id: 'review',  label: '3. Review' },
-        { id: 'empty',   label: '4. All caught up' },
-      ];
-
-      let body = null;
-      if (screen === 'landing')
-        body = <LandingScreen onStart={() => setScreen('signin')}/>;
-      else if (screen === 'signin')
-        body = <SignInScreen onSubmit={() => setScreen('review')} onBack={() => setScreen('landing')}/>;
-      else if (screen === 'review')
-        body = <ReviewScreen onSignOut={() => setScreen('landing')} onComplete={() => setScreen('empty')}/>;
-      else if (screen === 'empty')
-        body = <EmptyScreen onSignOut={() => setScreen('landing')} onRestart={() => setScreen('review')}/>;
-
-      return (
-        <div className="stage">
-          <header className="kit-head">
-            <h1>AburunGo — Mobile UI kit</h1>
-            <p>The actual product surface. Click through landing → sign in → review → all caught up. The review screen has three input modes; try the Kana grid.</p>
-            <div className="controls">
-              {screens.map((s) => (
-                <button key={s.id} data-active={screen === s.id} onClick={() => setScreen(s.id)}>
-                  {s.label}
-                </button>
-              ))}
-            </div>
-          </header>
-          <div className="frame-shell" style={{ borderRadius: 48 }}>
-            <IOSDevice width={402} height={874}>
-              <div style={{ background: 'var(--color-bg)', minHeight: '100%' }}>
-                {body}
-              </div>
-            </IOSDevice>
-          </div>
-        </div>
-      );
-    }
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(<App/>);
-  </script>
+  <!-- Generated by scripts/build-flows.mjs from ./*.tsx and ../flows/*.tsx. Rebuild: pnpm build:flows -->
+  <script type="module" src="./bundle.js"></script>
 </body>
 </html>

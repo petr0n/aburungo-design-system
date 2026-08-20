@@ -27,9 +27,9 @@
  * Content shape is the app's, from `src/content/lessons/*.yaml` on
  * `feature/chapters-and-lessons`: situation, title, canDo.
  */
-import { useState } from 'react'
 import { AppHeader, Button, EmptyState, ErrorState, LoadingPlaceholder } from '../../src/components'
-import { FlowPage, PatternedStage, Phone, Screen, StateStage, fromUrl } from './shell'
+import { PatternedStage, Screen, StateStage } from './shell'
+import type { FlowDef } from './shell'
 
 type Accent = 'rokusho' | 'ogon' | 'ai' | 'akane'
 
@@ -126,24 +126,17 @@ const STATES = [
 
 type StateId = (typeof STATES)[number]['id']
 
-export function LessonList() {
-  const [state, setState] = useState<StateId>(
-    fromUrl(
-      'state',
-      STATES.map((s) => s.id),
-      'list',
-    ),
-  )
-
-  return (
-    <FlowPage
-      title="Lesson list"
-      blurb="Phase 3B's scenario card, treatment C: the crest grounds the whole list and every lesson is a glass pane over it, so the texture reads through rather than being covered. The accent says which situation — the rule PhraseCard already follows."
-      states={STATES}
-      current={state}
-      onSelect={setState}
-    >
-      <Phone>
+export const lessonsFlow: FlowDef<StateId> = {
+  id: 'lessons',
+  label: 'Lesson list',
+  title: 'Lesson list',
+  blurb:
+    "Phase 3B's scenario card, treatment C: the crest grounds the whole list and every lesson is a glass pane over it, so the texture reads through rather than being covered. The accent says which situation — the rule PhraseCard already follows.",
+  states: STATES,
+  initial: 'list',
+  Screens({ state, go }) {
+    return (
+      <>
         <AppHeader title="Lessons" />
         <Screen>
           {state === 'list' && (
@@ -174,7 +167,7 @@ export function LessonList() {
                 message="Couldn't load your lessons"
                 description="Your progress is saved. This is usually the connection."
                 action={
-                  <Button variant="primary" onClick={() => setState('list')}>
+                  <Button variant="primary" onClick={() => go('list')}>
                     Try again
                   </Button>
                 }
@@ -182,7 +175,7 @@ export function LessonList() {
             </StateStage>
           )}
         </Screen>
-      </Phone>
-    </FlowPage>
-  )
+      </>
+    )
+  },
 }

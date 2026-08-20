@@ -197,8 +197,7 @@ function Landing({ onStart }) {
             </p>
           </div>
           <div className="order-first flex items-center justify-center md:order-last">
-            <img src="../../assets/hero.png" alt="" width="320" height="320"
-                 className="select-none pointer-events-none w-56 md:w-80"/>
+            <span className="hanko select-none" style={{ fontSize: 200 }} aria-hidden="true"/>
           </div>
         </div>
       </section>

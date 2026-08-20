@@ -28,7 +28,8 @@ import {
 } from '../../src/components'
 import type { AnswerOutcome, KanaCell, KanaScript, KanaSection } from '../../src/components'
 import { HIRAGANA_BASIC, KATAKANA_BASIC, KANA_PRACTICE_CARDS } from '../../src/lib'
-import { EmptyStage, FlowPage, Phone, Screen, StateStage, fromUrl } from './shell'
+import { EmptyStage, Screen, StateStage } from './shell'
+import type { FlowDef } from './shell'
 import type { FlowState } from './shell'
 
 // ─── Content ───────────────────────────────────────────────────────────────
@@ -377,82 +378,77 @@ const STATES: readonly FlowState<StateId>[] = [
 
 const SAMPLE_MARKS: AnswerOutcome[] = ['recalled', 'review', 'recalled', 'recalled']
 
-export function KanaPractice() {
-  const [state, setState] = useState<StateId>(
-    fromUrl('state', STATES.map((s) => s.id), 'chart'),
-  )
-  const [marks, setMarks] = useState<AnswerOutcome[]>(SAMPLE_MARKS)
-  const [nonce, setNonce] = useState(0)
+export const kanaFlow: FlowDef<StateId> = {
+  id: 'kana',
+  label: 'Kana practice',
+  title: 'Kana practice',
+  blurb:
+    'The reference chart, the drill, keyboard entry, and the result. This is the first screen where the Rokushō keyboard and the Sumi-iro header band appear together — the reason the keyboard is not a second dark slab.',
+  states: STATES,
+  initial: 'chart',
+  Screens({ state, go, nonce }) {
+    // `marks` sits here, above the drill's `key={nonce}`, because the drill
+    // produces them and the result screen consumes them -- remounting the flow
+    // wholesale would empty the result screen every time.
+    const [marks, setMarks] = useState<AnswerOutcome[]>(SAMPLE_MARKS)
 
-  function go(next: StateId) {
-    setState(next)
-    setNonce(nonce + 1)
-  }
+    function finish(result: AnswerOutcome[]) {
+      setMarks(result.length > 0 ? result : SAMPLE_MARKS)
+      go('result')
+    }
 
-  function finish(result: AnswerOutcome[]) {
-    setMarks(result.length > 0 ? result : SAMPLE_MARKS)
-    go('result')
-  }
-
-  return (
-    <FlowPage
-      title="Kana practice"
-      blurb="The reference chart, the drill, keyboard entry, and the result. This is the first screen where the Rokushō keyboard and the Sumi-iro header band appear together — the reason the keyboard is not a second dark slab."
-      states={STATES}
-      current={state}
-      onSelect={go}
-    >
-      <Phone key={nonce}>
-        {state === 'chart' && <ChartScreen onPractise={() => go('drill')} />}
-        {(state === 'drill' || state === 'answered') && (
-          <DrillScreen answeredFirst={state === 'answered'} onFinish={finish} />
-        )}
-        {state === 'keyboard' && <KeyboardScreen onDone={() => go('result')} />}
-        {state === 'result' && <ResultScreen marks={marks} onAgain={() => go('chart')} />}
-        {state === 'loading' && (
-          <>
-            <AppHeader title="Kana practice" subtitle="Loading" />
-            <Screen>
-              <StateStage>
-                <LoadingPlaceholder label="Building your deck…" />
-              </StateStage>
-            </Screen>
-          </>
-        )}
-        {state === 'empty' && (
-          <>
-            <AppHeader title="Kana practice" />
-            <Screen>
-              <EmptyStage>
-                <span className="hanko text-display-lg" aria-hidden="true" />
-                <EmptyState
-                  message="Every kana is settled"
-                  description="Nothing is due for review. The chart is always there if you want to run through it."
-                  action={
-                    <Button variant="secondary" onClick={() => go('chart')}>
-                      Open the chart
-                    </Button>
-                  }
-                />
-              </EmptyStage>
-            </Screen>
-          </>
-        )}
-        {state === 'error' && (
-          <>
-            <AppHeader title="Kana practice" />
-            <Screen>
-              <StateStage>
-                <ErrorState
-                  message="Couldn't load the deck"
-                  description="Nothing was lost. This is usually the connection."
-                  action={<Button onClick={() => go('drill')}>Try again</Button>}
-                />
-              </StateStage>
-            </Screen>
-          </>
-        )}
-      </Phone>
-    </FlowPage>
-  )
+    return (
+      <>
+      {state === 'chart' && <ChartScreen onPractise={() => go('drill')} />}
+      {(state === 'drill' || state === 'answered') && (
+        <DrillScreen key={nonce} answeredFirst={state === 'answered'} onFinish={finish} />
+      )}
+      {state === 'keyboard' && <KeyboardScreen onDone={() => go('result')} />}
+      {state === 'result' && <ResultScreen marks={marks} onAgain={() => go('chart')} />}
+      {state === 'loading' && (
+        <>
+          <AppHeader title="Kana practice" subtitle="Loading" />
+          <Screen>
+            <StateStage>
+              <LoadingPlaceholder label="Building your deck…" />
+            </StateStage>
+          </Screen>
+        </>
+      )}
+      {state === 'empty' && (
+        <>
+          <AppHeader title="Kana practice" />
+          <Screen>
+            <EmptyStage>
+              <span className="hanko text-display-lg" aria-hidden="true" />
+              <EmptyState
+                message="Every kana is settled"
+                description="Nothing is due for review. The chart is always there if you want to run through it."
+                action={
+                  <Button variant="secondary" onClick={() => go('chart')}>
+                    Open the chart
+                  </Button>
+                }
+              />
+            </EmptyStage>
+          </Screen>
+        </>
+      )}
+      {state === 'error' && (
+        <>
+          <AppHeader title="Kana practice" />
+          <Screen>
+            <StateStage>
+              <ErrorState
+                message="Couldn't load the deck"
+                description="Nothing was lost. This is usually the connection."
+                action={<Button onClick={() => go('drill')}>Try again</Button>}
+              />
+            </StateStage>
+          </Screen>
+        </>
+      )}
+      </>
+    )
+  },
 }
