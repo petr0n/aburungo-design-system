@@ -1,5 +1,5 @@
 /**
- * The four flows, in one list.
+ * The five flows, in one list.
  *
  * Both harnesses import this: `ui_kits/flows/` renders a flow beside its state
  * rail, `ui_kits/mobile/` renders the same flow inside an iOS device frame.
@@ -7,6 +7,7 @@
  * step, which is what `ui_kits/mobile/screens.jsx` used to be.
  */
 import type { ReactNode } from 'react'
+import { checkpointFlow } from './checkpoint'
 import { flashcardFlow } from './flashcard-round'
 import { fillFlow } from './fill-blank'
 import { kanaFlow } from './kana-practice'
@@ -41,6 +42,7 @@ export const FLOWS: readonly FlowEntry[] = [
   entry(kanaFlow),
   entry(fillFlow),
   entry(lessonsFlow),
+  entry(checkpointFlow),
 ]
 
 export function flowById(id: string): FlowEntry {

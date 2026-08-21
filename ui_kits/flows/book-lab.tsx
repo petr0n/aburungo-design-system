@@ -10,6 +10,11 @@
  * `AppHeader` is `bg-inverse` and takes no hue, which is correct until a book
  * hue is agreed.
  *
+ * `BOOKS`, `BookBand` and `Checkpoint` are exported because `checkpoint.tsx`
+ * renders the chosen treatment as a real flow, in both harnesses. The lab keeps
+ * every option; the flow carries only the one that won. Neither copies the
+ * other — that is the drift this repo keeps paying for.
+ *
  * Crests: all five slots are wired now (2026-08-21). Three MOTIFS are drawn —
  * the clover, the leaf and the blossom — so books four and five wear the solid
  * cut of the leaf and the clover rather than a motif of their own. Different
@@ -21,7 +26,7 @@ import { AppHeader, Button, Maru, ProgressBar } from '../../src/components'
 import type { AnswerOutcome } from '../../src/components'
 import { Phone, Screen, fromUrl } from './shell'
 
-type Book = {
+export type Book = {
   id: string
   title: string
   level: string
@@ -40,7 +45,7 @@ type Book = {
   character: string
 }
 
-const BOOKS: Book[] = [
+export const BOOKS: Book[] = [
   { id: 'one', ink: 'text-stone-900',   title: 'Book One',   level: '~N5', hue: 'rokusho', hueName: 'Rokushō 緑青',
     band: 'bg-accent-rokusho', deep: 'bg-rokusho-900', rule: 'border-rule-on-inverse', tag: 'bg-accent-rokusho-bg text-accent-rokusho-fg',
     crest: 'crest-1', tile: 'tile-sm', character: 'the foundation' },
@@ -78,7 +83,7 @@ const BOOKS: Book[] = [
  * Dimming the subtitle back with opacity would just re-spend the contrast this
  * is recovering.
  */
-function BookBand({ book, title, subtitle, progress, deep = false }: {
+export function BookBand({ book, title, subtitle, progress, deep = false }: {
   book: Book; title: string; subtitle?: string; progress?: number; deep?: boolean
 }) {
   // Every 900 step is dark enough for paper, so the deep band ignores the
@@ -201,7 +206,7 @@ const MARKS: AnswerOutcome[] = ['correct', 'correct', 'review', 'correct']
  * `chrome` is the decision under test — whether the book's hue reaches a
  * surface that is judging an answer.
  */
-function Checkpoint({ book, chrome, v }: {
+export function Checkpoint({ book, chrome, v }: {
   book: Book; chrome: 'book' | 'neutral'; v?: Verdict
 }) {
   const fb = v?.hex
