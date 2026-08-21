@@ -81,58 +81,34 @@ Book One is entirely about. Akane is the mark and the error state — the loudes
 system — and Book Three is "the wall", the book that has to feel like it costs something. Sumi 墨
 *is* ink, and Book Five is the book that earns its look by giving colour up.
 
-### ⚠️ Unresolved: two of the five hues already mean correct and wrong
+### ✅ Resolved: the verdict moved down the ramp
 
-**Found in review, 2026-08-21. This blocks Phase 2 and nothing before it.**
+**Decided 2026-08-21 by the author, after rendering it.** The five identities stay exactly as they
+are, at their 500 step. **The verdict colours moved instead.**
 
-`DESIGN.md:333` is unambiguous: **"Don't use green or red for anything except answer
-correctness."** The table above assigns Rokushō (green) to Book One and Akane (red) to Book Three,
-as *persistent chrome*. So every page in Book One would carry the colour that means "correct", and
-every page in Book Three the colour that means "wrong".
+`--color-success-500` and `--color-error-500` were hardcoded to `#4F9C8D` and `#D72E2E` — the
+literal Rokushō and Akane brand values, and therefore the literal values Book One and Book Three
+now wear as chrome. A ○ could land in exactly its own header band's colour.
 
-**The Two-Plane Rule below does not cover this.** It separates book identity from *situation*
-accents. Correctness is a third meaning, it lives on the same surfaces, and on a checkpoint it sits
-inches from the chrome — a ✕ in Akane on an Akane band, a ○ in Rokushō on a Rokushō band.
+They point at **Rokushō 800 and Akane 800** now. Same two colours, two steps darker:
 
-**Rendering it found a second problem, bigger than the first.** `?flow=books&state=collision`.
+| | vs its 500 band | on its own tint | on a card |
+|---|---|---|---|
+| Rokushō 800 `#264d46` | 114 apart | 7.61:1 | 9.25:1 |
+| Akane 800 `#6f1616` | 109 apart | 9.53:1 | 11.46:1 |
 
-The 500 steps are accent values for *light* grounds. As a header band carrying paper text, **six of
-ten labels fail WCAG**:
+**This also fixed a standing defect.** The 500 glyph on its own tint measured **3.98:1** and failed
+AA — recorded on `preview/16-accent-usage.html` as a note rather than a fix. Both pairs are gated
+now; the contrast gate went 39/42 → 41/44.
 
-| Band at 500 | title | subtitle |
-|---|---|---|
-| Book One · Rokushō | **3.19:1** ✗ | **1.30:1** ✗ |
-| Book Two · Ai-iro | 11.13:1 ✓ | 4.54:1 ✓ |
-| Book Three · Akane | 4.78:1 ✓ | **1.95:1** ✗ |
-| Book Four · Ōgon | **2.40:1** ✗ | **1.02:1** ✗ |
-| Book Five · Sumi | 13.55:1 ✓ | 5.53:1 ✓ |
+> **What was tried first, and was wrong.** An earlier pass drafted two new hues — wisteria and
+> decayed-leaf — measured them, cut a third for sitting 55 from Akane, and rendered all three.
+> The author's answer was that the palette already contained the fix. Adding a sixth and seventh
+> colour to resolve a collision between five is how a palette stops meaning anything, and the
+> ramps existed the whole time. **Look at the ramp before drafting a hue.**
 
-Book Four's subtitle at 1.02:1 is invisible. Only the two dark hues work, because the band was
-always a dark slab.
-
-**And the fix is a step, not a different decision.** At the **900** step every hue clears both
-bars — Rokushō 13.5/5.5, Ai 18.3/7.5, Akane 15.0/6.1, Ōgon 12.2/5.0, Sumi 13.5/5.5. The band
-stays One Dark Slab as `DESIGN.md` requires: *a dark slab with a hue*, rather than a coloured one.
-Rendered at `?flow=books&state=deep`, and the five read as distinct.
-
-**The 900 band also dissolves most of the correctness collision on its own.** Rokushō 900 is a deep
-pine, not the ○ green; Akane 900 is oxblood, not the ✕ red. The verdict glyphs are 500-family and
-sit on light cards, so the two never meet at the same value.
-
-Three ways out of what remains. **This is the author's call, not one to settle by argument:**
-
-| | Resolution | Cost |
-|---|---|---|
-| **a** | **The book hue is suppressed on judging surfaces.** A checkpoint drops to neutral chrome — Sumi band, warm stone — and identifies itself by crest and typography alone | Checkpoints look less like their book. But they *should* feel different, and it makes the crest do real work |
-| **b** | Rewrite `DESIGN.md:333` to scope green/red to judging surfaces rather than the whole product | One line, and the collision returns anywhere a verdict appears outside a checkpoint |
-| **c** | Book hues avoid green and red entirely | Only Ai-iro, Ōgon and Sumi are left — three hues for five books, so the hue-per-book decision cannot hold |
-
-**Recommendation: (a).** It is the only one that leaves both `DESIGN.md:333` and the
-hue-per-book decision intact, and it improves the checkpoint rather than merely permitting it —
-a checkpoint that goes quiet when it starts judging is the right instinct anyway. It also matches
-what this plan already concluded for a surface that closes more than one book.
-
-Do not build Phase 2's checkpoints until this is settled.
+Rendered at `?flow=books&state=feedback`, before and after, on the two books whose chrome the old
+verdict matched.
 
 ### The named rule this creates
 

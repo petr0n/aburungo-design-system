@@ -116,6 +116,12 @@ const CHECKS = [
   // rather than later: Rokusho's pair shipped ungated for months at 3.19:1,
   // which is the reason this block exists at all.
   ['--color-accent-sumi-fg', '--color-accent-sumi', TEXT, 'label on the Sumi accent'],
+  // The verdict marks on their own tinted banner. Ungated until 2026-08-21,
+  // and preview/16-accent-usage.html had recorded error-500 there at 3.98:1 —
+  // a known failure that sat as a note instead of a fix. At the 800 step both
+  // clear comfortably.
+  ['--color-success-500', '--color-success-bg', TEXT, 'correct mark on its banner'],
+  ['--color-error-500', '--color-error-bg', TEXT, 'not-quite mark on its banner'],
   //
   // A card ground is deliberately NOT gated against the page, and this is where
   // that was tested rather than assumed. Adding `accent-sumi-bg vs bg` at 3:1

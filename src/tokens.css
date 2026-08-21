@@ -237,11 +237,35 @@
   /* ── Semantic feedback — correctness banners only, never decorative. */
   --color-success-bg:  var(--color-rokusho-100);
   --color-success-fg:  var(--color-rokusho-800);
-  --color-success-500: #4F9C8D;
   --color-error-bg:    var(--color-akane-100);
   --color-error-fg:    var(--color-akane-800);
-  --color-error-500:   #D72E2E;
   --color-error-border: var(--color-akane-300);
+
+  /* The verdict marks — ○ and ✕ — moved from the 500 step to 800 on
+     2026-08-21.
+
+     They were hardcoded to #4F9C8D and #D72E2E: the literal Rokushō and Akane
+     brand values, and therefore the literal values a book's chrome wears once
+     Book One is Rokushō and Book Three is Akane. A ○ in exactly its own
+     header band's colour is the collision the books plan was blocked on.
+
+     800 rather than a new hue, because the palette already had the answer and
+     inventing two more colours to sit beside five was the wrong instinct. It
+     is also the value `success-fg` and `error-fg` already use, so the glyph
+     and the words it sits with are now one ink instead of two.
+
+     Measured: Rokushō 800 is 114 from Rokushō 500 in RGB distance and Akane
+     800 is 109 from Akane 500 — further apart than the two hues that were
+     drafted from scratch to avoid this. Both clear AA on card (9.25, 11.46)
+     and on their own tint (7.61, 9.53), where the 500s did not: the note on
+     preview/16-accent-usage.html recorded error-500 on the tint at 3.98:1 and
+     failing, which stood as a known defect rather than a fix.
+
+     900 was measured too and reads near-black — the hue stops being legible as
+     Rokushō or Akane, which is the thing that makes ○ and ✕ feel like they
+     belong to this palette. */
+  --color-success-500: var(--color-rokusho-800);
+  --color-error-500:   var(--color-akane-800);
   /* Live capture. VoiceInput dressed its recording state in Akane — the
      colour this palette reserves for the mark and for errors — so the one
      moment the app is working correctly looked like the moment it failed,

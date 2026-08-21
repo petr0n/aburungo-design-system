@@ -99,11 +99,11 @@
   --color-link: #33685e;
   --color-success-bg: var(--color-rokusho-100);
   --color-success-fg: var(--color-rokusho-800);
-  --color-success-500: #4F9C8D;
   --color-error-bg: var(--color-akane-100);
   --color-error-fg: var(--color-akane-800);
-  --color-error-500: #D72E2E;
   --color-error-border: var(--color-akane-300);
+  --color-success-500: var(--color-rokusho-800);
+  --color-error-500: var(--color-akane-800);
   --color-recording: var(--color-rokusho-500);
   --color-recording-fg: var(--color-stone-0);
   --color-success-border: var(--color-rokusho-300);
@@ -306,11 +306,11 @@
   --link: var(--color-link);
   --success-bg: var(--color-success-bg);
   --success-fg: var(--color-success-fg);
-  --success-500: var(--color-success-500);
   --error-bg: var(--color-error-bg);
   --error-fg: var(--color-error-fg);
-  --error-500: var(--color-error-500);
   --error-border: var(--color-error-border);
+  --success-500: var(--color-success-500);
+  --error-500: var(--color-error-500);
   --recording: var(--color-recording);
   --recording-fg: var(--color-recording-fg);
   --success-border: var(--color-success-border);

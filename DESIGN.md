@@ -163,7 +163,15 @@ specific way this palette gets broken.
 
 ### Feedback
 Reserved for answer correctness. Tinted panels at 100 with a 300 border; the
-○ / ✕ glyph itself at full 500.
+○ / ✕ glyph itself at **800**.
+
+> **The glyph moved from 500 to 800 on 2026-08-21.** At 500 it was the literal
+> Rokushō and Akane brand values — which are also what a book's chrome wears, so
+> a ○ could land in exactly its own header band's colour. 800 keeps the hue and
+> puts 114 (Rokushō) and 109 (Akane) of RGB distance between the mark and the
+> band. It also fixed a standing failure: the 500 glyph on its own tint measured
+> 3.98:1, recorded on `preview/16-accent-usage.html` as a known defect. Both are
+> gated now.
 
 ### Named Rules
 

@@ -91,54 +91,38 @@ function BookBand({ book, title, subtitle, progress, deep = false }: {
 
 
 /**
- * Candidate feedback palettes — the decision this state exists for.
+ * The verdict colours, before and after 2026-08-21.
  *
- * The author kept the five book identities at their 500 step and asked for the
- * FEEDBACK colours to move instead, because Rokushō already means "correct" and
- * Akane already means "wrong" while both are also book chrome.
+ * `before` is the only raw hex here and it is a historical record: the 500
+ * steps that `--color-success-500` and `--color-error-500` were hardcoded to,
+ * which are the literal values a book's chrome now wears. `after` is `undefined`
+ * and renders the real tokens, so this comparison cannot drift from what ships.
  *
- * Raw hex on purpose: these are candidates, not tokens. Nothing goes into
- * `src/tokens.css` until one is chosen — putting five speculative ramps in the
- * token source is exactly the sprawl `build-tokens` exists to prevent.
- *
- * Every value below was measured before it was drawn. Two rules decided the
- * shortlist:
- *
- *   - the glyph clears 4.5:1 on both card and page (Kuchiba and Kaki both
- *     failed at their natural value and were darkened until they did);
- *   - the hue sits far enough from all five book colours to be told apart.
- *     **Kaki 柿 persimmon was cut for this** — 55 from Akane in RGB distance,
- *     and Akane is Book Three's chrome. Everything kept is 77 or further.
+ * An earlier draft of this state proposed two invented hues — wisteria and
+ * decayed-leaf — measured and rendered. That was the wrong instinct: the
+ * palette already had darker steps of the same two colours, and adding hues six
+ * and seven to avoid a collision between five is how a palette stops meaning
+ * anything.
  */
-type Feedback = {
+type Verdict = {
   id: string
   name: string
   note: string
-  correct: { bg: string; border: string; glyph: string; fg: string }
-  review: { bg: string; border: string; glyph: string; fg: string }
+  /** undefined = the shipped tokens. */
+  hex?: { correct: string; review: string }
 }
 
-const FEEDBACKS: Feedback[] = [
+const VERDICTS: Verdict[] = [
   {
-    id: 'fuji-kuchiba',
-    name: 'Fuji 藤 + Kuchiba 朽葉',
-    note: 'Wisteria and decayed-leaf. Both traditional, both well clear of the five.',
-    correct: { bg: '#EDE7F4', border: '#C4B3DC', glyph: '#7B5EA7', fg: '#3F2B5B' },
-    review:  { bg: '#F2EADB', border: '#D9C49A', glyph: '#7A5F2C', fg: '#4A3A1C' },
+    id: 'before',
+    name: 'Before — the verdict at 500',
+    note: 'success-500 was hardcoded #4F9C8D and error-500 #D72E2E: exactly Rokushō and Akane, exactly what Book One and Book Three wear as chrome.',
+    hex: { correct: '#4F9C8D', review: '#D72E2E' },
   },
   {
-    id: 'kikyo-kuchiba',
-    name: 'Kikyō 桔梗 + Kuchiba 朽葉',
-    note: 'Bellflower is deeper and cooler than wisteria — more separation from the warm ground.',
-    correct: { bg: '#E8E6F2', border: '#B3AED2', glyph: '#5F4E9B', fg: '#332A55' },
-    review:  { bg: '#F2EADB', border: '#D9C49A', glyph: '#7A5F2C', fg: '#4A3A1C' },
-  },
-  {
-    id: 'fuji-quiet',
-    name: 'Fuji 藤 + quiet ink',
-    note: 'One new hue, not two. “Worth another look” is the product’s own wording — gentle, not a verdict — so it goes quiet instead of taking a colour of its own.',
-    correct: { bg: '#EDE7F4', border: '#C4B3DC', glyph: '#7B5EA7', fg: '#3F2B5B' },
-    review:  { bg: '#EFEDE5', border: '#CFC9B9', glyph: '#6B665E', fg: '#403D38' },
+    id: 'after',
+    name: 'After — the verdict at 800',
+    note: 'Rokushō 800 and Akane 800. Same two colours, two steps down: 114 and 109 away from the bands in RGB distance, and both finally clear AA on their own tint, where the 500s measured 3.98:1 and failed.',
   },
 ]
 
@@ -152,9 +136,10 @@ const MARKS: AnswerOutcome[] = ['correct', 'correct', 'review', 'correct']
  * `chrome` is the decision under test — whether the book's hue reaches a
  * surface that is judging an answer.
  */
-function Checkpoint({ book, chrome, fb }: {
-  book: Book; chrome: 'book' | 'neutral'; fb?: Feedback
+function Checkpoint({ book, chrome, v }: {
+  book: Book; chrome: 'book' | 'neutral'; v?: Verdict
 }) {
+  const fb = v?.hex
   const banded = chrome === 'book'
   return (
     <>
@@ -185,17 +170,13 @@ function Checkpoint({ book, chrome, fb }: {
                   className={[
                     'min-h-[44px] rounded-lg border px-4 text-body',
                     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
-                    i === 0 && fb === undefined
+                    i === 0
                       ? 'border-success-border bg-success-bg text-success-fg font-semibold'
                       : 'border-border bg-surface text-fg active:bg-surface-2',
-                    i === 0 && fb !== undefined ? 'font-semibold' : '',
                   ].join(' ')}
-                  style={i === 0 && fb !== undefined
-                    ? { background: fb.correct.bg, borderColor: fb.correct.border, color: fb.correct.fg }
-                    : undefined}
                 >
                   {i === 0 && (fb
-                    ? <span aria-hidden="true" className="mr-2" style={{ color: fb.correct.glyph }}>○</span>
+                    ? <span aria-hidden="true" className="mr-2" style={{ color: fb.correct }}>○</span>
                     : <Maru outcome="correct" className="mr-2 inline-block" />)}
                   {o}
                 </button>
@@ -210,7 +191,7 @@ function Checkpoint({ book, chrome, fb }: {
               {MARKS.map((m, i) =>
                 fb ? (
                   <span key={i} aria-hidden="true" className="text-heading-sm"
-                    style={{ color: m === 'correct' ? fb.correct.glyph : fb.review.glyph }}>
+                    style={{ color: m === 'correct' ? fb.correct : fb.review }}>
                     {m === 'correct' ? '○' : '✕'}
                   </span>
                 ) : (
@@ -219,22 +200,18 @@ function Checkpoint({ book, chrome, fb }: {
             </div>
           </div>
 
-          {fb !== undefined && (
-            <div className="flex flex-col gap-2">
-              {([['correct', 'Correct'], ['review', 'Worth another look']] as const).map(([k, label]) => {
-                const c = fb[k]
-                return (
-                  <div key={k} className="rounded-lg border p-3 text-center text-body font-semibold"
-                    style={{ background: c.bg, borderColor: c.border, color: c.fg }}>
-                    <span aria-hidden="true" className="mr-2" style={{ color: c.glyph }}>
-                      {k === 'correct' ? '○' : '✕'}
-                    </span>
-                    {label}
-                  </div>
-                )
-              })}
+          <div className="flex flex-col gap-2">
+            <div className="rounded-lg border border-success-border bg-success-bg p-3 text-center text-body font-semibold text-success-fg">
+              <span aria-hidden="true" className="mr-2"
+                style={fb ? { color: fb.correct } : undefined}>○</span>
+              Correct
             </div>
-          )}
+            <div className="rounded-lg border border-error-border bg-error-bg p-3 text-center text-body font-semibold text-error-fg">
+              <span aria-hidden="true" className="mr-2"
+                style={fb ? { color: fb.review } : undefined}>✕</span>
+              Worth another look
+            </div>
+          </div>
           <Button variant="ghost" fullWidth>Skip for now</Button>
         </div>
       </Screen>
@@ -272,7 +249,7 @@ const STATES = [
   { id: 'collision', label: '⚠ The collision', note: 'book hue ON a judging surface' },
   { id: 'resolved', label: 'Resolution (a)', note: 'book hue suppressed when judging' },
   { id: 'deep', label: 'Deep band (900)', note: 'the hue at a step that can carry text' },
-  { id: 'feedback', label: '✅ New feedback colours', note: 'move the verdict off the brand set' },
+  { id: 'feedback', label: '✅ Verdict at 800', note: 'the same two colours, darker' },
 ] as const
 
 type StateId = (typeof STATES)[number]['id']
@@ -333,7 +310,7 @@ export function BookLab() {
     identities: 'A lesson page in each book. Same content, same components, same layout — the only thing that changes is the chrome hue, the crest and its density.',
     collision: 'Rokushō means “correct” and Akane means “wrong”. On a checkpoint they are the chrome AND the verdict. Watch the ○ against Book One’s band, and the ✕ against Book Three’s.',
     resolved: 'The book hue steps back when the page starts judging. Sumi band, warm stone, and the book is carried by its crest and type instead — so correctness colour is the only colour with a job on the screen. Note what this costs: all five look the same.',
-    feedback: 'The five identities stay as they are. The VERDICT moves off the brand set instead, so ○ and ✕ mean one thing only. Each pairing is shown on Book One (whose Rokushō is today’s “correct”) and Book Three (whose Akane is today’s “wrong”) — the two books where the old collision was worst.',
+    feedback: 'The five identities stay exactly as they are. The verdict moves DOWN THE RAMP instead — Rokushō 800 and Akane 800, the same two colours two steps darker. Shown on Book One and Book Three, the two books whose chrome the old 500 verdict was identical to.',
     deep: 'The 500 steps are accent values for light grounds and cannot carry white text — six of ten band labels failed WCAG, Book Four’s subtitle at 1.02:1. At the 900 step every hue clears it, and the band stays One Dark Slab as DESIGN.md requires: a dark slab with a hue, rather than a coloured one.',
   }[state]
 
@@ -354,16 +331,16 @@ export function BookLab() {
 
       {state === 'feedback' ? (
         <div className="flex flex-col gap-8">
-          {FEEDBACKS.map((fb) => (
-            <section key={fb.id} className="flex flex-col gap-3">
+          {VERDICTS.map((v) => (
+            <section key={v.id} className="flex flex-col gap-3">
               <div className="flex flex-col gap-1">
-                <h2 className="text-heading-sm font-semibold text-fg-heading">{fb.name}</h2>
-                <p className="max-w-prose text-body-sm text-fg-muted">{fb.note}</p>
+                <h2 className="text-heading-sm font-semibold text-fg-heading">{v.name}</h2>
+                <p className="max-w-prose text-body-sm text-fg-muted">{v.note}</p>
               </div>
               <div className="flex items-start gap-5">
                 {[BOOKS[0], BOOKS[2]].map((b) => (
                   <Slot key={b.id} label={`${b.title} · ${b.hueName}`} sub="book chrome kept">
-                    <Phone><Checkpoint book={b} chrome="book" fb={fb} /></Phone>
+                    <Phone><Checkpoint book={b} chrome="book" v={v} /></Phone>
                   </Slot>
                 ))}
               </div>
