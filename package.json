@@ -47,7 +47,8 @@
     "serve": "node scripts/serve.mjs",
     "test:harness": "node scripts/lib/harness.test.mjs",
     "shots:responsive": "node scripts/shots-responsive.mjs",
-    "check:touch": "node scripts/check-touch-targets.mjs"
+    "check:touch": "node scripts/check-touch-targets.mjs",
+    "verify:plan": "sh scripts/verify-plan.sh"
   },
   "peerDependencies": {
     "react": ">=18",
