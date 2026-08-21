@@ -26,6 +26,8 @@ type Book = {
   hue: string
   hueName: string
   /** Tailwind classes for the book's chrome band and its rule. */
+  /** The label ink this band can actually carry. See BookBand. */
+  ink: string
   band: string
   /** The 900 step. The 500s cannot carry white text -- see the lab's note. */
   deep: string
@@ -37,30 +39,50 @@ type Book = {
 }
 
 const BOOKS: Book[] = [
-  { id: 'one',   title: 'Book One',   level: '~N5', hue: 'rokusho', hueName: 'Rokushō 緑青',
+  { id: 'one', ink: 'text-stone-900',   title: 'Book One',   level: '~N5', hue: 'rokusho', hueName: 'Rokushō 緑青',
     band: 'bg-accent-rokusho', deep: 'bg-rokusho-900', rule: 'border-rule-on-inverse', tag: 'bg-accent-rokusho-bg text-accent-rokusho-fg',
     crest: 'crest-1', tile: 'tile-sm', character: 'the foundation' },
-  { id: 'two',   title: 'Book Two',   level: '~N4', hue: 'ai', hueName: 'Ai-iro 藍色',
+  { id: 'two', ink: 'text-fg-inverse',   title: 'Book Two',   level: '~N4', hue: 'ai', hueName: 'Ai-iro 藍色',
     band: 'bg-accent-ai', deep: 'bg-ai-900', rule: 'border-rule-on-inverse', tag: 'bg-accent-ai-bg text-fg-heading',
     crest: 'crest-2', tile: 'tile-sm', character: 'the bridge' },
-  { id: 'three', title: 'Book Three', level: '~N3', hue: 'akane', hueName: 'Akane 茜色',
+  { id: 'three', ink: 'text-fg-inverse', title: 'Book Three', level: '~N3', hue: 'akane', hueName: 'Akane 茜色',
     band: 'bg-accent-akane', deep: 'bg-akane-900', rule: 'border-rule-on-inverse', tag: 'bg-accent-akane-bg text-error-fg',
     crest: 'crest-1', tile: 'tile-md', character: 'the wall' },
-  { id: 'four',  title: 'Book Four',  level: '~N2', hue: 'ogon', hueName: 'Ōgon 黄金',
+  { id: 'four', ink: 'text-stone-900',  title: 'Book Four',  level: '~N2', hue: 'ogon', hueName: 'Ōgon 黄金',
     band: 'bg-accent-ogon', deep: 'bg-ogon-900', rule: 'border-rule-on-inverse', tag: 'bg-accent-ogon-bg text-accent-ogon-fg',
     crest: 'crest-2', tile: 'tile-md', character: 'register' },
-  { id: 'five',  title: 'Book Five',  level: '~N1', hue: 'sumi', hueName: 'Sumi-iro 墨色',
+  { id: 'five', ink: 'text-fg-inverse',  title: 'Book Five',  level: '~N1', hue: 'sumi', hueName: 'Sumi-iro 墨色',
     band: 'bg-accent-sumi', deep: 'bg-accent-sumi', rule: 'border-rule-on-inverse', tag: 'bg-accent-sumi-bg text-fg',
     crest: 'crest-1', tile: 'tile-lg', character: 'refinement' },
 ]
 
-/** The book's chrome band. Composed here, not in AppHeader — see the file note. */
+/**
+ * The book's chrome band. Composed here, not in AppHeader — see the file note.
+ *
+ * **The ink is per band, and the subtitle shares it.** `AppHeader` draws its
+ * title in paper and its subtitle in `fg-on-inverse-2`, a muted grey — which
+ * works because that band is Sumi, near-black, with room underneath. Put the
+ * same pair on a mid-tone hue and it collapses: measured across the five,
+ * **six of ten labels failed AA**, worst at Book Four's subtitle on 1.02:1.
+ *
+ * Two rules fix all ten:
+ *
+ *   1. the ink is chosen per band — dark on the light hues (Rokushō, Ōgon),
+ *      paper on the dark ones (Ai, Akane, Sumi);
+ *   2. the subtitle uses the *same* ink as the title, not a muted step. There
+ *      is no muted step that survives on Akane — the grey is 1.95:1 there.
+ *
+ * Hierarchy comes from size and weight instead, which it mostly already did.
+ * Dimming the subtitle back with opacity would just re-spend the contrast this
+ * is recovering.
+ */
 function BookBand({ book, title, subtitle, progress, deep = false }: {
   book: Book; title: string; subtitle?: string; progress?: number; deep?: boolean
 }) {
-  // Only the 500 version of Ogon needs a dark label; every 900 step is dark
-  // enough for paper text, which is the whole point of the deep variant.
-  const paper = book.hue === 'ogon' && !deep
+  // Every 900 step is dark enough for paper, so the deep band ignores the
+  // per-hue ink and always uses it.
+  const ink = deep ? 'text-fg-inverse' : book.ink
+  const darkInk = ink === 'text-stone-900'
   return (
     <header className={`border-b-[6px] ${book.rule} ${deep ? book.deep : book.band}`}>
       <div className="grid min-h-[56px] grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-2">
@@ -71,24 +93,21 @@ function BookBand({ book, title, subtitle, progress, deep = false }: {
           ア
         </span>
         <div className="text-center">
-          <h1 className={`text-heading-sm font-semibold ${paper ? 'text-accent-ogon-fg' : 'text-fg-inverse'}`}>
-            {title}
-          </h1>
+          <h1 className={`text-heading-sm font-semibold ${ink}`}>{title}</h1>
           {subtitle !== undefined && (
-            <p className={`text-caption ${paper ? 'text-accent-ogon-fg' : 'text-fg-on-inverse-2'}`}>{subtitle}</p>
+            <p className={`text-caption ${ink}`}>{subtitle}</p>
           )}
         </div>
         <span />
       </div>
       {progress !== undefined && (
         <div className="px-4 pb-2">
-          <ProgressBar value={progress} tone={paper ? "default" : "inverse"} />
+          <ProgressBar value={progress} tone={darkInk ? 'default' : 'inverse'} />
         </div>
       )}
     </header>
   )
 }
-
 
 /**
  * The verdict colours, before and after 2026-08-21.

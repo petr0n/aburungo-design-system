@@ -110,6 +110,31 @@ now; the contrast gate went 39/42 → 41/44.
 Rendered at `?flow=books&state=feedback`, before and after, on the two books whose chrome the old
 verdict matched.
 
+### The Band Ink Rule
+
+**Added 2026-08-21, after the identities were rendered.** `AppHeader` draws its title in paper and
+its subtitle in `fg-on-inverse-2`, a muted grey. That works because its band is Sumi — near-black,
+with room underneath. Put the same pair on a mid-tone hue and it collapses: measured across the
+five books, **six of ten labels failed AA**, worst at Book Four's subtitle on **1.02:1**.
+
+> **A book band chooses its ink by luminance, and the subtitle uses the same ink as the title.**
+
+| Band | Ink | title | subtitle |
+|---|---|---|---|
+| Book One · Rokushō | stone-900 | 5.46 | 5.46 |
+| Book Two · Ai-iro | paper | 11.13 | 11.13 |
+| Book Three · Akane | paper | 4.78 | 4.78 |
+| Book Four · Ōgon | stone-900 | 7.25 | 7.25 |
+| Book Five · Sumi | paper | 13.55 | 13.55 |
+
+Both halves are load-bearing. Ink-by-luminance is obvious once measured; **the subtitle sharing it
+is the part that is easy to undo.** There is no muted step that survives on Akane — the grey is
+1.95:1 there — so a "make the subtitle sit back" edit re-breaks it. Hierarchy comes from size and
+weight, which it mostly already did. Dimming with opacity re-spends the contrast this recovers.
+
+**When book chrome becomes a real component, this rule travels with it.** `AppHeader` today takes
+no hue and is correct as it stands; the moment it does, it needs the ink parameter too.
+
 ### The named rule this creates
 
 > **The Two-Plane Rule.** The **book hue owns the chrome** — header band, chapter headers, progress,

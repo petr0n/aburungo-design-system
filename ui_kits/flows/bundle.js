@@ -2153,6 +2153,7 @@ import { Fragment as Fragment7, jsx as jsx28, jsxs as jsxs21 } from "react/jsx-r
 var BOOKS = [
   {
     id: "one",
+    ink: "text-stone-900",
     title: "Book One",
     level: "~N5",
     hue: "rokusho",
@@ -2167,6 +2168,7 @@ var BOOKS = [
   },
   {
     id: "two",
+    ink: "text-fg-inverse",
     title: "Book Two",
     level: "~N4",
     hue: "ai",
@@ -2181,6 +2183,7 @@ var BOOKS = [
   },
   {
     id: "three",
+    ink: "text-fg-inverse",
     title: "Book Three",
     level: "~N3",
     hue: "akane",
@@ -2195,6 +2198,7 @@ var BOOKS = [
   },
   {
     id: "four",
+    ink: "text-stone-900",
     title: "Book Four",
     level: "~N2",
     hue: "ogon",
@@ -2209,6 +2213,7 @@ var BOOKS = [
   },
   {
     id: "five",
+    ink: "text-fg-inverse",
     title: "Book Five",
     level: "~N1",
     hue: "sumi",
@@ -2223,7 +2228,8 @@ var BOOKS = [
   }
 ];
 function BookBand({ book, title, subtitle, progress, deep = false }) {
-  const paper = book.hue === "ogon" && !deep;
+  const ink = deep ? "text-fg-inverse" : book.ink;
+  const darkInk = ink === "text-stone-900";
   return /* @__PURE__ */ jsxs21("header", { className: `border-b-[6px] ${book.rule} ${deep ? book.deep : book.band}`, children: [
     /* @__PURE__ */ jsxs21("div", { className: "grid min-h-[56px] grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-2", children: [
       /* @__PURE__ */ jsx28(
@@ -2235,12 +2241,12 @@ function BookBand({ book, title, subtitle, progress, deep = false }) {
         }
       ),
       /* @__PURE__ */ jsxs21("div", { className: "text-center", children: [
-        /* @__PURE__ */ jsx28("h1", { className: `text-heading-sm font-semibold ${paper ? "text-accent-ogon-fg" : "text-fg-inverse"}`, children: title }),
-        subtitle !== void 0 && /* @__PURE__ */ jsx28("p", { className: `text-caption ${paper ? "text-accent-ogon-fg" : "text-fg-on-inverse-2"}`, children: subtitle })
+        /* @__PURE__ */ jsx28("h1", { className: `text-heading-sm font-semibold ${ink}`, children: title }),
+        subtitle !== void 0 && /* @__PURE__ */ jsx28("p", { className: `text-caption ${ink}`, children: subtitle })
       ] }),
       /* @__PURE__ */ jsx28("span", {})
     ] }),
-    progress !== void 0 && /* @__PURE__ */ jsx28("div", { className: "px-4 pb-2", children: /* @__PURE__ */ jsx28(ProgressBar, { value: progress, tone: paper ? "default" : "inverse" }) })
+    progress !== void 0 && /* @__PURE__ */ jsx28("div", { className: "px-4 pb-2", children: /* @__PURE__ */ jsx28(ProgressBar, { value: progress, tone: darkInk ? "default" : "inverse" }) })
   ] });
 }
 var VERDICTS = [
