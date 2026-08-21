@@ -1244,8 +1244,18 @@ function BookBand({ book, title, subtitle, progress, deep = false }) {
     progress !== void 0 && /* @__PURE__ */ jsx24("div", { className: "px-4 pb-2", children: /* @__PURE__ */ jsx24(ProgressBar, { value: progress, tone: darkInk ? "default" : "inverse" }) })
   ] });
 }
-var SHIPPED_CORRECT = { bg: "#EDF5F3", border: "#A7CFC7", glyph: "#264d46", fg: "#264d46" };
-var SHIPPED_REVIEW = { bg: "#FBE3E1", border: "#EC9791", glyph: "#6f1616", fg: "#6f1616" };
+var LIVE_CORRECT = {
+  bg: "var(--color-success-bg)",
+  border: "var(--color-success-border)",
+  glyph: "var(--color-success-500)",
+  fg: "var(--color-success-fg)"
+};
+var LIVE_REVIEW = {
+  bg: "var(--color-error-bg)",
+  border: "var(--color-error-border)",
+  glyph: "var(--color-error-500)",
+  fg: "var(--color-error-fg)"
+};
 var VERDICTS = [
   {
     id: "before",
@@ -1253,8 +1263,8 @@ var VERDICTS = [
     status: "superseded",
     note: "success-500 was hardcoded #4F9C8D and error-500 #D72E2E: exactly Rokush\u014D and Akane, exactly what Book One and Book Three wear as chrome.",
     hex: {
-      correct: { ...SHIPPED_CORRECT, glyph: "#4F9C8D", fg: "#4F9C8D" },
-      review: { ...SHIPPED_REVIEW, glyph: "#D72E2E", fg: "#D72E2E" }
+      correct: { ...LIVE_CORRECT, glyph: "#4F9C8D", fg: "#4F9C8D" },
+      review: { ...LIVE_REVIEW, glyph: "#D72E2E", fg: "#D72E2E" }
     }
   },
   {
@@ -1344,7 +1354,7 @@ function Checkpoint({ book, chrome, v }) {
           "div",
           {
             className: "rounded-lg border border-success-border bg-success-bg p-3 text-center text-body font-semibold text-success-fg",
-            style: fb ? { background: fb.correct.bg, borderColor: fb.correct.border, color: fb.correct.fg } : void 0,
+            style: fb ? { backgroundColor: fb.correct.bg, borderColor: fb.correct.border, color: fb.correct.fg } : void 0,
             children: [
               /* @__PURE__ */ jsx24(
                 "span",
@@ -1363,7 +1373,7 @@ function Checkpoint({ book, chrome, v }) {
           "div",
           {
             className: "rounded-lg border border-error-border bg-error-bg p-3 text-center text-body font-semibold text-error-fg",
-            style: fb ? { background: fb.review.bg, borderColor: fb.review.border, color: fb.review.fg } : void 0,
+            style: fb ? { backgroundColor: fb.review.bg, borderColor: fb.review.border, color: fb.review.fg } : void 0,
             children: [
               /* @__PURE__ */ jsx24(
                 "span",
