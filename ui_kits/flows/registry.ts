@@ -1,5 +1,5 @@
 /**
- * The four flows, in one list.
+ * Every flow, in one list.
  *
  * Both harnesses import this: `ui_kits/flows/` renders a flow beside its state
  * rail, `ui_kits/mobile/` renders the same flow inside an iOS device frame.
@@ -7,6 +7,7 @@
  * step, which is what `ui_kits/mobile/screens.jsx` used to be.
  */
 import type { ReactNode } from 'react'
+import { checkpointFlow } from './checkpoint'
 import { flashcardFlow } from './flashcard-round'
 import { fillFlow } from './fill-blank'
 import { kanaFlow } from './kana-practice'
@@ -14,7 +15,7 @@ import { lessonsFlow } from './lesson-list'
 import type { FlowDef } from './shell'
 
 /**
- * A flow is generic over its own state union, and the four unions have nothing
+ * A flow is generic over its own state union, and those unions have nothing
  * in common — `FlowDef<string>` would be wrong, because a flow's `go` accepts
  * only its own ids. Storing them in one array therefore needs the type
  * parameter hidden without being widened or cast away.
@@ -41,6 +42,7 @@ export const FLOWS: readonly FlowEntry[] = [
   entry(kanaFlow),
   entry(fillFlow),
   entry(lessonsFlow),
+  entry(checkpointFlow),
 ]
 
 export function flowById(id: string): FlowEntry {

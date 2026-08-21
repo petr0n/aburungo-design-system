@@ -16,6 +16,8 @@
  * pages are static, served with `python3 -m http.server`, and a preview that
  * needs a build first is a preview nobody looks at.
  */
+import { createHash } from 'node:crypto'
+import { readFileSync, writeFileSync } from 'node:fs'
 import { build } from 'esbuild'
 
 /**
@@ -25,11 +27,41 @@ import { build } from 'esbuild'
  * fall behind the components.
  */
 const ENTRIES = [
-  ['ui_kits/flows/main.tsx', 'ui_kits/flows/bundle.js'],
-  ['ui_kits/mobile/main.tsx', 'ui_kits/mobile/bundle.js'],
+  ['ui_kits/flows/main.tsx', 'ui_kits/flows/bundle.js', 'ui_kits/flows/index.html'],
+  ['ui_kits/mobile/main.tsx', 'ui_kits/mobile/bundle.js', 'ui_kits/mobile/index.html'],
 ]
 
-for (const [entry, outfile] of ENTRIES) {
+/**
+ * Stamp the bundle's content hash into the page that loads it.
+ *
+ * `bundle.js` is a stable filename, so a browser that has cached one keeps
+ * serving it. `pnpm serve` sends no-store for exactly this reason and says so
+ * in its own header — but the harnesses are also opened behind
+ * `python3 -m http.server`, which does not, and then a fix that shipped looks
+ * like it did not. That illusion has now cost four rounds of design review:
+ * twice before `serve.mjs` was written, and twice on 2026-08-21, once on the
+ * book lab and once on the desktop toggle.
+ *
+ * A hash in the query makes the URL change whenever the bytes do, so the cache
+ * cannot serve a stale bundle whatever the server does. Same filename on disk,
+ * so nothing else has to know.
+ */
+const BUNDLE_TAG = /(<script type="module" src="\.\/bundle\.js)(?:\?v=[0-9a-f]+)?(">)/
+
+function stampBundle(htmlPath, bundlePath) {
+  const hash = createHash('sha256').update(readFileSync(bundlePath)).digest('hex').slice(0, 8)
+  const html = readFileSync(htmlPath, 'utf8')
+  // Assert on the MATCH, not on the diff. A rebuild that changes nothing
+  // produces an identical string, and a `stamped === html` guard reads that as
+  // "the tag is missing" and fails the build on the second run. It did.
+  if (!BUNDLE_TAG.test(html)) {
+    throw new Error(`build-flows: no bundle.js script tag to stamp in ${htmlPath}`)
+  }
+  writeFileSync(htmlPath, html.replace(BUNDLE_TAG, `$1?v=${hash}$2`))
+  return hash
+}
+
+for (const [entry, outfile, htmlPath] of ENTRIES) {
   const result = await build({
     entryPoints: [entry],
     outfile,
@@ -45,5 +77,6 @@ for (const [entry, outfile] of ENTRIES) {
   })
 
   const [, out] = Object.entries(result.metafile.outputs)[0]
-  console.log(`build-flows: ${(out.bytes / 1024).toFixed(1)} kB -> ${outfile}`)
+  const hash = stampBundle(htmlPath, outfile)
+  console.log(`build-flows: ${(out.bytes / 1024).toFixed(1)} kB -> ${outfile}  (?v=${hash})`)
 }
