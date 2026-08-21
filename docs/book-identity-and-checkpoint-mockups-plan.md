@@ -94,7 +94,32 @@ every page in Book Three the colour that means "wrong".
 accents. Correctness is a third meaning, it lives on the same surfaces, and on a checkpoint it sits
 inches from the chrome — a ✕ in Akane on an Akane band, a ○ in Rokushō on a Rokushō band.
 
-Three ways out. **This is the author's call, not one to settle by argument:**
+**Rendering it found a second problem, bigger than the first.** `?flow=books&state=collision`.
+
+The 500 steps are accent values for *light* grounds. As a header band carrying paper text, **six of
+ten labels fail WCAG**:
+
+| Band at 500 | title | subtitle |
+|---|---|---|
+| Book One · Rokushō | **3.19:1** ✗ | **1.30:1** ✗ |
+| Book Two · Ai-iro | 11.13:1 ✓ | 4.54:1 ✓ |
+| Book Three · Akane | 4.78:1 ✓ | **1.95:1** ✗ |
+| Book Four · Ōgon | **2.40:1** ✗ | **1.02:1** ✗ |
+| Book Five · Sumi | 13.55:1 ✓ | 5.53:1 ✓ |
+
+Book Four's subtitle at 1.02:1 is invisible. Only the two dark hues work, because the band was
+always a dark slab.
+
+**And the fix is a step, not a different decision.** At the **900** step every hue clears both
+bars — Rokushō 13.5/5.5, Ai 18.3/7.5, Akane 15.0/6.1, Ōgon 12.2/5.0, Sumi 13.5/5.5. The band
+stays One Dark Slab as `DESIGN.md` requires: *a dark slab with a hue*, rather than a coloured one.
+Rendered at `?flow=books&state=deep`, and the five read as distinct.
+
+**The 900 band also dissolves most of the correctness collision on its own.** Rokushō 900 is a deep
+pine, not the ○ green; Akane 900 is oxblood, not the ✕ red. The verdict glyphs are 500-family and
+sit on light cards, so the two never meet at the same value.
+
+Three ways out of what remains. **This is the author's call, not one to settle by argument:**
 
 | | Resolution | Cost |
 |---|---|---|
