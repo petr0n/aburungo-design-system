@@ -71,7 +71,12 @@ ck 5.2 "pattern-sakura never landed"             '! [ -f assets/pattern-sakura.p
 ck 5.3 "brand.css keeps all six utility groups"  'for u in hanko maru wm kata-vert ctype frame; do grep -q "\.$u" src/brand.css || exit 1; done'
 ck 5.5 "no legacy tokens anywhere in src/"       '! grep -rqE "(ring|bg|text|border)-brand-[0-9]+" src/'
 ck 5.5b "four inverse roles implemented"         'for r in color-inverse color-fg-inverse color-rule-on-inverse color-fg-on-inverse-2; do grep -q -- "--$r" src/tokens.css || exit 1; done'
-ck 5.6 "Button accent variant gone"              '[ $(grep -rhoE "<Button[^>]*variant=.accent." src ui_kits storybook 2>/dev/null | wc -l) -eq 0 ]'
+# Delegates to the real gate, for the same reason as 5.x below. The first
+# version grepped for `variant=.accent.`, where the dots are wildcards: it
+# false-positived on `variant="accented"` and could not see `variant={"accent"}`
+# or a `<Button` whose props wrap onto the next line. check-adherence covers all
+# four JSX spellings and is itself tested in scripts/lib/variants.test.mjs.
+ck 5.6 "Button accent variant gone"              'node scripts/check-adherence.mjs'
 ck 5.11 "docs/colors.md is the authority"        '[ -f docs/colors.md ]'
 # Delegates to the real gate rather than restating it. Naming the banned file
 # here would both duplicate the check and trip it -- check-forbidden-assets
