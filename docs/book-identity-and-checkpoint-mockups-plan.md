@@ -202,6 +202,27 @@ three crest wirings. Everything else is composition.**
 
 ---
 
+## 3b. The lab is append-only
+
+**A design surface in `ui_kits/flows/book-lab.tsx` gains options. It never loses them.**
+
+When the off-palette verdict candidates were rejected on 2026-08-21, the winning pair replaced
+them in the file and the three rejected ones stopped existing. That is the wrong move twice over:
+a rejected option is the answer to *"why not purple"* six weeks later, and re-deriving it costs
+another round of rendering and another round of the author's time. They were restored the same
+day, each row tagged `chosen` / `superseded` / `rejected` with the reason it lost.
+
+Two rules follow, and they apply to every comparison surface this plan adds:
+
+1. **Add a row, never overwrite one.** The chosen option carries `hex: undefined` so it renders
+   the live tokens and cannot drift; every other row carries literal hex, because it is a record
+   rather than a source of truth.
+2. **A comparison runs across all five books.** Showing a verdict on the two books it collided
+   with answers a narrower question than the one being asked — a verdict colour has to survive
+   every band it will ever sit under.
+
+---
+
 ## 4. ⚠️ Blocked: whether a checkpoint carries its book's crest
 
 **Blocked 2026-08-21, and this section previously decided it — which was the error.**

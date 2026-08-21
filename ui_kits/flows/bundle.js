@@ -2295,17 +2295,54 @@ function BookBand({ book, title, subtitle, progress, deep = false }) {
     progress !== void 0 && /* @__PURE__ */ jsx28("div", { className: "px-4 pb-2", children: /* @__PURE__ */ jsx28(ProgressBar, { value: progress, tone: darkInk ? "default" : "inverse" }) })
   ] });
 }
+var SHIPPED_CORRECT = { bg: "#EDF5F3", border: "#A7CFC7", glyph: "#264d46", fg: "#264d46" };
+var SHIPPED_REVIEW = { bg: "#FBE3E1", border: "#EC9791", glyph: "#6f1616", fg: "#6f1616" };
 var VERDICTS = [
   {
     id: "before",
     name: "Before \u2014 the verdict at 500",
+    status: "superseded",
     note: "success-500 was hardcoded #4F9C8D and error-500 #D72E2E: exactly Rokush\u014D and Akane, exactly what Book One and Book Three wear as chrome.",
-    hex: { correct: "#4F9C8D", review: "#D72E2E" }
+    hex: {
+      correct: { ...SHIPPED_CORRECT, glyph: "#4F9C8D", fg: "#4F9C8D" },
+      review: { ...SHIPPED_REVIEW, glyph: "#D72E2E", fg: "#D72E2E" }
+    }
   },
   {
     id: "after",
     name: "After \u2014 the verdict at 800",
+    status: "chosen",
     note: "Rokush\u014D 800 and Akane 800. Same two colours, two steps down: 114 and 109 away from the bands in RGB distance, and both finally clear AA on their own tint, where the 500s measured 3.98:1 and failed."
+  },
+  {
+    id: "fuji-kuchiba",
+    name: "Rejected \u2014 Fuji \u85E4 + Kuchiba \u673D\u8449",
+    status: "rejected",
+    note: "Wisteria and decayed-leaf. Both traditional, both well clear of the five. Cut because the palette already had darker steps of the two colours it needed, and adding hues six and seven to resolve a collision between five is how a palette stops meaning anything.",
+    hex: {
+      correct: { bg: "#EDE7F4", border: "#C4B3DC", glyph: "#7B5EA7", fg: "#3F2B5B" },
+      review: { bg: "#F2EADB", border: "#D9C49A", glyph: "#7A5F2C", fg: "#4A3A1C" }
+    }
+  },
+  {
+    id: "kikyo-kuchiba",
+    name: "Rejected \u2014 Kiky\u014D \u6854\u6897 + Kuchiba \u673D\u8449",
+    status: "rejected",
+    note: "Bellflower is deeper and cooler than wisteria \u2014 more separation from the warm ground. Cut with the rest of the off-palette set.",
+    hex: {
+      correct: { bg: "#E8E6F2", border: "#B3AED2", glyph: "#5F4E9B", fg: "#332A55" },
+      review: { bg: "#F2EADB", border: "#D9C49A", glyph: "#7A5F2C", fg: "#4A3A1C" }
+    }
+  },
+  {
+    id: "fuji-quiet",
+    name: "Rejected \u2014 Fuji \u85E4 + quiet ink",
+    status: "rejected",
+    note: "One new hue, not two. \u201CWorth another look\u201D is the product\u2019s own wording \u2014 gentle, not a verdict \u2014 so it went quiet instead of taking a colour of its own. The quiet-review half is the part of this worth keeping in mind.",
+    hex: {
+      correct: { bg: "#EDE7F4", border: "#C4B3DC", glyph: "#7B5EA7", fg: "#3F2B5B" },
+      review: { bg: "#EFEDE5", border: "#CFC9B9", glyph: "#6B665E", fg: "#403D38" }
+    }
   }
 ];
 var PHRASE = { jp: "\u306F\u3058\u3081\u307E\u3057\u3066", reading: "\u306F\u3058\u3081\u307E\u3057\u3066", en: "Nice to meet you." };
@@ -2333,7 +2370,7 @@ function Checkpoint({ book, chrome, v }) {
               i === 0 ? "border-success-border bg-success-bg text-success-fg font-semibold" : "border-border bg-surface text-fg active:bg-surface-2"
             ].join(" "),
             children: [
-              i === 0 && (fb ? /* @__PURE__ */ jsx28("span", { "aria-hidden": "true", className: "mr-2", style: { color: fb.correct }, children: "\u25CB" }) : /* @__PURE__ */ jsx28(Maru, { outcome: "correct", className: "mr-2 inline-block" })),
+              i === 0 && (fb ? /* @__PURE__ */ jsx28("span", { "aria-hidden": "true", className: "mr-2", style: { color: fb.correct.glyph }, children: "\u25CB" }) : /* @__PURE__ */ jsx28(Maru, { outcome: "correct", className: "mr-2 inline-block" })),
               o
             ]
           },
@@ -2347,37 +2384,51 @@ function Checkpoint({ book, chrome, v }) {
           {
             "aria-hidden": "true",
             className: "text-heading-sm",
-            style: { color: m === "correct" ? fb.correct : fb.review },
+            style: { color: m === "correct" ? fb.correct.glyph : fb.review.glyph },
             children: m === "correct" ? "\u25CB" : "\u2715"
           },
           i
         ) : /* @__PURE__ */ jsx28(Maru, { outcome: m, className: "text-heading-sm" }, i)) })
       ] }),
       /* @__PURE__ */ jsxs21("div", { className: "flex flex-col gap-2", children: [
-        /* @__PURE__ */ jsxs21("div", { className: "rounded-lg border border-success-border bg-success-bg p-3 text-center text-body font-semibold text-success-fg", children: [
-          /* @__PURE__ */ jsx28(
-            "span",
-            {
-              "aria-hidden": "true",
-              className: "mr-2",
-              style: fb ? { color: fb.correct } : void 0,
-              children: "\u25CB"
-            }
-          ),
-          "Correct"
-        ] }),
-        /* @__PURE__ */ jsxs21("div", { className: "rounded-lg border border-error-border bg-error-bg p-3 text-center text-body font-semibold text-error-fg", children: [
-          /* @__PURE__ */ jsx28(
-            "span",
-            {
-              "aria-hidden": "true",
-              className: "mr-2",
-              style: fb ? { color: fb.review } : void 0,
-              children: "\u2715"
-            }
-          ),
-          "Worth another look"
-        ] })
+        /* @__PURE__ */ jsxs21(
+          "div",
+          {
+            className: "rounded-lg border border-success-border bg-success-bg p-3 text-center text-body font-semibold text-success-fg",
+            style: fb ? { background: fb.correct.bg, borderColor: fb.correct.border, color: fb.correct.fg } : void 0,
+            children: [
+              /* @__PURE__ */ jsx28(
+                "span",
+                {
+                  "aria-hidden": "true",
+                  className: "mr-2",
+                  style: fb ? { color: fb.correct.glyph } : void 0,
+                  children: "\u25CB"
+                }
+              ),
+              "Correct"
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxs21(
+          "div",
+          {
+            className: "rounded-lg border border-error-border bg-error-bg p-3 text-center text-body font-semibold text-error-fg",
+            style: fb ? { background: fb.review.bg, borderColor: fb.review.border, color: fb.review.fg } : void 0,
+            children: [
+              /* @__PURE__ */ jsx28(
+                "span",
+                {
+                  "aria-hidden": "true",
+                  className: "mr-2",
+                  style: fb ? { color: fb.review.glyph } : void 0,
+                  children: "\u2715"
+                }
+              ),
+              "Worth another look"
+            ]
+          }
+        )
       ] }),
       /* @__PURE__ */ jsx28(Button, { variant: "ghost", fullWidth: true, children: "Skip for now" })
     ] }) })
@@ -2407,7 +2458,7 @@ var STATES5 = [
   { id: "collision", label: "\u26A0 The collision", note: "book hue ON a judging surface" },
   { id: "resolved", label: "Resolution (a)", note: "book hue suppressed when judging" },
   { id: "deep", label: "Deep band (900)", note: "the hue at a step that can carry text" },
-  { id: "feedback", label: "\u2705 Verdict at 800", note: "the same two colours, darker" }
+  { id: "feedback", label: "\u2705 Verdict at 800", note: "every verdict tried, on all five books" }
 ];
 function Slot({ children, label, sub }) {
   return /* @__PURE__ */ jsxs21("div", { className: "flex shrink-0 flex-col items-center gap-2", children: [
@@ -2416,6 +2467,11 @@ function Slot({ children, label, sub }) {
     /* @__PURE__ */ jsx28("div", { style: { zoom: 0.62 }, children })
   ] });
 }
+var STATUS_TAG = {
+  chosen: "bg-success-bg text-success-fg",
+  superseded: "bg-surface-2 text-fg-muted",
+  rejected: "bg-surface-2 text-fg-muted"
+};
 function Rail({ current: current2, onSelect }) {
   return /* @__PURE__ */ jsx28("div", { className: "flex flex-wrap gap-2", children: STATES5.map((s) => /* @__PURE__ */ jsx28(
     "button",
@@ -2441,7 +2497,7 @@ function BookLab() {
     identities: "A lesson page in each book. Same content, same components, same layout \u2014 the only thing that changes is the chrome hue, the crest and its density. Five grounds, three motifs: books four and five carry the solid cut of book two\u2019s leaf and book one\u2019s clover.",
     collision: "Rokush\u014D means \u201Ccorrect\u201D and Akane means \u201Cwrong\u201D. On a checkpoint they are the chrome AND the verdict. Watch the \u25CB against Book One\u2019s band, and the \u2715 against Book Three\u2019s.",
     resolved: "The book hue steps back when the page starts judging. Sumi band, warm stone, and the book is carried by its crest and type instead \u2014 so correctness colour is the only colour with a job on the screen. Note what this costs: all five look the same.",
-    feedback: "The five identities stay exactly as they are. The verdict moves DOWN THE RAMP instead \u2014 Rokush\u014D 800 and Akane 800, the same two colours two steps darker. Shown on Book One and Book Three, the two books whose chrome the old 500 verdict was identical to.",
+    feedback: "The five identities stay exactly as they are. The verdict moves DOWN THE RAMP instead \u2014 Rokush\u014D 800 and Akane 800, the same two colours two steps darker. Every verdict this lab has rendered is kept below, on all five books: what ships, what it replaced, and the three off-palette candidates that were rejected. Rejected rows stay so they can be pointed at later, not re-derived.",
     deep: "The 500 steps are accent values for light grounds and cannot carry white text \u2014 six of ten band labels failed WCAG, Book Four\u2019s subtitle at 1.02:1. At the 900 step every hue clears it, and the band stays One Dark Slab as DESIGN.md requires: a dark slab with a hue, rather than a coloured one."
   }[state];
   return /* @__PURE__ */ jsxs21("div", { className: "mx-auto flex w-full max-w-[1800px] flex-col gap-6 px-6 py-8", children: [
@@ -2453,10 +2509,13 @@ function BookLab() {
     /* @__PURE__ */ jsx28("p", { className: "max-w-prose text-body text-fg", children: note }),
     state === "feedback" ? /* @__PURE__ */ jsx28("div", { className: "flex flex-col gap-8", children: VERDICTS.map((v) => /* @__PURE__ */ jsxs21("section", { className: "flex flex-col gap-3", children: [
       /* @__PURE__ */ jsxs21("div", { className: "flex flex-col gap-1", children: [
-        /* @__PURE__ */ jsx28("h2", { className: "text-heading-sm font-semibold text-fg-heading", children: v.name }),
+        /* @__PURE__ */ jsxs21("div", { className: "flex items-center gap-2", children: [
+          /* @__PURE__ */ jsx28("h2", { className: "text-heading-sm font-semibold text-fg-heading", children: v.name }),
+          /* @__PURE__ */ jsx28("span", { className: `inline-flex items-center rounded-sm px-2 py-0.5 text-caption font-bold uppercase tracking-wider ${STATUS_TAG[v.status]}`, children: v.status })
+        ] }),
         /* @__PURE__ */ jsx28("p", { className: "max-w-prose text-body-sm text-fg-muted", children: v.note })
       ] }),
-      /* @__PURE__ */ jsx28("div", { className: "flex items-start gap-5", children: [BOOKS[0], BOOKS[2]].map((b) => /* @__PURE__ */ jsx28(Slot, { label: `${b.title} \xB7 ${b.hueName}`, sub: "book chrome kept", children: /* @__PURE__ */ jsx28(Phone, { children: /* @__PURE__ */ jsx28(Checkpoint, { book: b, chrome: "book", v }) }) }, b.id)) })
+      /* @__PURE__ */ jsx28("div", { className: "flex items-start gap-5", children: BOOKS.map((b) => /* @__PURE__ */ jsx28(Slot, { label: `${b.title} \xB7 ${b.hueName}`, sub: "book chrome kept", children: /* @__PURE__ */ jsx28(Phone, { children: /* @__PURE__ */ jsx28(Checkpoint, { book: b, chrome: "book", v }) }) }, b.id)) })
     ] }, v.id)) }) : /* @__PURE__ */ jsx28("div", { className: "flex items-start gap-5", children: BOOKS.map((b) => /* @__PURE__ */ jsx28(
       Slot,
       {
