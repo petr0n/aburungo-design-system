@@ -49,15 +49,7 @@ const MIRROR_TARGETS = [
  * `src/components` would fail `tsc`. This rule is the mirrors' substitute.
  * Widen VARIANTS when a component legitimately grows one.
  */
-const VARIANTS = ['primary', 'secondary', 'ghost']
-
-const MIRROR_RULES = [
-  {
-    name: 'unknown-variant',
-    re: new RegExp(`<Button[^>]*variant="(?!(?:${VARIANTS.join('|')})")([a-z-]+)"`),
-    msg: `Button has no such variant. It renders as bare text, silently. Available: ${VARIANTS.join(', ')}.`,
-  },
-]
+import { VARIANTS, findUnknownVariants } from './lib/variants.mjs'
 
 /**
  * `dist/tokens.plain.css` is the one generated file that is committed — six
@@ -117,12 +109,11 @@ const files = TARGETS.flatMap((p) => globSync(p))
 const mirrors = MIRROR_TARGETS.flatMap((p) => globSync(p))
 let violations = checkTokenSheetTracked()
 
-for (const [group, rules] of [[files, RULES], [mirrors, MIRROR_RULES]]) {
-for (const file of group) {
+for (const file of files) {
   readFileSync(file, 'utf8').split('\n').forEach((line, i) => {
     // Comments describe the rules; they are not violations of them.
     if (/^\s*(\/\/|\*|\/\*)/.test(line)) return
-    for (const rule of rules) {
+    for (const rule of RULES) {
       const hit = rule.re.exec(line)
       if (hit === null) continue
       if (rule.unless !== undefined && rule.unless.test(line)) continue
@@ -131,6 +122,16 @@ for (const file of group) {
     }
   })
 }
+
+// The mirrors get one rule, and it reads the whole file rather than each line —
+// see BUTTON_VARIANT. Line numbers come from counting newlines before the match.
+for (const file of mirrors) {
+  const source = readFileSync(file, 'utf8')
+  for (const hit of findUnknownVariants(source)) {
+    const line = source.slice(0, hit.index).split('\n').length
+    violations += 1
+    console.error(`${file}:${line}  unknown-variant  ${hit.text}\n    ${hit.msg}`)
+  }
 }
 
 if (violations > 0) {

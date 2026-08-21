@@ -45,7 +45,7 @@
     "check:contrast": "node scripts/check-contrast.mjs",
     "shots": "node scripts/shots.mjs",
     "serve": "node scripts/serve.mjs",
-    "test:harness": "node scripts/lib/harness.test.mjs",
+    "test:harness": "node scripts/lib/harness.test.mjs && node scripts/lib/variants.test.mjs",
     "shots:responsive": "node scripts/shots-responsive.mjs",
     "check:touch": "node scripts/check-touch-targets.mjs",
     "verify:plan": "sh scripts/verify-plan.sh"
