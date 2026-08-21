@@ -112,9 +112,11 @@ const CHECKS = [
   ['--color-accent-ai-fg', '--color-accent-ai', TEXT, 'label on the Ai accent'],
   ['--color-accent-rokusho-fg', '--color-accent-rokusho', TEXT, 'label on the Rokusho accent'],
   ['--color-accent-akane-fg', '--color-accent-akane', TEXT, 'label on the Akane accent'],
-  // Sumi joined the accent set 2026-08-21 for Book Five. Gated on arrival
-  // rather than later: Rokusho's pair shipped ungated for months at 3.19:1,
-  // which is the reason this block exists at all.
+  // Sumi joined the accent set 2026-08-21 for Book Five -- as chrome, not a
+  // fifth card accent: the Two-Plane Rule keeps book hues off PhraseCard, so
+  // "the four card accents" above stays exact. Gated on arrival rather than
+  // later: Rokusho's pair shipped ungated for months at 3.19:1, which is the
+  // reason this block exists at all.
   ['--color-accent-sumi-fg', '--color-accent-sumi', TEXT, 'label on the Sumi accent'],
   // The verdict marks on their own tinted banner. Ungated until 2026-08-21,
   // and preview/16-accent-usage.html had recorded error-500 there at 3.98:1 —

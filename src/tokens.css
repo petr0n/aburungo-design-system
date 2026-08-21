@@ -166,6 +166,11 @@
      identity is the near-absence of accent, which is the point rather than an
      accident, and the crest and type carry what the hue does not.
 
+     A chrome accent, not a card accent: it exists for Book Five's furniture
+     (header band, chapter headers, checkpoint chrome). PhraseCard's `accent`
+     keeps meaning *which situation*, so `PhraseAccent` stays four-strong --
+     the Two-Plane Rule in the plan doc forbids the book hue on that plane.
+
      Paper label, like Ai and Akane: stone-800 is near-black, so a dark label
      would be unreadable. Gated in check-contrast.mjs beside the other four. */
   --color-accent-sumi:        var(--color-stone-800);
