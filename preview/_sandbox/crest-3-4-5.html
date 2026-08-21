@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Crests 3–5 — the five grounds side by side</title>
+<link rel="stylesheet" href="../../dist/tokens.plain.css">
+<link rel="stylesheet" href="../../src/brand.css">
+<style>
+  body{margin:0;background:var(--color-bg);font:14px/1.4 system-ui;color:var(--color-fg);padding:24px}
+  h1{font-size:20px;margin:0 0 4px}
+  p.s{color:var(--color-fg-muted);margin:0 0 20px}
+  .row{display:flex;gap:14px;margin-bottom:22px;align-items:flex-start}
+  .col{flex:1;min-width:0}
+  .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px;color:var(--color-fg-heading)}
+  .stage{height:190px;border-radius:10px;padding:12px;display:flex;flex-direction:column;justify-content:space-between}
+  .page{background:var(--color-bg)}
+  .card{background:var(--color-surface);border:1px solid var(--color-border)}
+  .well{background:var(--color-surface-2)}
+  .t1{color:var(--color-fg);font-weight:600}
+  .t2{color:var(--color-fg-muted)}
+  .t3{color:var(--color-fg-subtle);font-size:12px}
+</style>
+</head>
+<body>
+<h1>Crests 3–5 — the five grounds side by side</h1>
+<p class="s">Row 1: default .35 opacity on the page. Row 2: on a card. Row 3: crest 4 and 5 stepped down.</p>
+
+<div class="row" id="page-row"></div>
+<div class="row" id="card-row"></div>
+
+<div class="lbl">Crest 4 &amp; 5 — opacity sweep on the page</div>
+<div class="row" id="sweep-row"></div>
+
+<script>
+const CRESTS = [1,2,3,4,5]
+function stage(cls, crest, tile, extra) {
+  return `<div class="col"><div class="lbl">crest-${crest} · ${tile}${extra?' · '+extra:''}</div>
+    <div class="stage ${cls} emboss-bg crest-${crest} ${tile}" ${extra?`style="--emboss-opacity:${extra}"`:''}>
+      <div><div class="t1">Body text — fg</div><div class="t2">Secondary — fg-muted</div><div class="t3">Fine print — fg-subtle</div></div>
+      <div class="t2">はじめまして</div>
+    </div></div>`
+}
+document.getElementById('page-row').innerHTML = CRESTS.map(c => stage('page', c, 'tile-sm')).join('')
+document.getElementById('card-row').innerHTML = CRESTS.map(c => stage('card', c, 'tile-sm')).join('')
+document.getElementById('sweep-row').innerHTML =
+  [[4,'.30'],[4,'.20'],[4,'.14'],[5,'.30'],[5,'.20'],[5,'.14']].map(([c,o]) => stage('page', c, 'tile-sm', o)).join('')
+</script>
+</body>
+</html>

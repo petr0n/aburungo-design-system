@@ -5,7 +5,7 @@
      .hanko         — the circular mark.  Renders the ア logo + maru dot.
      .hanko.*       — color variants (paper, cream, rose, outline).
      .emboss-bg     — the clan-crest embossed paper texture.
-     .crest-1/2     — which crest tiles the ground.
+     .crest-1..5    — which crest tiles the ground.
      .tile-sm/md/lg — pattern density variants.
 
    Import this AFTER src/index.css so the brand tokens are available.
@@ -14,6 +14,9 @@
      assets/logo-a-tile.png     ← the official ア mark (transparent PNG)
      assets/clan-symbol1.png    ← crest 1 (transparent PNG, black on alpha)
      assets/clan-symbol2.png    ← crest 2
+     assets/clan-symbol3.png    ← crest 3, generated (see the crest block)
+     assets/clan-symbol4.png    ← crest 4, generated
+     assets/clan-symbol5.png    ← crest 5, generated
    ───────────────────────────────────────────────────────────────────────── */
 
 /* ═══════════════════════════════════════════════════════════════════════
@@ -113,8 +116,9 @@
    The tile darkens whatever is under it, so text on a patterned ground is
    judged against the DARKEST pixel of the tile, not against the surface
    token.  Measured by rendering these classes and reading composited pixels
-   back (2026-08-10), worst case across both crests on page / card / well at
-   the .35 default:
+   back, worst case across all five crests on page / card / well, at all
+   three tile sizes, at the .35 default (re-measured 2026-08-21 when crests
+   3-5 landed; still crest-2 on a well at tile-lg, 0.5879):
 
      fg          #2D2D2D   8.40:1   ok
      fg-heading  #1F3A66   6.91:1   ok
@@ -144,6 +148,13 @@
    see a NEW asset — re-measure if you add a crest or raise --emboss-opacity
    above .35.  There is no longer any preset that can raise it behind your
    back; the six that could were deleted for that reason among others.
+
+   A new crest is brought to weight in the ART, by scaling its alpha in
+   scripts/make-crest-tile.mjs, and NOT by giving it a lower default
+   --emboss-opacity.  Raw, crest 3 measured 0.4468 and crests 4 and 5 0.3318
+   — well past the bar.  A per-crest opacity default would have fixed that on
+   paper and left the public knob able to undo it at any call site, where the
+   gate cannot see it.  One default for all five, one worst case to model.
    ═══════════════════════════════════════════════════════════════════════ */
 
 .emboss-bg{
@@ -168,9 +179,22 @@
   mix-blend-mode: var(--emboss-blend, normal);
 }
 
-/* ── The two crests ──────────────────────────────────────────────────────
-   Both are 160×160 finished repeat tiles with the brick offset baked in, so
+/* ── The five crests ─────────────────────────────────────────────────────
+   All are 160×160 finished repeat tiles with the brick offset baked in, so
    they need no re-tiling — plain repeat is correct.
+
+   1 and 2 came pre-tiled from Affinity.  3, 4 and 5 are generated from the
+   full-size renders already in assets/ by scripts/make-crest-tile.mjs, which
+   lays the motif out on the same diagonal and brings it to weight:
+
+     3  clan-symbol-flower.png      --alpha .46
+     4  japanese-flower1 2.png      --key-white --alpha .4
+     5  pasted-1779754339988-0.png  --key-white --alpha .4
+
+   Only THREE motifs are drawn: the clover (1, and 5's silhouette), the leaf
+   (2, and 4's), and the blossom (3).  4 and 5 are the solid cut of motifs 2
+   and 1 — a different ground at a glance, and a stand-in until two more
+   motifs are drawn.  Regenerate with the commands above when they are.
 
    The art is black (0,0,0) on transparency with soft alpha edges, which is
    why the base blend is `normal`: straight alpha darkens the ground into a
@@ -182,6 +206,9 @@
    rewritten, so it 404s once the package is installed. */
 .emboss-bg.crest-1{ --emboss-image: url("../assets/clan-symbol1.png") }
 .emboss-bg.crest-2{ --emboss-image: url("../assets/clan-symbol2.png") }
+.emboss-bg.crest-3{ --emboss-image: url("../assets/clan-symbol3.png") }
+.emboss-bg.crest-4{ --emboss-image: url("../assets/clan-symbol4.png") }
+.emboss-bg.crest-5{ --emboss-image: url("../assets/clan-symbol5.png") }
 
 /* Removed 2026-08-10: the six surface presets .on-paper / .on-warm /
    .on-cream / .on-mist / .on-brand / .on-plum.

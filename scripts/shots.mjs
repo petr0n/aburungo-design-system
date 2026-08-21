@@ -53,6 +53,14 @@ const SURFACES = [
   ['fill-speak', '/ui_kits/flows/?flow=fill&state=speak', 1280, 1200],
   ['fill-review', '/ui_kits/flows/?flow=fill&state=review', 1280, 1200],
   ['fill-empty', '/ui_kits/flows/?flow=fill&state=empty', 1280, 1200],
+  // The desktop view of the same flows, added 2026-08-21 with `?view=desktop`.
+  // Until then every surface in this list was a phone, including the ones
+  // captured at a 1280 viewport — that width was the harness page around a
+  // 390px shell, not the product at 1280.
+  ['desk-flow-round', '/ui_kits/flows/?state=round&step=prompt&view=desktop', 1440, 1200, '[data-desk]'],
+  ['desk-flow-empty', '/ui_kits/flows/?state=empty&view=desktop', 1440, 1200, '[data-desk]'],
+  ['desk-lessons', '/ui_kits/flows/?flow=lessons&view=desktop', 1440, 1200, '[data-desk]'],
+  ['desk-kana-drill', '/ui_kits/flows/?flow=kana&state=drill&view=desktop', 1440, 1200, '[data-desk]'],
   ['flow-prompt', '/ui_kits/flows/?state=round&step=prompt', 1280, 1100],
   ['flow-reveal', '/ui_kits/flows/?state=round&step=reveal', 1280, 1100],
   ['flow-summary', '/ui_kits/flows/?state=round&step=summary', 1280, 1100],

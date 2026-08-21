@@ -33,10 +33,62 @@ export function Phone({ children }: { children: ReactNode }) {
   )
 }
 
-/** Everything below the header band: the page ground, scrolling. */
+/**
+ * A desktop-shaped viewport, in a browser frame.
+ *
+ * The product had no desktop view of any kind until 2026-08-21 — every flow
+ * only ever rendered inside `<Phone>`, and the app it mirrors carries fifteen
+ * responsive utilities in total. It runs in a browser, so this is a real
+ * surface nobody had looked at.
+ *
+ * 1280 is the width `pnpm shots` already uses for the harness pages.
+ * `data-desk` matches `data-phone`, so screenshot tooling can clip to it.
+ */
+export function Desk({ children }: { children: ReactNode }) {
+  const width = Number(new URLSearchParams(location.search).get('desk'))
+  const w = Number.isFinite(width) && width >= 900 && width <= 1600 ? width : 1280
+
+  return (
+    <div
+      data-desk
+      style={{ width: `${w}px` }}
+      className="shrink-0 overflow-hidden rounded-xl border border-border bg-bg shadow-card"
+    >
+      <div className="flex items-center gap-2 border-b border-border bg-surface-2 px-4 py-2">
+        {/* Window chrome, so a wide screenshot reads as a browser rather than
+            as a phone shot that got stretched. */}
+        <span className="flex gap-1.5" aria-hidden="true">
+          <i className="h-2.5 w-2.5 rounded-full bg-border" />
+          <i className="h-2.5 w-2.5 rounded-full bg-border" />
+          <i className="h-2.5 w-2.5 rounded-full bg-border" />
+        </span>
+        <span className="mx-auto rounded-sm px-2 text-caption text-fg-faint">aburungo.app</span>
+      </div>
+      <div className="flex h-[820px] flex-col">{children}</div>
+    </div>
+  )
+}
+
+/**
+ * Everything below the header band: the page ground, scrolling.
+ *
+ * **`max-w-3xl` is the desktop rule, and it is inert on a phone.** `AppHeader`
+ * has always centred its own contents at `max-w-3xl`; the screen under it did
+ * not, so at 1280 the band's title sat in a 768px column and the content below
+ * it ran the full width. One class, and the two line up at every width — this
+ * is why there is no separate desktop layout to keep in step.
+ *
+ * The column, not the frame, is what the stages bleed to: their `-mx-4` cancels
+ * the padding here, so on desktop the crest reads as a sheet of patterned paper
+ * on the warm stone rather than as a full-width wash.
+ */
 export function Screen({ children }: { children: ReactNode }) {
   return (
-    <div className="flex flex-1 flex-col gap-5 overflow-y-auto px-4 pb-8 pt-5">{children}</div>
+    <div className="flex flex-1 flex-col overflow-y-auto">
+      <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-5 px-4 pb-8 pt-5">
+        {children}
+      </div>
+    </div>
   )
 }
 
@@ -162,12 +214,15 @@ export function RunFlow<T extends string>({ flow }: { flow: FlowDef<T> }) {
       flow.initial,
     ),
   )
+  const [view, setView] = useState<View>(fromUrl('view', VIEWS, 'phone'))
   const [nonce, setNonce] = useState(0)
 
   function go(next: T) {
     setState(next)
     setNonce((n) => n + 1)
   }
+
+  const screens = <flow.Screens state={state} go={go} nonce={nonce} />
 
   return (
     <FlowPage
@@ -176,13 +231,16 @@ export function RunFlow<T extends string>({ flow }: { flow: FlowDef<T> }) {
       states={flow.states}
       current={state}
       onSelect={go}
+      view={view}
+      onView={setView}
     >
-      <Phone>
-        <flow.Screens state={state} go={go} nonce={nonce} />
-      </Phone>
+      {view === 'phone' ? <Phone>{screens}</Phone> : <Desk>{screens}</Desk>}
     </FlowPage>
   )
 }
+
+export const VIEWS = ['phone', 'desktop'] as const
+export type View = (typeof VIEWS)[number]
 
 type FlowPageProps<T extends string> = {
   title: string
@@ -190,8 +248,17 @@ type FlowPageProps<T extends string> = {
   states: readonly FlowState<T>[]
   current: T
   onSelect: (id: T) => void
+  view: View
+  onView: (v: View) => void
   children: ReactNode
 }
+
+const RAIL_BUTTON = [
+  'min-h-[44px] rounded-lg border px-4 text-body-sm font-medium transition-colors',
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
+].join(' ')
+const RAIL_ON = 'border-transparent bg-action text-action-fg'
+const RAIL_OFF = 'border-border bg-surface text-fg-muted active:bg-surface-2'
 
 export function FlowPage<T extends string>({
   title,
@@ -199,36 +266,50 @@ export function FlowPage<T extends string>({
   states,
   current,
   onSelect,
+  view,
+  onView,
   children,
 }: FlowPageProps<T>) {
+  // A 1280px frame does not fit in the column a phone sits in, and the legend
+  // cannot sit beside it either — so the desktop view widens the page and
+  // drops the legend underneath.
+  const desk = view === 'desktop'
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-6 py-10">
+    <div className={`mx-auto flex w-full flex-col gap-8 px-6 py-10 ${desk ? 'max-w-[1400px]' : 'max-w-5xl'}`}>
       <header className="flex flex-col gap-2">
         <h1 className="text-heading-lg font-semibold text-fg-heading">{title}</h1>
         <p className="max-w-prose text-body text-fg-subtle">{blurb}</p>
       </header>
 
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         {states.map((s) => (
           <button
             key={s.id}
             type="button"
             onClick={() => onSelect(s.id)}
             aria-pressed={current === s.id}
-            className={[
-              'min-h-[44px] rounded-lg border px-4 text-body-sm font-medium transition-colors',
-              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
-              current === s.id
-                ? 'border-transparent bg-action text-action-fg'
-                : 'border-border bg-surface text-fg-muted active:bg-surface-2',
-            ].join(' ')}
+            className={`${RAIL_BUTTON} ${current === s.id ? RAIL_ON : RAIL_OFF}`}
           >
             {s.label}
           </button>
         ))}
+
+        <div className="ml-auto flex gap-2">
+          {VIEWS.map((v) => (
+            <button
+              key={v}
+              type="button"
+              onClick={() => onView(v)}
+              aria-pressed={view === v}
+              className={`${RAIL_BUTTON} ${view === v ? RAIL_ON : RAIL_OFF}`}
+            >
+              {v === 'phone' ? 'Phone 390' : 'Desktop 1280'}
+            </button>
+          ))}
+        </div>
       </div>
 
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-10">
+      <div className={`flex flex-col gap-4 ${desk ? '' : 'sm:flex-row sm:items-start sm:gap-10'}`}>
         {children}
 
         <dl className="flex flex-col gap-4 pt-2 text-body-sm">

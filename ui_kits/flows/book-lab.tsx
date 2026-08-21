@@ -10,9 +10,11 @@
  * `AppHeader` is `bg-inverse` and takes no hue, which is correct until a book
  * hue is agreed.
  *
- * Crests: only `crest-1` and `crest-2` are wired, so books 3-5 borrow them.
- * The three new motifs are the author's to draw; the point of this surface is
- * the HUE decision, which the borrowed crests do not affect.
+ * Crests: all five slots are wired now (2026-08-21). Three MOTIFS are drawn —
+ * the clover, the leaf and the blossom — so books four and five wear the solid
+ * cut of the leaf and the clover rather than a motif of their own. Different
+ * ground at a glance, same drawing underneath. See the crest block in
+ * `src/brand.css` for how they are generated and brought to weight.
  */
 import { useState } from 'react'
 import { AppHeader, Button, Maru, ProgressBar } from '../../src/components'
@@ -44,16 +46,16 @@ const BOOKS: Book[] = [
     crest: 'crest-1', tile: 'tile-sm', character: 'the foundation' },
   { id: 'two', ink: 'text-fg-inverse',   title: 'Book Two',   level: '~N4', hue: 'ai', hueName: 'Ai-iro 藍色',
     band: 'bg-accent-ai', deep: 'bg-ai-900', rule: 'border-rule-on-inverse', tag: 'bg-accent-ai-bg text-fg-heading',
-    crest: 'crest-2', tile: 'tile-sm', character: 'the bridge' },
+    crest: 'crest-2', tile: 'tile-md', character: 'the bridge' },
   { id: 'three', ink: 'text-fg-inverse', title: 'Book Three', level: '~N3', hue: 'akane', hueName: 'Akane 茜色',
     band: 'bg-accent-akane', deep: 'bg-akane-900', rule: 'border-rule-on-inverse', tag: 'bg-accent-akane-bg text-error-fg',
-    crest: 'crest-1', tile: 'tile-md', character: 'the wall' },
+    crest: 'crest-3', tile: 'tile-sm', character: 'the wall' },
   { id: 'four', ink: 'text-stone-900',  title: 'Book Four',  level: '~N2', hue: 'ogon', hueName: 'Ōgon 黄金',
     band: 'bg-accent-ogon', deep: 'bg-ogon-900', rule: 'border-rule-on-inverse', tag: 'bg-accent-ogon-bg text-accent-ogon-fg',
-    crest: 'crest-2', tile: 'tile-md', character: 'register' },
+    crest: 'crest-4', tile: 'tile-md', character: 'register' },
   { id: 'five', ink: 'text-fg-inverse',  title: 'Book Five',  level: '~N1', hue: 'sumi', hueName: 'Sumi-iro 墨色',
     band: 'bg-accent-sumi', deep: 'bg-accent-sumi', rule: 'border-rule-on-inverse', tag: 'bg-accent-sumi-bg text-fg',
-    crest: 'crest-1', tile: 'tile-lg', character: 'refinement' },
+    crest: 'crest-5', tile: 'tile-lg', character: 'refinement' },
 ]
 
 /**
@@ -326,7 +328,7 @@ export function BookLab() {
   )
 
   const note = {
-    identities: 'A lesson page in each book. Same content, same components, same layout — the only thing that changes is the chrome hue, the crest and its density.',
+    identities: 'A lesson page in each book. Same content, same components, same layout — the only thing that changes is the chrome hue, the crest and its density. Five grounds, three motifs: books four and five carry the solid cut of book two’s leaf and book one’s clover.',
     collision: 'Rokushō means “correct” and Akane means “wrong”. On a checkpoint they are the chrome AND the verdict. Watch the ○ against Book One’s band, and the ✕ against Book Three’s.',
     resolved: 'The book hue steps back when the page starts judging. Sumi band, warm stone, and the book is carried by its crest and type instead — so correctness colour is the only colour with a job on the screen. Note what this costs: all five look the same.',
     feedback: 'The five identities stay exactly as they are. The verdict moves DOWN THE RAMP instead — Rokushō 800 and Akane 800, the same two colours two steps darker. Shown on Book One and Book Three, the two books whose chrome the old 500 verdict was identical to.',
@@ -340,8 +342,9 @@ export function BookLab() {
           Book identity — the two open decisions
         </h1>
         <p className="max-w-prose text-body text-fg-subtle">
-          Rendered rather than described. Crests 3–5 are not drawn yet, so books three to five
-          borrow one — the question on this page is the <strong>hue</strong>.
+          Rendered rather than described. Each book now carries its own crest and its own
+          tile density — though only three motifs are drawn, so books four and five wear the
+          solid cut of the leaf and the clover until two more exist.
         </p>
       </header>
 

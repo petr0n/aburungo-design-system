@@ -347,7 +347,7 @@ import { jsx as jsx11, jsxs as jsxs4 } from "react/jsx-runtime";
 function AppHeader({ title, subtitle, left, right, mark = true, progress }) {
   const showMark = mark && left === void 0;
   return /* @__PURE__ */ jsxs4("header", { className: "border-b-[6px] border-rule-on-inverse bg-inverse", children: [
-    /* @__PURE__ */ jsxs4("div", { className: "mx-auto grid min-h-[56px] w-full max-w-3xl grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-2", children: [
+    /* @__PURE__ */ jsxs4("div", { className: "grid min-h-[56px] w-full grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-2", children: [
       /* @__PURE__ */ jsx11("div", { className: "flex items-center", children: showMark ? /* @__PURE__ */ jsx11(
         "span",
         {
@@ -362,7 +362,7 @@ function AppHeader({ title, subtitle, left, right, mark = true, progress }) {
       ] }),
       /* @__PURE__ */ jsx11("div", { className: "flex items-center justify-end", children: right })
     ] }),
-    progress !== void 0 && /* @__PURE__ */ jsx11("div", { className: "mx-auto w-full max-w-3xl px-4 pb-2", children: /* @__PURE__ */ jsx11(ProgressBar, { value: progress, tone: "inverse" }) })
+    progress !== void 0 && /* @__PURE__ */ jsx11("div", { className: "w-full px-4 pb-2", children: /* @__PURE__ */ jsx11(ProgressBar, { value: progress, tone: "inverse" }) })
   ] });
 }
 
@@ -1011,8 +1011,31 @@ function Phone({ children }) {
     }
   );
 }
+function Desk({ children }) {
+  const width = Number(new URLSearchParams(location.search).get("desk"));
+  const w = Number.isFinite(width) && width >= 900 && width <= 1600 ? width : 1280;
+  return /* @__PURE__ */ jsxs16(
+    "div",
+    {
+      "data-desk": true,
+      style: { width: `${w}px` },
+      className: "shrink-0 overflow-hidden rounded-xl border border-border bg-bg shadow-card",
+      children: [
+        /* @__PURE__ */ jsxs16("div", { className: "flex items-center gap-2 border-b border-border bg-surface-2 px-4 py-2", children: [
+          /* @__PURE__ */ jsxs16("span", { className: "flex gap-1.5", "aria-hidden": "true", children: [
+            /* @__PURE__ */ jsx23("i", { className: "h-2.5 w-2.5 rounded-full bg-border" }),
+            /* @__PURE__ */ jsx23("i", { className: "h-2.5 w-2.5 rounded-full bg-border" }),
+            /* @__PURE__ */ jsx23("i", { className: "h-2.5 w-2.5 rounded-full bg-border" })
+          ] }),
+          /* @__PURE__ */ jsx23("span", { className: "mx-auto rounded-sm px-2 text-caption text-fg-faint", children: "aburungo.app" })
+        ] }),
+        /* @__PURE__ */ jsx23("div", { className: "flex h-[820px] flex-col", children })
+      ]
+    }
+  );
+}
 function Screen({ children }) {
-  return /* @__PURE__ */ jsx23("div", { className: "flex flex-1 flex-col gap-5 overflow-y-auto px-4 pb-8 pt-5", children });
+  return /* @__PURE__ */ jsx23("div", { className: "flex flex-1 flex-col overflow-y-auto", children: /* @__PURE__ */ jsx23("div", { className: "mx-auto flex w-full max-w-3xl flex-1 flex-col gap-5 px-4 pb-8 pt-5", children }) });
 }
 var CREST = "emboss-bg crest-1 tile-sm -mx-4 -mt-5 flex flex-1 px-4";
 function PatternedStage({ children }) {
@@ -1036,11 +1059,13 @@ function RunFlow({ flow }) {
       flow.initial
     )
   );
+  const [view, setView] = useState2(fromUrl("view", VIEWS, "phone"));
   const [nonce, setNonce] = useState2(0);
   function go(next) {
     setState(next);
     setNonce((n) => n + 1);
   }
+  const screens = /* @__PURE__ */ jsx23(flow.Screens, { state, go, nonce });
   return /* @__PURE__ */ jsx23(
     FlowPage,
     {
@@ -1049,39 +1074,60 @@ function RunFlow({ flow }) {
       states: flow.states,
       current: state,
       onSelect: go,
-      children: /* @__PURE__ */ jsx23(Phone, { children: /* @__PURE__ */ jsx23(flow.Screens, { state, go, nonce }) })
+      view,
+      onView: setView,
+      children: view === "phone" ? /* @__PURE__ */ jsx23(Phone, { children: screens }) : /* @__PURE__ */ jsx23(Desk, { children: screens })
     }
   );
 }
+var VIEWS = ["phone", "desktop"];
+var RAIL_BUTTON = [
+  "min-h-[44px] rounded-lg border px-4 text-body-sm font-medium transition-colors",
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+].join(" ");
+var RAIL_ON = "border-transparent bg-action text-action-fg";
+var RAIL_OFF = "border-border bg-surface text-fg-muted active:bg-surface-2";
 function FlowPage({
   title,
   blurb,
   states,
   current: current2,
   onSelect,
+  view,
+  onView,
   children
 }) {
-  return /* @__PURE__ */ jsxs16("div", { className: "mx-auto flex w-full max-w-5xl flex-col gap-8 px-6 py-10", children: [
+  const desk = view === "desktop";
+  return /* @__PURE__ */ jsxs16("div", { className: `mx-auto flex w-full flex-col gap-8 px-6 py-10 ${desk ? "max-w-[1400px]" : "max-w-5xl"}`, children: [
     /* @__PURE__ */ jsxs16("header", { className: "flex flex-col gap-2", children: [
       /* @__PURE__ */ jsx23("h1", { className: "text-heading-lg font-semibold text-fg-heading", children: title }),
       /* @__PURE__ */ jsx23("p", { className: "max-w-prose text-body text-fg-subtle", children: blurb })
     ] }),
-    /* @__PURE__ */ jsx23("div", { className: "flex flex-wrap gap-2", children: states.map((s) => /* @__PURE__ */ jsx23(
-      "button",
-      {
-        type: "button",
-        onClick: () => onSelect(s.id),
-        "aria-pressed": current2 === s.id,
-        className: [
-          "min-h-[44px] rounded-lg border px-4 text-body-sm font-medium transition-colors",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg",
-          current2 === s.id ? "border-transparent bg-action text-action-fg" : "border-border bg-surface text-fg-muted active:bg-surface-2"
-        ].join(" "),
-        children: s.label
-      },
-      s.id
-    )) }),
-    /* @__PURE__ */ jsxs16("div", { className: "flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-10", children: [
+    /* @__PURE__ */ jsxs16("div", { className: "flex flex-wrap items-center gap-2", children: [
+      states.map((s) => /* @__PURE__ */ jsx23(
+        "button",
+        {
+          type: "button",
+          onClick: () => onSelect(s.id),
+          "aria-pressed": current2 === s.id,
+          className: `${RAIL_BUTTON} ${current2 === s.id ? RAIL_ON : RAIL_OFF}`,
+          children: s.label
+        },
+        s.id
+      )),
+      /* @__PURE__ */ jsx23("div", { className: "ml-auto flex gap-2", children: VIEWS.map((v) => /* @__PURE__ */ jsx23(
+        "button",
+        {
+          type: "button",
+          onClick: () => onView(v),
+          "aria-pressed": view === v,
+          className: `${RAIL_BUTTON} ${view === v ? RAIL_ON : RAIL_OFF}`,
+          children: v === "phone" ? "Phone 390" : "Desktop 1280"
+        },
+        v
+      )) })
+    ] }),
+    /* @__PURE__ */ jsxs16("div", { className: `flex flex-col gap-4 ${desk ? "" : "sm:flex-row sm:items-start sm:gap-10"}`, children: [
       children,
       /* @__PURE__ */ jsx23("dl", { className: "flex flex-col gap-4 pt-2 text-body-sm", children: states.map((s) => /* @__PURE__ */ jsxs16("div", { className: "flex flex-col", children: [
         /* @__PURE__ */ jsx23(
@@ -2178,7 +2224,7 @@ var BOOKS = [
     rule: "border-rule-on-inverse",
     tag: "bg-accent-ai-bg text-fg-heading",
     crest: "crest-2",
-    tile: "tile-sm",
+    tile: "tile-md",
     character: "the bridge"
   },
   {
@@ -2192,8 +2238,8 @@ var BOOKS = [
     deep: "bg-akane-900",
     rule: "border-rule-on-inverse",
     tag: "bg-accent-akane-bg text-error-fg",
-    crest: "crest-1",
-    tile: "tile-md",
+    crest: "crest-3",
+    tile: "tile-sm",
     character: "the wall"
   },
   {
@@ -2207,7 +2253,7 @@ var BOOKS = [
     deep: "bg-ogon-900",
     rule: "border-rule-on-inverse",
     tag: "bg-accent-ogon-bg text-accent-ogon-fg",
-    crest: "crest-2",
+    crest: "crest-4",
     tile: "tile-md",
     character: "register"
   },
@@ -2222,7 +2268,7 @@ var BOOKS = [
     deep: "bg-accent-sumi",
     rule: "border-rule-on-inverse",
     tag: "bg-accent-sumi-bg text-fg",
-    crest: "crest-1",
+    crest: "crest-5",
     tile: "tile-lg",
     character: "refinement"
   }
@@ -2392,7 +2438,7 @@ function BookLab() {
     fromUrl("state", STATES5.map((s) => s.id), "identities")
   );
   const note = {
-    identities: "A lesson page in each book. Same content, same components, same layout \u2014 the only thing that changes is the chrome hue, the crest and its density.",
+    identities: "A lesson page in each book. Same content, same components, same layout \u2014 the only thing that changes is the chrome hue, the crest and its density. Five grounds, three motifs: books four and five carry the solid cut of book two\u2019s leaf and book one\u2019s clover.",
     collision: "Rokush\u014D means \u201Ccorrect\u201D and Akane means \u201Cwrong\u201D. On a checkpoint they are the chrome AND the verdict. Watch the \u25CB against Book One\u2019s band, and the \u2715 against Book Three\u2019s.",
     resolved: "The book hue steps back when the page starts judging. Sumi band, warm stone, and the book is carried by its crest and type instead \u2014 so correctness colour is the only colour with a job on the screen. Note what this costs: all five look the same.",
     feedback: "The five identities stay exactly as they are. The verdict moves DOWN THE RAMP instead \u2014 Rokush\u014D 800 and Akane 800, the same two colours two steps darker. Shown on Book One and Book Three, the two books whose chrome the old 500 verdict was identical to.",
@@ -2401,11 +2447,7 @@ function BookLab() {
   return /* @__PURE__ */ jsxs21("div", { className: "mx-auto flex w-full max-w-[1800px] flex-col gap-6 px-6 py-8", children: [
     /* @__PURE__ */ jsxs21("header", { className: "flex flex-col gap-2", children: [
       /* @__PURE__ */ jsx28("h1", { className: "text-heading-lg font-semibold text-fg-heading", children: "Book identity \u2014 the two open decisions" }),
-      /* @__PURE__ */ jsxs21("p", { className: "max-w-prose text-body text-fg-subtle", children: [
-        "Rendered rather than described. Crests 3\u20135 are not drawn yet, so books three to five borrow one \u2014 the question on this page is the ",
-        /* @__PURE__ */ jsx28("strong", { children: "hue" }),
-        "."
-      ] })
+      /* @__PURE__ */ jsx28("p", { className: "max-w-prose text-body text-fg-subtle", children: "Rendered rather than described. Each book now carries its own crest and its own tile density \u2014 though only three motifs are drawn, so books four and five wear the solid cut of the leaf and the clover until two more exist." })
     ] }),
     /* @__PURE__ */ jsx28(Rail, { current: state, onSelect: setState }),
     /* @__PURE__ */ jsx28("p", { className: "max-w-prose text-body text-fg", children: note }),

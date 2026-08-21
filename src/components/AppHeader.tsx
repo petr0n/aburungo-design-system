@@ -36,7 +36,13 @@ export function AppHeader({ title, subtitle, left, right, mark = true, progress 
 
   return (
     <header className="border-b-[6px] border-rule-on-inverse bg-inverse">
-      <div className="mx-auto grid min-h-[56px] w-full max-w-3xl grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-2">
+      {/* Full width, deliberately. This row was capped at `max-w-3xl` to match
+          the content column under it, which is inert at phone widths and wrong
+          at 1280: the mark stopped sitting at the edge of the band and floated
+          in from the left, level with the body text. The title is centred by
+          the grid either way, so nothing moves on a phone. Caught in the flows
+          harness the first time a desktop view existed, 2026-08-21. */}
+      <div className="grid min-h-[56px] w-full grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-2">
         <div className="flex items-center">
           {showMark ? (
             <span
@@ -61,7 +67,7 @@ export function AppHeader({ title, subtitle, left, right, mark = true, progress 
       </div>
 
       {progress !== undefined && (
-        <div className="mx-auto w-full max-w-3xl px-4 pb-2">
+        <div className="w-full px-4 pb-2">
           <ProgressBar value={progress} tone="inverse" />
         </div>
       )}

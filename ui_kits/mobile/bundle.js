@@ -392,7 +392,7 @@ import { jsx as jsx11, jsxs as jsxs4 } from "react/jsx-runtime";
 function AppHeader({ title, subtitle, left, right, mark = true, progress }) {
   const showMark = mark && left === void 0;
   return /* @__PURE__ */ jsxs4("header", { className: "border-b-[6px] border-rule-on-inverse bg-inverse", children: [
-    /* @__PURE__ */ jsxs4("div", { className: "mx-auto grid min-h-[56px] w-full max-w-3xl grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-2", children: [
+    /* @__PURE__ */ jsxs4("div", { className: "grid min-h-[56px] w-full grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-2", children: [
       /* @__PURE__ */ jsx11("div", { className: "flex items-center", children: showMark ? /* @__PURE__ */ jsx11(
         "span",
         {
@@ -407,7 +407,7 @@ function AppHeader({ title, subtitle, left, right, mark = true, progress }) {
       ] }),
       /* @__PURE__ */ jsx11("div", { className: "flex items-center justify-end", children: right })
     ] }),
-    progress !== void 0 && /* @__PURE__ */ jsx11("div", { className: "mx-auto w-full max-w-3xl px-4 pb-2", children: /* @__PURE__ */ jsx11(ProgressBar, { value: progress, tone: "inverse" }) })
+    progress !== void 0 && /* @__PURE__ */ jsx11("div", { className: "w-full px-4 pb-2", children: /* @__PURE__ */ jsx11(ProgressBar, { value: progress, tone: "inverse" }) })
   ] });
 }
 
@@ -1044,7 +1044,7 @@ function GradePair({ onGrade, disabled = false }) {
 import { useState as useState2 } from "react";
 import { jsx as jsx23, jsxs as jsxs16 } from "react/jsx-runtime";
 function Screen({ children }) {
-  return /* @__PURE__ */ jsx23("div", { className: "flex flex-1 flex-col gap-5 overflow-y-auto px-4 pb-8 pt-5", children });
+  return /* @__PURE__ */ jsx23("div", { className: "flex flex-1 flex-col overflow-y-auto", children: /* @__PURE__ */ jsx23("div", { className: "mx-auto flex w-full max-w-3xl flex-1 flex-col gap-5 px-4 pb-8 pt-5", children }) });
 }
 var CREST = "emboss-bg crest-1 tile-sm -mx-4 -mt-5 flex flex-1 px-4";
 function PatternedStage({ children }) {
@@ -1060,6 +1060,10 @@ function fromUrl(key, allowed, fallback) {
   const raw = new URLSearchParams(window.location.search).get(key);
   return allowed.find((v) => v === raw) ?? fallback;
 }
+var RAIL_BUTTON = [
+  "min-h-[44px] rounded-lg border px-4 text-body-sm font-medium transition-colors",
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+].join(" ");
 
 // ui_kits/flows/flashcard-round.tsx
 import { Fragment as Fragment3, jsx as jsx24, jsxs as jsxs17 } from "react/jsx-runtime";

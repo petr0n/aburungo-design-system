@@ -143,11 +143,23 @@ const CHECKS = [
   // Patterned grounds — `.emboss-bg` in src/brand.css.
   //
   // This script reads flat tokens, so it cannot see a background image. The
-  // stand-in below is a measurement: both crests were rendered over page,
-  // card and well at the .35 default, the composited pixels read back, and
-  // the darkest luminance found was 0.5945 (crest-2 on the well). #CACACA
-  // sits at 0.5906 — marginally darker, so checking against it is
-  // conservative.
+  // stand-in below is a measurement: every crest is rendered over page, card
+  // and well, at all three tile sizes, at the .35 default, and the composited
+  // pixels are read back.
+  //
+  // Re-measured 2026-08-21 when crests 3, 4 and 5 were added. Worst case is
+  // still **crest-2 on a well at tile-lg, 0.5879** — the three new tiles are
+  // authored to a lighter weight (see `--alpha` in scripts/make-crest-tile.mjs)
+  // and land at 0.6450, 0.6038 and 0.6038.
+  //
+  // 0.5879 is darker than the #CACACA this used to check against (0.5906), so
+  // the old stand-in was optimistic by a hair. It never hid a failure —
+  // fg-muted, the tightest of the three, measures 4.61:1 there against a 4.5
+  // bar — but a stand-in lighter than the thing it stands in for is the wrong
+  // way round. #C8C8C8 sits at 0.5775, below the true worst.
+  //
+  // The tile size matters and was not swept before: tile-lg holds broad dark
+  // areas that survive downscaling, where tile-sm averages them away.
   //
   // Only the three roles brand.css permits on a pattern are listed.
   // fg-subtle / fg-faint (both stone-500) come to 3.47:1 and are barred by
@@ -155,9 +167,9 @@ const CHECKS = [
   // that leaves the pattern visible can carry them.
   //
   // Re-measure if a crest is added or --emboss-opacity is raised above .35.
-  ['--color-fg', '#CACACA', TEXT, 'body text on a patterned ground'],
-  ['--color-fg-heading', '#CACACA', TEXT, 'heading on a patterned ground'],
-  ['--color-fg-muted', '#CACACA', TEXT, 'secondary text on a patterned ground'],
+  ['--color-fg', '#C8C8C8', TEXT, 'body text on a patterned ground'],
+  ['--color-fg-heading', '#C8C8C8', TEXT, 'heading on a patterned ground'],
+  ['--color-fg-muted', '#C8C8C8', TEXT, 'secondary text on a patterned ground'],
   // `ErrorState`'s panel, added 2026-08-16 when the state stopped being
   // `EmptyState` in a different type size. Its message reuses the pair already
   // gated as "not-quite banner", but the description line is `fg-muted` on the
@@ -174,7 +186,7 @@ const CHECKS = [
   // as `bg-inverse` and the `.glass` border, caught here only because the pair
   // got gated. `error-border` is unchanged and still right for `AnswerResult`,
   // which sits on a card rather than on a crest.
-  ['--color-error-fg', '#CACACA', UI, 'error panel edge on a patterned ground'],
+  ['--color-error-fg', '#C8C8C8', UI, 'error panel edge on a patterned ground'],
   // The `.glass` panel — the only way fg-subtle is allowed over a pattern.
   //
   // #EDEDED stands in for the darkest field measured under the shipped glass
