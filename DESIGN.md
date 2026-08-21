@@ -23,8 +23,8 @@ colors:
   tag-fg: "#8a6a2b"
   keyboard: "#33685e"
   key: "#FFFDF8"
-  correct: "#4F9C8D"
-  review: "#D72E2E"
+  correct: "#264d46"
+  review: "#6f1616"
 typography:
   display:
     fontFamily: "Noto Sans, system-ui, sans-serif"
@@ -102,9 +102,16 @@ components:
 
 # Design System: AburunGo Design System
 
-> **v3 "Zuihoden" is merged.** Five colours, one job each, on warm stone. The
-> frontmatter above is generated from `src/tokens.css` — regenerate it when the
-> palette changes rather than editing it by hand.
+> **v3 "Zuihoden" is merged.** Five colours, one job each, on warm stone.
+>
+> **The frontmatter above is hand-maintained, not generated** — corrected
+> 2026-08-21. This line used to claim it was generated from `src/tokens.css`,
+> and `scripts/build-tokens.mjs` has never touched this file: it writes
+> `dist/tokens.plain.css` and the five harness `@theme` blocks and stops there.
+> The claim let `correct` and `review` sit at their old 500 values after the
+> tokens moved to 800. **Update it by hand when a token here changes**, or teach
+> `build-tokens` to own it — but do not trust it to be current because a banner
+> says so.
 >
 > Three deliberate deviations from the drop are recorded in `docs/colors.md`:
 > the focus ring is split light/dark, the kana keyboard is Rokushō rather than a
