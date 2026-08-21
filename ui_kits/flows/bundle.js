@@ -2479,6 +2479,27 @@ var IDS = FLOWS.map((f) => f.id);
 var LAB = "books";
 var raw = fromUrl("flow", [...IDS, LAB], IDS[0]);
 var current = flowById(raw);
+var asked = new URLSearchParams(window.location.search).get("flow");
+var missing = asked !== null && asked !== "" && asked !== raw ? asked : null;
+function MissingFlow({ id }) {
+  return /* @__PURE__ */ jsx29("div", { className: "mx-auto w-full max-w-5xl px-6 pt-6", children: /* @__PURE__ */ jsxs22("div", { className: "flex flex-col gap-2 rounded-lg border border-error-fg bg-error-bg px-5 py-4", children: [
+    /* @__PURE__ */ jsxs22("p", { className: "text-body font-semibold text-error-fg", children: [
+      "No surface called \u201C",
+      id,
+      "\u201D in this bundle"
+    ] }),
+    /* @__PURE__ */ jsxs22("p", { className: "text-body-sm text-fg-muted", children: [
+      "Showing ",
+      /* @__PURE__ */ jsx29("strong", { children: current.label }),
+      " instead. If you expected something else, this build is behind: check out the branch that has it, run",
+      " ",
+      /* @__PURE__ */ jsx29("code", { className: "text-body-sm", children: "pnpm build:flows" }),
+      ", and hard-reload \u2014 the preview server caches ",
+      /* @__PURE__ */ jsx29("code", { className: "text-body-sm", children: "bundle.js" }),
+      "."
+    ] })
+  ] }) });
+}
 function FlowNav() {
   return /* @__PURE__ */ jsx29("nav", { className: "border-b border-border bg-surface", children: /* @__PURE__ */ jsxs22("div", { className: "mx-auto flex w-full max-w-5xl flex-wrap items-center gap-1 px-6 py-3", children: [
     /* @__PURE__ */ jsx29("span", { className: "mr-2 text-caption font-semibold uppercase tracking-wider text-fg-faint", children: "Flows" }),
@@ -2511,6 +2532,7 @@ if (host === null) throw new Error("ui_kits/flows: no #root in the host page");
 createRoot(host).render(
   /* @__PURE__ */ jsxs22(Fragment8, { children: [
     /* @__PURE__ */ jsx29(FlowNav, {}),
+    missing !== null && /* @__PURE__ */ jsx29(MissingFlow, { id: missing }),
     raw === LAB ? /* @__PURE__ */ jsx29(BookLab, {}) : renderFlow(current, (flow) => /* @__PURE__ */ jsx29(RunFlow, { flow }))
   ] })
 );

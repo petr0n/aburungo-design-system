@@ -10,6 +10,37 @@ const raw = fromUrl('flow', [...IDS, LAB], IDS[0])
 const current = flowById(raw)
 
 /**
+ * Did the URL ask for a surface this bundle does not have?
+ *
+ * `fromUrl` falls back to the first flow, silently, which is right for a typo
+ * and wrong for a stale bundle. On 2026-08-21 a checkout moved the tree to a
+ * commit predating the book lab; `?flow=books` quietly rendered a flashcard
+ * round instead, and the page was reviewed as though it were the lab. Same
+ * shape as every other silent-inert bug here — the markup asked for something
+ * that did not exist and nothing said so.
+ */
+const asked = new URLSearchParams(window.location.search).get('flow')
+const missing = asked !== null && asked !== '' && asked !== raw ? asked : null
+
+function MissingFlow({ id }: { id: string }) {
+  return (
+    <div className="mx-auto w-full max-w-5xl px-6 pt-6">
+      <div className="flex flex-col gap-2 rounded-lg border border-error-fg bg-error-bg px-5 py-4">
+        <p className="text-body font-semibold text-error-fg">
+          No surface called “{id}” in this bundle
+        </p>
+        <p className="text-body-sm text-fg-muted">
+          Showing <strong>{current.label}</strong> instead. If you expected something
+          else, this build is behind: check out the branch that has it, run{' '}
+          <code className="text-body-sm">pnpm build:flows</code>, and hard-reload —
+          the preview server caches <code className="text-body-sm">bundle.js</code>.
+        </p>
+      </div>
+    </div>
+  )
+}
+
+/**
  * Flow switcher. A link rather than state, so every flow keeps a shareable URL
  * and `pnpm shots` can address one directly.
  */
@@ -53,6 +84,7 @@ if (host === null) throw new Error('ui_kits/flows: no #root in the host page')
 createRoot(host).render(
   <>
     <FlowNav />
+    {missing !== null && <MissingFlow id={missing} />}
     {raw === LAB ? <BookLab /> : renderFlow(current, (flow) => <RunFlow flow={flow} />)}
   </>,
 )
