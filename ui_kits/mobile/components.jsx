@@ -286,7 +286,7 @@ const SCORE_TONE = {
   ai:      { box:'border-transparent bg-accent-ai',            num:'text-accent-ai-fg', sub:'text-accent-ai-fg' },
 };
 
-function ScoreCard({ correct, total, label = 'recalled', tone = 'plain', children }) {
+function ScoreCard({ correct, total, label = 'correct', tone = 'plain', children }) {
   // Falls back rather than throwing. The real component has TypeScript to reject
   // a bad tone; this mirror is plain JSX with nothing checking it, and an unknown
   // value here would throw on `t.box` and blank the whole storybook page — the
@@ -305,9 +305,9 @@ function ScoreCard({ correct, total, label = 'recalled', tone = 'plain', childre
   );
 }
 
-const MARU_GLYPH = { recalled: '○', review: '✕' };
-const MARU_CLASSES = { recalled: 'text-success-fg', review: 'text-error-fg' };
-const MARU_LABEL = { recalled: 'recalled', review: 'worth another look' };
+const MARU_GLYPH = { correct: '○', review: '✕' };
+const MARU_CLASSES = { correct: 'text-success-fg', review: 'text-error-fg' };
+const MARU_LABEL = { correct: 'correct', review: 'worth another look' };
 
 function Maru({ outcome, label, className = '' }) {
   return (
@@ -318,9 +318,9 @@ function Maru({ outcome, label, className = '' }) {
   );
 }
 
-const AR_BANNER = { recalled: 'bg-success-bg border border-success-border', review: 'bg-error-bg' };
-const AR_TEXT = { recalled: 'text-success-fg', review: 'text-error-fg' };
-const AR_HEADLINE = { recalled: 'Recalled!', review: 'Not quite' };
+const AR_BANNER = { correct: 'bg-success-bg border border-success-border', review: 'bg-error-bg border border-error-border' };
+const AR_TEXT = { correct: 'text-success-fg', review: 'text-error-fg' };
+const AR_HEADLINE = { correct: 'Correct', review: 'Not quite' };
 
 function AnswerResult({ outcome, userAnswer, children }) {
   return (
@@ -340,15 +340,15 @@ function AnswerResult({ outcome, userAnswer, children }) {
 
 // Wording is not passable here, same as the real component -- that mechanism
 // is the point. `secondary` is Rokusho, so the review button takes tone=error.
-const GRADE_LABEL = { recalled: 'Recalled', review: 'Worth another look' };
+const GRADE_LABEL = { correct: 'Correct', review: 'Worth another look' };
 
 function GradePair({ onGrade, disabled = false }) {
   return (
     <div className="flex flex-col gap-3">
       <Button variant="secondary" tone="success" fullWidth disabled={disabled}
-              onClick={() => onGrade('recalled')}>
-        <Maru outcome="recalled" className="text-heading-sm"/>
-        {GRADE_LABEL.recalled}
+              onClick={() => onGrade('correct')}>
+        <Maru outcome="correct" className="text-heading-sm"/>
+        {GRADE_LABEL.correct}
       </Button>
       <Button variant="secondary" tone="error" fullWidth disabled={disabled}
               onClick={() => onGrade('review')}>

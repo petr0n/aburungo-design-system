@@ -452,7 +452,7 @@ Note the shape of it: **`AppHeader` and `KanaKeyboard` are two of the nine compo
 
 ○ / ✕ replace check/cross wherever the learner judges an answer. The hanko may anchor empty states. The mark appears nowhere else — no section stamps, no progress notation, no emboss pattern on cards.
 
-**Where the app checks the answer: `AnswerResult` owns it.** When the app grades rather than the learner, the treatment is a **tinted banner** (`bg-success-bg` / `bg-error-bg`) carrying the outcome, above a neutral `bg-surface-2` block revealing the correct answer. The wording is `Recalled!` / `Not quite`, held in a **non-overridable constant** — call sites cannot supply their own copy, and that mechanism *is* the design: it is what stopped `FillBlankCard` and `GrammarClozeCard` drifting to two vocabularies for the same state.
+**Where the app checks the answer: `AnswerResult` owns it.** When the app grades rather than the learner, the treatment is a **tinted banner** (`bg-success-bg` / `bg-error-bg`) carrying the outcome, above a neutral `bg-surface-2` block revealing the correct answer. The wording is `Correct` / `Not quite`, held in a **non-overridable constant** — call sites cannot supply their own copy, and that mechanism *is* the design: it is what stopped `FillBlankCard` and `GrammarClozeCard` drifting to two vocabularies for the same state.
 
 A quiet, markless reveal was built first and **rejected on review of the rendered result** (2026-08-07). "Not quite" is approved and **must not be softened back** — "worth another look" was judged too ambiguous at the moment of judgment, since a learner should not have to work out whether they got it right. The gentleness lives in what happens next (the item resurfaces sooner), not in hedged wording here.
 
@@ -482,7 +482,7 @@ That line is the whole guardrail. Without it, this decision degrades into the re
 
 **Cleared against the assessment rule (2026-08-07).** §3.0 originally conflicted with `product_assessment_principles`, which banned right/wrong colour feedback and any ratio. That rule was **revised in favour of §3.0**: the line moved from *colour and glyph* to *prose and persistence*. Per-answer ○/✕ in Rokushō and Akane is now the sanctioned vocabulary; the `ScoreCard` mark row is approved; the "never a ratio" bullet was retired as moot, since a ten-mark row is itself a ratio. Two constraints survive and bind this section:
 
-- **Approved wording, not silence.** Banned as a verdict: "correct", "wrong", "incorrect", "failed", "missed", percentages, letter grades, pass/fail. Approved: `Recalled!` / `Not quite` in `AnswerResult`, "recalled" / "worth another look" as `Maru`'s screen-reader labels. **"Worth another look · n" survives as a *list heading*** — labelling a set of items to revisit is a different context from judging one answer, and is not ambiguous there. Do not swap those to "Not quite", and do not soften "Not quite" to them.
+- **Approved wording, not silence.** Banned as a verdict: "wrong", "incorrect", "failed", "missed", percentages, letter grades, pass/fail. Approved: `Correct` / `Not quite` in `AnswerResult`, "correct" / "worth another look" as `Maru`'s screen-reader labels. **Changed 2026-08-21 by the author: "correct" replaced "recalled" and came off the banned list.** Only the positive half moved. **"Worth another look · n" survives as a *list heading*** — labelling a set of items to revisit is a different context from judging one answer, and is not ambiguous there. Do not swap those to "Not quite", and do not soften "Not quite" to them.
 - **No accumulation** — the boundary rule quoted above, which is now the *only* thing separating this vocabulary from a reward loop and should be treated as load-bearing rather than a footnote.
 
 **Also in 3.0 — sandbox setup.** Create `preview/_sandbox/`, decide gitignored vs. kept. Every variant lands here first.
@@ -500,7 +500,7 @@ Then run per component, in this order — primitives first, since 13 domain comp
 | `Maru` | **already built** (ADS #9) — the sole definition of ○ / ✕. Anything marking an answer imports it rather than typing a literal. Gate it, don't redesign it |
 | `AnswerResult` | **already built** (ADS #9) — the app-checks-answer banner + reveal frame, with non-overridable wording. Gate it, don't redesign it |
 | `FlipCard` | self-grade buttons carry ○ / ✕ alongside their text labels |
-| `ScoreCard` | per-answer mark row in addition to the total — shows *which*, not just how many. (The `label` default was already flipped to `"recalled"` in ADS #9 — [`ScoreCard.tsx:14`](../src/components/ScoreCard.tsx) — so only the mark row remains) |
+| `ScoreCard` | per-answer mark row in addition to the total — shows *which*, not just how many. (The `label` default was flipped to `"recalled"` in ADS #9, and to `"correct"` on 2026-08-21 — [`ScoreCard.tsx:14`](../src/components/ScoreCard.tsx) — so only the mark row remains) |
 | `KanaGrid` | learned state becomes a ring around the cell, not a background fill — keeps the kana legible underneath |
 | `EmptyState` | optional outline hanko as a quiet anchor |
 
@@ -529,9 +529,9 @@ Colour-dependent findings get logged, not fixed — they're revisited in one pas
 > - **No emoji** in `src/components`. The ○ and ✕ are glyphs the product means,
 >   not decoration, and are covered by the aria rule below rather than this one.
 > - **Wording — user-facing verdict copy only**, which is what item 8 governs.
->   Every string a learner reads is sanctioned: `Recalled!` and `Not quite`
+>   Every string a learner reads is sanctioned: `Correct` and `Not quite`
 >   (`AnswerResult`), `Worth another look` (`GradePair`), and `Maru`'s
->   screen-reader labels `recalled` / `worth another look`. **Zero banned words
+>   screen-reader labels `correct` / `worth another look`. **Zero banned words
 >   appear in rendered copy.** The words still exist as identifiers and in
 >   prose — `ScoreCard`'s `correct` prop is a count, and comments discuss
 >   "correctness" — and that is fine: the rule is about what the product says
@@ -552,7 +552,7 @@ Colour-dependent findings get logged, not fixed — they're revisited in one pas
 - [ ] Renders at 375 / 768 / 1024 / 1440
 - [ ] No gamification ornament; filled inline SVG icons only; no emoji
 - [ ] **On the six mark components:** ○ / ✕ are glyphs, not icons — each needs an `aria-label`, and meaning must ride on **three channels** (glyph + color + text label), never the glyph alone. A screen reader must never receive a bare "circle". (`Maru` already satisfies this — `aria-hidden` glyph + `sr-only` label — so this is a verification, not a build)
-- [ ] **Approved wording only:** never "correct" / "missed" / "wrong" / "incorrect" / "failed" as a verdict, no percentages or grades. `Recalled!` / `Not quite` is the sanctioned pair and must not be softened. Applies to all 20, not just the six.
+- [ ] **Approved wording only:** never "missed" / "wrong" / "incorrect" / "failed" as a verdict ("correct" was banned until 2026-08-21 and is now the sanctioned word), no percentages or grades. `Correct` / `Not quite` is the sanctioned pair and must not be softened. Applies to all 20, not just the six.
 
 Note that most gate items are palette-independent; the two that aren't (contrast, accent placement) are checked again in Phase 5 against the real palette. Passing them now against the outgoing palette is a smoke test, not the final word.
 
@@ -638,7 +638,7 @@ show. Four, from one flow:
 | # | Finding | Status |
 |---|---|---|
 | 1 | ~~**`bg-inverse` resolved to nothing.**~~ **FIXED 2026-08-08.** The token was `--color-bg-inverse`, which Tailwind turns into `bg-bg-inverse`. `AppHeader`'s band rendered transparent with near-white text on the page ground — an invisible title. No check caught it: the contrast gate reads tokens, not utilities, and the sandbox pages that approved the treatment used the CSS variable, which resolved fine | **fixed** — token renamed `--color-inverse`. Written up in [`docs/colors.md`](colors.md#orphaned-roles-task-26) as a correction to send back |
-| 2 | ~~**The self-grade pair sits on the wrong colour.**~~ **FIXED 2026-08-09.** `Button variant="secondary"` is Rokushō-tinted — the correctness colour — so ✕ *Worth another look* renders a red glyph on a success-green field, saying two things at once. Overridden at the call site for now | **fixed, both ways.** `Button` gained `tone` (`neutral` / `success` / `error`), which *replaces* `secondary`'s chrome rather than stacking on it. And the pair became `GradePair`, which owns the glyphs, the colours and the wording — "Recalled" / "Worth another look" are not passable, the same mechanism `AnswerResult` uses and for the same reason. Correct by construction instead of by remembering to override |
+| 2 | ~~**The self-grade pair sits on the wrong colour.**~~ **FIXED 2026-08-09.** `Button variant="secondary"` is Rokushō-tinted — the correctness colour — so ✕ *Worth another look* renders a red glyph on a success-green field, saying two things at once. Overridden at the call site for now | **fixed, both ways.** `Button` gained `tone` (`neutral` / `success` / `error`), which *replaces* `secondary`'s chrome rather than stacking on it. And the pair became `GradePair`, which owns the glyphs, the colours and the wording — "Correct" / "Worth another look" are not passable, the same mechanism `AnswerResult` uses and for the same reason. Correct by construction instead of by remembering to override |
 | 3 | ~~**`FlipCard` faces are not equal height.**~~ **FIXED 2026-08-09.** The back is positioned `absolute inset-0`, so it inherits the front's height and clips when it is taller — which it always is, since the back adds the English and the note. Every call site has to pin a floor | **fixed.** Both faces share one grid cell instead of the back being absolute, so both size the track and the card is as tall as its taller face. Each face is itself a grid so its child stretches, or the container is stable while the card still resizes mid-flip. Measured against real content: card 1 renders 339/339, the long-note card 359/359, neither clipped — where the call site's guessed `min-h-[340px]` would have clipped the long one by 19px. That magic number is deleted |
 | 4 | ~~**`ProgressBar` flush under `AppHeader`**~~ **FIXED 2026-08-09.** puts a Rokushō fill directly against the band's Ōgon hairline; the two read as one two-tone rule | **fixed.** `AppHeader` gained `progress`, so the bar renders *inside* the band and the band's own padding separates it from the Ōgon rule — no call site has to remember a spacer. `ProgressBar` gained `tone="inverse"`, because the light track glares on Sumi-iro. The tempting version was progress filling the Ōgon hairline itself; it scores **1.55:1**, half of the 3:1 a non-text indicator needs, so the track is stone-700 at 3.33:1. Checked before shipping, not after |
 

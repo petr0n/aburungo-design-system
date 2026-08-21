@@ -33,7 +33,7 @@ type GradePairProps = {
 
 /** Approved wording. Not overridable — that mechanism is the point. */
 const LABEL: Record<AnswerOutcome, string> = {
-  recalled: 'Recalled',
+  correct: 'Correct',
   review: 'Worth another look',
 }
 
@@ -45,10 +45,10 @@ export function GradePair({ onGrade, disabled = false }: GradePairProps) {
         tone="success"
         fullWidth
         disabled={disabled}
-        onClick={() => onGrade('recalled')}
+        onClick={() => onGrade('correct')}
       >
-        <Maru outcome="recalled" className="text-heading-sm" />
-        {LABEL.recalled}
+        <Maru outcome="correct" className="text-heading-sm" />
+        {LABEL.correct}
       </Button>
       <Button
         variant="secondary"

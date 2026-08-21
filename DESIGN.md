@@ -23,7 +23,7 @@ colors:
   tag-fg: "#8a6a2b"
   keyboard: "#33685e"
   key: "#FFFDF8"
-  recalled: "#4F9C8D"
+  correct: "#4F9C8D"
   review: "#D72E2E"
 typography:
   display:
@@ -301,7 +301,7 @@ The one distinctive form is the **hanko** — the circular ア seal that serves 
 - Full-round, mist ground, ink-subtle text. Scenario tags are quiet labels, not decoration.
 
 ### The Maru — signature component
-The correctness vocabulary. ○ (maru) means recalled; ✕ (batsu) means worth another look. This is the one motif the system commits to, and it is justified from outside the brand: these glyphs mean correct and incorrect in Japanese schooling, so they stay right even if everything else changes.
+The correctness vocabulary. ○ (maru) means correct; ✕ (batsu) means worth another look. This is the one motif the system commits to, and it is justified from outside the brand: these glyphs mean correct and incorrect in Japanese schooling, so they stay right even if everything else changes.
 
 Defined exactly once, in `Maru.tsx`. Anything marking an answer imports it rather than typing a literal glyph. Meaning rides on three channels — glyph, colour, and a visually-hidden text label — so it survives colour-blindness, greyscale, and a screen reader.
 
@@ -315,7 +315,7 @@ Where the app grades rather than the learner, `AnswerResult` owns the treatment:
 > Transient and per-answer is annotation. Persistent and per-user is a badge.
 > The moment a maru survives onto a profile screen, it has become gamification.
 
-**The Owned Wording Rule.** Verdict copy lives in a constant with no prop to override it. `Recalled!` / `Not quite`. This is a mechanism, not a convention — two call sites that each owned their own copy had already drifted to different words for the same state.
+**The Owned Wording Rule.** Verdict copy lives in a constant with no prop to override it. `Correct` / `Not quite`. This is a mechanism, not a convention — two call sites that each owned their own copy had already drifted to different words for the same state.
 
 ## Do's and Don'ts
 
@@ -332,7 +332,8 @@ Where the app grades rather than the learner, `AnswerResult` owns the treatment:
 - **Don't** introduce a colour that has no role. Every colour in the system answers "what is this *for*" — a new hue needs a job, not a preference. (This is not a ban on multiple colours: v3 has five. It is a ban on decorative ones.)
 - **Don't** use green or red for anything except answer correctness.
 - **Don't** add XP, hearts, badges, streaks, mascots, levels, or any ornament that accumulates onto a person.
-- **Don't** write verdict prose — no "correct", "wrong", "incorrect", "failed", or "missed", no percentages, no letter grades, no pass/fail. `Recalled!` / `Not quite` is the sanctioned pair and must not be softened.
+- **Don't** write verdict prose — no "wrong", "incorrect", "failed", or "missed", no percentages, no letter grades, no pass/fail. `Correct` / `Not quite` is the sanctioned pair and must not be softened.
+  > **"Correct" replaced "Recalled" on 2026-08-21, by the author.** It had been banned as verdict prose since the v2 rules and is now the approved word; "recalled" is retired everywhere a learner can read it. `Not quite` is unchanged — only the positive half moved. The app's `docs/plans/01-overarching-plan.md` still says the opposite and needs the same edit.
 - **Don't** build hover-only affordances. If it only exists on hover, it does not exist.
 - **Don't** use emoji as icons, anywhere.
 - **Don't** reach for a third shadow. Use tonal separation.

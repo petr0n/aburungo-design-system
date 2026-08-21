@@ -173,9 +173,19 @@ before raising it.
 
 ### Cautions that are not negotiable
 
-- **Kamon are circular, and ○ already means "correct."** A circular crest
-  behind or beside content can read as a maru. Keep crests off any surface where
-  an answer is being judged, or use non-circular framings.
+- ⚠️ **NEEDS REVIEW — do not act on this.** *"Kamon are circular, and ○ already
+  means correct. A circular crest behind or beside content can read as a maru.
+  Keep crests off any surface where an answer is being judged, or use
+  non-circular framings."*
+
+  **Parked 2026-08-21 by the author.** It was written about a single large crest
+  and then applied to tiled grounds, where it does not hold — a crest on a ground
+  is `background-repeat` at a 72px tile and `.35` opacity, which is wallpaper,
+  while the maru is a discrete glyph at text size beside the answer it judges.
+  It briefly barred crests from every checkpoint in
+  `book-identity-and-checkpoint-mockups-plan.md` on that basis. Whether any
+  version of the caution survives is unresolved; **nothing should be designed
+  around it, or removed because of it, until it is reviewed.**
 - **Some kamon are not free to use.** The 16-petal chrysanthemum (菊花紋章) is
   the Imperial Seal, and the paulownia (五七桐) is used by the Japanese
   government. Avoid both. Prefer geometric motifs without state association —

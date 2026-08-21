@@ -10,7 +10,7 @@
  */
 import type { HTMLAttributes } from 'react'
 
-export type AnswerOutcome = 'recalled' | 'review'
+export type AnswerOutcome = 'correct' | 'review'
 
 type MaruProps = Omit<HTMLAttributes<HTMLSpanElement>, 'className' | 'children'> & {
   outcome: AnswerOutcome
@@ -20,18 +20,18 @@ type MaruProps = Omit<HTMLAttributes<HTMLSpanElement>, 'className' | 'children'>
 }
 
 const GLYPH: Record<AnswerOutcome, string> = {
-  recalled: '○',
+  correct: '○',
   review:   '✕',
 }
 
 const OUTCOME_CLASSES: Record<AnswerOutcome, string> = {
-  recalled: 'text-success-fg',
+  correct: 'text-success-fg',
   review:   'text-error-fg',
 }
 
 /** Approved wording — the only words that may describe an outcome. */
 const DEFAULT_LABEL: Record<AnswerOutcome, string> = {
-  recalled: 'recalled',
+  correct: 'correct',
   review:   'worth another look',
 }
 
