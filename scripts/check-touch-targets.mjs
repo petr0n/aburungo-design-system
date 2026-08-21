@@ -36,6 +36,15 @@ const SURFACES = [
   ['flows · fill kana', '/ui_kits/flows/?flow=fill&state=kana'],
   ['flows · lessons', '/ui_kits/flows/?flow=lessons&state=list'],
   ['flows · error', '/ui_kits/flows/?flow=flashcard&state=error'],
+  // The book surfaces. Plan task 3.1 — every new surface joins this list, and
+  // the checkpoint is checked on two books rather than one because the band
+  // hue changes what sits under a control.
+  ['book · chapter opener', '/ui_kits/flows/?flow=book-one&state=opener'],
+  ['book · lesson ch1', '/ui_kits/flows/?flow=book-one&state=lesson-early'],
+  ['book · lesson ch11', '/ui_kits/flows/?flow=book-one&state=lesson-late'],
+  ['book · final checkpoint', '/ui_kits/flows/?flow=book-one&state=final'],
+  ['book · checkpoint one', '/ui_kits/flows/?flow=checkpoint&state=one'],
+  ['book · checkpoint four', '/ui_kits/flows/?flow=checkpoint&state=four'],
   // The mobile kit, since 2026-08-17. It renders the same flow definitions
   // inside an iPhone frame, and its two onboarding screens exist nowhere else
   // -- the landing screen's primary CTA was an unstyled `variant="accent"`

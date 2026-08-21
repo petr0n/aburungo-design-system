@@ -147,11 +147,23 @@ function ProgressBar({ value, label = 'Session progress', tone = 'default' }) {
   // Matches clamp01 in the real component: isFinite rejects undefined and
   // null too, which `Number.isNaN` does not — that gap rendered width: NaN%.
   const v = !Number.isFinite(value) ? 0 : Math.min(1, Math.max(0, value));
-  const tracks = { default: 'bg-progress-track', inverse: 'bg-progress-track-on-inverse' };
+  // Mirrors src/components/ProgressBar.tsx: the FILL follows the tone too.
+  // Only swapping the track left the fill at Rokusho 500 on every band, which
+  // is 1.00:1 against Book One's own chrome. See the tone note over there.
+  const tracks = {
+    default: 'bg-progress-track',
+    inverse: 'bg-progress-track-on-inverse',
+    'on-accent': 'bg-current/20',
+  };
+  const fills = {
+    default: 'bg-progress-fill',
+    inverse: 'bg-progress-fill',
+    'on-accent': 'bg-current',
+  };
   return (
     <div role="progressbar" aria-label={label} aria-valuemin={0} aria-valuemax={1} aria-valuenow={v}
          className={`relative h-1 w-full overflow-hidden rounded-full ${tracks[tone]}`}>
-      <div className="h-full bg-progress-fill transition-[width] duration-200 ease-out"
+      <div className={`h-full ${fills[tone]} transition-[width] duration-200 ease-out`}
            style={{ width: `${(v * 100).toFixed(2)}%` }}/>
     </div>
   );

@@ -349,16 +349,35 @@ contrast gate on its book's hue.
 
 | # | Task | Done when |
 |---|---|---|
+| 2.0 | ~~Book One's four remaining surfaces~~ | **done 2026-08-21.** `ui_kits/flows/book-one.tsx` — chapter opener, lesson pages for chapters 1 and 11, final checkpoint. Every chapter title, lesson title and can-do line is read from `../aburungo/src/content/`, so none of the copy is invented; Chapter One really runs thirteen lessons across two situations. Found and fixed a live `ProgressBar` bug on the way — see below |
 | 2.1 | Chapter opener, all five books | deep-linkable `?book=three&surface=opener`; the four unused brand utilities have a consumer |
 | 2.2 | Lesson page, early + late chapter, all five | ten surfaces; the only difference within a book is density/opacity |
 | 2.3 | Chapter checkpoint, all five | carries its book's crest and hue like any other page (§4); shows a shrinking set, never a score |
 | 2.4 | Final checkpoint, all five books | shows a shrinking set, never a score; reads heavier than a chapter checkpoint without leaving the book's identity |
 
+> **What Book One found: the progress bar was invisible on three of five books.**
+> `ProgressBar`'s `tone` only ever swapped the *track*; the fill stayed
+> `progress-fill` — Rokushō 500 — whatever the tone. Measured against each book's own
+> band: **Book One 1.00:1** (the identical colour), Book Three 1.50, Book Four 1.33.
+> A plain white line where the progress should be.
+>
+> `tone="on-accent"` now draws track and fill in `currentColor`, so the bar takes the
+> ink the band already chose for its labels. Worst case across the five is **4.78:1**,
+> up from 1.00. `AppHeader` on the Sumi band is untouched — `default` and `inverse`
+> still fill in Rokushō, verified by rendering.
+>
+> Two things worth keeping from how it was found. The first fix put the tone on
+> `ProgressBar` but left the ink class on the labels only, so `currentColor` fell back
+> to body text and the bar came out `#2D2D2D` on every band — which *moved* the 1.00:1
+> to Book Five instead of removing it. Only re-measuring the render caught that. And
+> the contrast gate cannot see any of this: it reads flat tokens, and `currentColor`
+> has no token to read. **A bar on a hue band has to be measured by rendering.**
+
 ### Phase 3 — Gate it
 
 | # | Task | Done when |
 |---|---|---|
-| 3.1 | Add every new surface to `check-touch-targets.mjs` | all controls ≥44px, in all five books |
+| 3.1 | Add every new surface to `check-touch-targets.mjs` | all controls ≥44px, in all five books. **Book One's four plus two checkpoints added 2026-08-21: 318 → 331 controls, 0 undersized** |
 | 3.2 | Contrast: each book's hue on its own chrome, and on its crest ground | five new pairs in the gate, all passing or explicitly excepted |
 | 3.3 | Add the surfaces to `shots-responsive.mjs` | 0 horizontal overflow at 375/768/1024/1440 |
 | 3.3b | Every book surface renders at **1280** as well as 390 | `?view=desktop` in the flows harness; no surface leaves a dead half-screen |
