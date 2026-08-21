@@ -138,9 +138,39 @@ type Verdict = {
   hex?: { correct: Tone; review: Tone }
 }
 
-/** The shipped roles, as literals, so a candidate can be shown beside them. */
-const SHIPPED_CORRECT: Tone = { bg: '#EDF5F3', border: '#A7CFC7', glyph: '#264d46', fg: '#264d46' }
-const SHIPPED_REVIEW: Tone = { bg: '#FBE3E1', border: '#EC9791', glyph: '#6f1616', fg: '#6f1616' }
+/**
+ * The live tint and edge, as `var()` rather than as hex.
+ *
+ * Only the *glyph* changed on 2026-08-21 — `success-500` and `error-500` moved
+ * from the 500 step to the 800. `success-bg` and `success-border` were not part
+ * of that and are not part of the record, so the `before` row below spreads
+ * these and overrides the glyph alone. That is exactly the comparison being
+ * made: the old mark on today's tint.
+ *
+ * Written as `var(--color-…)` after review on #40. As hex they were a second
+ * copy of four token values, sitting under a name that claimed to be the
+ * shipped roles — the drift this repo has a whole build step to prevent. An
+ * inline style resolves `var()` against the same cascade the class would.
+ *
+ * They had already drifted, in the commit that introduced them: the correct
+ * tint was written #EDF5F3 against rokusho-100's real #D9EBE7, and the edge
+ * #A7CFC7 against rokusho-300's #85BFB3. The `before` row was therefore
+ * comparing the old glyph on a tint the product has never shipped. Read back
+ * off the rendered page, both rows now differ in the glyph alone, which is the
+ * only thing that changed.
+ */
+const LIVE_CORRECT: Tone = {
+  bg: 'var(--color-success-bg)',
+  border: 'var(--color-success-border)',
+  glyph: 'var(--color-success-500)',
+  fg: 'var(--color-success-fg)',
+}
+const LIVE_REVIEW: Tone = {
+  bg: 'var(--color-error-bg)',
+  border: 'var(--color-error-border)',
+  glyph: 'var(--color-error-500)',
+  fg: 'var(--color-error-fg)',
+}
 
 const VERDICTS: Verdict[] = [
   {
@@ -149,8 +179,8 @@ const VERDICTS: Verdict[] = [
     status: 'superseded',
     note: 'success-500 was hardcoded #4F9C8D and error-500 #D72E2E: exactly Rokushō and Akane, exactly what Book One and Book Three wear as chrome.',
     hex: {
-      correct: { ...SHIPPED_CORRECT, glyph: '#4F9C8D', fg: '#4F9C8D' },
-      review: { ...SHIPPED_REVIEW, glyph: '#D72E2E', fg: '#D72E2E' },
+      correct: { ...LIVE_CORRECT, glyph: '#4F9C8D', fg: '#4F9C8D' },
+      review: { ...LIVE_REVIEW, glyph: '#D72E2E', fg: '#D72E2E' },
     },
   },
   {
@@ -272,7 +302,7 @@ function Checkpoint({ book, chrome, v }: {
           <div className="flex flex-col gap-2">
             <div
               className="rounded-lg border border-success-border bg-success-bg p-3 text-center text-body font-semibold text-success-fg"
-              style={fb ? { background: fb.correct.bg, borderColor: fb.correct.border, color: fb.correct.fg } : undefined}
+              style={fb ? { backgroundColor: fb.correct.bg, borderColor: fb.correct.border, color: fb.correct.fg } : undefined}
             >
               <span aria-hidden="true" className="mr-2"
                 style={fb ? { color: fb.correct.glyph } : undefined}>○</span>
@@ -280,7 +310,7 @@ function Checkpoint({ book, chrome, v }: {
             </div>
             <div
               className="rounded-lg border border-error-border bg-error-bg p-3 text-center text-body font-semibold text-error-fg"
-              style={fb ? { background: fb.review.bg, borderColor: fb.review.border, color: fb.review.fg } : undefined}
+              style={fb ? { backgroundColor: fb.review.bg, borderColor: fb.review.border, color: fb.review.fg } : undefined}
             >
               <span aria-hidden="true" className="mr-2"
                 style={fb ? { color: fb.review.glyph } : undefined}>✕</span>
