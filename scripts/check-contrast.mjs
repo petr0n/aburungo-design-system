@@ -112,6 +112,21 @@ const CHECKS = [
   ['--color-accent-ai-fg', '--color-accent-ai', TEXT, 'label on the Ai accent'],
   ['--color-accent-rokusho-fg', '--color-accent-rokusho', TEXT, 'label on the Rokusho accent'],
   ['--color-accent-akane-fg', '--color-accent-akane', TEXT, 'label on the Akane accent'],
+  // Sumi joined the accent set 2026-08-21 for Book Five. Gated on arrival
+  // rather than later: Rokusho's pair shipped ungated for months at 3.19:1,
+  // which is the reason this block exists at all.
+  ['--color-accent-sumi-fg', '--color-accent-sumi', TEXT, 'label on the Sumi accent'],
+  //
+  // A card ground is deliberately NOT gated against the page, and this is where
+  // that was tested rather than assumed. Adding `accent-sumi-bg vs bg` at 3:1
+  // failed at 1.08:1 -- so every other accent ground was measured, and they run
+  // 1.09 (Ogon) to 1.17 (Ai). The plain card is 1.06:1, the lowest of the lot,
+  // and it is the surface DESIGN.md says "lifts without a shadow".
+  //
+  // Cards in this palette separate by warmth and hue, not by luminance ratio.
+  // A 3:1 bar here flags the system's own foundation -- the same trap as the
+  // raw-px rule check-adherence dropped, which "only ever fired on correct code
+  // and trains people to ignore it". Do not add it back.
   // Non-text indicators — the focus ring has to read on every ground it can
   // land on, which is what made the v3 Ogon ring fail its own review.
   ['--color-focus', '--color-bg', UI, 'focus ring on page'],

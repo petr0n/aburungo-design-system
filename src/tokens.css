@@ -156,6 +156,20 @@
   --color-accent-rokusho-fg:  var(--color-stone-900);
   --color-accent-akane:       var(--color-akane-500);
   --color-accent-akane-fg:    var(--color-stone-0);
+  /* Sumi-iro, added 2026-08-21 for Book Five (see
+     docs/book-identity-and-checkpoint-mockups-plan.md).
+
+     The other four accents are the 500 step of their own ramp. Sumi has no
+     ramp -- it lives in the stone scale, where stone-800 IS Sumi-iro -- so
+     this aliases stone-800 rather than inventing a parallel ramp for one
+     token. It is deliberately the same value the header band uses: Book Five's
+     identity is the near-absence of accent, which is the point rather than an
+     accident, and the crest and type carry what the hue does not.
+
+     Paper label, like Ai and Akane: stone-800 is near-black, so a dark label
+     would be unreadable. Gated in check-contrast.mjs beside the other four. */
+  --color-accent-sumi:        var(--color-stone-800);
+  --color-accent-sumi-fg:     var(--color-stone-0);
 
   /* The accent's card ground. Decided 2026-08-08 against three rendered
      options: the palette was landing as hairlines — a 3px rule, a tag pill,
@@ -168,6 +182,11 @@
   --color-accent-ai-bg:       var(--color-ai-100);
   --color-accent-rokusho-bg:  var(--color-rokusho-100);
   --color-accent-akane-bg:    var(--color-akane-100);
+  /* stone-100 is the well tone, one step off the page ground. The other four
+     `-bg` values are their hue's 100 step; Sumi's is the nearest equivalent
+     the stone ramp offers, and it keeps Book Five's card ground quieter than
+     any other book's -- consistent with the rest of its identity. */
+  --color-accent-sumi-bg:     var(--color-stone-100);
 
   --color-keyboard-bg:     var(--color-rokusho-700);
   --color-keyboard-rule:   var(--color-rokusho-800);

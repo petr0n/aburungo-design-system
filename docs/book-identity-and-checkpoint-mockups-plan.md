@@ -227,8 +227,8 @@ contrast gate on its book's hue.
 
 | # | Task | Done when |
 |---|---|---|
-| 0.1 | Add `--color-accent-sumi`, `-fg`, `-bg` to `src/tokens.css` | `pnpm build:tokens` propagates to all six harnesses; no hand-edited copy |
-| 0.2 | Gate the new pair in `check-contrast.mjs` alongside the other four | `label on the Sumi accent` passes ≥4.5:1, or ships with a written exception |
+| 0.1 | ~~Add `--color-accent-sumi`, `-fg`, `-bg` to `src/tokens.css`~~ | **done 2026-08-21.** Aliases `stone-800` — Sumi has no ramp of its own, it *is* the stone scale's 800 step. Propagated to the generated sheet and all five harness `@theme` blocks by `build:tokens` |
+| 0.2 | ~~Gate the new pair in `check-contrast.mjs`~~ | **done 2026-08-21.** `label on the Sumi accent` = **13.55:1**. Gate 38/41 → 39/42. A second check — the card ground against the page — was added, failed at 1.08:1, and was **removed as wrong**: every accent ground measures 1.09–1.17 and the plain card is 1.06, so cards here separate by warmth, not luminance. The measurement is recorded beside the block so it is not re-added |
 | 0.3 | **Author:** export two new crest motifs + a tile of the blossom | five distinct tiles in `assets/`, greyscale, tile-safe |
 | 0.4 | Wire `crest-3/4/5` in `src/brand.css` | five `.emboss-bg.crest-N` rules; a sandbox page renders all five at `tile-sm` |
 | 0.5 | Re-measure the patterned-ground stand-in with five crests, not two | `#CACACA` still the darkest composited pixel, or the gate's stand-in is updated with the new measurement |
