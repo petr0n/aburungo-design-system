@@ -318,7 +318,7 @@ function Maru({ outcome, label, className = '' }) {
   );
 }
 
-const AR_BANNER = { correct: 'bg-success-bg border border-success-border', review: 'bg-error-bg' };
+const AR_BANNER = { correct: 'bg-success-bg border border-success-border', review: 'bg-error-bg border border-error-border' };
 const AR_TEXT = { correct: 'text-success-fg', review: 'text-error-fg' };
 const AR_HEADLINE = { correct: 'Correct', review: 'Not quite' };
 

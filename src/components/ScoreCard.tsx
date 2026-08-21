@@ -18,8 +18,10 @@ type Props = {
   correct: number
   total: number
   /**
-   * Label beneath the count. Defaults to "correct" — the approved wording since 2026-08-21.
-   * "correct" is verdict prose and is not used anywhere in the product.
+   * Label beneath the count. Defaults to "correct" — the approved wording since
+   * 2026-08-21, when it replaced "recalled" and came off the banned list. The
+   * words still banned as a verdict are "wrong", "incorrect", "failed" and
+   * "missed", plus percentages, grades and pass/fail.
    */
   label?: string
   tone?: ScoreTone

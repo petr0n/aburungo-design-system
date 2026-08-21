@@ -315,7 +315,7 @@ Where the app grades rather than the learner, `AnswerResult` owns the treatment:
 > Transient and per-answer is annotation. Persistent and per-user is a badge.
 > The moment a maru survives onto a profile screen, it has become gamification.
 
-**The Owned Wording Rule.** Verdict copy lives in a constant with no prop to override it. `Recalled!` / `Not quite`. This is a mechanism, not a convention — two call sites that each owned their own copy had already drifted to different words for the same state.
+**The Owned Wording Rule.** Verdict copy lives in a constant with no prop to override it. `Correct` / `Not quite`. This is a mechanism, not a convention — two call sites that each owned their own copy had already drifted to different words for the same state.
 
 ## Do's and Don'ts
 

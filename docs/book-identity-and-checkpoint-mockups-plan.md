@@ -5,7 +5,7 @@ brand utilities. No app code · **Written:** 2026-08-21 · **Branch prefix:** `f
 
 > **What this plan is for.** The app has landed on Books → Chapters → Lessons and needs five books
 > that look like five books. This plan designs the identity system that makes that true, and the
-> 22 rendered surfaces that prove it before a line of app code changes.
+> 25 rendered surfaces that prove it before a line of app code changes.
 >
 > **What this plan is not.** It does not author content, model data, or touch `../aburungo`. The
 > `Book` type already exists there and this plan does not change it — see §2.
@@ -81,6 +81,34 @@ Book One is entirely about. Akane is the mark and the error state — the loudes
 system — and Book Three is "the wall", the book that has to feel like it costs something. Sumi 墨
 *is* ink, and Book Five is the book that earns its look by giving colour up.
 
+### ⚠️ Unresolved: two of the five hues already mean correct and wrong
+
+**Found in review, 2026-08-21. This blocks Phase 2 and nothing before it.**
+
+`DESIGN.md:333` is unambiguous: **"Don't use green or red for anything except answer
+correctness."** The table above assigns Rokushō (green) to Book One and Akane (red) to Book Three,
+as *persistent chrome*. So every page in Book One would carry the colour that means "correct", and
+every page in Book Three the colour that means "wrong".
+
+**The Two-Plane Rule below does not cover this.** It separates book identity from *situation*
+accents. Correctness is a third meaning, it lives on the same surfaces, and on a checkpoint it sits
+inches from the chrome — a ✕ in Akane on an Akane band, a ○ in Rokushō on a Rokushō band.
+
+Three ways out. **This is the author's call, not one to settle by argument:**
+
+| | Resolution | Cost |
+|---|---|---|
+| **a** | **The book hue is suppressed on judging surfaces.** A checkpoint drops to neutral chrome — Sumi band, warm stone — and identifies itself by crest and typography alone | Checkpoints look less like their book. But they *should* feel different, and it makes the crest do real work |
+| **b** | Rewrite `DESIGN.md:333` to scope green/red to judging surfaces rather than the whole product | One line, and the collision returns anywhere a verdict appears outside a checkpoint |
+| **c** | Book hues avoid green and red entirely | Only Ai-iro, Ōgon and Sumi are left — three hues for five books, so the hue-per-book decision cannot hold |
+
+**Recommendation: (a).** It is the only one that leaves both `DESIGN.md:333` and the
+hue-per-book decision intact, and it improves the checkpoint rather than merely permitting it —
+a checkpoint that goes quiet when it starts judging is the right instinct anyway. It also matches
+what this plan already concluded for a surface that closes more than one book.
+
+Do not build Phase 2's checkpoints until this is settled.
+
 ### The named rule this creates
 
 > **The Two-Plane Rule.** The **book hue owns the chrome** — header band, chapter headers, progress,
@@ -141,25 +169,34 @@ three crest wirings. Everything else is composition.**
 
 ---
 
-## 4. Checkpoints wear their book's crest like any other page
+## 4. ⚠️ Blocked: whether a checkpoint carries its book's crest
 
-An earlier draft of this plan barred crests from checkpoints, on the grounds that
-`docs/todo.md` says *"Kamon are circular, and ○ already means 'correct' … keep crests off any
-surface where an answer is being judged."* **That caution does not apply here, and the draft was
-wrong to apply it.**
+**Blocked 2026-08-21, and this section previously decided it — which was the error.**
 
-It was written about **one large crest** sitting behind or beside content. A crest on a ground is
-a different object: `background-repeat`, a 72px tile, `opacity: .35`. That is wallpaper. The maru
-is a discrete glyph at text size, in Rokushō, immediately beside the answer it judges. The two do
-not occupy the same visual register and no learner will read one as the other.
+An earlier draft barred crests from checkpoints, citing `docs/todo.md`: *"Kamon are circular and
+○ already means correct … keep crests off any surface where an answer is being judged."* A later
+draft argued the opposite — that the caution was written about one large crest and does not reach a
+72px tiled ground at `.35` opacity, which is wallpaper.
 
-**The rule that still stands** is the one that survives measurement, not intuition: a patterned
-ground carries `fg`, `fg-heading` and `fg-muted` only, and `fg-subtle` fails at 3.47:1 (The
-Patterned Ground Rule, `DESIGN.md`). Checkpoints obey that like every other surface.
+**Both drafts were out of step with where the question actually stands.** The author parked that
+caution as **NEEDS REVIEW** on 2026-08-21, explicitly: *nothing should be designed around it, or
+removed because of it, until it is reviewed.* A plan that then decides the question is the plan
+overruling the park.
 
-**Where the original caution does still bite:** a single large crest used as a *device* — a
-watermark behind a result, a badge next to a mark. Do not do that on a judging surface. Tiled
-grounds are fine.
+So: **undecided, and recorded in one place.** `docs/todo.md` holds the caution and its status;
+this section holds the consequence. When the caution is reviewed, both get the answer.
+
+**What that blocks:** the crest treatment on chapter checkpoints and final checkpoints only.
+Chapter openers and lesson pages are unaffected — the caution never reached a page that is not
+judging an answer. Phase 2.1 and 2.2 can proceed.
+
+**When it is reviewed, the treatments worth comparing** — render, do not argue:
+
+| | Treatment |
+|---|---|
+| **a** | Full tiled ground, same as every other page in the book |
+| **b** | Crest confined to a non-circular framing — a `.frame` band or an edge strip, never behind the judged item |
+| **c** | No crest; the book carried by hue and type alone |
 
 ## 5. The 25 surfaces
 
@@ -208,7 +245,7 @@ contrast gate on its book's hue.
 | 1.2 | Define `BookIdentity` in the flows harness: `{ id, title, hue, crest, tone }` | one object per book; no surface reads a hue directly |
 | 1.3 | Extend `FlowDef`/`registry.ts` so a surface can be rendered under any book | one surface × five books is a parameter, not five files |
 
-> 1.3 is the whole reason the mockups are affordable. Without it, 22 surfaces means 22 files and
+> 1.3 is the whole reason the mockups are affordable. Without it, 25 surfaces means 25 files and
 > the five books drift apart the way `ui_kits/mobile/screens.jsx` drifted from `src/components`.
 > With it, the chapter opener is **one** component rendered five times.
 
@@ -244,7 +281,7 @@ contrast gate on its book's hue.
 ## 7. Deliverables
 
 1. Five book identities, rendered side by side, in one place.
-2. 22 surfaces, deep-linkable, built from `src/components` — no mirrors.
+2. 25 surfaces, deep-linkable, built from `src/components` — no mirrors.
 3. Two named rules in `DESIGN.md` and the checkpoint treatment decided from renders.
 4. `--color-accent-sumi` and `crest-3/4/5`, gated.
 5. A `verify:plan` block so §6's claims are a command, not a reading.
