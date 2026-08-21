@@ -123,7 +123,7 @@ three crest wirings. Everything else is composition.**
 | # | Thing | Why it does not exist |
 |---|---|---|
 | A | `--color-accent-sumi` + `-fg` + `-bg` | Sumi-iro is the header band, never an accent. Book Five needs it as one |
-| B | **Two crest motifs** | Only **three distinct motifs** exist. `clan-symbol1/2` are the pre-tiled versions of `flower-symbol1/2`, not separate designs |
+| B | **Crest motifs** | Only **three distinct motifs** exist — `clan-symbol1/2` are the pre-tiled versions of `flower-symbol1/2`, not separate designs. **The author is drawing three more (2026-08-21)**, giving six for five books. The spare is unassigned; if it is meant for the final checkpoint, say so |
 | C | A tile of `clan-symbol-flower` | The blossom has a full-size render and no tile |
 | D | `crest-3/4/5` in `brand.css` | Two are wired |
 
@@ -135,27 +135,25 @@ three crest wirings. Everything else is composition.**
 
 ---
 
-## 4. The problem the checkpoints have
+## 4. Checkpoints wear their book's crest like any other page
 
-**Every crest in this system is circular, and ○ already means "recalled".**
+An earlier draft of this plan barred crests from checkpoints, on the grounds that
+`docs/todo.md` says *"Kamon are circular, and ○ already means 'correct' … keep crests off any
+surface where an answer is being judged."* **That caution does not apply here, and the draft was
+wrong to apply it.**
 
-`docs/todo.md` states the constraint plainly: *"Keep crests off any surface where an answer is
-being judged, or use non-circular framings."* A checkpoint is the one surface in the product whose
-entire job is judging an answer. So the book's crest — the thing that says which book you are in —
-is barred from the page that most needs to say it.
+It was written about **one large crest** sitting behind or beside content. A crest on a ground is
+a different object: `background-repeat`, a 72px tile, `opacity: .35`. That is wallpaper. The maru
+is a discrete glyph at text size, in Rokushō, immediately beside the answer it judges. The two do
+not occupy the same visual register and no learner will read one as the other.
 
-Three ways out, to be **rendered and compared, not argued**:
+**The rule that still stands** is the one that survives measurement, not intuition: a patterned
+ground carries `fg`, `fg-heading` and `fg-muted` only, and `fg-subtle` fails at 3.47:1 (The
+Patterned Ground Rule, `DESIGN.md`). Checkpoints obey that like every other surface.
 
-| | Treatment | Trade-off |
-|---|---|---|
-| **a** | Crest confined to a non-circular framing — a `.frame` band or a strip along one edge, never behind the judged item | Keeps the crest; costs the full-bleed ground the other pages have |
-| **b** | No crest on checkpoints. Book identity carried by hue and type alone | Safest; the checkpoint may read as a different product from the pages it closes |
-| **c** | Crest at very low opacity behind the *header only*, page ground bare | Splits the difference; needs measuring — the ground rule in `DESIGN.md` was written for full-bleed |
-
-**Recommendation: (a).** The framing is what `.frame` was built for and has never been used for,
-and it keeps the checkpoint recognisably part of its book. Render all three before deciding.
-
----
+**Where the original caution does still bite:** a single large crest used as a *device* — a
+watermark behind a result, a badge next to a mark. Do not do that on a judging surface. Tiled
+grounds are fine.
 
 ## 5. The 22 surfaces
 
@@ -213,11 +211,16 @@ and clear the contrast gate on the book's hue.
 
 ### Phase 2 — Render the surfaces
 
+> **Book One first, then the rest.** It is the only book with content (451 words, 207 phrases,
+> real chapter titles). Building its identity against invented copy would let the system look good
+> against text chosen to flatter it. Prove it on Book One, then apply what survived.
+
+
 | # | Task | Done when |
 |---|---|---|
 | 2.1 | Chapter opener, all five books | deep-linkable `?book=three&surface=opener`; the four unused brand utilities have a consumer |
 | 2.2 | Lesson page, early + late chapter, all five | ten surfaces; the only difference within a book is density/opacity |
-| 2.3 | Chapter checkpoint, all five, in the three §4 treatments | fifteen renders on one comparison page; **author picks one** |
+| 2.3 | Chapter checkpoint, all five | carries its book's crest and hue like any other page (§4); shows a shrinking set, never a score |
 | 2.4 | Book checkpoint (production) | shows a shrinking set, never a score |
 | 2.5 | Final checkpoint | see §8 — needs a decision before it can be built |
 
@@ -250,22 +253,41 @@ and clear the contrast gate on the book's hue.
 
 **Answer these before Phase 2.5. Everything else can start.**
 
-1. **What is the final checkpoint, given Hana is shelved?** The `can-do` and `conversation` kinds
-   both route to Hana (DR-023) and drop out of the ladder when it is off. So the surface that
-   closes the course currently has no content route. Options: it becomes a wide production
-   checkpoint over all five books; it becomes a non-assessed can-do summary ("here is everything
-   you can now do"); or it waits for Hana. **My read: the can-do summary.** DR-022 derives the
-   can-do list from situations the learner has seen, so the data exists without Hana, and closing
-   a course on a verdict would break DR-020 more loudly than closing a chapter on one.
+1. **What does "final checkpoint page" mean?** The original ask reads *"a checkpoint page for
+   each book and final checkpoint page"*, and that is genuinely two-ways ambiguous. Either:
 
-2. **Does the final checkpoint wear a book identity at all?** It closes five books, so wearing one
-   book's hue is wrong. **My read: it wears the hanko and warm stone and nothing else** — the only
-   surface in the product with no book, which is what makes it feel like an ending.
+   - **(a) the last checkpoint inside a book** — the production checkpoint that closes Book Three,
+     say. In which case it is already covered by the per-book checkpoint in §5 and there is nothing
+     more to design; or
+   - **(b) one page that closes the whole course**, after Book Five.
 
-3. **Book One is shipping with 11 chapters and no identity.** Applying a hue and crest to it is a
-   visible change to a live product. Does it land with this work, or after the other four are
-   agreed? **My read: last.** Get four unshipped books right first, then change the one people are
-   using.
+   This plan assumes **(b)** and designs it as a distinct surface. If it is (a), delete Phase 2.5
+   and the surface count drops from 22 to 21.
+
+2. **If it is (b): what does that page actually do?** Both checkpoint kinds that could close a
+   course — `conversation` and `can-do` — work by handing the learner to **Hana**, which DR-023
+   shelved. So the page has a purpose and no mechanism.
+
+   **Recommendation: a can-do summary, not an assessment.** "Here is everything you can now do,"
+   drawn from the situations the learner has actually seen. DR-022 already derives that list from
+   seen situations rather than a declared one, so the data exists with Hana switched off. Closing
+   an entire course on a *verdict* would also breach DR-020 more loudly than closing a chapter on
+   one does.
+
+   **And it wears no book identity.** It closes five books, so wearing one book's hue is simply
+   wrong. The hanko on warm stone and nothing else — the only surface in the product with no book,
+   which is exactly what should make it read as an ending.
+
+3. ~~**Does Book One go last, being live?**~~ — **answered 2026-08-21: it goes FIRST.** The
+   original reasoning here was "it ships, so changing it is visible" — which is hollow, because
+   `CLAUDE.md` records this as pre-alpha with no public users. There is nothing to disturb.
+
+   The argument runs the other way. **Book One is the only book with content**: 11 chapters, 93
+   lessons, 451 words, 207 phrases. `grep "jlpt: N4" src/content/` returns nothing, and the same
+   holds for N3–N1. Every other book can only be mocked with invented text, which would let the
+   identity system look good against copy chosen to flatter it. Build Book One's identity against
+   real Japanese, real lesson lengths and real chapter titles; then apply what survived to four
+   books that do not exist yet.
 
 ---
 
