@@ -217,9 +217,40 @@ Two rules follow, and they apply to every comparison surface this plan adds:
 1. **Add a row, never overwrite one.** The chosen option carries `hex: undefined` so it renders
    the live tokens and cannot drift; every other row carries literal hex, because it is a record
    rather than a source of truth.
-2. **A comparison runs across all five books.** Showing a verdict on the two books it collided
-   with answers a narrower question than the one being asked — a verdict colour has to survive
-   every band it will ever sit under.
+2. **A comparison runs across every book, not a chosen subset.** Showing a verdict on the two
+   books it collided with answers a narrower question than the one being asked — a verdict colour
+   has to survive every band it will ever sit under. The rows wrap, so this stays true as books
+   are added.
+
+---
+
+## 3c. Where a sixth identity comes from
+
+**There is no limit on the number of books.** Author's call, 2026-08-21: *"I don't want a limit on
+books because this site isn't static."* `BookId` is derived from the `BOOKS` array, so adding an
+entry widens every surface that keys off a book — the checkpoint flow's state rail, its deep links —
+with nothing else to edit. The lab's comparison rows wrap rather than fixing a count. Verified by
+adding a sixth book and rendering it: it typechecked, appeared in the rail, deep-linked at
+`?state=six`, and the page reported **0px of horizontal overflow**.
+
+What does *not* scale for free is the identity, and this is the part to decide before Book Six
+exists rather than after.
+
+**The recommendation: hue and crest are two axes, and they multiply. A sixth book is an existing
+hue with a different crest — never a sixth hue.**
+
+§2 already says a book is a hue *and* a crest. Treating the pair as the identity gives 5 × N
+identities from five colours, and it is the only option that does not damage something else:
+
+| Option | |
+| --- | --- |
+| **Hue × crest pair** ✅ | Costs one drawing. Rendered with a sixth book on Rokushō + the blossom crest: it reads as a different book from Book One at a glance, on the same hue |
+| Add a sixth hue | The palette is five colours with one job each. This is the argument that was already had and lost over the verdict colours — adding hues to resolve a collision is how a palette stops meaning anything |
+| Vary the step (Rokushō 500 vs 700 band) | Keep in reserve. Real separation, but it spends the depth axis that the deep-band treatment already uses, and two books one step apart on the same ramp is a weaker signal than two crests |
+
+The practical consequence: **crest motifs are the constraint on how many books can exist, not
+hues.** Three are drawn. Two more are the author's to make, and each one after that buys five more
+book identities.
 
 ---
 

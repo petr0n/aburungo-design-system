@@ -26,21 +26,8 @@ import { AppHeader, Button, Maru, ProgressBar } from '../../src/components'
 import type { AnswerOutcome } from '../../src/components'
 import { Phone, Screen, fromUrl } from './shell'
 
-/**
- * The five books, as a closed set.
- *
- * Declared rather than derived from `BOOKS`. Review on #41 suggested
- * `as const satisfies readonly Book[]` with `BookId` read back off the array,
- * which also removes the cast — but it makes a sixth book widen the union
- * everywhere, silently. Five books is a product decision, not an array length
- * (`docs/book-identity-and-checkpoint-mockups-plan.md` §2), so the declaration
- * is the one that fails loudly when someone adds Book Six without deciding
- * what it is. Either way there is no `as`.
- */
-export type BookId = 'one' | 'two' | 'three' | 'four' | 'five'
-
 export type Book = {
-  id: BookId
+  id: string
   title: string
   level: string
   hue: string
@@ -58,7 +45,28 @@ export type Book = {
   character: string
 }
 
-export const BOOKS: Book[] = [
+/**
+ * The books. **There is deliberately no limit on how many.**
+ *
+ * An earlier version of this file declared `BookId` as a closed five-way union
+ * so a sixth book failed the build. The author's call, 2026-08-21: *"I don't
+ * want a limit on books because this site isn't static."* Books get added; a
+ * type that has to be edited before content can ship is a tax on the thing the
+ * product is for.
+ *
+ * So `BookId` is read back off this array instead. Add an entry and every
+ * surface that keys off a book id — the checkpoint flow's state rail, its deep
+ * links — widens with it, with no second place to edit and still no `as` cast
+ * anywhere. `satisfies` keeps each entry checked against `Book` while leaving
+ * the ids as literals rather than widening them to `string`.
+ *
+ * What does NOT come for free is the identity. See "Where a sixth identity
+ * comes from" in the plan: the hue and the crest are two axes and they
+ * multiply, so book six is an existing hue with a different crest, not a
+ * sixth hue. The palette is five colours with one job each and adding to it
+ * is how a palette stops meaning anything.
+ */
+export const BOOKS = [
   { id: 'one', ink: 'text-stone-900',   title: 'Book One',   level: '~N5', hue: 'rokusho', hueName: 'Rokushō 緑青',
     band: 'bg-accent-rokusho', deep: 'bg-rokusho-900', rule: 'border-rule-on-inverse', tag: 'bg-accent-rokusho-bg text-accent-rokusho-fg',
     crest: 'crest-1', tile: 'tile-sm', character: 'the foundation' },
@@ -74,7 +82,10 @@ export const BOOKS: Book[] = [
   { id: 'five', ink: 'text-fg-inverse',  title: 'Book Five',  level: '~N1', hue: 'sumi', hueName: 'Sumi-iro 墨色',
     band: 'bg-accent-sumi', deep: 'bg-accent-sumi', rule: 'border-rule-on-inverse', tag: 'bg-accent-sumi-bg text-fg',
     crest: 'crest-5', tile: 'tile-lg', character: 'refinement' },
-]
+] as const satisfies readonly Book[]
+
+/** Every id in BOOKS, as a union — derived, so adding a book is one edit. */
+export type BookId = (typeof BOOKS)[number]['id']
 
 /**
  * The book's chrome band. Composed here, not in AppHeader — see the file note.
@@ -378,12 +389,16 @@ const STATES = [
 type StateId = (typeof STATES)[number]['id']
 
 /**
- * One phone, scaled down so five fit on a laptop at once.
+ * One phone, scaled down so a row of them fits on a laptop at once.
  *
  * The comparison is the whole point of this surface, and it does not survive
- * horizontal scrolling — you cannot judge five identities against each other
- * two at a time. `zoom` rather than `transform: scale` so the row still takes
- * its reduced width in layout instead of overlapping.
+ * horizontal scrolling — you cannot judge identities against each other two at
+ * a time. `zoom` rather than `transform: scale` so the row still takes its
+ * reduced width in layout instead of overlapping.
+ *
+ * The row wraps rather than fixing a count. Five fit across at this zoom; there
+ * is no limit on books, so the sixth goes to a second line instead of off the
+ * edge of the page.
  */
 function Slot({ children, label, sub }: { children: React.ReactNode; label: string; sub: string }) {
   return (
@@ -478,7 +493,7 @@ export function BookLab() {
                   chrome, so they are the sharpest test — but a verdict colour
                   has to survive every band it will ever sit under, and two of
                   five cannot show that. */}
-              <div className="flex items-start gap-5">
+              <div className="flex flex-wrap items-start gap-5">
                 {BOOKS.map((b) => (
                   <Slot key={b.id} label={`${b.title} · ${b.hueName}`} sub="book chrome kept">
                     <Phone><Checkpoint book={b} chrome="book" v={v} /></Phone>
@@ -489,7 +504,7 @@ export function BookLab() {
           ))}
         </div>
       ) : (
-        <div className="flex items-start gap-5">
+        <div className="flex flex-wrap items-start gap-5">
           {BOOKS.map((b) => (
             <Slot
               key={b.id}

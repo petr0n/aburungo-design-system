@@ -1474,8 +1474,8 @@ function BookLab() {
         ] }),
         /* @__PURE__ */ jsx24("p", { className: "max-w-prose text-body-sm text-fg-muted", children: v.note })
       ] }),
-      /* @__PURE__ */ jsx24("div", { className: "flex items-start gap-5", children: BOOKS.map((b) => /* @__PURE__ */ jsx24(Slot, { label: `${b.title} \xB7 ${b.hueName}`, sub: "book chrome kept", children: /* @__PURE__ */ jsx24(Phone, { children: /* @__PURE__ */ jsx24(Checkpoint, { book: b, chrome: "book", v }) }) }, b.id)) })
-    ] }, v.id)) }) : /* @__PURE__ */ jsx24("div", { className: "flex items-start gap-5", children: BOOKS.map((b) => /* @__PURE__ */ jsx24(
+      /* @__PURE__ */ jsx24("div", { className: "flex flex-wrap items-start gap-5", children: BOOKS.map((b) => /* @__PURE__ */ jsx24(Slot, { label: `${b.title} \xB7 ${b.hueName}`, sub: "book chrome kept", children: /* @__PURE__ */ jsx24(Phone, { children: /* @__PURE__ */ jsx24(Checkpoint, { book: b, chrome: "book", v }) }) }, b.id)) })
+    ] }, v.id)) }) : /* @__PURE__ */ jsx24("div", { className: "flex flex-wrap items-start gap-5", children: BOOKS.map((b) => /* @__PURE__ */ jsx24(
       Slot,
       {
         label: `${b.title} \xB7 ${b.level}`,
