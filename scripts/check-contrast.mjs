@@ -112,6 +112,29 @@ const CHECKS = [
   ['--color-accent-ai-fg', '--color-accent-ai', TEXT, 'label on the Ai accent'],
   ['--color-accent-rokusho-fg', '--color-accent-rokusho', TEXT, 'label on the Rokusho accent'],
   ['--color-accent-akane-fg', '--color-accent-akane', TEXT, 'label on the Akane accent'],
+  // Sumi joined the accent set 2026-08-21 for Book Five -- as chrome, not a
+  // fifth card accent: the Two-Plane Rule keeps book hues off PhraseCard, so
+  // "the four card accents" above stays exact. Gated on arrival rather than
+  // later: Rokusho's pair shipped ungated for months at 3.19:1, which is the
+  // reason this block exists at all.
+  ['--color-accent-sumi-fg', '--color-accent-sumi', TEXT, 'label on the Sumi accent'],
+  // The verdict marks on their own tinted banner. Ungated until 2026-08-21,
+  // and preview/16-accent-usage.html had recorded error-500 there at 3.98:1 —
+  // a known failure that sat as a note instead of a fix. At the 800 step both
+  // clear comfortably.
+  ['--color-success-500', '--color-success-bg', TEXT, 'correct mark on its banner'],
+  ['--color-error-500', '--color-error-bg', TEXT, 'not-quite mark on its banner'],
+  //
+  // A card ground is deliberately NOT gated against the page, and this is where
+  // that was tested rather than assumed. Adding `accent-sumi-bg vs bg` at 3:1
+  // failed at 1.08:1 -- so every other accent ground was measured, and they run
+  // 1.09 (Ogon) to 1.17 (Ai). The plain card is 1.06:1, the lowest of the lot,
+  // and it is the surface DESIGN.md says "lifts without a shadow".
+  //
+  // Cards in this palette separate by warmth and hue, not by luminance ratio.
+  // A 3:1 bar here flags the system's own foundation -- the same trap as the
+  // raw-px rule check-adherence dropped, which "only ever fired on correct code
+  // and trains people to ignore it". Do not add it back.
   // Non-text indicators — the focus ring has to read on every ground it can
   // land on, which is what made the v3 Ogon ring fail its own review.
   ['--color-focus', '--color-bg', UI, 'focus ring on page'],
@@ -122,11 +145,23 @@ const CHECKS = [
   // Patterned grounds — `.emboss-bg` in src/brand.css.
   //
   // This script reads flat tokens, so it cannot see a background image. The
-  // stand-in below is a measurement: both crests were rendered over page,
-  // card and well at the .35 default, the composited pixels read back, and
-  // the darkest luminance found was 0.5945 (crest-2 on the well). #CACACA
-  // sits at 0.5906 — marginally darker, so checking against it is
-  // conservative.
+  // stand-in below is a measurement: every crest is rendered over page, card
+  // and well, at all three tile sizes, at the .35 default, and the composited
+  // pixels are read back.
+  //
+  // Re-measured 2026-08-21 when crests 3, 4 and 5 were added. Worst case is
+  // still **crest-2 on a well at tile-lg, 0.5879** — the three new tiles are
+  // authored to a lighter weight (see `--alpha` in scripts/make-crest-tile.mjs)
+  // and land at 0.6450, 0.6038 and 0.6038.
+  //
+  // 0.5879 is darker than the #CACACA this used to check against (0.5906), so
+  // the old stand-in was optimistic by a hair. It never hid a failure —
+  // fg-muted, the tightest of the three, measures 4.61:1 there against a 4.5
+  // bar — but a stand-in lighter than the thing it stands in for is the wrong
+  // way round. #C8C8C8 sits at 0.5775, below the true worst.
+  //
+  // The tile size matters and was not swept before: tile-lg holds broad dark
+  // areas that survive downscaling, where tile-sm averages them away.
   //
   // Only the three roles brand.css permits on a pattern are listed.
   // fg-subtle / fg-faint (both stone-500) come to 3.47:1 and are barred by
@@ -134,9 +169,9 @@ const CHECKS = [
   // that leaves the pattern visible can carry them.
   //
   // Re-measure if a crest is added or --emboss-opacity is raised above .35.
-  ['--color-fg', '#CACACA', TEXT, 'body text on a patterned ground'],
-  ['--color-fg-heading', '#CACACA', TEXT, 'heading on a patterned ground'],
-  ['--color-fg-muted', '#CACACA', TEXT, 'secondary text on a patterned ground'],
+  ['--color-fg', '#C8C8C8', TEXT, 'body text on a patterned ground'],
+  ['--color-fg-heading', '#C8C8C8', TEXT, 'heading on a patterned ground'],
+  ['--color-fg-muted', '#C8C8C8', TEXT, 'secondary text on a patterned ground'],
   // `ErrorState`'s panel, added 2026-08-16 when the state stopped being
   // `EmptyState` in a different type size. Its message reuses the pair already
   // gated as "not-quite banner", but the description line is `fg-muted` on the
@@ -153,7 +188,7 @@ const CHECKS = [
   // as `bg-inverse` and the `.glass` border, caught here only because the pair
   // got gated. `error-border` is unchanged and still right for `AnswerResult`,
   // which sits on a card rather than on a crest.
-  ['--color-error-fg', '#CACACA', UI, 'error panel edge on a patterned ground'],
+  ['--color-error-fg', '#C8C8C8', UI, 'error panel edge on a patterned ground'],
   // The `.glass` panel — the only way fg-subtle is allowed over a pattern.
   //
   // #EDEDED stands in for the darkest field measured under the shipped glass

@@ -81,33 +81,59 @@ Book One is entirely about. Akane is the mark and the error state — the loudes
 system — and Book Three is "the wall", the book that has to feel like it costs something. Sumi 墨
 *is* ink, and Book Five is the book that earns its look by giving colour up.
 
-### ⚠️ Unresolved: two of the five hues already mean correct and wrong
+### ✅ Resolved: the verdict moved down the ramp
 
-**Found in review, 2026-08-21. This blocks Phase 2 and nothing before it.**
+**Decided 2026-08-21 by the author, after rendering it.** The five identities stay exactly as they
+are, at their 500 step. **The verdict colours moved instead.**
 
-`DESIGN.md:333` is unambiguous: **"Don't use green or red for anything except answer
-correctness."** The table above assigns Rokushō (green) to Book One and Akane (red) to Book Three,
-as *persistent chrome*. So every page in Book One would carry the colour that means "correct", and
-every page in Book Three the colour that means "wrong".
+`--color-success-500` and `--color-error-500` were hardcoded to `#4F9C8D` and `#D72E2E` — the
+literal Rokushō and Akane brand values, and therefore the literal values Book One and Book Three
+now wear as chrome. A ○ could land in exactly its own header band's colour.
 
-**The Two-Plane Rule below does not cover this.** It separates book identity from *situation*
-accents. Correctness is a third meaning, it lives on the same surfaces, and on a checkpoint it sits
-inches from the chrome — a ✕ in Akane on an Akane band, a ○ in Rokushō on a Rokushō band.
+They point at **Rokushō 800 and Akane 800** now. Same two colours, two steps darker:
 
-Three ways out. **This is the author's call, not one to settle by argument:**
+| | vs its 500 band | on its own tint | on a card |
+|---|---|---|---|
+| Rokushō 800 `#264d46` | 114 apart | 7.61:1 | 9.25:1 |
+| Akane 800 `#6f1616` | 109 apart | 9.53:1 | 11.46:1 |
 
-| | Resolution | Cost |
-|---|---|---|
-| **a** | **The book hue is suppressed on judging surfaces.** A checkpoint drops to neutral chrome — Sumi band, warm stone — and identifies itself by crest and typography alone | Checkpoints look less like their book. But they *should* feel different, and it makes the crest do real work |
-| **b** | Rewrite `DESIGN.md:333` to scope green/red to judging surfaces rather than the whole product | One line, and the collision returns anywhere a verdict appears outside a checkpoint |
-| **c** | Book hues avoid green and red entirely | Only Ai-iro, Ōgon and Sumi are left — three hues for five books, so the hue-per-book decision cannot hold |
+**This also fixed a standing defect.** The 500 glyph on its own tint measured **3.98:1** and failed
+AA — recorded on `preview/16-accent-usage.html` as a note rather than a fix. Both pairs are gated
+now; the contrast gate went 39/42 → 41/44.
 
-**Recommendation: (a).** It is the only one that leaves both `DESIGN.md:333` and the
-hue-per-book decision intact, and it improves the checkpoint rather than merely permitting it —
-a checkpoint that goes quiet when it starts judging is the right instinct anyway. It also matches
-what this plan already concluded for a surface that closes more than one book.
+> **What was tried first, and was wrong.** An earlier pass drafted two new hues — wisteria and
+> decayed-leaf — measured them, cut a third for sitting 55 from Akane, and rendered all three.
+> The author's answer was that the palette already contained the fix. Adding a sixth and seventh
+> colour to resolve a collision between five is how a palette stops meaning anything, and the
+> ramps existed the whole time. **Look at the ramp before drafting a hue.**
 
-Do not build Phase 2's checkpoints until this is settled.
+Rendered at `?flow=books&state=feedback`, before and after, on the two books whose chrome the old
+verdict matched.
+
+### The Band Ink Rule
+
+**Added 2026-08-21, after the identities were rendered.** `AppHeader` draws its title in paper and
+its subtitle in `fg-on-inverse-2`, a muted grey. That works because its band is Sumi — near-black,
+with room underneath. Put the same pair on a mid-tone hue and it collapses: measured across the
+five books, **six of ten labels failed AA**, worst at Book Four's subtitle on **1.02:1**.
+
+> **A book band chooses its ink by luminance, and the subtitle uses the same ink as the title.**
+
+| Band | Ink | title | subtitle |
+|---|---|---|---|
+| Book One · Rokushō | stone-900 | 5.46 | 5.46 |
+| Book Two · Ai-iro | paper | 11.13 | 11.13 |
+| Book Three · Akane | paper | 4.78 | 4.78 |
+| Book Four · Ōgon | stone-900 | 7.25 | 7.25 |
+| Book Five · Sumi | paper | 13.55 | 13.55 |
+
+Both halves are load-bearing. Ink-by-luminance is obvious once measured; **the subtitle sharing it
+is the part that is easy to undo.** There is no muted step that survives on Akane — the grey is
+1.95:1 there — so a "make the subtitle sit back" edit re-breaks it. Hierarchy comes from size and
+weight, which it mostly already did. Dimming with opacity re-spends the contrast this recovers.
+
+**When book chrome becomes a real component, this rule travels with it.** `AppHeader` today takes
+no hue and is correct as it stands; the moment it does, it needs the ink parameter too.
 
 ### The named rule this creates
 
@@ -158,14 +184,21 @@ three crest wirings. Everything else is composition.**
 |---|---|---|
 | A | `--color-accent-sumi` + `-fg` + `-bg` | Sumi-iro is the header band, never an accent. Book Five needs it as one |
 | B | **Crest motifs** | Only **three distinct motifs** exist — `clan-symbol1/2` are the pre-tiled versions of `flower-symbol1/2`, not separate designs. **The author is drawing three more (2026-08-21)**, giving six for five books. The spare is unassigned; if it is meant for the final checkpoint, say so |
-| C | A tile of `clan-symbol-flower` | The blossom has a full-size render and no tile |
-| D | `crest-3/4/5` in `brand.css` | Two are wired |
+| C | ~~A tile of `clan-symbol-flower`~~ | **done 2026-08-21** — `scripts/make-crest-tile.mjs` |
+| D | ~~`crest-3/4/5` in `brand.css`~~ | **done 2026-08-21** — all five wired |
 
 > **B is the author's, not Claude's.** The crests are hand-made in Affinity — `flower-symbol1.afdesign`
 > and `flower-symbol2-tiles.afdesign` are the sources on disk. Per the standing note in
 > [MEMORY.md](/Users/peterabeln/.claude/projects/-Users-peterabeln-Documents-japanese-aburungo-design-system/memory/MEMORY.md):
 > **use the author's asset file directly, never hand-trace it into SVG.** This plan asks for two
 > exported PNGs and does not attempt to generate them.
+>
+> **Update 2026-08-21.** Five slots are now filled from the author's own files, without drawing
+> anything: crest 3 is the blossom, laid out and brought to weight by `make-crest-tile.mjs`;
+> crests 4 and 5 are the flat silhouettes `japanese-flower1 2.png` and `pasted-1779754339988-0.png`
+> with the white keyed out. Those two are the leaf and the clover again — a different *cut* of the
+> same drawing, which reads as a different ground but is not a new motif. **B is still open**, and
+> what it needs is two drawings, not two more derivations.
 
 ---
 
@@ -227,15 +260,21 @@ contrast gate on its book's hue.
 
 | # | Task | Done when |
 |---|---|---|
-| 0.1 | Add `--color-accent-sumi`, `-fg`, `-bg` to `src/tokens.css` | `pnpm build:tokens` propagates to all six harnesses; no hand-edited copy |
-| 0.2 | Gate the new pair in `check-contrast.mjs` alongside the other four | `label on the Sumi accent` passes ≥4.5:1, or ships with a written exception |
-| 0.3 | **Author:** export two new crest motifs + a tile of the blossom | five distinct tiles in `assets/`, greyscale, tile-safe |
-| 0.4 | Wire `crest-3/4/5` in `src/brand.css` | five `.emboss-bg.crest-N` rules; a sandbox page renders all five at `tile-sm` |
-| 0.5 | Re-measure the patterned-ground stand-in with five crests, not two | `#CACACA` still the darkest composited pixel, or the gate's stand-in is updated with the new measurement |
+| 0.1 | ~~Add `--color-accent-sumi`, `-fg`, `-bg` to `src/tokens.css`~~ | **done 2026-08-21.** Aliases `stone-800` — Sumi has no ramp of its own, it *is* the stone scale's 800 step. Propagated to the generated sheet and all five harness `@theme` blocks by `build:tokens` |
+| 0.2 | ~~Gate the new pair in `check-contrast.mjs`~~ | **done 2026-08-21.** `label on the Sumi accent` = **13.55:1**. Gate 38/41 → 39/42. A second check — the card ground against the page — was added, failed at 1.08:1, and was **removed as wrong**: every accent ground measures 1.09–1.17 and the plain card is 1.06, so cards here separate by warmth, not luminance. The measurement is recorded beside the block so it is not re-added |
+| 0.3 | **Author:** export two new crest motifs | **still open.** The blossom tile is done — `scripts/make-crest-tile.mjs` builds it from the full-size render already in `assets/`, on the same diagonal layout as crests 1 and 2. What is still missing is two *motifs*: books four and five wear the solid cut of the leaf and the clover as a stand-in |
+| 0.4 | ~~Wire `crest-3/4/5` in `src/brand.css`~~ | **done 2026-08-21.** Five `.emboss-bg.crest-N` rules, five tiles in `assets/`, five distinct grounds on the lab's `identities` state. `preview/_sandbox/crest-3-4-5.html` renders all five over page and card |
+| 0.5 | ~~Re-measure the patterned-ground stand-in with five crests, not two~~ | **done 2026-08-21.** It did not survive: the worst case is **0.5879** (crest-2 on a well at `tile-lg`), darker than the `#CACACA` the gate checked against (0.5906). Stand-in moved to **`#C8C8C8`** (0.5775). No role ever failed — `fg-muted`, the tightest, measures 4.61:1 there — but a stand-in lighter than the thing it stands in for is the wrong way round |
 
-> 0.5 is not optional. The stand-in in `check-contrast.mjs` is a **measurement** of the two
-> shipped crests — "the darkest luminance found was 0.5945". Three new crests can invalidate it,
-> and the comment beside it already says: *"Re-measure if a crest is added."*
+> 0.5 is not optional, and it paid for itself twice. The stand-in in `check-contrast.mjs` is a
+> **measurement**, and the sweep that re-took it found (a) the old value was optimistic because
+> `tile-lg` had never been swept — a large tile keeps broad dark areas that a small one averages
+> away — and (b) the three new crests came in at 0.4468, 0.3318 and 0.3318 raw, far past the bar.
+>
+> **The three new tiles are brought to weight in the ART, not with a lower `--emboss-opacity`.**
+> `--alpha` in `make-crest-tile.mjs` scales the alpha channel; the opacity knob stays at `.35` for
+> all five. A per-crest opacity default would have fixed the numbers on paper and left the public
+> knob able to undo it at any call site, where the gate cannot see it.
 
 ### Phase 1 — The identity contract
 
@@ -270,11 +309,31 @@ contrast gate on its book's hue.
 | 3.1 | Add every new surface to `check-touch-targets.mjs` | all controls ≥44px, in all five books |
 | 3.2 | Contrast: each book's hue on its own chrome, and on its crest ground | five new pairs in the gate, all passing or explicitly excepted |
 | 3.3 | Add the surfaces to `shots-responsive.mjs` | 0 horizontal overflow at 375/768/1024/1440 |
+| 3.3b | Every book surface renders at **1280** as well as 390 | `?view=desktop` in the flows harness; no surface leaves a dead half-screen |
 | 3.4 | `pnpm verify:plan` grows a Phase-6 block for this plan | this document's own claims are checkable by command |
 
 > 3.4 exists because the last plan recorded a phase complete when it was not, and the failure
 > stood for five days. A plan that cannot be checked by a command is a plan that will make the
 > same mistake.
+
+> **3.3b is new, 2026-08-21, and it is not a formality.** Until that day nothing in this repo had
+> ever rendered a product surface at a desktop width — every flow lived inside a 390px `<Phone>`,
+> and the surfaces `pnpm shots` captured at a 1280 viewport were the *harness page* around a phone,
+> not the product at 1280. The app carries fifteen responsive utilities in total and runs in a
+> browser.
+>
+> The first desktop render found two things. One is fixed: `AppHeader` capped its own band at
+> `max-w-3xl`, so at 1280 the ア mark left the edge of the band and floated in level with the body
+> text. Inert at phone widths, wrong at desktop; the cap is gone and nothing moved on a phone.
+>
+> The other is open and belongs to these 25 surfaces. **A card-shaped screen top-anchors in an
+> 820px frame and leaves the bottom half empty** — the flashcard round and the kana drill are the
+> clearest. The fix is one class on `Screen`'s column in `ui_kits/flows/shell.tsx`:
+> `[justify-content:safe_center]`. `safe` is what makes it correct — it centres when there is room
+> and falls back to top-aligned when the content overflows, so it cannot make the top of a long
+> screen unreachable the way a plain `justify-center` would. It is not applied yet because it
+> changes the vertical position of content on **every phone screen too**, which is a bigger call
+> than a desktop fix and wants looking at rather than assuming.
 
 ---
 
@@ -284,6 +343,7 @@ contrast gate on its book's hue.
 2. 25 surfaces, deep-linkable, built from `src/components` — no mirrors.
 3. Two named rules in `DESIGN.md` and the checkpoint treatment decided from renders.
 4. `--color-accent-sumi` and `crest-3/4/5`, gated.
+4b. A desktop view of every flow, at 1280, in the harness that cannot drift.
 5. A `verify:plan` block so §6's claims are a command, not a reading.
 
 ---

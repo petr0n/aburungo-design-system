@@ -1,9 +1,13 @@
 import { createRoot } from 'react-dom/client'
 import { FLOWS, flowById, renderFlow } from './registry'
 import { RunFlow, fromUrl } from './shell'
+import { BookLab } from './book-lab'
 
 const IDS = FLOWS.map((f) => f.id)
-const current = flowById(fromUrl('flow', IDS, IDS[0]))
+/** The lab is not a flow — it renders five phones at once, so it is its own page. */
+const LAB = 'books'
+const raw = fromUrl('flow', [...IDS, LAB], IDS[0])
+const current = flowById(raw)
 
 /**
  * Flow switcher. A link rather than state, so every flow keeps a shareable URL
@@ -16,15 +20,15 @@ function FlowNav() {
         <span className="mr-2 text-caption font-semibold uppercase tracking-wider text-fg-faint">
           Flows
         </span>
-        {FLOWS.map((flow) => (
+        {[...FLOWS, { id: LAB, label: 'Book lab' }].map((flow) => (
           <a
             key={flow.id}
             href={`?flow=${flow.id}`}
-            aria-current={flow.id === current.id ? 'page' : undefined}
+            aria-current={flow.id === raw ? 'page' : undefined}
             className={[
               'inline-flex min-h-[44px] items-center rounded-lg px-3 text-body-sm font-medium transition-colors',
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
-              flow.id === current.id
+              flow.id === raw
                 ? 'bg-action text-action-fg'
                 : 'text-link active:bg-surface-2',
             ].join(' ')}
@@ -49,6 +53,6 @@ if (host === null) throw new Error('ui_kits/flows: no #root in the host page')
 createRoot(host).render(
   <>
     <FlowNav />
-    {renderFlow(current, (flow) => <RunFlow flow={flow} />)}
+    {raw === LAB ? <BookLab /> : renderFlow(current, (flow) => <RunFlow flow={flow} />)}
   </>,
 )

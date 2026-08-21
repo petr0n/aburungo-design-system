@@ -347,7 +347,7 @@ import { jsx as jsx11, jsxs as jsxs4 } from "react/jsx-runtime";
 function AppHeader({ title, subtitle, left, right, mark = true, progress }) {
   const showMark = mark && left === void 0;
   return /* @__PURE__ */ jsxs4("header", { className: "border-b-[6px] border-rule-on-inverse bg-inverse", children: [
-    /* @__PURE__ */ jsxs4("div", { className: "mx-auto grid min-h-[56px] w-full max-w-3xl grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-2", children: [
+    /* @__PURE__ */ jsxs4("div", { className: "grid min-h-[56px] w-full grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-2", children: [
       /* @__PURE__ */ jsx11("div", { className: "flex items-center", children: showMark ? /* @__PURE__ */ jsx11(
         "span",
         {
@@ -362,7 +362,7 @@ function AppHeader({ title, subtitle, left, right, mark = true, progress }) {
       ] }),
       /* @__PURE__ */ jsx11("div", { className: "flex items-center justify-end", children: right })
     ] }),
-    progress !== void 0 && /* @__PURE__ */ jsx11("div", { className: "mx-auto w-full max-w-3xl px-4 pb-2", children: /* @__PURE__ */ jsx11(ProgressBar, { value: progress, tone: "inverse" }) })
+    progress !== void 0 && /* @__PURE__ */ jsx11("div", { className: "w-full px-4 pb-2", children: /* @__PURE__ */ jsx11(ProgressBar, { value: progress, tone: "inverse" }) })
   ] });
 }
 
@@ -1011,8 +1011,31 @@ function Phone({ children }) {
     }
   );
 }
+function Desk({ children }) {
+  const width = Number(new URLSearchParams(location.search).get("desk"));
+  const w = Number.isFinite(width) && width >= 900 && width <= 1600 ? width : 1280;
+  return /* @__PURE__ */ jsxs16(
+    "div",
+    {
+      "data-desk": true,
+      style: { width: `${w}px` },
+      className: "shrink-0 overflow-hidden rounded-xl border border-border bg-bg shadow-card",
+      children: [
+        /* @__PURE__ */ jsxs16("div", { className: "flex items-center gap-2 border-b border-border bg-surface-2 px-4 py-2", children: [
+          /* @__PURE__ */ jsxs16("span", { className: "flex gap-1.5", "aria-hidden": "true", children: [
+            /* @__PURE__ */ jsx23("i", { className: "h-2.5 w-2.5 rounded-full bg-border" }),
+            /* @__PURE__ */ jsx23("i", { className: "h-2.5 w-2.5 rounded-full bg-border" }),
+            /* @__PURE__ */ jsx23("i", { className: "h-2.5 w-2.5 rounded-full bg-border" })
+          ] }),
+          /* @__PURE__ */ jsx23("span", { className: "mx-auto rounded-sm px-2 text-caption text-fg-faint", children: "aburungo.app" })
+        ] }),
+        /* @__PURE__ */ jsx23("div", { className: "flex h-[820px] flex-col", children })
+      ]
+    }
+  );
+}
 function Screen({ children }) {
-  return /* @__PURE__ */ jsx23("div", { className: "flex flex-1 flex-col gap-5 overflow-y-auto px-4 pb-8 pt-5", children });
+  return /* @__PURE__ */ jsx23("div", { className: "flex flex-1 flex-col overflow-y-auto", children: /* @__PURE__ */ jsx23("div", { className: "mx-auto flex w-full max-w-3xl flex-1 flex-col gap-5 px-4 pb-8 pt-5", children }) });
 }
 var CREST = "emboss-bg crest-1 tile-sm -mx-4 -mt-5 flex flex-1 px-4";
 function PatternedStage({ children }) {
@@ -1025,8 +1048,8 @@ function StateStage({ children }) {
   return /* @__PURE__ */ jsx23("div", { className: `${CREST} items-center justify-center py-10`, children: /* @__PURE__ */ jsx23("div", { className: "w-full", children }) });
 }
 function fromUrl(key, allowed, fallback) {
-  const raw = new URLSearchParams(window.location.search).get(key);
-  return allowed.find((v) => v === raw) ?? fallback;
+  const raw2 = new URLSearchParams(window.location.search).get(key);
+  return allowed.find((v) => v === raw2) ?? fallback;
 }
 function RunFlow({ flow }) {
   const [state, setState] = useState2(
@@ -1036,11 +1059,13 @@ function RunFlow({ flow }) {
       flow.initial
     )
   );
+  const [view, setView] = useState2(fromUrl("view", VIEWS, "phone"));
   const [nonce, setNonce] = useState2(0);
   function go(next) {
     setState(next);
     setNonce((n) => n + 1);
   }
+  const screens = /* @__PURE__ */ jsx23(flow.Screens, { state, go, nonce });
   return /* @__PURE__ */ jsx23(
     FlowPage,
     {
@@ -1049,39 +1074,60 @@ function RunFlow({ flow }) {
       states: flow.states,
       current: state,
       onSelect: go,
-      children: /* @__PURE__ */ jsx23(Phone, { children: /* @__PURE__ */ jsx23(flow.Screens, { state, go, nonce }) })
+      view,
+      onView: setView,
+      children: view === "phone" ? /* @__PURE__ */ jsx23(Phone, { children: screens }) : /* @__PURE__ */ jsx23(Desk, { children: screens })
     }
   );
 }
+var VIEWS = ["phone", "desktop"];
+var RAIL_BUTTON = [
+  "min-h-[44px] rounded-lg border px-4 text-body-sm font-medium transition-colors",
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+].join(" ");
+var RAIL_ON = "border-transparent bg-action text-action-fg";
+var RAIL_OFF = "border-border bg-surface text-fg-muted active:bg-surface-2";
 function FlowPage({
   title,
   blurb,
   states,
   current: current2,
   onSelect,
+  view,
+  onView,
   children
 }) {
-  return /* @__PURE__ */ jsxs16("div", { className: "mx-auto flex w-full max-w-5xl flex-col gap-8 px-6 py-10", children: [
+  const desk = view === "desktop";
+  return /* @__PURE__ */ jsxs16("div", { className: `mx-auto flex w-full flex-col gap-8 px-6 py-10 ${desk ? "max-w-[1400px]" : "max-w-5xl"}`, children: [
     /* @__PURE__ */ jsxs16("header", { className: "flex flex-col gap-2", children: [
       /* @__PURE__ */ jsx23("h1", { className: "text-heading-lg font-semibold text-fg-heading", children: title }),
       /* @__PURE__ */ jsx23("p", { className: "max-w-prose text-body text-fg-subtle", children: blurb })
     ] }),
-    /* @__PURE__ */ jsx23("div", { className: "flex flex-wrap gap-2", children: states.map((s) => /* @__PURE__ */ jsx23(
-      "button",
-      {
-        type: "button",
-        onClick: () => onSelect(s.id),
-        "aria-pressed": current2 === s.id,
-        className: [
-          "min-h-[44px] rounded-lg border px-4 text-body-sm font-medium transition-colors",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg",
-          current2 === s.id ? "border-transparent bg-action text-action-fg" : "border-border bg-surface text-fg-muted active:bg-surface-2"
-        ].join(" "),
-        children: s.label
-      },
-      s.id
-    )) }),
-    /* @__PURE__ */ jsxs16("div", { className: "flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-10", children: [
+    /* @__PURE__ */ jsxs16("div", { className: "flex flex-wrap items-center gap-2", children: [
+      states.map((s) => /* @__PURE__ */ jsx23(
+        "button",
+        {
+          type: "button",
+          onClick: () => onSelect(s.id),
+          "aria-pressed": current2 === s.id,
+          className: `${RAIL_BUTTON} ${current2 === s.id ? RAIL_ON : RAIL_OFF}`,
+          children: s.label
+        },
+        s.id
+      )),
+      /* @__PURE__ */ jsx23("div", { className: "ml-auto flex gap-2", children: VIEWS.map((v) => /* @__PURE__ */ jsx23(
+        "button",
+        {
+          type: "button",
+          onClick: () => onView(v),
+          "aria-pressed": view === v,
+          className: `${RAIL_BUTTON} ${view === v ? RAIL_ON : RAIL_OFF}`,
+          children: v === "phone" ? "Phone 390" : "Desktop 1280"
+        },
+        v
+      )) })
+    ] }),
+    /* @__PURE__ */ jsxs16("div", { className: `flex flex-col gap-4 ${desk ? "" : "sm:flex-row sm:items-start sm:gap-10"}`, children: [
       children,
       /* @__PURE__ */ jsx23("dl", { className: "flex flex-col gap-4 pt-2 text-body-sm", children: states.map((s) => /* @__PURE__ */ jsxs16("div", { className: "flex flex-col", children: [
         /* @__PURE__ */ jsx23(
@@ -2147,28 +2193,310 @@ function renderFlow(entry2, render) {
   return entry2.open(render);
 }
 
-// ui_kits/flows/main.tsx
+// ui_kits/flows/book-lab.tsx
+import { useState as useState6 } from "react";
 import { Fragment as Fragment7, jsx as jsx28, jsxs as jsxs21 } from "react/jsx-runtime";
+var BOOKS = [
+  {
+    id: "one",
+    ink: "text-stone-900",
+    title: "Book One",
+    level: "~N5",
+    hue: "rokusho",
+    hueName: "Rokush\u014D \u7DD1\u9752",
+    band: "bg-accent-rokusho",
+    deep: "bg-rokusho-900",
+    rule: "border-rule-on-inverse",
+    tag: "bg-accent-rokusho-bg text-accent-rokusho-fg",
+    crest: "crest-1",
+    tile: "tile-sm",
+    character: "the foundation"
+  },
+  {
+    id: "two",
+    ink: "text-fg-inverse",
+    title: "Book Two",
+    level: "~N4",
+    hue: "ai",
+    hueName: "Ai-iro \u85CD\u8272",
+    band: "bg-accent-ai",
+    deep: "bg-ai-900",
+    rule: "border-rule-on-inverse",
+    tag: "bg-accent-ai-bg text-fg-heading",
+    crest: "crest-2",
+    tile: "tile-md",
+    character: "the bridge"
+  },
+  {
+    id: "three",
+    ink: "text-fg-inverse",
+    title: "Book Three",
+    level: "~N3",
+    hue: "akane",
+    hueName: "Akane \u831C\u8272",
+    band: "bg-accent-akane",
+    deep: "bg-akane-900",
+    rule: "border-rule-on-inverse",
+    tag: "bg-accent-akane-bg text-error-fg",
+    crest: "crest-3",
+    tile: "tile-sm",
+    character: "the wall"
+  },
+  {
+    id: "four",
+    ink: "text-stone-900",
+    title: "Book Four",
+    level: "~N2",
+    hue: "ogon",
+    hueName: "\u014Cgon \u9EC4\u91D1",
+    band: "bg-accent-ogon",
+    deep: "bg-ogon-900",
+    rule: "border-rule-on-inverse",
+    tag: "bg-accent-ogon-bg text-accent-ogon-fg",
+    crest: "crest-4",
+    tile: "tile-md",
+    character: "register"
+  },
+  {
+    id: "five",
+    ink: "text-fg-inverse",
+    title: "Book Five",
+    level: "~N1",
+    hue: "sumi",
+    hueName: "Sumi-iro \u58A8\u8272",
+    band: "bg-accent-sumi",
+    deep: "bg-accent-sumi",
+    rule: "border-rule-on-inverse",
+    tag: "bg-accent-sumi-bg text-fg",
+    crest: "crest-5",
+    tile: "tile-lg",
+    character: "refinement"
+  }
+];
+function BookBand({ book, title, subtitle, progress, deep = false }) {
+  const ink = deep ? "text-fg-inverse" : book.ink;
+  const darkInk = ink === "text-stone-900";
+  return /* @__PURE__ */ jsxs21("header", { className: `border-b-[6px] ${book.rule} ${deep ? book.deep : book.band}`, children: [
+    /* @__PURE__ */ jsxs21("div", { className: "grid min-h-[56px] grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-2", children: [
+      /* @__PURE__ */ jsx28(
+        "span",
+        {
+          className: "flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent font-jp text-body font-bold text-accent-fg",
+          "aria-hidden": "true",
+          children: "\u30A2"
+        }
+      ),
+      /* @__PURE__ */ jsxs21("div", { className: "text-center", children: [
+        /* @__PURE__ */ jsx28("h1", { className: `text-heading-sm font-semibold ${ink}`, children: title }),
+        subtitle !== void 0 && /* @__PURE__ */ jsx28("p", { className: `text-caption ${ink}`, children: subtitle })
+      ] }),
+      /* @__PURE__ */ jsx28("span", {})
+    ] }),
+    progress !== void 0 && /* @__PURE__ */ jsx28("div", { className: "px-4 pb-2", children: /* @__PURE__ */ jsx28(ProgressBar, { value: progress, tone: darkInk ? "default" : "inverse" }) })
+  ] });
+}
+var VERDICTS = [
+  {
+    id: "before",
+    name: "Before \u2014 the verdict at 500",
+    note: "success-500 was hardcoded #4F9C8D and error-500 #D72E2E: exactly Rokush\u014D and Akane, exactly what Book One and Book Three wear as chrome.",
+    hex: { correct: "#4F9C8D", review: "#D72E2E" }
+  },
+  {
+    id: "after",
+    name: "After \u2014 the verdict at 800",
+    note: "Rokush\u014D 800 and Akane 800. Same two colours, two steps down: 114 and 109 away from the bands in RGB distance, and both finally clear AA on their own tint, where the 500s measured 3.98:1 and failed."
+  }
+];
+var PHRASE = { jp: "\u306F\u3058\u3081\u307E\u3057\u3066", reading: "\u306F\u3058\u3081\u307E\u3057\u3066", en: "Nice to meet you." };
+var MARKS = ["correct", "correct", "review", "correct"];
+function Checkpoint({ book, chrome, v }) {
+  const fb = v?.hex;
+  const banded = chrome === "book";
+  return /* @__PURE__ */ jsxs21(Fragment7, { children: [
+    banded ? /* @__PURE__ */ jsx28(BookBand, { book, title: "Chapter 3", subtitle: "checkpoint" }) : /* @__PURE__ */ jsx28(AppHeader, { title: "Chapter 3", subtitle: "checkpoint" }),
+    /* @__PURE__ */ jsx28(Screen, { children: /* @__PURE__ */ jsxs21("div", { className: `emboss-bg ${book.crest} ${book.tile} -mx-4 -mt-5 flex flex-1 flex-col gap-4 px-4 py-5`, children: [
+      /* @__PURE__ */ jsxs21("div", { className: "glass flex flex-col gap-1", children: [
+        /* @__PURE__ */ jsx28("span", { className: "text-caption font-semibold uppercase tracking-wider text-fg-muted", children: "8 left" }),
+        /* @__PURE__ */ jsx28("p", { className: "text-body-sm text-fg-muted", children: "Everything from this chapter, once each. Misses come back later." })
+      ] }),
+      /* @__PURE__ */ jsxs21("div", { className: "rounded-lg border border-border bg-surface p-5 text-center", children: [
+        /* @__PURE__ */ jsx28("p", { lang: "ja", className: "font-jp text-jp-lg text-fg-heading", children: PHRASE.jp }),
+        /* @__PURE__ */ jsx28("p", { className: "mt-4 text-body-sm text-fg-muted", children: "Which one is this?" }),
+        /* @__PURE__ */ jsx28("div", { className: "mt-3 flex flex-col gap-2", children: ["Nice to meet you.", "See you later.", "Good evening."].map((o, i) => /* @__PURE__ */ jsxs21(
+          "button",
+          {
+            type: "button",
+            className: [
+              "min-h-[44px] rounded-lg border px-4 text-body",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg",
+              i === 0 ? "border-success-border bg-success-bg text-success-fg font-semibold" : "border-border bg-surface text-fg active:bg-surface-2"
+            ].join(" "),
+            children: [
+              i === 0 && (fb ? /* @__PURE__ */ jsx28("span", { "aria-hidden": "true", className: "mr-2", style: { color: fb.correct }, children: "\u25CB" }) : /* @__PURE__ */ jsx28(Maru, { outcome: "correct", className: "mr-2 inline-block" })),
+              o
+            ]
+          },
+          o
+        )) })
+      ] }),
+      /* @__PURE__ */ jsxs21("div", { className: "glass flex items-center gap-3", children: [
+        /* @__PURE__ */ jsx28("span", { className: "text-caption font-semibold uppercase tracking-wider text-fg-muted", children: "So far" }),
+        /* @__PURE__ */ jsx28("div", { className: "flex gap-2", children: MARKS.map((m, i) => fb ? /* @__PURE__ */ jsx28(
+          "span",
+          {
+            "aria-hidden": "true",
+            className: "text-heading-sm",
+            style: { color: m === "correct" ? fb.correct : fb.review },
+            children: m === "correct" ? "\u25CB" : "\u2715"
+          },
+          i
+        ) : /* @__PURE__ */ jsx28(Maru, { outcome: m, className: "text-heading-sm" }, i)) })
+      ] }),
+      /* @__PURE__ */ jsxs21("div", { className: "flex flex-col gap-2", children: [
+        /* @__PURE__ */ jsxs21("div", { className: "rounded-lg border border-success-border bg-success-bg p-3 text-center text-body font-semibold text-success-fg", children: [
+          /* @__PURE__ */ jsx28(
+            "span",
+            {
+              "aria-hidden": "true",
+              className: "mr-2",
+              style: fb ? { color: fb.correct } : void 0,
+              children: "\u25CB"
+            }
+          ),
+          "Correct"
+        ] }),
+        /* @__PURE__ */ jsxs21("div", { className: "rounded-lg border border-error-border bg-error-bg p-3 text-center text-body font-semibold text-error-fg", children: [
+          /* @__PURE__ */ jsx28(
+            "span",
+            {
+              "aria-hidden": "true",
+              className: "mr-2",
+              style: fb ? { color: fb.review } : void 0,
+              children: "\u2715"
+            }
+          ),
+          "Worth another look"
+        ] })
+      ] }),
+      /* @__PURE__ */ jsx28(Button, { variant: "ghost", fullWidth: true, children: "Skip for now" })
+    ] }) })
+  ] });
+}
+function LessonPage({ book, deep = false }) {
+  return /* @__PURE__ */ jsxs21(Fragment7, { children: [
+    /* @__PURE__ */ jsx28(BookBand, { book, title: book.title, subtitle: "Chapter 3 \xB7 4 of 12", progress: 0.33, deep }),
+    /* @__PURE__ */ jsx28(Screen, { children: /* @__PURE__ */ jsxs21("div", { className: `emboss-bg ${book.crest} ${book.tile} -mx-4 -mt-5 flex flex-1 flex-col gap-4 px-4 py-5`, children: [
+      /* @__PURE__ */ jsxs21("div", { className: "glass flex flex-col gap-3", children: [
+        /* @__PURE__ */ jsx28("span", { className: `inline-flex w-fit items-center rounded-sm px-2 py-0.5 text-caption font-bold uppercase tracking-wider ${book.tag}`, children: "Greetings & basics" }),
+        /* @__PURE__ */ jsx28("p", { lang: "ja", className: "font-jp text-jp-display text-fg-heading", children: PHRASE.jp }),
+        /* @__PURE__ */ jsx28("p", { lang: "ja", className: "font-jp text-jp text-action-2-fg", children: PHRASE.reading }),
+        /* @__PURE__ */ jsx28("p", { className: "text-body text-fg", children: PHRASE.en })
+      ] }),
+      /* @__PURE__ */ jsx28(Button, { fullWidth: true, children: "Show answer" }),
+      /* @__PURE__ */ jsxs21("p", { className: "text-center text-caption text-fg-muted", children: [
+        book.hueName,
+        " \xB7 ",
+        book.character
+      ] })
+    ] }) })
+  ] });
+}
+var STATES5 = [
+  { id: "identities", label: "Five identities", note: "a lesson page in each book" },
+  { id: "collision", label: "\u26A0 The collision", note: "book hue ON a judging surface" },
+  { id: "resolved", label: "Resolution (a)", note: "book hue suppressed when judging" },
+  { id: "deep", label: "Deep band (900)", note: "the hue at a step that can carry text" },
+  { id: "feedback", label: "\u2705 Verdict at 800", note: "the same two colours, darker" }
+];
+function Slot({ children, label, sub }) {
+  return /* @__PURE__ */ jsxs21("div", { className: "flex shrink-0 flex-col items-center gap-2", children: [
+    /* @__PURE__ */ jsx28("span", { className: "text-caption font-semibold uppercase tracking-wider text-fg-heading", children: label }),
+    /* @__PURE__ */ jsx28("span", { className: "text-caption text-fg-muted", children: sub }),
+    /* @__PURE__ */ jsx28("div", { style: { zoom: 0.62 }, children })
+  ] });
+}
+function Rail({ current: current2, onSelect }) {
+  return /* @__PURE__ */ jsx28("div", { className: "flex flex-wrap gap-2", children: STATES5.map((s) => /* @__PURE__ */ jsx28(
+    "button",
+    {
+      type: "button",
+      onClick: () => onSelect(s.id),
+      "aria-pressed": current2 === s.id,
+      className: [
+        "min-h-[44px] rounded-lg border px-4 text-body-sm font-medium transition-colors",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg",
+        current2 === s.id ? "border-transparent bg-action text-action-fg" : "border-border bg-surface text-fg-muted active:bg-surface-2"
+      ].join(" "),
+      children: s.label
+    },
+    s.id
+  )) });
+}
+function BookLab() {
+  const [state, setState] = useState6(
+    fromUrl("state", STATES5.map((s) => s.id), "identities")
+  );
+  const note = {
+    identities: "A lesson page in each book. Same content, same components, same layout \u2014 the only thing that changes is the chrome hue, the crest and its density. Five grounds, three motifs: books four and five carry the solid cut of book two\u2019s leaf and book one\u2019s clover.",
+    collision: "Rokush\u014D means \u201Ccorrect\u201D and Akane means \u201Cwrong\u201D. On a checkpoint they are the chrome AND the verdict. Watch the \u25CB against Book One\u2019s band, and the \u2715 against Book Three\u2019s.",
+    resolved: "The book hue steps back when the page starts judging. Sumi band, warm stone, and the book is carried by its crest and type instead \u2014 so correctness colour is the only colour with a job on the screen. Note what this costs: all five look the same.",
+    feedback: "The five identities stay exactly as they are. The verdict moves DOWN THE RAMP instead \u2014 Rokush\u014D 800 and Akane 800, the same two colours two steps darker. Shown on Book One and Book Three, the two books whose chrome the old 500 verdict was identical to.",
+    deep: "The 500 steps are accent values for light grounds and cannot carry white text \u2014 six of ten band labels failed WCAG, Book Four\u2019s subtitle at 1.02:1. At the 900 step every hue clears it, and the band stays One Dark Slab as DESIGN.md requires: a dark slab with a hue, rather than a coloured one."
+  }[state];
+  return /* @__PURE__ */ jsxs21("div", { className: "mx-auto flex w-full max-w-[1800px] flex-col gap-6 px-6 py-8", children: [
+    /* @__PURE__ */ jsxs21("header", { className: "flex flex-col gap-2", children: [
+      /* @__PURE__ */ jsx28("h1", { className: "text-heading-lg font-semibold text-fg-heading", children: "Book identity \u2014 the two open decisions" }),
+      /* @__PURE__ */ jsx28("p", { className: "max-w-prose text-body text-fg-subtle", children: "Rendered rather than described. Each book now carries its own crest and its own tile density \u2014 though only three motifs are drawn, so books four and five wear the solid cut of the leaf and the clover until two more exist." })
+    ] }),
+    /* @__PURE__ */ jsx28(Rail, { current: state, onSelect: setState }),
+    /* @__PURE__ */ jsx28("p", { className: "max-w-prose text-body text-fg", children: note }),
+    state === "feedback" ? /* @__PURE__ */ jsx28("div", { className: "flex flex-col gap-8", children: VERDICTS.map((v) => /* @__PURE__ */ jsxs21("section", { className: "flex flex-col gap-3", children: [
+      /* @__PURE__ */ jsxs21("div", { className: "flex flex-col gap-1", children: [
+        /* @__PURE__ */ jsx28("h2", { className: "text-heading-sm font-semibold text-fg-heading", children: v.name }),
+        /* @__PURE__ */ jsx28("p", { className: "max-w-prose text-body-sm text-fg-muted", children: v.note })
+      ] }),
+      /* @__PURE__ */ jsx28("div", { className: "flex items-start gap-5", children: [BOOKS[0], BOOKS[2]].map((b) => /* @__PURE__ */ jsx28(Slot, { label: `${b.title} \xB7 ${b.hueName}`, sub: "book chrome kept", children: /* @__PURE__ */ jsx28(Phone, { children: /* @__PURE__ */ jsx28(Checkpoint, { book: b, chrome: "book", v }) }) }, b.id)) })
+    ] }, v.id)) }) : /* @__PURE__ */ jsx28("div", { className: "flex items-start gap-5", children: BOOKS.map((b) => /* @__PURE__ */ jsx28(
+      Slot,
+      {
+        label: `${b.title} \xB7 ${b.level}`,
+        sub: state === "resolved" ? "neutral chrome" : state === "deep" ? `${b.hueName} 900` : b.hueName,
+        children: /* @__PURE__ */ jsxs21(Phone, { children: [
+          state === "identities" && /* @__PURE__ */ jsx28(LessonPage, { book: b }),
+          state === "deep" && /* @__PURE__ */ jsx28(LessonPage, { book: b, deep: true }),
+          (state === "collision" || state === "resolved") && /* @__PURE__ */ jsx28(Checkpoint, { book: b, chrome: state === "collision" ? "book" : "neutral" })
+        ] })
+      },
+      b.id
+    )) })
+  ] });
+}
+
+// ui_kits/flows/main.tsx
+import { Fragment as Fragment8, jsx as jsx29, jsxs as jsxs22 } from "react/jsx-runtime";
 var IDS = FLOWS.map((f) => f.id);
-var current = flowById(fromUrl("flow", IDS, IDS[0]));
+var LAB = "books";
+var raw = fromUrl("flow", [...IDS, LAB], IDS[0]);
+var current = flowById(raw);
 function FlowNav() {
-  return /* @__PURE__ */ jsx28("nav", { className: "border-b border-border bg-surface", children: /* @__PURE__ */ jsxs21("div", { className: "mx-auto flex w-full max-w-5xl flex-wrap items-center gap-1 px-6 py-3", children: [
-    /* @__PURE__ */ jsx28("span", { className: "mr-2 text-caption font-semibold uppercase tracking-wider text-fg-faint", children: "Flows" }),
-    FLOWS.map((flow) => /* @__PURE__ */ jsx28(
+  return /* @__PURE__ */ jsx29("nav", { className: "border-b border-border bg-surface", children: /* @__PURE__ */ jsxs22("div", { className: "mx-auto flex w-full max-w-5xl flex-wrap items-center gap-1 px-6 py-3", children: [
+    /* @__PURE__ */ jsx29("span", { className: "mr-2 text-caption font-semibold uppercase tracking-wider text-fg-faint", children: "Flows" }),
+    [...FLOWS, { id: LAB, label: "Book lab" }].map((flow) => /* @__PURE__ */ jsx29(
       "a",
       {
         href: `?flow=${flow.id}`,
-        "aria-current": flow.id === current.id ? "page" : void 0,
+        "aria-current": flow.id === raw ? "page" : void 0,
         className: [
           "inline-flex min-h-[44px] items-center rounded-lg px-3 text-body-sm font-medium transition-colors",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg",
-          flow.id === current.id ? "bg-action text-action-fg" : "text-link active:bg-surface-2"
+          flow.id === raw ? "bg-action text-action-fg" : "text-link active:bg-surface-2"
         ].join(" "),
         children: flow.label
       },
       flow.id
     )),
-    /* @__PURE__ */ jsx28(
+    /* @__PURE__ */ jsx29(
       "a",
       {
         href: "../mobile/",
@@ -2181,8 +2509,8 @@ function FlowNav() {
 var host = document.getElementById("root");
 if (host === null) throw new Error("ui_kits/flows: no #root in the host page");
 createRoot(host).render(
-  /* @__PURE__ */ jsxs21(Fragment7, { children: [
-    /* @__PURE__ */ jsx28(FlowNav, {}),
-    renderFlow(current, (flow) => /* @__PURE__ */ jsx28(RunFlow, { flow }))
+  /* @__PURE__ */ jsxs22(Fragment8, { children: [
+    /* @__PURE__ */ jsx29(FlowNav, {}),
+    raw === LAB ? /* @__PURE__ */ jsx29(BookLab, {}) : renderFlow(current, (flow) => /* @__PURE__ */ jsx29(RunFlow, { flow }))
   ] })
 );
