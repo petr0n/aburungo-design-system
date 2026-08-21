@@ -658,16 +658,16 @@ const ScoreCardStories = {
 
 // ───── AnswerResult ────────────────────────────────────────────────────
 const AnswerResultStories = {
-  Recalled: {
+  Correct: {
     render: () => (
       <div className="w-full max-w-sm">
-        <AnswerResult outcome="recalled">
+        <AnswerResult outcome="correct">
           <p lang="ja" className="font-jp text-jp-lg text-fg">お願いします</p>
           <p lang="ja" className="font-jp text-jp text-fg-muted">おねがいします</p>
         </AnswerResult>
       </div>
     ),
-    code: () => `<AnswerResult outcome="recalled">
+    code: () => `<AnswerResult outcome="correct">
   <p lang="ja" className="font-jp text-jp-lg text-fg">お願いします</p>
   <p lang="ja" className="font-jp text-jp text-fg-muted">おねがいします</p>
 </AnswerResult>`,
@@ -697,11 +697,11 @@ const AnswerResultStories = {
   'Maru on its own': {
     render: () => (
       <div className="flex items-center gap-6 text-heading">
-        <Maru outcome="recalled"/>
+        <Maru outcome="correct"/>
         <Maru outcome="review"/>
       </div>
     ),
-    code: () => `<Maru outcome="recalled"/>
+    code: () => `<Maru outcome="correct"/>
 <Maru outcome="review"/>`,
   },
 };

@@ -56,7 +56,7 @@ Session start, pronunciation, and progress are still to come.
 | `?state=kana` | the whole card plus the keyboard — the fit test |
 | `?state=system` | device IME, with the how-to hint |
 | `?state=speak` | `VoiceInput`, on a screen for the first time |
-| `?state=recalled` / `review` | `AnswerResult` in its real context |
+| `?state=correct` / `review` | `AnswerResult` in its real context |
 | `?state=loading` / `empty` / `error` | the three non-happy states |
 
 ## Deep links

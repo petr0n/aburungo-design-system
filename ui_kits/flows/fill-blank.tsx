@@ -197,7 +197,7 @@ function CheckedScreen({ outcome, onNext }: { outcome: AnswerOutcome; onNext: ()
       <Screen>
         <AnswerResult
           outcome={outcome}
-          userAnswer={outcome === 'recalled' ? undefined : 'えきはどくですか'}
+          userAnswer={outcome === 'correct' ? undefined : 'えきはどくですか'}
         >
           <p lang="ja" className="font-jp text-jp-lg text-fg-heading">
             {CARD.japanese}
@@ -220,7 +220,7 @@ function CheckedScreen({ outcome, onNext }: { outcome: AnswerOutcome; onNext: ()
 type StateId =
   | 'romaji' | 'kana' | 'system'
   | 'speak' | 'listening' | 'processing' | 'voice-error'
-  | 'recalled' | 'review'
+  | 'correct' | 'review'
   | 'loading' | 'empty' | 'error'
 
 const STATES: readonly FlowState<StateId>[] = [
@@ -231,7 +231,7 @@ const STATES: readonly FlowState<StateId>[] = [
   { id: 'listening', label: 'Speak · recording', note: 'was Akane — the error colour — now its own role' },
   { id: 'processing', label: 'Speak · processing', note: 'transcribing' },
   { id: 'voice-error', label: 'Speak · failed', note: 'the state recording used to be confused with' },
-  { id: 'recalled', label: 'Recalled', note: 'AnswerResult in its real context' },
+  { id: 'correct', label: 'Correct', note: 'AnswerResult in its real context' },
   { id: 'review', label: 'Not quite', note: 'with the answer the learner gave' },
   { id: 'loading', label: 'Loading', note: 'card being fetched' },
   { id: 'empty', label: 'Empty', note: 'nothing due' },
@@ -271,10 +271,10 @@ export const fillFlow: FlowDef<StateId> = {
           startMode="romaji"
           startChannel="voice"
           startVoice={VOICE[state]}
-          onSubmit={() => go('recalled')}
+          onSubmit={() => go('correct')}
         />
       )}
-      {state === 'recalled' && <CheckedScreen outcome="recalled" onNext={() => go('romaji')} />}
+      {state === 'correct' && <CheckedScreen outcome="correct" onNext={() => go('romaji')} />}
       {state === 'review' && <CheckedScreen outcome="review" onNext={() => go('romaji')} />}
       {state === 'loading' && (
         <>

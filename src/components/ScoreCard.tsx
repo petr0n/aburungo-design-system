@@ -18,7 +18,7 @@ type Props = {
   correct: number
   total: number
   /**
-   * Label beneath the count. Defaults to "recalled" — the approved wording.
+   * Label beneath the count. Defaults to "correct" — the approved wording since 2026-08-21.
    * "correct" is verdict prose and is not used anywhere in the product.
    */
   label?: string
@@ -42,7 +42,7 @@ const TONE: Record<ScoreTone, { box: string; num: string; sub: string }> = {
   ai:      { box: 'border-transparent bg-accent-ai',                   num: 'text-accent-ai-fg',      sub: 'text-accent-ai-fg' },
 }
 
-export function ScoreCard({ correct, total, label = "recalled", tone = 'plain', children }: Props) {
+export function ScoreCard({ correct, total, label = "correct", tone = 'plain', children }: Props) {
   const t = TONE[tone]
 
   return (

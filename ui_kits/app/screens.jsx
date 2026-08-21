@@ -535,7 +535,7 @@ function ReviewApp({ onExit }) {
                           'text-body-lg font-semibold',
                           correct ? 'text-success-fg' : 'text-error-fg',
                         ].join(' ')}>
-                          {correct ? 'Recalled!' : 'Not quite'}
+                          {correct ? 'Correct' : 'Not quite'}
                         </p>
                       </div>
                       <div className="flex flex-col items-center gap-1 rounded-xl bg-surface p-5 text-center">

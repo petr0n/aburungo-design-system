@@ -170,7 +170,7 @@ function ChoiceTile({
   onPick: () => void
 }) {
   const state =
-    outcome === 'recalled'
+    outcome === 'correct'
       ? 'border-success-border bg-success-bg text-success-fg'
       : outcome === 'review'
         ? 'border-error-border bg-error-bg text-error-fg'
@@ -216,7 +216,7 @@ function DrillScreen({
   function pick(choice: string) {
     if (picked !== null) return
     setPicked(choice)
-    setMarks([...marks, choice === card.romaji ? 'recalled' : 'review'])
+    setMarks([...marks, choice === card.romaji ? 'correct' : 'review'])
   }
 
   function next() {
@@ -231,7 +231,7 @@ function DrillScreen({
   /** null until answered; then ○ on the right one and ✕ on the wrong pick. */
   function outcomeFor(choice: string): AnswerOutcome | null {
     if (picked === null) return null
-    if (choice === card.romaji) return 'recalled'
+    if (choice === card.romaji) return 'correct'
     if (choice === picked) return 'review'
     return null
   }
@@ -327,14 +327,14 @@ function KeyboardScreen({ onDone }: { onDone: () => void }) {
 // ─── Result ────────────────────────────────────────────────────────────────
 
 function ResultScreen({ marks, onAgain }: { marks: AnswerOutcome[]; onAgain: () => void }) {
-  const recalled = marks.filter((m) => m === 'recalled').length
+  const correct = marks.filter((m) => m === 'correct').length
 
   return (
     <>
       <AppHeader title="Round complete" subtitle={`${DECK.length} kana`} progress={1} />
       <Screen>
         <ScoreCard
-          correct={recalled}
+          correct={correct}
           total={DECK.length}
           tone="rokusho"
         >
@@ -376,7 +376,7 @@ const STATES: readonly FlowState<StateId>[] = [
   { id: 'error', label: 'Error', note: 'load failed' },
 ]
 
-const SAMPLE_MARKS: AnswerOutcome[] = ['recalled', 'review', 'recalled', 'recalled']
+const SAMPLE_MARKS: AnswerOutcome[] = ['correct', 'review', 'correct', 'correct']
 
 export const kanaFlow: FlowDef<StateId> = {
   id: 'kana',

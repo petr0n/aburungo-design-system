@@ -52,8 +52,9 @@ design-system representation at all.
 2. **Furigana everywhere** outside `/kanji`. Every Japanese string with kanji renders `<ruby>`.
 3. **Skip is always available** on any assessment surface. It is the relief valve.
 
-Copy follows the existing vocabulary: **"recalled"** not "correct", **"worth another look"** not
-"missed". The product never tells a learner they failed.
+Copy follows the existing vocabulary: **"correct"** and **"worth another look"** — not "wrong",
+"incorrect", "failed" or "missed". ("Correct" replaced "recalled" on 2026-08-21.) The product
+never tells a learner they failed.
 
 ---
 
@@ -62,15 +63,20 @@ Copy follows the existing vocabulary: **"recalled"** not "correct", **"worth ano
 **Decided 2026-08-21 by the author: a book is a hue *and* a crest.** Two axes, so neither carries
 the identity alone.
 
-| Book | Character (from the app's plans) | Hue | Crest |
-|---|---|---|---|
-| **One** — the foundation | prove the method, build the habit | Rokushō 緑青 | trefoil (`crest-1`) |
-| **Two** — the bridge | recognition becomes production | Ai-iro 藍色 | kaji leaf (`crest-2`) |
-| **Three** — the flagship | the intermediate wall | Akane 茜色 | **to draw** |
-| **Four** — register | what a form *signals*, not means | Ōgon 黄金 | five-petal blossom |
-| **Five** — refinement | near-native, nuance, idiom | Sumi-iro 墨色 | **to draw** |
+| Book | ~ | Character (from the app's plans) | Hue | Crest |
+|---|---|---|---|---|
+| **One** — the foundation | N5 | prove the method, build the habit | Rokushō 緑青 | trefoil (`crest-1`) |
+| **Two** — the bridge | N4 | recognition becomes production | Ai-iro 藍色 | kaji leaf (`crest-2`) |
+| **Three** — the flagship | N3 | the intermediate wall | Akane 茜色 | **to draw** |
+| **Four** — register | N2 | what a form *signals*, not means | Ōgon 黄金 | five-petal blossom |
+| **Five** — refinement | N1 | near-native, nuance, idiom | Sumi-iro 墨色 | **to draw** |
 
-The ordering is not arbitrary. Rokushō already means *progress and correctness*, which is what
+The `~` column is the JLPT level each book *loosely* corresponds to — Book One is semi-related to
+N5, Book Two is like N4, and so on. **It is internal only.** A learner never reads it, the app's
+plans are explicit that this is "the invisible skeleton", and no surface in this plan renders it.
+It is here so the reader knows which book maps to which existing content and nothing more.
+
+The hue ordering is not arbitrary. Rokushō already means *progress and correctness*, which is what
 Book One is entirely about. Akane is the mark and the error state — the loudest colour in the
 system — and Book Three is "the wall", the book that has to feel like it costs something. Sumi 墨
 *is* ink, and Book Five is the book that earns its look by giving colour up.
@@ -155,31 +161,28 @@ Patterned Ground Rule, `DESIGN.md`). Checkpoints obey that like every other surf
 watermark behind a result, a badge next to a mark. Do not do that on a judging surface. Tiled
 grounds are fine.
 
-## 5. The 22 surfaces
+## 5. The 25 surfaces
 
-Per book, four surfaces — enough to show the variation rule, not just five static looks:
+**Five per book. Decided 2026-08-21: every book ends in its own final checkpoint** — there is no
+separate page closing the whole course.
 
 | Surface | What it proves |
 |---|---|
 | **Chapter opener** | The book's thesis. Where `.wm` / `.kata-vert` / `.frame` earn their keep |
 | **Lesson page, early chapter** | The everyday page |
 | **Lesson page, later chapter** | Same rules, different chapter — the "similar but not identical" test |
-| **Chapter checkpoint** | The recognition gate, in that book's identity |
+| **Chapter checkpoint** | The recognition gate that closes a chapter, in that book's identity |
+| **Final checkpoint** | The production gate that closes the **book**. Writes from English rather than picking from a line-up — a different skill, which is why it is its own kind and not a harder recognition round |
 
-Plus, once:
+**5 × 5 = 25.**
 
-| Surface | What it proves |
-|---|---|
-| **Book checkpoint** (production) | Closing a book, not a chapter. Writes from English rather than picking from a line-up |
-| **Final checkpoint** | Closing the course. The only surface with no book identity to wear — see §8 |
+The last two are the point of the exercise. A chapter checkpoint arrives ten times in a book and a
+final checkpoint once, so they must feel different in weight while staying obviously the same book
+— the same problem as the two lesson pages, one level up.
 
-**5 × 4 + 2 = 22.**
-
-Two surfaces do double duty as regressions: a lesson page must still hold `PhraseCard`'s situation
-accent (proving the Two-Plane Rule), and a checkpoint must still measure ≥44px on every control
-and clear the contrast gate on the book's hue.
-
----
+Two surfaces double as regressions: a lesson page must still hold `PhraseCard`'s situation accent
+(proving the Two-Plane Rule), and every checkpoint must clear ≥44px on all controls and pass the
+contrast gate on its book's hue.
 
 ## 6. Phases
 
@@ -221,8 +224,7 @@ and clear the contrast gate on the book's hue.
 | 2.1 | Chapter opener, all five books | deep-linkable `?book=three&surface=opener`; the four unused brand utilities have a consumer |
 | 2.2 | Lesson page, early + late chapter, all five | ten surfaces; the only difference within a book is density/opacity |
 | 2.3 | Chapter checkpoint, all five | carries its book's crest and hue like any other page (§4); shows a shrinking set, never a score |
-| 2.4 | Book checkpoint (production) | shows a shrinking set, never a score |
-| 2.5 | Final checkpoint | see §8 — needs a decision before it can be built |
+| 2.4 | Final checkpoint, all five books | shows a shrinking set, never a score; reads heavier than a chapter checkpoint without leaving the book's identity |
 
 ### Phase 3 — Gate it
 
@@ -249,47 +251,29 @@ and clear the contrast gate on the book's hue.
 
 ---
 
-## 8. Open questions
+## 8. Decisions taken, and the one thing still to settle
 
-**Answer these before Phase 2.5. Everything else can start.**
+All three of the questions this plan originally carried have been answered.
 
-1. **What does "final checkpoint page" mean?** The original ask reads *"a checkpoint page for
-   each book and final checkpoint page"*, and that is genuinely two-ways ambiguous. Either:
+1. ~~**What does "final checkpoint page" mean?**~~ — **answered 2026-08-21: the last checkpoint
+   inside a book, and every book has one.** There is no separate page closing the whole course, so
+   the Hana question below it never arises: a book-closing checkpoint is a `production` gate, which
+   needs no Hana. The surface count is 25, not 22, because the final checkpoint is per book rather
+   than once.
 
-   - **(a) the last checkpoint inside a book** — the production checkpoint that closes Book Three,
-     say. In which case it is already covered by the per-book checkpoint in §5 and there is nothing
-     more to design; or
-   - **(b) one page that closes the whole course**, after Book Five.
-
-   This plan assumes **(b)** and designs it as a distinct surface. If it is (a), delete Phase 2.5
-   and the surface count drops from 22 to 21.
-
-2. **If it is (b): what does that page actually do?** Both checkpoint kinds that could close a
-   course — `conversation` and `can-do` — work by handing the learner to **Hana**, which DR-023
-   shelved. So the page has a purpose and no mechanism.
-
-   **Recommendation: a can-do summary, not an assessment.** "Here is everything you can now do,"
-   drawn from the situations the learner has actually seen. DR-022 already derives that list from
-   seen situations rather than a declared one, so the data exists with Hana switched off. Closing
-   an entire course on a *verdict* would also breach DR-020 more loudly than closing a chapter on
-   one does.
-
-   **And it wears no book identity.** It closes five books, so wearing one book's hue is simply
-   wrong. The hanko on warm stone and nothing else — the only surface in the product with no book,
-   which is exactly what should make it read as an ending.
-
-3. ~~**Does Book One go last, being live?**~~ — **answered 2026-08-21: it goes FIRST.** The
-   original reasoning here was "it ships, so changing it is visible" — which is hollow, because
-   `CLAUDE.md` records this as pre-alpha with no public users. There is nothing to disturb.
+2. ~~**Does Book One go last, being live?**~~ — **answered: it goes FIRST**, and the author agrees.
+   The original reasoning here was "it ships, so changing it is visible", which is hollow —
+   `CLAUDE.md` records this as pre-alpha with no public users.
 
    The argument runs the other way. **Book One is the only book with content**: 11 chapters, 93
    lessons, 451 words, 207 phrases. `grep "jlpt: N4" src/content/` returns nothing, and the same
    holds for N3–N1. Every other book can only be mocked with invented text, which would let the
    identity system look good against copy chosen to flatter it. Build Book One's identity against
-   real Japanese, real lesson lengths and real chapter titles; then apply what survived to four
-   books that do not exist yet.
+   real Japanese, real lesson lengths and real chapter titles; then apply what survived.
 
----
+3. **Still to settle: the sixth crest.** The author is drawing three more motifs, giving six for
+   five books. The spare is unassigned. It does not block anything — assign it when the motifs
+   exist and one of them turns out to want a job.
 
 ## 9. Explicitly out of scope
 

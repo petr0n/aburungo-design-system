@@ -89,13 +89,13 @@ function Round({ onExhausted, from }: { onExhausted: () => void; from: Step }) {
   const [step, setStep] = useState<Step>(from)
   const [marks, setMarks] = useState<AnswerOutcome[]>(
     // A summary linked to directly needs a round behind it.
-    from === 'summary' ? ['recalled', 'review', 'recalled', 'recalled'] : [],
+    from === 'summary' ? ['correct', 'review', 'correct', 'correct'] : [],
   )
   const [audio, setAudio] = useState<'idle' | 'loading' | 'playing'>('idle')
 
   const phrase = PHRASES[index]
   const done = marks.length
-  const recalled = marks.filter((m) => m === 'recalled').length
+  const correct = marks.filter((m) => m === 'correct').length
 
   function grade(outcome: AnswerOutcome) {
     const next = [...marks, outcome]
@@ -120,7 +120,7 @@ function Round({ onExhausted, from }: { onExhausted: () => void; from: Step }) {
         <AppHeader title="Round complete" subtitle={`${PHRASES.length} phrases`} progress={1} />
         <Screen>
           <ScoreCard
-            correct={recalled}
+            correct={correct}
             total={PHRASES.length}
             tone="rokusho"
           >
@@ -291,7 +291,7 @@ function CheckedScreen() {
         <Button
           variant="secondary"
           fullWidth
-          onClick={() => setOutcome(outcome === 'review' ? 'recalled' : 'review')}
+          onClick={() => setOutcome(outcome === 'review' ? 'correct' : 'review')}
         >
           Toggle outcome
         </Button>

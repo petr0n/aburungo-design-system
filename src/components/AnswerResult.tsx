@@ -30,12 +30,12 @@ type AnswerResultProps = {
 }
 
 const BANNER_CLASSES: Record<AnswerOutcome, string> = {
-  recalled: 'bg-success-bg border border-success-border',
+  correct: 'bg-success-bg border border-success-border',
   review:   'bg-error-bg border border-error-border',
 }
 
 const TEXT_CLASSES: Record<AnswerOutcome, string> = {
-  recalled: 'text-success-fg',
+  correct: 'text-success-fg',
   review:   'text-error-fg',
 }
 
@@ -48,7 +48,7 @@ const TEXT_CLASSES: Record<AnswerOutcome, string> = {
  * happens next — the word resurfaces sooner — not in hedged wording here.
  */
 const HEADLINE: Record<AnswerOutcome, string> = {
-  recalled: 'Recalled!',
+  correct: 'Correct',
   review:   'Not quite',
 }
 

@@ -458,7 +458,7 @@ var TONE = {
   rokusho: { box: "border-accent-rokusho bg-accent-rokusho-bg", num: "text-success-fg", sub: "text-success-fg" },
   ai: { box: "border-transparent bg-accent-ai", num: "text-accent-ai-fg", sub: "text-accent-ai-fg" }
 };
-function ScoreCard({ correct, total, label = "recalled", tone = "plain", children }) {
+function ScoreCard({ correct, total, label = "correct", tone = "plain", children }) {
   const t = TONE[tone];
   return /* @__PURE__ */ jsxs8("div", { className: "flex flex-col gap-6", children: [
     /* @__PURE__ */ jsxs8("div", { className: `rounded-2xl border p-6 text-center ${t.box}`, children: [
@@ -950,15 +950,15 @@ function FillInput({
 // src/components/Maru.tsx
 import { jsx as jsx20, jsxs as jsxs13 } from "react/jsx-runtime";
 var GLYPH = {
-  recalled: "\u25CB",
+  correct: "\u25CB",
   review: "\u2715"
 };
 var OUTCOME_CLASSES = {
-  recalled: "text-success-fg",
+  correct: "text-success-fg",
   review: "text-error-fg"
 };
 var DEFAULT_LABEL = {
-  recalled: "recalled",
+  correct: "correct",
   review: "worth another look"
 };
 function Maru(props) {
@@ -977,15 +977,15 @@ function Maru(props) {
 // src/components/AnswerResult.tsx
 import { jsx as jsx21, jsxs as jsxs14 } from "react/jsx-runtime";
 var BANNER_CLASSES = {
-  recalled: "bg-success-bg border border-success-border",
+  correct: "bg-success-bg border border-success-border",
   review: "bg-error-bg border border-error-border"
 };
 var TEXT_CLASSES = {
-  recalled: "text-success-fg",
+  correct: "text-success-fg",
   review: "text-error-fg"
 };
 var HEADLINE = {
-  recalled: "Recalled!",
+  correct: "Correct",
   review: "Not quite"
 };
 function AnswerResult({ outcome, userAnswer, children }) {
@@ -1004,7 +1004,7 @@ function AnswerResult({ outcome, userAnswer, children }) {
 // src/components/GradePair.tsx
 import { jsx as jsx22, jsxs as jsxs15 } from "react/jsx-runtime";
 var LABEL = {
-  recalled: "Recalled",
+  correct: "Correct",
   review: "Worth another look"
 };
 function GradePair({ onGrade, disabled = false }) {
@@ -1016,10 +1016,10 @@ function GradePair({ onGrade, disabled = false }) {
         tone: "success",
         fullWidth: true,
         disabled,
-        onClick: () => onGrade("recalled"),
+        onClick: () => onGrade("correct"),
         children: [
-          /* @__PURE__ */ jsx22(Maru, { outcome: "recalled", className: "text-heading-sm" }),
-          LABEL.recalled
+          /* @__PURE__ */ jsx22(Maru, { outcome: "correct", className: "text-heading-sm" }),
+          LABEL.correct
         ]
       }
     ),
@@ -1104,12 +1104,12 @@ function Round({ onExhausted, from }) {
   const [step, setStep] = useState3(from);
   const [marks, setMarks] = useState3(
     // A summary linked to directly needs a round behind it.
-    from === "summary" ? ["recalled", "review", "recalled", "recalled"] : []
+    from === "summary" ? ["correct", "review", "correct", "correct"] : []
   );
   const [audio, setAudio] = useState3("idle");
   const phrase = PHRASES[index];
   const done = marks.length;
-  const recalled = marks.filter((m) => m === "recalled").length;
+  const correct = marks.filter((m) => m === "correct").length;
   function grade(outcome) {
     const next = [...marks, outcome];
     setMarks(next);
@@ -1132,7 +1132,7 @@ function Round({ onExhausted, from }) {
         /* @__PURE__ */ jsx24(
           ScoreCard,
           {
-            correct: recalled,
+            correct,
             total: PHRASES.length,
             tone: "rokusho",
             children: /* @__PURE__ */ jsx24("ul", { className: "flex flex-col gap-2", children: marks.map((outcome, i) => /* @__PURE__ */ jsxs17(
@@ -1259,7 +1259,7 @@ function CheckedScreen() {
         {
           variant: "secondary",
           fullWidth: true,
-          onClick: () => setOutcome(outcome === "review" ? "recalled" : "review"),
+          onClick: () => setOutcome(outcome === "review" ? "correct" : "review"),
           children: "Toggle outcome"
         }
       )
@@ -1585,7 +1585,7 @@ function CheckedScreen2({ outcome, onNext }) {
         AnswerResult,
         {
           outcome,
-          userAnswer: outcome === "recalled" ? void 0 : "\u3048\u304D\u306F\u3069\u304F\u3067\u3059\u304B",
+          userAnswer: outcome === "correct" ? void 0 : "\u3048\u304D\u306F\u3069\u304F\u3067\u3059\u304B",
           children: [
             /* @__PURE__ */ jsx25("p", { lang: "ja", className: "font-jp text-jp-lg text-fg-heading", children: CARD.japanese }),
             /* @__PURE__ */ jsx25("p", { lang: "ja", className: "font-jp text-jp text-action-2-fg", children: CARD.reading }),
@@ -1605,7 +1605,7 @@ var STATES2 = [
   { id: "listening", label: "Speak \xB7 recording", note: "was Akane \u2014 the error colour \u2014 now its own role" },
   { id: "processing", label: "Speak \xB7 processing", note: "transcribing" },
   { id: "voice-error", label: "Speak \xB7 failed", note: "the state recording used to be confused with" },
-  { id: "recalled", label: "Recalled", note: "AnswerResult in its real context" },
+  { id: "correct", label: "Correct", note: "AnswerResult in its real context" },
   { id: "review", label: "Not quite", note: "with the answer the learner gave" },
   { id: "loading", label: "Loading", note: "card being fetched" },
   { id: "empty", label: "Empty", note: "nothing due" },
@@ -1639,10 +1639,10 @@ var fillFlow = {
           startMode: "romaji",
           startChannel: "voice",
           startVoice: VOICE[state],
-          onSubmit: () => go("recalled")
+          onSubmit: () => go("correct")
         }
       ),
-      state === "recalled" && /* @__PURE__ */ jsx25(CheckedScreen2, { outcome: "recalled", onNext: () => go("romaji") }),
+      state === "correct" && /* @__PURE__ */ jsx25(CheckedScreen2, { outcome: "correct", onNext: () => go("romaji") }),
       state === "review" && /* @__PURE__ */ jsx25(CheckedScreen2, { outcome: "review", onNext: () => go("romaji") }),
       state === "loading" && /* @__PURE__ */ jsxs18(Fragment4, { children: [
         /* @__PURE__ */ jsx25(AppHeader, { title: "Fill in the blank", subtitle: "Loading", progress: 0 }),
@@ -1794,7 +1794,7 @@ function ChoiceTile({
   answered,
   onPick
 }) {
-  const state = outcome === "recalled" ? "border-success-border bg-success-bg text-success-fg" : outcome === "review" ? "border-error-border bg-error-bg text-error-fg" : answered ? "border-border bg-surface text-fg-subtle" : "border-border bg-surface text-fg active:bg-surface-2";
+  const state = outcome === "correct" ? "border-success-border bg-success-bg text-success-fg" : outcome === "review" ? "border-error-border bg-error-bg text-error-fg" : answered ? "border-border bg-surface text-fg-subtle" : "border-border bg-surface text-fg active:bg-surface-2";
   return /* @__PURE__ */ jsxs19(
     "button",
     {
@@ -1826,7 +1826,7 @@ function DrillScreen({
   function pick(choice) {
     if (picked !== null) return;
     setPicked(choice);
-    setMarks([...marks, choice === card.romaji ? "recalled" : "review"]);
+    setMarks([...marks, choice === card.romaji ? "correct" : "review"]);
   }
   function next() {
     if (index + 1 < DECK.length) {
@@ -1838,7 +1838,7 @@ function DrillScreen({
   }
   function outcomeFor(choice) {
     if (picked === null) return null;
-    if (choice === card.romaji) return "recalled";
+    if (choice === card.romaji) return "correct";
     if (choice === picked) return "review";
     return null;
   }
@@ -1903,14 +1903,14 @@ function KeyboardScreen({ onDone }) {
   ] });
 }
 function ResultScreen({ marks, onAgain }) {
-  const recalled = marks.filter((m) => m === "recalled").length;
+  const correct = marks.filter((m) => m === "correct").length;
   return /* @__PURE__ */ jsxs19(Fragment5, { children: [
     /* @__PURE__ */ jsx26(AppHeader, { title: "Round complete", subtitle: `${DECK.length} kana`, progress: 1 }),
     /* @__PURE__ */ jsxs19(Screen, { children: [
       /* @__PURE__ */ jsx26(
         ScoreCard,
         {
-          correct: recalled,
+          correct,
           total: DECK.length,
           tone: "rokusho",
           children: /* @__PURE__ */ jsx26("ul", { className: "flex flex-col gap-2", children: marks.map((outcome, i) => /* @__PURE__ */ jsxs19(
@@ -1941,7 +1941,7 @@ var STATES3 = [
   { id: "empty", label: "Empty", note: "every kana settled" },
   { id: "error", label: "Error", note: "load failed" }
 ];
-var SAMPLE_MARKS = ["recalled", "review", "recalled", "recalled"];
+var SAMPLE_MARKS = ["correct", "review", "correct", "correct"];
 var kanaFlow = {
   id: "kana",
   label: "Kana practice",
