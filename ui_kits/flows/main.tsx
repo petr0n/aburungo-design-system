@@ -25,7 +25,18 @@ const missing = asked !== null && asked !== '' && asked !== raw ? asked : null
 function MissingFlow({ id }: { id: string }) {
   return (
     <div className="mx-auto w-full max-w-5xl px-6 pt-6">
-      <div className="flex flex-col gap-2 rounded-lg border border-error-fg bg-error-bg px-5 py-4">
+      {/* `role="alert"` because the whole point of this notice is that the page
+          is NOT showing what was asked for. Reading the surface without being
+          told that is the silent failure, and it is silent for a screen reader
+          whether or not the notice is on screen.
+
+          Assertive rather than `role="status"`, which `LoadingPlaceholder`
+          uses: that one reports progress on the thing you asked for, this one
+          says you are looking at something else. */}
+      <div
+        role="alert"
+        className="flex flex-col gap-2 rounded-lg border border-error-fg bg-error-bg px-5 py-4"
+      >
         <p className="text-body font-semibold text-error-fg">
           No surface called “{id}” in this bundle
         </p>
