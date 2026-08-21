@@ -26,8 +26,21 @@ import { AppHeader, Button, Maru, ProgressBar } from '../../src/components'
 import type { AnswerOutcome } from '../../src/components'
 import { Phone, Screen, fromUrl } from './shell'
 
+/**
+ * The five books, as a closed set.
+ *
+ * Declared rather than derived from `BOOKS`. Review on #41 suggested
+ * `as const satisfies readonly Book[]` with `BookId` read back off the array,
+ * which also removes the cast — but it makes a sixth book widen the union
+ * everywhere, silently. Five books is a product decision, not an array length
+ * (`docs/book-identity-and-checkpoint-mockups-plan.md` §2), so the declaration
+ * is the one that fails loudly when someone adds Book Six without deciding
+ * what it is. Either way there is no `as`.
+ */
+export type BookId = 'one' | 'two' | 'three' | 'four' | 'five'
+
 export type Book = {
-  id: string
+  id: BookId
   title: string
   level: string
   hue: string

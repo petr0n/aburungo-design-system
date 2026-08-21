@@ -22,12 +22,14 @@
  * and you cannot see that one book at a time.
  */
 import { BOOKS, Checkpoint } from './book-lab'
+import type { BookId } from './book-lab'
 import type { FlowDef, FlowState } from './shell'
 
-type BookId = 'one' | 'two' | 'three' | 'four' | 'five'
-
+// `b.id` is already `BookId` -- see the type in book-lab. It used to be
+// `b.id as BookId`, which CLAUDE.md bans outside a validated trust boundary,
+// and an array of books is not one.
 const STATES: readonly FlowState<BookId>[] = BOOKS.map((b) => ({
-  id: b.id as BookId,
+  id: b.id,
   label: b.title,
   note: `${b.hueName} · ${b.level} · ${b.character}`,
 }))
