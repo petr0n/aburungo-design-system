@@ -2243,9 +2243,32 @@ function BookBand({ book, title, subtitle, progress, deep = false }) {
     progress !== void 0 && /* @__PURE__ */ jsx28("div", { className: "px-4 pb-2", children: /* @__PURE__ */ jsx28(ProgressBar, { value: progress, tone: paper ? "default" : "inverse" }) })
   ] });
 }
+var FEEDBACKS = [
+  {
+    id: "fuji-kuchiba",
+    name: "Fuji \u85E4 + Kuchiba \u673D\u8449",
+    note: "Wisteria and decayed-leaf. Both traditional, both well clear of the five.",
+    correct: { bg: "#EDE7F4", border: "#C4B3DC", glyph: "#7B5EA7", fg: "#3F2B5B" },
+    review: { bg: "#F2EADB", border: "#D9C49A", glyph: "#7A5F2C", fg: "#4A3A1C" }
+  },
+  {
+    id: "kikyo-kuchiba",
+    name: "Kiky\u014D \u6854\u6897 + Kuchiba \u673D\u8449",
+    note: "Bellflower is deeper and cooler than wisteria \u2014 more separation from the warm ground.",
+    correct: { bg: "#E8E6F2", border: "#B3AED2", glyph: "#5F4E9B", fg: "#332A55" },
+    review: { bg: "#F2EADB", border: "#D9C49A", glyph: "#7A5F2C", fg: "#4A3A1C" }
+  },
+  {
+    id: "fuji-quiet",
+    name: "Fuji \u85E4 + quiet ink",
+    note: "One new hue, not two. \u201CWorth another look\u201D is the product\u2019s own wording \u2014 gentle, not a verdict \u2014 so it goes quiet instead of taking a colour of its own.",
+    correct: { bg: "#EDE7F4", border: "#C4B3DC", glyph: "#7B5EA7", fg: "#3F2B5B" },
+    review: { bg: "#EFEDE5", border: "#CFC9B9", glyph: "#6B665E", fg: "#403D38" }
+  }
+];
 var PHRASE = { jp: "\u306F\u3058\u3081\u307E\u3057\u3066", reading: "\u306F\u3058\u3081\u307E\u3057\u3066", en: "Nice to meet you." };
 var MARKS = ["correct", "correct", "review", "correct"];
-function Checkpoint({ book, chrome }) {
+function Checkpoint({ book, chrome, fb }) {
   const banded = chrome === "book";
   return /* @__PURE__ */ jsxs21(Fragment7, { children: [
     banded ? /* @__PURE__ */ jsx28(BookBand, { book, title: "Chapter 3", subtitle: "checkpoint" }) : /* @__PURE__ */ jsx28(AppHeader, { title: "Chapter 3", subtitle: "checkpoint" }),
@@ -2264,10 +2287,12 @@ function Checkpoint({ book, chrome }) {
             className: [
               "min-h-[44px] rounded-lg border px-4 text-body",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg",
-              i === 0 ? "border-success-border bg-success-bg text-success-fg font-semibold" : "border-border bg-surface text-fg active:bg-surface-2"
+              i === 0 && fb === void 0 ? "border-success-border bg-success-bg text-success-fg font-semibold" : "border-border bg-surface text-fg active:bg-surface-2",
+              i === 0 && fb !== void 0 ? "font-semibold" : ""
             ].join(" "),
+            style: i === 0 && fb !== void 0 ? { background: fb.correct.bg, borderColor: fb.correct.border, color: fb.correct.fg } : void 0,
             children: [
-              i === 0 && /* @__PURE__ */ jsx28(Maru, { outcome: "correct", className: "mr-2 inline-block" }),
+              i === 0 && (fb ? /* @__PURE__ */ jsx28("span", { "aria-hidden": "true", className: "mr-2", style: { color: fb.correct.glyph }, children: "\u25CB" }) : /* @__PURE__ */ jsx28(Maru, { outcome: "correct", className: "mr-2 inline-block" })),
               o
             ]
           },
@@ -2276,8 +2301,32 @@ function Checkpoint({ book, chrome }) {
       ] }),
       /* @__PURE__ */ jsxs21("div", { className: "glass flex items-center gap-3", children: [
         /* @__PURE__ */ jsx28("span", { className: "text-caption font-semibold uppercase tracking-wider text-fg-muted", children: "So far" }),
-        /* @__PURE__ */ jsx28("div", { className: "flex gap-2", children: MARKS.map((m, i) => /* @__PURE__ */ jsx28(Maru, { outcome: m, className: "text-heading-sm" }, i)) })
+        /* @__PURE__ */ jsx28("div", { className: "flex gap-2", children: MARKS.map((m, i) => fb ? /* @__PURE__ */ jsx28(
+          "span",
+          {
+            "aria-hidden": "true",
+            className: "text-heading-sm",
+            style: { color: m === "correct" ? fb.correct.glyph : fb.review.glyph },
+            children: m === "correct" ? "\u25CB" : "\u2715"
+          },
+          i
+        ) : /* @__PURE__ */ jsx28(Maru, { outcome: m, className: "text-heading-sm" }, i)) })
       ] }),
+      fb !== void 0 && /* @__PURE__ */ jsx28("div", { className: "flex flex-col gap-2", children: [["correct", "Correct"], ["review", "Worth another look"]].map(([k, label]) => {
+        const c = fb[k];
+        return /* @__PURE__ */ jsxs21(
+          "div",
+          {
+            className: "rounded-lg border p-3 text-center text-body font-semibold",
+            style: { background: c.bg, borderColor: c.border, color: c.fg },
+            children: [
+              /* @__PURE__ */ jsx28("span", { "aria-hidden": "true", className: "mr-2", style: { color: c.glyph }, children: k === "correct" ? "\u25CB" : "\u2715" }),
+              label
+            ]
+          },
+          k
+        );
+      }) }),
       /* @__PURE__ */ jsx28(Button, { variant: "ghost", fullWidth: true, children: "Skip for now" })
     ] }) })
   ] });
@@ -2305,7 +2354,8 @@ var STATES5 = [
   { id: "identities", label: "Five identities", note: "a lesson page in each book" },
   { id: "collision", label: "\u26A0 The collision", note: "book hue ON a judging surface" },
   { id: "resolved", label: "Resolution (a)", note: "book hue suppressed when judging" },
-  { id: "deep", label: "\u2705 Deep band (900)", note: "the hue at a step that can carry text" }
+  { id: "deep", label: "Deep band (900)", note: "the hue at a step that can carry text" },
+  { id: "feedback", label: "\u2705 New feedback colours", note: "move the verdict off the brand set" }
 ];
 function Slot({ children, label, sub }) {
   return /* @__PURE__ */ jsxs21("div", { className: "flex shrink-0 flex-col items-center gap-2", children: [
@@ -2339,6 +2389,7 @@ function BookLab() {
     identities: "A lesson page in each book. Same content, same components, same layout \u2014 the only thing that changes is the chrome hue, the crest and its density.",
     collision: "Rokush\u014D means \u201Ccorrect\u201D and Akane means \u201Cwrong\u201D. On a checkpoint they are the chrome AND the verdict. Watch the \u25CB against Book One\u2019s band, and the \u2715 against Book Three\u2019s.",
     resolved: "The book hue steps back when the page starts judging. Sumi band, warm stone, and the book is carried by its crest and type instead \u2014 so correctness colour is the only colour with a job on the screen. Note what this costs: all five look the same.",
+    feedback: "The five identities stay as they are. The VERDICT moves off the brand set instead, so \u25CB and \u2715 mean one thing only. Each pairing is shown on Book One (whose Rokush\u014D is today\u2019s \u201Ccorrect\u201D) and Book Three (whose Akane is today\u2019s \u201Cwrong\u201D) \u2014 the two books where the old collision was worst.",
     deep: "The 500 steps are accent values for light grounds and cannot carry white text \u2014 six of ten band labels failed WCAG, Book Four\u2019s subtitle at 1.02:1. At the 900 step every hue clears it, and the band stays One Dark Slab as DESIGN.md requires: a dark slab with a hue, rather than a coloured one."
   }[state];
   return /* @__PURE__ */ jsxs21("div", { className: "mx-auto flex w-full max-w-[1800px] flex-col gap-6 px-6 py-8", children: [
@@ -2352,7 +2403,13 @@ function BookLab() {
     ] }),
     /* @__PURE__ */ jsx28(Rail, { current: state, onSelect: setState }),
     /* @__PURE__ */ jsx28("p", { className: "max-w-prose text-body text-fg", children: note }),
-    /* @__PURE__ */ jsx28("div", { className: "flex items-start gap-5", children: BOOKS.map((b) => /* @__PURE__ */ jsx28(
+    state === "feedback" ? /* @__PURE__ */ jsx28("div", { className: "flex flex-col gap-8", children: FEEDBACKS.map((fb) => /* @__PURE__ */ jsxs21("section", { className: "flex flex-col gap-3", children: [
+      /* @__PURE__ */ jsxs21("div", { className: "flex flex-col gap-1", children: [
+        /* @__PURE__ */ jsx28("h2", { className: "text-heading-sm font-semibold text-fg-heading", children: fb.name }),
+        /* @__PURE__ */ jsx28("p", { className: "max-w-prose text-body-sm text-fg-muted", children: fb.note })
+      ] }),
+      /* @__PURE__ */ jsx28("div", { className: "flex items-start gap-5", children: [BOOKS[0], BOOKS[2]].map((b) => /* @__PURE__ */ jsx28(Slot, { label: `${b.title} \xB7 ${b.hueName}`, sub: "book chrome kept", children: /* @__PURE__ */ jsx28(Phone, { children: /* @__PURE__ */ jsx28(Checkpoint, { book: b, chrome: "book", fb }) }) }, b.id)) })
+    ] }, fb.id)) }) : /* @__PURE__ */ jsx28("div", { className: "flex items-start gap-5", children: BOOKS.map((b) => /* @__PURE__ */ jsx28(
       Slot,
       {
         label: `${b.title} \xB7 ${b.level}`,
