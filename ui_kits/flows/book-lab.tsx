@@ -112,38 +112,112 @@ function BookBand({ book, title, subtitle, progress, deep = false }: {
 }
 
 /**
- * The verdict colours, before and after 2026-08-21.
+ * Every verdict colour this lab has rendered, kept.
  *
- * `before` is the only raw hex here and it is a historical record: the 500
- * steps that `--color-success-500` and `--color-error-500` were hardcoded to,
- * which are the literal values a book's chrome now wears. `after` is `undefined`
- * and renders the real tokens, so this comparison cannot drift from what ships.
+ * **Nothing is removed from this list when it loses.** A rejected option is the
+ * most useful thing on the page six weeks later — it is the answer to "why not
+ * purple", and re-deriving it costs another round of rendering and another
+ * round of the author's time. The three candidates below were cut on
+ * 2026-08-21 and then deleted from this file, which is the mistake this comment
+ * exists to stop repeating. Add a verdict; never replace one.
  *
- * An earlier draft of this state proposed two invented hues — wisteria and
- * decayed-leaf — measured and rendered. That was the wrong instinct: the
- * palette already had darker steps of the same two colours, and adding hues six
- * and seven to avoid a collision between five is how a palette stops meaning
- * anything.
+ * `hex: undefined` means the shipped tokens, so the chosen row cannot drift
+ * from what actually ships. Every other row carries literal hex on purpose:
+ * they are a historical record, not a source of truth, which is why the raw
+ * values are allowed here and nowhere in `src/`.
  */
+type Tone = { bg: string; border: string; glyph: string; fg: string }
+
 type Verdict = {
   id: string
   name: string
   note: string
+  /** Where it ended up. `chosen` is what ships. */
+  status: 'chosen' | 'superseded' | 'rejected'
   /** undefined = the shipped tokens. */
-  hex?: { correct: string; review: string }
+  hex?: { correct: Tone; review: Tone }
+}
+
+/**
+ * The live tint and edge, as `var()` rather than as hex.
+ *
+ * Only the *glyph* changed on 2026-08-21 — `success-500` and `error-500` moved
+ * from the 500 step to the 800. `success-bg` and `success-border` were not part
+ * of that and are not part of the record, so the `before` row below spreads
+ * these and overrides the glyph alone. That is exactly the comparison being
+ * made: the old mark on today's tint.
+ *
+ * Written as `var(--color-…)` after review on #40. As hex they were a second
+ * copy of four token values, sitting under a name that claimed to be the
+ * shipped roles — the drift this repo has a whole build step to prevent. An
+ * inline style resolves `var()` against the same cascade the class would.
+ *
+ * They had already drifted, in the commit that introduced them: the correct
+ * tint was written #EDF5F3 against rokusho-100's real #D9EBE7, and the edge
+ * #A7CFC7 against rokusho-300's #85BFB3. The `before` row was therefore
+ * comparing the old glyph on a tint the product has never shipped. Read back
+ * off the rendered page, both rows now differ in the glyph alone, which is the
+ * only thing that changed.
+ */
+const LIVE_CORRECT: Tone = {
+  bg: 'var(--color-success-bg)',
+  border: 'var(--color-success-border)',
+  glyph: 'var(--color-success-500)',
+  fg: 'var(--color-success-fg)',
+}
+const LIVE_REVIEW: Tone = {
+  bg: 'var(--color-error-bg)',
+  border: 'var(--color-error-border)',
+  glyph: 'var(--color-error-500)',
+  fg: 'var(--color-error-fg)',
 }
 
 const VERDICTS: Verdict[] = [
   {
     id: 'before',
     name: 'Before — the verdict at 500',
+    status: 'superseded',
     note: 'success-500 was hardcoded #4F9C8D and error-500 #D72E2E: exactly Rokushō and Akane, exactly what Book One and Book Three wear as chrome.',
-    hex: { correct: '#4F9C8D', review: '#D72E2E' },
+    hex: {
+      correct: { ...LIVE_CORRECT, glyph: '#4F9C8D', fg: '#4F9C8D' },
+      review: { ...LIVE_REVIEW, glyph: '#D72E2E', fg: '#D72E2E' },
+    },
   },
   {
     id: 'after',
     name: 'After — the verdict at 800',
+    status: 'chosen',
     note: 'Rokushō 800 and Akane 800. Same two colours, two steps down: 114 and 109 away from the bands in RGB distance, and both finally clear AA on their own tint, where the 500s measured 3.98:1 and failed.',
+  },
+  {
+    id: 'fuji-kuchiba',
+    name: 'Rejected — Fuji 藤 + Kuchiba 朽葉',
+    status: 'rejected',
+    note: 'Wisteria and decayed-leaf. Both traditional, both well clear of the five. Cut because the palette already had darker steps of the two colours it needed, and adding hues six and seven to resolve a collision between five is how a palette stops meaning anything.',
+    hex: {
+      correct: { bg: '#EDE7F4', border: '#C4B3DC', glyph: '#7B5EA7', fg: '#3F2B5B' },
+      review: { bg: '#F2EADB', border: '#D9C49A', glyph: '#7A5F2C', fg: '#4A3A1C' },
+    },
+  },
+  {
+    id: 'kikyo-kuchiba',
+    name: 'Rejected — Kikyō 桔梗 + Kuchiba 朽葉',
+    status: 'rejected',
+    note: 'Bellflower is deeper and cooler than wisteria — more separation from the warm ground. Cut with the rest of the off-palette set.',
+    hex: {
+      correct: { bg: '#E8E6F2', border: '#B3AED2', glyph: '#5F4E9B', fg: '#332A55' },
+      review: { bg: '#F2EADB', border: '#D9C49A', glyph: '#7A5F2C', fg: '#4A3A1C' },
+    },
+  },
+  {
+    id: 'fuji-quiet',
+    name: 'Rejected — Fuji 藤 + quiet ink',
+    status: 'rejected',
+    note: 'One new hue, not two. “Worth another look” is the product’s own wording — gentle, not a verdict — so it went quiet instead of taking a colour of its own. The quiet-review half is the part of this worth keeping in mind.',
+    hex: {
+      correct: { bg: '#EDE7F4', border: '#C4B3DC', glyph: '#7B5EA7', fg: '#3F2B5B' },
+      review: { bg: '#EFEDE5', border: '#CFC9B9', glyph: '#6B665E', fg: '#403D38' },
+    },
   },
 ]
 
@@ -197,7 +271,7 @@ function Checkpoint({ book, chrome, v }: {
                   ].join(' ')}
                 >
                   {i === 0 && (fb
-                    ? <span aria-hidden="true" className="mr-2" style={{ color: fb.correct }}>○</span>
+                    ? <span aria-hidden="true" className="mr-2" style={{ color: fb.correct.glyph }}>○</span>
                     : <Maru outcome="correct" className="mr-2 inline-block" />)}
                   {o}
                 </button>
@@ -212,7 +286,7 @@ function Checkpoint({ book, chrome, v }: {
               {MARKS.map((m, i) =>
                 fb ? (
                   <span key={i} aria-hidden="true" className="text-heading-sm"
-                    style={{ color: m === 'correct' ? fb.correct : fb.review }}>
+                    style={{ color: m === 'correct' ? fb.correct.glyph : fb.review.glyph }}>
                     {m === 'correct' ? '○' : '✕'}
                   </span>
                 ) : (
@@ -221,15 +295,25 @@ function Checkpoint({ book, chrome, v }: {
             </div>
           </div>
 
+          {/* A candidate replaces the whole banner, not just its glyph — the
+              tint and the edge are most of what a verdict colour IS, and
+              judging one by the ○ alone is what made the first pass at this
+              state unreadable. `undefined` falls through to the shipped roles. */}
           <div className="flex flex-col gap-2">
-            <div className="rounded-lg border border-success-border bg-success-bg p-3 text-center text-body font-semibold text-success-fg">
+            <div
+              className="rounded-lg border border-success-border bg-success-bg p-3 text-center text-body font-semibold text-success-fg"
+              style={fb ? { backgroundColor: fb.correct.bg, borderColor: fb.correct.border, color: fb.correct.fg } : undefined}
+            >
               <span aria-hidden="true" className="mr-2"
-                style={fb ? { color: fb.correct } : undefined}>○</span>
+                style={fb ? { color: fb.correct.glyph } : undefined}>○</span>
               Correct
             </div>
-            <div className="rounded-lg border border-error-border bg-error-bg p-3 text-center text-body font-semibold text-error-fg">
+            <div
+              className="rounded-lg border border-error-border bg-error-bg p-3 text-center text-body font-semibold text-error-fg"
+              style={fb ? { backgroundColor: fb.review.bg, borderColor: fb.review.border, color: fb.review.fg } : undefined}
+            >
               <span aria-hidden="true" className="mr-2"
-                style={fb ? { color: fb.review } : undefined}>✕</span>
+                style={fb ? { color: fb.review.glyph } : undefined}>✕</span>
               Worth another look
             </div>
           </div>
@@ -270,7 +354,7 @@ const STATES = [
   { id: 'collision', label: '⚠ The collision', note: 'book hue ON a judging surface' },
   { id: 'resolved', label: 'Resolution (a)', note: 'book hue suppressed when judging' },
   { id: 'deep', label: 'Deep band (900)', note: 'the hue at a step that can carry text' },
-  { id: 'feedback', label: '✅ Verdict at 800', note: 'the same two colours, darker' },
+  { id: 'feedback', label: '✅ Verdict at 800', note: 'every verdict tried, on all five books' },
 ] as const
 
 type StateId = (typeof STATES)[number]['id']
@@ -291,6 +375,13 @@ function Slot({ children, label, sub }: { children: React.ReactNode; label: stri
       <div style={{ zoom: 0.62 }}>{children}</div>
     </div>
   )
+}
+
+/** Role tokens, so a rejected row reads as rejected without a new colour. */
+const STATUS_TAG: Record<Verdict['status'], string> = {
+  chosen: 'bg-success-bg text-success-fg',
+  superseded: 'bg-surface-2 text-fg-muted',
+  rejected: 'bg-surface-2 text-fg-muted',
 }
 
 function Rail({ current, onSelect }: { current: StateId; onSelect: (id: StateId) => void }) {
@@ -331,7 +422,7 @@ export function BookLab() {
     identities: 'A lesson page in each book. Same content, same components, same layout — the only thing that changes is the chrome hue, the crest and its density. Five grounds, three motifs: books four and five carry the solid cut of book two’s leaf and book one’s clover.',
     collision: 'Rokushō means “correct” and Akane means “wrong”. On a checkpoint they are the chrome AND the verdict. Watch the ○ against Book One’s band, and the ✕ against Book Three’s.',
     resolved: 'The book hue steps back when the page starts judging. Sumi band, warm stone, and the book is carried by its crest and type instead — so correctness colour is the only colour with a job on the screen. Note what this costs: all five look the same.',
-    feedback: 'The five identities stay exactly as they are. The verdict moves DOWN THE RAMP instead — Rokushō 800 and Akane 800, the same two colours two steps darker. Shown on Book One and Book Three, the two books whose chrome the old 500 verdict was identical to.',
+    feedback: 'The five identities stay exactly as they are. The verdict moves DOWN THE RAMP instead — Rokushō 800 and Akane 800, the same two colours two steps darker. Every verdict this lab has rendered is kept below, on all five books: what ships, what it replaced, and the three off-palette candidates that were rejected. Rejected rows stay so they can be pointed at later, not re-derived.',
     deep: 'The 500 steps are accent values for light grounds and cannot carry white text — six of ten band labels failed WCAG, Book Four’s subtitle at 1.02:1. At the 900 step every hue clears it, and the band stays One Dark Slab as DESIGN.md requires: a dark slab with a hue, rather than a coloured one.',
   }[state]
 
@@ -356,11 +447,21 @@ export function BookLab() {
           {VERDICTS.map((v) => (
             <section key={v.id} className="flex flex-col gap-3">
               <div className="flex flex-col gap-1">
-                <h2 className="text-heading-sm font-semibold text-fg-heading">{v.name}</h2>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-heading-sm font-semibold text-fg-heading">{v.name}</h2>
+                  <span className={`inline-flex items-center rounded-sm px-2 py-0.5 text-caption font-bold uppercase tracking-wider ${STATUS_TAG[v.status]}`}>
+                    {v.status}
+                  </span>
+                </div>
                 <p className="max-w-prose text-body-sm text-fg-muted">{v.note}</p>
               </div>
+              {/* All five, not just the two the verdict collided with. Books
+                  One and Three are where the 500 verdict was literally the
+                  chrome, so they are the sharpest test — but a verdict colour
+                  has to survive every band it will ever sit under, and two of
+                  five cannot show that. */}
               <div className="flex items-start gap-5">
-                {[BOOKS[0], BOOKS[2]].map((b) => (
+                {BOOKS.map((b) => (
                   <Slot key={b.id} label={`${b.title} · ${b.hueName}`} sub="book chrome kept">
                     <Phone><Checkpoint book={b} chrome="book" v={v} /></Phone>
                   </Slot>
