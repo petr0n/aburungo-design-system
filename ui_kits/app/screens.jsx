@@ -188,7 +188,7 @@ function Landing({ onStart }) {
               day-to-day. Short focused reviews. Nothing in the way.
             </p>
             <div className="flex flex-col gap-2 self-stretch md:flex-row md:gap-3 md:self-auto">
-              <Button variant="accent" size="md" onClick={onStart}>Start learning</Button>
+              <Button variant="primary" size="md" onClick={onStart}>Start learning</Button>
               <Button variant="secondary" size="md" onClick={onStart}>Browse scenarios</Button>
             </div>
             <p className="flex items-center gap-2 pt-2 text-body-sm text-fg-subtle">

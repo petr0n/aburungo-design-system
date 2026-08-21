@@ -220,7 +220,7 @@ function LandingHeroVariant() {
             day-to-day interactions. Short focused reviews. Nothing in the way.
           </p>
           <div className="flex gap-3 pt-2">
-            <Button variant="accent" size="md">Start learning</Button>
+            <Button variant="primary" size="md">Start learning</Button>
             <Button variant="secondary" size="md">Browse scenarios</Button>
           </div>
           <div className="flex items-center gap-3 pt-3 text-body-sm text-fg-subtle">
@@ -250,7 +250,7 @@ function LandingStackedVariant() {
           Phrases for the situations you actually run into. Short focused reviews. Nothing in the way.
         </p>
         <div className="flex gap-3 pt-2">
-          <Button variant="accent" size="md">Start learning</Button>
+          <Button variant="primary" size="md">Start learning</Button>
           <Button variant="secondary" size="md">Browse scenarios</Button>
         </div>
         <div className="flex flex-wrap items-center justify-center gap-2 pt-8">

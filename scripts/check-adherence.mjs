@@ -24,6 +24,34 @@ import { execFileSync } from 'node:child_process'
 const TARGETS = ['src/components/**/*.{tsx,ts}']
 
 /**
+ * The hand-written mirrors, which typecheck cannot reach.
+ *
+ * Only one rule runs over these -- `unknown-variant` -- because they are
+ * browser JSX with their own dialect and the colour rules would false-positive
+ * all over them. See MIRROR_RULES.
+ */
+const MIRROR_TARGETS = [
+  'ui_kits/**/*.jsx',
+  'storybook/*.jsx',
+]
+
+/**
+ * A prop value no component implements is the quietest bug in this repo.
+ *
+ * `Button` dropped its `accent` variant in plan task 5.6. The variant map then
+ * returns `undefined` for `variant="accent"`, the class list comes out empty,
+ * and the button renders as bare text -- transparent background, no border,
+ * measured. Nothing errors. It shipped on FIVE landing screens across three
+ * files and survived for five days after 5.6 was recorded as complete, because
+ * every one of them was in an untyped mirror.
+ *
+ * The typechecked harnesses never had it, and `variant="accent"` in
+ * `src/components` would fail `tsc`. This rule is the mirrors' substitute.
+ * Widen VARIANTS when a component legitimately grows one.
+ */
+import { VARIANTS, findUnknownVariants } from './lib/variants.mjs'
+
+/**
  * `dist/tokens.plain.css` is the one generated file that is committed — six
  * harnesses and all 27 preview pages link it directly and are served with no
  * build step, so a clone without it renders every page unstyled.
@@ -78,6 +106,7 @@ const RULES = [
 ]
 
 const files = TARGETS.flatMap((p) => globSync(p))
+const mirrors = MIRROR_TARGETS.flatMap((p) => globSync(p))
 let violations = checkTokenSheetTracked()
 
 for (const file of files) {
@@ -94,8 +123,19 @@ for (const file of files) {
   })
 }
 
+// The mirrors get one rule, and it reads the whole file rather than each line —
+// see BUTTON_VARIANT. Line numbers come from counting newlines before the match.
+for (const file of mirrors) {
+  const source = readFileSync(file, 'utf8')
+  for (const hit of findUnknownVariants(source)) {
+    const line = source.slice(0, hit.index).split('\n').length
+    violations += 1
+    console.error(`${file}:${line}  unknown-variant  ${hit.text}\n    ${hit.msg}`)
+  }
+}
+
 if (violations > 0) {
   console.error(`\nadherence check: ${violations} violation(s)`)
   process.exit(1)
 }
-console.log(`adherence check: clean (${files.length} files)`)
+console.log(`adherence check: clean (${files.length} components, ${mirrors.length} mirrors)`)
