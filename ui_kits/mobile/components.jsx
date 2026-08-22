@@ -234,24 +234,6 @@ function KanaGrid({ rows, onSelect, onBackspace }) {
 
 // ─── Layout / state components ────────────────────────────────────────────────
 
-/**
- * GlobalHeader — mirrors src/components/GlobalHeader.tsx.
- *
- * Wordmark only, no hanko: the page band carries the mark, and two of them
- * sixty pixels apart read as a mistake. The hairline is border-accent-ogon —
- * there is no --color-rule token, only --color-rule-on-inverse.
- */
-function GlobalHeader({ right }) {
-  return (
-    <header className="border-b-2 border-accent-ogon bg-surface">
-      <div className="mx-auto flex min-h-[52px] w-full max-w-7xl items-center gap-3 px-6 py-2">
-        <span className="wm sm">aburungo<span className="maru"/></span>
-        {right !== undefined && <div className="ml-auto flex items-center gap-2">{right}</div>}
-      </div>
-    </header>
-  );
-}
-
 function AppHeader({ title, subtitle, left, right, mark = true, progress }) {
   const showMark = mark && left === undefined;
   return (
@@ -701,7 +683,7 @@ Object.assign(window, {
   Button, TextInput, Card, Badge, IconButton,
   SpeakerIcon, MicIcon, BackspaceIcon, SpinnerIcon,
   AudioButton, ProgressBar, PhraseCard, KanaGrid,
-  AppHeader, GlobalHeader, LoadingPlaceholder, EmptyState, ErrorState, ScoreCard, FlipCard,
+  AppHeader, LoadingPlaceholder, EmptyState, ErrorState, ScoreCard, FlipCard,
   KanaKeyboard, VoiceInput,
   FillInput, convertRomaji, finalizeRomaji,
   Maru, AnswerResult, GradePair,

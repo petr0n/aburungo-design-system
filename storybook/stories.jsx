@@ -170,32 +170,6 @@ const AudioButtonStories = {
   },
 };
 
-// ───── GlobalHeader ────────────────────────────────────────────────────
-const GlobalHeaderStories = {
-  Default: {
-    render: () => <GlobalHeader/>,
-    code: () => `<GlobalHeader/>`,
-  },
-  WithSlot: {
-    render: () => (
-      <GlobalHeader right={<Button variant="ghost" size="sm">Sign out</Button>}/>
-    ),
-    code: () => `<GlobalHeader right={<Button variant="ghost" size="sm">Sign out</Button>}/>`,
-  },
-  AboveTheBand: {
-    // The pairing is the point: the product bar spans the window, the page
-    // band is the content column, and there is exactly one dark slab.
-    render: () => (
-      <div className="w-full bg-bg">
-        <GlobalHeader/>
-        <AppHeader title="Flashcards" subtitle="transit · 1 of 4" progress={0.25}/>
-      </div>
-    ),
-    code: () => `<GlobalHeader/>
-<AppHeader title="Flashcards" subtitle="transit · 1 of 4" progress={0.25}/>`,
-  },
-};
-
 // ───── ProgressBar ─────────────────────────────────────────────────────
 const ProgressBarStories = {
   Default: {
@@ -1018,7 +992,6 @@ window.STORIES = [
   {
     title: 'Layout',
     components: [
-      { name: 'GlobalHeader',       stories: GlobalHeaderStories },
       { name: 'AppHeader',          stories: AppHeaderStories },
       { name: 'LoadingPlaceholder', stories: LoadingPlaceholderStories },
       { name: 'EmptyState',         stories: EmptyStateStories },

@@ -25,7 +25,6 @@ export { AudioButton } from './AudioButton'
 
 // Layout + state components
 export { AppHeader } from './AppHeader'
-export { GlobalHeader } from './GlobalHeader'
 export { LoadingPlaceholder } from './LoadingPlaceholder'
 export { EmptyState } from './EmptyState'
 export { ErrorState } from './ErrorState'

@@ -9,8 +9,9 @@
   <!-- brand.css, added 2026-08-22. It was never linked here, so every brand
        utility -- .wm, .maru, .hanko, .glass, .emboss-bg, .kata-vert, .frame --
        rendered unstyled in the storybook while looking correct everywhere
-       else. Found when GlobalHeader became the first story to use one: the
-       wordmark drew, the maru did not. -->
+       else. Found when a story first used one: the wordmark drew, the maru
+       did not. The real app links brand.css via src/index.css; this page
+       links tokens by hand and had simply never been given it. -->
   <link rel="stylesheet" href="../src/brand.css">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">

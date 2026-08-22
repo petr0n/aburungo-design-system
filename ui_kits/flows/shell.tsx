@@ -7,7 +7,6 @@
  */
 import { useState } from 'react'
 import type { ReactNode } from 'react'
-import { GlobalHeader } from '../../src/components'
 
 /**
  * A phone-shaped viewport. 390px is the iPhone 15/16 logical width.
@@ -65,11 +64,6 @@ export function Desk({ children }: { children: ReactNode }) {
         </span>
         <span className="mx-auto rounded-sm px-2 text-caption text-fg-faint">aburungo.app</span>
       </div>
-      {/* The product bar, above the page band and inside the browser frame. It
-          is desktop-only on purpose: `Phone` does not render it, because the
-          app band already carries the mark at that width and a bar that
-          repeats on every screen costs more than it gives on 390px. */}
-      <GlobalHeader />
       <div className="flex h-[820px] flex-col">{children}</div>
     </div>
   )
