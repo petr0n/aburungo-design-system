@@ -6,6 +6,12 @@
        rely on Tailwind @theme tokens, which are only emitted when a utility
        uses them. This defines every token as a real :root var. -->
   <link rel="stylesheet" href="../dist/tokens.plain.css">
+  <!-- brand.css, added 2026-08-22. It was never linked here, so every brand
+       utility -- .wm, .maru, .hanko, .glass, .emboss-bg, .kata-vert, .frame --
+       rendered unstyled in the storybook while looking correct everywhere
+       else. Found when GlobalHeader became the first story to use one: the
+       wordmark drew, the maru did not. -->
+  <link rel="stylesheet" href="../src/brand.css">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AburunGo · Storybook</title>
