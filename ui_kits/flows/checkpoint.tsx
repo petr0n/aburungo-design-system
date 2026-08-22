@@ -36,7 +36,7 @@ const STATES: readonly FlowState<BookId>[] = BOOKS.map((b) => ({
 
 export const checkpointFlow: FlowDef<BookId> = {
   id: 'checkpoint',
-  label: 'Chapter checkpoint',
+  label: 'Checkpoint',
   title: 'Chapter checkpoint',
   blurb:
     'The gate at the end of a chapter, in each of the five books. The only number is how many are left and it shrinks to zero — no score, no percentage, per DR-020. The book keeps its chrome here: the verdict sits at Rokushō 800 and Akane 800, two steps down the same ramp, so correctness never wears a colour a band is already wearing.',

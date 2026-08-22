@@ -39,10 +39,15 @@ const SURFACES = [
   // The book surfaces. Plan task 3.1 — every new surface joins this list, and
   // the checkpoint is checked on two books rather than one because the band
   // hue changes what sits under a control.
-  ['book · chapter opener', '/ui_kits/flows/?flow=book-one&state=opener'],
-  ['book · lesson ch1', '/ui_kits/flows/?flow=book-one&state=lesson-early'],
-  ['book · lesson ch11', '/ui_kits/flows/?flow=book-one&state=lesson-late'],
-  ['book · final checkpoint', '/ui_kits/flows/?flow=book-one&state=final'],
+  ['book one · chapter opener', '/ui_kits/flows/?flow=book-one&state=opener'],
+  ['book one · lesson ch1', '/ui_kits/flows/?flow=book-one&state=lesson-early'],
+  ['book one · lesson ch11', '/ui_kits/flows/?flow=book-one&state=lesson-late'],
+  ['book one · final checkpoint', '/ui_kits/flows/?flow=book-one&state=final'],
+  // Book Four as the second sample: it and Book One are the two light-ink
+  // bands, and a control's edge against Ogon is the case least like the Sumi
+  // chrome everything else was measured on.
+  ['book four · chapter opener', '/ui_kits/flows/?flow=book-four&state=opener'],
+  ['book four · final checkpoint', '/ui_kits/flows/?flow=book-four&state=final'],
   ['book · checkpoint one', '/ui_kits/flows/?flow=checkpoint&state=one'],
   ['book · checkpoint four', '/ui_kits/flows/?flow=checkpoint&state=four'],
   // The mobile kit, since 2026-08-17. It renders the same flow definitions

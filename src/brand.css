@@ -329,6 +329,10 @@
 .glass.rule-ai      { border-top-width: 3px; border-top-color: var(--color-accent-ai) }
 .glass.rule-rokusho { border-top-width: 3px; border-top-color: var(--color-accent-rokusho) }
 .glass.rule-akane   { border-top-width: 3px; border-top-color: var(--color-accent-akane) }
+/* Added 2026-08-21 with Book Five. The set was the four hues that had an
+   accent token; Sumi got one in #38, and without this line a Sumi book's
+   glass borrowed another book's colour. */
+.glass.rule-sumi    { border-top-width: 3px; border-top-color: var(--color-accent-sumi) }
 
 .glass::before{
   content: "";

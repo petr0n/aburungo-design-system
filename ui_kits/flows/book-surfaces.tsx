@@ -1,18 +1,31 @@
 /**
- * Book One — the four surfaces the plan's §5 asks for that were not built yet.
+ * The four surfaces §5 asks for, for any book.
  *
- * The fifth, the chapter checkpoint, already ships as `checkpoint.tsx` for
- * every book. This adds the chapter opener, two lesson pages and the final
- * checkpoint, for Book One only. Book One first because it is the one with
- * real content — the author's call, and it means none of the copy here is
- * invented.
+ * The fifth, the chapter checkpoint, already ships as `checkpoint.tsx`.
  *
- * **Everything on this page is from `../aburungo/src/content/`.** The chapter
- * titles are `chapters/n5.yaml`; the lesson titles and can-do lines are the
- * `title` and `canDo` fields of the units with `chapterId: n5.chapter-1` and
- * `n5.chapter-11`. Chapter One really does run thirteen lessons across two
- * situations and close on an integration lesson. Mock copy would have hidden
- * that a chapter opener has to hold a list that long.
+ * `bookFlow(book)` renders the set for one book, and the registry spreads it
+ * over `BOOKS` — so a new book gets four surfaces and four deep links with no
+ * edit here, the same way `BookId` widens. There is no limit on books.
+ *
+ * **The content is Book One's, on every book, deliberately.**
+ * `../aburungo/src/content/books.ts` is `[bookOne]`: Book One is the only book
+ * that HAS lessons, and there is one chapters file, `n5.yaml`. So the choice
+ * for Books Two to Five was to invent a syllabus or to hold the content still.
+ *
+ * Holding it still is the right one and not a compromise. These surfaces exist
+ * to answer "does one design read as five books, similar but not identical" —
+ * §5 — and that question is only answerable if the copy is the *same* on all
+ * five. Change the words and the hue at once and you cannot tell which one you
+ * are reacting to. The lab's `identities` state has worked this way from the
+ * start. Every page says whose content it is, so nobody mistakes it for Book
+ * Two's syllabus.
+ *
+ * All of it is real: the chapter titles are `chapters/n5.yaml`, and the lesson
+ * titles and can-do lines are the `title` and `canDo` of the units with
+ * `chapterId: n5.chapter-1` and `n5.chapter-11`. Chapter One really does run
+ * thirteen lessons across two situations and close on an integration lesson.
+ * Mock copy would have hidden that a chapter opener has to hold a list that
+ * long.
  *
  * **The Two-Plane Rule is what these pages exist to prove.** The chrome — band,
  * crest, rule — is the BOOK. The accent inside a card is the SITUATION, and it
@@ -24,11 +37,10 @@
 import { useState } from 'react'
 import { Badge, Button, Maru, PhraseCard, ProgressBar, TextInput } from '../../src/components'
 import type { PhraseAccent } from '../../src/components'
-import { BOOKS, BookBand } from './book-lab'
+import { BookBand } from './book-lab'
+import type { Book } from './book-lab'
 import { Screen } from './shell'
 import type { FlowDef, FlowState } from './shell'
-
-const BOOK = BOOKS[0]
 
 // ─── Content — ../aburungo/src/content/chapters/n5.yaml + lessons/*.yaml ────
 
@@ -122,16 +134,16 @@ const LATE: Phrase[] = [
  * furniture: right on a title page, wrong on a page where someone is trying to
  * answer a question.
  */
-function ChapterOpener({ onStart }: { onStart: () => void }) {
+function ChapterOpener({ book, onStart }: { book: Book; onStart: () => void }) {
   const done = CHAPTER_ONE.filter((l) => l.done).length
   const situations = [...new Set(CHAPTER_ONE.map((l) => l.situation))]
 
   return (
     <>
-      <BookBand book={BOOK} title="Book One" subtitle="Chapter 1 of 11" />
+      <BookBand book={book} title={book.title} subtitle="Chapter 1 of 11" />
       <Screen>
         <div
-          className={`emboss-bg ${BOOK.crest} ${BOOK.tile} -mx-4 -mt-5 flex flex-1 flex-col gap-5 px-4 py-6`}
+          className={`emboss-bg ${book.crest} ${book.tile} -mx-4 -mt-5 flex flex-1 flex-col gap-5 px-4 py-6`}
           style={{ '--emboss-opacity': '.5' } as React.CSSProperties}
         >
           <div className="flex items-start gap-4">
@@ -141,7 +153,10 @@ function ChapterOpener({ onStart }: { onStart: () => void }) {
               アブルンゴ
             </span>
 
-            <div className="glass rule-rokusho flex flex-1 flex-col gap-3">
+            {/* The rule follows the BOOK's hue. Hard-coded `rule-rokusho`, it
+                put Book One's colour on the top edge of every other book's
+                opener — a fifth hue on a page that already has one. */}
+            <div className={`glass rule-${book.hue} flex flex-1 flex-col gap-3`}>
               <span className="text-caption font-bold uppercase tracking-wider text-fg-muted">
                 Chapter One
               </span>
@@ -200,6 +215,7 @@ function ChapterOpener({ onStart }: { onStart: () => void }) {
  * §5 asks for. Nothing here is a second copy of the early page with edits.
  */
 function LessonPage({
+  book,
   chapter,
   unit,
   lesson,
@@ -207,6 +223,7 @@ function LessonPage({
   progress,
   tile,
 }: {
+  book: Book
   chapter: number
   unit: number
   lesson: Lesson
@@ -220,13 +237,13 @@ function LessonPage({
   return (
     <>
       <BookBand
-        book={BOOK}
+        book={book}
         title={lesson.title}
         subtitle={`Chapter ${chapter} · lesson ${unit}`}
         progress={progress}
       />
       <Screen>
-        <div className={`emboss-bg ${BOOK.crest} ${tile} -mx-4 -mt-5 flex flex-1 flex-col gap-4 px-4 py-5`}>
+        <div className={`emboss-bg ${book.crest} ${tile} -mx-4 -mt-5 flex flex-1 flex-col gap-4 px-4 py-5`}>
           {/* The can-do line, which is the lesson's actual promise —
               `canDo` in the content, and DR-022's source for the can-do list. */}
           <div className="glass flex flex-col gap-1">
@@ -294,7 +311,7 @@ const FINAL_ITEMS = [
  *
  * Still a gate, not a grade: the only number is how many are left, per DR-020.
  */
-function FinalCheckpoint() {
+function FinalCheckpoint({ book }: { book: Book }) {
   const [index, setIndex] = useState(0)
   const [value, setValue] = useState('')
   const [checked, setChecked] = useState(false)
@@ -305,9 +322,9 @@ function FinalCheckpoint() {
 
   return (
     <>
-      <BookBand book={BOOK} title="Book One" subtitle="final checkpoint" deep />
+      <BookBand book={book} title={book.title} subtitle="final checkpoint" deep />
       <Screen>
-        <div className={`emboss-bg ${BOOK.crest} tile-lg -mx-4 -mt-5 flex flex-1 flex-col gap-4 px-4 py-5`}>
+        <div className={`emboss-bg ${book.crest} tile-lg -mx-4 -mt-5 flex flex-1 flex-col gap-4 px-4 py-5`}>
           <div className="glass flex flex-col gap-1">
             <span className="text-caption font-bold uppercase tracking-wider text-fg-muted">
               {left} left
@@ -365,57 +382,78 @@ function FinalCheckpoint() {
   )
 }
 
-// ─── The flow ──────────────────────────────────────────────────────────────
+// ─── The flow, one per book ────────────────────────────────────────────────
 
 type StateId = 'opener' | 'lesson-early' | 'lesson-late' | 'final'
 
 const STATES: readonly FlowState<StateId>[] = [
   { id: 'opener', label: 'Chapter opener', note: 'the book thesis; crest full-bleed, kata-vert, wordmark' },
-  { id: 'lesson-early', label: 'Lesson · ch 1', note: 'unit 3, greetings — Ai-iro card on a Rokushō band' },
+  { id: 'lesson-early', label: 'Lesson · ch 1', note: 'unit 3, greetings — Ai-iro card on the book band' },
   { id: 'lesson-late', label: 'Lesson · ch 11', note: 'unit 91, the kitchen — same rules, Ōgon card, denser crest' },
   { id: 'final', label: 'Final checkpoint', note: 'production gate; deep band, tile-lg, closes the book' },
 ]
 
-export const bookOneFlow: FlowDef<StateId> = {
-  id: 'book-one',
-  label: 'Book One',
-  title: 'Book One — the surfaces',
-  blurb:
-    'Four of the five surfaces §5 asks for, in the book that has real content. Every chapter title, lesson title and can-do line is from ../aburungo/src/content. The fifth, the chapter checkpoint, is its own flow and covers all books. Watch the two planes: the chrome is Rokushō on every screen, and the card accent changes with the situation, twice inside one chapter.',
-  states: STATES,
-  initial: 'opener',
-  Screens({ state, go }) {
-    return (
-      <>
-        {state === 'opener' && <ChapterOpener onStart={() => go('lesson-early')} />}
-        {state === 'lesson-early' && (
-          <LessonPage
-            chapter={1}
-            unit={3}
-            lesson={CHAPTER_ONE[2]}
-            phrases={EARLY}
-            progress={3 / 13}
-            tile="tile-sm"
-          />
-        )}
-        {state === 'lesson-late' && (
-          <LessonPage
-            chapter={11}
-            unit={91}
-            lesson={{
-              n: 91,
-              title: 'In the kitchen',
-              canDo: 'Name what is on the table and ask for a glass or chopsticks',
-              situation: 'Meals and the kitchen',
-              done: false,
-            }}
-            phrases={LATE}
-            progress={0.94}
-            tile="tile-md"
-          />
-        )}
-        {state === 'final' && <FinalCheckpoint />}
-      </>
-    )
-  },
+/**
+ * One book's four surfaces.
+ *
+ * A factory rather than five files: the whole claim being tested is that these
+ * pages are the SAME design wearing five identities. Five copies could drift
+ * apart and the drift would look like a design decision. One function cannot.
+ */
+export function bookFlow(book: Book): FlowDef<StateId> {
+  const borrowed = book.id !== 'one'
+  return {
+    id: `book-${book.id}`,
+    label: book.title,
+    title: `${book.title} — the surfaces`,
+    blurb:
+      `Four of the five surfaces §5 asks for, in ${book.hueName}. The fifth, the chapter checkpoint, is its own flow and covers every book. ` +
+      (borrowed
+        ? `The content is Book One's, held still on purpose: it is the only book with lessons, and a comparison where the words change with the hue cannot tell you which one you are reacting to. Judge the chrome, the crest and the density — not the syllabus.`
+        : `Every chapter title, lesson title and can-do line is from ../aburungo/src/content.`) +
+      ` Watch the two planes: the chrome is ${book.hueName} on every screen, and the card accent changes with the situation, twice inside one chapter.`,
+    states: STATES,
+    initial: 'opener',
+    Screens({ state, go }) {
+      return (
+        <>
+          {borrowed && (
+            <div className="border-b border-border bg-surface-2 px-4 py-1 text-center text-caption text-fg-muted">
+              Book One's content — the variable here is the identity
+            </div>
+          )}
+          {state === 'opener' && <ChapterOpener book={book} onStart={() => go('lesson-early')} />}
+          {state === 'lesson-early' && (
+            <LessonPage
+              book={book}
+              chapter={1}
+              unit={3}
+              lesson={CHAPTER_ONE[2]}
+              phrases={EARLY}
+              progress={3 / 13}
+              tile="tile-sm"
+            />
+          )}
+          {state === 'lesson-late' && (
+            <LessonPage
+              book={book}
+              chapter={11}
+              unit={91}
+              lesson={{
+                n: 91,
+                title: 'In the kitchen',
+                canDo: 'Name what is on the table and ask for a glass or chopsticks',
+                situation: 'Meals and the kitchen',
+                done: false,
+              }}
+              phrases={LATE}
+              progress={0.94}
+              tile="tile-md"
+            />
+          )}
+          {state === 'final' && <FinalCheckpoint book={book} />}
+        </>
+      )
+    },
+  }
 }

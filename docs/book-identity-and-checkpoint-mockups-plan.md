@@ -350,6 +350,7 @@ contrast gate on its book's hue.
 | # | Task | Done when |
 |---|---|---|
 | 2.0 | ~~Book One's four remaining surfaces~~ | **done 2026-08-21.** `ui_kits/flows/book-one.tsx` — chapter opener, lesson pages for chapters 1 and 11, final checkpoint. Every chapter title, lesson title and can-do line is read from `../aburungo/src/content/`, so none of the copy is invented; Chapter One really runs thirteen lessons across two situations. Found and fixed a live `ProgressBar` bug on the way — see below |
+| 2.0b | ~~The four surfaces for every book~~ | **done 2026-08-21.** `bookFlow(book)` in `ui_kits/flows/book-surfaces.tsx`, spread over `BOOKS` in the registry — a new book gets four surfaces and four deep links with nothing to edit. Covers 2.1, 2.2 and 2.4 for all five |
 | 2.1 | Chapter opener, all five books | deep-linkable `?book=three&surface=opener`; the four unused brand utilities have a consumer |
 | 2.2 | Lesson page, early + late chapter, all five | ten surfaces; the only difference within a book is density/opacity |
 | 2.3 | Chapter checkpoint, all five | carries its book's crest and hue like any other page (§4); shows a shrinking set, never a score |
@@ -372,6 +373,25 @@ contrast gate on its book's hue.
 > to Book Five instead of removing it. Only re-measuring the render caught that. And
 > the contrast gate cannot see any of this: it reads flat tokens, and `currentColor`
 > has no token to read. **A bar on a hue band has to be measured by rendering.**
+
+> **The content is Book One's on every book, and that is the design, not a shortfall.**
+> `../aburungo/src/content/books.ts` is `[bookOne]` — one book has lessons, and there
+> is one chapters file. So the choice for Books Two to Five was to invent a syllabus or
+> to hold the content still.
+>
+> Holding it still is what makes the comparison work. §5 asks whether one design reads
+> as five books, similar but not identical, and that is only answerable if the copy is
+> the *same* on all five: change the words and the hue together and you cannot tell
+> which one you are reacting to. Every borrowed page says whose content it is. Replace
+> it per book as each book's lessons land.
+>
+> Two things the render caught that reading could not. The chapter opener's `.glass`
+> had `rule-rokusho` hard-coded, so **Book One's colour sat on the top edge of every
+> other book's opener** — a fifth hue on a page that already has one; it follows
+> `book.hue` now, and `brand.css` gained the `.glass.rule-sumi` that the set was
+> missing. And the harness nav went to **four lines** once there was one full link per
+> book: the books collapse to a label and a numbered row that cannot be split, because
+> books are not capped.
 
 ### Phase 3 — Gate it
 
