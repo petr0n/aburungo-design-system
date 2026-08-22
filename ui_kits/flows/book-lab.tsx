@@ -113,7 +113,6 @@ export function BookBand({ book, title, subtitle, progress, deep = false }: {
   // Every 900 step is dark enough for paper, so the deep band ignores the
   // per-hue ink and always uses it.
   const ink = deep ? 'text-fg-inverse' : book.ink
-  const darkInk = ink === 'text-stone-900'
   return (
     <header className={`border-b-[6px] ${book.rule} ${deep ? book.deep : book.band}`}>
       <div className="grid min-h-[56px] grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-2">
@@ -131,9 +130,19 @@ export function BookBand({ book, title, subtitle, progress, deep = false }: {
         </div>
         <span />
       </div>
+      {/* The ink class goes on the bar's wrapper, not only on the labels:
+          `on-accent` draws in `currentColor`, and without it the bar inherited
+          body text and came out #2D2D2D on every band — 1.00:1 against Book
+          Five's Sumi. The first fix moved the bug rather than removing it, and
+          only measuring the render showed that. */}
       {progress !== undefined && (
-        <div className="px-4 pb-2">
-          <ProgressBar value={progress} tone={darkInk ? 'default' : 'inverse'} />
+        <div className={`px-4 pb-2 ${ink}`}>
+          {/* `on-accent`, not the default/inverse pair: those only swap the
+              TRACK, and the fill stayed Rokushō 500 — the same colour as Book
+              One's own band, measured at 1.00:1. See the tone note on
+              ProgressBar. This draws in the band's ink, which is already
+              chosen to be legible on the hue. */}
+          <ProgressBar value={progress} tone="on-accent" />
         </div>
       )}
     </header>

@@ -7,6 +7,7 @@
  * step, which is what `ui_kits/mobile/screens.jsx` used to be.
  */
 import type { ReactNode } from 'react'
+import { bookOneFlow } from './book-one'
 import { checkpointFlow } from './checkpoint'
 import { flashcardFlow } from './flashcard-round'
 import { fillFlow } from './fill-blank'
@@ -43,6 +44,7 @@ export const FLOWS: readonly FlowEntry[] = [
   entry(fillFlow),
   entry(lessonsFlow),
   entry(checkpointFlow),
+  entry(bookOneFlow),
 ]
 
 export function flowById(id: string): FlowEntry {
