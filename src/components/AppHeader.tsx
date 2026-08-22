@@ -35,13 +35,37 @@ export function AppHeader({ title, subtitle, left, right, mark = true, progress 
   const showMark = mark && left === undefined
 
   return (
-    <header className="border-b-[6px] border-rule-on-inverse bg-inverse">
-      {/* Full width, deliberately. This row was capped at `max-w-3xl` to match
-          the content column under it, which is inert at phone widths and wrong
-          at 1280: the mark stopped sitting at the edge of the band and floated
-          in from the left, level with the body text. The title is centred by
-          the grid either way, so nothing moves on a phone. Caught in the flows
-          harness the first time a desktop view existed, 2026-08-21. */}
+    <header className="mx-auto w-full max-w-3xl border-b-[6px] border-rule-on-inverse bg-inverse">
+      {/* Back to the content column, 2026-08-22, and this reverses the change
+          made a day earlier.
+          
+          Full width was the wrong fix for the right problem. At 1280 the band
+          did stretch away from its text — but the answer is not to send the
+          mark to the window edge.
+
+          The cap is on the `header` itself, not on the row inside it, so the
+          SLAB is the column and not just its contents. Band and crest ground
+          then share one edge and the page reads as a sheet of paper centred in
+          the window, rather than a full-width bar over a narrow column. Inert
+          at phone widths either way — 390 is inside 768.
+
+          What sits ABOVE this at desktop width is undecided. A paper product
+          bar was built here on 2026-08-22 and removed the same day: it
+          repeated the band's Ōgon hairline forty pixels higher, and more to
+          the point it was invented rather than drawn from the real site, whose
+          chrome is `../aburungo/src/components/PageShell.tsx` — a large
+          `.ctype` lockup over a `border-b-2` tab nav, `max-w-5xl`, no coloured
+          bar at all. That frame has never been modelled in this package. Page
+          templates are being designed; do not guess at this again before they
+          land.
+
+          One more thing before you change what this renders: `../aburungo`
+          re-exports this component and pins this repo by sha in its CI. That
+          makes any change to its output a PIN-AFFECTING change — say so on the
+          PR and let the author decide whether the next bump carries it. The
+          pin exists because an unflagged change here once turned the app's CI
+          red with no commit there. Full note above Phase 3 in
+          docs/book-identity-and-checkpoint-mockups-plan.md. */}
       <div className="grid min-h-[56px] w-full grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-2">
         <div className="flex items-center">
           {showMark ? (

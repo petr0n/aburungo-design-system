@@ -350,10 +350,11 @@ contrast gate on its book's hue.
 | # | Task | Done when |
 |---|---|---|
 | 2.0 | ~~Book One's four remaining surfaces~~ | **done 2026-08-21.** `ui_kits/flows/book-one.tsx` — chapter opener, lesson pages for chapters 1 and 11, final checkpoint. Every chapter title, lesson title and can-do line is read from `../aburungo/src/content/`, so none of the copy is invented; Chapter One really runs thirteen lessons across two situations. Found and fixed a live `ProgressBar` bug on the way — see below |
-| 2.1 | Chapter opener, all five books | deep-linkable `?book=three&surface=opener`; the four unused brand utilities have a consumer |
-| 2.2 | Lesson page, early + late chapter, all five | ten surfaces; the only difference within a book is density/opacity |
-| 2.3 | Chapter checkpoint, all five | carries its book's crest and hue like any other page (§4); shows a shrinking set, never a score |
-| 2.4 | Final checkpoint, all five books | shows a shrinking set, never a score; reads heavier than a chapter checkpoint without leaving the book's identity |
+| 2.0b | ~~The four surfaces for every book~~ | **done 2026-08-21.** `bookFlow(book)` in `ui_kits/flows/book-surfaces.tsx`, spread over `BOOKS` in the registry — a new book gets four surfaces and four deep links with nothing to edit. This is the row that DID the work in 2.1, 2.2 and 2.4; those rows are struck individually rather than absorbed, so the table can be read without this one |
+| 2.1 | ~~Chapter opener, all five books~~ | **done 2026-08-21 by 2.0b.** Deep-linkable as `?flow=book-three&state=opener` — the shape changed from `?book=…&surface=…` because each book is its own flow, so the state rail is the four surfaces. `.kata-vert` and `.wm` have a consumer; `.ctype` and `.frame` still do not, and the opener is expected to be rebuilt on `.ctype` once the page templates land (`docs/site-templates-brief.md`) |
+| 2.2 | ~~Lesson page, early + late chapter, all five~~ | **done 2026-08-21 by 2.0b.** Ten surfaces. Within a book the difference is the crest density and the situation accent; the content is Book One's on all five, which is the design — see the note under this table |
+| 2.3 | ~~Chapter checkpoint, all five~~ | **done 2026-08-21.** `ui_kits/flows/checkpoint.tsx`, one flow whose state rail is the books. Carries its book's crest and hue (§4); shows a shrinking set, never a score |
+| 2.4 | ~~Final checkpoint, all five books~~ | **done 2026-08-21 by 2.0b**, with a fix on 2026-08-22. Shows a shrinking set, never a score, and reads heavier via the deep band and `tile-lg`. Book Five's deep band was the same class as its normal one — both `bg-accent-sumi`, which IS `stone-800` — so on that one book the mechanism did nothing. Deep is `stone-900` there now |
 
 > **What Book One found: the progress bar was invisible on three of five books.**
 > `ProgressBar`'s `tone` only ever swapped the *track*; the fill stayed
@@ -372,6 +373,50 @@ contrast gate on its book's hue.
 > to Book Five instead of removing it. Only re-measuring the render caught that. And
 > the contrast gate cannot see any of this: it reads flat tokens, and `currentColor`
 > has no token to read. **A bar on a hue band has to be measured by rendering.**
+
+> **The content is Book One's on every book, and that is the design, not a shortfall.**
+> `../aburungo/src/content/books.ts` is `[bookOne]` — one book has lessons, and there
+> is one chapters file. So the choice for Books Two to Five was to invent a syllabus or
+> to hold the content still.
+>
+> Holding it still is what makes the comparison work. §5 asks whether one design reads
+> as five books, similar but not identical, and that is only answerable if the copy is
+> the *same* on all five: change the words and the hue together and you cannot tell
+> which one you are reacting to. Every borrowed page says whose content it is. Replace
+> it per book as each book's lessons land.
+>
+> Two things the render caught that reading could not. The chapter opener's `.glass`
+> had `rule-rokusho` hard-coded, so **Book One's colour sat on the top edge of every
+> other book's opener** — a fifth hue on a page that already has one; it follows
+> `book.hue` now, and `brand.css` gained the `.glass.rule-sumi` that the set was
+> missing. And the harness nav went to **four lines** once there was one full link per
+> book: the books collapse to a label and a numbered row that cannot be split, because
+> books are not capped.
+
+> **Pin-affecting changes, and who decides.** `../aburungo` re-exports `AppHeader`,
+> `ProgressBar` and eleven other components straight from this package
+> (`../aburungo/src/components/index.ts`), and its CI checks out this repo at a **pinned
+> sha** — `ref:` in `.github/workflows/ci.yml`, mirrored by `scripts/vercel-install.sh`.
+>
+> The pin exists because of 2026-08-21: unpinned, CI took this repo's default branch, and
+> dropping `'recalled'` from `AnswerOutcome` here turned the app's CI red with no commit
+> there — three untouched files stopped compiling. The convention that came out of it is
+> written next to the ref: **bump it on purpose, as its own PR, so the upgrade is a
+> decision with a diff.**
+>
+> So a change here that alters a re-exported component's rendered output has an
+> obligation attached: name it, and say whether the next bump should carry it. Two in
+> this phase's work do.
+>
+> | Change | Effect on the app |
+> |---|---|
+> | `AppHeader`'s band capped at `max-w-3xl` **on the header element** | Its desktop layout changes from a full-width slab to a column. Nothing in the app renders `AppHeader` today — it is re-exported and unused — so nothing breaks, but the behaviour is different when it is first used |
+> | `ProgressBar` gains a `tone="on-accent"` | Additive. `default` and `inverse` are untouched, verified by rendering |
+>
+> The app is pinned at `6cc617b` and is five PRs behind. A bump to current main would
+> also carry the **verdict moving to the 800 step** (#38), which changes a learner-facing
+> colour — the CI comment calls that "a product call before it is a version bump", so it
+> is the author's, not this plan's.
 
 ### Phase 3 — Gate it
 

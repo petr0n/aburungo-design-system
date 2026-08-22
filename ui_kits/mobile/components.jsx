@@ -237,8 +237,8 @@ function KanaGrid({ rows, onSelect, onBackspace }) {
 function AppHeader({ title, subtitle, left, right, mark = true, progress }) {
   const showMark = mark && left === undefined;
   return (
-    <header className="border-b-[6px] border-rule-on-inverse bg-inverse">
-      {/* Full width — mirrors src/components/AppHeader.tsx, see the note there. */}
+    <header className="mx-auto w-full max-w-3xl border-b-[6px] border-rule-on-inverse bg-inverse">
+      {/* The SLAB is the column — mirrors src/components/AppHeader.tsx. */}
       <div className="grid min-h-[56px] w-full grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-2">
         <div className="flex items-center">
           {showMark

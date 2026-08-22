@@ -80,7 +80,12 @@ export const BOOKS = [
     band: 'bg-accent-ogon', deep: 'bg-ogon-900', rule: 'border-rule-on-inverse', tag: 'bg-accent-ogon-bg text-accent-ogon-fg',
     crest: 'crest-4', tile: 'tile-md', character: 'register' },
   { id: 'five', ink: 'text-fg-inverse',  title: 'Book Five',  level: '~N1', hue: 'sumi', hueName: 'Sumi-iro 墨色',
-    band: 'bg-accent-sumi', deep: 'bg-accent-sumi', rule: 'border-rule-on-inverse', tag: 'bg-accent-sumi-bg text-fg',
+    // deep is stone-900, not accent-sumi. Every other book's deep band is its
+    // hue's 900 step; Book Five's was the SAME class as its normal band, so the
+    // one mechanism that makes a final checkpoint read heavier did nothing on
+    // the one book. accent-sumi IS stone-800, so there was no step to fall to
+    // until you go one further down the stone ramp.
+    band: 'bg-accent-sumi', deep: 'bg-stone-900', rule: 'border-rule-on-inverse', tag: 'bg-accent-sumi-bg text-fg',
     crest: 'crest-5', tile: 'tile-lg', character: 'refinement' },
 ] as const satisfies readonly Book[]
 
@@ -114,8 +119,10 @@ export function BookBand({ book, title, subtitle, progress, deep = false }: {
   // per-hue ink and always uses it.
   const ink = deep ? 'text-fg-inverse' : book.ink
   return (
-    <header className={`border-b-[6px] ${book.rule} ${deep ? book.deep : book.band}`}>
-      <div className="grid min-h-[56px] grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-2">
+    <header className={`mx-auto w-full max-w-3xl border-b-[6px] ${book.rule} ${deep ? book.deep : book.band}`}>
+      {/* The cap is on the `header`, matching AppHeader: the slab is the
+          column, so band and crest ground share one edge. See the note there. */}
+      <div className="grid min-h-[56px] w-full grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-2">
         <span
           className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent font-jp text-body font-bold text-accent-fg"
           aria-hidden="true"
@@ -136,7 +143,7 @@ export function BookBand({ book, title, subtitle, progress, deep = false }: {
           Five's Sumi. The first fix moved the bug rather than removing it, and
           only measuring the render showed that. */}
       {progress !== undefined && (
-        <div className={`px-4 pb-2 ${ink}`}>
+        <div className={`w-full px-4 pb-2 ${ink}`}>
           {/* `on-accent`, not the default/inverse pair: those only swap the
               TRACK, and the fill stayed Rokushō 500 — the same colour as Book
               One's own band, measured at 1.00:1. See the tone note on

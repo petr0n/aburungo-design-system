@@ -6,6 +6,7 @@ import { BookLab } from './book-lab'
 const IDS = FLOWS.map((f) => f.id)
 /** The lab is not a flow — it renders five phones at once, so it is its own page. */
 const LAB = 'books'
+const BOOK_FLOWS = FLOWS.filter((f) => f.group === 'book')
 const raw = fromUrl('flow', [...IDS, LAB], IDS[0])
 const current = flowById(raw)
 
@@ -58,11 +59,13 @@ function MissingFlow({ id }: { id: string }) {
 function FlowNav() {
   return (
     <nav className="border-b border-border bg-surface">
-      <div className="mx-auto flex w-full max-w-5xl flex-wrap items-center gap-1 px-6 py-3">
+      {/* max-w-6xl, not the page's 5xl: the nav carries one entry per flow plus
+          one per book, and books are not capped. */}
+      <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center gap-1 px-6 py-3">
         <span className="mr-2 text-caption font-semibold uppercase tracking-wider text-fg-faint">
           Flows
         </span>
-        {[...FLOWS, { id: LAB, label: 'Book lab' }].map((flow) => (
+        {[...FLOWS.filter((f) => f.group !== 'book'), { id: LAB, label: 'Book lab' }].map((flow) => (
           <a
             key={flow.id}
             href={`?flow=${flow.id}`}
@@ -78,9 +81,36 @@ function FlowNav() {
             {flow.label}
           </a>
         ))}
+        {/* The books collapse to one label and a row of numbers. Five full
+            links wrapped the nav to four lines, and books are not capped — see
+            the note over BOOKS. */}
+        {/* One flex box, so the label and the numbers cannot be split across
+            two lines. Wrapping between "2" and "3" reads as a broken nav
+            rather than as a group. */}
+        <span className="ml-2 flex shrink-0 items-center gap-1">
+          <span className="mr-1 text-caption font-semibold uppercase tracking-wider text-fg-faint">
+            Books
+          </span>
+          {BOOK_FLOWS.map((flow, i) => (
+            <a
+              key={flow.id}
+              href={`?flow=${flow.id}`}
+              aria-label={flow.label}
+              aria-current={flow.id === raw ? 'page' : undefined}
+              className={[
+                'inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg px-2 text-body-sm font-medium transition-colors',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
+                flow.id === raw ? 'bg-action text-action-fg' : 'text-link active:bg-surface-2',
+              ].join(' ')}
+            >
+              {i + 1}
+            </a>
+          ))}
+        </span>
+
         <a
           href="../mobile/"
-          className="ml-auto inline-flex min-h-[44px] items-center rounded-lg px-3 text-body-sm font-medium text-link active:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+          className="ml-4 inline-flex min-h-[44px] items-center rounded-lg px-3 text-body-sm font-medium text-link active:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
         >
           Mobile kit →
         </a>

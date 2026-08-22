@@ -3,8 +3,8 @@
 // ui_kits/flows/main.tsx
 import { createRoot } from "react-dom/client";
 
-// ui_kits/flows/book-one.tsx
-import { useState as useState4 } from "react";
+// ui_kits/flows/book-lab.tsx
+import { useState as useState3 } from "react";
 
 // src/components/ui/Button.tsx
 import { jsx } from "react/jsx-runtime";
@@ -396,7 +396,7 @@ function AudioButton(props) {
 import { jsx as jsx11, jsxs as jsxs4 } from "react/jsx-runtime";
 function AppHeader({ title, subtitle, left, right, mark = true, progress }) {
   const showMark = mark && left === void 0;
-  return /* @__PURE__ */ jsxs4("header", { className: "border-b-[6px] border-rule-on-inverse bg-inverse", children: [
+  return /* @__PURE__ */ jsxs4("header", { className: "mx-auto w-full max-w-3xl border-b-[6px] border-rule-on-inverse bg-inverse", children: [
     /* @__PURE__ */ jsxs4("div", { className: "grid min-h-[56px] w-full grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-2", children: [
       /* @__PURE__ */ jsx11("div", { className: "flex items-center", children: showMark ? /* @__PURE__ */ jsx11(
         "span",
@@ -1045,9 +1045,6 @@ function GradePair({ onGrade, disabled = false }) {
   ] });
 }
 
-// ui_kits/flows/book-lab.tsx
-import { useState as useState3 } from "react";
-
 // ui_kits/flows/shell.tsx
 import { useState as useState2 } from "react";
 import { jsx as jsx23, jsxs as jsxs16 } from "react/jsx-runtime";
@@ -1266,8 +1263,13 @@ var BOOKS = [
     level: "~N1",
     hue: "sumi",
     hueName: "Sumi-iro \u58A8\u8272",
+    // deep is stone-900, not accent-sumi. Every other book's deep band is its
+    // hue's 900 step; Book Five's was the SAME class as its normal band, so the
+    // one mechanism that makes a final checkpoint read heavier did nothing on
+    // the one book. accent-sumi IS stone-800, so there was no step to fall to
+    // until you go one further down the stone ramp.
     band: "bg-accent-sumi",
-    deep: "bg-accent-sumi",
+    deep: "bg-stone-900",
     rule: "border-rule-on-inverse",
     tag: "bg-accent-sumi-bg text-fg",
     crest: "crest-5",
@@ -1277,8 +1279,8 @@ var BOOKS = [
 ];
 function BookBand({ book, title, subtitle, progress, deep = false }) {
   const ink = deep ? "text-fg-inverse" : book.ink;
-  return /* @__PURE__ */ jsxs17("header", { className: `border-b-[6px] ${book.rule} ${deep ? book.deep : book.band}`, children: [
-    /* @__PURE__ */ jsxs17("div", { className: "grid min-h-[56px] grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-2", children: [
+  return /* @__PURE__ */ jsxs17("header", { className: `mx-auto w-full max-w-3xl border-b-[6px] ${book.rule} ${deep ? book.deep : book.band}`, children: [
+    /* @__PURE__ */ jsxs17("div", { className: "grid min-h-[56px] w-full grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-2", children: [
       /* @__PURE__ */ jsx24(
         "span",
         {
@@ -1293,7 +1295,7 @@ function BookBand({ book, title, subtitle, progress, deep = false }) {
       ] }),
       /* @__PURE__ */ jsx24("span", {})
     ] }),
-    progress !== void 0 && /* @__PURE__ */ jsx24("div", { className: `px-4 pb-2 ${ink}`, children: /* @__PURE__ */ jsx24(ProgressBar, { value: progress, tone: "on-accent" }) })
+    progress !== void 0 && /* @__PURE__ */ jsx24("div", { className: `w-full px-4 pb-2 ${ink}`, children: /* @__PURE__ */ jsx24(ProgressBar, { value: progress, tone: "on-accent" }) })
   ] });
 }
 var LIVE_CORRECT = {
@@ -1543,9 +1545,9 @@ function BookLab() {
   ] });
 }
 
-// ui_kits/flows/book-one.tsx
+// ui_kits/flows/book-surfaces.tsx
+import { useState as useState4 } from "react";
 import { Fragment as Fragment4, jsx as jsx25, jsxs as jsxs18 } from "react/jsx-runtime";
-var BOOK = BOOKS[0];
 var CHAPTER_ONE = [
   { n: 1, title: "Yes, no, and this/that", canDo: "Greet someone", situation: "Greetings & basics", done: true },
   { n: 2, title: "Hello & goodbye", canDo: "Greet someone", situation: "Greetings & basics", done: true },
@@ -1597,20 +1599,20 @@ var LATE = [
     english: "Where are the glasses?"
   }
 ];
-function ChapterOpener({ onStart }) {
+function ChapterOpener({ book, onStart }) {
   const done = CHAPTER_ONE.filter((l) => l.done).length;
   const situations = [...new Set(CHAPTER_ONE.map((l) => l.situation))];
   return /* @__PURE__ */ jsxs18(Fragment4, { children: [
-    /* @__PURE__ */ jsx25(BookBand, { book: BOOK, title: "Book One", subtitle: "Chapter 1 of 11" }),
+    /* @__PURE__ */ jsx25(BookBand, { book, title: book.title, subtitle: "Chapter 1 of 11" }),
     /* @__PURE__ */ jsx25(Screen, { children: /* @__PURE__ */ jsxs18(
       "div",
       {
-        className: `emboss-bg ${BOOK.crest} ${BOOK.tile} -mx-4 -mt-5 flex flex-1 flex-col gap-5 px-4 py-6`,
+        className: `emboss-bg ${book.crest} ${book.tile} -mx-4 -mt-5 flex flex-1 flex-col gap-5 px-4 py-6`,
         style: { "--emboss-opacity": ".5" },
         children: [
           /* @__PURE__ */ jsxs18("div", { className: "flex items-start gap-4", children: [
             /* @__PURE__ */ jsx25("span", { className: "kata-vert brand text-heading-sm", "aria-hidden": "true", children: "\u30A2\u30D6\u30EB\u30F3\u30B4" }),
-            /* @__PURE__ */ jsxs18("div", { className: "glass rule-rokusho flex flex-1 flex-col gap-3", children: [
+            /* @__PURE__ */ jsxs18("div", { className: `glass rule-${book.hue} flex flex-1 flex-col gap-3`, children: [
               /* @__PURE__ */ jsx25("span", { className: "text-caption font-bold uppercase tracking-wider text-fg-muted", children: "Chapter One" }),
               /* @__PURE__ */ jsx25("h2", { className: "text-heading-lg font-semibold text-fg-heading", children: "Greetings & ordering" }),
               /* @__PURE__ */ jsx25("p", { className: "text-body text-fg", children: "Enough to walk in, be greeted, and order something \u2014 the two things that happen before anything else does." }),
@@ -1640,6 +1642,7 @@ function ChapterOpener({ onStart }) {
   ] });
 }
 function LessonPage2({
+  book,
   chapter,
   unit,
   lesson,
@@ -1653,13 +1656,13 @@ function LessonPage2({
     /* @__PURE__ */ jsx25(
       BookBand,
       {
-        book: BOOK,
+        book,
         title: lesson.title,
         subtitle: `Chapter ${chapter} \xB7 lesson ${unit}`,
         progress
       }
     ),
-    /* @__PURE__ */ jsx25(Screen, { children: /* @__PURE__ */ jsxs18("div", { className: `emboss-bg ${BOOK.crest} ${tile} -mx-4 -mt-5 flex flex-1 flex-col gap-4 px-4 py-5`, children: [
+    /* @__PURE__ */ jsx25(Screen, { children: /* @__PURE__ */ jsxs18("div", { className: `emboss-bg ${book.crest} ${tile} -mx-4 -mt-5 flex flex-1 flex-col gap-4 px-4 py-5`, children: [
       /* @__PURE__ */ jsxs18("div", { className: "glass flex flex-col gap-1", children: [
         /* @__PURE__ */ jsx25("span", { className: "text-caption font-bold uppercase tracking-wider text-fg-muted", children: "By the end" }),
         /* @__PURE__ */ jsx25("p", { className: "text-body font-semibold text-fg-heading", children: lesson.canDo })
@@ -1686,7 +1689,7 @@ var FINAL_ITEMS = [
   { english: "The check, please.", answer: "\u304A\u4F1A\u8A08\u304A\u9858\u3044\u3057\u307E\u3059", romaji: "okaikei onegai shimasu" },
   { english: "Chopsticks, please.", answer: "\u304A\u7BB8\u3092\u304F\u3060\u3055\u3044", romaji: "ohashi o kudasai" }
 ];
-function FinalCheckpoint() {
+function FinalCheckpoint({ book }) {
   const [index, setIndex] = useState4(0);
   const [value, setValue] = useState4("");
   const [checked, setChecked] = useState4(false);
@@ -1694,8 +1697,8 @@ function FinalCheckpoint() {
   const correct = checked && value.trim() === item.answer;
   const left = FINAL_ITEMS.length - index;
   return /* @__PURE__ */ jsxs18(Fragment4, { children: [
-    /* @__PURE__ */ jsx25(BookBand, { book: BOOK, title: "Book One", subtitle: "final checkpoint", deep: true }),
-    /* @__PURE__ */ jsx25(Screen, { children: /* @__PURE__ */ jsxs18("div", { className: `emboss-bg ${BOOK.crest} tile-lg -mx-4 -mt-5 flex flex-1 flex-col gap-4 px-4 py-5`, children: [
+    /* @__PURE__ */ jsx25(BookBand, { book, title: book.title, subtitle: "final checkpoint", deep: true }),
+    /* @__PURE__ */ jsx25(Screen, { children: /* @__PURE__ */ jsxs18("div", { className: `emboss-bg ${book.crest} tile-lg -mx-4 -mt-5 flex flex-1 flex-col gap-4 px-4 py-5`, children: [
       /* @__PURE__ */ jsxs18("div", { className: "glass flex flex-col gap-1", children: [
         /* @__PURE__ */ jsxs18("span", { className: "text-caption font-bold uppercase tracking-wider text-fg-muted", children: [
           left,
@@ -1740,52 +1743,58 @@ function FinalCheckpoint() {
 }
 var STATES2 = [
   { id: "opener", label: "Chapter opener", note: "the book thesis; crest full-bleed, kata-vert, wordmark" },
-  { id: "lesson-early", label: "Lesson \xB7 ch 1", note: "unit 3, greetings \u2014 Ai-iro card on a Rokush\u014D band" },
+  { id: "lesson-early", label: "Lesson \xB7 ch 1", note: "unit 3, greetings \u2014 Ai-iro card on the book band" },
   { id: "lesson-late", label: "Lesson \xB7 ch 11", note: "unit 91, the kitchen \u2014 same rules, \u014Cgon card, denser crest" },
   { id: "final", label: "Final checkpoint", note: "production gate; deep band, tile-lg, closes the book" }
 ];
-var bookOneFlow = {
-  id: "book-one",
-  label: "Book One",
-  title: "Book One \u2014 the surfaces",
-  blurb: "Four of the five surfaces \xA75 asks for, in the book that has real content. Every chapter title, lesson title and can-do line is from ../aburungo/src/content. The fifth, the chapter checkpoint, is its own flow and covers all books. Watch the two planes: the chrome is Rokush\u014D on every screen, and the card accent changes with the situation, twice inside one chapter.",
-  states: STATES2,
-  initial: "opener",
-  Screens({ state, go }) {
-    return /* @__PURE__ */ jsxs18(Fragment4, { children: [
-      state === "opener" && /* @__PURE__ */ jsx25(ChapterOpener, { onStart: () => go("lesson-early") }),
-      state === "lesson-early" && /* @__PURE__ */ jsx25(
-        LessonPage2,
-        {
-          chapter: 1,
-          unit: 3,
-          lesson: CHAPTER_ONE[2],
-          phrases: EARLY,
-          progress: 3 / 13,
-          tile: "tile-sm"
-        }
-      ),
-      state === "lesson-late" && /* @__PURE__ */ jsx25(
-        LessonPage2,
-        {
-          chapter: 11,
-          unit: 91,
-          lesson: {
-            n: 91,
-            title: "In the kitchen",
-            canDo: "Name what is on the table and ask for a glass or chopsticks",
-            situation: "Meals and the kitchen",
-            done: false
-          },
-          phrases: LATE,
-          progress: 0.94,
-          tile: "tile-md"
-        }
-      ),
-      state === "final" && /* @__PURE__ */ jsx25(FinalCheckpoint, {})
-    ] });
-  }
-};
+function bookFlow(book) {
+  const borrowed = book.id !== "one";
+  return {
+    id: `book-${book.id}`,
+    label: book.title,
+    title: `${book.title} \u2014 the surfaces`,
+    blurb: `Four of the five surfaces \xA75 asks for, in ${book.hueName}. The fifth, the chapter checkpoint, is its own flow and covers every book. ` + (borrowed ? `The content is Book One's, held still on purpose: it is the only book with lessons, and a comparison where the words change with the hue cannot tell you which one you are reacting to. Judge the chrome, the crest and the density \u2014 not the syllabus.` : `Every chapter title, lesson title and can-do line is from ../aburungo/src/content.`) + ` Watch the two planes: the chrome is ${book.hueName} on every screen, and the card accent changes with the situation, twice inside one chapter.`,
+    states: STATES2,
+    initial: "opener",
+    Screens({ state, go }) {
+      return /* @__PURE__ */ jsxs18(Fragment4, { children: [
+        borrowed && /* @__PURE__ */ jsx25("div", { className: "border-b border-border bg-surface-2 px-4 py-1 text-center text-caption text-fg-muted", children: "Book One's content \u2014 the variable here is the identity" }),
+        state === "opener" && /* @__PURE__ */ jsx25(ChapterOpener, { book, onStart: () => go("lesson-early") }),
+        state === "lesson-early" && /* @__PURE__ */ jsx25(
+          LessonPage2,
+          {
+            book,
+            chapter: 1,
+            unit: 3,
+            lesson: CHAPTER_ONE[2],
+            phrases: EARLY,
+            progress: 3 / 13,
+            tile: "tile-sm"
+          }
+        ),
+        state === "lesson-late" && /* @__PURE__ */ jsx25(
+          LessonPage2,
+          {
+            book,
+            chapter: 11,
+            unit: 91,
+            lesson: {
+              n: 91,
+              title: "In the kitchen",
+              canDo: "Name what is on the table and ask for a glass or chopsticks",
+              situation: "Meals and the kitchen",
+              done: false
+            },
+            phrases: LATE,
+            progress: 0.94,
+            tile: "tile-md"
+          }
+        ),
+        state === "final" && /* @__PURE__ */ jsx25(FinalCheckpoint, { book })
+      ] });
+    }
+  };
+}
 
 // ui_kits/flows/checkpoint.tsx
 import { jsx as jsx26 } from "react/jsx-runtime";
@@ -1796,7 +1805,7 @@ var STATES3 = BOOKS.map((b) => ({
 }));
 var checkpointFlow = {
   id: "checkpoint",
-  label: "Chapter checkpoint",
+  label: "Checkpoint",
   title: "Chapter checkpoint",
   blurb: "The gate at the end of a chapter, in each of the five books. The only number is how many are left and it shrinks to zero \u2014 no score, no percentage, per DR-020. The book keeps its chrome here: the verdict sits at Rokush\u014D 800 and Akane 800, two steps down the same ramp, so correctness never wears a colour a band is already wearing.",
   states: STATES3,
@@ -2842,8 +2851,8 @@ var lessonsFlow = {
 };
 
 // ui_kits/flows/registry.ts
-function entry(flow) {
-  return { id: flow.id, label: flow.label, open: (use) => use(flow) };
+function entry(flow, group) {
+  return { id: flow.id, label: flow.label, group, open: (use) => use(flow) };
 }
 var FLOWS = [
   entry(flashcardFlow),
@@ -2851,7 +2860,10 @@ var FLOWS = [
   entry(fillFlow),
   entry(lessonsFlow),
   entry(checkpointFlow),
-  entry(bookOneFlow)
+  // One entry per book, spread rather than listed: a new book gets its four
+  // surfaces and four deep links with nothing to edit here. See the no-limit
+  // note over `BOOKS`.
+  ...BOOKS.map((b) => entry(bookFlow(b), "book"))
 ];
 function flowById(id) {
   return FLOWS.find((f) => f.id === id) ?? FLOWS[0];
@@ -2864,6 +2876,7 @@ function renderFlow(entry2, render) {
 import { Fragment as Fragment9, jsx as jsx31, jsxs as jsxs23 } from "react/jsx-runtime";
 var IDS = FLOWS.map((f) => f.id);
 var LAB = "books";
+var BOOK_FLOWS = FLOWS.filter((f) => f.group === "book");
 var raw = fromUrl("flow", [...IDS, LAB], IDS[0]);
 var current = flowById(raw);
 var asked = new URLSearchParams(window.location.search).get("flow");
@@ -2895,9 +2908,9 @@ function MissingFlow({ id }) {
   ) });
 }
 function FlowNav() {
-  return /* @__PURE__ */ jsx31("nav", { className: "border-b border-border bg-surface", children: /* @__PURE__ */ jsxs23("div", { className: "mx-auto flex w-full max-w-5xl flex-wrap items-center gap-1 px-6 py-3", children: [
+  return /* @__PURE__ */ jsx31("nav", { className: "border-b border-border bg-surface", children: /* @__PURE__ */ jsxs23("div", { className: "mx-auto flex w-full max-w-7xl flex-wrap items-center gap-1 px-6 py-3", children: [
     /* @__PURE__ */ jsx31("span", { className: "mr-2 text-caption font-semibold uppercase tracking-wider text-fg-faint", children: "Flows" }),
-    [...FLOWS, { id: LAB, label: "Book lab" }].map((flow) => /* @__PURE__ */ jsx31(
+    [...FLOWS.filter((f) => f.group !== "book"), { id: LAB, label: "Book lab" }].map((flow) => /* @__PURE__ */ jsx31(
       "a",
       {
         href: `?flow=${flow.id}`,
@@ -2911,11 +2924,29 @@ function FlowNav() {
       },
       flow.id
     )),
+    /* @__PURE__ */ jsxs23("span", { className: "ml-2 flex shrink-0 items-center gap-1", children: [
+      /* @__PURE__ */ jsx31("span", { className: "mr-1 text-caption font-semibold uppercase tracking-wider text-fg-faint", children: "Books" }),
+      BOOK_FLOWS.map((flow, i) => /* @__PURE__ */ jsx31(
+        "a",
+        {
+          href: `?flow=${flow.id}`,
+          "aria-label": flow.label,
+          "aria-current": flow.id === raw ? "page" : void 0,
+          className: [
+            "inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg px-2 text-body-sm font-medium transition-colors",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg",
+            flow.id === raw ? "bg-action text-action-fg" : "text-link active:bg-surface-2"
+          ].join(" "),
+          children: i + 1
+        },
+        flow.id
+      ))
+    ] }),
     /* @__PURE__ */ jsx31(
       "a",
       {
         href: "../mobile/",
-        className: "ml-auto inline-flex min-h-[44px] items-center rounded-lg px-3 text-body-sm font-medium text-link active:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg",
+        className: "ml-4 inline-flex min-h-[44px] items-center rounded-lg px-3 text-body-sm font-medium text-link active:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg",
         children: "Mobile kit \u2192"
       }
     )
