@@ -57,7 +57,15 @@ export function AppHeader({ title, subtitle, left, right, mark = true, progress 
           `.ctype` lockup over a `border-b-2` tab nav, `max-w-5xl`, no coloured
           bar at all. That frame has never been modelled in this package. Page
           templates are being designed; do not guess at this again before they
-          land. */}
+          land.
+
+          One more thing before you change what this renders: `../aburungo`
+          re-exports this component and pins this repo by sha in its CI. That
+          makes any change to its output a PIN-AFFECTING change — say so on the
+          PR and let the author decide whether the next bump carries it. The
+          pin exists because an unflagged change here once turned the app's CI
+          red with no commit there. Full note above Phase 3 in
+          docs/book-identity-and-checkpoint-mockups-plan.md. */}
       <div className="grid min-h-[56px] w-full grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-2">
         <div className="flex items-center">
           {showMark ? (
