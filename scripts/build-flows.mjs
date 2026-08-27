@@ -29,6 +29,13 @@ import { build } from 'esbuild'
 const ENTRIES = [
   ['ui_kits/flows/main.tsx', 'ui_kits/flows/bundle.js', 'ui_kits/flows/index.html'],
   ['ui_kits/mobile/main.tsx', 'ui_kits/mobile/bundle.js', 'ui_kits/mobile/index.html'],
+  // The storybook joined on 2026-08-26. It was the last big hand-written
+  // mirror: 44 stories rendering `ui_kits/mobile/components.jsx`, a second
+  // copy of every component, compiled in the browser by Babel standalone. It
+  // now imports `src/components` like the two above, so the name of this
+  // script is a little narrow but the contract is identical -- one bundler,
+  // no second copy of anything.
+  ['storybook/main.tsx', 'storybook/bundle.js', 'storybook/index.html'],
 ]
 
 /**
