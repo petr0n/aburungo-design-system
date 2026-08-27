@@ -71,6 +71,28 @@ const SURFACES = [
   ['lessons-list', '/ui_kits/flows/?flow=lessons&state=list', 1280, 1200],
   ['phone-lessons', '/ui_kits/flows/?flow=lessons&state=list', 390, 780, '[data-phone]'],
   ['lessons-empty', '/ui_kits/flows/?flow=lessons&state=empty', 1280, 1100],
+
+  // The books. Five identities x four surfaces, plus the chapter checkpoint
+  // and the lab. These had NO entry here until 2026-08-26 -- twenty-five
+  // shipped surfaces that nothing in the repo rendered, so reviewing them
+  // meant a throwaway script every time. That is the gap this list exists to
+  // close; a surface with no shot is a surface nobody looks at.
+  //
+  // One opener per book is the identity sweep: the band, crest and tile are
+  // the only variables, and you cannot see whether five identities hold apart
+  // one book at a time. Book One then carries the other three states, because
+  // the content is identical across books by construction.
+  ['book-one-opener', '/ui_kits/flows/?flow=book-one&state=opener', 390, 780, '[data-phone]'],
+  ['book-two-opener', '/ui_kits/flows/?flow=book-two&state=opener', 390, 780, '[data-phone]'],
+  ['book-three-opener', '/ui_kits/flows/?flow=book-three&state=opener', 390, 780, '[data-phone]'],
+  ['book-four-opener', '/ui_kits/flows/?flow=book-four&state=opener', 390, 780, '[data-phone]'],
+  ['book-five-opener', '/ui_kits/flows/?flow=book-five&state=opener', 390, 780, '[data-phone]'],
+  ['book-lesson-early', '/ui_kits/flows/?flow=book-one&state=lesson-early', 390, 780, '[data-phone]'],
+  ['book-lesson-late', '/ui_kits/flows/?flow=book-one&state=lesson-late', 390, 780, '[data-phone]'],
+  ['book-final', '/ui_kits/flows/?flow=book-one&state=final', 390, 780, '[data-phone]'],
+  ['book-checkpoint', '/ui_kits/flows/?flow=checkpoint&state=one', 390, 780, '[data-phone]'],
+  ['book-lab-identities', '/ui_kits/flows/?flow=books&state=identities', 1500, 1150],
+  ['book-lab-verdicts', '/ui_kits/flows/?flow=books&state=feedback', 1500, 1400],
   ['color', '/preview/03-color.html', 900, 2400],
   // Every preview page gets a shot. Sixteen of them had none, which is how
   // 12-radii.html went on showing a 6-20px scale for a day after the radii were
