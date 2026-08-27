@@ -77,7 +77,7 @@ Check `MEMORY.md` there at the start of every conversation.
 | `src/brand.css` | Brand utilities — `.hanko`, `.maru`, `.wm`, `.kata-vert`, `.ctype`, `.frame`, `.emboss-bg` |
 | `dist/tokens.plain.css` | **Generated** from `src/tokens.css`. The only `dist/` file that is committed, because the preview pages import it and are served with no build step |
 | `colors_and_type.css` | Preview harness stylesheet. Imports the generated tokens; declares only non-colour harness primitives |
-| `storybook/` | Custom HTML storybook — still a **hand-written mirror**, via `ui_kits/mobile/components.jsx` |
+| `storybook/` | Custom storybook — **built from the real components** since 2026-08-26. `stories.tsx` imports `src/components`, bundled by `pnpm build:flows` |
 | `ui_kits/flows/` | **Flow mockups built from the real components** — TSX importing `src/components`, bundled by `pnpm build:flows`. Deep-linkable states (`?state=empty`) |
 | `ui_kits/mobile/` | **The same flows in an iPhone frame**, plus landing and sign-in. Also real components; shares `ui_kits/flows/registry.ts` |
 | `ui_kits/` | JSX component *mirrors* and screen mockups. Hand-written copies — see the drift warning below |
@@ -124,17 +124,30 @@ cannot drift, and the flows harness is where `bg-inverse` was caught rendering
 nothing after passing typecheck, lint, and the contrast gate. Build a flow
 before trusting a component.
 
-`ui_kits/app/` and `storybook/` are still **hand-written mirrors** of
-`ui_kits/mobile/components.jsx`. Each component is typed out a second time in
-browser JSX, so a component can be correct in TSX and wrong on screen. Adding a
-component means mirroring it by hand, in the same commit.
+`storybook/` joined them on 2026-08-26. `stories.tsx` imports `src/components`,
+the shell is `main.tsx`, and both are bundled by `pnpm build:flows` and
+typechecked — `storybook` is in `tsconfig.json`'s `include`, which is the line
+that makes the conversion worth anything.
+
+**`ui_kits/app/` and `ui_kits/desktop-explore.html` are the last hand-written
+mirrors**, both still rendering `ui_kits/mobile/components.jsx`. Each component
+is typed out a second time in browser JSX, so a component can be correct in TSX
+and wrong on screen there. Adding a component means mirroring it by hand, in
+the same commit — for those two only.
 
 > The mobile kit was a mirror until 2026-08-17, and it is what the warning was
 > written about. It rendered a landing screen whose primary CTA asked for
 > `variant="accent"` — a variant no `Button` has ever implemented — so the map
 > returned `undefined` and the button came out as bare text. Untyped JSX cannot
-> catch that. Converting it took the mirror surface from three harnesses to
-> two; `storybook/` is the one worth doing next, since it is 59 stories.
+> catch that.
+>
+> Converting the storybook took the mirror surface from two harnesses to one
+> and found two more of the same shape the moment `tsc` could see the file:
+> the `KanaGrid` story passed an `onBackspace` prop the real component has
+> never had, and the kana section union had been hand-copied as
+> `'basic' | 'voiced' | 'combo'` when the real one is `'small'`, not `'combo'`.
+> Both had been sitting in a green build. It also surfaced three public
+> exports — `CardHeader`, `CardBody`, `CardFooter` — with no story at all.
 
 `build:tokens` runs **after** `tsup` — tsup has `clean: true` and would otherwise
 delete the generated sheet.
@@ -206,7 +219,7 @@ Identical to the AburunGo app:
 3. Run `pnpm typecheck` to confirm no type errors.
 4. Run `pnpm lint` — adherence (no raw hex, no non-DS fonts) must pass.
 5. Run `pnpm build` to verify the dist output.
-6. Add a story to `storybook/stories.jsx` **and** a JSX mirror to `ui_kits/mobile/components.jsx`. Those two are still hand-written, and a component with no mirror is invisible in the storybook — this is the known drift machine, so do it in the same commit. `ui_kits/flows/` and `ui_kits/mobile/` need nothing: they import the real thing.
+6. Add a story to `storybook/stories.tsx` — it imports the real component, so this cannot drift, but an export with no story is invisible. If the component needs to appear in `ui_kits/app/` or `ui_kits/desktop-explore.html`, mirror it by hand into `ui_kits/mobile/components.jsx` in the same commit: those two are the last untyped harnesses. `ui_kits/flows/`, `ui_kits/mobile/` and `storybook/` need nothing — they import the real thing.
 7. Run `/handoff-to-app` to generate the integration spec for the AburunGo app.
 
 ## Git workflow

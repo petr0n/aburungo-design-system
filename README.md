@@ -160,7 +160,7 @@ overwrites it.
 | `DESIGN.md` | The visual system — palette roles, type hierarchy, named rules, per-surface taste dials, and which skill generators are disabled |
 | `scripts/` | `check-forbidden-assets.mjs` (brand gate), `build-tokens.mjs` (token propagation), `check-adherence.mjs` (no raw values in components) |
 | `.claude/commands/` | Project slash commands (e.g. `/handoff-to-app`) |
-| `storybook/` | Custom HTML storybook (uses JSX mirrors in `ui_kits/mobile/components.jsx`) |
+| `storybook/` | Custom storybook, built from the real components (`stories.tsx` imports `src/components`) |
 | `ui_kits/` | JSX mirrors of the components (a workaround for the browser‑Babel storybook) plus screen files. Mirrors are hand‑maintained and drift from `src/components/`; the screen files are hand‑drawn — see [Looking at a screen](#looking-at-a-screen-not-just-a-component) |
 | `src/lib/` | Shared logic shipped as a second entry point (`aburungo-design-system/lib`) — kana data, romaji conversion. Fixture content belongs here too, once it exists |
 | `preview/` | Static HTML design spec pages |

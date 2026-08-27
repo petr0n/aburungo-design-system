@@ -38,7 +38,7 @@ ck 1.2 "build regenerates the sheet"             'grep -q "build:tokens" package
 ck 1.3 "colors_and_type imports the sheet"       'grep -q "dist/tokens.plain.css" colors_and_type.css'
 ck 1.3 "colors_and_type declares no colour"      '! grep -qiE "^\s*--[a-z-]*(color|bg|fg|brand|accent)[a-z-]*:\s*#" colors_and_type.css'
 ck 1.4 "5 harnesses have generated @theme"       '[ $(grep -rl "build-tokens:start" storybook/index.html ui_kits/*/index.html ui_kits/desktop-explore.html 2>/dev/null | wc -l) -ge 5 ]'
-ck 1.6 "stories.jsx reads tokens live"           'grep -q "getComputedStyle" storybook/stories.jsx'
+ck 1.6 "stories read tokens live"                'grep -q "getComputedStyle" storybook/stories.tsx'
 ck 1.7 "no stray hex in preview/ spec pages"      '[ $(grep -rioE "#[0-9a-f]{6}" preview --exclude-dir=_sandbox 2>/dev/null | grep -viE "01-logo|03-color" | wc -l) -eq 0 ]'
 # The needle is assembled rather than written, so this file does not contain the
 # string it searches for. Writing it whole is how the check started matching
@@ -59,6 +59,12 @@ echo "PHASE 3 — component pass + gate"
 ck 3.g "touch-target gate exists and runs"       '[ -f scripts/check-touch-targets.mjs ] && grep -q "check-touch-targets" package.json'
 ck 3.g "responsive sweep exists"                 '[ -f scripts/shots-responsive.mjs ]'
 ck 3.g "adherence gate fails the build"          'grep -q "process.exit" scripts/check-adherence.mjs'
+# Converted 2026-08-26. Checked as two absences and one presence, because the
+# way this regresses is a new story file appearing beside the real one, not the
+# real one changing.
+ck 3.g "storybook imports real components"       'grep -q "\\.\\./src/components" storybook/stories.tsx'
+ck 3.g "storybook has no browser-JSX stories"    '! ls storybook/*.jsx >/dev/null 2>&1'
+ck 3.g "storybook is typechecked"                'grep -q "\"storybook\"" tsconfig.json'
 
 echo "PHASE 3B / 4 — scenario card and flows"
 ck 3B  "emboss-bg has a consumer"                'grep -rq "emboss-bg" ui_kits/flows/'
