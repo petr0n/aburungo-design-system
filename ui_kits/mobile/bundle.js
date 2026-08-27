@@ -1078,7 +1078,7 @@ var BOOKS = [
     id: "one",
     ink: "text-stone-900",
     title: "Book One",
-    level: "~N5",
+    stage: "foundation",
     hue: "rokusho",
     hueName: "Rokush\u014D \u7DD1\u9752",
     band: "bg-accent-rokusho",
@@ -1093,7 +1093,7 @@ var BOOKS = [
     id: "two",
     ink: "text-fg-inverse",
     title: "Book Two",
-    level: "~N4",
+    stage: "building",
     hue: "ai",
     hueName: "Ai-iro \u85CD\u8272",
     band: "bg-accent-ai",
@@ -1108,7 +1108,7 @@ var BOOKS = [
     id: "three",
     ink: "text-fg-inverse",
     title: "Book Three",
-    level: "~N3",
+    stage: "building",
     hue: "akane",
     hueName: "Akane \u831C\u8272",
     band: "bg-accent-akane",
@@ -1123,7 +1123,7 @@ var BOOKS = [
     id: "four",
     ink: "text-stone-900",
     title: "Book Four",
-    level: "~N2",
+    stage: "reading",
     hue: "ogon",
     hueName: "\u014Cgon \u9EC4\u91D1",
     band: "bg-accent-ogon",
@@ -1138,7 +1138,7 @@ var BOOKS = [
     id: "five",
     ink: "text-fg-inverse",
     title: "Book Five",
-    level: "~N1",
+    stage: "reading",
     hue: "sumi",
     hueName: "Sumi-iro \u58A8\u8272",
     // deep is stone-900, not accent-sumi. Every other book's deep band is its
@@ -1582,7 +1582,7 @@ import { jsx as jsx26 } from "react/jsx-runtime";
 var STATES2 = BOOKS.map((b) => ({
   id: b.id,
   label: b.title,
-  note: `${b.hueName} \xB7 ${b.level} \xB7 ${b.character}`
+  note: `${b.hueName} \xB7 ${b.stage} \xB7 ${b.character}`
 }));
 var checkpointFlow = {
   id: "checkpoint",

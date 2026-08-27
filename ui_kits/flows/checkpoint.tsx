@@ -31,7 +31,7 @@ import type { FlowDef, FlowState } from './shell'
 const STATES: readonly FlowState<BookId>[] = BOOKS.map((b) => ({
   id: b.id,
   label: b.title,
-  note: `${b.hueName} · ${b.level} · ${b.character}`,
+  note: `${b.hueName} · ${b.stage} · ${b.character}`,
 }))
 
 export const checkpointFlow: FlowDef<BookId> = {

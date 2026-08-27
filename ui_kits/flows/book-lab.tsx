@@ -26,10 +26,28 @@ import { AppHeader, Button, Maru, ProgressBar } from '../../src/components'
 import type { AnswerOutcome } from '../../src/components'
 import { Phone, Screen, fromUrl } from './shell'
 
+/**
+ * The course stage a book belongs to, mirroring `Stage` in the app's
+ * `src/types.ts` (DR-033). Two of these change what a screen renders: past
+ * `foundation`, recall replaces flip-and-rate as the review gate, and romaji
+ * is cut for every item shown in that book -- including earlier books' items
+ * reviewed there.
+ *
+ * This replaced a `level: '~N5'…'~N1'` field on 2026-08-26. That field said a
+ * book WAS a JLPT level, which is the model the app dropped in
+ * https://github.com/petr0n/aburungo/pull/100 -- a book is a volume of about
+ * ten chapters, ending where an arc of situations ends rather than where a
+ * reference list runs out. The levels never reached a learner-facing screen,
+ * only this lab's column headers and the harness rails, so nothing shipped
+ * wrong -- but a design system carrying the superseded model is how the
+ * superseded model comes back.
+ */
+export type Stage = 'foundation' | 'building' | 'reading' | 'fluency'
+
 export type Book = {
   id: string
   title: string
-  level: string
+  stage: Stage
   hue: string
   hueName: string
   /** Tailwind classes for the book's chrome band and its rule. */
@@ -66,20 +84,30 @@ export type Book = {
  * sixth hue. The palette is five colours with one job each and adding to it
  * is how a palette stops meaning anything.
  */
+/**
+ * Where the stages come from: the app fixes Book One as `foundation` and Book
+ * Two as the first `building` book (docs/plans/03-book-two.md). Three onward
+ * are placeholders chosen here so each stage has a surface to look at -- the
+ * app has not authored them.
+ *
+ * Book Five is deliberately NOT `fluency`. DR-034 ends the course at roughly
+ * N2, which puts the run at about eleven books, so the fifth is a middle
+ * volume rather than the last one.
+ */
 export const BOOKS = [
-  { id: 'one', ink: 'text-stone-900',   title: 'Book One',   level: '~N5', hue: 'rokusho', hueName: 'Rokushō 緑青',
+  { id: 'one', ink: 'text-stone-900',   title: 'Book One',   stage: 'foundation', hue: 'rokusho', hueName: 'Rokushō 緑青',
     band: 'bg-accent-rokusho', deep: 'bg-rokusho-900', rule: 'border-rule-on-inverse', tag: 'bg-accent-rokusho-bg text-accent-rokusho-fg',
     crest: 'crest-1', tile: 'tile-sm', character: 'the foundation' },
-  { id: 'two', ink: 'text-fg-inverse',   title: 'Book Two',   level: '~N4', hue: 'ai', hueName: 'Ai-iro 藍色',
+  { id: 'two', ink: 'text-fg-inverse',   title: 'Book Two',   stage: 'building', hue: 'ai', hueName: 'Ai-iro 藍色',
     band: 'bg-accent-ai', deep: 'bg-ai-900', rule: 'border-rule-on-inverse', tag: 'bg-accent-ai-bg text-fg-heading',
     crest: 'crest-2', tile: 'tile-md', character: 'the bridge' },
-  { id: 'three', ink: 'text-fg-inverse', title: 'Book Three', level: '~N3', hue: 'akane', hueName: 'Akane 茜色',
+  { id: 'three', ink: 'text-fg-inverse', title: 'Book Three', stage: 'building', hue: 'akane', hueName: 'Akane 茜色',
     band: 'bg-accent-akane', deep: 'bg-akane-900', rule: 'border-rule-on-inverse', tag: 'bg-accent-akane-bg text-error-fg',
     crest: 'crest-3', tile: 'tile-sm', character: 'the wall' },
-  { id: 'four', ink: 'text-stone-900',  title: 'Book Four',  level: '~N2', hue: 'ogon', hueName: 'Ōgon 黄金',
+  { id: 'four', ink: 'text-stone-900',  title: 'Book Four',  stage: 'reading', hue: 'ogon', hueName: 'Ōgon 黄金',
     band: 'bg-accent-ogon', deep: 'bg-ogon-900', rule: 'border-rule-on-inverse', tag: 'bg-accent-ogon-bg text-accent-ogon-fg',
     crest: 'crest-4', tile: 'tile-md', character: 'register' },
-  { id: 'five', ink: 'text-fg-inverse',  title: 'Book Five',  level: '~N1', hue: 'sumi', hueName: 'Sumi-iro 墨色',
+  { id: 'five', ink: 'text-fg-inverse',  title: 'Book Five',  stage: 'reading', hue: 'sumi', hueName: 'Sumi-iro 墨色',
     // deep is stone-900, not accent-sumi. Every other book's deep band is its
     // hue's 900 step; Book Five's was the SAME class as its normal band, so the
     // one mechanism that makes a final checkpoint read heavier did nothing on
@@ -524,7 +552,7 @@ export function BookLab() {
           {BOOKS.map((b) => (
             <Slot
               key={b.id}
-              label={`${b.title} · ${b.level}`}
+              label={`${b.title} · ${b.stage}`}
               sub={state === 'resolved' ? 'neutral chrome' : state === 'deep' ? `${b.hueName} 900` : b.hueName}
             >
               <Phone>
