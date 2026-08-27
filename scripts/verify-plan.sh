@@ -83,6 +83,45 @@ ck 5.11 "docs/colors.md is the authority"        '[ -f docs/colors.md ]'
 # fails on any surviving reference to that filename, which is the point.
 ck 5.x "the banned mark cannot return"           'node scripts/check-forbidden-assets.mjs'
 
+echo "PHASE 6 — book identity and checkpoint (docs/book-identity-and-checkpoint-mockups-plan.md)"
+# Task 3.4. The books plan is a second plan in the same tree, and it records
+# completion the same way the first one did -- a human note under a phase
+# heading. That is the arrangement that let a false "Phase 5 complete" stand
+# for five days, so the second plan gets checked by command from the start
+# rather than after it makes the same mistake.
+ck 6.0 "the plan is in the tree"                 '[ -f docs/book-identity-and-checkpoint-mockups-plan.md ]'
+ck 6.0 "five crest tiles shipped"                'for n in 1 2 3 4 5; do [ -f "assets/clan-symbol$n.png" ] || exit 1; done'
+ck 6.0 "each crest has a brand.css rule"         'for n in 1 2 3 4 5; do grep -q "crest-$n" src/brand.css || exit 1; done'
+ck 6.0 "the Sumi accent exists"                  'grep -q -- "--color-accent-sumi" src/tokens.css'
+ck 6.1 "books are not capped"                    'grep -q "as const satisfies readonly Book\[\]" ui_kits/flows/book-lab.tsx'
+ck 6.1 "BookId is derived, not hand-written"     'grep -q "typeof BOOKS)\[number\]\[.id.\]" ui_kits/flows/book-lab.tsx'
+# DR-033: a book is a volume, not a JLPT level. Checked as an absence,
+# because the failure mode here is revival -- the model came back once
+# already, from prose that still described it.
+#
+# Matched on the DATA ROW shape (a title and the field on one line), not on
+# the field name alone. The first version of this check searched for the bare
+# string and failed on the first run: the comment that removes the field
+# quotes it, so the check matched its own denial. That is task 1.8's mistake
+# and the app repeated it in petr0n/aburungo#100 the same week. A criterion
+# that a correct tree cannot satisfy is worse than no criterion, because it
+# gets "fixed" by deleting the explanation.
+ck 6.1 "the JLPT level field is gone"            '! grep -qE "title: .Book [A-Za-z]+.,\\s*level:" ui_kits/flows/*.tsx'
+ck 6.1 "books carry a stage instead"             'grep -q "stage: Stage" ui_kits/flows/book-lab.tsx'
+ck 6.1 "stage mirrors the app's four values"     'grep -q "foundation. | .building. | .reading. | .fluency" ui_kits/flows/book-lab.tsx'
+ck 6.2 "the four surfaces are one flow factory"  'grep -q "export function bookFlow" ui_kits/flows/book-surfaces.tsx'
+ck 6.2 "the checkpoint is its own flow"          'grep -q "export const checkpointFlow" ui_kits/flows/checkpoint.tsx'
+ck 6.2 "every book is registered"                'grep -q "BOOKS.map" ui_kits/flows/registry.ts'
+# The lab is append-only: rejected options stay on the page with the reason
+# they lost. Deleting them is what the author called out on 2026-08-21, and a
+# verdict list that shrinks is how the record quietly becomes the winner only.
+ck 6.2 "the lab keeps every verdict"             '[ $(grep -c "status: .\(chosen\|superseded\|rejected\)" ui_kits/flows/book-lab.tsx) -ge 5 ]'
+ck 6.3 "book surfaces are in pnpm shots"         '[ $(grep -c "book-.*-opener" scripts/shots.mjs) -ge 5 ]'
+ck 6.3 "book surfaces are in the sweep"          'grep -q "book-one-opener" scripts/shots-responsive.mjs'
+ck 6.3 "each book band ink is gated"             '[ $(grep -c "band ink on its band" scripts/check-contrast.mjs) -eq 5 ]'
+# Delegates rather than restating, same reason as 5.6 and 5.x above.
+ck 6.3 "the contrast gate still passes"          'node scripts/check-contrast.mjs'
+
 echo
 echo "$pass passed / $fail failed"
 [ $fail -eq 0 ] || exit 1
