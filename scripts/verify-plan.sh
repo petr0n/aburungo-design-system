@@ -106,7 +106,14 @@ ck 6.1 "BookId is derived, not hand-written"     'grep -q "typeof BOOKS)\[number
 # and the app repeated it in petr0n/aburungo#100 the same week. A criterion
 # that a correct tree cannot satisfy is worse than no criterion, because it
 # gets "fixed" by deleting the explanation.
-ck 6.1 "the JLPT level field is gone"            '! grep -qE "title: .Book [A-Za-z]+.,\\s*level:" ui_kits/flows/*.tsx'
+#
+# `[[:space:]]`, not `\s`. This file is #!/bin/sh and `\s` is a GNU/BSD
+# extension rather than POSIX ERE -- it happens to work on both platforms this
+# runs on, so the check passed for the right reason by luck. An absence check
+# that silently passes where the extension is missing is the same class of
+# failure as the self-matching one above: it reports clean on a tree that
+# regressed.
+ck 6.1 "the JLPT level field is gone"            '! grep -qE "title: .Book [A-Za-z]+.,[[:space:]]*level:" ui_kits/flows/*.tsx'
 ck 6.1 "books carry a stage instead"             'grep -q "stage: Stage" ui_kits/flows/book-lab.tsx'
 ck 6.1 "stage mirrors the app's four values"     'grep -q "foundation. | .building. | .reading. | .fluency" ui_kits/flows/book-lab.tsx'
 ck 6.2 "the four surfaces are one flow factory"  'grep -q "export function bookFlow" ui_kits/flows/book-surfaces.tsx'

@@ -86,13 +86,18 @@ export type Book = {
  */
 /**
  * Where the stages come from: the app fixes Book One as `foundation` and Book
- * Two as the first `building` book (docs/plans/03-book-two.md). Three onward
+ * Two as the first `building` book. Three onward
  * are placeholders chosen here so each stage has a surface to look at -- the
  * app has not authored them.
  *
  * Book Five is deliberately NOT `fluency`. DR-034 ends the course at roughly
  * N2, which puts the run at about eleven books, so the fifth is a middle
  * volume rather than the last one.
+ *
+ * Both records live in the app, not here: DR-033 and DR-034, and the Book Two
+ * plan at `docs/plans/03-book-two.md` in petr0n/aburungo. Naming an app path
+ * unqualified in this repo sends a reader looking for a file that is not in
+ * this tree.
  */
 export const BOOKS = [
   { id: 'one', ink: 'text-stone-900',   title: 'Book One',   stage: 'foundation', hue: 'rokusho', hueName: 'Rokushō 緑青',
