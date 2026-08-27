@@ -212,6 +212,33 @@ const CHECKS = [
   // three checks above already cover. scripts/check-adherence.mjs enforces
   // that the offset is present; without it, focus on a primary button drops
   // to 2.25:1 and on an Akane surface to 1.03:1.
+
+  // ---- The book bands (plan task 3.2) ----------------------------------
+  //
+  // Each book's chrome band carries its title and its chapter line, and the
+  // Band Ink Rule says both share one ink: there is no muted step that
+  // survives on Akane, so a band gets one colour or it gets an unreadable
+  // second one.
+  //
+  // That makes the ink/band pair the whole legibility story for a band, and
+  // it is per-book because the ink is per-book -- Books One and Four take
+  // stone-900 because their hues are light, the other three take fg-inverse.
+  // Picking the wrong one is not subtle, but it is also not caught by
+  // anything else: `ink` is a Tailwind class in a data table, so a book with
+  // the wrong one typechecks, lints, and renders quietly wrong.
+  //
+  // TEXT, not UI: this is a heading and a subtitle, not a control edge.
+  //
+  // The crest side of task 3.2 needs no rows here. Every crest is already
+  // gated by the `#C8C8C8` patterned-ground stand-in above, which is set to
+  // the measured worst case across all five (crest-2 on a well at tile-lg,
+  // 0.5879) rather than to any one book -- so a per-book crest row would be
+  // the same check five times, four of them slack.
+  ['--color-stone-900', '--color-accent-rokusho', TEXT, 'Book One band ink on its band'],
+  ['--color-fg-inverse', '--color-accent-ai', TEXT, 'Book Two band ink on its band'],
+  ['--color-fg-inverse', '--color-accent-akane', TEXT, 'Book Three band ink on its band'],
+  ['--color-stone-900', '--color-accent-ogon', TEXT, 'Book Four band ink on its band'],
+  ['--color-fg-inverse', '--color-accent-sumi', TEXT, 'Book Five band ink on its band'],
 ]
 
 /**

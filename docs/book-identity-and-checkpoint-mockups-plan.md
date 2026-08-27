@@ -423,10 +423,10 @@ contrast gate on its book's hue.
 | # | Task | Done when |
 |---|---|---|
 | 3.1 | Add every new surface to `check-touch-targets.mjs` | all controls ≥44px, in all five books. **Book One's four plus two checkpoints added 2026-08-21: 318 → 331 controls, 0 undersized** |
-| 3.2 | Contrast: each book's hue on its own chrome, and on its crest ground | five new pairs in the gate, all passing or explicitly excepted |
-| 3.3 | Add the surfaces to `shots-responsive.mjs` | 0 horizontal overflow at 375/768/1024/1440 |
-| 3.3b | Every book surface renders at **1280** as well as 390 | `?view=desktop` in the flows harness; no surface leaves a dead half-screen |
-| 3.4 | `pnpm verify:plan` grows a Phase-6 block for this plan | this document's own claims are checkable by command |
+| ~~3.2~~ | ~~Contrast: each book's hue on its own chrome, and on its crest ground~~ | **Done 2026-08-26.** Five band-ink pairs in `check-contrast.mjs`, all passing; Book Three on Akane is tightest at 4.78:1. Gate 41/44 → 46/49. The crest side needed no rows — the patterned-ground stand-in is already set to the measured worst case across all five crests |
+| ~~3.3~~ | ~~Add the surfaces to `shots-responsive.mjs`~~ | **Done 2026-08-26.** Eight surfaces added — five openers plus Book One's remaining states. 88 renders, **0 horizontal overflow** |
+| ~~3.3b~~ | ~~Every book surface renders at **1280** as well as 390~~ | **Done 2026-08-26 — and the proposed fix was rejected on the renders. See the note below** |
+| ~~3.4~~ | ~~`pnpm verify:plan` grows a Phase-6 block for this plan~~ | **Done 2026-08-26.** 22 checks under `PHASE 6`. `pnpm verify:plan` is 51 passed / 0 failed |
 
 > 3.4 exists because the last plan recorded a phase complete when it was not, and the failure
 > stood for five days. A plan that cannot be checked by a command is a plan that will make the
@@ -447,9 +447,24 @@ contrast gate on its book's hue.
 > clearest. The fix is one class on `Screen`'s column in `ui_kits/flows/shell.tsx`:
 > `[justify-content:safe_center]`. `safe` is what makes it correct — it centres when there is room
 > and falls back to top-aligned when the content overflows, so it cannot make the top of a long
-> screen unreachable the way a plain `justify-center` would. It is not applied yet because it
-> changes the vertical position of content on **every phone screen too**, which is a bigger call
-> than a desktop fix and wants looking at rather than assuming.
+> screen unreachable the way a plain `justify-center` would.
+>
+> **Rendered 2026-08-26, and rejected. Do not apply it.** It was looked at rather than assumed,
+> which is what this row asked for, and the renders said two things:
+>
+> 1. **It does nothing on any book surface.** All six before/after pairs — checkpoint, final and
+>    late lesson, at 390 and at 1280 — came back pixel-identical. The crest stage is already
+>    `flex-1`, so it absorbs the free space and `justify-content` has none left to distribute.
+>    **The 25 surfaces this plan gates never had the dead half-screen.** The row's own acceptance
+>    criterion is met as the tree stands.
+> 2. **On the two surfaces that do have it — the flashcard round and the kana drill — it makes
+>    them worse.** Centring detaches the card from the header band and opens dead space *above*
+>    it as well as below. A gap between the chrome and the content reads as a layout bug; trailing
+>    empty ground reads as page. Trading one for the other is a loss.
+>
+> If the void on those two ever matters, the fix is the one the book surfaces already use: give
+> the screen a `flex-1` ground that fills the column, rather than centring a card in it. That is
+> a change to the flashcard and kana flows and is out of scope here.
 
 ---
 
