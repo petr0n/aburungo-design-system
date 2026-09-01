@@ -125,6 +125,14 @@ working interface, so these are guidelines with a date on them, not a frozen spe
 Where two rules conflict, raise it and propose a resolution rather than treating
 the older one as binding. Revisit the lot once the flow mockups exist.
 
+> **That condition fired, and nothing noticed.** The flow mockups exist —
+> `ui_kits/flows/`, `ui_kits/mobile/`, and 87 surfaces from `pnpm shots`. The
+> revisit began 2026-08-24 with the Material section and the generator narrowing
+> below. **A rule here that carries an expiry condition must name the artefact
+> that retires it**, because "provisional" with no trigger is indistinguishable
+> from settled — which is how the generator lock outlived its own reason by six
+> weeks while every session read it as authority and complied.
+
 ## Overview
 
 **Creative North Star: "Quiet form, warm intelligence"**
@@ -286,6 +294,42 @@ Both use ink-tinted rather than neutral black shadow, so they warm rather than g
 
 **The Two Shadows Rule.** If a new component wants a third shadow, it wants tonal separation instead. Reach for a surface token before a shadow.
 
+## Material
+
+**Added 2026-08-24, and it is the axis this spec was missing.** Every rule above
+says what *not* to add. Nothing said what the surface is made *of* — so the system
+executed "restraint" as subtraction and arrived at correct rectangles on stone:
+accurate to every rule in this file, and flat on screen.
+
+The references were always material. A Muji notebook is kraft board, paper tooth,
+a debossed mark, a stitched spine. A Leica is knurled metal and leatherette.
+Neither is undecorated because it is *bare*; both are undecorated because the
+material carries the interest and ornament would be redundant. **Restraint here
+means material precision, not absence.** Where the Elevation rule says depth comes
+from tone rather than shadow, this one says the tone is allowed to have a surface.
+
+What that licenses, in order of how settled it is:
+
+1. **The crest ground is the proven case.** `.emboss-bg` is this rule already
+   working — texture, no ornament, and the best thing in the system. It is not
+   an exception to restraint; it is what restraint was supposed to look like.
+2. **Paper quality on the card itself** — tooth, an ink-tinted edge, a
+   letterpress impression at a rule. Untried. Sandbox first, per the skill rules.
+3. **A drawn mark.** The ア is a font glyph masked into a circle. `PRODUCT.md`
+   already lists "there is no vector version of the mark" under absences future
+   work must not paper over; it has been unassigned since August.
+4. **Scenario illustration.** The product is practical Japanese for real
+   situations and there is not one picture of a situation anywhere in the repo.
+   The largest hole, and the one furthest from being decided.
+
+**What this does not reopen.** The crest placement rule above — a state showing
+content stays bare — is from 2026-08-16, *post-dates* the generator lock this
+section corrects, and its reason still holds: a texture behind a judged answer
+competes with the maru, and kamon are circular where ○ is already taken. Material
+on a review card comes from the card's own surface, not from putting the crest
+behind it. The Two Shadows Rule likewise stands — material is tone, tooth and
+impression, never a third shadow.
+
 ## Shapes
 
 **One radius: 4px, everywhere.** Flattened 2026-08-16. The scale used to run 6px for small chrome up to 20px for the review card, on the theory that a larger surface needs a larger radius to read as the same physical curvature. That is sound, and it made the UI look like a friendly consumer app. A single tight radius reads as a lacquered panel instead, which is the Zuihōden reference.
@@ -366,8 +410,8 @@ Not part of the DESIGN.md spec. Recorded here because it is design authority for
 
 | Surface | Components | DENSITY | VARIANCE | MOTION |
 |---|---|---|---|---|
-| Flashcard review | `FlipCard`, `PhraseCard` | 3 | 2 | 3 |
-| Kana practice | `KanaGrid`, `KanaKeyboard` | 4 | 2 | 3 |
+| Flashcard review | `FlipCard`, `PhraseCard` | 3 | 4 | 3 |
+| Kana practice | `KanaGrid`, `KanaKeyboard` | 4 | 4 | 3 |
 | Pronunciation | `VoiceInput`, `AudioButton` | 3 | 2 | 3 |
 | Cloze / fill | `FillInput`, `AnswerResult` | 3 | 2 | 2 |
 | Progress summary | `ProgressBar`, `ScoreCard` | 6 | 3 | 2 |
@@ -376,13 +420,34 @@ Not part of the DESIGN.md spec. Recorded here because it is design authority for
 
 `MOTION_INTENSITY` never exceeds 3. Every value above 3 implies scroll-driven or magnetic interaction, which a touch-first study app does not have.
 
-### Generators are disabled
+> **Flashcard review and Kana practice went 2 -> 4 on 2026-08-24.** They were
+> set to 2 on 2026-08-08 as a correction to plan v1's global `VISUAL_DENSITY: 8`,
+> which had been picked without reading `docs/design-direction.md`. The
+> correction overshot: 2 on the two surfaces a learner actually spends the
+> session inside is not restraint, it is a wireframe. Density stays where it is
+> -- the Muji spatial instruction is unchanged and this is not a licence to add
+> furniture. What moves is permission to vary *form*, judged on a rendered
+> screen and not in this table.
 
-The palette, the type pairing, and the UI style are **decided**. Any skill step that would generate them is switched off for this project:
+### Generators: palette and type only
 
-- **`frontend-design`** — its step-1 instruction to brainstorm a 4–6 colour palette and pick display/body typefaces does not run. Use the loop and the self-critique gate; the palette arrives from elsewhere and the type is locked.
-- **`ui-ux-pro-max`** — its 192 palettes, 84 UI styles (glassmorphism, claymorphism, bento, neumorphism), and 74 font pairings are all off. Use the UX guidelines, the anti-pattern rules, and the pre-delivery checklist only. Its `cursor-pointer` and hover-transition guidance is advisory and loses to the touch-first rule above.
+> **Narrowed 2026-08-24.** This was titled "Generators are disabled" and switched
+> off every skill step that produces a *look*, not only the ones that produce a
+> palette. Written 2026-08-08 in `1100cdb` (#16), it was a fair correction to plan
+> v1 -- which set `VISUAL_DENSITY: 8` on a Muji brief and cited four skills without
+> configuring any -- but it over-reached, and because it read as authority in a file
+> every session loads, every session since complied. The result is in
+> `scripts/.shots-out/`: correct, accessible, on-palette, and styleless. The plan it
+> came from was more careful than this section was -- it lists `frontend-design` as
+> **"generative -- trial and error lives here."** That clause is restored below.
+
+The palette and the type pairing are **decided**, and no skill re-derives them.
+The *look* is not decided, and may be proposed.
+
+- **`frontend-design`** — its step-1 palette brainstorm and typeface pick do not run; the palette arrives from `src/tokens.css` and the type is locked. **Its generative step does run** — this is where trial and error on layout, form and material lives.
+- **`ui-ux-pro-max`** — its 192 palettes and 74 font pairings stay off. Its 84 UI styles are **advisory rather than banned**: the named styles that contradict the brief (glassmorphism, claymorphism, neumorphism, bento) are still refused on sight, but the skill may propose form. Use the UX guidelines, the anti-pattern rules, and the pre-delivery checklist. Its `cursor-pointer` and hover-transition guidance loses to the touch-first rule above.
 - **`taste-skill`** — take the three dials and the pre-flight checks. Its canonical code skeletons are GSAP; this package ships zero runtime dependencies and animates with CSS keyframes.
 - **`impeccable`** — `detect` is a deterministic gate and runs on every build. `shape` and `craft` output is a first draft, never a recommendation.
+- **`brandkit` / `imagegen-frontend-mobile`** — **newly in scope 2026-08-24.** Never configured before, because the 2026-08-08 plan scoped only the four code/UI skills and the art-direction gap therefore had no owner. Use them for the mark redraw and for scenario illustration direction. Their output is reference art, never a shipped asset: it lands in `preview/_sandbox/`, and a drawn asset still comes out of Affinity.
 
-**No skill output goes straight into `src/components/`.** Variants land in `preview/_sandbox/` as static HTML first, and only a chosen one becomes a component.
+**No skill output goes straight into `src/components/`.** Variants land in `preview/_sandbox/` as static HTML first, and only a chosen one becomes a component. The lab is append-only: rejected options stay on the page, tagged, with the reason they lost.
