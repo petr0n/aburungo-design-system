@@ -36,6 +36,10 @@ const ENTRIES = [
   // script is a little narrow but the contract is identical -- one bundler,
   // no second copy of anything.
   ['storybook/main.tsx', 'storybook/bundle.js', 'storybook/index.html'],
+  // The DS Components page joined 2026-08-24. Same contract as the three
+  // above: it imports src/components, so it cannot fall behind them.
+  ['preview/ds/components.tsx', 'preview/ds/bundle.js', 'preview/ds/components.html'],
+
 ]
 
 /**

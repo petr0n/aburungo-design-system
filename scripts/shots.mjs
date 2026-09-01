@@ -32,7 +32,11 @@ const OUT = 'scripts/.shots-out'
  * a layout bug, and it cost half an hour to establish once.
  */
 const SURFACES = [
+  // The visual inventory — every DS layer rendered from the real sheets.
+  ['inventory', '/preview/00-inventory.html', 1280, 2200],
+  ['ds-foundations', '/preview/ds/foundations.html', 1280, 3000],
   ['storybook', '/storybook/', 1280, 900],
+  ['ds-patterns', '/preview/ds/patterns.html', 1440, 3000],
   ['storybook-score', '/storybook/#Layout/ScoreCard/Tones', 1280, 900],
   ['uikit-mobile', '/ui_kits/mobile/', 430, 900],
   ['uikit-app', '/ui_kits/app/', 1280, 900],
@@ -93,6 +97,11 @@ const SURFACES = [
   ['book-checkpoint', '/ui_kits/flows/?flow=checkpoint&state=one', 390, 780, '[data-phone]'],
   ['book-lab-identities', '/ui_kits/flows/?flow=books&state=identities', 1500, 1150],
   ['book-lab-verdicts', '/ui_kits/flows/?flow=books&state=feedback', 1500, 1400],
+  // The DS system pages. `ds-components` renders the REAL components from
+  // src/components -- a shot is the only thing that catches a component that
+  // typechecks and draws nothing, which is how `bg-inverse` was caught.
+  ['ds-index', '/preview/ds/index.html', 1280, 900],
+  ['ds-components', '/preview/ds/components.html', 1280, 2000],
   ['color', '/preview/03-color.html', 900, 2400],
   // Every preview page gets a shot. Sixteen of them had none, which is how
   // 12-radii.html went on showing a 6-20px scale for a day after the radii were

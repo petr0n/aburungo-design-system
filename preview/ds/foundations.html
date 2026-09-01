@@ -1,0 +1,772 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Foundations — AburunGo Design System</title>
+<!-- The real sheets. Nothing on this page is a copy of a token value. -->
+<link rel="stylesheet" href="../../colors_and_type.css">
+<link rel="stylesheet" href="../../src/brand.css">
+<link rel="stylesheet" href="./ds.css">
+<style>
+  /* ────────────────────────────────────────────────────────────────────
+     Page-local layout only. Every colour, size, radius and shadow below
+     is a var() onto src/tokens.css. The literals that remain are layout
+     geometry — widths, gaps, heights — which has no token.
+     ──────────────────────────────────────────────────────────────────── */
+
+  /* In-page nav */
+  .toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 40px }
+  .toc a {
+    font-size: var(--text-body-sm); font-weight: 600; text-decoration: none;
+    color: var(--color-fg-muted); background: var(--color-surface);
+    border: 1px solid var(--color-border); border-radius: var(--radius-sm);
+    padding: 8px 13px; min-height: 44px; display: inline-flex; align-items: center; gap: 7px;
+  }
+  .toc a:hover { color: var(--color-fg-heading); border-color: var(--color-border-strong) }
+  .toc a:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px }
+  .toc a .n { font-family: var(--font-mono); font-size: var(--text-caption); color: var(--color-fg-subtle) }
+
+  /* A Named Rule, quoted from DESIGN.md. */
+  .named {
+    border-left: 3px solid var(--color-accent-ogon);
+    background: var(--color-surface);
+    padding: 13px 16px; margin: 18px 0 0; max-width: 82ch;
+    font-size: var(--text-body-sm); color: var(--color-fg-muted);
+  }
+  .named b { color: var(--color-fg-heading) }
+  .named + .named { margin-top: 10px }
+
+  /* ── Colour ─────────────────────────────────────────────────────────── */
+  .rampname { font-size: var(--text-body-sm); font-weight: 600; margin: 0 0 7px;
+              color: var(--color-fg-heading) }
+  .rampname span { font-weight: 400; color: var(--color-fg-muted) }
+  .ramp { display: flex; gap: 6px; max-width: 1000px; margin: 0 0 24px }
+  .ramp .step { flex: 1 1 0; min-width: 0 }
+  .ramp .sw { height: 54px; border-radius: var(--radius-sm);
+              border: 1px solid var(--color-border) }
+  .ramp .step .ds-cap { display: block; margin-top: 5px; text-align: center }
+  /* The 500 step is the locked brand value in every ramp. */
+  .ramp .step.locked .sw { outline: 2px solid var(--color-fg-heading); outline-offset: 2px }
+  .ramp .step.locked .ds-cap { color: var(--color-fg); font-weight: 700 }
+
+  .roles { display: grid; grid-template-columns: repeat(auto-fill, minmax(172px, 1fr));
+           gap: 10px; max-width: 1000px }
+  .role { border: 1px solid var(--color-border); border-radius: var(--radius-sm);
+          overflow: hidden; background: var(--color-surface) }
+  .role .chip { height: 46px; display: flex; align-items: center; justify-content: center;
+                font-size: var(--text-body-sm); font-weight: 600 }
+  .role .ds-cap { display: block; padding: 6px 8px; word-break: break-all }
+
+  .fgrow { display: flex; align-items: baseline; gap: 16px; padding: 8px 0;
+           border-bottom: 1px solid var(--color-border) }
+  .fgrow .tk { font-family: var(--font-mono); font-size: var(--text-caption);
+               color: var(--color-fg-subtle); width: 216px; flex: 0 0 auto }
+  .fgrow .sp { font-size: var(--text-body-lg) }
+  .slab { background: var(--color-inverse); border-radius: var(--radius-sm); padding: 6px 18px 14px;
+          margin-top: 18px; border-bottom: 3px solid var(--color-rule-on-inverse) }
+  .slab .fgrow { border-bottom-color: var(--color-stone-700) }
+  .slab .tk { color: var(--color-fg-on-inverse-2) }
+
+  /* Real controls, drawn from the action roles. */
+  .btnrow { display: flex; gap: 12px; flex-wrap: wrap; align-items: center }
+  .btn { min-height: 44px; padding: 0 20px; border-radius: var(--radius-lg);
+         font-size: var(--text-body); font-weight: 600; border: 1px solid transparent;
+         display: inline-flex; align-items: center; font-family: var(--font-sans) }
+  .btn.p { background: var(--color-action); color: var(--color-action-fg) }
+  .btn.p2 { background: var(--color-action-2-bg); color: var(--color-action-2-fg);
+            border-color: var(--color-action-2-border) }
+  .btn.f { background: var(--color-surface); color: var(--color-fg);
+           border-color: var(--color-border-strong); outline: 2px solid var(--color-focus);
+           outline-offset: 2px }
+
+  .accents { display: grid; grid-template-columns: repeat(auto-fill, minmax(184px, 1fr));
+             gap: 12px; max-width: 1000px }
+  .acard { border: 1px solid var(--color-border); border-radius: var(--radius-sm);
+           padding: 14px; border-top-width: 3px; border-top-style: solid }
+  .acard .tag { display: inline-block; font-size: var(--text-caption); font-weight: 700;
+                letter-spacing: .08em; text-transform: uppercase; padding: 3px 8px;
+                border-radius: var(--radius-sm) }
+  .acard .ds-cap { display: block; margin-top: 10px }
+
+  .fb { display: flex; align-items: center; gap: 12px; padding: 12px 16px;
+        border-radius: var(--radius-md); border: 1px solid; font-size: var(--text-body-sm) }
+  .fb .glyph { font-size: var(--text-heading); font-family: var(--font-jp); line-height: 1 }
+
+  /* ── Typography ─────────────────────────────────────────────────────── */
+  .fams { max-width: 1000px }
+  .fam { padding: 14px 0; border-bottom: 1px solid var(--color-border) }
+  .fam .ds-cap { display: block; margin-bottom: 5px }
+  .trow { display: flex; align-items: baseline; gap: 18px; padding: 9px 0;
+          border-bottom: 1px solid var(--color-border) }
+  .trow .tk { font-family: var(--font-mono); font-size: var(--text-caption);
+              color: var(--color-fg-subtle); width: 254px; flex: 0 0 auto }
+  .trow .sp { color: var(--color-fg-heading); min-width: 0; overflow: hidden;
+              text-overflow: ellipsis; white-space: nowrap }
+  .trow.gapline { border-bottom: 1px dashed var(--color-akane-300); align-items: baseline }
+  /* The absent row carries a sentence, not a specimen — let it wrap rather
+     than inherit the single-line ellipsis the ramp rows want. */
+  .trow.gapline .sp { white-space: normal; overflow: visible; max-width: 76ch }
+  .trow.gapline .tk { color: var(--color-akane-600) }
+  .trow.gapline .sp { color: var(--color-akane-700); font-size: var(--text-body-sm) }
+
+  /* ── Shape ──────────────────────────────────────────────────────────── */
+  .shapes { display: flex; gap: 16px; flex-wrap: wrap }
+  .shape { display: flex; flex-direction: column; align-items: center; gap: 8px }
+  .shape .chunk { width: 104px; height: 66px; background: var(--color-ai-500) }
+
+  /* ── Elevation ──────────────────────────────────────────────────────── */
+  .elev { display: grid; grid-template-columns: repeat(auto-fill, minmax(212px, 1fr));
+          gap: 18px; max-width: 1000px }
+  .elev .plate { height: 104px; border-radius: var(--radius-sm);
+                 display: flex; align-items: center; justify-content: center;
+                 font-size: var(--text-body-sm); color: var(--color-fg-muted) }
+  .elev .ds-cap { display: block; margin-top: 9px }
+  .elev .onink { background: var(--color-inverse); border-radius: var(--radius-sm);
+                 padding: 20px; display: flex; align-items: center; justify-content: center;
+                 height: 104px }
+  .elev .key { width: 62px; height: 62px; border-radius: var(--radius-lg);
+               background: var(--color-key-bg); color: var(--color-key-fg);
+               font-family: var(--font-jp); font-size: var(--text-jp-lg);
+               display: flex; align-items: center; justify-content: center }
+
+  /* ── Motion ─────────────────────────────────────────────────────────── */
+  /* The keyframes are declared HERE and nowhere else on a preview page.
+     scripts/build-tokens.mjs copies the trailing block of src/tokens.css —
+     the @keyframes and the prefers-reduced-motion guard — into the four
+     harness HTML files but NOT into dist/tokens.plain.css, which is what
+     every preview page imports. So `var(--animate-card-enter)` resolves to
+     an animation name that does not exist here, and preview/00-inventory.html
+     has been showing a still frame labelled "card-enter" ever since.
+     Fix belongs in build-tokens.mjs, not in a second copy per page. */
+  @keyframes card-enter {
+    from { transform: translateY(-36px); opacity: 0 }
+    to   { transform: translateY(0);     opacity: 1 }
+  }
+  @keyframes card-exit {
+    from { transform: translateY(0);     opacity: 1 }
+    to   { transform: translateY(44px);  opacity: 0 }
+  }
+  .motion { display: flex; gap: 18px; flex-wrap: wrap }
+  .motion > div { width: 208px }
+  .motion .ds-cap { display: block; margin-top: 9px; line-height: 1.35 }
+  .stage { width: 208px; height: 128px; border: 1px solid var(--color-border);
+           border-radius: var(--radius-sm); background: var(--color-surface);
+           display: flex; align-items: center; justify-content: center; overflow: hidden }
+  .stage .card {
+    width: 148px; height: 76px; border-radius: var(--radius-2xl);
+    background: var(--color-ai-100); border: 1px solid var(--color-ai-200);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-jp); font-size: var(--text-jp); color: var(--color-fg-heading);
+  }
+  .stage .card.enter { animation: var(--animate-card-enter);
+                       animation-duration: 1.6s; animation-iteration-count: infinite }
+  .stage .card.exit  { animation: var(--animate-card-exit);
+                       animation-duration: 1.6s; animation-iteration-count: infinite }
+  .stage.absent { border-style: dashed; border-color: var(--color-akane-300);
+                  background: transparent; color: var(--color-akane-700);
+                  font-size: var(--text-body-sm); text-align: center; padding: 0 16px }
+  /* Same guard src/tokens.css ships and the generated sheet drops. */
+  @media (prefers-reduced-motion: reduce) {
+    .stage .card.enter, .stage .card.exit { animation: none }
+  }
+
+  /* ── Iconography ────────────────────────────────────────────────────── */
+  .icons { display: flex; gap: 12px; flex-wrap: wrap }
+  .icon { width: 88px; height: 88px; border: 1px solid var(--color-border);
+          border-radius: var(--radius-sm); background: var(--color-surface);
+          color: var(--color-fg); display: flex; flex-direction: column;
+          align-items: center; justify-content: center; gap: 7px; text-align: center }
+  .icon svg { width: 24px; height: 24px }
+  .icon .ds-cap { line-height: 1.2 }
+  .icon.slot { border-style: dashed; border-color: var(--color-akane-300);
+               background: transparent; color: var(--color-akane-700) }
+  .icon.slot .ds-cap { color: var(--color-akane-700) }
+  .icon.slot .bar { width: 24px; height: 24px; border: 1px dashed var(--color-akane-300);
+                    border-radius: var(--radius-sm) }
+
+  /* ── Illustration ───────────────────────────────────────────────────── */
+  .plates { display: grid; grid-template-columns: repeat(auto-fill, minmax(198px, 1fr));
+            gap: 14px; max-width: 1240px }
+  .plate-empty { border: 1px dashed var(--color-akane-300); border-radius: var(--radius-sm);
+                 aspect-ratio: 4 / 3; display: flex; flex-direction: column;
+                 align-items: center; justify-content: center; gap: 6px;
+                 color: var(--color-akane-700); font-size: var(--text-body-sm) }
+
+  /* ── Brand ──────────────────────────────────────────────────────────── */
+  .marks { display: grid; grid-template-columns: repeat(auto-fill, minmax(178px, 1fr));
+           gap: 14px; max-width: 1240px }
+  /* NOT `.mark` — brand.css owns that name for the serial number in
+     `.frame .footer .mark`, and an unscoped `.mark` here drew the frame's
+     "NO. 01" as a 156px specimen tile inside its own footer. */
+  .bcell { background: var(--color-surface); border: 1px solid var(--color-border);
+           border-radius: var(--radius-sm); padding: 20px; display: flex;
+           flex-direction: column; align-items: center; justify-content: center;
+           gap: 14px; min-height: 156px; text-align: center }
+  .bcell.onink { background: var(--color-inverse); border-color: var(--color-stone-700) }
+  .bcell.onink .ds-cap { color: var(--color-fg-on-inverse-2) }
+  .bcell .demo { display: flex; align-items: center; justify-content: center;
+                 gap: 10px; flex-wrap: wrap }
+  /* .wm.md clamps to 48px, which is wider than one cell of this grid. Give it
+     two rather than shrinking the specimen — the size is the thing on show. */
+  .bcell.wide { grid-column: span 2 }
+  .hanko-lg { font-size: var(--text-display-lg) }
+  .hanko-md { font-size: var(--text-display) }
+  .hanko-sm { font-size: var(--text-heading) }
+  .maru-solo { font-size: var(--text-display-lg); line-height: 1;
+               display: inline-flex; align-items: center; gap: 10px }
+
+  .grounds { display: grid; grid-template-columns: repeat(auto-fill, minmax(198px, 1fr));
+             gap: 14px; max-width: 1240px }
+  .ground { border: 1px solid var(--color-border); border-radius: var(--radius-sm);
+            background: var(--color-surface); min-height: 132px; padding: 16px;
+            display: flex; align-items: flex-end }
+  .ground .ds-cap { min-width: 0; overflow-wrap: anywhere }
+  .glasswrap { border: 1px solid var(--color-border); border-radius: var(--radius-sm);
+               background: var(--color-surface); padding: 18px }
+  .glass-demo { max-width: 100% }
+  .glass-demo .t { font-size: var(--text-body-lg); font-weight: 600;
+                   color: var(--color-fg-heading); margin: 0 0 3px }
+  .glass-demo .d { font-size: var(--text-body-sm); color: var(--color-fg-subtle); margin: 0 }
+  .rules-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+               gap: 14px; max-width: 1240px }
+</style></head><body>
+
+<header class="ds-bar">
+  <span class="brand">
+    <span class="hanko" aria-hidden="true"></span>
+    <span class="wm xs inv">aburungo<span class="maru rose"></span></span>
+  </span>
+  <nav>
+    <a href="./index.html">Overview</a>
+    <a href="./foundations.html" aria-current="page">Foundations</a>
+    <a href="./components.html">Components</a>
+    <a href="./patterns.html">Patterns</a>
+  </nav>
+</header>
+
+<main class="ds-page">
+  <h1 class="ds-title">Foundations</h1>
+  <p class="ds-lede">The eight decisions everything else is built out of, rendered live from
+    <code>src/tokens.css</code> and <code>src/brand.css</code> — not a copy, so none of it can drift
+    from what ships. Each group states the rule that governs it, quoted from <code>DESIGN.md</code>.
+    Dashed Akane is what does not exist yet: the gap is drawn rather than described.</p>
+
+  <nav class="toc" aria-label="Foundations">
+    <a href="#colour"><span class="n">01</span> Colour</a>
+    <a href="#typography"><span class="n">02</span> Typography</a>
+    <a href="#shape"><span class="n">03</span> Shape</a>
+    <a href="#elevation"><span class="n">04</span> Elevation</a>
+    <a href="#motion"><span class="n">05</span> Motion</a>
+    <a href="#iconography"><span class="n">06</span> Iconography</a>
+    <a href="#illustration"><span class="n">07</span> Illustration</a>
+    <a href="#brand"><span class="n">08</span> Brand</a>
+  </nav>
+
+  <!-- ══ 01 · COLOUR ═══════════════════════════════════════════════════ -->
+  <section class="ds-section" id="colour">
+    <h2 class="ds-h2">01 · Colour <span class="ds-st ok">solid</span></h2>
+    <p class="ds-note">Five colours, one job each, on warm stone — v3 <em>Zuihōden</em>. The ramps
+      below are the value layer: derived steps for component states, with the <strong>500 step
+      locked</strong> as the brand value in every case (ringed). Components never reach into a ramp.
+      They reference the role layer underneath it, which is why the two are shown separately.</p>
+
+    <h3 class="ds-h3">The five ramps</h3>
+
+    <p class="rampname">Akane 茜色 <span>— the hanko, and error states. Also available as a card accent; never a CTA.</span></p>
+    <div class="ramp">
+      <div class="step"><div class="sw" style="background:var(--color-akane-50)"></div><span class="ds-cap">50</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-akane-100)"></div><span class="ds-cap">100</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-akane-200)"></div><span class="ds-cap">200</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-akane-300)"></div><span class="ds-cap">300</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-akane-400)"></div><span class="ds-cap">400</span></div>
+      <div class="step locked"><div class="sw" style="background:var(--color-akane-500)"></div><span class="ds-cap">500</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-akane-600)"></div><span class="ds-cap">600</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-akane-700)"></div><span class="ds-cap">700</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-akane-800)"></div><span class="ds-cap">800</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-akane-900)"></div><span class="ds-cap">900</span></div>
+    </div>
+
+    <p class="rampname">Ai-iro 藍色 <span>— primary action, headings, and Japanese content. The phrase under study is Ai-iro.</span></p>
+    <div class="ramp">
+      <div class="step"><div class="sw" style="background:var(--color-ai-50)"></div><span class="ds-cap">50</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-ai-100)"></div><span class="ds-cap">100</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-ai-200)"></div><span class="ds-cap">200</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-ai-300)"></div><span class="ds-cap">300</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-ai-400)"></div><span class="ds-cap">400</span></div>
+      <div class="step locked"><div class="sw" style="background:var(--color-ai-500)"></div><span class="ds-cap">500</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-ai-600)"></div><span class="ds-cap">600</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-ai-700)"></div><span class="ds-cap">700</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-ai-800)"></div><span class="ds-cap">800</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-ai-900)"></div><span class="ds-cap">900</span></div>
+    </div>
+
+    <p class="rampname">Rokushō 緑青 <span>— progress, correctness, secondary action, links, and the kana keyboard ground.</span></p>
+    <div class="ramp">
+      <div class="step"><div class="sw" style="background:var(--color-rokusho-50)"></div><span class="ds-cap">50</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-rokusho-100)"></div><span class="ds-cap">100</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-rokusho-200)"></div><span class="ds-cap">200</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-rokusho-300)"></div><span class="ds-cap">300</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-rokusho-400)"></div><span class="ds-cap">400</span></div>
+      <div class="step locked"><div class="sw" style="background:var(--color-rokusho-500)"></div><span class="ds-cap">500</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-rokusho-600)"></div><span class="ds-cap">600</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-rokusho-700)"></div><span class="ds-cap">700</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-rokusho-800)"></div><span class="ds-cap">800</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-rokusho-900)"></div><span class="ds-cap">900</span></div>
+    </div>
+
+    <p class="rampname">Ōgon 黄金 <span>— focus rings, scenario tags, hairlines on dark chrome. The default card accent.</span></p>
+    <div class="ramp">
+      <div class="step"><div class="sw" style="background:var(--color-ogon-50)"></div><span class="ds-cap">50</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-ogon-100)"></div><span class="ds-cap">100</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-ogon-200)"></div><span class="ds-cap">200</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-ogon-300)"></div><span class="ds-cap">300</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-ogon-400)"></div><span class="ds-cap">400</span></div>
+      <div class="step locked"><div class="sw" style="background:var(--color-ogon-500)"></div><span class="ds-cap">500</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-ogon-600)"></div><span class="ds-cap">600</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-ogon-700)"></div><span class="ds-cap">700</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-ogon-800)"></div><span class="ds-cap">800</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-ogon-900)"></div><span class="ds-cap">900</span></div>
+    </div>
+
+    <p class="rampname">Stone <span>— warm neutrals, not screen grey. 0 is the card, 50 the page, 100 the well; 400 is Ishi-iro 石色 and 800 is Sumi-iro 墨色 — body text and the header band. Both locked.</span></p>
+    <div class="ramp">
+      <div class="step"><div class="sw" style="background:var(--color-stone-0)"></div><span class="ds-cap">0</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-stone-50)"></div><span class="ds-cap">50</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-stone-100)"></div><span class="ds-cap">100</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-stone-200)"></div><span class="ds-cap">200</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-stone-300)"></div><span class="ds-cap">300</span></div>
+      <div class="step locked"><div class="sw" style="background:var(--color-stone-400)"></div><span class="ds-cap">400</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-stone-500)"></div><span class="ds-cap">500</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-stone-600)"></div><span class="ds-cap">600</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-stone-700)"></div><span class="ds-cap">700</span></div>
+      <div class="step locked"><div class="sw" style="background:var(--color-stone-800)"></div><span class="ds-cap">800</span></div>
+      <div class="step"><div class="sw" style="background:var(--color-stone-900)"></div><span class="ds-cap">900</span></div>
+    </div>
+
+    <h3 class="ds-h3">The role layer — what components actually reference</h3>
+    <p class="ds-note">A ramp step answers "which red". A role answers "what is this <em>for</em>",
+      which is the only question a component is allowed to ask. Every role below resolves to a step
+      above; none of them is a new colour.</p>
+
+    <p class="rampname">Grounds <span>— cards are <em>lighter</em> than the page, so they lift without a shadow.</span></p>
+    <div class="roles">
+      <div class="role"><div class="chip" style="background:var(--color-bg)"></div><span class="ds-cap">--color-bg</span></div>
+      <div class="role"><div class="chip" style="background:var(--color-surface)"></div><span class="ds-cap">--color-surface</span></div>
+      <div class="role"><div class="chip" style="background:var(--color-surface-2)"></div><span class="ds-cap">--color-surface-2</span></div>
+      <div class="role"><div class="chip" style="background:var(--color-inverse)"></div><span class="ds-cap">--color-inverse</span></div>
+      <div class="role"><div class="chip" style="background:var(--color-border)"></div><span class="ds-cap">--color-border</span></div>
+      <div class="role"><div class="chip" style="background:var(--color-border-strong)"></div><span class="ds-cap">--color-border-strong</span></div>
+      <div class="role"><div class="chip" style="background:var(--color-keyboard-bg)"></div><span class="ds-cap">--color-keyboard-bg</span></div>
+      <div class="role"><div class="chip" style="background:var(--color-key-bg)"></div><span class="ds-cap">--color-key-bg</span></div>
+    </div>
+
+    <p class="rampname" style="margin-top:22px">Foreground <span>— shown as type, because that is the only place these are ever used.</span></p>
+    <div style="max-width:1000px">
+      <div class="fgrow"><span class="tk">--color-fg</span><span class="sp" style="color:var(--color-fg)">Order at the counter</span></div>
+      <div class="fgrow"><span class="tk">--color-fg-heading</span><span class="sp" style="color:var(--color-fg-heading)">Order at the counter</span></div>
+      <div class="fgrow"><span class="tk">--color-fg-muted</span><span class="sp" style="color:var(--color-fg-muted)">Order at the counter</span></div>
+      <div class="fgrow"><span class="tk">--color-fg-subtle</span><span class="sp" style="color:var(--color-fg-subtle)">Order at the counter</span></div>
+      <div class="fgrow" style="border-bottom:none"><span class="tk">--color-link</span><span class="sp" style="color:var(--color-link)">Order at the counter</span></div>
+    </div>
+    <div class="slab">
+      <div class="fgrow"><span class="tk">--color-fg-inverse</span><span class="sp" style="color:var(--color-fg-inverse)">Order at the counter</span></div>
+      <div class="fgrow" style="border-bottom:none"><span class="tk">--color-fg-on-inverse-2</span><span class="sp" style="color:var(--color-fg-on-inverse-2)">Order at the counter</span></div>
+    </div>
+    <p class="ds-note"><code>--color-fg-faint</code> is the same value as <code>--color-fg-subtle</code>
+      — Ishi-iro was retired from text at 2.30:1 and stays at <code>stone-400</code> for non-text use.
+      Two names, one colour, deliberately.</p>
+
+    <h3 class="ds-h3">Action</h3>
+    <div class="btnrow">
+      <span class="btn p">Primary — Ai-iro</span>
+      <span class="btn p2">Secondary — Ōgon</span>
+      <span class="btn f">Focused</span>
+      <span class="ds-cap">--color-action · --color-action-2-bg · --color-focus</span>
+    </div>
+    <p class="ds-note">Secondary's fill is 1.09:1 against the page — the <code>ogon-600</code> stroke
+      is what gives the control a shape, not decoration. The focus ring is Ōgon 500 and ships a known
+      1.4.11 miss at 2.26:1 on page: recorded in <code>check-contrast.mjs</code>, decided twice by the
+      palette author, settled. Do not re-tint it.</p>
+
+    <h3 class="ds-h3">Card accents — the accent set</h3>
+    <div class="accents">
+      <div class="acard" style="border-top-color:var(--color-accent-ogon);background:var(--color-accent-ogon-bg)">
+        <span class="tag" style="background:var(--color-accent-ogon);color:var(--color-accent-ogon-fg)">Ōgon</span>
+        <span class="ds-cap">--color-accent-ogon</span></div>
+      <div class="acard" style="border-top-color:var(--color-accent-ai);background:var(--color-accent-ai-bg)">
+        <span class="tag" style="background:var(--color-accent-ai);color:var(--color-accent-ai-fg)">Ai-iro</span>
+        <span class="ds-cap">--color-accent-ai</span></div>
+      <div class="acard" style="border-top-color:var(--color-accent-rokusho);background:var(--color-accent-rokusho-bg)">
+        <span class="tag" style="background:var(--color-accent-rokusho);color:var(--color-accent-rokusho-fg)">Rokushō</span>
+        <span class="ds-cap">--color-accent-rokusho</span></div>
+      <div class="acard" style="border-top-color:var(--color-accent-akane);background:var(--color-accent-akane-bg)">
+        <span class="tag" style="background:var(--color-accent-akane);color:var(--color-accent-akane-fg)">Akane</span>
+        <span class="ds-cap">--color-accent-akane</span></div>
+      <div class="acard" style="border-top-color:var(--color-accent-sumi);background:var(--color-accent-sumi-bg)">
+        <span class="tag" style="background:var(--color-accent-sumi);color:var(--color-accent-sumi-fg)">Sumi-iro</span>
+        <span class="ds-cap">--color-accent-sumi</span></div>
+    </div>
+    <p class="ds-note">Five accents, each with a locked label colour and a card ground. Sumi is chrome
+      only — Book Five's furniture — and stays off <code>PhraseCard</code>, which keeps four so its
+      accent goes on meaning <em>which situation</em>.</p>
+
+    <h3 class="ds-h3">Feedback</h3>
+    <div class="ds-grid c2" style="max-width:1000px">
+      <div class="fb" style="background:var(--color-success-bg);color:var(--color-success-fg);border-color:var(--color-success-border)">
+        <span class="glyph" style="color:var(--color-success-500)" aria-hidden="true">○</span>
+        <span><strong>Correct</strong><br><span class="ds-cap">success-bg · success-500 glyph at 800</span></span>
+      </div>
+      <div class="fb" style="background:var(--color-error-bg);color:var(--color-error-fg);border-color:var(--color-error-border)">
+        <span class="glyph" style="color:var(--color-error-500)" aria-hidden="true">✕</span>
+        <span><strong>Not quite</strong><br><span class="ds-cap">error-bg · error-500 glyph at 800</span></span>
+      </div>
+    </div>
+    <p class="ds-note">The verdict glyphs sit at the <strong>800</strong> step, not 500. At 500 they
+      were the literal brand values a book's chrome wears, so a ○ could land in exactly its own header
+      band's colour — and 500-on-tint measured 3.98:1. Both fixed 2026-08-21.</p>
+
+    <p class="named"><b>The No Raw Value Rule.</b> Components reference role tokens, never hexes.
+      Enforced by <code>scripts/check-adherence.mjs</code>, which fails the build.</p>
+    <p class="named"><b>The Accent Is An Input Rule.</b> A card's accent is a prop, not a constant.
+      Colour carries meaning — which scenario, which state. Pick from the set; never invent a hex.</p>
+    <p class="named"><b>The One Dark Slab Rule.</b> The header band is Sumi-iro. Nothing else on the
+      same screen is near-black — the kana keyboard is Rokushō for exactly this reason.</p>
+  </section>
+
+  <!-- ══ 02 · TYPOGRAPHY ═══════════════════════════════════════════════ -->
+  <section class="ds-section" id="typography">
+    <h2 class="ds-h2">02 · Typography <span class="ds-st ok">solid</span></h2>
+    <p class="ds-note">Three families and <strong>two separate ramps</strong>. Latin UI and Japanese
+      content are tuned independently — that separation is the point, not an accident of ordering, so
+      they are shown as two ladders rather than one merged scale. Every step below renders at its real
+      size.</p>
+
+    <div class="fams">
+      <div class="fam"><span class="ds-cap">--font-sans · Noto Sans — all English UI</span>
+        <span style="font-size:var(--text-heading);font-weight:600">Practical Japanese for real life</span></div>
+      <div class="fam"><span class="ds-cap">--font-jp · M PLUS Rounded 1c — all Japanese content</span>
+        <span lang="ja" style="font-family:var(--font-jp);font-size:var(--text-jp-lg);font-weight:500">実用的な日本語を、毎日の場面で</span></div>
+      <div class="fam"><span class="ds-cap">--font-mono · system stack — token values and specimen captions only</span>
+        <span style="font-family:var(--font-mono);font-size:var(--text-body)">--color-accent-rokusho</span></div>
+    </div>
+
+    <h3 class="ds-h3">Latin ramp — nine steps</h3>
+    <div class="ds-scroll">
+      <div class="trow"><span class="tk">--text-caption · 12/16 · 500</span><span class="sp" style="font-size:var(--text-caption);font-weight:500">Practical Japanese for real life</span></div>
+      <div class="trow"><span class="tk">--text-body-sm · 14/20 · 400</span><span class="sp" style="font-size:var(--text-body-sm)">Practical Japanese for real life</span></div>
+      <div class="trow"><span class="tk">--text-body · 16/24 · 400</span><span class="sp" style="font-size:var(--text-body)">Practical Japanese for real life</span></div>
+      <div class="trow"><span class="tk">--text-body-lg · 18/26 · 400</span><span class="sp" style="font-size:var(--text-body-lg)">Practical Japanese for real life</span></div>
+      <div class="trow"><span class="tk">--text-heading-sm · 20/26 · 600</span><span class="sp" style="font-size:var(--text-heading-sm);font-weight:600">Practical Japanese</span></div>
+      <div class="trow"><span class="tk">--text-heading · 24/30 · 600</span><span class="sp" style="font-size:var(--text-heading);font-weight:600">Practical Japanese</span></div>
+      <div class="trow"><span class="tk">--text-heading-lg · 30/36 · 600</span><span class="sp" style="font-size:var(--text-heading-lg);font-weight:600">Practical Japanese</span></div>
+      <div class="trow"><span class="tk">--text-display · 36/40 · 700</span><span class="sp" style="font-size:var(--text-display);font-weight:700">Greetings</span></div>
+      <div class="trow"><span class="tk">--text-display-lg · 48/52 · 700</span><span class="sp" style="font-size:var(--text-display-lg);font-weight:700">Greetings</span></div>
+    </div>
+
+    <h3 class="ds-h3">Japanese ramp — four steps, and one hole</h3>
+    <div class="ds-scroll">
+      <div class="trow"><span class="tk">--text-jp · 18/28 · 400</span><span class="sp" lang="ja" style="font-family:var(--font-jp);font-size:var(--text-jp);line-height:var(--text-jp--line-height)">はじめまして、よろしくお願いします</span></div>
+      <div class="trow"><span class="tk">--text-jp-lg · 24/36 · 500</span><span class="sp" lang="ja" style="font-family:var(--font-jp);font-size:var(--text-jp-lg);line-height:var(--text-jp-lg--line-height);font-weight:500">はじめまして</span></div>
+      <div class="trow"><span class="tk">--text-jp-display · 32/48 · 500</span><span class="sp" lang="ja" style="font-family:var(--font-jp);font-size:var(--text-jp-display);line-height:var(--text-jp-display--line-height);font-weight:500">はじめまして</span></div>
+      <div class="trow"><span class="tk">--text-jp-display-lg · 40/56 · 500</span><span class="sp" lang="ja" style="font-family:var(--font-jp);font-size:var(--text-jp-display-lg);line-height:var(--text-jp-display-lg--line-height);font-weight:500">はじめまして</span></div>
+      <div class="trow gapline">
+        <span class="tk">--text-jp-glyph · ?</span>
+        <span class="sp">absent — the JP ramp tops out at 40px, sized for a <em>phrase</em>. A single
+          kana that <em>is</em> the task object (the kana drill prompt) has no step of its own and is
+          sized ad hoc at the call site.</span>
+      </div>
+    </div>
+
+    <p class="named"><b>The Japanese Gets More Air Rule.</b> JP line-heights run substantially looser
+      than their Latin equivalents at the same size — 28px on 18px, 48px on 32px. Kanji density and
+      furigana both need the room. Never apply a Latin line-height to Japanese text.</p>
+    <p class="named"><b>The Prompt Is The Product Rule.</b> On any study surface the Japanese phrase is
+      the largest element on screen. If a button is competing with the phrase, the button is wrong.</p>
+  </section>
+
+  <!-- ══ 03 · SHAPE ════════════════════════════════════════════════════ -->
+  <section class="ds-section" id="shape">
+    <h2 class="ds-h2">03 · Shape <span class="ds-st thin">degenerate by design</span></h2>
+    <p class="ds-note">Six radius names. <strong>Five of them resolve to the same 4px</strong> and are
+      rendered side by side so the degeneracy is visible rather than asserted — sm, md, lg, xl and 2xl
+      are indistinguishable below, and that is correct.</p>
+    <div class="shapes">
+      <div class="shape"><div class="chunk" style="border-radius:var(--radius-sm)"></div><span class="ds-cap">--radius-sm</span></div>
+      <div class="shape"><div class="chunk" style="border-radius:var(--radius-md)"></div><span class="ds-cap">--radius-md</span></div>
+      <div class="shape"><div class="chunk" style="border-radius:var(--radius-lg)"></div><span class="ds-cap">--radius-lg</span></div>
+      <div class="shape"><div class="chunk" style="border-radius:var(--radius-xl)"></div><span class="ds-cap">--radius-xl</span></div>
+      <div class="shape"><div class="chunk" style="border-radius:var(--radius-2xl)"></div><span class="ds-cap">--radius-2xl</span></div>
+      <div class="shape"><div class="chunk" style="border-radius:var(--radius-full)"></div><span class="ds-cap">--radius-full</span></div>
+    </div>
+    <p class="ds-note"><strong>Flattened 2026-08-16.</strong> The scale used to run 6px for small
+      chrome up to 20px for the review card — sound reasoning, and it made the UI look like a friendly
+      consumer app. One tight radius reads as a <em>lacquered panel</em>, which is the Zuihōden
+      reference. The names are kept and all point at one value on purpose: components go on asking for
+      a radius by role, so restoring a scale is a six-line edit in <code>src/tokens.css</code> rather
+      than a repo-wide sweep. Do not collapse the call sites down to one token.</p>
+    <p class="ds-note"><code>--radius-full</code> is the exception and is <em>not</em> 4px: it is the
+      hanko and the maru, which are circles by cultural logic rather than styling. A hanko is round
+      because seals are round; ○ means correct in Japanese schooling whatever this product decides.
+      Nothing else in the system is a pill.</p>
+  </section>
+
+  <!-- ══ 04 · ELEVATION ════════════════════════════════════════════════ -->
+  <section class="ds-section" id="elevation">
+    <h2 class="ds-h2">04 · Elevation <span class="ds-st ok">solid</span></h2>
+    <p class="ds-note">Four shadow tokens, each on the surface it was tuned for — a shadow on the
+      wrong ground tells you nothing. Depth in this system is carried by tone: paper on warm paper on
+      mist. Three of the four are hairlines; only <code>--shadow-glass</code> has any depth, and it
+      earns it by lifting a panel off a textured ground where a hairline registers as nothing.</p>
+    <div class="elev">
+      <div>
+        <div class="plate" style="background:var(--color-surface);box-shadow:var(--shadow-card)">card on page</div>
+        <span class="ds-cap">--shadow-card</span>
+      </div>
+      <div>
+        <div class="plate" style="background:var(--color-surface)">
+          <span class="key" style="box-shadow:var(--shadow-key)" lang="ja">あ</span>
+        </div>
+        <span class="ds-cap">--shadow-key</span>
+      </div>
+      <div>
+        <div class="onink">
+          <span class="key" style="box-shadow:var(--shadow-key-on-inverse)" lang="ja">か</span>
+        </div>
+        <span class="ds-cap">--shadow-key-on-inverse</span>
+      </div>
+      <div>
+        <div class="plate emboss-bg crest-1" style="background:var(--color-surface)">
+          <span class="glass" style="box-shadow:var(--shadow-glass)">on texture</span>
+        </div>
+        <span class="ds-cap">--shadow-glass</span>
+      </div>
+    </div>
+    <p class="named"><b>The Two Shadows Rule.</b> If a new component wants a third shadow, it wants
+      tonal separation instead. Reach for a surface token before a shadow.</p>
+    <p class="ds-note">Stated as two, shipping as four. <code>--shadow-glass</code> arrived 2026-08-13
+      as the sanctioned exception (the blur does legibility work, not decoration) and
+      <code>--shadow-key-on-inverse</code> is the key hairline restated for the dark keyboard — the
+      same shadow, not a new tier. The rule's intent holds; its arithmetic in <code>DESIGN.md</code>
+      does not, and the values quoted there are still v2's plum tint.</p>
+  </section>
+
+  <!-- ══ 05 · MOTION ═══════════════════════════════════════════════════ -->
+  <section class="ds-section" id="motion">
+    <h2 class="ds-h2">05 · Motion <span class="ds-st thin">thin</span></h2>
+    <p class="ds-note">Two animations for the whole system, both owned by <code>FlipCard</code>, both
+      looping below so they can actually be seen. There is no vocabulary for transitions, state
+      changes, reveals, page entry, or the loading spinner — those are written ad hoc where they are
+      needed. <code>DESIGN.md</code> caps <code>MOTION_INTENSITY</code> at 3 on every surface, so the
+      gap is a small one to close deliberately, not a licence to add flourish.</p>
+    <div class="motion">
+      <div>
+        <div class="stage"><div class="card enter" lang="ja">こんにちは</div></div>
+        <span class="ds-cap">--animate-card-enter · 0.28s · cubic-bezier(.16,1,.3,1)</span>
+      </div>
+      <div>
+        <div class="stage"><div class="card exit" lang="ja">こんにちは</div></div>
+        <span class="ds-cap">--animate-card-exit · 0.2s · ease-in</span>
+      </div>
+      <div>
+        <div class="stage absent">no transition, reveal, or page-entry token</div>
+        <span class="ds-cap">absent</span>
+      </div>
+    </div>
+    <p class="named"><b>Reduced motion is honoured in the tokens, not at the call site.</b>
+      <code>src/tokens.css</code> neutralises both animations to <code>none</code> under
+      <code>prefers-reduced-motion: reduce</code> — scoped to these two rather than a blanket
+      <code>* { animation: none }</code>, so motion that carries meaning survives. It lives in
+      <code>tokens.css</code> because the consuming app imports <em>that</em> file and never touches
+      <code>src/index.css</code>.</p>
+    <p class="ds-note"><strong>Found while building this page:</strong> the guard and the
+      <code>@keyframes</code> reach the four harness HTML files but <em>not</em>
+      <code>dist/tokens.plain.css</code>, which is what all 27 preview pages import — so on a preview
+      page the animation tokens name keyframes that do not exist, and
+      <code>preview/00-inventory.html</code> has been captioning a still frame "card-enter". The two
+      specimens above animate because this page declares the keyframes locally, which is a patch, not
+      the fix. The fix is one line in <code>scripts/build-tokens.mjs</code>: append the trailing block
+      it already reads to the <code>dist/tokens.plain.css</code> it writes.</p>
+  </section>
+
+  <!-- ══ 06 · ICONOGRAPHY ══════════════════════════════════════════════ -->
+  <section class="ds-section" id="iconography">
+    <h2 class="ds-h2">06 · Iconography <span class="ds-st gap">nearly empty</span></h2>
+    <p class="ds-note">Five icons, at their real 24px, all from <code>src/components/icons.tsx</code>.
+      Each exists because one component needed one — there is no icon <em>system</em>: no grid, no
+      optical size rule, no coverage of navigation, settings, chapters, books, or search. The dashed
+      slots are named rather than anonymous, because a gap you can name is a gap somebody can close.</p>
+    <div class="icons">
+      <div class="icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4.03v8.06A4.5 4.5 0 0 0 16.5 12zM14 3.23v2.06a7 7 0 0 1 0 13.42v2.06A9 9 0 0 0 14 3.23z"/></svg>
+        <span class="ds-cap">Speaker</span></div>
+      <div class="icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1-9c0-.55.45-1 1-1s1 .45 1 1v6c0 .55-.45 1-1 1s-1-.45-1-1V5zm6 6c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
+        <span class="ds-cap">Mic</span></div>
+      <div class="icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-3 12.59L17.59 17 14 13.41 10.41 17 9 15.59 12.59 12 9 8.41 10.41 7 14 10.59 17.59 7 19 8.41 15.41 12 19 15.59z"/></svg>
+        <span class="ds-cap">Backspace</span></div>
+      <div class="icon">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" opacity="0.25"/><path fill="currentColor" opacity="0.75" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/></svg>
+        <span class="ds-cap">Spinner</span></div>
+      <div class="icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M12.87 3.5a1 1 0 00-1.74 0L2.18 19a1 1 0 00.87 1.5h17.9A1 1 0 0021.82 19L12.87 3.5zM11 9.75a1 1 0 112 0v4.5a1 1 0 11-2 0v-4.5zM12 18.5a1.15 1.15 0 110-2.3 1.15 1.15 0 010 2.3z"/></svg>
+        <span class="ds-cap">Alert</span></div>
+      <div class="icon slot"><span class="bar"></span><span class="ds-cap">back</span></div>
+      <div class="icon slot"><span class="bar"></span><span class="ds-cap">close</span></div>
+      <div class="icon slot"><span class="bar"></span><span class="ds-cap">menu</span></div>
+      <div class="icon slot"><span class="bar"></span><span class="ds-cap">search</span></div>
+      <div class="icon slot"><span class="bar"></span><span class="ds-cap">settings</span></div>
+      <div class="icon slot"><span class="bar"></span><span class="ds-cap">book</span></div>
+      <div class="icon slot"><span class="bar"></span><span class="ds-cap">chevron</span></div>
+    </div>
+    <p class="named"><b>Filled, single-colour, 24×24, <code>aria-hidden</code>.</b> No emoji, no
+      outline icons, ever. The label belongs on the wrapping <code>IconButton</code>, not the glyph.</p>
+    <p class="ds-note"><code>AlertIcon</code> is deliberately a <em>triangle</em>: ○ and ✕ are taken
+      by the maru, and a round alert glyph beside a judged answer would be a third circular mark with a
+      fourth meaning.</p>
+  </section>
+
+  <!-- ══ 07 · ILLUSTRATION ═════════════════════════════════════════════ -->
+  <section class="ds-section" id="illustration">
+    <h2 class="ds-h2">07 · Illustration <span class="ds-st gap">missing</span></h2>
+    <p class="ds-note">Nothing exists. Not a placeholder — a genuinely empty layer, and the largest
+      hole in the system: the product is <em>practical Japanese for real situations</em> and there is
+      not one picture of a situation anywhere in the repo. <code>DESIGN.md</code>'s Material section
+      names it as absence #4, the one furthest from being decided.</p>
+    <div class="plates">
+      <div class="plate-empty"><span class="ds-cap" style="color:var(--color-akane-700)">Ch 1</span>Greetings &amp; ordering</div>
+      <div class="plate-empty"><span class="ds-cap" style="color:var(--color-akane-700)">Ch 2</span>Shopping &amp; getting around</div>
+      <div class="plate-empty"><span class="ds-cap" style="color:var(--color-akane-700)">Ch 9</span>Around town</div>
+      <div class="plate-empty"><span class="ds-cap" style="color:var(--color-akane-700)">Ch 11</span>Meals &amp; the kitchen</div>
+      <div class="plate-empty"><span class="ds-cap" style="color:var(--color-akane-700)">Ch 12</span>People &amp; what they wear</div>
+    </div>
+    <p class="named"><b>The direction is set; the assets are not.</b> Japanese woodblock
+      (<em>mokuhanga</em>) in the <em>aizuri-e</em> manner — deep indigo carrying the line work, flat
+      colour with no gradients, carved chatter on the edges, a fraction of a millimetre of
+      registration offset, laid-paper grain. Explicitly not anime. Five self-contained prompts sit in
+      <code>docs/illustration-prompt.md</code>, one per Book One chapter.</p>
+    <p class="ds-note">Skill output is <em>reference art, never a shipped asset</em>: it lands in
+      <code>preview/_sandbox/</code>, and a drawn asset still comes out of Affinity. No approved image
+      has reached <code>assets/</code>. Until one does, twelve Book One chapters have no art.</p>
+  </section>
+
+  <!-- ══ 08 · BRAND ════════════════════════════════════════════════════ -->
+  <section class="ds-section" id="brand">
+    <h2 class="ds-h2">08 · Brand <span class="ds-st ok">solid</span></h2>
+    <p class="ds-note">Eight classes and three variant families — the only non-Tailwind CSS the
+      package ships, all rendered live from <code>src/brand.css</code>. The mark is the
+      <strong>ア hanko</strong> in Akane, via <code>var(--color-accent)</code>; it is never
+      hard-coded and there is no other mark.</p>
+
+    <h3 class="ds-h3">.hanko — the mark, and its fills</h3>
+    <div class="marks">
+      <div class="bcell"><span class="hanko hanko-lg" aria-hidden="true"></span><span class="ds-cap">.hanko</span></div>
+      <div class="bcell"><span class="hanko paper hanko-lg" aria-hidden="true"></span><span class="ds-cap">.hanko.paper</span></div>
+      <div class="bcell"><span class="hanko cream hanko-lg" aria-hidden="true"></span><span class="ds-cap">.hanko.cream</span></div>
+      <div class="bcell"><span class="hanko rose hanko-lg" aria-hidden="true"></span><span class="ds-cap">.hanko.rose</span></div>
+      <div class="bcell onink"><span class="hanko outline hanko-lg" aria-hidden="true"></span><span class="ds-cap">.hanko.outline</span></div>
+      <div class="bcell onink"><span class="hanko ink hanko-lg" aria-hidden="true"></span><span class="ds-cap">.hanko.ink</span></div>
+    </div>
+    <p class="ds-note">Size is driven by <code>font-size</code> — the mark is 1em square — and the ア
+      and maru inherit <code>currentColor</code>. <code>.hanko.ink</code> is a v2 leftover:
+      <code>brand.css</code> still calls it "the dark plum variant", but its
+      <code>--color-brand-800</code> is a legacy alias that v3 remaps onto Akane 800, so it renders as
+      deep red on gold. It resolves and looks deliberate; the prose describing it does not match what
+      it draws.</p>
+
+    <h3 class="ds-h3">.maru · .wm · .kata-vert</h3>
+    <div class="marks">
+      <div class="bcell">
+        <span class="maru-solo"><span class="maru"></span><span class="maru rose"></span><span class="maru ink"></span></span>
+        <span class="ds-cap">.maru · .rose · .ink</span></div>
+      <div class="bcell onink">
+        <span class="maru-solo" style="color:var(--color-fg-inverse)"><span class="maru paper"></span><span class="maru rose"></span></span>
+        <span class="ds-cap">.maru.paper · .rose</span></div>
+      <div class="bcell"><span class="wm sm">aburungo<span class="maru"></span></span><span class="ds-cap">.wm.sm</span></div>
+      <div class="bcell wide"><span class="wm md">aburungo<span class="maru"></span></span><span class="ds-cap">.wm.md</span></div>
+      <div class="bcell onink"><span class="wm sm inv">aburungo<span class="maru rose"></span></span><span class="ds-cap">.wm.inv</span></div>
+      <div class="bcell">
+        <span class="demo">
+          <span class="kata-vert" style="font-size:var(--text-body-lg)">アブルンゴ</span>
+          <span class="kata-vert brand" style="font-size:var(--text-body-lg)">アブルンゴ</span>
+        </span>
+        <span class="ds-cap">.kata-vert · .brand</span></div>
+    </div>
+
+    <h3 class="ds-h3">.ctype — the canonical lockup · .frame</h3>
+    <div class="ds-grid c2" style="max-width:1000px">
+      <div class="ds-spec" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px">
+        <span class="ctype">
+          <span class="hanko hanko-md" aria-hidden="true"></span>
+          <span class="wm sm">aburungo<span class="maru"></span></span>
+          <span class="rule"></span>
+          <span class="kata-vert" style="font-size:var(--text-caption)">アブルンゴ</span>
+        </span>
+        <span class="ds-cap">.ctype — hanko + wordmark + rule + katakana</span>
+      </div>
+      <div class="ds-spec" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px">
+        <div class="frame">
+          <div class="row">
+            <span class="wm xs">aburungo<span class="maru"></span></span>
+            <span class="rule"></span>
+            <span class="kata-vert" style="font-size:var(--text-caption)">アブルンゴ</span>
+          </div>
+          <div class="divider"></div>
+          <div class="footer"><span>Practical Japanese for real life</span><span class="mark">NO. 01</span></div>
+        </div>
+        <span class="ds-cap">.frame — rule frame with serial footer</span>
+      </div>
+    </div>
+
+    <h3 class="ds-h3">.emboss-bg — the five clan crests</h3>
+    <div class="grounds">
+      <div class="ground emboss-bg crest-1"><span class="ds-cap">.crest-1 · clover</span></div>
+      <div class="ground emboss-bg crest-2"><span class="ds-cap">.crest-2 · leaf</span></div>
+      <div class="ground emboss-bg crest-3"><span class="ds-cap">.crest-3 · blossom</span></div>
+      <div class="ground emboss-bg crest-4"><span class="ds-cap">.crest-4 · leaf, cut</span></div>
+      <div class="ground emboss-bg crest-5"><span class="ds-cap">.crest-5 · clover, cut</span></div>
+    </div>
+
+    <h3 class="ds-h3">Tile density — .tile-sm · .tile-md · .tile-lg</h3>
+    <div class="grounds">
+      <div class="ground emboss-bg crest-1 tile-sm"><span class="ds-cap">.tile-sm · 72px</span></div>
+      <div class="ground emboss-bg crest-1 tile-md"><span class="ds-cap">.tile-md · 100px (default)</span></div>
+      <div class="ground emboss-bg crest-1 tile-lg"><span class="ds-cap">.tile-lg · 140px</span></div>
+    </div>
+
+    <h3 class="ds-h3">.glass — the panel that buys back the text roles</h3>
+    <div class="glasswrap emboss-bg crest-2">
+      <div class="glass glass-demo">
+        <p class="t">Nothing to review yet</p>
+        <p class="d">This description line is <code>fg-subtle</code> — 3.47:1 on a bare crest, 4.76:1 on the glass.</p>
+      </div>
+    </div>
+    <div class="rules-row" style="margin-top:14px">
+      <div class="emboss-bg crest-1" style="padding:12px;border-radius:var(--radius-sm)">
+        <div class="glass rule-ogon"><span class="ds-cap">.rule-ogon</span></div></div>
+      <div class="emboss-bg crest-1" style="padding:12px;border-radius:var(--radius-sm)">
+        <div class="glass rule-ai"><span class="ds-cap">.rule-ai</span></div></div>
+      <div class="emboss-bg crest-1" style="padding:12px;border-radius:var(--radius-sm)">
+        <div class="glass rule-rokusho"><span class="ds-cap">.rule-rokusho</span></div></div>
+      <div class="emboss-bg crest-1" style="padding:12px;border-radius:var(--radius-sm)">
+        <div class="glass rule-akane"><span class="ds-cap">.rule-akane</span></div></div>
+      <div class="emboss-bg crest-1" style="padding:12px;border-radius:var(--radius-sm)">
+        <div class="glass rule-sumi"><span class="ds-cap">.rule-sumi</span></div></div>
+    </div>
+
+    <p class="named"><b>The Patterned Ground Rule.</b> A <em>bare</em> <code>.emboss-bg</code> ground
+      carries <code>fg</code>, <code>fg-heading</code> and <code>fg-muted</code> only.
+      <code>fg-subtle</code> and <code>fg-faint</code> are barred at 3.47:1 — <b>unless they sit on
+      <code>.glass</code></b>, which is what that utility is for. Text is judged against the
+      <em>darkest pixel of the tile</em>, not against the surface token. This is not an opacity
+      problem: carrying <code>fg-subtle</code> needs roughly <code>.16</code>, by which point the
+      pattern is invisible. Do not put glass on a patterned <em>well</em> — 4.47:1, the one measured
+      combination that fails.</p>
+    <p class="named"><b>The Maru Boundary Rule.</b> A maru marks an answer. It never accumulates.
+      Transient and per-answer is annotation; persistent and per-user is a badge. The moment a maru
+      survives onto a profile screen, it has become gamification. The crest obeys the same boundary
+      from the other side: kamon are circular and ○ is taken, so a patterned ground stays away from
+      any surface where an answer is being judged.</p>
+  </section>
+</main>
+
+</body></html>

@@ -13,6 +13,7 @@
     "declaration": true,
     "declarationDir": "dist"
   },
-  "include": ["src", "ui_kits/flows", "ui_kits/mobile", "storybook"],
+  "include": ["src", "ui_kits/flows", "ui_kits/mobile", "storybook",
+    "preview/ds"],
   "exclude": ["node_modules", "dist"]
 }
