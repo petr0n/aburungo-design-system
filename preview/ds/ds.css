@@ -1,0 +1,121 @@
+/* ──────────────────────────────────────────────────────────────────────────
+   AburunGo DS — shared chrome for the three system pages.
+
+   Foundations / Components / Patterns all import this plus the real token
+   sheet. It declares NO colour, type or radius values of its own — every one
+   is a var() onto src/tokens.css via colors_and_type.css. If you find
+   yourself adding a hex here, that is the bug this file exists to prevent.
+
+   Page-specific layout belongs in the page, not here. This is the frame.
+   ────────────────────────────────────────────────────────────────────────── */
+
+*, *::before, *::after { box-sizing: border-box }
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  line-height: 1.55;
+}
+
+/* ── Top bar ────────────────────────────────────────────────────────────── */
+
+.ds-bar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex-wrap: wrap;
+  padding: 12px 26px;
+  background: var(--color-stone-800);
+  border-bottom: 3px solid var(--color-ogon-500);
+}
+.ds-bar .brand { display: inline-flex; align-items: center; gap: 10px; margin-right: 6px }
+/* The mark sizes itself off font-size (it is 1em square). This lived as an
+   inline style:26px on every page that copied the header, which meant four
+   copies of one value and a mark that could differ per page. */
+.ds-bar .brand .hanko { font-size: var(--text-heading-sm) }
+.ds-bar .brand .wm { color: var(--color-fg-inverse) }
+.ds-bar nav { display: flex; gap: 4px; flex-wrap: wrap }
+.ds-bar a {
+  color: var(--color-fg-on-inverse-2);
+  text-decoration: none;
+  font-size: var(--text-body-sm);
+  font-weight: 600;
+  padding: 7px 12px;
+  border-radius: var(--radius-sm);
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.ds-bar a:hover { color: var(--color-fg-inverse) }
+.ds-bar a[aria-current="page"] {
+  background: var(--color-fg-inverse);
+  color: var(--color-stone-800);
+}
+.ds-bar a:focus-visible {
+  outline: 2px solid var(--color-ogon-500);
+  outline-offset: 2px;
+}
+
+/* ── Page frame ─────────────────────────────────────────────────────────── */
+
+.ds-page { padding: 30px 26px 90px; max-width: 1320px }
+.ds-title { font-size: var(--text-heading-lg); margin: 0 0 4px; color: var(--color-fg-heading) }
+.ds-lede  { color: var(--color-fg-muted); font-size: var(--text-body-sm);
+            max-width: 82ch; margin: 0 0 34px }
+
+/* ── Section ────────────────────────────────────────────────────────────── */
+
+.ds-section { margin: 0 0 52px; scroll-margin-top: 84px }
+.ds-h2 {
+  font-size: var(--text-heading-sm);
+  color: var(--color-fg-heading);
+  margin: 0 0 3px;
+  display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+  padding-bottom: 7px;
+  border-bottom: 1px solid var(--color-border);
+}
+.ds-h3 { font-size: var(--text-body-lg); color: var(--color-fg-heading);
+         margin: 26px 0 8px; font-weight: 600 }
+.ds-note { font-size: var(--text-caption); color: var(--color-fg-muted);
+           max-width: 82ch; margin: 10px 0 18px }
+
+/* ── Status chips — one vocabulary across all three pages ───────────────── */
+
+.ds-st {
+  font-size: var(--text-caption); font-weight: 700; letter-spacing: .09em;
+  text-transform: uppercase; padding: 3px 8px; border-radius: var(--radius-sm);
+}
+.ds-st.ok      { background: var(--color-rokusho-100); color: var(--color-rokusho-800) }
+.ds-st.thin    { background: var(--color-ogon-100);    color: var(--color-ogon-800) }
+.ds-st.gap     { background: var(--color-akane-100);   color: var(--color-akane-800) }
+
+/* ── Specimen tile — the shared container for anything being shown ──────── */
+
+.ds-spec {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 20px;
+}
+.ds-cap { font-family: var(--font-mono); font-size: var(--text-caption);
+          color: var(--color-fg-subtle) }
+
+/* Absent things are drawn, not described — the gap is the finding. */
+.ds-absent {
+  border: 1px dashed var(--color-akane-300);
+  background: transparent;
+  color: var(--color-akane-700);
+}
+
+.ds-grid { display: grid; gap: 14px }
+.ds-grid.c2 { grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)) }
+.ds-grid.c3 { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) }
+.ds-grid.c4 { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)) }
+
+/* Wide content scrolls inside itself; the page never scrolls sideways. */
+.ds-scroll { overflow-x: auto; max-width: 100% }

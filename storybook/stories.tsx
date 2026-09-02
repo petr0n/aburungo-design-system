@@ -53,8 +53,10 @@ import {
   VoiceInput,
 } from '../src/components'
 import type { KanaScript, KanaSection } from '../src/components'
-// Internals, imported by path on purpose — see rule 2 above.
-import { BackspaceIcon, MicIcon, SpeakerIcon } from '../src/components/icons'
+// Public exports, via the barrel. This used to import by path with a comment
+// calling them internals; `index.ts` promoted them and the comment did not
+// follow. `AlertIcon` is the one that really is internal.
+import { BackspaceIcon, MicIcon, SpeakerIcon } from '../src/components'
 import { convertRomaji, finalizeRomaji } from '../src/lib/romajiToKana'
 import { bool, num, pick, str } from './types'
 import type { Args, Section, Story } from './types'
