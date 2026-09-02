@@ -129,22 +129,11 @@
                display: flex; align-items: center; justify-content: center }
 
   /* ── Motion ─────────────────────────────────────────────────────────── */
-  /* The keyframes are declared HERE and nowhere else on a preview page.
-     scripts/build-tokens.mjs copies the trailing block of src/tokens.css —
-     the @keyframes and the prefers-reduced-motion guard — into the four
-     harness HTML files but NOT into dist/tokens.plain.css, which is what
-     every preview page imports. So `var(--animate-card-enter)` resolves to
-     an animation name that does not exist here, and preview/00-inventory.html
-     has been showing a still frame labelled "card-enter" ever since.
-     Fix belongs in build-tokens.mjs, not in a second copy per page. */
-  @keyframes card-enter {
-    from { transform: translateY(-36px); opacity: 0 }
-    to   { transform: translateY(0);     opacity: 1 }
-  }
-  @keyframes card-exit {
-    from { transform: translateY(0);     opacity: 1 }
-    to   { transform: translateY(44px);  opacity: 0 }
-  }
+  /* No @keyframes here on purpose. They arrive from dist/tokens.plain.css,
+     which is what every preview page imports — so if build-tokens ever stops
+     shipping the trailing block again, these two specimens go still and this
+     section is the thing that shows it. A page-local copy would animate
+     regardless and hide the regression. */
   .motion { display: flex; gap: 18px; flex-wrap: wrap }
   .motion > div { width: 208px }
   .motion .ds-cap { display: block; margin-top: 9px; line-height: 1.35 }
@@ -164,10 +153,9 @@
   .stage.absent { border-style: dashed; border-color: var(--color-akane-300);
                   background: transparent; color: var(--color-akane-700);
                   font-size: var(--text-body-sm); text-align: center; padding: 0 16px }
-  /* Same guard src/tokens.css ships and the generated sheet drops. */
-  @media (prefers-reduced-motion: reduce) {
-    .stage .card.enter, .stage .card.exit { animation: none }
-  }
+  /* The reduced-motion guard is NOT repeated here either — it ships in
+     src/tokens.css and now reaches the generated sheet, so it applies to
+     these specimens through --animate-*. Same reasoning as the keyframes. */
 
   /* ── Iconography ────────────────────────────────────────────────────── */
   .icons { display: flex; gap: 12px; flex-wrap: wrap }
@@ -577,14 +565,18 @@
       <code>* { animation: none }</code>, so motion that carries meaning survives. It lives in
       <code>tokens.css</code> because the consuming app imports <em>that</em> file and never touches
       <code>src/index.css</code>.</p>
-    <p class="ds-note"><strong>Found while building this page:</strong> the guard and the
-      <code>@keyframes</code> reach the four harness HTML files but <em>not</em>
-      <code>dist/tokens.plain.css</code>, which is what all 27 preview pages import — so on a preview
-      page the animation tokens name keyframes that do not exist, and
-      <code>preview/00-inventory.html</code> has been captioning a still frame "card-enter". The two
-      specimens above animate because this page declares the keyframes locally, which is a patch, not
-      the fix. The fix is one line in <code>scripts/build-tokens.mjs</code>: append the trailing block
-      it already reads to the <code>dist/tokens.plain.css</code> it writes.</p>
+    <p class="ds-note"><strong>Found while building this page, and fixed:</strong> the guard and the
+      <code>@keyframes</code> reached the four harness HTML files but <em>not</em>
+      <code>dist/tokens.plain.css</code>, which is what all 27 preview pages import — so the animation
+      tokens named keyframes that did not exist, and <code>preview/00-inventory.html</code> was
+      captioning a still frame &ldquo;card-enter&rdquo;. <code>build-tokens</code> computed the
+      trailing block <em>after</em> writing the sheet. Measured: 3 matches in the source, 0 in the
+      generated sheet. Now 3. Typecheck, lint and the contrast gate stayed green throughout — none of
+      them can see a missing <code>@keyframes</code>.</p>
+    <p class="ds-note">The two specimens above deliberately declare <em>no</em> keyframes of their
+      own. They animate only because the generated sheet carries them, which makes this section the
+      thing that catches the regression if it ever comes back. A page-local copy would keep animating
+      and hide it.</p>
   </section>
 
   <!-- ══ 06 · ICONOGRAPHY ══════════════════════════════════════════════ -->
