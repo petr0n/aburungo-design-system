@@ -832,7 +832,7 @@ function VoiceInput({ status, onPress, disabled, errorMessage }) {
 }
 
 // src/components/FillInput.tsx
-import { Fragment as Fragment2, jsx as jsx19, jsxs as jsxs12 } from "react/jsx-runtime";
+import { jsx as jsx19, jsxs as jsxs12 } from "react/jsx-runtime";
 var MODE_LABELS = {
   romaji: "Romaji",
   kana: "Kana grid",
@@ -848,6 +848,7 @@ function FillInput({
   kanaScript,
   kanaSection,
   canSubmit,
+  showModePicker = true,
   disabled,
   placeholder,
   showSystemHint,
@@ -866,7 +867,7 @@ function FillInput({
     if (e.key === "Enter") onSubmit();
   }
   return /* @__PURE__ */ jsxs12("div", { className: "flex w-full flex-col gap-3", children: [
-    /* @__PURE__ */ jsx19("div", { className: "flex gap-1 rounded-xl border border-border bg-surface p-1", children: ["romaji", "kana", "system"].map((m) => /* @__PURE__ */ jsx19(
+    showModePicker && /* @__PURE__ */ jsx19("div", { className: "flex gap-1 rounded-xl border border-border bg-surface p-1", children: ["romaji", "kana", "system"].map((m) => /* @__PURE__ */ jsx19(
       "button",
       {
         type: "button",
@@ -883,10 +884,10 @@ function FillInput({
       m
     )) }),
     mode === "romaji" && /* @__PURE__ */ jsxs12("div", { className: "flex flex-col gap-2", children: [
-      /* @__PURE__ */ jsx19("div", { className: "min-h-10 rounded-xl border border-border bg-surface px-4 py-2 font-jp text-jp-lg text-fg", children: converted !== "" || pending !== "" ? /* @__PURE__ */ jsxs12(Fragment2, { children: [
+      (converted !== "" || pending !== "") && /* @__PURE__ */ jsxs12("div", { className: "min-h-10 rounded-xl border border-border bg-surface px-4 py-2 font-jp text-jp-lg text-fg", children: [
         /* @__PURE__ */ jsx19("span", { children: converted }),
         /* @__PURE__ */ jsx19("span", { className: "text-fg-faint", children: pending })
-      ] }) : /* @__PURE__ */ jsx19("span", { className: "text-body text-fg-faint", children: placeholder ?? "Kana preview" }) }),
+      ] }),
       /* @__PURE__ */ jsx19(
         "input",
         {
@@ -906,7 +907,7 @@ function FillInput({
       )
     ] }),
     mode === "kana" && /* @__PURE__ */ jsxs12("div", { className: "flex flex-col gap-2", children: [
-      /* @__PURE__ */ jsx19("div", { className: "min-h-12 rounded-xl border border-border bg-surface px-4 py-2 font-jp text-jp-lg text-fg", children: kanaValue !== "" ? kanaValue : /* @__PURE__ */ jsx19("span", { className: "text-body text-fg-faint", children: placeholder ?? "Tap kana below\u2026" }) }),
+      kanaValue !== "" && /* @__PURE__ */ jsx19("div", { className: "min-h-12 rounded-xl border border-border bg-surface px-4 py-2 font-jp text-jp-lg text-fg", children: kanaValue }),
       /* @__PURE__ */ jsx19(
         KanaKeyboard,
         {
@@ -1247,7 +1248,7 @@ function num(v, fallback = 0) {
 }
 
 // storybook/stories.tsx
-import { Fragment as Fragment3, jsx as jsx23, jsxs as jsxs16 } from "react/jsx-runtime";
+import { Fragment as Fragment2, jsx as jsx23, jsxs as jsxs16 } from "react/jsx-runtime";
 var SIZES = ["md", "sm"];
 var BADGE_VARIANTS = ["neutral", "success", "error"];
 var SCENARIOS = ["restaurant", "transit", "shopping", "directions"];
@@ -1958,7 +1959,7 @@ function _FlipFace({
         "flex rounded-2xl border border-border bg-bg shadow-card",
         isBack ? "flex-col gap-4 p-6" : "min-h-48 items-center justify-center p-6"
       ].join(" "),
-      children: isBack ? /* @__PURE__ */ jsxs16(Fragment3, { children: [
+      children: isBack ? /* @__PURE__ */ jsxs16(Fragment2, { children: [
         /* @__PURE__ */ jsxs16("div", { className: "flex flex-col items-center gap-1 text-center", children: [
           /* @__PURE__ */ jsx23("p", { lang: "ja", className: "font-jp text-jp-display text-fg", children: jp }),
           /* @__PURE__ */ jsx23("p", { lang: "ja", className: "font-jp text-jp text-fg-muted", children: reading })

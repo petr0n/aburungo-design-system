@@ -829,7 +829,7 @@ function VoiceInput({ status, onPress, disabled, errorMessage }) {
 }
 
 // src/components/FillInput.tsx
-import { Fragment as Fragment2, jsx as jsx19, jsxs as jsxs12 } from "react/jsx-runtime";
+import { jsx as jsx19, jsxs as jsxs12 } from "react/jsx-runtime";
 var MODE_LABELS = {
   romaji: "Romaji",
   kana: "Kana grid",
@@ -845,6 +845,7 @@ function FillInput({
   kanaScript,
   kanaSection,
   canSubmit,
+  showModePicker = true,
   disabled,
   placeholder,
   showSystemHint,
@@ -863,7 +864,7 @@ function FillInput({
     if (e.key === "Enter") onSubmit();
   }
   return /* @__PURE__ */ jsxs12("div", { className: "flex w-full flex-col gap-3", children: [
-    /* @__PURE__ */ jsx19("div", { className: "flex gap-1 rounded-xl border border-border bg-surface p-1", children: ["romaji", "kana", "system"].map((m) => /* @__PURE__ */ jsx19(
+    showModePicker && /* @__PURE__ */ jsx19("div", { className: "flex gap-1 rounded-xl border border-border bg-surface p-1", children: ["romaji", "kana", "system"].map((m) => /* @__PURE__ */ jsx19(
       "button",
       {
         type: "button",
@@ -880,10 +881,10 @@ function FillInput({
       m
     )) }),
     mode === "romaji" && /* @__PURE__ */ jsxs12("div", { className: "flex flex-col gap-2", children: [
-      /* @__PURE__ */ jsx19("div", { className: "min-h-10 rounded-xl border border-border bg-surface px-4 py-2 font-jp text-jp-lg text-fg", children: converted !== "" || pending !== "" ? /* @__PURE__ */ jsxs12(Fragment2, { children: [
+      (converted !== "" || pending !== "") && /* @__PURE__ */ jsxs12("div", { className: "min-h-10 rounded-xl border border-border bg-surface px-4 py-2 font-jp text-jp-lg text-fg", children: [
         /* @__PURE__ */ jsx19("span", { children: converted }),
         /* @__PURE__ */ jsx19("span", { className: "text-fg-faint", children: pending })
-      ] }) : /* @__PURE__ */ jsx19("span", { className: "text-body text-fg-faint", children: placeholder ?? "Kana preview" }) }),
+      ] }),
       /* @__PURE__ */ jsx19(
         "input",
         {
@@ -903,7 +904,7 @@ function FillInput({
       )
     ] }),
     mode === "kana" && /* @__PURE__ */ jsxs12("div", { className: "flex flex-col gap-2", children: [
-      /* @__PURE__ */ jsx19("div", { className: "min-h-12 rounded-xl border border-border bg-surface px-4 py-2 font-jp text-jp-lg text-fg", children: kanaValue !== "" ? kanaValue : /* @__PURE__ */ jsx19("span", { className: "text-body text-fg-faint", children: placeholder ?? "Tap kana below\u2026" }) }),
+      kanaValue !== "" && /* @__PURE__ */ jsx19("div", { className: "min-h-12 rounded-xl border border-border bg-surface px-4 py-2 font-jp text-jp-lg text-fg", children: kanaValue }),
       /* @__PURE__ */ jsx19(
         KanaKeyboard,
         {
@@ -1230,7 +1231,7 @@ function finalizeRomaji(input) {
 }
 
 // preview/ds/components.tsx
-import { Fragment as Fragment3, jsx as jsx23, jsxs as jsxs16 } from "react/jsx-runtime";
+import { Fragment as Fragment2, jsx as jsx23, jsxs as jsxs16 } from "react/jsx-runtime";
 function Spec({ label, children }) {
   return /* @__PURE__ */ jsxs16("div", { className: "ds-spec", children: [
     /* @__PURE__ */ jsx23("div", { className: "ds-cap", children: label }),
@@ -1320,7 +1321,7 @@ function _FlipFace({ jp, reading, en }) {
   return /* @__PURE__ */ jsxs16("div", { className: "flex min-h-40 flex-col items-center justify-center gap-2 rounded-2xl border border-border bg-surface p-6 shadow-card", children: [
     /* @__PURE__ */ jsx23("p", { lang: "ja", className: "font-jp text-jp-display text-fg-heading", children: jp }),
     /* @__PURE__ */ jsx23("p", { lang: "ja", className: "font-jp text-jp text-fg-muted", children: reading }),
-    en !== void 0 && /* @__PURE__ */ jsxs16(Fragment3, { children: [
+    en !== void 0 && /* @__PURE__ */ jsxs16(Fragment2, { children: [
       /* @__PURE__ */ jsx23("hr", { className: "w-full border-border" }),
       /* @__PURE__ */ jsx23("p", { className: "text-body-lg text-fg", children: en })
     ] })
@@ -1510,7 +1511,7 @@ var PRIMITIVES = [
       { name: "className", type: "string", fallback: "undefined", note: "Escape hatch. Discouraged \u2014 compose with variant/size instead." },
       { name: "\u2026rest", type: "ButtonHTMLAttributes", fallback: "\u2014", note: 'type defaults to "button", never "submit" by accident.' }
     ],
-    specimens: /* @__PURE__ */ jsxs16(Fragment3, { children: [
+    specimens: /* @__PURE__ */ jsxs16(Fragment2, { children: [
       /* @__PURE__ */ jsx23(Spec, { label: 'variant="primary" \xB7 "secondary" \xB7 "ghost"', children: /* @__PURE__ */ jsxs16("div", { className: "flex flex-wrap items-center gap-3", children: [
         /* @__PURE__ */ jsx23(Button, { variant: "primary", children: "Check answer" }),
         /* @__PURE__ */ jsx23(Button, { variant: "secondary", children: "Show answer" }),
@@ -1550,7 +1551,7 @@ var PRIMITIVES = [
       { name: "className", type: "string", fallback: "undefined", note: "Appended to the input, not the wrapper." },
       { name: "\u2026rest", type: "InputHTMLAttributes", fallback: "\u2014", note: "type, placeholder, value, onChange, defaultValue\u2026" }
     ],
-    specimens: /* @__PURE__ */ jsxs16(Fragment3, { children: [
+    specimens: /* @__PURE__ */ jsxs16(Fragment2, { children: [
       /* @__PURE__ */ jsx23(Spec, { label: "default", children: /* @__PURE__ */ jsx23(TextInput, { label: "Email", placeholder: "you@example.com" }) }),
       /* @__PURE__ */ jsx23(Spec, { label: "hint", children: /* @__PURE__ */ jsx23(TextInput, { label: "Email", hint: "We never share this.", placeholder: "you@example.com" }) }),
       /* @__PURE__ */ jsx23(Spec, { label: "error", children: /* @__PURE__ */ jsx23(
@@ -1578,7 +1579,7 @@ var PRIMITIVES = [
       { name: "\u2026rest", type: "HTMLAttributes<HTMLDivElement>", fallback: "\u2014", note: "Renders as <article>." },
       { name: "CardHeader / CardBody / CardFooter", type: "{ children, className? }", fallback: "\u2014", note: "header flex-row space-between \xB7 body flex-col gap-3 \xB7 footer flex-row gap-3." }
     ],
-    specimens: /* @__PURE__ */ jsxs16(Fragment3, { children: [
+    specimens: /* @__PURE__ */ jsxs16(Fragment2, { children: [
       /* @__PURE__ */ jsx23(Spec, { label: "default", children: /* @__PURE__ */ jsx23(Card, { children: /* @__PURE__ */ jsx23("p", { className: "text-body text-fg", children: "A surface with a hairline border and a single drop-shadow. Lighter than the page, so it lifts without needing more." }) }) }),
       /* @__PURE__ */ jsx23(Spec, { label: "compact", children: /* @__PURE__ */ jsx23(Card, { compact: true, children: /* @__PURE__ */ jsx23("p", { className: "text-body-sm text-fg-muted", children: "Compact padding \u2014 for inline list rows." }) }) }),
       /* @__PURE__ */ jsx23(Spec, { label: 'tone="bare" + own ground', children: /* @__PURE__ */ jsx23(Card, { tone: "bare", className: "bg-accent-rokusho-bg border-t-[3px] border-t-accent-rokusho", children: /* @__PURE__ */ jsx23("p", { className: "text-body text-fg", children: "No background of its own. This one is Rokush\u014D \u2014 the same mechanism PhraseCard uses." }) }) }),
@@ -1603,7 +1604,7 @@ var PRIMITIVES = [
       { name: "className", type: "string", fallback: "undefined", note: "Appended." },
       { name: "\u2026rest", type: "HTMLAttributes<HTMLSpanElement>", fallback: "\u2014", note: "Renders as <span>." }
     ],
-    specimens: /* @__PURE__ */ jsxs16(Fragment3, { children: [
+    specimens: /* @__PURE__ */ jsxs16(Fragment2, { children: [
       /* @__PURE__ */ jsx23(Spec, { label: "variant \u2014 all three", children: /* @__PURE__ */ jsxs16("div", { className: "flex flex-wrap items-center gap-2", children: [
         /* @__PURE__ */ jsx23(Badge, { children: "Polite form" }),
         /* @__PURE__ */ jsx23(Badge, { variant: "success", children: "Got it" }),
@@ -1631,7 +1632,7 @@ var PRIMITIVES = [
       { name: "className", type: "string", fallback: "undefined", note: "Appended." },
       { name: "\u2026rest", type: "ButtonHTMLAttributes", fallback: "\u2014", note: "onClick, aria-pressed\u2026" }
     ],
-    specimens: /* @__PURE__ */ jsxs16(Fragment3, { children: [
+    specimens: /* @__PURE__ */ jsxs16(Fragment2, { children: [
       /* @__PURE__ */ jsx23(Spec, { label: "variant \u2014 all three", children: /* @__PURE__ */ jsxs16("div", { className: "flex flex-wrap items-center gap-3", children: [
         /* @__PURE__ */ jsx23(IconButton, { "aria-label": "Play audio", children: /* @__PURE__ */ jsx23(SpeakerIcon, { ...ICON_SIZE }) }),
         /* @__PURE__ */ jsx23(IconButton, { "aria-label": "Now playing", variant: "filled", children: /* @__PURE__ */ jsx23(SpeakerIcon, { ...ICON_SIZE }) }),
@@ -1668,7 +1669,7 @@ var DOMAIN = [
       { name: "footer", type: "ReactNode", fallback: "undefined", note: 'Bottom row \u2014 grading buttons, "Show answer".' },
       { name: "notes", type: "string", fallback: "undefined", note: "Authoring note under the English line. Needs english to be visible." }
     ],
-    specimens: /* @__PURE__ */ jsxs16(Fragment3, { children: [
+    specimens: /* @__PURE__ */ jsxs16(Fragment2, { children: [
       ACCENTS.map((accent) => /* @__PURE__ */ jsx23(Spec, { label: `accent="${accent}"`, children: /* @__PURE__ */ jsx23(
         PhraseCard,
         {
@@ -1729,7 +1730,7 @@ var DOMAIN = [
       { name: "onEntered", type: "() => void", fallback: "undefined", note: 'Fires on animationend while phase="entering".' },
       { name: "onExited", type: "() => void", fallback: "undefined", note: 'Fires on animationend while phase="exiting".' }
     ],
-    specimens: /* @__PURE__ */ jsxs16(Fragment3, { children: [
+    specimens: /* @__PURE__ */ jsxs16(Fragment2, { children: [
       /* @__PURE__ */ jsx23(Spec, { label: "flipped={false} \u2014 the front", children: /* @__PURE__ */ jsx23(
         FlipCard,
         {
@@ -1761,7 +1762,7 @@ var DOMAIN = [
       { name: "renderKey", type: "(cell: KanaCell) => ReactNode", fallback: "cell.kana", note: "Override the glyph \u2014 e.g. kana over romaji." },
       { name: "learned", type: "ReadonlySet<string>", fallback: "undefined", note: "Rokush\u014D inset ring, never a fill \u2014 a wash sits on top of the character being read." }
     ],
-    specimens: /* @__PURE__ */ jsxs16(Fragment3, { children: [
+    specimens: /* @__PURE__ */ jsxs16(Fragment2, { children: [
       /* @__PURE__ */ jsx23(Spec, { label: "rows + learned (\u3042\u3044\u304B\u3053\u3057 ringed)", children: /* @__PURE__ */ jsx23(KanaGrid, { rows: _KANA_ROWS, onSelect: () => {
       }, learned: _LEARNED }) }),
       /* @__PURE__ */ jsx23(Spec, { label: "renderKey \u2014 kana over romaji", children: /* @__PURE__ */ jsx23(
@@ -1770,7 +1771,7 @@ var DOMAIN = [
           rows: _KANA_ROWS,
           onSelect: () => {
           },
-          renderKey: (cell) => /* @__PURE__ */ jsxs16(Fragment3, { children: [
+          renderKey: (cell) => /* @__PURE__ */ jsxs16(Fragment2, { children: [
             /* @__PURE__ */ jsx23("span", { children: cell.kana }),
             /* @__PURE__ */ jsx23("span", { className: "font-sans text-caption text-fg-subtle", children: cell.romaji })
           ] })
@@ -1792,7 +1793,7 @@ var DOMAIN = [
       { name: "onKey", type: "(kana: string) => void", note: "A vowel key from the open group." },
       { name: "onBackspace", type: "() => void", note: "The utility key. Required \u2014 unlike KanaGrid, this one owns it." }
     ],
-    specimens: /* @__PURE__ */ jsxs16(Fragment3, { children: [
+    specimens: /* @__PURE__ */ jsxs16(Fragment2, { children: [
       /* @__PURE__ */ jsx23(Spec, { label: 'script="hiragana" section="basic"', children: /* @__PURE__ */ jsx23(_KanaKeyboardDemo, {}) }),
       /* @__PURE__ */ jsx23(Spec, { label: 'script="katakana" section="voiced"', children: /* @__PURE__ */ jsx23(_KanaKeyboardDemo, { initialScript: "katakana", initialSection: "voiced" }) }),
       /* @__PURE__ */ jsx23(Spec, { label: 'section="small"', children: /* @__PURE__ */ jsx23(_KanaKeyboardDemo, { initialSection: "small" }) })
@@ -1823,7 +1824,7 @@ var DOMAIN = [
       { name: "onSubmit", type: "() => void", note: "Submit button and Enter." },
       { name: "onToggleSystemHint", type: "() => void", note: "Opens/closes the IME hint." }
     ],
-    specimens: /* @__PURE__ */ jsxs16(Fragment3, { children: [
+    specimens: /* @__PURE__ */ jsxs16(Fragment2, { children: [
       /* @__PURE__ */ jsx23(Spec, { label: 'mode="romaji" \u2014 type "onegaishimasu"', children: /* @__PURE__ */ jsx23(_FillInputDemo, { initialMode: "romaji" }) }),
       /* @__PURE__ */ jsx23(Spec, { label: 'mode="kana"', children: /* @__PURE__ */ jsx23(_FillInputDemo, { initialMode: "kana" }) }),
       /* @__PURE__ */ jsx23(Spec, { label: 'mode="system" + showSystemHint', children: /* @__PURE__ */ jsx23(_FillInputDemo, { initialMode: "system" }) })
@@ -1840,7 +1841,7 @@ var DOMAIN = [
       { name: "disabled", type: "boolean", fallback: 'status === "processing"', note: "Explicit false re-enables during processing." },
       { name: "errorMessage", type: "string", fallback: "'Could not hear you. Try again.'", note: 'Only shown when status="error".' }
     ],
-    specimens: /* @__PURE__ */ jsxs16(Fragment3, { children: [
+    specimens: /* @__PURE__ */ jsxs16(Fragment2, { children: [
       /* @__PURE__ */ jsx23(Spec, { label: 'status="idle"', children: /* @__PURE__ */ jsx23(VoiceInput, { status: "idle", onPress: () => {
       } }) }),
       /* @__PURE__ */ jsx23(Spec, { label: 'status="listening"', children: /* @__PURE__ */ jsx23(VoiceInput, { status: "listening", onPress: () => {
@@ -1869,7 +1870,7 @@ var DOMAIN = [
       { name: "label", type: "string", fallback: "'Play audio'", note: "The aria-label. aria-pressed tracks playing." },
       { name: "disabled", type: "boolean", fallback: "false", note: "For a phrase with no audioUrl." }
     ],
-    specimens: /* @__PURE__ */ jsxs16(Fragment3, { children: [
+    specimens: /* @__PURE__ */ jsxs16(Fragment2, { children: [
       /* @__PURE__ */ jsx23(Spec, { label: 'state="idle"', children: /* @__PURE__ */ jsx23(AudioButton, { state: "idle", onPress: () => {
       } }) }),
       /* @__PURE__ */ jsx23(Spec, { label: 'state="loading"', children: /* @__PURE__ */ jsx23(AudioButton, { state: "loading", onPress: () => {
@@ -1894,7 +1895,7 @@ var CORRECTNESS = [
       { name: "className", type: "string", fallback: "undefined", note: "Size it here \u2014 the glyph inherits font-size." },
       { name: "\u2026rest", type: "HTMLAttributes<HTMLSpanElement>", fallback: "\u2014", note: "children and className are taken; everything else passes through." }
     ],
-    specimens: /* @__PURE__ */ jsxs16(Fragment3, { children: [
+    specimens: /* @__PURE__ */ jsxs16(Fragment2, { children: [
       /* @__PURE__ */ jsx23(Spec, { label: "outcome \u2014 both", children: /* @__PURE__ */ jsxs16("div", { className: "flex items-center gap-6 text-heading", children: [
         /* @__PURE__ */ jsx23(Maru, { outcome: "correct" }),
         /* @__PURE__ */ jsx23(Maru, { outcome: "review" })
@@ -1917,7 +1918,7 @@ var CORRECTNESS = [
       { name: "userAnswer", type: "string", fallback: "undefined", note: 'Echoed in the banner as "You answered: \u2026". Empty string is treated as absent.' },
       { name: "children", type: "ReactNode", note: "The correct answer, in the caller\u2019s own markup. The frame is this component\u2019s; the content is the card\u2019s." }
     ],
-    specimens: /* @__PURE__ */ jsxs16(Fragment3, { children: [
+    specimens: /* @__PURE__ */ jsxs16(Fragment2, { children: [
       /* @__PURE__ */ jsx23(Spec, { label: 'outcome="correct"', children: /* @__PURE__ */ jsxs16(AnswerResult, { outcome: "correct", children: [
         /* @__PURE__ */ jsx23("p", { lang: "ja", className: "font-jp text-jp-lg text-fg", children: "\u304A\u9858\u3044\u3057\u307E\u3059" }),
         /* @__PURE__ */ jsx23("p", { lang: "ja", className: "font-jp text-jp text-fg-muted", children: "\u304A\u306D\u304C\u3044\u3057\u307E\u3059" })
@@ -1940,7 +1941,7 @@ var CORRECTNESS = [
       { name: "onGrade", type: "(outcome: AnswerOutcome) => void", note: 'Fires with "correct" or "review".' },
       { name: "disabled", type: "boolean", fallback: "false", note: "Both buttons at once \u2014 a grade is one decision." }
     ],
-    specimens: /* @__PURE__ */ jsxs16(Fragment3, { children: [
+    specimens: /* @__PURE__ */ jsxs16(Fragment2, { children: [
       /* @__PURE__ */ jsx23(Spec, { label: "default", children: /* @__PURE__ */ jsx23(GradePair, { onGrade: () => {
       } }) }),
       /* @__PURE__ */ jsx23(Spec, { label: "disabled", children: /* @__PURE__ */ jsx23(GradePair, { onGrade: () => {
@@ -1959,7 +1960,7 @@ var CORRECTNESS = [
       { name: "tone", type: "'plain' | 'rokusho' | 'ai'", fallback: "'plain'", note: "Warm paper \xB7 Rokush\u014D tint with a rule \xB7 solid Ai-iro." },
       { name: "children", type: "ReactNode", fallback: "undefined", note: "Stacked below the block \u2014 this is where the actions go." }
     ],
-    specimens: /* @__PURE__ */ jsxs16(Fragment3, { children: [
+    specimens: /* @__PURE__ */ jsxs16(Fragment2, { children: [
       /* @__PURE__ */ jsx23(Spec, { label: 'tone="plain"', children: /* @__PURE__ */ jsx23(ScoreCard, { correct: 18, total: 25 }) }),
       /* @__PURE__ */ jsx23(Spec, { label: 'tone="rokusho"', children: /* @__PURE__ */ jsx23(ScoreCard, { correct: 18, total: 25, tone: "rokusho" }) }),
       /* @__PURE__ */ jsx23(Spec, { label: 'tone="ai"', children: /* @__PURE__ */ jsx23(ScoreCard, { correct: 18, total: 25, tone: "ai" }) }),
@@ -1979,7 +1980,7 @@ var CORRECTNESS = [
       { name: "label", type: "string", fallback: "'Session progress'", note: 'The aria-label. role="progressbar" with valuemin/max/now.' },
       { name: "tone", type: "'default' | 'inverse' | 'on-accent'", fallback: "'default'", note: "Warm track \xB7 dark track for the Sumi band \xB7 currentColor on a hued band." }
     ],
-    specimens: /* @__PURE__ */ jsxs16(Fragment3, { children: [
+    specimens: /* @__PURE__ */ jsxs16(Fragment2, { children: [
       /* @__PURE__ */ jsx23(SpecOnPage, { label: "value \u2014 0, 0.25, 0.5, 0.75, 1", children: /* @__PURE__ */ jsx23("div", { className: "flex flex-col gap-4", children: [0, 0.25, 0.5, 0.75, 1].map((v) => /* @__PURE__ */ jsxs16("div", { className: "flex items-center gap-3", children: [
         /* @__PURE__ */ jsxs16("span", { className: "w-10 font-mono text-body-sm text-fg-subtle", children: [
           Math.round(v * 100),
@@ -2021,7 +2022,7 @@ var LAYOUT = [
       { name: "mark", type: "boolean", fallback: "true", note: "The \u30A2 hanko. Ignored when left is supplied." },
       { name: "progress", type: "number", fallback: "undefined", note: 'Renders a ProgressBar tone="inverse" INSIDE the band \u2014 flush below, it reads as one two-tone rule with the \u014Cgon hairline.' }
     ],
-    specimens: /* @__PURE__ */ jsxs16(Fragment3, { children: [
+    specimens: /* @__PURE__ */ jsxs16(Fragment2, { children: [
       /* @__PURE__ */ jsx23(SpecOnPage, { label: "title only \u2014 the hanko shows", children: /* @__PURE__ */ jsx23(AppHeader, { title: "Flashcards" }) }),
       /* @__PURE__ */ jsx23(SpecOnPage, { label: "subtitle + progress", children: /* @__PURE__ */ jsx23(AppHeader, { title: "Flashcards", subtitle: "Restaurant \xB7 8 of 25", progress: 0.32 }) }),
       /* @__PURE__ */ jsx23(SpecOnPage, { label: "left + right (left suppresses the mark)", children: /* @__PURE__ */ jsx23(
@@ -2052,7 +2053,7 @@ var LAYOUT = [
       { name: "description", type: "string", fallback: "undefined", note: "One line of context under it." },
       { name: "action", type: "ReactNode", fallback: "undefined", note: "Usually a secondary Button." }
     ],
-    specimens: /* @__PURE__ */ jsxs16(Fragment3, { children: [
+    specimens: /* @__PURE__ */ jsxs16(Fragment2, { children: [
       /* @__PURE__ */ jsx23(Spec, { label: "message only", children: /* @__PURE__ */ jsx23(EmptyState, { message: "No cards due" }) }),
       /* @__PURE__ */ jsx23(Spec, { label: "+ description", children: /* @__PURE__ */ jsx23(
         EmptyState,
@@ -2080,7 +2081,7 @@ var LAYOUT = [
       { name: "description", type: "string", fallback: "undefined", note: "Body text, also inside the panel." },
       { name: "action", type: "ReactNode", fallback: "undefined", note: "Rendered below the panel, not in it." }
     ],
-    specimens: /* @__PURE__ */ jsxs16(Fragment3, { children: [
+    specimens: /* @__PURE__ */ jsxs16(Fragment2, { children: [
       /* @__PURE__ */ jsx23(Spec, { label: "message only", children: /* @__PURE__ */ jsx23(ErrorState, { message: "Something went wrong" }) }),
       /* @__PURE__ */ jsx23(Spec, { label: "+ description", children: /* @__PURE__ */ jsx23(
         ErrorState,
@@ -2106,7 +2107,7 @@ var LAYOUT = [
     props: [
       { name: "label", type: "string", fallback: "'Loading\u2026'", note: 'The aria-label on role="status", and the caption under the skeleton.' }
     ],
-    specimens: /* @__PURE__ */ jsxs16(Fragment3, { children: [
+    specimens: /* @__PURE__ */ jsxs16(Fragment2, { children: [
       /* @__PURE__ */ jsx23(Spec, { label: "default", children: /* @__PURE__ */ jsx23(LoadingPlaceholder, {}) }),
       /* @__PURE__ */ jsx23(Spec, { label: "label", children: /* @__PURE__ */ jsx23(LoadingPlaceholder, { label: "Checking your connection\u2026" }) })
     ] })
@@ -2131,7 +2132,7 @@ var ICONS = [
     blurb: "No icon font, no icon library \u2014 four inline 24\xD724 filled paths on currentColor, aria-hidden, sized by the caller. Filled only: outline icons are not part of this system, and neither is emoji. AlertIcon exists in src/components/icons.tsx and is deliberately NOT a public export \u2014 ErrorState is its only consumer.",
     cols: "c4",
     props: ICON_ROWS,
-    specimens: /* @__PURE__ */ jsxs16(Fragment3, { children: [
+    specimens: /* @__PURE__ */ jsxs16(Fragment2, { children: [
       /* @__PURE__ */ jsx23(IconSpec, { name: "SpeakerIcon", children: /* @__PURE__ */ jsx23(SpeakerIcon, { className: "h-8 w-8" }) }),
       /* @__PURE__ */ jsx23(IconSpec, { name: "MicIcon", children: /* @__PURE__ */ jsx23(MicIcon, { className: "h-8 w-8" }) }),
       /* @__PURE__ */ jsx23(IconSpec, { name: "BackspaceIcon", children: /* @__PURE__ */ jsx23(BackspaceIcon, { className: "h-8 w-8" }) }),
@@ -2332,7 +2333,7 @@ function JumpNav() {
   ] });
 }
 function ComponentsPage() {
-  return /* @__PURE__ */ jsxs16(Fragment3, { children: [
+  return /* @__PURE__ */ jsxs16(Fragment2, { children: [
     /* @__PURE__ */ jsx23(JumpNav, {}),
     GROUPS.map((g) => /* @__PURE__ */ jsx23(GroupBlock, { group: g }, g.n)),
     /* @__PURE__ */ jsx23(AbsentBlock, {})

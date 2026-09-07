@@ -828,7 +828,7 @@ function VoiceInput({ status, onPress, disabled, errorMessage }) {
 }
 
 // src/components/FillInput.tsx
-import { Fragment as Fragment2, jsx as jsx19, jsxs as jsxs12 } from "react/jsx-runtime";
+import { jsx as jsx19, jsxs as jsxs12 } from "react/jsx-runtime";
 var MODE_LABELS = {
   romaji: "Romaji",
   kana: "Kana grid",
@@ -844,6 +844,7 @@ function FillInput({
   kanaScript,
   kanaSection,
   canSubmit,
+  showModePicker = true,
   disabled,
   placeholder,
   showSystemHint,
@@ -862,7 +863,7 @@ function FillInput({
     if (e.key === "Enter") onSubmit();
   }
   return /* @__PURE__ */ jsxs12("div", { className: "flex w-full flex-col gap-3", children: [
-    /* @__PURE__ */ jsx19("div", { className: "flex gap-1 rounded-xl border border-border bg-surface p-1", children: ["romaji", "kana", "system"].map((m) => /* @__PURE__ */ jsx19(
+    showModePicker && /* @__PURE__ */ jsx19("div", { className: "flex gap-1 rounded-xl border border-border bg-surface p-1", children: ["romaji", "kana", "system"].map((m) => /* @__PURE__ */ jsx19(
       "button",
       {
         type: "button",
@@ -879,10 +880,10 @@ function FillInput({
       m
     )) }),
     mode === "romaji" && /* @__PURE__ */ jsxs12("div", { className: "flex flex-col gap-2", children: [
-      /* @__PURE__ */ jsx19("div", { className: "min-h-10 rounded-xl border border-border bg-surface px-4 py-2 font-jp text-jp-lg text-fg", children: converted !== "" || pending !== "" ? /* @__PURE__ */ jsxs12(Fragment2, { children: [
+      (converted !== "" || pending !== "") && /* @__PURE__ */ jsxs12("div", { className: "min-h-10 rounded-xl border border-border bg-surface px-4 py-2 font-jp text-jp-lg text-fg", children: [
         /* @__PURE__ */ jsx19("span", { children: converted }),
         /* @__PURE__ */ jsx19("span", { className: "text-fg-faint", children: pending })
-      ] }) : /* @__PURE__ */ jsx19("span", { className: "text-body text-fg-faint", children: placeholder ?? "Kana preview" }) }),
+      ] }),
       /* @__PURE__ */ jsx19(
         "input",
         {
@@ -902,7 +903,7 @@ function FillInput({
       )
     ] }),
     mode === "kana" && /* @__PURE__ */ jsxs12("div", { className: "flex flex-col gap-2", children: [
-      /* @__PURE__ */ jsx19("div", { className: "min-h-12 rounded-xl border border-border bg-surface px-4 py-2 font-jp text-jp-lg text-fg", children: kanaValue !== "" ? kanaValue : /* @__PURE__ */ jsx19("span", { className: "text-body text-fg-faint", children: placeholder ?? "Tap kana below\u2026" }) }),
+      kanaValue !== "" && /* @__PURE__ */ jsx19("div", { className: "min-h-12 rounded-xl border border-border bg-surface px-4 py-2 font-jp text-jp-lg text-fg", children: kanaValue }),
       /* @__PURE__ */ jsx19(
         KanaKeyboard,
         {
@@ -1194,7 +1195,7 @@ function FlowPage({
 }
 
 // ui_kits/flows/book-lab.tsx
-import { Fragment as Fragment3, jsx as jsx24, jsxs as jsxs17 } from "react/jsx-runtime";
+import { Fragment as Fragment2, jsx as jsx24, jsxs as jsxs17 } from "react/jsx-runtime";
 var BOOKS = [
   {
     id: "one",
@@ -1363,7 +1364,7 @@ var MARKS = ["correct", "correct", "review", "correct"];
 function Checkpoint({ book, chrome, v }) {
   const fb = v?.hex;
   const banded = chrome === "book";
-  return /* @__PURE__ */ jsxs17(Fragment3, { children: [
+  return /* @__PURE__ */ jsxs17(Fragment2, { children: [
     banded ? /* @__PURE__ */ jsx24(BookBand, { book, title: "Chapter 3", subtitle: "checkpoint" }) : /* @__PURE__ */ jsx24(AppHeader, { title: "Chapter 3", subtitle: "checkpoint" }),
     /* @__PURE__ */ jsx24(Screen, { children: /* @__PURE__ */ jsxs17("div", { className: `emboss-bg ${book.crest} ${book.tile} -mx-4 -mt-5 flex flex-1 flex-col gap-4 px-4 py-5`, children: [
       /* @__PURE__ */ jsxs17("div", { className: "glass flex flex-col gap-1", children: [
@@ -1448,7 +1449,7 @@ function Checkpoint({ book, chrome, v }) {
   ] });
 }
 function LessonPage({ book, deep = false }) {
-  return /* @__PURE__ */ jsxs17(Fragment3, { children: [
+  return /* @__PURE__ */ jsxs17(Fragment2, { children: [
     /* @__PURE__ */ jsx24(BookBand, { book, title: book.title, subtitle: "Chapter 3 \xB7 4 of 12", progress: 0.33, deep }),
     /* @__PURE__ */ jsx24(Screen, { children: /* @__PURE__ */ jsxs17("div", { className: `emboss-bg ${book.crest} ${book.tile} -mx-4 -mt-5 flex flex-1 flex-col gap-4 px-4 py-5`, children: [
       /* @__PURE__ */ jsxs17("div", { className: "glass flex flex-col gap-3", children: [
@@ -1547,7 +1548,7 @@ function BookLab() {
 
 // ui_kits/flows/book-surfaces.tsx
 import { useState as useState4 } from "react";
-import { Fragment as Fragment4, jsx as jsx25, jsxs as jsxs18 } from "react/jsx-runtime";
+import { Fragment as Fragment3, jsx as jsx25, jsxs as jsxs18 } from "react/jsx-runtime";
 var CHAPTER_ONE = [
   { n: 1, title: "Yes, no, and this/that", canDo: "Greet someone", situation: "Greetings & basics", done: true },
   { n: 2, title: "Hello & goodbye", canDo: "Greet someone", situation: "Greetings & basics", done: true },
@@ -1602,7 +1603,7 @@ var LATE = [
 function ChapterOpener({ book, onStart }) {
   const done = CHAPTER_ONE.filter((l) => l.done).length;
   const situations = [...new Set(CHAPTER_ONE.map((l) => l.situation))];
-  return /* @__PURE__ */ jsxs18(Fragment4, { children: [
+  return /* @__PURE__ */ jsxs18(Fragment3, { children: [
     /* @__PURE__ */ jsx25(BookBand, { book, title: book.title, subtitle: "Chapter 1 of 11" }),
     /* @__PURE__ */ jsx25(Screen, { children: /* @__PURE__ */ jsxs18(
       "div",
@@ -1652,7 +1653,7 @@ function LessonPage2({
 }) {
   const [revealed, setRevealed] = useState4(false);
   const accent = SITUATION_ACCENT[lesson.situation] ?? "ai";
-  return /* @__PURE__ */ jsxs18(Fragment4, { children: [
+  return /* @__PURE__ */ jsxs18(Fragment3, { children: [
     /* @__PURE__ */ jsx25(
       BookBand,
       {
@@ -1696,7 +1697,7 @@ function FinalCheckpoint({ book }) {
   const item = FINAL_ITEMS[index];
   const correct = checked && value.trim() === item.answer;
   const left = FINAL_ITEMS.length - index;
-  return /* @__PURE__ */ jsxs18(Fragment4, { children: [
+  return /* @__PURE__ */ jsxs18(Fragment3, { children: [
     /* @__PURE__ */ jsx25(BookBand, { book, title: book.title, subtitle: "final checkpoint", deep: true }),
     /* @__PURE__ */ jsx25(Screen, { children: /* @__PURE__ */ jsxs18("div", { className: `emboss-bg ${book.crest} tile-lg -mx-4 -mt-5 flex flex-1 flex-col gap-4 px-4 py-5`, children: [
       /* @__PURE__ */ jsxs18("div", { className: "glass flex flex-col gap-1", children: [
@@ -1757,7 +1758,7 @@ function bookFlow(book) {
     states: STATES2,
     initial: "opener",
     Screens({ state, go }) {
-      return /* @__PURE__ */ jsxs18(Fragment4, { children: [
+      return /* @__PURE__ */ jsxs18(Fragment3, { children: [
         borrowed && /* @__PURE__ */ jsx25("div", { className: "border-b border-border bg-surface-2 px-4 py-1 text-center text-caption text-fg-muted", children: "Book One's content \u2014 the variable here is the identity" }),
         state === "opener" && /* @__PURE__ */ jsx25(ChapterOpener, { book, onStart: () => go("lesson-early") }),
         state === "lesson-early" && /* @__PURE__ */ jsx25(
@@ -1818,7 +1819,7 @@ var checkpointFlow = {
 
 // ui_kits/flows/flashcard-round.tsx
 import { useState as useState5 } from "react";
-import { Fragment as Fragment5, jsx as jsx27, jsxs as jsxs19 } from "react/jsx-runtime";
+import { Fragment as Fragment4, jsx as jsx27, jsxs as jsxs19 } from "react/jsx-runtime";
 var PHRASES = [
   {
     japanese: "\u99C5\u306F\u3069\u3053\u3067\u3059\u304B",
@@ -1882,7 +1883,7 @@ function Round({ onExhausted, from }) {
     window.setTimeout(() => setAudio("idle"), 1400);
   }
   if (step === "summary") {
-    return /* @__PURE__ */ jsxs19(Fragment5, { children: [
+    return /* @__PURE__ */ jsxs19(Fragment4, { children: [
       /* @__PURE__ */ jsx27(AppHeader, { title: "Round complete", subtitle: `${PHRASES.length} phrases`, progress: 1 }),
       /* @__PURE__ */ jsxs19(Screen, { children: [
         /* @__PURE__ */ jsx27(
@@ -1949,7 +1950,7 @@ function Round({ onExhausted, from }) {
       audioSlot: /* @__PURE__ */ jsx27(AudioButton, { state: audio, onPress: playAudio })
     }
   );
-  return /* @__PURE__ */ jsxs19(Fragment5, { children: [
+  return /* @__PURE__ */ jsxs19(Fragment4, { children: [
     /* @__PURE__ */ jsx27(
       AppHeader,
       {
@@ -1965,13 +1966,13 @@ function Round({ onExhausted, from }) {
   ] });
 }
 function LoadingScreen() {
-  return /* @__PURE__ */ jsxs19(Fragment5, { children: [
+  return /* @__PURE__ */ jsxs19(Fragment4, { children: [
     /* @__PURE__ */ jsx27(AppHeader, { title: "Flashcards", subtitle: "Loading", progress: 0 }),
     /* @__PURE__ */ jsx27(Screen, { children: /* @__PURE__ */ jsx27(StateStage, { children: /* @__PURE__ */ jsx27(LoadingPlaceholder, { label: "Building your round\u2026" }) }) })
   ] });
 }
 function EmptyScreen({ onRestart }) {
-  return /* @__PURE__ */ jsxs19(Fragment5, { children: [
+  return /* @__PURE__ */ jsxs19(Fragment4, { children: [
     /* @__PURE__ */ jsx27(AppHeader, { title: "Flashcards" }),
     /* @__PURE__ */ jsx27(Screen, { children: /* @__PURE__ */ jsxs19(EmptyStage, { children: [
       /* @__PURE__ */ jsx27("span", { className: "hanko text-display-lg", "aria-hidden": "true" }),
@@ -1987,7 +1988,7 @@ function EmptyScreen({ onRestart }) {
   ] });
 }
 function ErrorScreen({ onRetry }) {
-  return /* @__PURE__ */ jsxs19(Fragment5, { children: [
+  return /* @__PURE__ */ jsxs19(Fragment4, { children: [
     /* @__PURE__ */ jsx27(AppHeader, { title: "Flashcards" }),
     /* @__PURE__ */ jsx27(Screen, { children: /* @__PURE__ */ jsx27(StateStage, { children: /* @__PURE__ */ jsx27(
       ErrorState,
@@ -2002,7 +2003,7 @@ function ErrorScreen({ onRetry }) {
 function CheckedScreen() {
   const [outcome, setOutcome] = useState5("review");
   const phrase = PHRASES[0];
-  return /* @__PURE__ */ jsxs19(Fragment5, { children: [
+  return /* @__PURE__ */ jsxs19(Fragment4, { children: [
     /* @__PURE__ */ jsx27(AppHeader, { title: "Fill in the blank", subtitle: "transit \xB7 1 of 4", progress: 0.25 }),
     /* @__PURE__ */ jsxs19(Screen, { children: [
       /* @__PURE__ */ jsxs19(AnswerResult, { outcome, userAnswer: "eki wa doku desu ka", children: [
@@ -2039,7 +2040,7 @@ var flashcardFlow = {
   initial: "round",
   Screens({ state, go }) {
     const step = fromUrl("step", STEPS, "prompt");
-    return /* @__PURE__ */ jsxs19(Fragment5, { children: [
+    return /* @__PURE__ */ jsxs19(Fragment4, { children: [
       state === "round" && /* @__PURE__ */ jsx27(Round, { from: step, onExhausted: () => go("empty") }),
       state === "loading" && /* @__PURE__ */ jsx27(LoadingScreen, {}),
       state === "empty" && /* @__PURE__ */ jsx27(EmptyScreen, { onRestart: () => go("round") }),
@@ -2229,7 +2230,7 @@ function convertRomaji(input) {
 
 // ui_kits/flows/fill-blank.tsx
 import { useState as useState6 } from "react";
-import { Fragment as Fragment6, jsx as jsx28, jsxs as jsxs20 } from "react/jsx-runtime";
+import { Fragment as Fragment5, jsx as jsx28, jsxs as jsxs20 } from "react/jsx-runtime";
 var CARD = {
   english: "Where is the station?",
   japanese: "\u99C5\u306F\u3069\u3053\u3067\u3059\u304B",
@@ -2244,7 +2245,7 @@ function Prompt({
   channel,
   onChannel
 }) {
-  return /* @__PURE__ */ jsxs20(Fragment6, { children: [
+  return /* @__PURE__ */ jsxs20(Fragment5, { children: [
     /* @__PURE__ */ jsxs20("header", { className: "flex items-center justify-between gap-3", children: [
       /* @__PURE__ */ jsx28(Badge, { emphasis: true, children: CARD.scenario }),
       /* @__PURE__ */ jsxs20("div", { className: "flex items-center gap-2", children: [
@@ -2303,7 +2304,7 @@ function InputScreen({
     setVoice(voice === "listening" ? "processing" : "listening");
     if (voice === "listening") window.setTimeout(onSubmit, 700);
   }
-  return /* @__PURE__ */ jsxs20(Fragment6, { children: [
+  return /* @__PURE__ */ jsxs20(Fragment5, { children: [
     /* @__PURE__ */ jsx28(AppHeader, { title: "Fill in the blank", subtitle: "transit \xB7 1 of 4", progress: 0 }),
     /* @__PURE__ */ jsx28(Screen, { children: /* @__PURE__ */ jsx28(Card, { children: /* @__PURE__ */ jsxs20("div", { className: "flex flex-col gap-5", children: [
       /* @__PURE__ */ jsx28(Prompt, { audio, onPlay: play, channel, onChannel: setChannel }),
@@ -2334,7 +2335,7 @@ function InputScreen({
   ] });
 }
 function CheckedScreen2({ outcome, onNext }) {
-  return /* @__PURE__ */ jsxs20(Fragment6, { children: [
+  return /* @__PURE__ */ jsxs20(Fragment5, { children: [
     /* @__PURE__ */ jsx28(AppHeader, { title: "Fill in the blank", subtitle: "transit \xB7 1 of 4", progress: 0.25 }),
     /* @__PURE__ */ jsxs20(Screen, { children: [
       /* @__PURE__ */ jsxs20(
@@ -2387,7 +2388,7 @@ var fillFlow = {
   initial: "romaji",
   Screens({ state, go }) {
     const inputMode = AS_MODE[state];
-    return /* @__PURE__ */ jsxs20(Fragment6, { children: [
+    return /* @__PURE__ */ jsxs20(Fragment5, { children: [
       inputMode !== void 0 && /* @__PURE__ */ jsx28(InputScreen, { startMode: inputMode, startChannel: "text", onSubmit: () => go("review") }),
       VOICE[state] !== void 0 && /* @__PURE__ */ jsx28(
         InputScreen,
@@ -2400,11 +2401,11 @@ var fillFlow = {
       ),
       state === "correct" && /* @__PURE__ */ jsx28(CheckedScreen2, { outcome: "correct", onNext: () => go("romaji") }),
       state === "review" && /* @__PURE__ */ jsx28(CheckedScreen2, { outcome: "review", onNext: () => go("romaji") }),
-      state === "loading" && /* @__PURE__ */ jsxs20(Fragment6, { children: [
+      state === "loading" && /* @__PURE__ */ jsxs20(Fragment5, { children: [
         /* @__PURE__ */ jsx28(AppHeader, { title: "Fill in the blank", subtitle: "Loading", progress: 0 }),
         /* @__PURE__ */ jsx28(Screen, { children: /* @__PURE__ */ jsx28(StateStage, { children: /* @__PURE__ */ jsx28(LoadingPlaceholder, { label: "Finding your next card\u2026" }) }) })
       ] }),
-      state === "empty" && /* @__PURE__ */ jsxs20(Fragment6, { children: [
+      state === "empty" && /* @__PURE__ */ jsxs20(Fragment5, { children: [
         /* @__PURE__ */ jsx28(AppHeader, { title: "Fill in the blank" }),
         /* @__PURE__ */ jsx28(Screen, { children: /* @__PURE__ */ jsxs20(EmptyStage, { children: [
           /* @__PURE__ */ jsx28("span", { className: "hanko text-display-lg", "aria-hidden": "true" }),
@@ -2418,7 +2419,7 @@ var fillFlow = {
           )
         ] }) })
       ] }),
-      state === "error" && /* @__PURE__ */ jsxs20(Fragment6, { children: [
+      state === "error" && /* @__PURE__ */ jsxs20(Fragment5, { children: [
         /* @__PURE__ */ jsx28(AppHeader, { title: "Fill in the blank" }),
         /* @__PURE__ */ jsx28(Screen, { children: /* @__PURE__ */ jsx28(StateStage, { children: /* @__PURE__ */ jsx28(
           ErrorState,
@@ -2435,7 +2436,7 @@ var fillFlow = {
 
 // ui_kits/flows/kana-practice.tsx
 import { useState as useState7 } from "react";
-import { Fragment as Fragment7, jsx as jsx29, jsxs as jsxs21 } from "react/jsx-runtime";
+import { Fragment as Fragment6, jsx as jsx29, jsxs as jsxs21 } from "react/jsx-runtime";
 var ROMAJI = new Map(KANA_PRACTICE_CARDS.map((c) => [c.kana, c.romaji]));
 function toCells(rows) {
   return rows.map(
@@ -2490,7 +2491,7 @@ function ChartScreen({ onPractise }) {
     setAudio("playing");
     window.setTimeout(() => setAudio("idle"), 900);
   }
-  return /* @__PURE__ */ jsxs21(Fragment7, { children: [
+  return /* @__PURE__ */ jsxs21(Fragment6, { children: [
     /* @__PURE__ */ jsx29(AppHeader, { title: "Kana", subtitle: `${learnedInScript} of ${total} settled`, progress: learnedInScript / total }),
     /* @__PURE__ */ jsxs21(Screen, { children: [
       /* @__PURE__ */ jsxs21("div", { className: "flex items-center justify-between gap-3", children: [
@@ -2534,7 +2535,7 @@ function ChartScreen({ onPractise }) {
           rows,
           learned: LEARNED,
           onSelect: play,
-          renderKey: (cell) => /* @__PURE__ */ jsxs21(Fragment7, { children: [
+          renderKey: (cell) => /* @__PURE__ */ jsxs21(Fragment6, { children: [
             /* @__PURE__ */ jsx29("span", { className: "leading-none", children: cell.kana }),
             /* @__PURE__ */ jsx29("span", { className: "font-sans text-caption leading-none text-fg-faint", children: cell.romaji })
           ] })
@@ -2602,7 +2603,7 @@ function DrillScreen({
     setAudio("playing");
     window.setTimeout(() => setAudio("idle"), 900);
   }
-  return /* @__PURE__ */ jsxs21(Fragment7, { children: [
+  return /* @__PURE__ */ jsxs21(Fragment6, { children: [
     /* @__PURE__ */ jsx29(AppHeader, { title: "Kana practice", subtitle: `${index + 1} of ${DECK.length}`, progress: index / DECK.length }),
     /* @__PURE__ */ jsxs21(Screen, { children: [
       /* @__PURE__ */ jsxs21("div", { className: "flex flex-col items-center gap-4 rounded-2xl border border-transparent bg-accent-ai-bg p-6 shadow-card", children: [
@@ -2628,7 +2629,7 @@ function KeyboardScreen({ onDone }) {
   const [value, setValue] = useState7("");
   const [script, setScript] = useState7("hiragana");
   const [section, setSection] = useState7("basic");
-  return /* @__PURE__ */ jsxs21(Fragment7, { children: [
+  return /* @__PURE__ */ jsxs21(Fragment6, { children: [
     /* @__PURE__ */ jsx29(AppHeader, { title: "Kana practice", subtitle: "write it \xB7 2 of 4", progress: 0.25 }),
     /* @__PURE__ */ jsxs21(Screen, { children: [
       /* @__PURE__ */ jsxs21("div", { className: "flex flex-col items-center gap-3 rounded-2xl border border-transparent bg-accent-ai-bg p-6 shadow-card", children: [
@@ -2660,7 +2661,7 @@ function KeyboardScreen({ onDone }) {
 }
 function ResultScreen({ marks, onAgain }) {
   const correct = marks.filter((m) => m === "correct").length;
-  return /* @__PURE__ */ jsxs21(Fragment7, { children: [
+  return /* @__PURE__ */ jsxs21(Fragment6, { children: [
     /* @__PURE__ */ jsx29(AppHeader, { title: "Round complete", subtitle: `${DECK.length} kana`, progress: 1 }),
     /* @__PURE__ */ jsxs21(Screen, { children: [
       /* @__PURE__ */ jsx29(
@@ -2711,16 +2712,16 @@ var kanaFlow = {
       setMarks(result.length > 0 ? result : SAMPLE_MARKS);
       go("result");
     }
-    return /* @__PURE__ */ jsxs21(Fragment7, { children: [
+    return /* @__PURE__ */ jsxs21(Fragment6, { children: [
       state === "chart" && /* @__PURE__ */ jsx29(ChartScreen, { onPractise: () => go("drill") }),
       (state === "drill" || state === "answered") && /* @__PURE__ */ jsx29(DrillScreen, { answeredFirst: state === "answered", onFinish: finish }, nonce),
       state === "keyboard" && /* @__PURE__ */ jsx29(KeyboardScreen, { onDone: () => go("result") }),
       state === "result" && /* @__PURE__ */ jsx29(ResultScreen, { marks, onAgain: () => go("chart") }),
-      state === "loading" && /* @__PURE__ */ jsxs21(Fragment7, { children: [
+      state === "loading" && /* @__PURE__ */ jsxs21(Fragment6, { children: [
         /* @__PURE__ */ jsx29(AppHeader, { title: "Kana practice", subtitle: "Loading" }),
         /* @__PURE__ */ jsx29(Screen, { children: /* @__PURE__ */ jsx29(StateStage, { children: /* @__PURE__ */ jsx29(LoadingPlaceholder, { label: "Building your deck\u2026" }) }) })
       ] }),
-      state === "empty" && /* @__PURE__ */ jsxs21(Fragment7, { children: [
+      state === "empty" && /* @__PURE__ */ jsxs21(Fragment6, { children: [
         /* @__PURE__ */ jsx29(AppHeader, { title: "Kana practice" }),
         /* @__PURE__ */ jsx29(Screen, { children: /* @__PURE__ */ jsxs21(EmptyStage, { children: [
           /* @__PURE__ */ jsx29("span", { className: "hanko text-display-lg", "aria-hidden": "true" }),
@@ -2734,7 +2735,7 @@ var kanaFlow = {
           )
         ] }) })
       ] }),
-      state === "error" && /* @__PURE__ */ jsxs21(Fragment7, { children: [
+      state === "error" && /* @__PURE__ */ jsxs21(Fragment6, { children: [
         /* @__PURE__ */ jsx29(AppHeader, { title: "Kana practice" }),
         /* @__PURE__ */ jsx29(Screen, { children: /* @__PURE__ */ jsx29(StateStage, { children: /* @__PURE__ */ jsx29(
           ErrorState,
@@ -2750,7 +2751,7 @@ var kanaFlow = {
 };
 
 // ui_kits/flows/lesson-list.tsx
-import { Fragment as Fragment8, jsx as jsx30, jsxs as jsxs22 } from "react/jsx-runtime";
+import { Fragment as Fragment7, jsx as jsx30, jsxs as jsxs22 } from "react/jsx-runtime";
 var SITUATION_ACCENT2 = {
   "Greetings & basics": "rokusho",
   "Food & drink": "ogon",
@@ -2825,7 +2826,7 @@ var lessonsFlow = {
   states: STATES7,
   initial: "list",
   Screens({ state, go }) {
-    return /* @__PURE__ */ jsxs22(Fragment8, { children: [
+    return /* @__PURE__ */ jsxs22(Fragment7, { children: [
       /* @__PURE__ */ jsx30(AppHeader, { title: "Lessons" }),
       /* @__PURE__ */ jsxs22(Screen, { children: [
         state === "list" && /* @__PURE__ */ jsx30(PatternedStage, { children: LESSONS.map((lesson) => /* @__PURE__ */ jsx30(LessonCard, { lesson }, lesson.title)) }),
@@ -2873,7 +2874,7 @@ function renderFlow(entry2, render) {
 }
 
 // ui_kits/flows/main.tsx
-import { Fragment as Fragment9, jsx as jsx31, jsxs as jsxs23 } from "react/jsx-runtime";
+import { Fragment as Fragment8, jsx as jsx31, jsxs as jsxs23 } from "react/jsx-runtime";
 var IDS = FLOWS.map((f) => f.id);
 var LAB = "books";
 var BOOK_FLOWS = FLOWS.filter((f) => f.group === "book");
@@ -2955,7 +2956,7 @@ function FlowNav() {
 var host = document.getElementById("root");
 if (host === null) throw new Error("ui_kits/flows: no #root in the host page");
 createRoot(host).render(
-  /* @__PURE__ */ jsxs23(Fragment9, { children: [
+  /* @__PURE__ */ jsxs23(Fragment8, { children: [
     /* @__PURE__ */ jsx31(FlowNav, {}),
     missing !== null && /* @__PURE__ */ jsx31(MissingFlow, { id: missing }),
     raw === LAB ? /* @__PURE__ */ jsx31(BookLab, {}) : renderFlow(current, (flow) => /* @__PURE__ */ jsx31(RunFlow, { flow }))

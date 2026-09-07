@@ -21,7 +21,23 @@ export type FillInputProps = {
   /** Current section for the embedded KanaKeyboard. */
   kanaSection: KanaSection
   canSubmit: boolean
+  /**
+   * Render the romaji / kana / IME picker inside this component.  Defaults on.
+   *
+   * Which input method you use is a preference you set once, not a property of
+   * the item in front of you, so a caller that surfaces it somewhere steadier
+   * turns it off here and drives `mode` itself.  It stays on by default: the
+   * component is usable on its own, and no existing caller has to change.
+   */
+  showModePicker?: boolean
   disabled?: boolean
+  /**
+   * Placeholder for the system-IME text field, and only that one.
+   *
+   * The romaji and kana-grid modes used to spend it on their preview
+   * strips, which no longer render while empty -- so a caller passing a
+   * typing instruction here will not see it in those modes.
+   */
   placeholder?: string
   showSystemHint?: boolean
   /** Forwarded to the active text input for focus management. */
@@ -56,6 +72,7 @@ export function FillInput({
   kanaScript,
   kanaSection,
   canSubmit,
+  showModePicker = true,
   disabled,
   placeholder,
   showSystemHint,
@@ -77,43 +94,43 @@ export function FillInput({
   return (
     <div className="flex w-full flex-col gap-3">
       {/* Mode picker */}
-      <div className="flex gap-1 rounded-xl border border-border bg-surface p-1">
-        {(['romaji', 'kana', 'system'] as const).map((m) => (
-          <button
-            key={m}
-            type="button"
-            onClick={() => onModeChange(m)}
-            className={[
-              // min-h-[44px], not py-2 alone: py-2 on text-body-sm measured 36px
-              // tall, under the 44 CLAUDE.md requires. Nothing checked it until
-              // scripts/check-touch-targets.mjs started measuring rendered boxes.
-              'flex min-h-[44px] flex-1 items-center justify-center rounded-lg px-2 text-body-sm font-medium transition-colors',
-              mode === m
-                ? 'bg-bg text-fg shadow-card'
-                : 'text-fg-subtle hover:text-fg active:bg-surface-2',
-            ].join(' ')}
-          >
-            {MODE_LABELS[m]}
-          </button>
-        ))}
-      </div>
+      {showModePicker && (
+        <div className="flex gap-1 rounded-xl border border-border bg-surface p-1">
+          {(['romaji', 'kana', 'system'] as const).map((m) => (
+            <button
+              key={m}
+              type="button"
+              onClick={() => onModeChange(m)}
+              className={[
+                // min-h-[44px], not py-2 alone: py-2 on text-body-sm measured 36px
+                // tall, under the 44 CLAUDE.md requires. Nothing checked it until
+                // scripts/check-touch-targets.mjs started measuring rendered boxes.
+                'flex min-h-[44px] flex-1 items-center justify-center rounded-lg px-2 text-body-sm font-medium transition-colors',
+                mode === m
+                  ? 'bg-bg text-fg shadow-card'
+                  : 'text-fg-subtle hover:text-fg active:bg-surface-2',
+              ].join(' ')}
+            >
+              {MODE_LABELS[m]}
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Romaji mode */}
       {mode === 'romaji' && (
         <div className="flex flex-col gap-2">
-          {/* Live kana preview */}
-          <div className="min-h-10 rounded-xl border border-border bg-surface px-4 py-2 font-jp text-jp-lg text-fg">
-            {converted !== '' || pending !== '' ? (
-              <>
-                <span>{converted}</span>
-                <span className="text-fg-faint">{pending}</span>
-              </>
-            ) : (
-              <span className="text-body text-fg-faint">
-                {placeholder ?? 'Kana preview'}
-              </span>
-            )}
-          </div>
+          {/* Live kana preview.  Rendered only once there is kana to show.
+              Empty, it is a bordered strip with placeholder text that reads as
+              a second input you cannot type into -- and it spends a row of
+              height at the one moment height is scarce, with the soft keyboard
+              covering half the screen. */}
+          {(converted !== '' || pending !== '') && (
+            <div className="min-h-10 rounded-xl border border-border bg-surface px-4 py-2 font-jp text-jp-lg text-fg">
+              <span>{converted}</span>
+              <span className="text-fg-faint">{pending}</span>
+            </div>
+          )}
           <input
             ref={inputRef}
             type="text"
@@ -134,16 +151,12 @@ export function FillInput({
       {/* Kana grid mode */}
       {mode === 'kana' && (
         <div className="flex flex-col gap-2">
-          {/* Accumulated kana display */}
-          <div className="min-h-12 rounded-xl border border-border bg-surface px-4 py-2 font-jp text-jp-lg text-fg">
-            {kanaValue !== '' ? (
-              kanaValue
-            ) : (
-              <span className="text-body text-fg-faint">
-                {placeholder ?? 'Tap kana below…'}
-              </span>
-            )}
-          </div>
+          {/* Accumulated kana, on the same terms as the romaji preview above. */}
+          {kanaValue !== '' && (
+            <div className="min-h-12 rounded-xl border border-border bg-surface px-4 py-2 font-jp text-jp-lg text-fg">
+              {kanaValue}
+            </div>
+          )}
           <KanaKeyboard
             script={kanaScript}
             section={kanaSection}
