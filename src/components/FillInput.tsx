@@ -31,6 +31,13 @@ export type FillInputProps = {
    */
   showModePicker?: boolean
   disabled?: boolean
+  /**
+   * Placeholder for the system-IME text field, and only that one.
+   *
+   * The romaji and kana-grid modes used to spend it on their preview
+   * strips, which no longer render while empty -- so a caller passing a
+   * typing instruction here will not see it in those modes.
+   */
   placeholder?: string
   showSystemHint?: boolean
   /** Forwarded to the active text input for focus management. */
@@ -88,26 +95,26 @@ export function FillInput({
     <div className="flex w-full flex-col gap-3">
       {/* Mode picker */}
       {showModePicker && (
-      <div className="flex gap-1 rounded-xl border border-border bg-surface p-1">
-        {(['romaji', 'kana', 'system'] as const).map((m) => (
-          <button
-            key={m}
-            type="button"
-            onClick={() => onModeChange(m)}
-            className={[
-              // min-h-[44px], not py-2 alone: py-2 on text-body-sm measured 36px
-              // tall, under the 44 CLAUDE.md requires. Nothing checked it until
-              // scripts/check-touch-targets.mjs started measuring rendered boxes.
-              'flex min-h-[44px] flex-1 items-center justify-center rounded-lg px-2 text-body-sm font-medium transition-colors',
-              mode === m
-                ? 'bg-bg text-fg shadow-card'
-                : 'text-fg-subtle hover:text-fg active:bg-surface-2',
-            ].join(' ')}
-          >
-            {MODE_LABELS[m]}
-          </button>
-        ))}
-      </div>
+        <div className="flex gap-1 rounded-xl border border-border bg-surface p-1">
+          {(['romaji', 'kana', 'system'] as const).map((m) => (
+            <button
+              key={m}
+              type="button"
+              onClick={() => onModeChange(m)}
+              className={[
+                // min-h-[44px], not py-2 alone: py-2 on text-body-sm measured 36px
+                // tall, under the 44 CLAUDE.md requires. Nothing checked it until
+                // scripts/check-touch-targets.mjs started measuring rendered boxes.
+                'flex min-h-[44px] flex-1 items-center justify-center rounded-lg px-2 text-body-sm font-medium transition-colors',
+                mode === m
+                  ? 'bg-bg text-fg shadow-card'
+                  : 'text-fg-subtle hover:text-fg active:bg-surface-2',
+              ].join(' ')}
+            >
+              {MODE_LABELS[m]}
+            </button>
+          ))}
+        </div>
       )}
 
       {/* Romaji mode */}
