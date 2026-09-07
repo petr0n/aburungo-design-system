@@ -21,6 +21,15 @@ export type FillInputProps = {
   /** Current section for the embedded KanaKeyboard. */
   kanaSection: KanaSection
   canSubmit: boolean
+  /**
+   * Render the romaji / kana / IME picker inside this component.  Defaults on.
+   *
+   * Which input method you use is a preference you set once, not a property of
+   * the item in front of you, so a caller that surfaces it somewhere steadier
+   * turns it off here and drives `mode` itself.  It stays on by default: the
+   * component is usable on its own, and no existing caller has to change.
+   */
+  showModePicker?: boolean
   disabled?: boolean
   placeholder?: string
   showSystemHint?: boolean
@@ -56,6 +65,7 @@ export function FillInput({
   kanaScript,
   kanaSection,
   canSubmit,
+  showModePicker = true,
   disabled,
   placeholder,
   showSystemHint,
@@ -77,6 +87,7 @@ export function FillInput({
   return (
     <div className="flex w-full flex-col gap-3">
       {/* Mode picker */}
+      {showModePicker && (
       <div className="flex gap-1 rounded-xl border border-border bg-surface p-1">
         {(['romaji', 'kana', 'system'] as const).map((m) => (
           <button
@@ -97,23 +108,22 @@ export function FillInput({
           </button>
         ))}
       </div>
+      )}
 
       {/* Romaji mode */}
       {mode === 'romaji' && (
         <div className="flex flex-col gap-2">
-          {/* Live kana preview */}
-          <div className="min-h-10 rounded-xl border border-border bg-surface px-4 py-2 font-jp text-jp-lg text-fg">
-            {converted !== '' || pending !== '' ? (
-              <>
-                <span>{converted}</span>
-                <span className="text-fg-faint">{pending}</span>
-              </>
-            ) : (
-              <span className="text-body text-fg-faint">
-                {placeholder ?? 'Kana preview'}
-              </span>
-            )}
-          </div>
+          {/* Live kana preview.  Rendered only once there is kana to show.
+              Empty, it is a bordered strip with placeholder text that reads as
+              a second input you cannot type into -- and it spends a row of
+              height at the one moment height is scarce, with the soft keyboard
+              covering half the screen. */}
+          {(converted !== '' || pending !== '') && (
+            <div className="min-h-10 rounded-xl border border-border bg-surface px-4 py-2 font-jp text-jp-lg text-fg">
+              <span>{converted}</span>
+              <span className="text-fg-faint">{pending}</span>
+            </div>
+          )}
           <input
             ref={inputRef}
             type="text"
@@ -134,16 +144,12 @@ export function FillInput({
       {/* Kana grid mode */}
       {mode === 'kana' && (
         <div className="flex flex-col gap-2">
-          {/* Accumulated kana display */}
-          <div className="min-h-12 rounded-xl border border-border bg-surface px-4 py-2 font-jp text-jp-lg text-fg">
-            {kanaValue !== '' ? (
-              kanaValue
-            ) : (
-              <span className="text-body text-fg-faint">
-                {placeholder ?? 'Tap kana below…'}
-              </span>
-            )}
-          </div>
+          {/* Accumulated kana, on the same terms as the romaji preview above. */}
+          {kanaValue !== '' && (
+            <div className="min-h-12 rounded-xl border border-border bg-surface px-4 py-2 font-jp text-jp-lg text-fg">
+              {kanaValue}
+            </div>
+          )}
           <KanaKeyboard
             script={kanaScript}
             section={kanaSection}
