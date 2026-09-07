@@ -28,6 +28,12 @@ scripts/.shots-out/
 
 # Affinity Designer sources. Kept on disk, never pushed — they are multi-MB
 # binaries git cannot diff, and the exported PNGs in assets/ are what ships.
-# Repo-wide rather than assets/-only: docs/ has one too, and the pattern also
-# covers Affinity's `.afdesign~lock~` files.
+# Repo-wide rather than assets/-only: docs/ has one too.
+#
+# The lock file needs its own line. This comment used to claim `*.afdesign`
+# also covered `.afdesign~lock~`; it does not — the glob has to match to the
+# end, and `samurai-kumon.afdesign~lock~` does not end in `.afdesign`. Two of
+# them showed up untracked on 2026-08-21 while a crest was open in Affinity,
+# one broad `git add` away from being committed.
 *.afdesign
+*.afdesign~lock~

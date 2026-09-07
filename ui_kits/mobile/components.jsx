@@ -147,11 +147,23 @@ function ProgressBar({ value, label = 'Session progress', tone = 'default' }) {
   // Matches clamp01 in the real component: isFinite rejects undefined and
   // null too, which `Number.isNaN` does not — that gap rendered width: NaN%.
   const v = !Number.isFinite(value) ? 0 : Math.min(1, Math.max(0, value));
-  const tracks = { default: 'bg-progress-track', inverse: 'bg-progress-track-on-inverse' };
+  // Mirrors src/components/ProgressBar.tsx: the FILL follows the tone too.
+  // Only swapping the track left the fill at Rokusho 500 on every band, which
+  // is 1.00:1 against Book One's own chrome. See the tone note over there.
+  const tracks = {
+    default: 'bg-progress-track',
+    inverse: 'bg-progress-track-on-inverse',
+    'on-accent': 'bg-current/20',
+  };
+  const fills = {
+    default: 'bg-progress-fill',
+    inverse: 'bg-progress-fill',
+    'on-accent': 'bg-current',
+  };
   return (
     <div role="progressbar" aria-label={label} aria-valuemin={0} aria-valuemax={1} aria-valuenow={v}
          className={`relative h-1 w-full overflow-hidden rounded-full ${tracks[tone]}`}>
-      <div className="h-full bg-progress-fill transition-[width] duration-200 ease-out"
+      <div className={`h-full ${fills[tone]} transition-[width] duration-200 ease-out`}
            style={{ width: `${(v * 100).toFixed(2)}%` }}/>
     </div>
   );
@@ -225,8 +237,9 @@ function KanaGrid({ rows, onSelect, onBackspace }) {
 function AppHeader({ title, subtitle, left, right, mark = true, progress }) {
   const showMark = mark && left === undefined;
   return (
-    <header className="border-b-[6px] border-rule-on-inverse bg-inverse">
-      <div className="mx-auto grid min-h-[56px] w-full max-w-3xl grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-2">
+    <header className="mx-auto w-full max-w-3xl border-b-[6px] border-rule-on-inverse bg-inverse">
+      {/* The SLAB is the column — mirrors src/components/AppHeader.tsx. */}
+      <div className="grid min-h-[56px] w-full grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-2">
         <div className="flex items-center">
           {showMark
             ? <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent font-jp text-body font-bold text-accent-fg" aria-hidden="true">ア</span>
@@ -241,7 +254,7 @@ function AppHeader({ title, subtitle, left, right, mark = true, progress }) {
       {/* Inside the band: flush below, the bar sits against the Ogon hairline
           and the two read as one two-tone rule. */}
       {progress !== undefined && (
-        <div className="mx-auto w-full max-w-3xl px-4 pb-2">
+        <div className="w-full px-4 pb-2">
           <ProgressBar value={progress} tone="inverse"/>
         </div>
       )}

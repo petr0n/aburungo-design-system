@@ -32,7 +32,7 @@ Two things distinguish this from an ordinary internal component library:
 - Consumed by `../aburungo` via a local package reference; `pnpm build` compiles to `dist/`, which the app's `exports` field resolves. Changes here are invisible to the app until it is rebuilt.
 - Touch-first, mobile-primary. Reviewed at 375 / 768 / 1024 / 1440.
 - Design review happens on static harnesses, not in the app: a custom storybook and 27 `preview/` spec pages, served over `python3 -m http.server` (they do not work from `file://`).
-- Every TSX component is mirrored by hand as JSX in `ui_kits/mobile/components.jsx`. New components do not appear in any harness until mirrored.
+- `ui_kits/flows/`, `ui_kits/mobile/` and `storybook/` import the real components and cannot drift. `ui_kits/app/` and `ui_kits/desktop-explore.html` still render the hand-written JSX in `ui_kits/mobile/components.jsx`, and a new component does not appear in those two until it is mirrored.
 - CI runs a forbidden-asset check before install, then typecheck and build. A git pre-commit hook runs the same check; `sh scripts/install-hooks.sh` once per clone.
 
 ## Capabilities and Constraints

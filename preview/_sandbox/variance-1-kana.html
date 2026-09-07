@@ -1,0 +1,235 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kana drill — VARIANCE 2 / 4 / 6</title>
+<link rel="stylesheet" href="../../dist/tokens.plain.css">
+<link rel="stylesheet" href="../../src/brand.css">
+<style>
+ body{margin:0;padding:26px;font-family:var(--font-sans);color:var(--color-fg);background:var(--color-bg)}
+ h1{font-size:var(--text-heading-sm);margin:0 0 2px}
+ .s{color:var(--color-fg-muted);margin:0 0 22px;font-size:var(--text-body-sm);max-width:88ch}
+ .s b{color:var(--color-fg)}
+ .row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;max-width:1180px;align-items:start}
+ .col{display:flex;flex-direction:column;gap:9px;min-width:0}
+ .hd{font-size:var(--text-body-sm);font-weight:650;margin:0}
+ .sub{font-size:var(--text-caption);color:var(--color-fg-muted);margin:0;min-height:6.4em;line-height:1.5}
+ .tag{display:inline-block;font-size:var(--text-caption);font-weight:600;letter-spacing:.12em;
+   text-transform:uppercase;padding:2px 7px;border-radius:var(--radius-sm)}
+ .tag.ships{background:var(--color-stone-100);color:var(--color-fg-muted)}
+ .tag.pick {background:var(--color-rokusho-100);color:var(--color-rokusho-800)}
+ .tag.over {background:var(--color-akane-100);color:var(--color-akane-800)}
+
+ /* The phone. Mirrors ui_kits device framing loosely — this is a lab, not the kit. */
+ .phone{border-radius:var(--radius-xl);overflow:hidden;background:var(--color-bg);
+   border:1px solid var(--color-stone-300);height:560px;display:flex;flex-direction:column}
+
+ /* Header band — Sumi-iro slab + Ogon hairline. Same on all three: the app
+    shell dial is 2 and stays 2. Only the content surface is under test. */
+ .band{background:var(--color-stone-800);color:var(--color-fg-inverse);
+   padding:11px 13px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+ .band .t{flex:1;text-align:center;margin-right:26px}
+ .band .t b{display:block;font-size:var(--text-body-sm);font-weight:650}
+ .band .t span{font-size:var(--text-caption);color:var(--color-fg-on-inverse-2)}
+ .hair{height:3px;background:var(--color-ogon-500);flex-shrink:0}
+ .body{padding:16px 14px;display:flex;flex-direction:column;gap:12px;flex:1;min-height:0}
+
+ /* ── Shared drill parts ─────────────────────────────────────────────── */
+ .prompt{background:var(--color-ai-100);border-radius:var(--radius-lg);
+   padding:22px 16px;display:flex;flex-direction:column;align-items:center;gap:12px}
+ .ask{font-size:var(--text-body-sm);color:var(--color-fg-muted);margin:0}
+ /* Mirrors ui_kits/flows/kana-practice.tsx:252 exactly — text-jp-display-lg, 40px. */
+ .kana{font-family:var(--font-jp);color:var(--color-fg-heading);line-height:1;margin:0;
+   font-size:var(--text-jp-display-lg)}
+ .aud{width:38px;height:38px;border-radius:50%;background:var(--color-surface);
+   display:flex;align-items:center;justify-content:center;color:var(--color-fg-muted)}
+ .aud svg{width:17px;height:17px;fill:currentColor}
+ .tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+ .tile{min-height:52px;border-radius:var(--radius-lg);background:var(--color-surface);
+   border:1px solid var(--color-stone-200);display:flex;align-items:center;justify-content:center;
+   font-size:var(--text-body);font-weight:600;color:var(--color-fg)}
+
+ /* ══ V4 · MATERIAL ═══════════════════════════════════════════════════
+    Same palette, same structure, same five colours, no third shadow.
+    What changes is that the surfaces have a surface. */
+
+ /* Paper tooth — STAND-IN, and the limit is worth recording.
+    First attempt crossed two orthogonal hairline gradients at 2-3% ink. On
+    screen that is not tooth, it is GRAPH PAPER: a regular orthogonal grid
+    reads as ruling, and no amount of alpha fixes the orientation. Replaced
+    with a single fine diagonal at 1.6%, which reads as a laid grain instead.
+
+    Even so this is a placeholder. Real tooth is irregular, and irregular is
+    what a gradient cannot do. The proper version is a tiny tiling PNG out of
+    Affinity, through scripts/make-crest-tile.mjs -- the exact pipeline the
+    crests already use, and the reason the crest ground is the best-looking
+    thing in the system. If column 4 wins, that asset is the follow-up. */
+ .v4 .prompt, .v4 .tile{
+   background-image:
+     repeating-linear-gradient(58deg,
+       color-mix(in srgb, var(--color-fg) 1.6%, transparent) 0 1px,
+       transparent 1px 5px);
+ }
+ /* Ink-tinted edge rather than a border — the impression of a pressed edge. */
+ .v4 .prompt{
+   box-shadow:
+     inset 0 1px 0 color-mix(in srgb, var(--color-stone-0) 55%, transparent),
+     inset 0 -1px 0 color-mix(in srgb, var(--color-ai-500) 14%, transparent);
+   border-top:2px solid var(--color-ogon-500);      /* the letterpress rule */
+   padding:26px 16px 24px;
+ }
+ /* The task is reading the kana. Give it the room the dial was withholding.
+    ── THIS IS A TOKEN GAP, surfaced by building the lab ──
+    The JP ramp stops at --text-jp-display-lg (40px), which is documented as
+    "JP at tablet+" and sized for a PHRASE. A single glyph that IS the task
+    object has no step of its own, so the drill prompt and a full sentence are
+    the same size. 52px continues the ramp's own progression (18 - 24 - 32 - 40,
+    ratios 1.33 / 1.33 / 1.25). Declared locally and named, so this stays a
+    proposed step rather than an invented value: if 4 wins, it lands in
+    src/tokens.css as --text-jp-glyph and nowhere else. */
+ .v4{--text-jp-glyph:3.25rem}          /* 52 — proposed, not yet in tokens.css */
+ .v4 .kana{font-size:var(--text-jp-glyph)}
+ .v4 .ask{font-size:var(--text-caption);letter-spacing:.18em;text-transform:uppercase;
+   font-weight:600;color:var(--color-fg-subtle)}
+ /* Keys get the sanctioned Key affordance — already in the Shadow Vocabulary. */
+ .v4 .tile{
+   border-color:var(--color-stone-300);
+   box-shadow:
+     inset 0 1px 0 color-mix(in srgb, var(--color-stone-0) 80%, transparent),
+     0 1px 2px 0 color-mix(in srgb, var(--color-fg) 4%, transparent);
+ }
+ /* Debossed hairline closing the column, so the empty third reads as margin
+    rather than as unfinished. Tone, not shadow. */
+ .v4 .floor{margin-top:auto;height:1px;flex-shrink:0;
+   background:linear-gradient(90deg, transparent,
+     color-mix(in srgb, var(--color-fg) 13%, transparent) 22%,
+     color-mix(in srgb, var(--color-fg) 13%, transparent) 78%, transparent)}
+
+ /* ══ V6 · OVER ═══════════════════════════════════════════════════════
+    Kept so the ceiling is visible, not because it is a candidate. */
+ .v6 .prompt{background:var(--color-ai-500);align-items:flex-start;padding:26px 18px 30px;
+   border-radius:var(--radius-lg) var(--radius-lg) 40px var(--radius-lg);position:relative;overflow:hidden}
+ .v6 .ask{color:var(--color-ogon-300);font-size:var(--text-caption);letter-spacing:.2em;
+   text-transform:uppercase;font-weight:700}
+ .v6 .kana{font-size:104px;color:var(--color-fg-inverse);margin-left:-4px;
+   text-shadow:3px 4px 0 var(--color-akane-500)}
+ .v6 .aud{position:absolute;right:16px;bottom:16px;background:var(--color-ogon-500);
+   color:var(--color-ai-900);width:44px;height:44px}
+ .v6 .tiles{grid-template-columns:1.25fr .75fr}
+ .v6 .tile:nth-child(1){background:var(--color-rokusho-100);border-color:var(--color-rokusho-300)}
+ .v6 .tile:nth-child(2){background:var(--color-ogon-100);border-color:var(--color-ogon-300)}
+ .v6 .tile:nth-child(3){background:var(--color-akane-100);border-color:var(--color-akane-300)}
+ .v6 .tile:nth-child(4){background:var(--color-ai-100);border-color:var(--color-ai-300)}
+ .v6 .tile{transform:rotate(-.5deg)}
+ .v6 .tile:nth-child(even){transform:rotate(.6deg)}
+
+ .note{margin:26px 0 0;max-width:88ch;font-size:var(--text-body-sm);color:var(--color-fg-muted);line-height:1.6}
+ .note b{color:var(--color-fg)}
+ .note code{font-family:var(--font-mono);font-size:.94em}
+</style></head><body>
+
+<h1>Kana drill — DESIGN_VARIANCE 2 / 4 / 6</h1>
+<p class="s">The dial was set to <b>2</b> on 2026-08-08, correcting plan v1's global
+<code>VISUAL_DENSITY: 8</code>. It overshot. All three below use the <b>same five colours, the same
+two fonts, the same components and the same structure</b> — the palette and type are not under test and
+never were. What varies is how much <b>material</b> the surface is allowed to have. Per the Material
+section of DESIGN.md, none of these adds a third shadow, and none puts the crest behind a judged answer.</p>
+
+<div class="row">
+
+  <!-- ─────────────────────────────── V2 ─────────────────────────────── -->
+  <div class="col">
+    <p class="hd">2 · Ships today <span class="tag ships">current</span></p>
+    <p class="sub">What <code>pnpm shots</code> renders now. Correct, accessible, on-palette. The card is a
+      flat fill, the tiles are flat fills, and the bottom third is nothing. Nothing here is
+      <em>wrong</em> — that is the finding.</p>
+    <div class="phone">
+      <div class="band">
+        <span class="hanko" style="font-size:26px" aria-hidden="true"></span>
+        <span class="t"><b>Kana practice</b><span>1 of 4</span></span>
+      </div>
+      <div class="hair"></div>
+      <div class="body">
+        <div class="prompt">
+          <p class="ask">Which sound is this?</p>
+          <p class="kana" lang="ja">ね</p>
+          <span class="aud"><svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z"/></svg></span>
+        </div>
+        <div class="tiles">
+          <div class="tile">ne</div><div class="tile">nu</div>
+          <div class="tile">wa</div><div class="tile">re</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────────────── V4 ─────────────────────────────── -->
+  <div class="col v4">
+    <p class="hd">4 · Material <span class="tag pick">proposed</span></p>
+    <p class="sub">Paper tooth on card and keys (two hairline gradients at ~2% ink — no asset), a pressed
+      ink edge instead of a border, an Ōgon letterpress rule, the kana at the size the task deserves, the
+      prompt label as tracked small caps, the sanctioned <em>Key</em> affordance on the tiles, and a
+      debossed floor so the empty third reads as margin.</p>
+    <div class="phone">
+      <div class="band">
+        <span class="hanko" style="font-size:26px" aria-hidden="true"></span>
+        <span class="t"><b>Kana practice</b><span>1 of 4</span></span>
+      </div>
+      <div class="hair"></div>
+      <div class="body">
+        <div class="prompt">
+          <p class="ask">Which sound is this</p>
+          <p class="kana" lang="ja">ね</p>
+          <span class="aud"><svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z"/></svg></span>
+        </div>
+        <div class="tiles">
+          <div class="tile">ne</div><div class="tile">nu</div>
+          <div class="tile">wa</div><div class="tile">re</div>
+        </div>
+        <div class="floor"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────────────── V6 ─────────────────────────────── -->
+  <div class="col v6">
+    <p class="hd">6 · Over <span class="tag over">rejected on sight</span></p>
+    <p class="sub">Kept so the ceiling is visible. Inverted Ai-iro slab, offset display kana with an Akane
+      drop, asymmetric tile grid, four accent-tinted tiles, rotation. It breaks three standing rules at
+      once: a second dark slab on the screen, colour with no job, and tiles whose tint will collide with
+      the ○ / ✕ marks the moment an answer is judged.</p>
+    <div class="phone">
+      <div class="band">
+        <span class="hanko" style="font-size:26px" aria-hidden="true"></span>
+        <span class="t"><b>Kana practice</b><span>1 of 4</span></span>
+      </div>
+      <div class="hair"></div>
+      <div class="body">
+        <div class="prompt">
+          <p class="ask">Which sound</p>
+          <p class="kana" lang="ja">ね</p>
+          <span class="aud"><svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z"/></svg></span>
+        </div>
+        <div class="tiles">
+          <div class="tile">ne</div><div class="tile">nu</div>
+          <div class="tile">wa</div><div class="tile">re</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p class="note"><b>What to look for.</b> 2 → 4 adds no colour, no shadow, no ornament and no asset. Every
+change is <em>material</em>: tooth, edge, impression, and giving the kana the room it was being denied.
+That is the distinction the Material section now records — restraint as precision rather than as
+subtraction. If 4 still reads as too quiet, the next move is <b>illustration</b>, which is a drawing
+problem and not a dial problem.<br><br>
+<b>What the lab turned up.</b> Building it surfaced a token gap nobody had noticed: the JP ramp stops at
+<code>--text-jp-display-lg</code> (40px), documented as <em>JP at tablet+</em> and sized for a phrase. A
+single kana that <em>is</em> the task object gets the same size as a full sentence. Column 4 proposes
+<code>--text-jp-glyph</code> at 52px, continuing the ramp's own progression. That is a one-line addition to
+<code>src/tokens.css</code> and it is independent of whether the material treatment wins.<br><br>
+<b>Not under test:</b> the palette, the type pairing, the crest placement rule (content states stay
+bare — a texture behind a judged answer competes with the maru), and the Two Shadows Rule. The
+<code>.v4</code> key shadow is the existing <em>Key</em> token, not a third.</p>
+
+</body></html>

@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AburunGo DS — visual inventory</title>
+<!-- The real sheets. Nothing on this page is a copy of a token value. -->
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="../src/brand.css">
+<style>
+  body{margin:0;padding:32px 30px 80px;background:var(--color-bg);color:var(--color-fg);
+       font-family:var(--font-sans);line-height:1.5}
+  h1{font-size:var(--text-heading-lg);margin:0 0 4px;color:var(--color-fg-heading)}
+  .lede{color:var(--color-fg-muted);max-width:80ch;margin:0 0 34px;font-size:var(--text-body-sm)}
+
+  section{margin:0 0 46px;max-width:1240px}
+  h2{font-size:var(--text-heading-sm);margin:0 0 3px;color:var(--color-fg-heading);
+     display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .note{font-size:var(--text-caption);color:var(--color-fg-muted);margin:0 0 16px;max-width:80ch}
+
+  /* Health chips — the point of the page. */
+  .st{font-size:var(--text-caption);font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+      padding:3px 8px;border-radius:var(--radius-sm)}
+  .st.ok  {background:var(--color-rokusho-100);color:var(--color-rokusho-800)}
+  .st.thin{background:var(--color-ogon-100);   color:var(--color-ogon-800)}
+  .st.gap {background:var(--color-akane-100);  color:var(--color-akane-800)}
+
+  .ramp{display:grid;grid-template-columns:repeat(10,1fr);gap:3px;margin-bottom:12px;max-width:900px}
+  .sw{height:56px;border-radius:var(--radius-sm);display:flex;align-items:flex-end;
+      justify-content:center;padding-bottom:4px;font-size:var(--text-caption);font-weight:600}
+  .rampname{font-size:var(--text-caption);font-weight:700;color:var(--color-fg-muted);
+            margin:0 0 5px;letter-spacing:.06em;text-transform:uppercase}
+
+  .roles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;max-width:1000px}
+  .role{border:1px solid var(--color-border);border-radius:var(--radius-sm);overflow:hidden;
+        background:var(--color-surface)}
+  .role .chip{height:40px}
+  .role .cap{font-size:var(--text-caption);padding:5px 7px;color:var(--color-fg-muted);
+             font-family:var(--font-mono)}
+
+  .typerow{display:flex;align-items:baseline;gap:16px;padding:7px 0;
+           border-bottom:1px solid var(--color-border)}
+  .typerow .tk{font-family:var(--font-mono);font-size:var(--text-caption);color:var(--color-fg-subtle);
+               width:190px;flex-shrink:0}
+  .typerow .spec{color:var(--color-fg-heading);min-width:0;overflow:hidden;text-overflow:ellipsis;
+                 white-space:nowrap}
+
+  .tiles{display:flex;gap:14px;flex-wrap:wrap}
+  .tilebox{background:var(--color-surface);border:1px solid var(--color-border);
+           padding:14px;display:flex;flex-direction:column;align-items:center;gap:8px;min-width:104px}
+  .tilebox .cap{font-family:var(--font-mono);font-size:var(--text-caption);color:var(--color-fg-subtle)}
+  .chunk{width:64px;height:44px;background:var(--color-ai-500)}
+
+  .iconcell{width:76px;height:76px;border:1px solid var(--color-border);border-radius:var(--radius-sm);
+            background:var(--color-surface);display:flex;flex-direction:column;align-items:center;
+            justify-content:center;gap:5px}
+  .iconcell svg{width:24px;height:24px;fill:var(--color-fg)}
+  .iconcell .cap{font-size:var(--text-caption);color:var(--color-fg-subtle);font-family:var(--font-mono)}
+  /* Empty slots. The gap IS the finding, so it gets drawn rather than described. */
+  .iconcell.empty{border-style:dashed;border-color:var(--color-akane-300);
+                  background:transparent;color:var(--color-akane-600);font-size:var(--text-heading)}
+
+  .patgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px;max-width:1240px}
+  .pat{background:var(--color-surface);border:1px solid var(--color-border);
+       border-radius:var(--radius-sm);padding:20px;display:flex;flex-direction:column;
+       align-items:center;justify-content:center;gap:12px;min-height:150px}
+  .pat .cap{font-family:var(--font-mono);font-size:var(--text-caption);color:var(--color-fg-subtle)}
+
+  .list{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:7px;max-width:1240px}
+  .item{background:var(--color-surface);border:1px solid var(--color-border);
+        border-radius:var(--radius-sm);padding:9px 11px;font-size:var(--text-body-sm);
+        display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+  .item .kind{font-size:var(--text-caption);color:var(--color-fg-subtle);font-family:var(--font-mono);flex-shrink:0}
+  .item.missing{background:transparent;border-style:dashed;border-color:var(--color-akane-300);
+                color:var(--color-akane-700)}
+
+  .motionbox{display:flex;gap:14px;flex-wrap:wrap}
+  .mo{width:150px;height:96px;background:var(--color-ai-100);border-radius:var(--radius-sm);
+      display:flex;align-items:center;justify-content:center;font-size:var(--text-caption);
+      color:var(--color-fg-heading);font-family:var(--font-mono)}
+  .mo.enter{animation:var(--animate-card-enter);animation-duration:1.4s;animation-iteration-count:infinite}
+
+  .empty-note{border:1px dashed var(--color-akane-300);border-radius:var(--radius-sm);
+              padding:26px;text-align:center;color:var(--color-akane-700);max-width:1240px;
+              font-size:var(--text-body-sm)}
+</style></head><body>
+
+<h1>AburunGo DS — visual inventory</h1>
+<p class="lede">Every layer of the design system, rendered from the real
+<code>dist/tokens.plain.css</code> and <code>src/brand.css</code> — not a copy, so it cannot
+drift from what ships. Dashed red is what does not exist yet.</p>
+
+<!-- ══ COLOUR ══════════════════════════════════════════════════════════ -->
+<section>
+  <h2>Colour <span class="st ok">solid</span></h2>
+  <p class="note">Five ramps, 104 value tokens, plus the role layer on top. Single-sourced and
+    contrast-gated. This is the strongest layer in the system.</p>
+
+  <p class="rampname">Akane 茜色 — the hanko, errors, one card accent</p>
+  <div class="ramp">
+    <div class="sw" style="background:var(--color-akane-50)"></div>
+    <div class="sw" style="background:var(--color-akane-100)"></div>
+    <div class="sw" style="background:var(--color-akane-200)"></div>
+    <div class="sw" style="background:var(--color-akane-300)"></div>
+    <div class="sw" style="background:var(--color-akane-400)"></div>
+    <div class="sw" style="background:var(--color-akane-500);color:var(--color-fg-inverse)">500</div>
+    <div class="sw" style="background:var(--color-akane-600)"></div>
+    <div class="sw" style="background:var(--color-akane-700)"></div>
+    <div class="sw" style="background:var(--color-akane-800)"></div>
+    <div class="sw" style="background:var(--color-akane-900)"></div>
+  </div>
+
+  <p class="rampname">Ai-iro 藍色 — primary action, headings, Japanese content</p>
+  <div class="ramp">
+    <div class="sw" style="background:var(--color-ai-50)"></div>
+    <div class="sw" style="background:var(--color-ai-100)"></div>
+    <div class="sw" style="background:var(--color-ai-200)"></div>
+    <div class="sw" style="background:var(--color-ai-300)"></div>
+    <div class="sw" style="background:var(--color-ai-400)"></div>
+    <div class="sw" style="background:var(--color-ai-500);color:var(--color-fg-inverse)">500</div>
+    <div class="sw" style="background:var(--color-ai-600)"></div>
+    <div class="sw" style="background:var(--color-ai-700)"></div>
+    <div class="sw" style="background:var(--color-ai-800)"></div>
+    <div class="sw" style="background:var(--color-ai-900)"></div>
+  </div>
+
+  <p class="rampname">Rokushō 緑青 — progress, correctness, links, kana keyboard</p>
+  <div class="ramp">
+    <div class="sw" style="background:var(--color-rokusho-50)"></div>
+    <div class="sw" style="background:var(--color-rokusho-100)"></div>
+    <div class="sw" style="background:var(--color-rokusho-200)"></div>
+    <div class="sw" style="background:var(--color-rokusho-300)"></div>
+    <div class="sw" style="background:var(--color-rokusho-400)"></div>
+    <div class="sw" style="background:var(--color-rokusho-500);color:var(--color-fg-inverse)">500</div>
+    <div class="sw" style="background:var(--color-rokusho-600)"></div>
+    <div class="sw" style="background:var(--color-rokusho-700)"></div>
+    <div class="sw" style="background:var(--color-rokusho-800)"></div>
+    <div class="sw" style="background:var(--color-rokusho-900)"></div>
+  </div>
+
+  <p class="rampname">Ōgon 黄金 — focus rings, scenario tags, hairlines on dark chrome</p>
+  <div class="ramp">
+    <div class="sw" style="background:var(--color-ogon-50)"></div>
+    <div class="sw" style="background:var(--color-ogon-100)"></div>
+    <div class="sw" style="background:var(--color-ogon-200)"></div>
+    <div class="sw" style="background:var(--color-ogon-300)"></div>
+    <div class="sw" style="background:var(--color-ogon-400)"></div>
+    <div class="sw" style="background:var(--color-ogon-500)">500</div>
+    <div class="sw" style="background:var(--color-ogon-600)"></div>
+    <div class="sw" style="background:var(--color-ogon-700)"></div>
+    <div class="sw" style="background:var(--color-ogon-800)"></div>
+    <div class="sw" style="background:var(--color-ogon-900)"></div>
+  </div>
+
+  <p class="rampname">Stone — warm ground. 0 is card, 50 is page, 800 is Sumi-iro chrome</p>
+  <div class="ramp">
+    <div class="sw" style="background:var(--color-stone-0);border:1px solid var(--color-border)">0</div>
+    <div class="sw" style="background:var(--color-stone-50)">50</div>
+    <div class="sw" style="background:var(--color-stone-100)"></div>
+    <div class="sw" style="background:var(--color-stone-200)"></div>
+    <div class="sw" style="background:var(--color-stone-300)"></div>
+    <div class="sw" style="background:var(--color-stone-400)"></div>
+    <div class="sw" style="background:var(--color-stone-500);color:var(--color-fg-inverse)"></div>
+    <div class="sw" style="background:var(--color-stone-600);color:var(--color-fg-inverse)"></div>
+    <div class="sw" style="background:var(--color-stone-700);color:var(--color-fg-inverse)"></div>
+    <div class="sw" style="background:var(--color-stone-800);color:var(--color-fg-inverse)">800</div>
+  </div>
+
+  <p class="rampname">Role tokens — what components actually reference</p>
+  <div class="roles">
+    <div class="role"><div class="chip" style="background:var(--color-bg)"></div><div class="cap">--color-bg</div></div>
+    <div class="role"><div class="chip" style="background:var(--color-surface)"></div><div class="cap">--color-surface</div></div>
+    <div class="role"><div class="chip" style="background:var(--color-fg)"></div><div class="cap">--color-fg</div></div>
+    <div class="role"><div class="chip" style="background:var(--color-fg-heading)"></div><div class="cap">--color-fg-heading</div></div>
+    <div class="role"><div class="chip" style="background:var(--color-fg-muted)"></div><div class="cap">--color-fg-muted</div></div>
+    <div class="role"><div class="chip" style="background:var(--color-fg-subtle)"></div><div class="cap">--color-fg-subtle</div></div>
+    <div class="role"><div class="chip" style="background:var(--color-border)"></div><div class="cap">--color-border</div></div>
+    <div class="role"><div class="chip" style="background:var(--color-action)"></div><div class="cap">--color-action</div></div>
+    <div class="role"><div class="chip" style="background:var(--color-accent)"></div><div class="cap">--color-accent</div></div>
+  </div>
+</section>
+
+<!-- ══ TYPE ════════════════════════════════════════════════════════════ -->
+<section>
+  <h2>Typography <span class="st ok">solid</span></h2>
+  <p class="note">39 tokens, three families. Two separate ramps — Latin UI and Japanese content are
+    tuned independently, which is correct and rare. One gap, found today: the JP ramp stops at 40px,
+    sized for a phrase, so a single kana that <em>is</em> the task object has no step of its own.</p>
+
+  <div class="typerow"><span class="tk">--text-caption · 12</span><span class="spec" style="font-size:var(--text-caption)">Practical Japanese for real life</span></div>
+  <div class="typerow"><span class="tk">--text-body-sm · 14</span><span class="spec" style="font-size:var(--text-body-sm)">Practical Japanese for real life</span></div>
+  <div class="typerow"><span class="tk">--text-body · 16</span><span class="spec" style="font-size:var(--text-body)">Practical Japanese for real life</span></div>
+  <div class="typerow"><span class="tk">--text-body-lg · 18</span><span class="spec" style="font-size:var(--text-body-lg)">Practical Japanese for real life</span></div>
+  <div class="typerow"><span class="tk">--text-heading-sm · 20</span><span class="spec" style="font-size:var(--text-heading-sm);font-weight:600">Practical Japanese</span></div>
+  <div class="typerow"><span class="tk">--text-heading · 24</span><span class="spec" style="font-size:var(--text-heading);font-weight:600">Practical Japanese</span></div>
+  <div class="typerow"><span class="tk">--text-heading-lg · 30</span><span class="spec" style="font-size:var(--text-heading-lg);font-weight:600">Practical Japanese</span></div>
+  <div class="typerow"><span class="tk">--text-display · 36</span><span class="spec" style="font-size:var(--text-display);font-weight:700">Greetings</span></div>
+  <div class="typerow"><span class="tk">--text-display-lg · 48</span><span class="spec" style="font-size:var(--text-display-lg);font-weight:700">Greetings</span></div>
+
+  <div class="typerow" style="margin-top:18px"><span class="tk">--text-jp · 18</span><span class="spec" lang="ja" style="font-family:var(--font-jp);font-size:var(--text-jp)">はじめまして、よろしくお願いします</span></div>
+  <div class="typerow"><span class="tk">--text-jp-lg · 24</span><span class="spec" lang="ja" style="font-family:var(--font-jp);font-size:var(--text-jp-lg)">はじめまして</span></div>
+  <div class="typerow"><span class="tk">--text-jp-display · 32</span><span class="spec" lang="ja" style="font-family:var(--font-jp);font-size:var(--text-jp-display)">はじめまして</span></div>
+  <div class="typerow"><span class="tk">--text-jp-display-lg · 40</span><span class="spec" lang="ja" style="font-family:var(--font-jp);font-size:var(--text-jp-display-lg)">ね</span></div>
+  <div class="typerow" style="border-bottom:1px dashed var(--color-akane-300)">
+    <span class="tk" style="color:var(--color-akane-600)">--text-jp-glyph · ?</span>
+    <span class="spec" style="color:var(--color-akane-700);font-size:var(--text-body-sm)">missing — no step for a single glyph as the task object</span>
+  </div>
+</section>
+
+<!-- ══ SHAPE ═══════════════════════════════════════════════════════════ -->
+<section>
+  <h2>Shape <span class="st thin">degenerate</span></h2>
+  <p class="note">Six radius tokens. <strong>Five of the six resolve to 4px</strong>; <code>full</code> is 9999px — flattened deliberately
+    on 2026-08-16 so the UI reads as a lacquered panel rather than a friendly consumer app. The names
+    are kept so a scale can be restored in one edit. Rendered, they are indistinguishable:</p>
+  <div class="tiles">
+    <div class="tilebox"><div class="chunk" style="border-radius:var(--radius-sm)"></div><span class="cap">sm</span></div>
+    <div class="tilebox"><div class="chunk" style="border-radius:var(--radius-md)"></div><span class="cap">md</span></div>
+    <div class="tilebox"><div class="chunk" style="border-radius:var(--radius-lg)"></div><span class="cap">lg</span></div>
+    <div class="tilebox"><div class="chunk" style="border-radius:var(--radius-xl)"></div><span class="cap">xl</span></div>
+    <div class="tilebox"><div class="chunk" style="border-radius:var(--radius-2xl)"></div><span class="cap">2xl</span></div>
+    <div class="tilebox"><div class="chunk" style="border-radius:var(--radius-full)"></div><span class="cap">full</span></div>
+  </div>
+</section>
+
+<!-- ══ ELEVATION ═══════════════════════════════════════════════════════ -->
+<section>
+  <h2>Elevation <span class="st ok">solid</span></h2>
+  <p class="note">Four shadows, all hairlines, none decorative. Depth is carried by tone, not shadow.</p>
+  <div class="tiles">
+    <div class="tilebox" style="box-shadow:var(--shadow-card)"><span class="cap">shadow-card</span></div>
+    <div class="tilebox" style="box-shadow:var(--shadow-key)"><span class="cap">shadow-key</span></div>
+    <div class="tilebox" style="box-shadow:var(--shadow-glass)"><span class="cap">shadow-glass</span></div>
+    <div class="tilebox" style="background:var(--color-stone-800);box-shadow:var(--shadow-key-on-inverse)">
+      <span class="cap" style="color:var(--color-fg-on-inverse-2)">key-on-inverse</span></div>
+  </div>
+</section>
+
+<!-- ══ MOTION ══════════════════════════════════════════════════════════ -->
+<section>
+  <h2>Motion <span class="st thin">thin</span></h2>
+  <p class="note">Two animations for the entire system, plus <code>prefers-reduced-motion</code>
+    overrides. There is no vocabulary for transitions, state changes, reveals, or page entry.</p>
+  <div class="motionbox">
+    <div class="mo enter">card-enter</div>
+    <div class="mo">card-exit</div>
+    <div class="mo" style="background:transparent;border:1px dashed var(--color-akane-300);color:var(--color-akane-700)">nothing else</div>
+  </div>
+</section>
+
+<!-- ══ ICONS ═══════════════════════════════════════════════════════════ -->
+<section>
+  <h2>Iconography <span class="st gap">nearly empty</span></h2>
+  <p class="note">Five icons. All five exist because a specific component needed one. There is no icon
+    <em>system</em> — no grid, no stroke rule, no coverage of navigation, settings, chapters, books,
+    search, or any of the surfaces the app has.</p>
+  <div class="tiles">
+    <div class="iconcell"><svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z"/></svg><span class="cap">speaker</span></div>
+    <div class="iconcell"><svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V21h2v-3.1A7 7 0 0 0 19 11h-2z"/></svg><span class="cap">mic</span></div>
+    <div class="iconcell"><svg viewBox="0 0 24 24"><path d="M22 5H8.5L2 12l6.5 7H22V5zm-3.6 9.6-1.4 1.4-2.5-2.5-2.5 2.5-1.4-1.4L13.1 12l-2.5-2.5L12 8.1l2.5 2.5L17 8.1l1.4 1.4L15.9 12l2.5 2.6z"/></svg><span class="cap">backspace</span></div>
+    <div class="iconcell"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10h-2a8 8 0 1 1-8-8V2z"/></svg><span class="cap">spinner</span></div>
+    <div class="iconcell empty">+</div>
+    <div class="iconcell empty">+</div>
+    <div class="iconcell empty">+</div>
+    <div class="iconcell empty">+</div>
+    <div class="iconcell empty">+</div>
+    <div class="iconcell empty">+</div>
+  </div>
+</section>
+
+<!-- ══ ILLUSTRATION ════════════════════════════════════════════════════ -->
+<section>
+  <h2>Illustration <span class="st gap">missing</span></h2>
+  <p class="note">Zero, until today. A direction now exists — Japanese woodcut line art in the DS
+    palette — and a converged prompt sits in <code>docs/illustration-prompt.md</code>. No approved
+    asset has landed in <code>assets/</code> yet.</p>
+  <div class="empty-note">Nothing in the system. 12 Book One chapters have no art.</div>
+</section>
+
+<!-- ══ BRAND PATTERNS ══════════════════════════════════════════════════ -->
+<section>
+  <h2>Brand patterns <span class="st ok">solid</span></h2>
+  <p class="note">Eleven CSS utilities — the only non-Tailwind classes the package ships. All rendered
+    live below from <code>src/brand.css</code>.</p>
+  <div class="patgrid">
+    <div class="pat"><span class="hanko" style="font-size:66px"></span><span class="cap">.hanko</span></div>
+    <div class="pat"><span class="hanko paper" style="font-size:66px"></span><span class="cap">.hanko.paper</span></div>
+    <div class="pat"><span class="wm md">aburungo<span class="maru"></span></span><span class="cap">.wm + .maru</span></div>
+    <div class="pat"><span class="kata-vert" style="font-size:20px">アブルンゴ</span><span class="cap">.kata-vert</span></div>
+    <div class="pat">
+      <span class="ctype"><span class="hanko" style="font-size:42px"></span>
+      <span class="wm sm">aburungo<span class="maru"></span></span>
+      <span class="rule"></span>
+      <span class="kata-vert" style="font-size:11px">アブルンゴ</span></span>
+      <span class="cap">.ctype</span>
+    </div>
+    <div class="pat"><div class="frame"><div class="row"><span class="wm xs">aburungo<span class="maru"></span></span></div>
+      <div class="divider"></div><div class="footer"><span>PRACTICAL JAPANESE</span><span class="mark">NO. 01</span></div></div>
+      <span class="cap">.frame</span></div>
+    <div class="pat emboss-bg crest-1"><span class="cap">.emboss-bg .crest-1</span></div>
+    <div class="pat emboss-bg crest-2"><span class="cap">.emboss-bg .crest-2</span></div>
+    <div class="pat emboss-bg crest-3"><span class="cap">.emboss-bg .crest-3</span></div>
+    <div class="pat emboss-bg crest-4"><span class="cap">.emboss-bg .crest-4</span></div>
+    <div class="pat emboss-bg crest-5"><span class="cap">.emboss-bg .crest-5</span></div>
+    <div class="pat emboss-bg crest-1"><div class="glass"><span class="cap">.glass over a crest</span></div></div>
+  </div>
+</section>
+
+<!-- ══ COMPONENTS ══════════════════════════════════════════════════════ -->
+<section>
+  <h2>Components <span class="st ok">21 named · 34 exports</span></h2>
+  <p class="note">These are React and cannot render on a static page without being mirrored — and a
+    mirror is the drift bug this repo already fought twice. They render for real in
+    <code>storybook/</code> and <code>ui_kits/flows/</code>. Listed here so the shape of the library
+    is visible; dashed red is what a product like this normally has and this one does not.</p>
+  <div class="list">
+    <div class="item">Button <span class="kind">primitive</span></div>
+    <div class="item">TextInput <span class="kind">primitive</span></div>
+    <div class="item">Card <span class="kind">primitive</span></div>
+    <div class="item">CardHeader <span class="kind">primitive</span></div>
+    <div class="item">CardBody <span class="kind">primitive</span></div>
+    <div class="item">CardFooter <span class="kind">primitive</span></div>
+    <div class="item">Badge <span class="kind">primitive</span></div>
+    <div class="item">IconButton <span class="kind">primitive</span></div>
+    <div class="item">PhraseCard <span class="kind">domain</span></div>
+    <div class="item">FlipCard <span class="kind">domain</span></div>
+    <div class="item">KanaGrid <span class="kind">domain</span></div>
+    <div class="item">KanaKeyboard <span class="kind">domain</span></div>
+    <div class="item">FillInput <span class="kind">domain</span></div>
+    <div class="item">VoiceInput <span class="kind">domain</span></div>
+    <div class="item">AudioButton <span class="kind">domain</span></div>
+    <div class="item">AnswerResult <span class="kind">domain</span></div>
+    <div class="item">Maru <span class="kind">domain</span></div>
+    <div class="item">GradePair <span class="kind">domain</span></div>
+    <div class="item">ScoreCard <span class="kind">domain</span></div>
+    <div class="item">ProgressBar <span class="kind">domain</span></div>
+    <div class="item">AppHeader <span class="kind">layout</span></div>
+    <div class="item">EmptyState <span class="kind">state</span></div>
+    <div class="item">ErrorState <span class="kind">state</span></div>
+    <div class="item">LoadingPlaceholder <span class="kind">state</span></div>
+    <div class="item missing">Navigation / TabBar <span class="kind">absent</span></div>
+    <div class="item missing">List / ListItem <span class="kind">absent</span></div>
+    <div class="item missing">Modal / Sheet <span class="kind">absent</span></div>
+    <div class="item missing">Tabs / Segmented <span class="kind">absent</span></div>
+    <div class="item missing">Figure / Illustration <span class="kind">absent</span></div>
+    <div class="item missing">Toast <span class="kind">absent</span></div>
+    <div class="item missing">Tooltip <span class="kind">absent</span></div>
+    <div class="item missing">Avatar <span class="kind">absent</span></div>
+    <div class="item missing">Divider <span class="kind">absent</span></div>
+    <div class="item missing">Link <span class="kind">absent</span></div>
+  </div>
+</section>
+
+<!-- ══ TEMPLATES ═══════════════════════════════════════════════════════ -->
+<section>
+  <h2>Templates <span class="st thin">thin</span></h2>
+  <p class="note">Nine flow files covering the study loop. Nothing covers arrival, identity, or
+    settings — and <code>lesson-list</code> hand-builds its rows inside the flow because no List
+    component exists to build them from.</p>
+  <div class="list">
+    <div class="item">shell <span class="kind">flow</span></div>
+    <div class="item">lesson-list <span class="kind">flow</span></div>
+    <div class="item">flashcard-round <span class="kind">flow</span></div>
+    <div class="item">kana-practice <span class="kind">flow</span></div>
+    <div class="item">fill-blank <span class="kind">flow</span></div>
+    <div class="item">checkpoint <span class="kind">flow</span></div>
+    <div class="item">ChapterOpener <span class="kind">surface</span></div>
+    <div class="item">LessonPage <span class="kind">surface</span></div>
+    <div class="item">FinalCheckpoint <span class="kind">surface</span></div>
+    <div class="item missing">Landing <span class="kind">absent</span></div>
+    <div class="item missing">Sign in <span class="kind">absent</span></div>
+    <div class="item missing">Book index / home <span class="kind">absent</span></div>
+    <div class="item missing">Profile <span class="kind">absent</span></div>
+    <div class="item missing">Settings <span class="kind">absent</span></div>
+  </div>
+</section>
+
+</body></html>

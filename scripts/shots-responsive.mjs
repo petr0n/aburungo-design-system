@@ -39,6 +39,20 @@ const SURFACES = [
   ['fill-review', 'Fill · review', '/ui_kits/flows/?flow=fill&state=review'],
   ['lessons-list', 'Lessons · list', '/ui_kits/flows/?flow=lessons&state=list'],
   ['lessons-empty', 'Lessons · empty', '/ui_kits/flows/?flow=lessons&state=empty'],
+  // The books (plan task 3.3). One opener per book, because the opener is the
+  // widest thing any book draws -- a full-bleed crest under a band -- and the
+  // five differ in tile density, which is what would overflow if anything did.
+  // Book One then carries the remaining states; the content is identical
+  // across books by construction, so sweeping all 25 would be the same four
+  // measurements five times.
+  ['book-one-opener', 'Book One · opener', '/ui_kits/flows/?flow=book-one&state=opener'],
+  ['book-two-opener', 'Book Two · opener', '/ui_kits/flows/?flow=book-two&state=opener'],
+  ['book-three-opener', 'Book Three · opener', '/ui_kits/flows/?flow=book-three&state=opener'],
+  ['book-four-opener', 'Book Four · opener', '/ui_kits/flows/?flow=book-four&state=opener'],
+  ['book-five-opener', 'Book Five · opener', '/ui_kits/flows/?flow=book-five&state=opener'],
+  ['book-lesson-late', 'Book One · late lesson', '/ui_kits/flows/?flow=book-one&state=lesson-late'],
+  ['book-final', 'Book One · final', '/ui_kits/flows/?flow=book-one&state=final'],
+  ['book-checkpoint', 'Book One · checkpoint', '/ui_kits/flows/?flow=checkpoint&state=one'],
 ]
 
 // The mobile kit is deliberately NOT swept. Its frame is a fixed 402px iPhone,

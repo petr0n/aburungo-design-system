@@ -81,33 +81,59 @@ Book One is entirely about. Akane is the mark and the error state — the loudes
 system — and Book Three is "the wall", the book that has to feel like it costs something. Sumi 墨
 *is* ink, and Book Five is the book that earns its look by giving colour up.
 
-### ⚠️ Unresolved: two of the five hues already mean correct and wrong
+### ✅ Resolved: the verdict moved down the ramp
 
-**Found in review, 2026-08-21. This blocks Phase 2 and nothing before it.**
+**Decided 2026-08-21 by the author, after rendering it.** The five identities stay exactly as they
+are, at their 500 step. **The verdict colours moved instead.**
 
-`DESIGN.md:333` is unambiguous: **"Don't use green or red for anything except answer
-correctness."** The table above assigns Rokushō (green) to Book One and Akane (red) to Book Three,
-as *persistent chrome*. So every page in Book One would carry the colour that means "correct", and
-every page in Book Three the colour that means "wrong".
+`--color-success-500` and `--color-error-500` were hardcoded to `#4F9C8D` and `#D72E2E` — the
+literal Rokushō and Akane brand values, and therefore the literal values Book One and Book Three
+now wear as chrome. A ○ could land in exactly its own header band's colour.
 
-**The Two-Plane Rule below does not cover this.** It separates book identity from *situation*
-accents. Correctness is a third meaning, it lives on the same surfaces, and on a checkpoint it sits
-inches from the chrome — a ✕ in Akane on an Akane band, a ○ in Rokushō on a Rokushō band.
+They point at **Rokushō 800 and Akane 800** now. Same two colours, two steps darker:
 
-Three ways out. **This is the author's call, not one to settle by argument:**
+| | vs its 500 band | on its own tint | on a card |
+|---|---|---|---|
+| Rokushō 800 `#264d46` | 114 apart | 7.61:1 | 9.25:1 |
+| Akane 800 `#6f1616` | 109 apart | 9.53:1 | 11.46:1 |
 
-| | Resolution | Cost |
-|---|---|---|
-| **a** | **The book hue is suppressed on judging surfaces.** A checkpoint drops to neutral chrome — Sumi band, warm stone — and identifies itself by crest and typography alone | Checkpoints look less like their book. But they *should* feel different, and it makes the crest do real work |
-| **b** | Rewrite `DESIGN.md:333` to scope green/red to judging surfaces rather than the whole product | One line, and the collision returns anywhere a verdict appears outside a checkpoint |
-| **c** | Book hues avoid green and red entirely | Only Ai-iro, Ōgon and Sumi are left — three hues for five books, so the hue-per-book decision cannot hold |
+**This also fixed a standing defect.** The 500 glyph on its own tint measured **3.98:1** and failed
+AA — recorded on `preview/16-accent-usage.html` as a note rather than a fix. Both pairs are gated
+now; the contrast gate went 39/42 → 41/44.
 
-**Recommendation: (a).** It is the only one that leaves both `DESIGN.md:333` and the
-hue-per-book decision intact, and it improves the checkpoint rather than merely permitting it —
-a checkpoint that goes quiet when it starts judging is the right instinct anyway. It also matches
-what this plan already concluded for a surface that closes more than one book.
+> **What was tried first, and was wrong.** An earlier pass drafted two new hues — wisteria and
+> decayed-leaf — measured them, cut a third for sitting 55 from Akane, and rendered all three.
+> The author's answer was that the palette already contained the fix. Adding a sixth and seventh
+> colour to resolve a collision between five is how a palette stops meaning anything, and the
+> ramps existed the whole time. **Look at the ramp before drafting a hue.**
 
-Do not build Phase 2's checkpoints until this is settled.
+Rendered at `?flow=books&state=feedback`, before and after, on the two books whose chrome the old
+verdict matched.
+
+### The Band Ink Rule
+
+**Added 2026-08-21, after the identities were rendered.** `AppHeader` draws its title in paper and
+its subtitle in `fg-on-inverse-2`, a muted grey. That works because its band is Sumi — near-black,
+with room underneath. Put the same pair on a mid-tone hue and it collapses: measured across the
+five books, **six of ten labels failed AA**, worst at Book Four's subtitle on **1.02:1**.
+
+> **A book band chooses its ink by luminance, and the subtitle uses the same ink as the title.**
+
+| Band | Ink | title | subtitle |
+|---|---|---|---|
+| Book One · Rokushō | stone-900 | 5.46 | 5.46 |
+| Book Two · Ai-iro | paper | 11.13 | 11.13 |
+| Book Three · Akane | paper | 4.78 | 4.78 |
+| Book Four · Ōgon | stone-900 | 7.25 | 7.25 |
+| Book Five · Sumi | paper | 13.55 | 13.55 |
+
+Both halves are load-bearing. Ink-by-luminance is obvious once measured; **the subtitle sharing it
+is the part that is easy to undo.** There is no muted step that survives on Akane — the grey is
+1.95:1 there — so a "make the subtitle sit back" edit re-breaks it. Hierarchy comes from size and
+weight, which it mostly already did. Dimming with opacity re-spends the contrast this recovers.
+
+**When book chrome becomes a real component, this rule travels with it.** `AppHeader` today takes
+no hue and is correct as it stands; the moment it does, it needs the ink parameter too.
 
 ### The named rule this creates
 
@@ -158,14 +184,73 @@ three crest wirings. Everything else is composition.**
 |---|---|---|
 | A | `--color-accent-sumi` + `-fg` + `-bg` | Sumi-iro is the header band, never an accent. Book Five needs it as one |
 | B | **Crest motifs** | Only **three distinct motifs** exist — `clan-symbol1/2` are the pre-tiled versions of `flower-symbol1/2`, not separate designs. **The author is drawing three more (2026-08-21)**, giving six for five books. The spare is unassigned; if it is meant for the final checkpoint, say so |
-| C | A tile of `clan-symbol-flower` | The blossom has a full-size render and no tile |
-| D | `crest-3/4/5` in `brand.css` | Two are wired |
+| C | ~~A tile of `clan-symbol-flower`~~ | **done 2026-08-21** — `scripts/make-crest-tile.mjs` |
+| D | ~~`crest-3/4/5` in `brand.css`~~ | **done 2026-08-21** — all five wired |
 
 > **B is the author's, not Claude's.** The crests are hand-made in Affinity — `flower-symbol1.afdesign`
 > and `flower-symbol2-tiles.afdesign` are the sources on disk. Per the standing note in
 > [MEMORY.md](/Users/peterabeln/.claude/projects/-Users-peterabeln-Documents-japanese-aburungo-design-system/memory/MEMORY.md):
 > **use the author's asset file directly, never hand-trace it into SVG.** This plan asks for two
 > exported PNGs and does not attempt to generate them.
+>
+> **Update 2026-08-21.** Five slots are now filled from the author's own files, without drawing
+> anything: crest 3 is the blossom, laid out and brought to weight by `make-crest-tile.mjs`;
+> crests 4 and 5 are the flat silhouettes `japanese-flower1 2.png` and `pasted-1779754339988-0.png`
+> with the white keyed out. Those two are the leaf and the clover again — a different *cut* of the
+> same drawing, which reads as a different ground but is not a new motif. **B is still open**, and
+> what it needs is two drawings, not two more derivations.
+
+---
+
+## 3b. The lab is append-only
+
+**A design surface in `ui_kits/flows/book-lab.tsx` gains options. It never loses them.**
+
+When the off-palette verdict candidates were rejected on 2026-08-21, the winning pair replaced
+them in the file and the three rejected ones stopped existing. That is the wrong move twice over:
+a rejected option is the answer to *"why not purple"* six weeks later, and re-deriving it costs
+another round of rendering and another round of the author's time. They were restored the same
+day, each row tagged `chosen` / `superseded` / `rejected` with the reason it lost.
+
+Two rules follow, and they apply to every comparison surface this plan adds:
+
+1. **Add a row, never overwrite one.** The chosen option carries `hex: undefined` so it renders
+   the live tokens and cannot drift; every other row carries literal hex, because it is a record
+   rather than a source of truth.
+2. **A comparison runs across every book, not a chosen subset.** Showing a verdict on the two
+   books it collided with answers a narrower question than the one being asked — a verdict colour
+   has to survive every band it will ever sit under. The rows wrap, so this stays true as books
+   are added.
+
+---
+
+## 3c. Where a sixth identity comes from
+
+**There is no limit on the number of books.** Author's call, 2026-08-21: *"I don't want a limit on
+books because this site isn't static."* `BookId` is derived from the `BOOKS` array, so adding an
+entry widens every surface that keys off a book — the checkpoint flow's state rail, its deep links —
+with nothing else to edit. The lab's comparison rows wrap rather than fixing a count. Verified by
+adding a sixth book and rendering it: it typechecked, appeared in the rail, deep-linked at
+`?state=six`, and the page reported **0px of horizontal overflow**.
+
+What does *not* scale for free is the identity, and this is the part to decide before Book Six
+exists rather than after.
+
+**The recommendation: hue and crest are two axes, and they multiply. A sixth book is an existing
+hue with a different crest — never a sixth hue.**
+
+§2 already says a book is a hue *and* a crest. Treating the pair as the identity gives 5 × N
+identities from five colours, and it is the only option that does not damage something else:
+
+| Option | |
+| --- | --- |
+| **Hue × crest pair** ✅ | Costs one drawing. Rendered with a sixth book on Rokushō + the blossom crest: it reads as a different book from Book One at a glance, on the same hue |
+| Add a sixth hue | The palette is five colours with one job each. This is the argument that was already had and lost over the verdict colours — adding hues to resolve a collision is how a palette stops meaning anything |
+| Vary the step (Rokushō 500 vs 700 band) | Keep in reserve. Real separation, but it spends the depth axis that the deep-band treatment already uses, and two books one step apart on the same ramp is a weaker signal than two crests |
+
+The practical consequence: **crest motifs are the constraint on how many books can exist, not
+hues.** Three are drawn. Two more are the author's to make, and each one after that buys five more
+book identities.
 
 ---
 
@@ -227,15 +312,21 @@ contrast gate on its book's hue.
 
 | # | Task | Done when |
 |---|---|---|
-| 0.1 | Add `--color-accent-sumi`, `-fg`, `-bg` to `src/tokens.css` | `pnpm build:tokens` propagates to all six harnesses; no hand-edited copy |
-| 0.2 | Gate the new pair in `check-contrast.mjs` alongside the other four | `label on the Sumi accent` passes ≥4.5:1, or ships with a written exception |
-| 0.3 | **Author:** export two new crest motifs + a tile of the blossom | five distinct tiles in `assets/`, greyscale, tile-safe |
-| 0.4 | Wire `crest-3/4/5` in `src/brand.css` | five `.emboss-bg.crest-N` rules; a sandbox page renders all five at `tile-sm` |
-| 0.5 | Re-measure the patterned-ground stand-in with five crests, not two | `#CACACA` still the darkest composited pixel, or the gate's stand-in is updated with the new measurement |
+| 0.1 | ~~Add `--color-accent-sumi`, `-fg`, `-bg` to `src/tokens.css`~~ | **done 2026-08-21.** Aliases `stone-800` — Sumi has no ramp of its own, it *is* the stone scale's 800 step. Propagated to the generated sheet and all five harness `@theme` blocks by `build:tokens` |
+| 0.2 | ~~Gate the new pair in `check-contrast.mjs`~~ | **done 2026-08-21.** `label on the Sumi accent` = **13.55:1**. Gate 38/41 → 39/42. A second check — the card ground against the page — was added, failed at 1.08:1, and was **removed as wrong**: every accent ground measures 1.09–1.17 and the plain card is 1.06, so cards here separate by warmth, not luminance. The measurement is recorded beside the block so it is not re-added |
+| 0.3 | **Author:** export two new crest motifs | **still open.** The blossom tile is done — `scripts/make-crest-tile.mjs` builds it from the full-size render already in `assets/`, on the same diagonal layout as crests 1 and 2. What is still missing is two *motifs*: books four and five wear the solid cut of the leaf and the clover as a stand-in |
+| 0.4 | ~~Wire `crest-3/4/5` in `src/brand.css`~~ | **done 2026-08-21.** Five `.emboss-bg.crest-N` rules, five tiles in `assets/`, five distinct grounds on the lab's `identities` state. `preview/_sandbox/crest-3-4-5.html` renders all five over page and card |
+| 0.5 | ~~Re-measure the patterned-ground stand-in with five crests, not two~~ | **done 2026-08-21.** It did not survive: the worst case is **0.5879** (crest-2 on a well at `tile-lg`), darker than the `#CACACA` the gate checked against (0.5906). Stand-in moved to **`#C8C8C8`** (0.5775). No role ever failed — `fg-muted`, the tightest, measures 4.61:1 there — but a stand-in lighter than the thing it stands in for is the wrong way round |
 
-> 0.5 is not optional. The stand-in in `check-contrast.mjs` is a **measurement** of the two
-> shipped crests — "the darkest luminance found was 0.5945". Three new crests can invalidate it,
-> and the comment beside it already says: *"Re-measure if a crest is added."*
+> 0.5 is not optional, and it paid for itself twice. The stand-in in `check-contrast.mjs` is a
+> **measurement**, and the sweep that re-took it found (a) the old value was optimistic because
+> `tile-lg` had never been swept — a large tile keeps broad dark areas that a small one averages
+> away — and (b) the three new crests came in at 0.4468, 0.3318 and 0.3318 raw, far past the bar.
+>
+> **The three new tiles are brought to weight in the ART, not with a lower `--emboss-opacity`.**
+> `--alpha` in `make-crest-tile.mjs` scales the alpha channel; the opacity knob stays at `.35` for
+> all five. A per-crest opacity default would have fixed the numbers on paper and left the public
+> knob able to undo it at any call site, where the gate cannot see it.
 
 ### Phase 1 — The identity contract
 
@@ -258,23 +349,122 @@ contrast gate on its book's hue.
 
 | # | Task | Done when |
 |---|---|---|
-| 2.1 | Chapter opener, all five books | deep-linkable `?book=three&surface=opener`; the four unused brand utilities have a consumer |
-| 2.2 | Lesson page, early + late chapter, all five | ten surfaces; the only difference within a book is density/opacity |
-| 2.3 | Chapter checkpoint, all five | carries its book's crest and hue like any other page (§4); shows a shrinking set, never a score |
-| 2.4 | Final checkpoint, all five books | shows a shrinking set, never a score; reads heavier than a chapter checkpoint without leaving the book's identity |
+| 2.0 | ~~Book One's four remaining surfaces~~ | **done 2026-08-21.** `ui_kits/flows/book-one.tsx` — chapter opener, lesson pages for chapters 1 and 11, final checkpoint. Every chapter title, lesson title and can-do line is read from `../aburungo/src/content/`, so none of the copy is invented; Chapter One really runs thirteen lessons across two situations. Found and fixed a live `ProgressBar` bug on the way — see below |
+| 2.0b | ~~The four surfaces for every book~~ | **done 2026-08-21.** `bookFlow(book)` in `ui_kits/flows/book-surfaces.tsx`, spread over `BOOKS` in the registry — a new book gets four surfaces and four deep links with nothing to edit. This is the row that DID the work in 2.1, 2.2 and 2.4; those rows are struck individually rather than absorbed, so the table can be read without this one |
+| 2.1 | ~~Chapter opener, all five books~~ | **done 2026-08-21 by 2.0b.** Deep-linkable as `?flow=book-three&state=opener` — the shape changed from `?book=…&surface=…` because each book is its own flow, so the state rail is the four surfaces. `.kata-vert` and `.wm` have a consumer; `.ctype` and `.frame` still do not, and the opener is expected to be rebuilt on `.ctype` once the page templates land (`docs/site-templates-brief.md`) |
+| 2.2 | ~~Lesson page, early + late chapter, all five~~ | **done 2026-08-21 by 2.0b.** Ten surfaces. Within a book the difference is the crest density and the situation accent; the content is Book One's on all five, which is the design — see the note under this table |
+| 2.3 | ~~Chapter checkpoint, all five~~ | **done 2026-08-21.** `ui_kits/flows/checkpoint.tsx`, one flow whose state rail is the books. Carries its book's crest and hue (§4); shows a shrinking set, never a score |
+| 2.4 | ~~Final checkpoint, all five books~~ | **done 2026-08-21 by 2.0b**, with a fix on 2026-08-22. Shows a shrinking set, never a score, and reads heavier via the deep band and `tile-lg`. Book Five's deep band was the same class as its normal one — both `bg-accent-sumi`, which IS `stone-800` — so on that one book the mechanism did nothing. Deep is `stone-900` there now |
+
+> **What Book One found: the progress bar was invisible on three of five books.**
+> `ProgressBar`'s `tone` only ever swapped the *track*; the fill stayed
+> `progress-fill` — Rokushō 500 — whatever the tone. Measured against each book's own
+> band: **Book One 1.00:1** (the identical colour), Book Three 1.50, Book Four 1.33.
+> A plain white line where the progress should be.
+>
+> `tone="on-accent"` now draws track and fill in `currentColor`, so the bar takes the
+> ink the band already chose for its labels. Worst case across the five is **4.78:1**,
+> up from 1.00. `AppHeader` on the Sumi band is untouched — `default` and `inverse`
+> still fill in Rokushō, verified by rendering.
+>
+> Two things worth keeping from how it was found. The first fix put the tone on
+> `ProgressBar` but left the ink class on the labels only, so `currentColor` fell back
+> to body text and the bar came out `#2D2D2D` on every band — which *moved* the 1.00:1
+> to Book Five instead of removing it. Only re-measuring the render caught that. And
+> the contrast gate cannot see any of this: it reads flat tokens, and `currentColor`
+> has no token to read. **A bar on a hue band has to be measured by rendering.**
+
+> **The content is Book One's on every book, and that is the design, not a shortfall.**
+> `../aburungo/src/content/books.ts` is `[bookOne]` — one book has lessons, and there
+> is one chapters file. So the choice for Books Two to Five was to invent a syllabus or
+> to hold the content still.
+>
+> Holding it still is what makes the comparison work. §5 asks whether one design reads
+> as five books, similar but not identical, and that is only answerable if the copy is
+> the *same* on all five: change the words and the hue together and you cannot tell
+> which one you are reacting to. Every borrowed page says whose content it is. Replace
+> it per book as each book's lessons land.
+>
+> Two things the render caught that reading could not. The chapter opener's `.glass`
+> had `rule-rokusho` hard-coded, so **Book One's colour sat on the top edge of every
+> other book's opener** — a fifth hue on a page that already has one; it follows
+> `book.hue` now, and `brand.css` gained the `.glass.rule-sumi` that the set was
+> missing. And the harness nav went to **four lines** once there was one full link per
+> book: the books collapse to a label and a numbered row that cannot be split, because
+> books are not capped.
+
+> **Pin-affecting changes, and who decides.** `../aburungo` re-exports `AppHeader`,
+> `ProgressBar` and eleven other components straight from this package
+> (`../aburungo/src/components/index.ts`), and its CI checks out this repo at a **pinned
+> sha** — `ref:` in `.github/workflows/ci.yml`, mirrored by `scripts/vercel-install.sh`.
+>
+> The pin exists because of 2026-08-21: unpinned, CI took this repo's default branch, and
+> dropping `'recalled'` from `AnswerOutcome` here turned the app's CI red with no commit
+> there — three untouched files stopped compiling. The convention that came out of it is
+> written next to the ref: **bump it on purpose, as its own PR, so the upgrade is a
+> decision with a diff.**
+>
+> So a change here that alters a re-exported component's rendered output has an
+> obligation attached: name it, and say whether the next bump should carry it. Two in
+> this phase's work do.
+>
+> | Change | Effect on the app |
+> |---|---|
+> | `AppHeader`'s band capped at `max-w-3xl` **on the header element** | Its desktop layout changes from a full-width slab to a column. Nothing in the app renders `AppHeader` today — it is re-exported and unused — so nothing breaks, but the behaviour is different when it is first used |
+> | `ProgressBar` gains a `tone="on-accent"` | Additive. `default` and `inverse` are untouched, verified by rendering |
+>
+> The app is pinned at `6cc617b` and is five PRs behind. A bump to current main would
+> also carry the **verdict moving to the 800 step** (#38), which changes a learner-facing
+> colour — the CI comment calls that "a product call before it is a version bump", so it
+> is the author's, not this plan's.
 
 ### Phase 3 — Gate it
 
 | # | Task | Done when |
 |---|---|---|
-| 3.1 | Add every new surface to `check-touch-targets.mjs` | all controls ≥44px, in all five books |
-| 3.2 | Contrast: each book's hue on its own chrome, and on its crest ground | five new pairs in the gate, all passing or explicitly excepted |
-| 3.3 | Add the surfaces to `shots-responsive.mjs` | 0 horizontal overflow at 375/768/1024/1440 |
-| 3.4 | `pnpm verify:plan` grows a Phase-6 block for this plan | this document's own claims are checkable by command |
+| 3.1 | Add every new surface to `check-touch-targets.mjs` | all controls ≥44px, in all five books. **Book One's four plus two checkpoints added 2026-08-21: 318 → 331 controls, 0 undersized** |
+| ~~3.2~~ | ~~Contrast: each book's hue on its own chrome, and on its crest ground~~ | **Done 2026-08-26.** Five band-ink pairs in `check-contrast.mjs`, all passing; Book Three on Akane is tightest at 4.78:1. Gate 41/44 → 46/49. The crest side needed no rows — the patterned-ground stand-in is already set to the measured worst case across all five crests |
+| ~~3.3~~ | ~~Add the surfaces to `shots-responsive.mjs`~~ | **Done 2026-08-26.** Eight surfaces added — five openers plus Book One's remaining states. 88 renders, **0 horizontal overflow** |
+| ~~3.3b~~ | ~~Every book surface renders at **1280** as well as 390~~ | **Done 2026-08-26 — and the proposed fix was rejected on the renders. See the note below** |
+| ~~3.4~~ | ~~`pnpm verify:plan` grows a Phase-6 block for this plan~~ | **Done 2026-08-26.** 22 checks under `PHASE 6`. `pnpm verify:plan` is 51 passed / 0 failed |
 
 > 3.4 exists because the last plan recorded a phase complete when it was not, and the failure
 > stood for five days. A plan that cannot be checked by a command is a plan that will make the
 > same mistake.
+
+> **3.3b is new, 2026-08-21, and it is not a formality.** Until that day nothing in this repo had
+> ever rendered a product surface at a desktop width — every flow lived inside a 390px `<Phone>`,
+> and the surfaces `pnpm shots` captured at a 1280 viewport were the *harness page* around a phone,
+> not the product at 1280. The app carries fifteen responsive utilities in total and runs in a
+> browser.
+>
+> The first desktop render found two things. One is fixed: `AppHeader` capped its own band at
+> `max-w-3xl`, so at 1280 the ア mark left the edge of the band and floated in level with the body
+> text. Inert at phone widths, wrong at desktop; the cap is gone and nothing moved on a phone.
+>
+> The other is open and belongs to these 25 surfaces. **A card-shaped screen top-anchors in an
+> 820px frame and leaves the bottom half empty** — the flashcard round and the kana drill are the
+> clearest. The fix is one class on `Screen`'s column in `ui_kits/flows/shell.tsx`:
+> `[justify-content:safe_center]`. `safe` is what makes it correct — it centres when there is room
+> and falls back to top-aligned when the content overflows, so it cannot make the top of a long
+> screen unreachable the way a plain `justify-center` would.
+>
+> **Rendered 2026-08-26, and rejected. Do not apply it.** It was looked at rather than assumed,
+> which is what this row asked for, and the renders said two things:
+>
+> 1. **It does nothing on any book surface.** All six before/after pairs — checkpoint, final and
+>    late lesson, at 390 and at 1280 — came back pixel-identical. The crest stage is already
+>    `flex-1`, so it absorbs the free space and `justify-content` has none left to distribute.
+>    **The 25 surfaces this plan gates never had the dead half-screen.** The row's own acceptance
+>    criterion is met as the tree stands.
+> 2. **On the two surfaces that do have it — the flashcard round and the kana drill — it makes
+>    them worse.** Centring detaches the card from the header band and opens dead space *above*
+>    it as well as below. A gap between the chrome and the content reads as a layout bug; trailing
+>    empty ground reads as page. Trading one for the other is a loss.
+>
+> If the void on those two ever matters, the fix is the one the book surfaces already use: give
+> the screen a `flex-1` ground that fills the column, rather than centring a card in it. That is
+> a change to the flashcard and kana flows and is out of scope here.
 
 ---
 
@@ -284,6 +474,7 @@ contrast gate on its book's hue.
 2. 25 surfaces, deep-linkable, built from `src/components` — no mirrors.
 3. Two named rules in `DESIGN.md` and the checkpoint treatment decided from renders.
 4. `--color-accent-sumi` and `crest-3/4/5`, gated.
+4b. A desktop view of every flow, at 1280, in the harness that cannot drift.
 5. A `verify:plan` block so §6's claims are a command, not a reading.
 
 ---

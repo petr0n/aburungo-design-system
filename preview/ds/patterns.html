@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Patterns — AburunGo Design System</title>
+<link rel="stylesheet" href="../../colors_and_type.css">
+<link rel="stylesheet" href="../../src/brand.css">
+<link rel="stylesheet" href="./ds.css">
+<style>
+  /* Page-local layout only. Every colour, size and radius is a var() onto
+     src/tokens.css — geometry (widths, heights, gaps) is the one thing in px,
+     because a device is a physical size and not a token. */
+
+  /* ── The rig: one composed surface, running ─────────────────────────────── */
+
+  .rig { display: flex; flex-direction: column; gap: 12px }
+  .rig-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap }
+  .rig-head h3 { margin: 0; font-size: var(--text-body-lg); color: var(--color-fg-heading) }
+  .rig-head .id { font-family: var(--font-mono); font-size: var(--text-caption);
+                  color: var(--color-fg-subtle) }
+  .rig p { margin: 0; font-size: var(--text-body-sm); color: var(--color-fg-muted) }
+
+  /* A window onto the running harness, sized to the device inside it. The page
+     script scrolls each frame so the phone/desk sits in the window — the
+     harness chrome (nav, state rail, legend) stays outside the glass. */
+  .dev {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    width: max-content;
+  }
+  .dev iframe { display: block; border: 0; background: var(--color-bg) }
+
+  .flowgrid { display: grid; gap: 22px; grid-template-columns: repeat(auto-fill, minmax(438px, 1fr)) }
+
+  /* ── Deep links ─────────────────────────────────────────────────────────── */
+
+  .links { display: flex; flex-wrap: wrap; gap: 5px; align-items: center }
+  .links .lab { font-family: var(--font-mono); font-size: var(--text-caption);
+                color: var(--color-fg-faint); margin-right: 2px }
+  .links a {
+    font-family: var(--font-mono); font-size: var(--text-caption);
+    color: var(--color-link); text-decoration: none;
+    padding: 4px 7px; border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border); background: var(--color-surface);
+  }
+  .links a:hover { border-color: var(--color-border-strong) }
+  .links a:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px }
+  .links.loose { margin-top: 10px }
+
+  /* ── Rules & dials ──────────────────────────────────────────────────────── */
+
+  .rules { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)) }
+  .rule { border-left: 3px solid var(--color-ogon-500) }
+  .rule h3 { margin: 0 0 4px; font-size: var(--text-body); color: var(--color-fg-heading) }
+  .rule p { margin: 0 0 8px; font-size: var(--text-body-sm); color: var(--color-fg-muted) }
+  .rule .where { font-family: var(--font-mono); font-size: var(--text-caption);
+                 color: var(--color-fg-subtle) }
+  .rule.a { border-left-color: var(--color-akane-500) }
+  .rule.b { border-left-color: var(--color-ai-500) }
+  .rule.c { border-left-color: var(--color-rokusho-500) }
+  .rule.d { border-left-color: var(--color-stone-800) }
+
+  table.dials { border-collapse: collapse; width: 100%; font-size: var(--text-body-sm) }
+  table.dials th, table.dials td {
+    text-align: left; padding: 8px 12px;
+    border-bottom: 1px solid var(--color-border);
+  }
+  table.dials thead th { color: var(--color-fg-subtle); font-size: var(--text-caption);
+                         letter-spacing: .08em; text-transform: uppercase }
+  table.dials td.n { font-family: var(--font-mono); text-align: right; width: 90px }
+  table.dials td code { font-family: var(--font-mono); font-size: var(--text-caption);
+                        color: var(--color-fg-muted) }
+
+  /* ── Absent ─────────────────────────────────────────────────────────────── */
+
+  .absent h3 { margin: 0 0 6px; font-size: var(--text-body); color: var(--color-akane-700) }
+  .absent p { margin: 0; font-size: var(--text-body-sm); color: var(--color-fg-muted) }
+</style></head><body>
+
+<header class="ds-bar">
+  <span class="brand">
+    <span class="hanko" aria-hidden="true"></span>
+    <span class="wm xs inv">aburungo<span class="maru rose"></span></span>
+  </span>
+  <nav>
+    <a href="./index.html">Overview</a>
+    <a href="./foundations.html">Foundations</a>
+    <a href="./components.html">Components</a>
+    <a href="./patterns.html" aria-current="page">Patterns</a>
+  </nav>
+</header>
+
+<main class="ds-page">
+  <h1 class="ds-title">Patterns</h1>
+  <p class="ds-lede">The composed surfaces — what the components turn into once they are a screen.
+    Everything below is <strong>running</strong>, not screenshotted: each frame is the real harness
+    at <code>/ui_kits/</code>, embedded live, so a component that renders nothing here renders
+    nothing in the app. Click into any frame and it responds.</p>
+
+  <!-- ══ 1. FLOWS ═════════════════════════════════════════════════════════ -->
+
+  <section class="ds-section" id="flows">
+    <h2 class="ds-h2">Flows <span class="ds-st ok">real components</span></h2>
+    <p class="ds-note">
+      <code>ui_kits/flows/</code> — TSX that imports <code>src/components</code> and is bundled by
+      <code>pnpm build:flows</code>. One registry (<code>ui_kits/flows/registry.ts</code>) defines
+      every flow once; this harness and the mobile kit both render from it, so neither can drift.
+      Every state is addressable — <code>?flow=kana&amp;state=empty</code> — which is what makes
+      the links under each frame, and every entry in <code>scripts/shots.mjs</code>, possible.
+      Two more parameters apply everywhere: <code>?view=desktop</code> swaps the phone shell for a
+      1280 browser frame, and <code>?phone=375</code> narrows the shell for the responsive sweep.
+    </p>
+
+    <div class="flowgrid">
+
+      <div class="ds-spec rig">
+        <div class="rig-head"><h3>Flashcard round</h3><span class="id">?flow=flashcard</span></div>
+        <p>Self-graded recall. The card is the whole screen: prompt → reveal → grade yourself →
+          summary. The one surface where the learner, not the app, decides the verdict.</p>
+        <div class="dev"><iframe title="Flashcard round flow, running" loading="lazy"
+          src="/ui_kits/flows/?flow=flashcard&state=round&step=prompt"
+          data-clip="[data-phone]" width="438" height="828"></iframe></div>
+        <div class="links"><span class="lab">states</span>
+          <a href="/ui_kits/flows/?flow=flashcard&state=round&step=prompt" target="_blank" rel="noopener noreferrer">prompt</a>
+          <a href="/ui_kits/flows/?flow=flashcard&state=round&step=reveal" target="_blank" rel="noopener noreferrer">reveal</a>
+          <a href="/ui_kits/flows/?flow=flashcard&state=round&step=summary" target="_blank" rel="noopener noreferrer">summary</a>
+          <a href="/ui_kits/flows/?flow=flashcard&state=loading" target="_blank" rel="noopener noreferrer">loading</a>
+          <a href="/ui_kits/flows/?flow=flashcard&state=empty" target="_blank" rel="noopener noreferrer">empty</a>
+          <a href="/ui_kits/flows/?flow=flashcard&state=error" target="_blank" rel="noopener noreferrer">error</a>
+          <a href="/ui_kits/flows/?flow=flashcard&state=checked" target="_blank" rel="noopener noreferrer">checked</a>
+        </div>
+      </div>
+
+      <div class="ds-spec rig">
+        <div class="rig-head"><h3>Kana practice</h3><span class="id">?flow=kana</span></div>
+        <p>Learning the syllabary: reference chart, multiple-choice drill, keyboard entry, result.
+          The screen that proves the One Dark Slab Rule — the Sumi-iro band and the Rokushō
+          keyboard are on it at the same time, and only one of them is near-black.</p>
+        <div class="dev"><iframe title="Kana practice flow, running" loading="lazy"
+          src="/ui_kits/flows/?flow=kana&state=chart"
+          data-clip="[data-phone]" width="438" height="828"></iframe></div>
+        <div class="links"><span class="lab">states</span>
+          <a href="/ui_kits/flows/?flow=kana&state=chart" target="_blank" rel="noopener noreferrer">chart</a>
+          <a href="/ui_kits/flows/?flow=kana&state=drill" target="_blank" rel="noopener noreferrer">drill</a>
+          <a href="/ui_kits/flows/?flow=kana&state=answered" target="_blank" rel="noopener noreferrer">answered</a>
+          <a href="/ui_kits/flows/?flow=kana&state=keyboard" target="_blank" rel="noopener noreferrer">keyboard</a>
+          <a href="/ui_kits/flows/?flow=kana&state=result" target="_blank" rel="noopener noreferrer">result</a>
+          <a href="/ui_kits/flows/?flow=kana&state=loading" target="_blank" rel="noopener noreferrer">loading</a>
+          <a href="/ui_kits/flows/?flow=kana&state=empty" target="_blank" rel="noopener noreferrer">empty</a>
+          <a href="/ui_kits/flows/?flow=kana&state=error" target="_blank" rel="noopener noreferrer">error</a>
+        </div>
+      </div>
+
+      <div class="ds-spec rig">
+        <div class="rig-head"><h3>Fill in the blank</h3><span class="id">?flow=fill</span></div>
+        <p>The app-judged review step, and the only flow with four input channels: romaji with a
+          live kana preview, the in-card kana keyboard, the device IME, and speech. Twelve states,
+          because every channel has its own failure.</p>
+        <div class="dev"><iframe title="Fill in the blank flow, running" loading="lazy"
+          src="/ui_kits/flows/?flow=fill&state=romaji"
+          data-clip="[data-phone]" width="438" height="828"></iframe></div>
+        <div class="links"><span class="lab">states</span>
+          <a href="/ui_kits/flows/?flow=fill&state=romaji" target="_blank" rel="noopener noreferrer">romaji</a>
+          <a href="/ui_kits/flows/?flow=fill&state=kana" target="_blank" rel="noopener noreferrer">kana</a>
+          <a href="/ui_kits/flows/?flow=fill&state=system" target="_blank" rel="noopener noreferrer">system</a>
+          <a href="/ui_kits/flows/?flow=fill&state=speak" target="_blank" rel="noopener noreferrer">speak</a>
+          <a href="/ui_kits/flows/?flow=fill&state=listening" target="_blank" rel="noopener noreferrer">listening</a>
+          <a href="/ui_kits/flows/?flow=fill&state=processing" target="_blank" rel="noopener noreferrer">processing</a>
+          <a href="/ui_kits/flows/?flow=fill&state=voice-error" target="_blank" rel="noopener noreferrer">voice-error</a>
+          <a href="/ui_kits/flows/?flow=fill&state=correct" target="_blank" rel="noopener noreferrer">correct</a>
+          <a href="/ui_kits/flows/?flow=fill&state=review" target="_blank" rel="noopener noreferrer">review</a>
+          <a href="/ui_kits/flows/?flow=fill&state=loading" target="_blank" rel="noopener noreferrer">loading</a>
+          <a href="/ui_kits/flows/?flow=fill&state=empty" target="_blank" rel="noopener noreferrer">empty</a>
+          <a href="/ui_kits/flows/?flow=fill&state=error" target="_blank" rel="noopener noreferrer">error</a>
+        </div>
+      </div>
+
+      <div class="ds-spec rig">
+        <div class="rig-head"><h3>Lesson list</h3><span class="id">?flow=lessons</span></div>
+        <p>Choosing what to study. The crest grounds the whole list and each lesson is a glass pane
+          over it, so the texture reads through instead of being covered. The card accent says
+          which situation — greetings, food, travel — never which book.</p>
+        <div class="dev"><iframe title="Lesson list flow, running" loading="lazy"
+          src="/ui_kits/flows/?flow=lessons&state=list"
+          data-clip="[data-phone]" width="438" height="828"></iframe></div>
+        <div class="links"><span class="lab">states</span>
+          <a href="/ui_kits/flows/?flow=lessons&state=list" target="_blank" rel="noopener noreferrer">list</a>
+          <a href="/ui_kits/flows/?flow=lessons&state=loading" target="_blank" rel="noopener noreferrer">loading</a>
+          <a href="/ui_kits/flows/?flow=lessons&state=empty" target="_blank" rel="noopener noreferrer">empty</a>
+          <a href="/ui_kits/flows/?flow=lessons&state=error" target="_blank" rel="noopener noreferrer">error</a>
+        </div>
+      </div>
+
+      <div class="ds-spec rig">
+        <div class="rig-head"><h3>Chapter checkpoint</h3><span class="id">?flow=checkpoint</span></div>
+        <p>The gate at the end of a chapter, rendered in each of the five books — so the state rail
+          here is books, not screen states. The only number is how many are left, and it counts
+          down to zero. No score, no percentage.</p>
+        <div class="dev"><iframe title="Chapter checkpoint flow, running" loading="lazy"
+          src="/ui_kits/flows/?flow=checkpoint&state=one"
+          data-clip="[data-phone]" width="438" height="828"></iframe></div>
+        <div class="links"><span class="lab">books</span>
+          <a href="/ui_kits/flows/?flow=checkpoint&state=one" target="_blank" rel="noopener noreferrer">one</a>
+          <a href="/ui_kits/flows/?flow=checkpoint&state=two" target="_blank" rel="noopener noreferrer">two</a>
+          <a href="/ui_kits/flows/?flow=checkpoint&state=three" target="_blank" rel="noopener noreferrer">three</a>
+          <a href="/ui_kits/flows/?flow=checkpoint&state=four" target="_blank" rel="noopener noreferrer">four</a>
+          <a href="/ui_kits/flows/?flow=checkpoint&state=five" target="_blank" rel="noopener noreferrer">five</a>
+        </div>
+      </div>
+
+      <div class="ds-spec rig">
+        <div class="rig-head"><h3>Book One — the surfaces</h3><span class="id">?flow=book-one</span></div>
+        <p>Rokushō 緑青 · the foundation. Four surfaces per book: the chapter opener that states the
+          thesis, an early lesson, a late lesson, and the final checkpoint. Same four everywhere —
+          only the hue, crest and tile density change.</p>
+        <div class="dev"><iframe title="Book One surfaces, running" loading="lazy"
+          src="/ui_kits/flows/?flow=book-one&state=opener"
+          data-clip="[data-phone]" width="438" height="828"></iframe></div>
+        <div class="links"><span class="lab">surfaces</span>
+          <a href="/ui_kits/flows/?flow=book-one&state=opener" target="_blank" rel="noopener noreferrer">opener</a>
+          <a href="/ui_kits/flows/?flow=book-one&state=lesson-early" target="_blank" rel="noopener noreferrer">lesson-early</a>
+          <a href="/ui_kits/flows/?flow=book-one&state=lesson-late" target="_blank" rel="noopener noreferrer">lesson-late</a>
+          <a href="/ui_kits/flows/?flow=book-one&state=final" target="_blank" rel="noopener noreferrer">final</a>
+        </div>
+      </div>
+
+      <div class="ds-spec rig">
+        <div class="rig-head"><h3>Book Two — the surfaces</h3><span class="id">?flow=book-two</span></div>
+        <p>Ai-iro 藍色 · the bridge. Paper ink on a deep band, crest-2 at the medium tile.</p>
+        <div class="dev"><iframe title="Book Two surfaces, running" loading="lazy"
+          src="/ui_kits/flows/?flow=book-two&state=opener"
+          data-clip="[data-phone]" width="438" height="828"></iframe></div>
+        <div class="links"><span class="lab">surfaces</span>
+          <a href="/ui_kits/flows/?flow=book-two&state=opener" target="_blank" rel="noopener noreferrer">opener</a>
+          <a href="/ui_kits/flows/?flow=book-two&state=lesson-early" target="_blank" rel="noopener noreferrer">lesson-early</a>
+          <a href="/ui_kits/flows/?flow=book-two&state=lesson-late" target="_blank" rel="noopener noreferrer">lesson-late</a>
+          <a href="/ui_kits/flows/?flow=book-two&state=final" target="_blank" rel="noopener noreferrer">final</a>
+        </div>
+      </div>
+
+      <div class="ds-spec rig">
+        <div class="rig-head"><h3>Book Three — the surfaces</h3><span class="id">?flow=book-three</span></div>
+        <p>Akane 茜色 · the wall. The one book whose hue is also the error colour and the mark —
+          which is why the verdict on its checkpoint sits two steps down the ramp at 800.</p>
+        <div class="dev"><iframe title="Book Three surfaces, running" loading="lazy"
+          src="/ui_kits/flows/?flow=book-three&state=opener"
+          data-clip="[data-phone]" width="438" height="828"></iframe></div>
+        <div class="links"><span class="lab">surfaces</span>
+          <a href="/ui_kits/flows/?flow=book-three&state=opener" target="_blank" rel="noopener noreferrer">opener</a>
+          <a href="/ui_kits/flows/?flow=book-three&state=lesson-early" target="_blank" rel="noopener noreferrer">lesson-early</a>
+          <a href="/ui_kits/flows/?flow=book-three&state=lesson-late" target="_blank" rel="noopener noreferrer">lesson-late</a>
+          <a href="/ui_kits/flows/?flow=book-three&state=final" target="_blank" rel="noopener noreferrer">final</a>
+        </div>
+      </div>
+
+      <div class="ds-spec rig">
+        <div class="rig-head"><h3>Book Four — the surfaces</h3><span class="id">?flow=book-four</span></div>
+        <p>Ōgon 黄金 · register. Ink ink on a light band — the book that forces the ink parameter,
+          because paper text on gold does not clear the bar.</p>
+        <div class="dev"><iframe title="Book Four surfaces, running" loading="lazy"
+          src="/ui_kits/flows/?flow=book-four&state=opener"
+          data-clip="[data-phone]" width="438" height="828"></iframe></div>
+        <div class="links"><span class="lab">surfaces</span>
+          <a href="/ui_kits/flows/?flow=book-four&state=opener" target="_blank" rel="noopener noreferrer">opener</a>
+          <a href="/ui_kits/flows/?flow=book-four&state=lesson-early" target="_blank" rel="noopener noreferrer">lesson-early</a>
+          <a href="/ui_kits/flows/?flow=book-four&state=lesson-late" target="_blank" rel="noopener noreferrer">lesson-late</a>
+          <a href="/ui_kits/flows/?flow=book-four&state=final" target="_blank" rel="noopener noreferrer">final</a>
+        </div>
+      </div>
+
+      <div class="ds-spec rig">
+        <div class="rig-head"><h3>Book Five — the surfaces</h3><span class="id">?flow=book-five</span></div>
+        <p>Sumi-iro 墨色 · refinement. The largest tile and the deepest band — the book that closes
+          the series, and the only one whose chrome matches the app header band.</p>
+        <div class="dev"><iframe title="Book Five surfaces, running" loading="lazy"
+          src="/ui_kits/flows/?flow=book-five&state=opener"
+          data-clip="[data-phone]" width="438" height="828"></iframe></div>
+        <div class="links"><span class="lab">surfaces</span>
+          <a href="/ui_kits/flows/?flow=book-five&state=opener" target="_blank" rel="noopener noreferrer">opener</a>
+          <a href="/ui_kits/flows/?flow=book-five&state=lesson-early" target="_blank" rel="noopener noreferrer">lesson-early</a>
+          <a href="/ui_kits/flows/?flow=book-five&state=lesson-late" target="_blank" rel="noopener noreferrer">lesson-late</a>
+          <a href="/ui_kits/flows/?flow=book-five&state=final" target="_blank" rel="noopener noreferrer">final</a>
+        </div>
+      </div>
+
+    </div>
+
+    <h3 class="ds-h3">Book lab <span class="ds-st thin">not a flow — five phones at once</span></h3>
+    <p class="ds-note">
+      The append-only decision record for book identity. It is its own page rather than a flow
+      because it renders all five books side by side — which is the only way to see whether five
+      identities actually hold apart. The rejected options are still on it, tagged: that is
+      deliberate, and they do not get replaced by the winner. This is the one frame that keeps the
+      harness nav on screen: the lab fits the window whole, so there is no scroll to take the chrome
+      off the top.
+    </p>
+    <div class="ds-scroll">
+      <div class="dev"><iframe title="Book identity lab, running" loading="lazy"
+        src="/ui_kits/flows/?flow=books&state=identities"
+        width="1500" height="1060"></iframe></div>
+    </div>
+    <div class="links loose"><span class="lab">states</span>
+      <a href="/ui_kits/flows/?flow=books&state=identities" target="_blank" rel="noopener noreferrer">identities</a>
+      <a href="/ui_kits/flows/?flow=books&state=collision" target="_blank" rel="noopener noreferrer">collision (rejected)</a>
+      <a href="/ui_kits/flows/?flow=books&state=resolved" target="_blank" rel="noopener noreferrer">resolved</a>
+      <a href="/ui_kits/flows/?flow=books&state=deep" target="_blank" rel="noopener noreferrer">deep</a>
+      <a href="/ui_kits/flows/?flow=books&state=feedback" target="_blank" rel="noopener noreferrer">feedback (chosen)</a>
+    </div>
+  </section>
+
+  <!-- ══ 2. MOBILE ════════════════════════════════════════════════════════ -->
+
+  <section class="ds-section" id="mobile">
+    <h2 class="ds-h2">Mobile <span class="ds-st ok">real components</span></h2>
+    <p class="ds-note">
+      <code>ui_kits/mobile/</code> — the same flows, in an iPhone 16 Pro frame (402 × 874), plus the
+      two screens that exist only here: landing and sign-in. It reads
+      <code>ui_kits/flows/registry.ts</code> too, so adding a flow adds it to both harnesses at
+      once. This was a hand-written mirror until 2026-08-17, and it is the mirror the drift warning
+      was written about — it shipped a landing screen whose primary CTA asked for
+      <code>variant="accent"</code>, a variant no <code>Button</code> has ever implemented, so the
+      button rendered as bare text. Untyped JSX could not catch that; this cannot repeat.
+    </p>
+
+    <div class="flowgrid">
+      <div class="ds-spec rig">
+        <div class="rig-head"><h3>Landing</h3><span class="id">?screen=landing</span></div>
+        <p>Before sign-in, and the only surface with no header band — so the status bar sits on warm
+          stone and its glyphs go black. The mark holds still; the block under it crossfades into
+          the sign-in fields rather than swapping the screen.</p>
+        <div class="dev"><iframe title="Mobile kit — landing screen, running" loading="lazy"
+          src="/ui_kits/mobile/?screen=landing"
+          data-clip="[data-phone]" width="450" height="910"></iframe></div>
+        <div class="links"><span class="lab">screens</span>
+          <a href="/ui_kits/mobile/?screen=landing" target="_blank" rel="noopener noreferrer">landing</a>
+          <a href="/ui_kits/mobile/?screen=signin" target="_blank" rel="noopener noreferrer">signin</a>
+        </div>
+      </div>
+
+      <div class="ds-spec rig">
+        <div class="rig-head"><h3>Sign in</h3><span class="id">?screen=signin</span></div>
+        <p>The other half of the same crossfade — deep-linkable so a review link and the touch-target
+          check can address the fields directly. Google sits outside the fade: it is an alternative
+          to both paths, so taking it should not mean backing out of the one you just chose.</p>
+        <div class="dev"><iframe title="Mobile kit — sign-in screen, running" loading="lazy"
+          src="/ui_kits/mobile/?screen=signin"
+          data-clip="[data-phone]" width="450" height="910"></iframe></div>
+        <div class="links"><span class="lab">screens</span>
+          <a href="/ui_kits/mobile/?screen=signin" target="_blank" rel="noopener noreferrer">signin</a>
+          <a href="/ui_kits/mobile/?screen=landing" target="_blank" rel="noopener noreferrer">landing</a>
+        </div>
+      </div>
+
+      <div class="ds-spec rig">
+        <div class="rig-head"><h3>A flow, in the device</h3><span class="id">?screen=kana</span></div>
+        <p>Every flow renders here too, inside the real safe-area strip and the island. The strip
+          borrows the colour of whatever the product puts under it — which is why an
+          <code>AppHeader</code> tucked behind the island would lose its title to a black pill.</p>
+        <div class="dev"><iframe title="Mobile kit — kana practice in the device frame, running"
+          loading="lazy" src="/ui_kits/mobile/?screen=kana"
+          data-clip="[data-phone]" width="450" height="910"></iframe></div>
+        <div class="links"><span class="lab">screens</span>
+          <a href="/ui_kits/mobile/?screen=flashcard" target="_blank" rel="noopener noreferrer">flashcard</a>
+          <a href="/ui_kits/mobile/?screen=kana" target="_blank" rel="noopener noreferrer">kana</a>
+          <a href="/ui_kits/mobile/?screen=fill" target="_blank" rel="noopener noreferrer">fill</a>
+          <a href="/ui_kits/mobile/?screen=lessons" target="_blank" rel="noopener noreferrer">lessons</a>
+          <a href="/ui_kits/mobile/?screen=checkpoint" target="_blank" rel="noopener noreferrer">checkpoint</a>
+          <a href="/ui_kits/mobile/?screen=book-one" target="_blank" rel="noopener noreferrer">book-one</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 3. DESKTOP ═══════════════════════════════════════════════════════ -->
+
+  <section class="ds-section" id="desktop">
+    <h2 class="ds-h2">Desktop</h2>
+    <p class="ds-note">
+      The product runs in a browser, and until 2026-08-21 every flow only ever rendered inside a
+      phone — a real surface nobody had looked at. <code>?view=desktop</code> puts the same screens
+      in a 1280 browser frame. There is no separate desktop layout to keep in step: the column, not
+      the frame, is what widens, and the stages bleed to the column, so the crest reads as a sheet
+      of patterned paper on warm stone rather than a full-width wash.
+      Each frame below scrolls inside itself; this page never scrolls sideways.
+    </p>
+
+    <h3 class="ds-h3">The flows at 1280 <span class="ds-st ok">real components</span></h3>
+    <div class="ds-scroll">
+      <div class="dev"><iframe title="Lesson list at desktop width, running" loading="lazy"
+        src="/ui_kits/flows/?flow=lessons&state=list&view=desktop"
+        data-clip="[data-desk]" width="1328" height="884"></iframe></div>
+    </div>
+    <div class="links loose"><span class="lab">desktop views</span>
+      <a href="/ui_kits/flows/?flow=lessons&state=list&view=desktop" target="_blank" rel="noopener noreferrer">lessons</a>
+      <a href="/ui_kits/flows/?flow=flashcard&state=round&step=prompt&view=desktop" target="_blank" rel="noopener noreferrer">flashcard</a>
+      <a href="/ui_kits/flows/?flow=kana&state=drill&view=desktop" target="_blank" rel="noopener noreferrer">kana</a>
+      <a href="/ui_kits/flows/?flow=fill&state=romaji&view=desktop" target="_blank" rel="noopener noreferrer">fill</a>
+      <a href="/ui_kits/flows/?flow=flashcard&state=empty&view=desktop" target="_blank" rel="noopener noreferrer">empty</a>
+    </div>
+
+    <h3 class="ds-h3">Desktop exploration <span class="ds-st gap">hand-written mirror</span></h3>
+    <p class="ds-note">
+      <code>ui_kits/desktop-explore.html</code> — <strong>this one can drift.</strong> It renders
+      <code>ui_kits/mobile/components.jsx</code>, in which every component is typed out a second
+      time in browser JSX and nothing typechecks it. A component can be correct in TSX and wrong on
+      this screen. It is one of the last two untyped harnesses in the repo; adding a component means
+      mirroring it here by hand, in the same commit.
+    </p>
+    <div class="ds-scroll">
+      <div class="dev"><iframe title="Desktop exploration harness (hand-written mirror), running"
+        loading="lazy" src="/ui_kits/desktop-explore.html" width="1440" height="900"></iframe></div>
+    </div>
+
+    <h3 class="ds-h3">Responsive app shell <span class="ds-st gap">hand-written mirror</span></h3>
+    <p class="ds-note">
+      <code>ui_kits/app/</code> — the other untyped harness, and the same warning applies. It loads
+      <code>ui_kits/mobile/components.jsx</code> plus its own <code>screens.jsx</code> through Babel
+      in the browser, so nothing here is checked by <code>pnpm typecheck</code> or
+      <code>pnpm lint</code>. Judge a component on the flows or mobile kit first; this is for layout
+      only.
+    </p>
+    <div class="ds-scroll">
+      <div class="dev"><iframe title="Responsive app shell harness (hand-written mirror), running"
+        loading="lazy" src="/ui_kits/app/" width="1280" height="900"></iframe></div>
+    </div>
+  </section>
+
+  <!-- ══ 4. COMPOSITION RULES ═════════════════════════════════════════════ -->
+
+  <section class="ds-section" id="rules">
+    <h2 class="ds-h2">Composition rules</h2>
+    <p class="ds-note">
+      The component rules live on the Components page. These are the ones that only exist once
+      components become a screen — each stated with the surface it governs. All of them were written
+      after a rendered screen disagreed with the spec, which is why each says what breaks.
+    </p>
+
+    <div class="rules">
+
+      <div class="ds-spec rule b">
+        <h3>The crest placement rule</h3>
+        <p><strong>A full-screen state that is not showing content carries the crest. A state showing
+          content does not.</strong> Loading, empty and error get the patterned ground — otherwise
+          the screen is a message floating on bare stone — and they become one family, differing by
+          their signal (spinner, hanko, Akane triangle) rather than by whether the floor is there.
+          The lesson list carries it too; its cards are glass panes over it.</p>
+        <p><strong>Breaks as:</strong> the crest reaching whichever four of sixteen states somebody
+          happened to be editing. That was the state of it before 2026-08-16.</p>
+        <span class="where">flashcard · kana · fill · lessons — every loading / empty / error state above</span>
+      </div>
+
+      <div class="ds-spec rule a">
+        <h3>The Patterned Ground Rule</h3>
+        <p>A <em>bare</em> <code>.emboss-bg</code> ground carries <code>fg</code> and
+          <code>fg-heading</code> only. <code>fg-muted</code> is permitted;
+          <code>fg-subtle</code> and <code>fg-faint</code> are not — <strong>unless they sit on
+          <code>.glass</code></strong>. The tile darkens what is under it, so text is judged against
+          the darkest pixel of the pattern: 8.40:1 for <code>fg</code>, 6.91:1 for
+          <code>fg-heading</code>, 4.66:1 for <code>fg-muted</code>, and <strong>3.47:1 for
+          <code>fg-subtle</code></strong> against a 4.5 bar.</p>
+        <p><strong>Breaks as:</strong> an <code>EmptyState</code> description below contrast. Lowering
+          the tile opacity does not fix it — 4.5:1 needs roughly <code>.16</code>, by which point the
+          pattern is invisible. Put the pattern behind a card and the fine print on the card.</p>
+        <span class="where">EmptyStage · StateStage · lesson list — checked by scripts/check-contrast.mjs</span>
+      </div>
+
+      <div class="ds-spec rule d">
+        <h3>One dark slab per screen</h3>
+        <p>The header band is Sumi-iro. Nothing else on the same screen is near-black — the kana
+          keyboard is Rokushō for exactly this reason, and that is a composition decision, not a
+          keyboard decision. You can only see it on a screen that has both.</p>
+        <p><strong>Breaks as:</strong> two near-black sections stacked, which reads as a broken
+          layout rather than as chrome plus a keyboard.</p>
+        <span class="where">kana practice · fill (kana channel) · every AppHeader band</span>
+      </div>
+
+      <div class="ds-spec rule c">
+        <h3>The Two-Plane Rule</h3>
+        <p><strong>The book hue owns the chrome</strong> — header band, chapter headers, progress,
+          checkpoint furniture. <strong>The situation hue stays on the cards</strong> —
+          <code>PhraseCard</code>'s <code>accent</code> prop keeps meaning <em>which situation</em>.
+          Chrome and card are different planes and never adjacent, so the two readings never compete.
+          Watch it on Book One above: the chrome is Rokushō on all four surfaces while the card accent
+          changes with the situation twice inside one chapter.</p>
+        <p><strong>Breaks as:</strong> the obvious "simplification" — tinting the card to match the
+          book. That collapses the two planes and destroys the situation signal. Do not.</p>
+        <span class="where">book-one … book-five · checkpoint · lesson list (SITUATION_ACCENT)</span>
+      </div>
+
+      <div class="ds-spec rule">
+        <h3>The Prompt Is The Product Rule</h3>
+        <p>On any study surface the Japanese phrase is the largest element on screen; chrome, labels
+          and controls step down around it. If a button is competing with the phrase for attention,
+          the button is wrong.</p>
+        <p><strong>Breaks as:</strong> a primary CTA that reads before the thing being studied — most
+          easily on the fill surface, where an input, a submit and four channel switches all want to
+          be on screen at once.</p>
+        <span class="where">flashcard · fill · kana drill</span>
+      </div>
+
+      <div class="ds-spec rule">
+        <h3>One primary action per screen</h3>
+        <p>Ai-iro ground, paper text, 44px floor, one per screen. If two buttons are both primary,
+          the screen has not decided what it wants. The corollary on these surfaces: no hover-only
+          affordance anywhere, because none of this is reachable by hover on the device it is
+          designed for.</p>
+        <p><strong>Breaks as:</strong> a landing screen with two equal CTAs — which is also the
+          screen where a nonexistent <code>variant="accent"</code> once rendered as bare text in the
+          old hand-written mirror.</p>
+        <span class="where">landing · sign-in · every flow's action row</span>
+      </div>
+
+    </div>
+
+    <h3 class="ds-h3">Per-surface taste dials</h3>
+    <p class="ds-note">
+      <code>DESIGN_VARIANCE</code> / <code>VISUAL_DENSITY</code> / <code>MOTION_INTENSITY</code>, set
+      per surface rather than globally. Density stays low per the Muji brief and rises only where
+      real data density exists. Variance stays low except in the two places the brief says charm
+      belongs. <code>MOTION_INTENSITY</code> never exceeds 3 — every value above 3 implies
+      scroll-driven or magnetic interaction, which a touch-first study app does not have.
+    </p>
+    <div class="ds-scroll">
+      <table class="dials">
+        <thead><tr>
+          <th>Surface</th><th>Components</th>
+          <th class="n">Density</th><th class="n">Variance</th><th class="n">Motion</th>
+        </tr></thead>
+        <tbody>
+          <tr><td>Flashcard review</td><td><code>FlipCard, PhraseCard</code></td>
+              <td class="n">3</td><td class="n">4</td><td class="n">3</td></tr>
+          <tr><td>Kana practice</td><td><code>KanaGrid, KanaKeyboard</code></td>
+              <td class="n">4</td><td class="n">4</td><td class="n">3</td></tr>
+          <tr><td>Pronunciation</td><td><code>VoiceInput, AudioButton</code></td>
+              <td class="n">3</td><td class="n">2</td><td class="n">3</td></tr>
+          <tr><td>Cloze / fill</td><td><code>FillInput, AnswerResult</code></td>
+              <td class="n">3</td><td class="n">2</td><td class="n">2</td></tr>
+          <tr><td>Progress summary</td><td><code>ProgressBar, ScoreCard</code></td>
+              <td class="n">6</td><td class="n">3</td><td class="n">2</td></tr>
+          <tr><td>App shell</td><td><code>AppHeader</code></td>
+              <td class="n">3</td><td class="n">2</td><td class="n">1</td></tr>
+          <tr><td>Empty / error / loading</td><td><code>EmptyState, ErrorState, LoadingPlaceholder</code></td>
+              <td class="n">2</td><td class="n">4</td><td class="n">2</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="ds-note">
+      Flashcard review and kana practice went 2 → 4 on 2026-08-24. The 2 was itself a correction to a
+      global <code>VISUAL_DENSITY: 8</code> written without reading the brief, and it overshot: 2 on
+      the two surfaces a learner spends the whole session inside is not restraint, it is a wireframe.
+      Density did not move. What moved is permission to vary <em>form</em>, judged on a rendered
+      screen and not in this table.
+    </p>
+  </section>
+
+  <!-- ══ 5. ABSENT ════════════════════════════════════════════════════════ -->
+
+  <section class="ds-section" id="absent">
+    <h2 class="ds-h2">Absent <span class="ds-st gap">no pattern exists</span></h2>
+    <p class="ds-note">
+      Templates a product of this shape normally has, drawn rather than described — the gap is the
+      finding. Nothing below is a component gap; each is a whole surface with no composed pattern,
+      so the first person to need one will invent it, and it will not match. Recommended order is
+      top to bottom: the first two block a real sign-up, the rest block a second session.
+    </p>
+    <div class="ds-grid c2">
+
+      <div class="ds-spec ds-absent absent">
+        <h3>Landing — the marketing page</h3>
+        <p>One exists, and that is the problem: it is in <code>ui_kits/app/screens.jsx</code>, the
+          untyped mirror, built on <code>components.jsx</code> rather than on
+          <code>src/components</code>. Nothing typechecks it and no flow owns it, so the system
+          cannot vouch for it. The real site chrome is the app's <code>PageShell.tsx</code>, not
+          anything in this package — read that before designing the replacement.</p>
+      </div>
+
+      <div class="ds-spec ds-absent absent">
+        <h3>Sign in — outside the device</h3>
+        <p>Only ever rendered at 402px in the mobile kit. No desktop composition, no error states
+          (wrong password, unverified address, rate-limited), no password reset. The mobile screen
+          is a crossfade between two panes and does not have a wide equivalent.</p>
+      </div>
+
+      <div class="ds-spec ds-absent absent">
+        <h3>Book index / home</h3>
+        <p>Five books exist, each with four surfaces and a checkpoint. Nothing shows all five and
+          lets you choose one. The book lab renders five identities side by side, but that is a
+          decision record, not a product screen — it is the closest thing here and it is not it.</p>
+      </div>
+
+      <div class="ds-spec ds-absent absent">
+        <h3>Profile</h3>
+        <p>No account surface at all: no name, no avatar, no history, no streak — the last one on
+          purpose. But an account with no page to look at is still a gap, and the sign-in flow above
+          leads somewhere that does not exist.</p>
+      </div>
+
+      <div class="ds-spec ds-absent absent">
+        <h3>Settings</h3>
+        <p>Nothing for the settings the flows already imply: the input channel default (romaji, kana
+          keyboard, system IME, speech), audio and speech permissions, reduced motion, and the
+          furigana toggle. Four channels in <code>fill</code> and no screen that chooses between
+          them.</p>
+      </div>
+
+      <div class="ds-spec ds-absent absent">
+        <h3>Progress over time</h3>
+        <p><code>ScoreCard</code> and <code>ProgressBar</code> exist and the taste dials give
+          progress summary the only density above 4 in the table — but there is no surface that
+          composes them across sessions. The one place real data density is licensed, unbuilt.</p>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<script>
+/* Each frame is the whole running harness. This scrolls it so the device sits
+   in the window and the harness chrome (nav, state rail, legend) stays outside
+   the glass — no injection, no clone, so React keeps its root and the surface
+   stays interactive. Frames without data-clip are shown whole.
+
+   Polled rather than done on `load`: the harnesses render from a module bundle,
+   so [data-phone] appears after the load event. */
+(function () {
+  var PAD = 20
+  function align(f) {
+    try {
+      var d = f.contentDocument
+      if (!d) return false
+      var el = d.querySelector(f.dataset.clip)
+      if (!el) return false
+      var r = el.getBoundingClientRect()
+      var w = f.contentWindow
+      w.scrollTo(r.left + w.scrollX - PAD, r.top + w.scrollY - PAD)
+      return true
+    } catch (e) { return false }
+  }
+  var pending = Array.prototype.slice.call(document.querySelectorAll('iframe[data-clip]'))
+  var tick = setInterval(function () {
+    for (var i = pending.length - 1; i >= 0; i--) if (align(pending[i])) pending.splice(i, 1)
+    if (pending.length === 0) clearInterval(tick)
+  }, 250)
+  setTimeout(function () { clearInterval(tick) }, 60000)
+
+  /* Every frame is `loading="lazy"` in the markup, so arriving at this page
+     does not boot seventeen harnesses before it paints. Left at that, the ones
+     far down never boot at all in a full-page render — the frame is blank, and
+     a blank frame looks perfectly fine in the HTML source, which is the one
+     failure this page exists to make visible. So once the page itself has
+     loaded, every frame is promoted: the deferral is real, the "never" is not.
+     Do not remove this and trust the attribute — `pnpm shots ds-patterns` came
+     back with six empty devices the first time. */
+  function boot() {
+    var q = document.querySelectorAll('iframe[loading="lazy"]')
+    for (var i = 0; i < q.length; i++) q[i].loading = 'eager'
+  }
+  if (document.readyState === 'complete') boot()
+  else window.addEventListener('load', boot)
+})()
+</script>
+
+</body></html>

@@ -156,6 +156,25 @@
   --color-accent-rokusho-fg:  var(--color-stone-900);
   --color-accent-akane:       var(--color-akane-500);
   --color-accent-akane-fg:    var(--color-stone-0);
+  /* Sumi-iro, added 2026-08-21 for Book Five (see
+     docs/book-identity-and-checkpoint-mockups-plan.md).
+
+     The other four accents are the 500 step of their own ramp. Sumi has no
+     ramp -- it lives in the stone scale, where stone-800 IS Sumi-iro -- so
+     this aliases stone-800 rather than inventing a parallel ramp for one
+     token. It is deliberately the same value the header band uses: Book Five's
+     identity is the near-absence of accent, which is the point rather than an
+     accident, and the crest and type carry what the hue does not.
+
+     A chrome accent, not a card accent: it exists for Book Five's furniture
+     (header band, chapter headers, checkpoint chrome). PhraseCard's `accent`
+     keeps meaning *which situation*, so `PhraseAccent` stays four-strong --
+     the Two-Plane Rule in the plan doc forbids the book hue on that plane.
+
+     Paper label, like Ai and Akane: stone-800 is near-black, so a dark label
+     would be unreadable. Gated in check-contrast.mjs beside the other four. */
+  --color-accent-sumi:        var(--color-stone-800);
+  --color-accent-sumi-fg:     var(--color-stone-0);
 
   /* The accent's card ground. Decided 2026-08-08 against three rendered
      options: the palette was landing as hairlines — a 3px rule, a tag pill,
@@ -168,6 +187,11 @@
   --color-accent-ai-bg:       var(--color-ai-100);
   --color-accent-rokusho-bg:  var(--color-rokusho-100);
   --color-accent-akane-bg:    var(--color-akane-100);
+  /* stone-100 is the well tone, one step off the page ground. The other four
+     `-bg` values are their hue's 100 step; Sumi's is the nearest equivalent
+     the stone ramp offers, and it keeps Book Five's card ground quieter than
+     any other book's -- consistent with the rest of its identity. */
+  --color-accent-sumi-bg:     var(--color-stone-100);
 
   --color-keyboard-bg:     var(--color-rokusho-700);
   --color-keyboard-rule:   var(--color-rokusho-800);
@@ -218,11 +242,35 @@
   /* ── Semantic feedback — correctness banners only, never decorative. */
   --color-success-bg:  var(--color-rokusho-100);
   --color-success-fg:  var(--color-rokusho-800);
-  --color-success-500: #4F9C8D;
   --color-error-bg:    var(--color-akane-100);
   --color-error-fg:    var(--color-akane-800);
-  --color-error-500:   #D72E2E;
   --color-error-border: var(--color-akane-300);
+
+  /* The verdict marks — ○ and ✕ — moved from the 500 step to 800 on
+     2026-08-21.
+
+     They were hardcoded to #4F9C8D and #D72E2E: the literal Rokushō and Akane
+     brand values, and therefore the literal values a book's chrome wears once
+     Book One is Rokushō and Book Three is Akane. A ○ in exactly its own
+     header band's colour is the collision the books plan was blocked on.
+
+     800 rather than a new hue, because the palette already had the answer and
+     inventing two more colours to sit beside five was the wrong instinct. It
+     is also the value `success-fg` and `error-fg` already use, so the glyph
+     and the words it sits with are now one ink instead of two.
+
+     Measured: Rokushō 800 is 114 from Rokushō 500 in RGB distance and Akane
+     800 is 109 from Akane 500 — further apart than the two hues that were
+     drafted from scratch to avoid this. Both clear AA on card (9.25, 11.46)
+     and on their own tint (7.61, 9.53), where the 500s did not: the note on
+     preview/16-accent-usage.html recorded error-500 on the tint at 3.98:1 and
+     failing, which stood as a known defect rather than a fix.
+
+     900 was measured too and reads near-black — the hue stops being legible as
+     Rokushō or Akane, which is the thing that makes ○ and ✕ feel like they
+     belong to this palette. */
+  --color-success-500: var(--color-rokusho-800);
+  --color-error-500:   var(--color-akane-800);
   /* Live capture. VoiceInput dressed its recording state in Akane — the
      colour this palette reserves for the mark and for errors — so the one
      moment the app is working correctly looked like the moment it failed,

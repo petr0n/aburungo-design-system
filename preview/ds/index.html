@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AburunGo Design System</title>
+<link rel="stylesheet" href="../../colors_and_type.css">
+<link rel="stylesheet" href="../../src/brand.css">
+<link rel="stylesheet" href="./ds.css">
+<style>
+  .hero{display:flex;align-items:center;gap:26px;flex-wrap:wrap;margin:0 0 44px}
+  .cards{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));max-width:1320px}
+  .card{display:block;text-decoration:none;color:inherit;background:var(--color-surface);
+        border:1px solid var(--color-border);border-radius:var(--radius-sm);
+        padding:24px;border-top:3px solid var(--color-ai-500)}
+  .card:hover{border-color:var(--color-stone-300)}
+  .card:focus-visible{outline:2px solid var(--color-ogon-500);outline-offset:2px}
+  .card.f{border-top-color:var(--color-rokusho-500)}
+  .card.c{border-top-color:var(--color-ai-500)}
+  .card.p{border-top-color:var(--color-ogon-500)}
+  .card h3{margin:0 0 6px;font-size:var(--text-heading-sm);color:var(--color-fg-heading)}
+  .card p{margin:0 0 14px;font-size:var(--text-body-sm);color:var(--color-fg-muted)}
+  .card .meta{font-family:var(--font-mono);font-size:var(--text-caption);color:var(--color-fg-subtle)}
+  .legacy{margin-top:52px;max-width:82ch}
+  .legacy a{color:var(--color-rokusho-700)}
+</style></head><body>
+
+<header class="ds-bar">
+  <span class="brand">
+    <span class="hanko" aria-hidden="true"></span>
+    <span class="wm xs inv">aburungo<span class="maru rose"></span></span>
+  </span>
+  <nav>
+    <a href="./index.html" aria-current="page">Overview</a>
+    <a href="./foundations.html">Foundations</a>
+    <a href="./components.html">Components</a>
+    <a href="./patterns.html">Patterns</a>
+  </nav>
+</header>
+
+<main class="ds-page">
+  <h1 class="ds-title">AburunGo Design System</h1>
+  <p class="ds-lede">Three pages, one system. Everything here renders from the real
+    <code>src/tokens.css</code> and <code>src/components/</code> — nothing on these pages is a
+    copy, so none of it can drift from what ships.</p>
+
+  <div class="cards">
+    <a class="card f" href="./foundations.html">
+      <h3>Foundations</h3>
+      <p>Colour, typography, shape, elevation, motion, iconography, illustration, and the brand
+         marks. The decisions everything else is built out of.</p>
+      <span class="meta">8 groups</span>
+    </a>
+    <a class="card c" href="./components.html">
+      <h3>Components</h3>
+      <p>Every shipped component rendered live from <code>src/components</code>, with its
+         variants and states. Primitives, domain components, layout and state.</p>
+      <span class="meta">28 components · 40 exports</span>
+    </a>
+    <a class="card p" href="./patterns.html">
+      <h3>Patterns</h3>
+      <p>Composed surfaces — the study flows, the mobile kit in a device frame, and the desktop
+         layouts. How the components go together into screens.</p>
+      <span class="meta">flows · mobile · desktop</span>
+    </a>
+  </div>
+
+  <div class="legacy">
+    <h2 class="ds-h2">Still here, not yet folded in</h2>
+    <p class="ds-note">Nothing has been deleted. These remain live while the three pages above are
+      built out, and get retired only once you have confirmed nothing was lost.</p>
+    <p class="ds-note">
+      <a href="../">24 preview spec pages</a> ·
+      <a href="../_sandbox/">31 sandbox labs</a> (the append-only decision record — these stay
+      permanently) ·
+      <a href="../../storybook/">storybook</a> ·
+      <a href="../00-inventory.html">the visual inventory</a>
+    </p>
+  </div>
+</main>
+
+</body></html>

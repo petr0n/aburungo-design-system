@@ -14,14 +14,41 @@ type ProgressBarProps = {
   value: number
   /** Accessible description.  Defaults to "Session progress". */
   label?: string
-  /** `inverse` for the dark header band, where the light track would glare. */
-  tone?: 'default' | 'inverse'
+  /**
+   * What the bar is sitting on.
+   *
+   * `inverse` for the Sumi header band, where the light track would glare.
+   *
+   * `on-accent` for a band that carries a HUE — a book's chrome. Measured
+   * 2026-08-21 across the five books: the fill is `progress-fill`, Rokushō
+   * 500, whatever the tone, and against its own book's band that is
+   * **1.00:1 on Book One** — the identical colour, an invisible bar reading as
+   * a plain white line. Book Three came to 1.50 and Book Four 1.33. Three of
+   * five books had no visible progress at all, and the tone switch could not
+   * fix it because it only ever swapped the track.
+   *
+   * `on-accent` draws in `currentColor` instead, so the bar takes the ink the
+   * band already chose for its labels and inherits its contrast — the band ink
+   * is picked to be legible on that hue, and a bar is easier to see than text.
+   * Nothing else changes: `default` and `inverse` still fill in Rokushō, so
+   * `AppHeader` on the Sumi band is untouched.
+   */
+  tone?: ProgressTone
 }
 
+type ProgressTone = 'default' | 'inverse' | 'on-accent'
+
 /** Swapped, never stacked — two `bg-*` utilities have equal specificity. */
-const TRACK: Record<'default' | 'inverse', string> = {
+const TRACK: Record<ProgressTone, string> = {
   default: 'bg-progress-track',
   inverse: 'bg-progress-track-on-inverse',
+  'on-accent': 'bg-current/20',
+}
+
+const FILL: Record<ProgressTone, string> = {
+  default: 'bg-progress-fill',
+  inverse: 'bg-progress-fill',
+  'on-accent': 'bg-current',
 }
 
 /**
@@ -51,7 +78,7 @@ export function ProgressBar(props: ProgressBarProps) {
       className={`relative h-1 w-full overflow-hidden rounded-full ${TRACK[tone]}`}
     >
       <div
-        className="h-full bg-progress-fill transition-[width] duration-200 ease-out"
+        className={`h-full ${FILL[tone]} transition-[width] duration-200 ease-out`}
         style={{ width: pct }}
       />
     </div>

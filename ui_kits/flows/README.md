@@ -92,3 +92,25 @@ no colour at all, the self-grade pair sitting on the correctness colour,
 `FlipCard`'s faces not matching height, and `KanaKeyboard` taking 596px of a
 780px phone. Written up under **What the first flow found** and **What the kana
 flow found** in the plan.
+
+## Merge conflicts in the generated files
+
+`bundle.js` and the `?v=` hash in `index.html` are build output that has to be
+committed — the harnesses are served with no build step, so a clone without them
+renders nothing. That means any two branches touching the harness conflict there,
+every time, and the conflict is meaningless: two different builds of two different
+sources.
+
+**Never hand-merge them.** Take either side and rebuild:
+
+```
+git checkout --ours ui_kits/flows/bundle.js ui_kits/flows/index.html
+pnpm build:flows
+git add ui_kits/flows/bundle.js ui_kits/flows/index.html ui_kits/mobile/bundle.js ui_kits/mobile/index.html
+```
+
+The same goes for the `@theme` block between the `build-tokens:start/end` markers
+in `index.html` — `pnpm build:tokens` regenerates it from `src/tokens.css`.
+
+Resolving the `.tsx` sources by hand and the generated files by rebuilding is the
+whole procedure. If the rebuild changes a source file, something else is wrong.

@@ -152,11 +152,11 @@ function Nav() {
     'inline-flex min-h-[44px] items-center rounded-lg px-3 text-body-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg'
   return (
     <nav className="border-b border-border bg-surface">
-      <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center gap-1 px-6 py-3">
+      <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center gap-1 px-6 py-3">
         <span className="mr-2 text-caption font-semibold uppercase tracking-wider text-fg-faint">
           Mobile kit
         </span>
-        {[...ONBOARDING, ...FLOWS].map((s) => (
+        {[...ONBOARDING, ...FLOWS.filter((f) => f.group !== 'book')].map((s) => (
           <a
             key={s.id}
             href={`?screen=${s.id}`}
@@ -166,8 +166,33 @@ function Nav() {
             {s.label}
           </a>
         ))}
-        <a href="../flows/" className={`ml-auto ${link} text-link active:bg-surface-2`}>
-          Flows harness →
+
+        {/* The books collapse to a label and a row of numbers, and the group is
+            its own flex box so it cannot be split across two lines. One full
+            link per book wrapped this nav to four lines at five books, and
+            books are not capped — see the note over BOOKS. */}
+        <span className="ml-2 flex shrink-0 items-center gap-1">
+          <span className="mr-1 text-caption font-semibold uppercase tracking-wider text-fg-faint">
+            Books
+          </span>
+          {FLOWS.filter((f) => f.group === 'book').map((f, i) => (
+            <a
+              key={f.id}
+              href={`?screen=${f.id}`}
+              aria-label={f.label}
+              aria-current={f.id === current ? 'page' : undefined}
+              className={`${link} min-w-[44px] justify-center px-2 ${f.id === current ? 'bg-action text-action-fg' : 'text-link active:bg-surface-2'}`}
+            >
+              {i + 1}
+            </a>
+          ))}
+        </span>
+
+        {/* "Flows →", not "Flows harness →". Measured at 1280: the row came
+            to 1246px against a 1232px content box — 14px over, and the only
+            other way under it was shrinking a 44px touch target. */}
+        <a href="../flows/" className={`ml-4 ${link} text-link active:bg-surface-2`}>
+          Flows →
         </a>
       </div>
     </nav>

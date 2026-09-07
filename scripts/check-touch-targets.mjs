@@ -36,6 +36,20 @@ const SURFACES = [
   ['flows · fill kana', '/ui_kits/flows/?flow=fill&state=kana'],
   ['flows · lessons', '/ui_kits/flows/?flow=lessons&state=list'],
   ['flows · error', '/ui_kits/flows/?flow=flashcard&state=error'],
+  // The book surfaces. Plan task 3.1 — every new surface joins this list, and
+  // the checkpoint is checked on two books rather than one because the band
+  // hue changes what sits under a control.
+  ['book one · chapter opener', '/ui_kits/flows/?flow=book-one&state=opener'],
+  ['book one · lesson ch1', '/ui_kits/flows/?flow=book-one&state=lesson-early'],
+  ['book one · lesson ch11', '/ui_kits/flows/?flow=book-one&state=lesson-late'],
+  ['book one · final checkpoint', '/ui_kits/flows/?flow=book-one&state=final'],
+  // Book Four as the second sample: it and Book One are the two light-ink
+  // bands, and a control's edge against Ogon is the case least like the Sumi
+  // chrome everything else was measured on.
+  ['book four · chapter opener', '/ui_kits/flows/?flow=book-four&state=opener'],
+  ['book four · final checkpoint', '/ui_kits/flows/?flow=book-four&state=final'],
+  ['book · checkpoint one', '/ui_kits/flows/?flow=checkpoint&state=one'],
+  ['book · checkpoint four', '/ui_kits/flows/?flow=checkpoint&state=four'],
   // The mobile kit, since 2026-08-17. It renders the same flow definitions
   // inside an iPhone frame, and its two onboarding screens exist nowhere else
   // -- the landing screen's primary CTA was an unstyled `variant="accent"`
@@ -60,7 +74,7 @@ const SURFACES = [
 async function storybookHashes(page) {
   await page.goto(`http://localhost:${PORT}/storybook/`, { waitUntil: 'networkidle0' })
   await new Promise((r) => setTimeout(r, 800))
-  return page.evaluate(() => {
+  const found = await page.evaluate(() => {
     const out = []
     for (const section of window.STORIES ?? []) {
       for (const component of section.components) {
@@ -74,6 +88,21 @@ async function storybookHashes(page) {
     }
     return out
   })
+
+  // An empty walk is a broken gate, not a clean one.
+  //
+  // On 2026-08-26 the storybook stopped being a browser-JSX page and
+  // `window.STORIES` went away with it. This function returned `[]`, the gate
+  // measured nothing, printed `ok  storybook · 0 stories`, and the run still
+  // said "0 undersized" -- with 212 of the 334 controls it used to cover
+  // silently gone. A check that cannot find its subject must say so.
+  if (found.length === 0) {
+    throw new Error(
+      'check-touch-targets: the storybook exposed no stories. ' +
+        'storybook/main.tsx must set `window.STORIES` -- see the note there.',
+    )
+  }
+  return found
 }
 
 /** Measure every interactive box inside `scope`, returning the undersized. */
