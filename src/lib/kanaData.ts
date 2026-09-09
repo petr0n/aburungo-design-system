@@ -35,6 +35,70 @@ export const HIRAGANA_SMALL: readonly KanaRow[] = [
   ['っ', 'ゃ', 'ゅ', 'ょ',  null],
 ]
 
+/**
+ * Kana modifiers: what the ゛, ゜ and 小 keys do to the character just typed.
+ *
+ * Written out rather than derived by codepoint arithmetic. The arithmetic
+ * almost works -- a voiced kana sits one above its base, a small kana one
+ * below -- but は takes two different marks, most kana take none, and う takes
+ * one that no learner expects (ゔ). A rule would need about as many exceptions
+ * as this table has entries, and a wrong entry is a character that cannot be
+ * typed at all.
+ *
+ * These replace the separate voiced and small *boards*. A board had to be
+ * chosen before the character, so が cost three taps and you had to know which
+ * board が lived on before you could look for it. Every Japanese keyboard
+ * instead types か and then marks it.
+ */
+const DAKUTEN: Readonly<Record<string, string>> = {
+  か: 'が', き: 'ぎ', く: 'ぐ', け: 'げ', こ: 'ご',
+  さ: 'ざ', し: 'じ', す: 'ず', せ: 'ぜ', そ: 'ぞ',
+  た: 'だ', ち: 'ぢ', つ: 'づ', て: 'で', と: 'ど',
+  は: 'ば', ひ: 'び', ふ: 'ぶ', へ: 'べ', ほ: 'ぼ',
+  う: 'ゔ',
+}
+
+const HANDAKUTEN: Readonly<Record<string, string>> = {
+  は: 'ぱ', ひ: 'ぴ', ふ: 'ぷ', へ: 'ぺ', ほ: 'ぽ',
+}
+
+const SMALL: Readonly<Record<string, string>> = {
+  あ: 'ぁ', い: 'ぃ', う: 'ぅ', え: 'ぇ', お: 'ぉ',
+  つ: 'っ', や: 'ゃ', ゆ: 'ゅ', よ: 'ょ', わ: 'ゎ',
+}
+
+export type KanaModifier = 'dakuten' | 'handakuten' | 'small'
+
+const MODIFIER_TABLES: Readonly<Record<KanaModifier, Readonly<Record<string, string>>>> = {
+  dakuten: DAKUTEN,
+  handakuten: HANDAKUTEN,
+  small: SMALL,
+}
+
+const KATAKANA_OFFSET = 0x60
+
+/**
+ * What `mark` turns `kana` into, or null when it does nothing to it -- which
+ * is what the keyboard disables its modifier keys on, so a key never sits
+ * there looking live and doing nothing.
+ *
+ * Katakana is folded down to hiragana and back up again, the same U+0060
+ * relationship hiraToKata below relies on, so the table is written once.
+ */
+export function applyKanaModifier(kana: string, mark: KanaModifier): string | null {
+  const char = [...kana].pop()
+  if (char === undefined) return null
+  const code = char.codePointAt(0)
+  if (code === undefined) return null
+  const katakana = char >= 'ァ' && char <= 'ヶ'
+  const base = katakana ? String.fromCodePoint(code - KATAKANA_OFFSET) : char
+  const marked = MODIFIER_TABLES[mark][base]
+  if (marked === undefined) return null
+  return katakana
+    ? String.fromCodePoint(marked.codePointAt(0)! + KATAKANA_OFFSET)
+    : marked
+}
+
 // Katakana: each character is exactly U+0060 above its hiragana equivalent
 function hiraToKata(rows: readonly KanaRow[]): readonly KanaRow[] {
   return rows.map((row) =>

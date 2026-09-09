@@ -552,6 +552,65 @@ var HIRAGANA_SMALL = [
   ["\u3041", "\u3043", "\u3045", "\u3047", "\u3049"],
   ["\u3063", "\u3083", "\u3085", "\u3087", null]
 ];
+var DAKUTEN = {
+  \u304B: "\u304C",
+  \u304D: "\u304E",
+  \u304F: "\u3050",
+  \u3051: "\u3052",
+  \u3053: "\u3054",
+  \u3055: "\u3056",
+  \u3057: "\u3058",
+  \u3059: "\u305A",
+  \u305B: "\u305C",
+  \u305D: "\u305E",
+  \u305F: "\u3060",
+  \u3061: "\u3062",
+  \u3064: "\u3065",
+  \u3066: "\u3067",
+  \u3068: "\u3069",
+  \u306F: "\u3070",
+  \u3072: "\u3073",
+  \u3075: "\u3076",
+  \u3078: "\u3079",
+  \u307B: "\u307C",
+  \u3046: "\u3094"
+};
+var HANDAKUTEN = {
+  \u306F: "\u3071",
+  \u3072: "\u3074",
+  \u3075: "\u3077",
+  \u3078: "\u307A",
+  \u307B: "\u307D"
+};
+var SMALL = {
+  \u3042: "\u3041",
+  \u3044: "\u3043",
+  \u3046: "\u3045",
+  \u3048: "\u3047",
+  \u304A: "\u3049",
+  \u3064: "\u3063",
+  \u3084: "\u3083",
+  \u3086: "\u3085",
+  \u3088: "\u3087",
+  \u308F: "\u308E"
+};
+var MODIFIER_TABLES = {
+  dakuten: DAKUTEN,
+  handakuten: HANDAKUTEN,
+  small: SMALL
+};
+var KATAKANA_OFFSET = 96;
+function applyKanaModifier(kana, mark) {
+  const char = [...kana].pop();
+  if (char === void 0) return null;
+  const code = char.codePointAt(0);
+  if (code === void 0) return null;
+  const katakana = char >= "\u30A1" && char <= "\u30F6";
+  const base = katakana ? String.fromCodePoint(code - KATAKANA_OFFSET) : char;
+  const marked = MODIFIER_TABLES[mark][base];
+  if (marked === void 0) return null;
+  return katakana ? String.fromCodePoint(marked.codePointAt(0) + KATAKANA_OFFSET) : marked;
+}
 function hiraToKata(rows) {
   return rows.map(
     (row) => row.map(
@@ -687,38 +746,37 @@ var KANA_PRACTICE_CARDS = [
 
 // src/components/KanaKeyboard.tsx
 import { jsx as jsx17, jsxs as jsxs10 } from "react/jsx-runtime";
-var SECTION_LABELS = {
-  basic: "\u3042\u301C\u3093",
-  voiced: "\u309B\u309C",
-  small: "\u5C0F"
+var BASIC = {
+  hiragana: HIRAGANA_BASIC,
+  katakana: KATAKANA_BASIC
 };
-var GRID = {
-  hiragana: { basic: HIRAGANA_BASIC, voiced: HIRAGANA_VOICED, small: HIRAGANA_SMALL },
-  katakana: { basic: KATAKANA_BASIC, voiced: KATAKANA_VOICED, small: KATAKANA_SMALL }
-};
+var MARKS = [
+  { mark: "dakuten", label: "\u309B", name: "Voiced mark" },
+  { mark: "handakuten", label: "\u309C", name: "Half-voiced mark" },
+  { mark: "small", label: "\u5C0F", name: "Small kana" }
+];
 var TOGGLE = "flex h-11 min-h-[44px] min-w-[44px] shrink-0 items-center justify-center whitespace-nowrap rounded-lg px-2 font-jp text-caption font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-on-inverse focus-visible:ring-offset-2 focus-visible:ring-offset-keyboard-bg";
 var TOGGLE_ON = "bg-focus text-inverse-on-ogon";
 var TOGGLE_OFF = "border border-key-bg/40 text-key-bg active:bg-rokusho-800";
 var KEY_BASE = "flex h-11 min-h-[44px] items-center justify-center rounded-xl font-jp text-jp shadow-key transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-on-inverse focus-visible:ring-offset-2 focus-visible:ring-offset-keyboard-bg";
 var KEY = `${KEY_BASE} bg-key-bg text-key-fg active:bg-key-press`;
+var KEY_MARK = `${KEY} disabled:opacity-40`;
 var KEY_OPEN = `${KEY_BASE} bg-focus text-inverse-on-ogon`;
 function KanaKeyboard({
   script,
-  section,
+  value,
   onScriptChange,
-  onSectionChange,
   onKey,
-  onBackspace
+  onBackspace,
+  onReplaceLast
 }) {
   const [openGroup, setOpenGroup] = useState(null);
-  const rows = GRID[script][section];
+  const rows = BASIC[script];
   const groups = rows.map((row) => row.filter((c) => c !== null)).filter((group) => group.length > 0);
   const open = openGroup !== null ? groups[openGroup] : void 0;
-  function reset(change) {
-    return (value) => {
-      setOpenGroup(null);
-      change(value);
-    };
+  function changeScript(next) {
+    setOpenGroup(null);
+    onScriptChange(next);
   }
   function pick(kana) {
     onKey(kana);
@@ -732,30 +790,17 @@ function KanaKeyboard({
         if (e.key === "Escape") setOpenGroup(null);
       },
       children: [
-        /* @__PURE__ */ jsxs10("div", { className: "flex items-center justify-between gap-2", children: [
-          /* @__PURE__ */ jsx17("div", { className: "flex gap-1", children: ["hiragana", "katakana"].map((s) => /* @__PURE__ */ jsx17(
-            "button",
-            {
-              type: "button",
-              onClick: () => reset(onScriptChange)(s),
-              "aria-pressed": script === s,
-              className: `${TOGGLE} ${script === s ? TOGGLE_ON : TOGGLE_OFF}`,
-              children: s === "hiragana" ? "\u3072\u3089" : "\u30AB\u30BF"
-            },
-            s
-          )) }),
-          /* @__PURE__ */ jsx17("div", { className: "flex gap-1", children: ["basic", "voiced", "small"].map((sec) => /* @__PURE__ */ jsx17(
-            "button",
-            {
-              type: "button",
-              onClick: () => reset(onSectionChange)(sec),
-              "aria-pressed": section === sec,
-              className: `${TOGGLE} ${section === sec ? TOGGLE_ON : TOGGLE_OFF}`,
-              children: SECTION_LABELS[sec]
-            },
-            sec
-          )) })
-        ] }),
+        /* @__PURE__ */ jsx17("div", { className: "flex items-center gap-1", children: ["hiragana", "katakana"].map((s) => /* @__PURE__ */ jsx17(
+          "button",
+          {
+            type: "button",
+            onClick: () => changeScript(s),
+            "aria-pressed": script === s,
+            className: `${TOGGLE} ${script === s ? TOGGLE_ON : TOGGLE_OFF}`,
+            children: s === "hiragana" ? "\u3072\u3089" : "\u30AB\u30BF"
+          },
+          s
+        )) }),
         open !== void 0 && /* @__PURE__ */ jsx17(
           "div",
           {
@@ -765,7 +810,7 @@ function KanaKeyboard({
             children: open.map((kana) => /* @__PURE__ */ jsx17("button", { type: "button", onClick: () => pick(kana), className: KEY, children: kana }, kana))
           }
         ),
-        /* @__PURE__ */ jsxs10("div", { className: "grid grid-cols-3 gap-1", children: [
+        /* @__PURE__ */ jsxs10("div", { className: "grid grid-cols-4 gap-1", children: [
           groups.map((group, i) => /* @__PURE__ */ jsx17(
             "button",
             {
@@ -778,6 +823,24 @@ function KanaKeyboard({
             },
             group[0]
           )),
+          MARKS.map(({ mark, label, name }) => {
+            const marked = applyKanaModifier(value, mark);
+            return /* @__PURE__ */ jsx17(
+              "button",
+              {
+                type: "button",
+                disabled: marked === null,
+                "aria-label": name,
+                onClick: () => {
+                  if (marked !== null) onReplaceLast(marked);
+                  setOpenGroup(null);
+                },
+                className: KEY_MARK,
+                children: label
+              },
+              mark
+            );
+          }),
           /* @__PURE__ */ jsx17("button", { type: "button", onClick: () => pick("\u30FC"), className: KEY, children: "\u30FC" }),
           /* @__PURE__ */ jsx17(
             "button",
@@ -843,7 +906,6 @@ function FillInput({
   converted,
   pending,
   kanaScript,
-  kanaSection,
   canSubmit,
   showModePicker = true,
   disabled,
@@ -855,7 +917,7 @@ function FillInput({
   onKanaKey,
   onKanaBackspace,
   onKanaScriptChange,
-  onKanaSectionChange,
+  onKanaReplaceLast,
   onSystemChange,
   onSubmit,
   onToggleSystemHint
@@ -909,9 +971,9 @@ function FillInput({
         KanaKeyboard,
         {
           script: kanaScript,
-          section: kanaSection,
+          value: kanaValue,
           onScriptChange: onKanaScriptChange,
-          onSectionChange: onKanaSectionChange,
+          onReplaceLast: onKanaReplaceLast,
           onKey: onKanaKey,
           onBackspace: onKanaBackspace
         }
@@ -1365,11 +1427,9 @@ function _KanaGridDemo() {
   ] });
 }
 function _KanaKeyboardDemo({
-  initialScript = "hiragana",
-  initialSection = "basic"
+  initialScript = "hiragana"
 }) {
   const [script, setScript] = useState2(initialScript);
-  const [section, setSection] = useState2(initialSection);
   const [out, setOut] = useState2("");
   return /* @__PURE__ */ jsxs16("div", { className: "flex flex-col gap-3", children: [
     /* @__PURE__ */ jsx23(_KanaOut, { value: out, hint: "Tap a consonant, then a vowel\u2026" }),
@@ -1377,9 +1437,9 @@ function _KanaKeyboardDemo({
       KanaKeyboard,
       {
         script,
-        section,
+        value: out,
         onScriptChange: setScript,
-        onSectionChange: setSection,
+        onReplaceLast: (k) => setOut((s) => [...s].slice(0, -1).join("") + k),
         onKey: (k) => setOut((s) => s + k),
         onBackspace: () => setOut((s) => [...s].slice(0, -1).join(""))
       }
@@ -1442,7 +1502,6 @@ function _FillInputDemo({ initialMode }) {
   const [kana, setKana] = useState2("");
   const [hint, setHint] = useState2(initialMode === "system");
   const [script, setScript] = useState2("hiragana");
-  const [section, setSection] = useState2("basic");
   const [submitted, setSubmitted] = useState2(null);
   useEffect(() => {
     setRomaji("");
@@ -1467,7 +1526,7 @@ function _FillInputDemo({ initialMode }) {
         converted,
         pending,
         kanaScript: script,
-        kanaSection: section,
+        onKanaReplaceLast: (k) => setKana((s) => [...s].slice(0, -1).join("") + k),
         canSubmit,
         placeholder: "Answer in hiragana\u2026",
         showSystemHint: hint,
@@ -1476,7 +1535,6 @@ function _FillInputDemo({ initialMode }) {
         onKanaKey: (c) => setKana((p) => p + c),
         onKanaBackspace: () => setKana((p) => [...p].slice(0, -1).join("")),
         onKanaScriptChange: setScript,
-        onKanaSectionChange: setSection,
         onSystemChange: setKana,
         onSubmit: submit,
         onToggleSystemHint: () => setHint((h) => !h)
@@ -1782,21 +1840,20 @@ var DOMAIN = [
   },
   {
     name: "KanaKeyboard",
-    also: ["type KanaKeyboardProps", "type KanaScript", "type KanaSection"],
-    blurb: "The 12-key consonant pad that replaced the goj\u016Bon grid: tap a consonant, the row\u2019s vowels open above it. 256px closed against the grid\u2019s 596px, which is what gave the answer area back on a phone. Rokush\u014D ground on purpose \u2014 the header band is already the screen\u2019s one dark slab.",
+    also: ["type KanaKeyboardProps", "type KanaScript"],
+    blurb: "The consonant pad that replaced the goj\u016Bon grid: tap a consonant, the row\u2019s vowels open above it, then mark it with \u309B \u309C \u5C0F rather than switching boards. 256px closed against the grid\u2019s 596px, which is what gave the answer area back on a phone. Rokush\u014D ground on purpose \u2014 the header band is already the screen\u2019s one dark slab.",
     cols: "c2",
     props: [
       { name: "script", type: "'hiragana' | 'katakana'", note: "KanaScript. Controlled." },
-      { name: "section", type: "'basic' | 'voiced' | 'small'", note: "KanaSection. Not 'combo' \u2014 that union never existed outside a hand-copy." },
+      { name: "value", type: "string", note: "The kana so far. Only the last character is read, by the mark keys." },
       { name: "onScriptChange", type: "(script: KanaScript) => void", note: "The \u3072\u3089 / \u30AB\u30BF toggle. Also closes any open group." },
-      { name: "onSectionChange", type: "(section: KanaSection) => void", note: "The \u3042\u301C\u3093 / \u309B\u309C / \u5C0F toggle." },
+      { name: "onReplaceLast", type: "(kana: string) => void", note: "The \u309B \u309C \u5C0F keys. Replaces the character just typed; disabled when the mark does not apply to it." },
       { name: "onKey", type: "(kana: string) => void", note: "A vowel key from the open group." },
       { name: "onBackspace", type: "() => void", note: "The utility key. Required \u2014 unlike KanaGrid, this one owns it." }
     ],
     specimens: /* @__PURE__ */ jsxs16(Fragment2, { children: [
       /* @__PURE__ */ jsx23(Spec, { label: 'script="hiragana" section="basic"', children: /* @__PURE__ */ jsx23(_KanaKeyboardDemo, {}) }),
-      /* @__PURE__ */ jsx23(Spec, { label: 'script="katakana" section="voiced"', children: /* @__PURE__ */ jsx23(_KanaKeyboardDemo, { initialScript: "katakana", initialSection: "voiced" }) }),
-      /* @__PURE__ */ jsx23(Spec, { label: 'section="small"', children: /* @__PURE__ */ jsx23(_KanaKeyboardDemo, { initialSection: "small" }) })
+      /* @__PURE__ */ jsx23(Spec, { label: 'script="katakana"', children: /* @__PURE__ */ jsx23(_KanaKeyboardDemo, { initialScript: "katakana" }) })
     ] })
   },
   {
@@ -1811,16 +1868,15 @@ var DOMAIN = [
       { name: "converted", type: "string", note: "From convertRomaji(romajiValue).converted. The settled kana in the preview." },
       { name: "pending", type: "string", note: "From convertRomaji(romajiValue).pending. Shown faint \u2014 the half-typed tail." },
       { name: "kanaScript", type: "KanaScript", note: "Forwarded to the embedded KanaKeyboard." },
-      { name: "kanaSection", type: "KanaSection", note: "Forwarded to the embedded KanaKeyboard." },
       { name: "canSubmit", type: "boolean", note: "Enables the submit button." },
       { name: "disabled", type: "boolean", fallback: "undefined", note: "Locks the active input." },
-      { name: "placeholder", type: "string", fallback: "'Kana preview'", note: "Shown in the preview block while empty." },
+      { name: "placeholder", type: "string", note: "The system-IME field only. The romaji and kana previews do not render while empty, so they never show it." },
       { name: "showSystemHint", type: "boolean", fallback: "undefined", note: "Expands the iOS/Android keyboard-setup instructions." },
       { name: "inputRef", type: "RefObject<HTMLInputElement | null>", fallback: "undefined", note: "Forwarded to the active text input for focus management." },
       { name: "onModeChange", type: "(mode: InputMode) => void", note: "The three-way picker." },
       { name: "onRomajiChange / onSystemChange", type: "(value: string) => void", note: "Text entry in romaji and IME modes." },
       { name: "onKanaKey / onKanaBackspace", type: "(char: string) => void  /  () => void", note: "Forwarded from the embedded keyboard." },
-      { name: "onKanaScriptChange / onKanaSectionChange", type: "(v) => void", note: "Forwarded from the embedded keyboard." },
+      { name: "onKanaScriptChange / onKanaReplaceLast", type: "(v) => void", note: "Forwarded from the embedded keyboard: the \u3072\u3089 / \u30AB\u30BF toggle, and the \u309B \u309C \u5C0F marks." },
       { name: "onSubmit", type: "() => void", note: "Submit button and Enter." },
       { name: "onToggleSystemHint", type: "() => void", note: "Opens/closes the IME hint." }
     ],

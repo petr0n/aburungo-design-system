@@ -1,7 +1,7 @@
 import type React from 'react'
 import { Button } from './ui/Button'
 import { KanaKeyboard } from './KanaKeyboard'
-import type { KanaScript, KanaSection } from './KanaKeyboard'
+import type { KanaScript } from './KanaKeyboard'
 
 export type InputMode = 'romaji' | 'kana' | 'system'
 
@@ -18,8 +18,6 @@ export type FillInputProps = {
   pending: string
   /** Current script for the embedded KanaKeyboard. */
   kanaScript: KanaScript
-  /** Current section for the embedded KanaKeyboard. */
-  kanaSection: KanaSection
   canSubmit: boolean
   /**
    * Render the romaji / kana / IME picker inside this component.  Defaults on.
@@ -48,7 +46,8 @@ export type FillInputProps = {
   onKanaKey: (char: string) => void
   onKanaBackspace: () => void
   onKanaScriptChange: (script: KanaScript) => void
-  onKanaSectionChange: (section: KanaSection) => void
+  /** Replace the last kana, for the keyboard's mark keys. */
+  onKanaReplaceLast: (kana: string) => void
   onSystemChange: (value: string) => void
   onSubmit: () => void
   onToggleSystemHint: () => void
@@ -70,7 +69,6 @@ export function FillInput({
   converted,
   pending,
   kanaScript,
-  kanaSection,
   canSubmit,
   showModePicker = true,
   disabled,
@@ -82,7 +80,7 @@ export function FillInput({
   onKanaKey,
   onKanaBackspace,
   onKanaScriptChange,
-  onKanaSectionChange,
+  onKanaReplaceLast,
   onSystemChange,
   onSubmit,
   onToggleSystemHint,
@@ -159,9 +157,9 @@ export function FillInput({
           )}
           <KanaKeyboard
             script={kanaScript}
-            section={kanaSection}
+            value={kanaValue}
             onScriptChange={onKanaScriptChange}
-            onSectionChange={onKanaSectionChange}
+            onReplaceLast={onKanaReplaceLast}
             onKey={onKanaKey}
             onBackspace={onKanaBackspace}
           />

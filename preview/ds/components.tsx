@@ -11,7 +11,7 @@
  * 1. **Never define a component here.** The only locals allowed are page
  *    chrome (`Spec`, `PropsTable`, `Group`) and story fixtures — content to
  *    put *inside* a real component. Fixtures carry a `_` prefix.
- * 2. **Never restate a union.** `PhraseAccent`, `KanaScript`, `KanaSection`,
+ * 2. **Never restate a union.** `PhraseAccent`, `KanaScript`,
  *    `AnswerOutcome`, `InputMode` and `VoiceInputStatus` are imported. A
  *    hand-copied union is a mirror of a type, and that is how the storybook
  *    ended up documenting a kana section called 'combo' that has never
@@ -61,7 +61,6 @@ import type {
   InputMode,
   KanaCell,
   KanaScript,
-  KanaSection,
   PhraseAccent,
   VoiceInputStatus,
 } from '../../src/components'
@@ -297,22 +296,19 @@ function _KanaGridDemo() {
 
 function _KanaKeyboardDemo({
   initialScript = 'hiragana',
-  initialSection = 'basic',
 }: {
   initialScript?: KanaScript
-  initialSection?: KanaSection
 }) {
   const [script, setScript] = useState<KanaScript>(initialScript)
-  const [section, setSection] = useState<KanaSection>(initialSection)
   const [out, setOut] = useState('')
   return (
     <div className="flex flex-col gap-3">
       <_KanaOut value={out} hint="Tap a consonant, then a vowel…" />
       <KanaKeyboard
         script={script}
-        section={section}
+        value={out}
         onScriptChange={setScript}
-        onSectionChange={setSection}
+        onReplaceLast={(k) => setOut((s) => [...s].slice(0, -1).join('') + k)}
         onKey={(k) => setOut((s) => s + k)}
         onBackspace={() => setOut((s) => [...s].slice(0, -1).join(''))}
       />
@@ -378,7 +374,6 @@ function _FillInputDemo({ initialMode }: { initialMode: InputMode }) {
   const [kana, setKana] = useState('')
   const [hint, setHint] = useState(initialMode === 'system')
   const [script, setScript] = useState<KanaScript>('hiragana')
-  const [section, setSection] = useState<KanaSection>('basic')
   const [submitted, setSubmitted] = useState<string | null>(null)
 
   useEffect(() => {
@@ -406,7 +401,7 @@ function _FillInputDemo({ initialMode }: { initialMode: InputMode }) {
         converted={converted}
         pending={pending}
         kanaScript={script}
-        kanaSection={section}
+        onKanaReplaceLast={(k) => setKana((s) => [...s].slice(0, -1).join('') + k)}
         canSubmit={canSubmit}
         placeholder="Answer in hiragana…"
         showSystemHint={hint}
@@ -415,7 +410,6 @@ function _FillInputDemo({ initialMode }: { initialMode: InputMode }) {
         onKanaKey={(c) => setKana((p) => p + c)}
         onKanaBackspace={() => setKana((p) => [...p].slice(0, -1).join(''))}
         onKanaScriptChange={setScript}
-        onKanaSectionChange={setSection}
         onSystemChange={setKana}
         onSubmit={submit}
         onToggleSystemHint={() => setHint((h) => !h)}
@@ -854,15 +848,15 @@ const DOMAIN: readonly Entry[] = [
   },
   {
     name: 'KanaKeyboard',
-    also: ['type KanaKeyboardProps', 'type KanaScript', 'type KanaSection'],
+    also: ['type KanaKeyboardProps', 'type KanaScript'],
     blurb:
-      'The 12-key consonant pad that replaced the gojūon grid: tap a consonant, the row’s vowels open above it. 256px closed against the grid’s 596px, which is what gave the answer area back on a phone. Rokushō ground on purpose — the header band is already the screen’s one dark slab.',
+      'The consonant pad that replaced the gojūon grid: tap a consonant, the row’s vowels open above it, then mark it with ゛ ゜ 小 rather than switching boards. 256px closed against the grid’s 596px, which is what gave the answer area back on a phone. Rokushō ground on purpose — the header band is already the screen’s one dark slab.',
     cols: 'c2',
     props: [
       { name: 'script', type: "'hiragana' | 'katakana'", note: 'KanaScript. Controlled.' },
-      { name: 'section', type: "'basic' | 'voiced' | 'small'", note: "KanaSection. Not 'combo' — that union never existed outside a hand-copy." },
+      { name: 'value', type: 'string', note: 'The kana so far. Only the last character is read, by the mark keys.' },
       { name: 'onScriptChange', type: '(script: KanaScript) => void', note: 'The ひら / カタ toggle. Also closes any open group.' },
-      { name: 'onSectionChange', type: '(section: KanaSection) => void', note: 'The あ〜ん / ゛゜ / 小 toggle.' },
+      { name: 'onReplaceLast', type: '(kana: string) => void', note: 'The ゛ ゜ 小 keys. Replaces the character just typed; disabled when the mark does not apply to it.' },
       { name: 'onKey', type: '(kana: string) => void', note: 'A vowel key from the open group.' },
       { name: 'onBackspace', type: '() => void', note: 'The utility key. Required — unlike KanaGrid, this one owns it.' },
     ],
@@ -871,11 +865,8 @@ const DOMAIN: readonly Entry[] = [
         <Spec label='script="hiragana" section="basic"'>
           <_KanaKeyboardDemo />
         </Spec>
-        <Spec label='script="katakana" section="voiced"'>
-          <_KanaKeyboardDemo initialScript="katakana" initialSection="voiced" />
-        </Spec>
-        <Spec label='section="small"'>
-          <_KanaKeyboardDemo initialSection="small" />
+        <Spec label='script="katakana"'>
+          <_KanaKeyboardDemo initialScript="katakana" />
         </Spec>
       </>
     ),
@@ -893,16 +884,15 @@ const DOMAIN: readonly Entry[] = [
       { name: 'converted', type: 'string', note: 'From convertRomaji(romajiValue).converted. The settled kana in the preview.' },
       { name: 'pending', type: 'string', note: 'From convertRomaji(romajiValue).pending. Shown faint — the half-typed tail.' },
       { name: 'kanaScript', type: 'KanaScript', note: 'Forwarded to the embedded KanaKeyboard.' },
-      { name: 'kanaSection', type: 'KanaSection', note: 'Forwarded to the embedded KanaKeyboard.' },
       { name: 'canSubmit', type: 'boolean', note: 'Enables the submit button.' },
       { name: 'disabled', type: 'boolean', fallback: 'undefined', note: 'Locks the active input.' },
-      { name: 'placeholder', type: 'string', fallback: "'Kana preview'", note: 'Shown in the preview block while empty.' },
+      { name: 'placeholder', type: 'string', note: 'The system-IME field only. The romaji and kana previews do not render while empty, so they never show it.' },
       { name: 'showSystemHint', type: 'boolean', fallback: 'undefined', note: 'Expands the iOS/Android keyboard-setup instructions.' },
       { name: 'inputRef', type: 'RefObject<HTMLInputElement | null>', fallback: 'undefined', note: 'Forwarded to the active text input for focus management.' },
       { name: 'onModeChange', type: '(mode: InputMode) => void', note: 'The three-way picker.' },
       { name: 'onRomajiChange / onSystemChange', type: '(value: string) => void', note: 'Text entry in romaji and IME modes.' },
       { name: 'onKanaKey / onKanaBackspace', type: '(char: string) => void  /  () => void', note: 'Forwarded from the embedded keyboard.' },
-      { name: 'onKanaScriptChange / onKanaSectionChange', type: '(v) => void', note: 'Forwarded from the embedded keyboard.' },
+      { name: 'onKanaScriptChange / onKanaReplaceLast', type: '(v) => void', note: 'Forwarded from the embedded keyboard: the ひら / カタ toggle, and the ゛ ゜ 小 marks.' },
       { name: 'onSubmit', type: '() => void', note: 'Submit button and Enter.' },
       { name: 'onToggleSystemHint', type: '() => void', note: 'Opens/closes the IME hint.' },
     ],

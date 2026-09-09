@@ -35,7 +35,6 @@ import type {
   AnswerOutcome,
   InputMode,
   KanaScript,
-  KanaSection,
   VoiceInputStatus,
 } from '../../src/components'
 import { convertRomaji } from '../../src/lib'
@@ -131,7 +130,6 @@ function InputScreen({
   const [romaji, setRomaji] = useState(startMode === 'romaji' ? 'eki wa dok' : '')
   const [kana, setKana] = useState('')
   const [script, setScript] = useState<KanaScript>('hiragana')
-  const [section, setSection] = useState<KanaSection>('basic')
   const [voice, setVoice] = useState<VoiceInputStatus>(startVoice)
   const [hint, setHint] = useState(false)
   const [audio, setAudio] = useState<'idle' | 'loading' | 'playing'>('idle')
@@ -167,7 +165,7 @@ function InputScreen({
                 converted={converted}
                 pending={pending}
                 kanaScript={script}
-                kanaSection={section}
+                onKanaReplaceLast={(k) => setKana((s) => [...s].slice(0, -1).join('') + k)}
                 canSubmit={answered}
                 showSystemHint={hint}
                 onModeChange={setMode}
@@ -175,7 +173,6 @@ function InputScreen({
                 onKanaKey={(c) => setKana(kana + c)}
                 onKanaBackspace={() => setKana([...kana].slice(0, -1).join(''))}
                 onKanaScriptChange={setScript}
-                onKanaSectionChange={setSection}
                 onSystemChange={setKana}
                 onSubmit={onSubmit}
                 onToggleSystemHint={() => setHint(!hint)}

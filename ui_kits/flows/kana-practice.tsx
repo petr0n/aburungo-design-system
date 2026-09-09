@@ -26,7 +26,7 @@ import {
   Maru,
   ScoreCard,
 } from '../../src/components'
-import type { AnswerOutcome, KanaCell, KanaScript, KanaSection } from '../../src/components'
+import type { AnswerOutcome, KanaCell, KanaScript } from '../../src/components'
 import { HIRAGANA_BASIC, KATAKANA_BASIC, KANA_PRACTICE_CARDS } from '../../src/lib'
 import { EmptyStage, Screen, StateStage } from './shell'
 import type { FlowDef } from './shell'
@@ -282,7 +282,6 @@ function DrillScreen({
 function KeyboardScreen({ onDone }: { onDone: () => void }) {
   const [value, setValue] = useState('')
   const [script, setScript] = useState<KanaScript>('hiragana')
-  const [section, setSection] = useState<KanaSection>('basic')
 
   return (
     <>
@@ -309,9 +308,9 @@ function KeyboardScreen({ onDone }: { onDone: () => void }) {
 
         <KanaKeyboard
           script={script}
-          section={section}
+          value={value}
           onScriptChange={setScript}
-          onSectionChange={setSection}
+          onReplaceLast={(k) => setValue([...value].slice(0, -1).join('') + k)}
           onKey={(k) => setValue(value + k)}
           onBackspace={() => setValue([...value].slice(0, -1).join(''))}
         />

@@ -52,7 +52,7 @@ import {
   TextInput,
   VoiceInput,
 } from '../src/components'
-import type { KanaScript, KanaSection } from '../src/components'
+import type { KanaScript } from '../src/components'
 // Public exports, via the barrel. This used to import by path with a comment
 // calling them internals; `index.ts` promoted them and the comment did not
 // follow. `AlertIcon` is the one that really is internal.
@@ -1116,7 +1116,7 @@ const FlipCardStories: Record<string, Story> = {
 }
 
 // ───── KanaKeyboard ────────────────────────────────────────────────────
-// `KanaScript` and `KanaSection` are imported from the package, not restated.
+// `KanaScript` is imported from the package, not restated.
 // Restating them is how this file got 'combo' as a section: the real union is
 // 'basic' | 'voiced' | 'small', and a hand-copied union is a mirror of a type.
 
@@ -1133,16 +1133,15 @@ function _KanaOut({ value, hint }: { value: string; hint: string }) {
 
 function _KanaKeyboardDemo() {
   const [script, setScript] = useState<KanaScript>('hiragana')
-  const [section, setSection] = useState<KanaSection>('basic')
   const [out, setOut] = useState('')
   return (
     <div className="flex w-full max-w-md flex-col gap-3">
       <_KanaOut value={out} hint="Tap keys…" />
       <KanaKeyboard
         script={script}
-        section={section}
+        value={out}
         onScriptChange={setScript}
-        onSectionChange={setSection}
+        onReplaceLast={(k) => setOut((s) => [...s].slice(0, -1).join('') + k)}
         onKey={(k) => setOut((s) => s + k)}
         onBackspace={() => setOut((s) => [...s].slice(0, -1).join(''))}
       />
@@ -1157,9 +1156,9 @@ function _KanaKatakanaDemo() {
       <_KanaOut value={out} hint="Tap keys…" />
       <KanaKeyboard
         script="katakana"
-        section="voiced"
+        value={out}
         onScriptChange={() => {}}
-        onSectionChange={() => {}}
+        onReplaceLast={(k) => setOut((s) => [...s].slice(0, -1).join('') + k)}
         onKey={(k) => setOut((s) => s + k)}
         onBackspace={() => setOut((s) => [...s].slice(0, -1).join(''))}
       />
@@ -1170,18 +1169,18 @@ function _KanaKatakanaDemo() {
 const KanaKeyboardStories: Record<string, Story> = {
   Interactive: {
     render: () => <_KanaKeyboardDemo />,
-    code: () => `const [script, setScript]   = useState('hiragana')
-const [section, setSection] = useState('basic')
+    code: () => `const [script, setScript] = useState('hiragana')
 <KanaKeyboard
-  script={script} section={section}
-  onScriptChange={setScript} onSectionChange={setSection}
+  script={script} value={kana}
+  onScriptChange={setScript}
   onKey={(k) => setKana(kana + k)}
+  onReplaceLast={(k) => setKana(kana.slice(0, -1) + k)}
   onBackspace={() => setKana(kana.slice(0, -1))}
 />`,
   },
-  'Katakana / Voiced': {
+  Katakana: {
     render: () => <_KanaKatakanaDemo />,
-    code: () => `<KanaKeyboard script="katakana" section="voiced" …/>`,
+    code: () => `<KanaKeyboard script="katakana" value={kana} …/>`,
   },
 }
 
@@ -1243,7 +1242,6 @@ function _FillInputDemo({ initialMode = 'romaji' }: { initialMode?: FillMode }) 
   const [kana, setKana] = useState('')
   const [showHint, setShowHint] = useState(false)
   const [kanaScript, setKanaScript] = useState<KanaScript>('hiragana')
-  const [kanaSection, setKanaSection] = useState<KanaSection>('basic')
   const [lastAnswer, setLastAnswer] = useState<string | null>(null)
 
   // Clear on mode change.
@@ -1272,14 +1270,13 @@ function _FillInputDemo({ initialMode = 'romaji' }: { initialMode?: FillMode }) 
         converted={converted}
         pending={pending}
         kanaScript={kanaScript}
-        kanaSection={kanaSection}
+        onKanaReplaceLast={(k) => setKana((s) => [...s].slice(0, -1).join('') + k)}
         canSubmit={canSubmit}
         onModeChange={setMode}
         onRomajiChange={setRomaji}
         onKanaKey={(c) => setKana((p) => p + c)}
         onKanaBackspace={() => setKana((p) => [...p].slice(0, -1).join(''))}
         onKanaScriptChange={setKanaScript}
-        onKanaSectionChange={setKanaSection}
         onSystemChange={setKana}
         onSubmit={handleSubmit}
         onToggleSystemHint={() => setShowHint((h) => !h)}
@@ -1301,11 +1298,11 @@ const FillInputStories: Record<string, Story> = {
     code: () => `<FillInput
   mode="romaji" romajiValue={romaji} kanaValue={kana}
   converted={converted} pending={pending}
-  kanaScript={kanaScript} kanaSection={kanaSection}
+  kanaScript={kanaScript}
   canSubmit={canSubmit}
   onModeChange={setMode} onRomajiChange={setRomaji}
   onKanaKey={…} onKanaBackspace={…}
-  onKanaScriptChange={setKanaScript} onKanaSectionChange={setKanaSection}
+  onKanaScriptChange={setKanaScript} onKanaReplaceLast={…}
   onSystemChange={setKana} onSubmit={handleSubmit}
   onToggleSystemHint={…}
 />`,
