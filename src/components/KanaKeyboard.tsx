@@ -32,7 +32,7 @@
  * table to keep in step.
  */
 import { useRef, useState } from 'react'
-import type { KanaModifier, KanaRow } from '../lib/kanaData'
+import type { KanaRow } from '../lib/kanaData'
 import {
   applyKanaModifier,
   HIRAGANA_BASIC,
@@ -83,11 +83,6 @@ const CROSS: readonly { slot: number; cell: string }[] = [
   { slot: 4, cell: 'col-start-2 row-start-3' }, // o
 ]
 
-const MARKS: readonly { mark: KanaModifier; label: string; name: string }[] = [
-  { mark: 'dakuten', label: '゛', name: 'Voiced mark' },
-  { mark: 'handakuten', label: '゜', name: 'Half-voiced mark' },
-  { mark: 'small', label: '小', name: 'Small kana' },
-]
 
 // Chrome buttons on the Rokushō ground: the script toggle.
 //
@@ -98,7 +93,7 @@ const MARKS: readonly { mark: KanaModifier; label: string; name: string }[] = [
 // min-w-[44px] as well as min-h: the height was right and the WIDTH was not.
 // Short labels -- 小 at 30px, ひら at 40px -- cleared the 44px height and were
 // still too narrow to hit, which reads as compliant in the source and is not.
-const TOGGLE = 'flex h-11 min-h-[44px] flex-1 touch-none select-none items-center justify-center whitespace-nowrap rounded-lg px-1 font-jp text-caption font-medium transition-colors ' +
+const TOGGLE = 'flex h-11 min-h-[44px] min-w-[44px] touch-none select-none items-center justify-center whitespace-nowrap rounded-lg px-3 font-jp text-caption font-medium transition-colors ' +
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-on-inverse focus-visible:ring-offset-2 focus-visible:ring-offset-keyboard-bg'
 const TOGGLE_ON = 'bg-focus text-inverse-on-ogon'
 const TOGGLE_OFF = 'border border-key-bg/40 text-key-bg hover:bg-rokusho-800 active:bg-rokusho-800'
@@ -123,35 +118,38 @@ const KEY_MARK = `${KEY} disabled:opacity-40`
 // — and inverting reuses the selected-state vocabulary the toggles already use.
 const KEY_OPEN = `${KEY_BASE} bg-focus text-inverse-on-ogon`
 
-export function KanaKeyboard({
-  script,
-  value,
-  onScriptChange,
-  onKey,
-  onBackspace,
-  onReplaceLast,
-}: KanaKeyboardProps) {
-  /** Index of the open consonant group, or null when the pad is closed. */
-  const [openGroup, setOpenGroup] = useState<number | null>(null)
+// How far a pointer must travel for a release to count as a flick rather than
+// a tap -- about the slop of a deliberate press.
+const FLICK_SLOP = 8
 
-  const rows = BASIC[script]
-  // Rows keep their holes. や is [や, null, ゆ, null, よ] and わ is
-  // [わ, null, null, を, ん]: filtering the nulls out would slide ゆ into the
-  // left arm of the cross, where い lives on every other row. The face is
-  // row[0], so a row without one is dropped rather than indexed into.
-  const groups = rows.filter((row) => row[0] !== null)
-
-  // Switching script invalidates the open group's index.
-  function changeScript(next: KanaScript) {
-    setOpenGroup(null)
-    onScriptChange(next)
-  }
-
-  function pick(kana: string) {
-    onKey(kana)
-    setOpenGroup(null)
-  }
-
+/**
+ * One pad key and the cross it opens.
+ *
+ * Extracted so the marks and the punctuation get the same gesture as the kana
+ * without a second copy of the pointer-capture dance. Everything a key needs
+ * to differ on is a prop: the face, the five slots, and what a selection means
+ * to the parent. A null slot renders an empty cell rather than shifting the
+ * next value into it.
+ */
+function FlickKey({
+  id,
+  face,
+  slots,
+  open,
+  setOpen,
+  onSelect,
+  label,
+  disabled = false,
+}: {
+  id: string
+  face: string
+  slots: KanaRow
+  open: boolean
+  setOpen: (id: string | null) => void
+  onSelect: (value: string) => void
+  label: string
+  disabled?: boolean
+}) {
   /**
    * Where the press started, so release can tell a flick from a click.
    * A ref rather than state: it changes every pointermove and nothing renders
@@ -159,14 +157,19 @@ export function KanaKeyboard({
    */
   const origin = useRef<{ x: number; y: number } | null>(null)
 
+  function pick(value: string) {
+    onSelect(value)
+    setOpen(null)
+  }
+
   /**
-   * Pointer capture on the consonant key, so the release lands here wherever
-   * the thumb has travelled — over a kana in the cross, back on the key, or
-   * off the board. Without capture the cross would have to catch its own
-   * pointerup, and a thumb that slid off the edge would leave it open.
+   * Pointer capture on the key, so the release lands here wherever the thumb
+   * has travelled — over a value in the cross, back on the key, or off the
+   * board. Without capture the cross would have to catch its own pointerup,
+   * and a thumb that slid off the edge would leave it open.
    */
-  function openOn(index: number, e: React.PointerEvent<HTMLButtonElement>) {
-    setOpenGroup(index)
+  function openOn(e: React.PointerEvent<HTMLButtonElement>) {
+    setOpen(id)
     origin.current = { x: e.clientX, y: e.clientY }
     e.currentTarget.setPointerCapture(e.pointerId)
   }
@@ -188,8 +191,6 @@ export function KanaKeyboard({
    * always the key that was pressed, so the thing under the pointer has to be
    * asked for by position.
    */
-  const FLICK_SLOP = 8
-
   function releaseOver(e: React.PointerEvent<HTMLButtonElement>) {
     const from = origin.current
     origin.current = null
@@ -197,19 +198,123 @@ export function KanaKeyboard({
     const moved = Math.hypot(e.clientX - from.x, e.clientY - from.y) > FLICK_SLOP
     if (!moved) return
     const under = document.elementFromPoint(e.clientX, e.clientY)
-    const kana = under?.closest<HTMLElement>('[data-kana]')?.dataset.kana
-    if (kana !== undefined) pick(kana)
-    else setOpenGroup(null)
+    const value = under?.closest<HTMLElement>('[data-kana]')?.dataset.kana
+    if (value !== undefined) pick(value)
+    else setOpen(null)
   }
 
   return (
+    <div className="relative">
+      <button
+        type="button"
+        data-kana={face}
+        disabled={disabled}
+        aria-expanded={open}
+        aria-label={label}
+        onPointerDown={openOn}
+        onPointerUp={releaseOver}
+        onPointerCancel={() => setOpen(null)}
+        // A click with no detail is a keyboard Enter or Space. Pointer input is
+        // handled on release, so only the keyboard path toggles here; acting on
+        // both would fire twice.
+        onClick={(e) => {
+          if (e.detail === 0) setOpen(open ? null : id)
+        }}
+        className={`${open ? KEY_OPEN : KEY_MARK} aspect-square h-auto w-full`}
+      >
+        {face}
+      </button>
+
+      {open && (
+        <div
+          role="group"
+          aria-label={label}
+          // The cross, centred ON the key rather than parked above it:
+          //
+          //        う
+          //     い あ え
+          //        お
+          //
+          // which is the flick layout every Japanese phone keyboard uses.
+          // Centring it on the key means a release that has not moved is
+          // already over the centre cell, so the geometry agrees with the
+          // gesture instead of fighting it. The board does not clip, so an edge
+          // key overhangs rather than shifting the arms away from the finger.
+          className="absolute left-1/2 top-1/2 z-30 grid w-max -translate-x-1/2 -translate-y-1/2 grid-cols-[repeat(3,2.75rem)] grid-rows-[repeat(3,2.75rem)] gap-1 rounded-xl bg-rokusho-800 p-1 shadow-key"
+        >
+          {CROSS.map(({ slot, cell }) => {
+            const value = slots[slot]
+            if (value === null || value === undefined) {
+              return <span key={cell} className={`${cell} h-11 w-11`} aria-hidden="true" />
+            }
+            return (
+              <button
+                key={cell}
+                type="button"
+                data-kana={value}
+                onClick={() => pick(value)}
+                className={`${KEY} ${cell} h-11 w-11`}
+              >
+                {value}
+              </button>
+            )
+          })}
+        </div>
+      )}
+    </div>
+  )
+}
+
+export function KanaKeyboard({
+  script,
+  value,
+  onScriptChange,
+  onKey,
+  onBackspace,
+  onReplaceLast,
+}: KanaKeyboardProps) {
+  /** Id of the key whose cross is open, or null when the pad is closed. */
+  const [openKey, setOpenKey] = useState<string | null>(null)
+
+  const rows = BASIC[script]
+  // Rows keep their holes. や is [や, null, ゆ, null, よ] and わ is
+  // [わ, null, null, を, ん]: filtering the nulls out would slide ゆ into the
+  // left arm of the cross, where い lives on every other row. The face is
+  // row[0], so a row without one is dropped rather than indexed into.
+  const groups = rows.filter((row) => row[0] !== null)
+
+  function tap(kana: string) {
+    onKey(kana)
+    setOpenKey(null)
+  }
+
+  // Switching script invalidates the open key.
+  function changeScript(next: KanaScript) {
+    setOpenKey(null)
+    onScriptChange(next)
+  }
+
+  // The marks read the last character typed, so what a mark key can do depends
+  // on the value. Computed once here rather than inside the key: a mark that
+  // does nothing renders as an empty arm, and a key with no live arm at all is
+  // disabled rather than hidden — the pad would reflow under the thumb.
+  const voiced = applyKanaModifier(value, 'dakuten')
+  const halfVoiced = applyKanaModifier(value, 'handakuten')
+  const small = applyKanaModifier(value, 'small')
+
+  return (
     <div
-      className="flex w-max flex-col gap-2 rounded-2xl border-2 border-keyboard-rule bg-keyboard-bg p-3"
+      className="mx-auto flex w-max flex-col gap-2 rounded-2xl border-2 border-keyboard-rule bg-keyboard-bg p-3"
       onKeyDown={(e) => {
-        if (e.key === 'Escape') setOpenGroup(null)
+        if (e.key === 'Escape') setOpenKey(null)
       }}
     >
-      <div className="flex w-[13rem] items-center gap-1 self-center">
+      {/* The script toggles size to their labels rather than splitting the pad
+          between them: two 80px chrome buttons read as more important than the
+          keys, and they are not. min-w-[44px] stays because the height was
+          never the failing dimension — "ひら" at 40px cleared the 44px height
+          and was still too narrow to hit. */}
+      <div className="flex items-center justify-center gap-1 self-center">
         {(['hiragana', 'katakana'] as const).map((s) => (
           <button
             key={s}
@@ -232,71 +337,23 @@ export function KanaKeyboard({
           13rem a key is a 67px square at any screen size, which is the shape the
           thumb and the eye both expect. */}
       <div className="mx-auto grid w-[13rem] grid-cols-3 gap-1">
-        {groups.map((row, i) => {
+        {groups.map((row) => {
           const face = row[0] as string
           return (
-            <div key={face} className="relative">
-              <button
-                type="button"
-                data-kana={face}
-                aria-expanded={openGroup === i}
-                aria-label={`${face} row`}
-                onPointerDown={(e) => openOn(i, e)}
-                onPointerUp={releaseOver}
-                onPointerCancel={() => setOpenGroup(null)}
-                // A click with no detail is a keyboard Enter or Space. Pointer
-                // input is handled on release, so only the keyboard path
-                // toggles here; acting on both would fire twice.
-                onClick={(e) => {
-                  if (e.detail === 0) setOpenGroup(openGroup === i ? null : i)
-                }}
-                className={`${openGroup === i ? KEY_OPEN : KEY} aspect-square h-auto w-full`}
-              >
-                {face}
-              </button>
-
-              {openGroup === i && (
-                <div
-                  role="group"
-                  aria-label={`${face} row`}
-                  // The cross, centred ON the key rather than parked above it:
-                  //
-                  //        う
-                  //     い あ え
-                  //        お
-                  //
-                  // which is the flick layout every Japanese phone keyboard
-                  // uses. Centring it on the key means a release that has not
-                  // moved is already over the centre cell, so the geometry
-                  // agrees with the gesture instead of fighting it. The board
-                  // does not clip, so an edge key overhangs rather than
-                  // shifting the arms away from the finger.
-                  className="absolute left-1/2 top-1/2 z-30 grid w-max -translate-x-1/2 -translate-y-1/2 grid-cols-[repeat(3,2.75rem)] grid-rows-[repeat(3,2.75rem)] gap-1 rounded-xl bg-rokusho-800 p-1 shadow-key"
-                >
-                  {CROSS.map(({ slot, cell }) => {
-                    const kana = row[slot]
-                    if (kana === null || kana === undefined) {
-                      return <span key={cell} className={`${cell} h-11 w-11`} aria-hidden="true" />
-                    }
-                    return (
-                      <button
-                        key={cell}
-                        type="button"
-                        data-kana={kana}
-                        onClick={() => pick(kana)}
-                        className={`${KEY} ${cell} h-11 w-11`}
-                      >
-                        {kana}
-                      </button>
-                    )
-                  })}
-                </div>
-              )}
-            </div>
+            <FlickKey
+              key={face}
+              id={face}
+              face={face}
+              slots={row}
+              label={`${face} row`}
+              open={openKey === face}
+              setOpen={setOpenKey}
+              onSelect={onKey}
+            />
           )
         })}
 
-        <button type="button" onClick={() => pick('ー')} className={`${KEY} aspect-square h-auto`}>
+        <button type="button" onClick={() => tap('ー')} className={`${KEY} aspect-square h-auto`}>
           ー
         </button>
         <button
@@ -308,28 +365,49 @@ export function KanaKeyboard({
           <BackspaceIcon className="h-5 w-5" />
         </button>
 
-        {MARKS.map(({ mark, label, name }) => {
-          const marked = applyKanaModifier(value, mark)
-          return (
-            <button
-              key={mark}
-              type="button"
-              disabled={marked === null}
-              aria-label={name}
-              onClick={() => {
-                if (marked !== null) onReplaceLast(marked)
-                setOpenGroup(null)
-              }}
-              className={`${KEY_MARK} aspect-square h-auto`}
-            >
-              {label}
-            </button>
-          )
-        })}
+        {/* ゛ and ゜ share one key, on the same flick as the kana. They were two
+            keys, which cost the row a third of its width to a mark that applies
+            to five of the ten rows — and left no cell for 、 and 。, which the
+            reading of every carded sentence needs and the pad could not type at
+            all. So: marks on one key, punctuation on the one it freed. */}
+        <FlickKey
+          id="mark"
+          face="゛"
+          label="Voiced and half-voiced marks"
+          disabled={voiced === null && halfVoiced === null}
+          slots={[voiced === null ? null : '゛', null, halfVoiced === null ? null : '゜', null, null]}
+          open={openKey === 'mark'}
+          setOpen={setOpenKey}
+          onSelect={(mark) => {
+            const next = mark === '゛' ? voiced : halfVoiced
+            if (next !== null) onReplaceLast(next)
+          }}
+        />
+        <FlickKey
+          id="punct"
+          face="、"
+          label="Comma and full stop"
+          slots={['、', null, '。', null, null]}
+          open={openKey === 'punct'}
+          setOpen={setOpenKey}
+          onSelect={onKey}
+        />
+        <button
+          type="button"
+          disabled={small === null}
+          aria-label="Small kana"
+          onClick={() => {
+            if (small !== null) onReplaceLast(small)
+            setOpenKey(null)
+          }}
+          className={`${KEY_MARK} aspect-square h-auto`}
+        >
+          小
+        </button>
 
         <button
           type="button"
-          onClick={() => pick(' ')}
+          onClick={() => tap(' ')}
           aria-label="Space"
           className={`${KEY} col-span-3`}
         >

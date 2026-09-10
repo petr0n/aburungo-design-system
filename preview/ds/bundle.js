@@ -762,18 +762,91 @@ var CROSS = [
   { slot: 4, cell: "col-start-2 row-start-3" }
   // o
 ];
-var MARKS = [
-  { mark: "dakuten", label: "\u309B", name: "Voiced mark" },
-  { mark: "handakuten", label: "\u309C", name: "Half-voiced mark" },
-  { mark: "small", label: "\u5C0F", name: "Small kana" }
-];
-var TOGGLE = "flex h-11 min-h-[44px] flex-1 touch-none select-none items-center justify-center whitespace-nowrap rounded-lg px-1 font-jp text-caption font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-on-inverse focus-visible:ring-offset-2 focus-visible:ring-offset-keyboard-bg";
+var TOGGLE = "flex h-11 min-h-[44px] min-w-[44px] touch-none select-none items-center justify-center whitespace-nowrap rounded-lg px-3 font-jp text-caption font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-on-inverse focus-visible:ring-offset-2 focus-visible:ring-offset-keyboard-bg";
 var TOGGLE_ON = "bg-focus text-inverse-on-ogon";
 var TOGGLE_OFF = "border border-key-bg/40 text-key-bg hover:bg-rokusho-800 active:bg-rokusho-800";
 var KEY_BASE = "flex h-11 min-h-[44px] touch-none select-none items-center justify-center rounded-xl font-jp text-jp-lg shadow-key transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-on-inverse focus-visible:ring-offset-2 focus-visible:ring-offset-keyboard-bg";
 var KEY = `${KEY_BASE} bg-key-bg text-key-fg hover:bg-key-press active:bg-key-press`;
 var KEY_MARK = `${KEY} disabled:opacity-40`;
 var KEY_OPEN = `${KEY_BASE} bg-focus text-inverse-on-ogon`;
+var FLICK_SLOP = 8;
+function FlickKey({
+  id,
+  face,
+  slots,
+  open,
+  setOpen,
+  onSelect,
+  label,
+  disabled = false
+}) {
+  const origin = useRef(null);
+  function pick(value) {
+    onSelect(value);
+    setOpen(null);
+  }
+  function openOn(e) {
+    setOpen(id);
+    origin.current = { x: e.clientX, y: e.clientY };
+    e.currentTarget.setPointerCapture(e.pointerId);
+  }
+  function releaseOver(e) {
+    const from = origin.current;
+    origin.current = null;
+    if (from === null) return;
+    const moved = Math.hypot(e.clientX - from.x, e.clientY - from.y) > FLICK_SLOP;
+    if (!moved) return;
+    const under = document.elementFromPoint(e.clientX, e.clientY);
+    const value = under?.closest("[data-kana]")?.dataset.kana;
+    if (value !== void 0) pick(value);
+    else setOpen(null);
+  }
+  return /* @__PURE__ */ jsxs10("div", { className: "relative", children: [
+    /* @__PURE__ */ jsx17(
+      "button",
+      {
+        type: "button",
+        "data-kana": face,
+        disabled,
+        "aria-expanded": open,
+        "aria-label": label,
+        onPointerDown: openOn,
+        onPointerUp: releaseOver,
+        onPointerCancel: () => setOpen(null),
+        onClick: (e) => {
+          if (e.detail === 0) setOpen(open ? null : id);
+        },
+        className: `${open ? KEY_OPEN : KEY_MARK} aspect-square h-auto w-full`,
+        children: face
+      }
+    ),
+    open && /* @__PURE__ */ jsx17(
+      "div",
+      {
+        role: "group",
+        "aria-label": label,
+        className: "absolute left-1/2 top-1/2 z-30 grid w-max -translate-x-1/2 -translate-y-1/2 grid-cols-[repeat(3,2.75rem)] grid-rows-[repeat(3,2.75rem)] gap-1 rounded-xl bg-rokusho-800 p-1 shadow-key",
+        children: CROSS.map(({ slot, cell }) => {
+          const value = slots[slot];
+          if (value === null || value === void 0) {
+            return /* @__PURE__ */ jsx17("span", { className: `${cell} h-11 w-11`, "aria-hidden": "true" }, cell);
+          }
+          return /* @__PURE__ */ jsx17(
+            "button",
+            {
+              type: "button",
+              "data-kana": value,
+              onClick: () => pick(value),
+              className: `${KEY} ${cell} h-11 w-11`,
+              children: value
+            },
+            cell
+          );
+        })
+      }
+    )
+  ] });
+}
 function KanaKeyboard({
   script,
   value,
@@ -782,44 +855,29 @@ function KanaKeyboard({
   onBackspace,
   onReplaceLast
 }) {
-  const [openGroup, setOpenGroup] = useState(null);
+  const [openKey, setOpenKey] = useState(null);
   const rows = BASIC[script];
   const groups = rows.filter((row) => row[0] !== null);
+  function tap(kana) {
+    onKey(kana);
+    setOpenKey(null);
+  }
   function changeScript(next) {
-    setOpenGroup(null);
+    setOpenKey(null);
     onScriptChange(next);
   }
-  function pick(kana) {
-    onKey(kana);
-    setOpenGroup(null);
-  }
-  const origin = useRef(null);
-  function openOn(index, e) {
-    setOpenGroup(index);
-    origin.current = { x: e.clientX, y: e.clientY };
-    e.currentTarget.setPointerCapture(e.pointerId);
-  }
-  const FLICK_SLOP = 8;
-  function releaseOver(e) {
-    const from = origin.current;
-    origin.current = null;
-    if (from === null) return;
-    const moved = Math.hypot(e.clientX - from.x, e.clientY - from.y) > FLICK_SLOP;
-    if (!moved) return;
-    const under = document.elementFromPoint(e.clientX, e.clientY);
-    const kana = under?.closest("[data-kana]")?.dataset.kana;
-    if (kana !== void 0) pick(kana);
-    else setOpenGroup(null);
-  }
+  const voiced = applyKanaModifier(value, "dakuten");
+  const halfVoiced = applyKanaModifier(value, "handakuten");
+  const small = applyKanaModifier(value, "small");
   return /* @__PURE__ */ jsxs10(
     "div",
     {
-      className: "flex w-max flex-col gap-2 rounded-2xl border-2 border-keyboard-rule bg-keyboard-bg p-3",
+      className: "mx-auto flex w-max flex-col gap-2 rounded-2xl border-2 border-keyboard-rule bg-keyboard-bg p-3",
       onKeyDown: (e) => {
-        if (e.key === "Escape") setOpenGroup(null);
+        if (e.key === "Escape") setOpenKey(null);
       },
       children: [
-        /* @__PURE__ */ jsx17("div", { className: "flex w-[13rem] items-center gap-1 self-center", children: ["hiragana", "katakana"].map((s) => /* @__PURE__ */ jsx17(
+        /* @__PURE__ */ jsx17("div", { className: "flex items-center justify-center gap-1 self-center", children: ["hiragana", "katakana"].map((s) => /* @__PURE__ */ jsx17(
           "button",
           {
             type: "button",
@@ -831,54 +889,23 @@ function KanaKeyboard({
           s
         )) }),
         /* @__PURE__ */ jsxs10("div", { className: "mx-auto grid w-[13rem] grid-cols-3 gap-1", children: [
-          groups.map((row, i) => {
+          groups.map((row) => {
             const face = row[0];
-            return /* @__PURE__ */ jsxs10("div", { className: "relative", children: [
-              /* @__PURE__ */ jsx17(
-                "button",
-                {
-                  type: "button",
-                  "data-kana": face,
-                  "aria-expanded": openGroup === i,
-                  "aria-label": `${face} row`,
-                  onPointerDown: (e) => openOn(i, e),
-                  onPointerUp: releaseOver,
-                  onPointerCancel: () => setOpenGroup(null),
-                  onClick: (e) => {
-                    if (e.detail === 0) setOpenGroup(openGroup === i ? null : i);
-                  },
-                  className: `${openGroup === i ? KEY_OPEN : KEY} aspect-square h-auto w-full`,
-                  children: face
-                }
-              ),
-              openGroup === i && /* @__PURE__ */ jsx17(
-                "div",
-                {
-                  role: "group",
-                  "aria-label": `${face} row`,
-                  className: "absolute left-1/2 top-1/2 z-30 grid w-max -translate-x-1/2 -translate-y-1/2 grid-cols-[repeat(3,2.75rem)] grid-rows-[repeat(3,2.75rem)] gap-1 rounded-xl bg-rokusho-800 p-1 shadow-key",
-                  children: CROSS.map(({ slot, cell }) => {
-                    const kana = row[slot];
-                    if (kana === null || kana === void 0) {
-                      return /* @__PURE__ */ jsx17("span", { className: `${cell} h-11 w-11`, "aria-hidden": "true" }, cell);
-                    }
-                    return /* @__PURE__ */ jsx17(
-                      "button",
-                      {
-                        type: "button",
-                        "data-kana": kana,
-                        onClick: () => pick(kana),
-                        className: `${KEY} ${cell} h-11 w-11`,
-                        children: kana
-                      },
-                      cell
-                    );
-                  })
-                }
-              )
-            ] }, face);
+            return /* @__PURE__ */ jsx17(
+              FlickKey,
+              {
+                id: face,
+                face,
+                slots: row,
+                label: `${face} row`,
+                open: openKey === face,
+                setOpen: setOpenKey,
+                onSelect: onKey
+              },
+              face
+            );
           }),
-          /* @__PURE__ */ jsx17("button", { type: "button", onClick: () => pick("\u30FC"), className: `${KEY} aspect-square h-auto`, children: "\u30FC" }),
+          /* @__PURE__ */ jsx17("button", { type: "button", onClick: () => tap("\u30FC"), className: `${KEY} aspect-square h-auto`, children: "\u30FC" }),
           /* @__PURE__ */ jsx17(
             "button",
             {
@@ -889,29 +916,53 @@ function KanaKeyboard({
               children: /* @__PURE__ */ jsx17(BackspaceIcon, { className: "h-5 w-5" })
             }
           ),
-          MARKS.map(({ mark, label, name }) => {
-            const marked = applyKanaModifier(value, mark);
-            return /* @__PURE__ */ jsx17(
-              "button",
-              {
-                type: "button",
-                disabled: marked === null,
-                "aria-label": name,
-                onClick: () => {
-                  if (marked !== null) onReplaceLast(marked);
-                  setOpenGroup(null);
-                },
-                className: `${KEY_MARK} aspect-square h-auto`,
-                children: label
-              },
-              mark
-            );
-          }),
+          /* @__PURE__ */ jsx17(
+            FlickKey,
+            {
+              id: "mark",
+              face: "\u309B",
+              label: "Voiced and half-voiced marks",
+              disabled: voiced === null && halfVoiced === null,
+              slots: [voiced === null ? null : "\u309B", null, halfVoiced === null ? null : "\u309C", null, null],
+              open: openKey === "mark",
+              setOpen: setOpenKey,
+              onSelect: (mark) => {
+                const next = mark === "\u309B" ? voiced : halfVoiced;
+                if (next !== null) onReplaceLast(next);
+              }
+            }
+          ),
+          /* @__PURE__ */ jsx17(
+            FlickKey,
+            {
+              id: "punct",
+              face: "\u3001",
+              label: "Comma and full stop",
+              slots: ["\u3001", null, "\u3002", null, null],
+              open: openKey === "punct",
+              setOpen: setOpenKey,
+              onSelect: onKey
+            }
+          ),
           /* @__PURE__ */ jsx17(
             "button",
             {
               type: "button",
-              onClick: () => pick(" "),
+              disabled: small === null,
+              "aria-label": "Small kana",
+              onClick: () => {
+                if (small !== null) onReplaceLast(small);
+                setOpenKey(null);
+              },
+              className: `${KEY_MARK} aspect-square h-auto`,
+              children: "\u5C0F"
+            }
+          ),
+          /* @__PURE__ */ jsx17(
+            "button",
+            {
+              type: "button",
+              onClick: () => tap(" "),
               "aria-label": "Space",
               className: `${KEY} col-span-3`,
               children: /* @__PURE__ */ jsx17("span", { className: "text-caption text-key-fg/60", children: "space" })
