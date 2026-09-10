@@ -795,7 +795,13 @@ function FlickKey({
     origin.current = null;
     if (from === null) return;
     const moved = Math.hypot(e.clientX - from.x, e.clientY - from.y) > FLICK_SLOP;
-    if (!moved) return;
+    if (!moved) {
+      if (e.pointerType === "mouse") return;
+      const centre = slots[0];
+      if (centre === null || centre === void 0) setOpen(null);
+      else pick(centre);
+      return;
+    }
     const under = document.elementFromPoint(e.clientX, e.clientY);
     const value = under?.closest("[data-kana]")?.dataset.kana;
     if (value !== void 0) pick(value);
@@ -813,8 +819,10 @@ function FlickKey({
         onPointerDown: openOn,
         onPointerUp: releaseOver,
         onPointerCancel: () => setOpen(null),
-        onClick: (e) => {
-          if (e.detail === 0) setOpen(open ? null : id);
+        onKeyDown: (e) => {
+          if (e.key !== "Enter" && e.key !== " ") return;
+          e.preventDefault();
+          setOpen(open ? null : id);
         },
         className: `${open ? KEY_OPEN : KEY_MARK} aspect-square h-auto w-full`,
         children: face

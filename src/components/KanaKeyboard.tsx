@@ -196,7 +196,24 @@ function FlickKey({
     origin.current = null
     if (from === null) return
     const moved = Math.hypot(e.clientX - from.x, e.clientY - from.y) > FLICK_SLOP
-    if (!moved) return
+    if (!moved) {
+      // A thumb that lifts where it landed means the centre — one tap for あ,
+      // the way every Japanese phone keyboard reads it. A mouse that clicks
+      // without moving means "show me the options": press and release land on
+      // the same pixel, so there is no gesture in it to read, and the cross
+      // stays up for a second click.
+      //
+      // This used to be `return`, and touch appeared to work anyway: the
+      // compatibility click a tap synthesises landed on the cross's centre
+      // cell, which typed the kana by accident. Accidents do not survive — a
+      // tap could never reach an ARM, because that same click closed the cross
+      // before a second tap could happen. The release does the work now.
+      if (e.pointerType === 'mouse') return
+      const centre = slots[0]
+      if (centre === null || centre === undefined) setOpen(null)
+      else pick(centre)
+      return
+    }
     const under = document.elementFromPoint(e.clientX, e.clientY)
     const value = under?.closest<HTMLElement>('[data-kana]')?.dataset.kana
     if (value !== undefined) pick(value)
@@ -214,11 +231,14 @@ function FlickKey({
         onPointerDown={openOn}
         onPointerUp={releaseOver}
         onPointerCancel={() => setOpen(null)}
-        // A click with no detail is a keyboard Enter or Space. Pointer input is
-        // handled on release, so only the keyboard path toggles here; acting on
-        // both would fire twice.
-        onClick={(e) => {
-          if (e.detail === 0) setOpen(open ? null : id)
+        // The keyboard opens the cross on its own key event rather than on
+        // click. `click` cannot tell Enter from the compatibility click a touch
+        // tap synthesises — both arrive with detail 0 — so a guard on detail
+        // reopened the cross the tap had just closed.
+        onKeyDown={(e) => {
+          if (e.key !== 'Enter' && e.key !== ' ') return
+          e.preventDefault()
+          setOpen(open ? null : id)
         }}
         className={`${open ? KEY_OPEN : KEY_MARK} aspect-square h-auto w-full`}
       >
