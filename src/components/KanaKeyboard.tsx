@@ -107,7 +107,7 @@ const TOGGLE_OFF = 'border border-key-bg/40 text-key-bg hover:bg-rokusho-800 act
 // legible. Split so the open-group key SWAPS its background rather than
 // stacking a second `bg-*`: two of those have equal specificity, and which one
 // wins depends on stylesheet order rather than the order they are written.
-const KEY_BASE = 'flex h-11 min-h-[44px] touch-none select-none items-center justify-center rounded-xl font-jp text-jp shadow-key ' +
+const KEY_BASE = 'flex h-11 min-h-[44px] touch-none select-none items-center justify-center rounded-xl font-jp text-jp-lg shadow-key ' +
   'transition-colors ' +
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-on-inverse focus-visible:ring-offset-2 focus-visible:ring-offset-keyboard-bg'
 const KEY = `${KEY_BASE} bg-key-bg text-key-fg hover:bg-key-press active:bg-key-press`
@@ -209,7 +209,7 @@ export function KanaKeyboard({
         if (e.key === 'Escape') setOpenGroup(null)
       }}
     >
-      <div className="flex w-[9.5rem] items-center gap-1 self-center">
+      <div className="flex w-[13rem] items-center gap-1 self-center">
         {(['hiragana', 'katakana'] as const).map((s) => (
           <button
             key={s}
@@ -229,9 +229,9 @@ export function KanaKeyboard({
 
           Fixed width, not full width. Stretched across a desktop viewport the
           keys became long rectangles with a kana adrift in the middle; at
-          9.5rem a key is a 48px square at any screen size — just clear of the
-          44px floor, and 6 rows of them fit a phone where 67px did not. */}
-      <div className="mx-auto grid w-[9.5rem] grid-cols-3 gap-1">
+          13rem a key is a 67px square at any screen size, which is the shape the
+          thumb and the eye both expect. */}
+      <div className="mx-auto grid w-[13rem] grid-cols-3 gap-1">
         {groups.map((row, i) => {
           const face = row[0] as string
           return (
