@@ -98,19 +98,19 @@ const MARKS: readonly { mark: KanaModifier; label: string; name: string }[] = [
 // min-w-[44px] as well as min-h: the height was right and the WIDTH was not.
 // Short labels -- 小 at 30px, ひら at 40px -- cleared the 44px height and were
 // still too narrow to hit, which reads as compliant in the source and is not.
-const TOGGLE = 'flex h-11 min-h-[44px] min-w-[44px] shrink-0 items-center justify-center whitespace-nowrap rounded-lg px-2 font-jp text-caption font-medium transition-colors ' +
+const TOGGLE = 'flex h-11 min-h-[44px] flex-1 touch-none select-none items-center justify-center whitespace-nowrap rounded-lg px-1 font-jp text-caption font-medium transition-colors ' +
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-on-inverse focus-visible:ring-offset-2 focus-visible:ring-offset-keyboard-bg'
 const TOGGLE_ON = 'bg-focus text-inverse-on-ogon'
-const TOGGLE_OFF = 'border border-key-bg/40 text-key-bg active:bg-rokusho-800'
+const TOGGLE_OFF = 'border border-key-bg/40 text-key-bg hover:bg-rokusho-800 active:bg-rokusho-800'
 
 // Warm-paper keys — reading the kana is the task, so they stay maximally
 // legible. Split so the open-group key SWAPS its background rather than
 // stacking a second `bg-*`: two of those have equal specificity, and which one
 // wins depends on stylesheet order rather than the order they are written.
-const KEY_BASE = 'flex h-11 min-h-[44px] items-center justify-center rounded-xl font-jp text-jp shadow-key ' +
+const KEY_BASE = 'flex h-11 min-h-[44px] touch-none select-none items-center justify-center rounded-xl font-jp text-jp shadow-key ' +
   'transition-colors ' +
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-on-inverse focus-visible:ring-offset-2 focus-visible:ring-offset-keyboard-bg'
-const KEY = `${KEY_BASE} bg-key-bg text-key-fg active:bg-key-press`
+const KEY = `${KEY_BASE} bg-key-bg text-key-fg hover:bg-key-press active:bg-key-press`
 
 // A mark key that does nothing to the last character is disabled rather than
 // hidden: the pad would reflow under the thumb mid-word. `disabled:opacity-40`
@@ -204,12 +204,12 @@ export function KanaKeyboard({
 
   return (
     <div
-      className="flex w-full flex-col gap-2 rounded-2xl border-2 border-keyboard-rule bg-keyboard-bg p-3"
+      className="flex w-max flex-col gap-2 rounded-2xl border-2 border-keyboard-rule bg-keyboard-bg p-3"
       onKeyDown={(e) => {
         if (e.key === 'Escape') setOpenGroup(null)
       }}
     >
-      <div className="flex items-center gap-1">
+      <div className="flex w-[9.5rem] items-center gap-1 self-center">
         {(['hiragana', 'katakana'] as const).map((s) => (
           <button
             key={s}
@@ -229,9 +229,9 @@ export function KanaKeyboard({
 
           Fixed width, not full width. Stretched across a desktop viewport the
           keys became long rectangles with a kana adrift in the middle; at
-          13rem a key is square at any screen size, which is the shape the
-          thumb and the eye both expect. */}
-      <div className="mx-auto grid w-[13rem] grid-cols-3 gap-1">
+          9.5rem a key is a 48px square at any screen size — just clear of the
+          44px floor, and 6 rows of them fit a phone where 67px did not. */}
+      <div className="mx-auto grid w-[9.5rem] grid-cols-3 gap-1">
         {groups.map((row, i) => {
           const face = row[0] as string
           return (
