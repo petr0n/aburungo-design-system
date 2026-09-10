@@ -526,7 +526,7 @@ function FlipCard({ front, back, flipped, phase = "idle", onEntered, onExited })
 }
 
 // src/components/KanaKeyboard.tsx
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 // src/lib/kanaData.ts
 var HIRAGANA_BASIC = [
@@ -552,6 +552,72 @@ var HIRAGANA_SMALL = [
   ["\u3041", "\u3043", "\u3045", "\u3047", "\u3049"],
   ["\u3063", "\u3083", "\u3085", "\u3087", null]
 ];
+var DAKUTEN = {
+  \u304B: "\u304C",
+  \u304D: "\u304E",
+  \u304F: "\u3050",
+  \u3051: "\u3052",
+  \u3053: "\u3054",
+  \u3055: "\u3056",
+  \u3057: "\u3058",
+  \u3059: "\u305A",
+  \u305B: "\u305C",
+  \u305D: "\u305E",
+  \u305F: "\u3060",
+  \u3061: "\u3062",
+  \u3064: "\u3065",
+  \u3066: "\u3067",
+  \u3068: "\u3069",
+  \u306F: "\u3070",
+  \u3072: "\u3073",
+  \u3075: "\u3076",
+  \u3078: "\u3079",
+  \u307B: "\u307C",
+  \u3046: "\u3094"
+};
+var HANDAKUTEN = {
+  \u306F: "\u3071",
+  \u3072: "\u3074",
+  \u3075: "\u3077",
+  \u3078: "\u307A",
+  \u307B: "\u307D"
+};
+var SMALL = {
+  \u3042: "\u3041",
+  \u3044: "\u3043",
+  \u3046: "\u3045",
+  \u3048: "\u3047",
+  \u304A: "\u3049",
+  \u3064: "\u3063",
+  \u3084: "\u3083",
+  \u3086: "\u3085",
+  \u3088: "\u3087",
+  \u308F: "\u308E"
+};
+var MODIFIER_TABLES = {
+  dakuten: DAKUTEN,
+  handakuten: HANDAKUTEN,
+  small: SMALL
+};
+var KATAKANA_OFFSET = 96;
+var UNMARK = Object.fromEntries(
+  [DAKUTEN, HANDAKUTEN, SMALL].flatMap(
+    (table) => Object.entries(table).map(([base, marked]) => [marked, base])
+  )
+);
+function applyKanaModifier(kana, mark) {
+  const char = [...kana].pop();
+  if (char === void 0) return null;
+  const code = char.codePointAt(0);
+  if (code === void 0) return null;
+  const katakana = char >= "\u30A1" && char <= "\u30F6";
+  const hira = katakana ? String.fromCodePoint(code - KATAKANA_OFFSET) : char;
+  const base = UNMARK[hira] ?? hira;
+  const marked = MODIFIER_TABLES[mark][base];
+  if (marked === void 0) return null;
+  const next = marked === hira ? base : marked;
+  return katakana ? String.fromCodePoint(next.codePointAt(0) + KATAKANA_OFFSET) : next;
+}
 function hiraToKata(rows) {
   return rows.map(
     (row) => row.map(
@@ -687,106 +753,261 @@ var KANA_PRACTICE_CARDS = [
 
 // src/components/KanaKeyboard.tsx
 import { jsx as jsx17, jsxs as jsxs10 } from "react/jsx-runtime";
-var SECTION_LABELS = {
-  basic: "\u3042\u301C\u3093",
-  voiced: "\u309B\u309C",
-  small: "\u5C0F"
+var BASIC = {
+  hiragana: HIRAGANA_BASIC,
+  katakana: KATAKANA_BASIC
 };
-var GRID = {
-  hiragana: { basic: HIRAGANA_BASIC, voiced: HIRAGANA_VOICED, small: HIRAGANA_SMALL },
-  katakana: { basic: KATAKANA_BASIC, voiced: KATAKANA_VOICED, small: KATAKANA_SMALL }
-};
-var TOGGLE = "flex h-11 min-h-[44px] min-w-[44px] shrink-0 items-center justify-center whitespace-nowrap rounded-lg px-2 font-jp text-caption font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-on-inverse focus-visible:ring-offset-2 focus-visible:ring-offset-keyboard-bg";
+var CROSS = [
+  { slot: 2, col: 2, row: 1 },
+  // u
+  { slot: 1, col: 1, row: 2 },
+  // i
+  { slot: 0, col: 2, row: 2 },
+  // the row's own kana
+  { slot: 3, col: 3, row: 2 },
+  // e
+  { slot: 4, col: 2, row: 3 }
+  // o
+];
+var TRACK_COLS = ["", "grid-cols-[2.75rem]", "grid-cols-[repeat(2,2.75rem)]", "grid-cols-[repeat(3,2.75rem)]"];
+var TRACK_ROWS = ["", "grid-rows-[2.75rem]", "grid-rows-[repeat(2,2.75rem)]", "grid-rows-[repeat(3,2.75rem)]"];
+var COL_START = ["", "col-start-1", "col-start-2", "col-start-3"];
+var ROW_START = ["", "row-start-1", "row-start-2", "row-start-3"];
+var NUDGE_X = ["-translate-x-[1.625rem]", "-translate-x-[4.625rem]", "-translate-x-[7.625rem]"];
+var NUDGE_Y = ["-translate-y-[1.625rem]", "-translate-y-[4.625rem]", "-translate-y-[7.625rem]"];
+var TOGGLE = "flex h-11 min-h-[44px] min-w-[44px] touch-none select-none items-center justify-center whitespace-nowrap rounded-lg px-3 font-jp text-caption font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-on-inverse focus-visible:ring-offset-2 focus-visible:ring-offset-keyboard-bg";
 var TOGGLE_ON = "bg-focus text-inverse-on-ogon";
-var TOGGLE_OFF = "border border-key-bg/40 text-key-bg active:bg-rokusho-800";
-var KEY_BASE = "flex h-11 min-h-[44px] items-center justify-center rounded-xl font-jp text-jp shadow-key transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-on-inverse focus-visible:ring-offset-2 focus-visible:ring-offset-keyboard-bg";
-var KEY = `${KEY_BASE} bg-key-bg text-key-fg active:bg-key-press`;
+var TOGGLE_OFF = "border border-key-bg/40 text-key-bg hover:bg-rokusho-800 active:bg-rokusho-800";
+var KEY_BASE = "flex h-11 min-h-[44px] touch-none select-none items-center justify-center rounded-xl font-jp text-jp-lg shadow-key transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-on-inverse focus-visible:ring-offset-2 focus-visible:ring-offset-keyboard-bg";
+var KEY = `${KEY_BASE} bg-key-bg text-key-fg hover:bg-key-press active:bg-key-press`;
+var KEY_MARK = `${KEY} disabled:opacity-40`;
 var KEY_OPEN = `${KEY_BASE} bg-focus text-inverse-on-ogon`;
+var FLICK_SLOP = 8;
+function FlickKey({
+  id,
+  face,
+  slots,
+  open,
+  setOpen,
+  onSelect,
+  label,
+  disabled = false,
+  dead = []
+}) {
+  const origin = useRef(null);
+  const [under, setUnder] = useState(null);
+  function pick(value) {
+    onSelect(value);
+    setOpen(null);
+    setUnder(null);
+  }
+  function valueAt(x, y) {
+    const el = document.elementFromPoint(x, y);
+    return el?.closest("[data-kana]")?.dataset.kana ?? null;
+  }
+  function close() {
+    setOpen(null);
+    setUnder(null);
+  }
+  function openOn(e) {
+    setOpen(id);
+    setUnder(face);
+    origin.current = { x: e.clientX, y: e.clientY };
+    e.currentTarget.setPointerCapture(e.pointerId);
+  }
+  function trackOver(e) {
+    if (origin.current === null) return;
+    const next = valueAt(e.clientX, e.clientY);
+    setUnder((prev) => prev === next ? prev : next);
+  }
+  function releaseOver(e) {
+    const from = origin.current;
+    origin.current = null;
+    if (from === null) return;
+    const moved = Math.hypot(e.clientX - from.x, e.clientY - from.y) > FLICK_SLOP;
+    if (!moved) {
+      if (e.pointerType === "mouse") return;
+      const centre = slots[0];
+      if (centre === null || centre === void 0 || dead.includes(centre)) close();
+      else pick(centre);
+      return;
+    }
+    const value = valueAt(e.clientX, e.clientY);
+    if (value !== null) pick(value);
+    else close();
+  }
+  const live = CROSS.filter(({ slot }) => slots[slot] !== null && slots[slot] !== void 0);
+  const cols = [...new Set(live.map((c) => c.col))].sort((a, b) => a - b);
+  const rows = [...new Set(live.map((c) => c.row))].sort((a, b) => a - b);
+  return /* @__PURE__ */ jsxs10("div", { className: "relative", children: [
+    /* @__PURE__ */ jsx17(
+      "button",
+      {
+        type: "button",
+        "data-kana": face,
+        disabled,
+        "aria-expanded": open,
+        "aria-label": label,
+        onPointerDown: openOn,
+        onPointerMove: trackOver,
+        onPointerUp: releaseOver,
+        onPointerCancel: close,
+        onKeyDown: (e) => {
+          if (e.key !== "Enter" && e.key !== " ") return;
+          e.preventDefault();
+          if (open) close();
+          else setOpen(id);
+        },
+        className: `${open ? KEY_OPEN : KEY_MARK} aspect-square h-auto w-full`,
+        children: face
+      }
+    ),
+    open && /* @__PURE__ */ jsx17(
+      "div",
+      {
+        role: "group",
+        "aria-label": label,
+        className: `absolute left-1/2 top-1/2 z-30 grid w-max gap-1 rounded-xl bg-rokusho-800 p-1 shadow-key ${TRACK_COLS[cols.length]} ${TRACK_ROWS[rows.length]} ${NUDGE_X[Math.max(cols.indexOf(2), 0)]} ${NUDGE_Y[Math.max(rows.indexOf(2), 0)]}`,
+        children: live.map(({ slot, col, row }) => {
+          const value = slots[slot];
+          const spent = dead.includes(value);
+          return /* @__PURE__ */ jsx17(
+            "button",
+            {
+              type: "button",
+              disabled: spent,
+              "data-kana": spent ? void 0 : value,
+              onClick: () => pick(value),
+              className: `${value === under && !spent ? KEY_OPEN : KEY_MARK} ${COL_START[cols.indexOf(col) + 1]} ${ROW_START[rows.indexOf(row) + 1]} h-11 w-11`,
+              children: value
+            },
+            value
+          );
+        })
+      }
+    )
+  ] });
+}
 function KanaKeyboard({
   script,
-  section,
+  value,
   onScriptChange,
-  onSectionChange,
   onKey,
-  onBackspace
+  onBackspace,
+  onReplaceLast
 }) {
-  const [openGroup, setOpenGroup] = useState(null);
-  const rows = GRID[script][section];
-  const groups = rows.map((row) => row.filter((c) => c !== null)).filter((group) => group.length > 0);
-  const open = openGroup !== null ? groups[openGroup] : void 0;
-  function reset(change) {
-    return (value) => {
-      setOpenGroup(null);
-      change(value);
-    };
-  }
-  function pick(kana) {
+  const [openKey, setOpenKey] = useState(null);
+  const rows = BASIC[script];
+  const groups = rows.filter((row) => row[0] !== null);
+  function tap(kana) {
     onKey(kana);
-    setOpenGroup(null);
+    setOpenKey(null);
   }
+  function changeScript(next) {
+    setOpenKey(null);
+    onScriptChange(next);
+  }
+  const voiced = applyKanaModifier(value, "dakuten");
+  const halfVoiced = applyKanaModifier(value, "handakuten");
+  const small = applyKanaModifier(value, "small");
   return /* @__PURE__ */ jsxs10(
     "div",
     {
-      className: "flex w-full flex-col gap-2 rounded-2xl border-2 border-keyboard-rule bg-keyboard-bg p-3",
+      className: "mx-auto flex w-max flex-col gap-2 rounded-2xl border-2 border-keyboard-rule bg-keyboard-bg p-3",
       onKeyDown: (e) => {
-        if (e.key === "Escape") setOpenGroup(null);
+        if (e.key === "Escape") setOpenKey(null);
       },
       children: [
-        /* @__PURE__ */ jsxs10("div", { className: "flex items-center justify-between gap-2", children: [
-          /* @__PURE__ */ jsx17("div", { className: "flex gap-1", children: ["hiragana", "katakana"].map((s) => /* @__PURE__ */ jsx17(
-            "button",
-            {
-              type: "button",
-              onClick: () => reset(onScriptChange)(s),
-              "aria-pressed": script === s,
-              className: `${TOGGLE} ${script === s ? TOGGLE_ON : TOGGLE_OFF}`,
-              children: s === "hiragana" ? "\u3072\u3089" : "\u30AB\u30BF"
-            },
-            s
-          )) }),
-          /* @__PURE__ */ jsx17("div", { className: "flex gap-1", children: ["basic", "voiced", "small"].map((sec) => /* @__PURE__ */ jsx17(
-            "button",
-            {
-              type: "button",
-              onClick: () => reset(onSectionChange)(sec),
-              "aria-pressed": section === sec,
-              className: `${TOGGLE} ${section === sec ? TOGGLE_ON : TOGGLE_OFF}`,
-              children: SECTION_LABELS[sec]
-            },
-            sec
-          )) })
-        ] }),
-        open !== void 0 && /* @__PURE__ */ jsx17(
-          "div",
+        /* @__PURE__ */ jsx17("div", { className: "flex items-center justify-center gap-1 self-center", children: ["hiragana", "katakana"].map((s) => /* @__PURE__ */ jsx17(
+          "button",
           {
-            role: "group",
-            "aria-label": `${open[0]} row`,
-            className: "grid grid-cols-5 gap-1 rounded-xl bg-rokusho-800 p-1",
-            children: open.map((kana) => /* @__PURE__ */ jsx17("button", { type: "button", onClick: () => pick(kana), className: KEY, children: kana }, kana))
-          }
-        ),
-        /* @__PURE__ */ jsxs10("div", { className: "grid grid-cols-3 gap-1", children: [
-          groups.map((group, i) => /* @__PURE__ */ jsx17(
-            "button",
-            {
-              type: "button",
-              "aria-expanded": openGroup === i,
-              "aria-label": `${group[0]} row`,
-              onClick: () => setOpenGroup(openGroup === i ? null : i),
-              className: openGroup === i ? KEY_OPEN : KEY,
-              children: group[0]
-            },
-            group[0]
-          )),
-          /* @__PURE__ */ jsx17("button", { type: "button", onClick: () => pick("\u30FC"), className: KEY, children: "\u30FC" }),
+            type: "button",
+            onClick: () => changeScript(s),
+            "aria-pressed": script === s,
+            className: `${TOGGLE} ${script === s ? TOGGLE_ON : TOGGLE_OFF}`,
+            children: s === "hiragana" ? "\u3072\u3089" : "\u30AB\u30BF"
+          },
+          s
+        )) }),
+        /* @__PURE__ */ jsxs10("div", { className: "mx-auto grid w-[13rem] grid-cols-3 gap-1", children: [
+          groups.map((row) => {
+            const face = row[0];
+            return /* @__PURE__ */ jsx17(
+              FlickKey,
+              {
+                id: face,
+                face,
+                slots: row,
+                label: `${face} row`,
+                open: openKey === face,
+                setOpen: setOpenKey,
+                onSelect: onKey
+              },
+              face
+            );
+          }),
+          /* @__PURE__ */ jsx17("button", { type: "button", onClick: () => tap("\u30FC"), className: `${KEY} aspect-square h-auto`, children: "\u30FC" }),
           /* @__PURE__ */ jsx17(
             "button",
             {
               type: "button",
               onClick: onBackspace,
               "aria-label": "Backspace",
-              className: KEY,
+              className: `${KEY} aspect-square h-auto`,
               children: /* @__PURE__ */ jsx17(BackspaceIcon, { className: "h-5 w-5" })
+            }
+          ),
+          /* @__PURE__ */ jsx17(
+            FlickKey,
+            {
+              id: "mark",
+              face: "\u309B",
+              label: "Voiced and half-voiced marks",
+              disabled: voiced === null && halfVoiced === null,
+              slots: ["\u309B", null, "\u309C", null, null],
+              dead: [...voiced === null ? ["\u309B"] : [], ...halfVoiced === null ? ["\u309C"] : []],
+              open: openKey === "mark",
+              setOpen: setOpenKey,
+              onSelect: (mark) => {
+                const next = mark === "\u309B" ? voiced : halfVoiced;
+                if (next !== null) onReplaceLast(next);
+              }
+            }
+          ),
+          /* @__PURE__ */ jsx17(
+            FlickKey,
+            {
+              id: "punct",
+              face: "\u3001",
+              label: "Comma and full stop",
+              slots: ["\u3001", null, "\u3002", null, null],
+              open: openKey === "punct",
+              setOpen: setOpenKey,
+              onSelect: onKey
+            }
+          ),
+          /* @__PURE__ */ jsx17(
+            "button",
+            {
+              type: "button",
+              disabled: small === null,
+              "aria-label": "Small kana",
+              onClick: () => {
+                if (small !== null) onReplaceLast(small);
+                setOpenKey(null);
+              },
+              className: `${KEY_MARK} aspect-square h-auto`,
+              children: "\u5C0F"
+            }
+          ),
+          /* @__PURE__ */ jsx17(
+            "button",
+            {
+              type: "button",
+              onClick: () => tap(" "),
+              "aria-label": "Space",
+              className: `${KEY} col-span-3`,
+              children: /* @__PURE__ */ jsx17("span", { className: "text-caption text-key-fg/60", children: "space" })
             }
           )
         ] })
@@ -843,7 +1064,6 @@ function FillInput({
   converted,
   pending,
   kanaScript,
-  kanaSection,
   canSubmit,
   showModePicker = true,
   disabled,
@@ -855,7 +1075,7 @@ function FillInput({
   onKanaKey,
   onKanaBackspace,
   onKanaScriptChange,
-  onKanaSectionChange,
+  onKanaReplaceLast,
   onSystemChange,
   onSubmit,
   onToggleSystemHint
@@ -909,9 +1129,9 @@ function FillInput({
         KanaKeyboard,
         {
           script: kanaScript,
-          section: kanaSection,
+          value: kanaValue,
           onScriptChange: onKanaScriptChange,
-          onSectionChange: onKanaSectionChange,
+          onReplaceLast: onKanaReplaceLast,
           onKey: onKanaKey,
           onBackspace: onKanaBackspace
         }
@@ -2071,7 +2291,6 @@ function InputScreen({
   const [romaji, setRomaji] = useState6(startMode === "romaji" ? "eki wa dok" : "");
   const [kana, setKana] = useState6("");
   const [script, setScript] = useState6("hiragana");
-  const [section, setSection] = useState6("basic");
   const [voice, setVoice] = useState6(startVoice);
   const [hint, setHint] = useState6(false);
   const [audio, setAudio] = useState6("idle");
@@ -2098,7 +2317,7 @@ function InputScreen({
           converted,
           pending,
           kanaScript: script,
-          kanaSection: section,
+          onKanaReplaceLast: (k) => setKana((s) => [...s].slice(0, -1).join("") + k),
           canSubmit: answered,
           showSystemHint: hint,
           onModeChange: setMode,
@@ -2106,7 +2325,6 @@ function InputScreen({
           onKanaKey: (c) => setKana(kana + c),
           onKanaBackspace: () => setKana([...kana].slice(0, -1).join("")),
           onKanaScriptChange: setScript,
-          onKanaSectionChange: setSection,
           onSystemChange: setKana,
           onSubmit,
           onToggleSystemHint: () => setHint(!hint)
@@ -2409,7 +2627,6 @@ function DrillScreen({
 function KeyboardScreen({ onDone }) {
   const [value, setValue] = useState7("");
   const [script, setScript] = useState7("hiragana");
-  const [section, setSection] = useState7("basic");
   return /* @__PURE__ */ jsxs21(Fragment6, { children: [
     /* @__PURE__ */ jsx29(AppHeader, { title: "Kana practice", subtitle: "write it \xB7 2 of 4", progress: 0.25 }),
     /* @__PURE__ */ jsxs21(Screen, { children: [
@@ -2429,9 +2646,9 @@ function KeyboardScreen({ onDone }) {
         KanaKeyboard,
         {
           script,
-          section,
+          value,
           onScriptChange: setScript,
-          onSectionChange: setSection,
+          onReplaceLast: (k) => setValue([...value].slice(0, -1).join("") + k),
           onKey: (k) => setValue(value + k),
           onBackspace: () => setValue([...value].slice(0, -1).join(""))
         }
