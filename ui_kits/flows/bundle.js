@@ -599,16 +599,23 @@ var MODIFIER_TABLES = {
   small: SMALL
 };
 var KATAKANA_OFFSET = 96;
+var UNMARK = Object.fromEntries(
+  [DAKUTEN, HANDAKUTEN, SMALL].flatMap(
+    (table) => Object.entries(table).map(([base, marked]) => [marked, base])
+  )
+);
 function applyKanaModifier(kana, mark) {
   const char = [...kana].pop();
   if (char === void 0) return null;
   const code = char.codePointAt(0);
   if (code === void 0) return null;
   const katakana = char >= "\u30A1" && char <= "\u30F6";
-  const base = katakana ? String.fromCodePoint(code - KATAKANA_OFFSET) : char;
+  const hira = katakana ? String.fromCodePoint(code - KATAKANA_OFFSET) : char;
+  const base = UNMARK[hira] ?? hira;
   const marked = MODIFIER_TABLES[mark][base];
   if (marked === void 0) return null;
-  return katakana ? String.fromCodePoint(marked.codePointAt(0) + KATAKANA_OFFSET) : marked;
+  const next = marked === hira ? base : marked;
+  return katakana ? String.fromCodePoint(next.codePointAt(0) + KATAKANA_OFFSET) : next;
 }
 function hiraToKata(rows) {
   return rows.map(
@@ -750,17 +757,23 @@ var BASIC = {
   katakana: KATAKANA_BASIC
 };
 var CROSS = [
-  { slot: 2, cell: "col-start-2 row-start-1" },
+  { slot: 2, col: 2, row: 1 },
   // u
-  { slot: 1, cell: "col-start-1 row-start-2" },
+  { slot: 1, col: 1, row: 2 },
   // i
-  { slot: 0, cell: "col-start-2 row-start-2" },
+  { slot: 0, col: 2, row: 2 },
   // the row's own kana
-  { slot: 3, cell: "col-start-3 row-start-2" },
+  { slot: 3, col: 3, row: 2 },
   // e
-  { slot: 4, cell: "col-start-2 row-start-3" }
+  { slot: 4, col: 2, row: 3 }
   // o
 ];
+var TRACK_COLS = ["", "grid-cols-[2.75rem]", "grid-cols-[repeat(2,2.75rem)]", "grid-cols-[repeat(3,2.75rem)]"];
+var TRACK_ROWS = ["", "grid-rows-[2.75rem]", "grid-rows-[repeat(2,2.75rem)]", "grid-rows-[repeat(3,2.75rem)]"];
+var COL_START = ["", "col-start-1", "col-start-2", "col-start-3"];
+var ROW_START = ["", "row-start-1", "row-start-2", "row-start-3"];
+var NUDGE_X = ["-translate-x-[1.625rem]", "-translate-x-[4.625rem]", "-translate-x-[7.625rem]"];
+var NUDGE_Y = ["-translate-y-[1.625rem]", "-translate-y-[4.625rem]", "-translate-y-[7.625rem]"];
 var TOGGLE = "flex h-11 min-h-[44px] min-w-[44px] touch-none select-none items-center justify-center whitespace-nowrap rounded-lg px-3 font-jp text-caption font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-on-inverse focus-visible:ring-offset-2 focus-visible:ring-offset-keyboard-bg";
 var TOGGLE_ON = "bg-focus text-inverse-on-ogon";
 var TOGGLE_OFF = "border border-key-bg/40 text-key-bg hover:bg-rokusho-800 active:bg-rokusho-800";
@@ -780,14 +793,30 @@ function FlickKey({
   disabled = false
 }) {
   const origin = useRef(null);
+  const [under, setUnder] = useState(null);
   function pick(value) {
     onSelect(value);
     setOpen(null);
+    setUnder(null);
+  }
+  function valueAt(x, y) {
+    const el = document.elementFromPoint(x, y);
+    return el?.closest("[data-kana]")?.dataset.kana ?? null;
+  }
+  function close() {
+    setOpen(null);
+    setUnder(null);
   }
   function openOn(e) {
     setOpen(id);
+    setUnder(face);
     origin.current = { x: e.clientX, y: e.clientY };
     e.currentTarget.setPointerCapture(e.pointerId);
+  }
+  function trackOver(e) {
+    if (origin.current === null) return;
+    const next = valueAt(e.clientX, e.clientY);
+    setUnder((prev) => prev === next ? prev : next);
   }
   function releaseOver(e) {
     const from = origin.current;
@@ -797,15 +826,17 @@ function FlickKey({
     if (!moved) {
       if (e.pointerType === "mouse") return;
       const centre = slots[0];
-      if (centre === null || centre === void 0) setOpen(null);
+      if (centre === null || centre === void 0) close();
       else pick(centre);
       return;
     }
-    const under = document.elementFromPoint(e.clientX, e.clientY);
-    const value = under?.closest("[data-kana]")?.dataset.kana;
-    if (value !== void 0) pick(value);
-    else setOpen(null);
+    const value = valueAt(e.clientX, e.clientY);
+    if (value !== null) pick(value);
+    else close();
   }
+  const live = CROSS.filter(({ slot }) => slots[slot] !== null && slots[slot] !== void 0);
+  const cols = [...new Set(live.map((c) => c.col))].sort((a, b) => a - b);
+  const rows = [...new Set(live.map((c) => c.row))].sort((a, b) => a - b);
   return /* @__PURE__ */ jsxs10("div", { className: "relative", children: [
     /* @__PURE__ */ jsx17(
       "button",
@@ -816,12 +847,14 @@ function FlickKey({
         "aria-expanded": open,
         "aria-label": label,
         onPointerDown: openOn,
+        onPointerMove: trackOver,
         onPointerUp: releaseOver,
-        onPointerCancel: () => setOpen(null),
+        onPointerCancel: close,
         onKeyDown: (e) => {
           if (e.key !== "Enter" && e.key !== " ") return;
           e.preventDefault();
-          setOpen(open ? null : id);
+          if (open) close();
+          else setOpen(id);
         },
         className: `${open ? KEY_OPEN : KEY_MARK} aspect-square h-auto w-full`,
         children: face
@@ -832,22 +865,19 @@ function FlickKey({
       {
         role: "group",
         "aria-label": label,
-        className: "absolute left-1/2 top-1/2 z-30 grid w-max -translate-x-1/2 -translate-y-1/2 grid-cols-[repeat(3,2.75rem)] grid-rows-[repeat(3,2.75rem)] gap-1 rounded-xl bg-rokusho-800 p-1 shadow-key",
-        children: CROSS.map(({ slot, cell }) => {
+        className: `absolute left-1/2 top-1/2 z-30 grid w-max gap-1 rounded-xl bg-rokusho-800 p-1 shadow-key ${TRACK_COLS[cols.length]} ${TRACK_ROWS[rows.length]} ${NUDGE_X[Math.max(cols.indexOf(2), 0)]} ${NUDGE_Y[Math.max(rows.indexOf(2), 0)]}`,
+        children: live.map(({ slot, col, row }) => {
           const value = slots[slot];
-          if (value === null || value === void 0) {
-            return /* @__PURE__ */ jsx17("span", { className: `${cell} h-11 w-11`, "aria-hidden": "true" }, cell);
-          }
           return /* @__PURE__ */ jsx17(
             "button",
             {
               type: "button",
               "data-kana": value,
               onClick: () => pick(value),
-              className: `${KEY} ${cell} h-11 w-11`,
+              className: `${value === under ? KEY_OPEN : KEY} ${COL_START[cols.indexOf(col) + 1]} ${ROW_START[rows.indexOf(row) + 1]} h-11 w-11`,
               children: value
             },
-            cell
+            value
           );
         })
       }

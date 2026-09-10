@@ -78,6 +78,18 @@ const MODIFIER_TABLES: Readonly<Record<KanaModifier, Readonly<Record<string, str
 const KATAKANA_OFFSET = 0x60
 
 /**
+ * Every marked kana back to the character it was made from.
+ *
+ * Derived from the tables above rather than written out, so a mark added there
+ * can be taken off here without anyone remembering to.
+ */
+const UNMARK: Readonly<Record<string, string>> = Object.fromEntries(
+  [DAKUTEN, HANDAKUTEN, SMALL].flatMap((table) =>
+    Object.entries(table).map(([base, marked]) => [marked, base]),
+  ),
+)
+
+/**
  * What `mark` turns `kana` into, or null when it does nothing to it -- which
  * is what the keyboard disables its modifier keys on, so a key never sits
  * there looking live and doing nothing.
@@ -91,12 +103,20 @@ export function applyKanaModifier(kana: string, mark: KanaModifier): string | nu
   const code = char.codePointAt(0)
   if (code === undefined) return null
   const katakana = char >= 'ァ' && char <= 'ヶ'
-  const base = katakana ? String.fromCodePoint(code - KATAKANA_OFFSET) : char
+  const hira = katakana ? String.fromCodePoint(code - KATAKANA_OFFSET) : char
+  // A mark applies to the bare kana, never to the mark already on it. Without
+  // this a marked character was a dead end: every table is keyed by the
+  // unmarked kana, so ば matched nothing, both mark keys went disabled, and
+  // the only way to reach ぱ was to backspace は and start again.
+  const base = UNMARK[hira] ?? hira
   const marked = MODIFIER_TABLES[mark][base]
   if (marked === undefined) return null
+  // Pressing the mark a character already carries takes it off, so the key
+  // that put it there is also the key that removes it.
+  const next = marked === hira ? base : marked
   return katakana
-    ? String.fromCodePoint(marked.codePointAt(0)! + KATAKANA_OFFSET)
-    : marked
+    ? String.fromCodePoint(next.codePointAt(0)! + KATAKANA_OFFSET)
+    : next
 }
 
 // Katakana: each character is exactly U+0060 above its hiragana equivalent

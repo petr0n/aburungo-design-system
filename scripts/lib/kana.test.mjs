@@ -82,6 +82,22 @@ assert.equal(applyKanaModifier('', 'dakuten'), null)
 //    buffer and means "the one just typed".
 assert.equal(applyKanaModifier('さか', 'dakuten'), 'が')
 
+// 5. A marked kana is not a dead end. The mark applies to the bare character,
+//    so ba can become pa; pressing the mark it already carries takes it off.
+//    Before this, both mark keys went disabled the moment a mark was on, and
+//    the only way back was backspace.
+assert.equal(applyKanaModifier('ば', 'handakuten'), 'ぱ')
+assert.equal(applyKanaModifier('ぱ', 'dakuten'), 'ば')
+assert.equal(applyKanaModifier('ば', 'dakuten'), 'は')
+assert.equal(applyKanaModifier('ぱ', 'handakuten'), 'は')
+assert.equal(applyKanaModifier('ゔ', 'dakuten'), 'う')
+assert.equal(applyKanaModifier('ぁ', 'small'), 'あ')
+assert.equal(applyKanaModifier('バ', 'handakuten'), 'パ')
+assert.equal(applyKanaModifier('パ', 'handakuten'), 'ハ')
+// A mark the bare kana never had is still null: ga has no half-voiced form.
+assert.equal(applyKanaModifier('が', 'handakuten'), null)
+assert.equal(applyKanaModifier('ば', 'small'), null)
+
 console.log(
   `kana modifier self-check: ok (${fromHiragana.size} hiragana, ${fromKatakana.size} katakana reachable)`,
 )

@@ -75,13 +75,42 @@ const BASIC: Record<KanaScript, readonly KanaRow[]> = {
  * explicit grid cells so a row with holes (や, わ) leaves the arm empty rather
  * than sliding the next kana into it.
  */
-const CROSS: readonly { slot: number; cell: string }[] = [
-  { slot: 2, cell: 'col-start-2 row-start-1' }, // u
-  { slot: 1, cell: 'col-start-1 row-start-2' }, // i
-  { slot: 0, cell: 'col-start-2 row-start-2' }, // the row's own kana
-  { slot: 3, cell: 'col-start-3 row-start-2' }, // e
-  { slot: 4, cell: 'col-start-2 row-start-3' }, // o
+const CROSS: readonly { slot: number; col: number; row: number }[] = [
+  { slot: 2, col: 2, row: 1 }, // u
+  { slot: 1, col: 1, row: 2 }, // i
+  { slot: 0, col: 2, row: 2 }, // the row's own kana
+  { slot: 3, col: 3, row: 2 }, // e
+  { slot: 4, col: 2, row: 3 }, // o
 ]
+
+/**
+ * The cross is drawn over only the cells it uses.
+ *
+ * A key with one alternative used to open the full 3x3 anyway — 148px of dark
+ * ground for two characters, most of it empty and all of it swallowing the pad
+ * underneath. So the live cells decide the track count and the arms keep their
+ * relative geometry: the mark key opens a column two cells tall, わ opens a
+ * 2x2, a full row still opens the cross.
+ *
+ * Written as whole class names rather than composed at runtime, because
+ * Tailwind reads the source as text and generates nothing it cannot see.
+ */
+const TRACK_COLS = ['', 'grid-cols-[2.75rem]', 'grid-cols-[repeat(2,2.75rem)]', 'grid-cols-[repeat(3,2.75rem)]']
+const TRACK_ROWS = ['', 'grid-rows-[2.75rem]', 'grid-rows-[repeat(2,2.75rem)]', 'grid-rows-[repeat(3,2.75rem)]']
+const COL_START = ['', 'col-start-1', 'col-start-2', 'col-start-3']
+const ROW_START = ['', 'row-start-1', 'row-start-2', 'row-start-3']
+
+/**
+ * How far back the box has to sit for its CENTRE CELL — not its middle — to
+ * land on the key. Cell 2.75rem, gap 0.25rem, padding 0.25rem, so the nth
+ * cell's centre is 1.625rem + 3n from the box edge.
+ *
+ * Centring the box instead would put the arms wherever the empty cells left
+ * them: a two-cell column would sit half a key high, and the flick that
+ * reaches う on one key would reach nothing on the next.
+ */
+const NUDGE_X = ['-translate-x-[1.625rem]', '-translate-x-[4.625rem]', '-translate-x-[7.625rem]']
+const NUDGE_Y = ['-translate-y-[1.625rem]', '-translate-y-[4.625rem]', '-translate-y-[7.625rem]']
 
 
 // Chrome buttons on the Rokushō ground: the script toggle.
@@ -157,9 +186,30 @@ function FlickKey({
    */
   const origin = useRef<{ x: number; y: number } | null>(null)
 
+  /**
+   * The value under the pointer, so the cell being aimed at says so.
+   *
+   * A phone has no hover, and `:active` does not follow a finger off the key
+   * it started on — so while a thumb slid across the cross nothing on screen
+   * changed, and you were choosing blind. This is the highlight that a
+   * hardware keyboard would not need.
+   */
+  const [under, setUnder] = useState<string | null>(null)
+
   function pick(value: string) {
     onSelect(value)
     setOpen(null)
+    setUnder(null)
+  }
+
+  function valueAt(x: number, y: number): string | null {
+    const el = document.elementFromPoint(x, y)
+    return el?.closest<HTMLElement>('[data-kana]')?.dataset.kana ?? null
+  }
+
+  function close() {
+    setOpen(null)
+    setUnder(null)
   }
 
   /**
@@ -170,8 +220,23 @@ function FlickKey({
    */
   function openOn(e: React.PointerEvent<HTMLButtonElement>) {
     setOpen(id)
+    // Highlight the centre from the moment of the press. The cross covers the
+    // key it opens on, so without this a press produced no visible change at
+    // all on a touch screen.
+    setUnder(face)
     origin.current = { x: e.clientX, y: e.clientY }
     e.currentTarget.setPointerCapture(e.pointerId)
+  }
+
+  /**
+   * Capture sends every move here, wherever the thumb has gone, so the cell
+   * under it can be asked for by position. Same value means same state object,
+   * which React drops without re-rendering — this fires at the pointer's rate.
+   */
+  function trackOver(e: React.PointerEvent<HTMLButtonElement>) {
+    if (origin.current === null) return
+    const next = valueAt(e.clientX, e.clientY)
+    setUnder((prev) => (prev === next ? prev : next))
   }
 
   /**
@@ -210,15 +275,19 @@ function FlickKey({
       // before a second tap could happen. The release does the work now.
       if (e.pointerType === 'mouse') return
       const centre = slots[0]
-      if (centre === null || centre === undefined) setOpen(null)
+      if (centre === null || centre === undefined) close()
       else pick(centre)
       return
     }
-    const under = document.elementFromPoint(e.clientX, e.clientY)
-    const value = under?.closest<HTMLElement>('[data-kana]')?.dataset.kana
-    if (value !== undefined) pick(value)
-    else setOpen(null)
+    const value = valueAt(e.clientX, e.clientY)
+    if (value !== null) pick(value)
+    else close()
   }
+
+  // Only the cells with something in them are drawn, and the tracks follow.
+  const live = CROSS.filter(({ slot }) => slots[slot] !== null && slots[slot] !== undefined)
+  const cols = [...new Set(live.map((c) => c.col))].sort((a, b) => a - b)
+  const rows = [...new Set(live.map((c) => c.row))].sort((a, b) => a - b)
 
   return (
     <div className="relative">
@@ -229,8 +298,9 @@ function FlickKey({
         aria-expanded={open}
         aria-label={label}
         onPointerDown={openOn}
+        onPointerMove={trackOver}
         onPointerUp={releaseOver}
-        onPointerCancel={() => setOpen(null)}
+        onPointerCancel={close}
         // The keyboard opens the cross on its own key event rather than on
         // click. `click` cannot tell Enter from the compatibility click a touch
         // tap synthesises — both arrive with detail 0 — so a guard on detail
@@ -238,7 +308,8 @@ function FlickKey({
         onKeyDown={(e) => {
           if (e.key !== 'Enter' && e.key !== ' ') return
           e.preventDefault()
-          setOpen(open ? null : id)
+          if (open) close()
+          else setOpen(id)
         }}
         className={`${open ? KEY_OPEN : KEY_MARK} aspect-square h-auto w-full`}
       >
@@ -260,20 +331,17 @@ function FlickKey({
           // already over the centre cell, so the geometry agrees with the
           // gesture instead of fighting it. The board does not clip, so an edge
           // key overhangs rather than shifting the arms away from the finger.
-          className="absolute left-1/2 top-1/2 z-30 grid w-max -translate-x-1/2 -translate-y-1/2 grid-cols-[repeat(3,2.75rem)] grid-rows-[repeat(3,2.75rem)] gap-1 rounded-xl bg-rokusho-800 p-1 shadow-key"
+          className={`absolute left-1/2 top-1/2 z-30 grid w-max gap-1 rounded-xl bg-rokusho-800 p-1 shadow-key ${TRACK_COLS[cols.length]} ${TRACK_ROWS[rows.length]} ${NUDGE_X[Math.max(cols.indexOf(2), 0)]} ${NUDGE_Y[Math.max(rows.indexOf(2), 0)]}`}
         >
-          {CROSS.map(({ slot, cell }) => {
-            const value = slots[slot]
-            if (value === null || value === undefined) {
-              return <span key={cell} className={`${cell} h-11 w-11`} aria-hidden="true" />
-            }
+          {live.map(({ slot, col, row }) => {
+            const value = slots[slot] as string
             return (
               <button
-                key={cell}
+                key={value}
                 type="button"
                 data-kana={value}
                 onClick={() => pick(value)}
-                className={`${KEY} ${cell} h-11 w-11`}
+                className={`${value === under ? KEY_OPEN : KEY} ${COL_START[cols.indexOf(col) + 1]} ${ROW_START[rows.indexOf(row) + 1]} h-11 w-11`}
               >
                 {value}
               </button>
