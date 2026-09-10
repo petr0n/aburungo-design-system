@@ -169,6 +169,7 @@ function FlickKey({
   onSelect,
   label,
   disabled = false,
+  dead = [],
 }: {
   id: string
   face: string
@@ -178,6 +179,17 @@ function FlickKey({
   onSelect: (value: string) => void
   label: string
   disabled?: boolean
+  /**
+   * Values that are shown but cannot be chosen right now.
+   *
+   * The keyboard already refuses to hide a mark key that does nothing to the
+   * last character, because the pad would reflow under the thumb. The same
+   * holds one level down: dropping the half-voiced mark out of the cross
+   * whenever the kana had no half-voiced form meant the key showed one option
+   * on some characters and two on others, so the pair it is supposed to hold
+   * looked like it had been split up. It stays in the cross and greys out.
+   */
+  dead?: readonly string[]
 }) {
   /**
    * Where the press started, so release can tell a flick from a click.
@@ -275,7 +287,7 @@ function FlickKey({
       // before a second tap could happen. The release does the work now.
       if (e.pointerType === 'mouse') return
       const centre = slots[0]
-      if (centre === null || centre === undefined) close()
+      if (centre === null || centre === undefined || dead.includes(centre)) close()
       else pick(centre)
       return
     }
@@ -335,13 +347,17 @@ function FlickKey({
         >
           {live.map(({ slot, col, row }) => {
             const value = slots[slot] as string
+            // No data-kana on a dead cell, so a thumb that lifts over it finds
+            // nothing to select rather than selecting something inert.
+            const spent = dead.includes(value)
             return (
               <button
                 key={value}
                 type="button"
-                data-kana={value}
+                disabled={spent}
+                data-kana={spent ? undefined : value}
                 onClick={() => pick(value)}
-                className={`${value === under ? KEY_OPEN : KEY} ${COL_START[cols.indexOf(col) + 1]} ${ROW_START[rows.indexOf(row) + 1]} h-11 w-11`}
+                className={`${value === under && !spent ? KEY_OPEN : KEY_MARK} ${COL_START[cols.indexOf(col) + 1]} ${ROW_START[rows.indexOf(row) + 1]} h-11 w-11`}
               >
                 {value}
               </button>
@@ -463,7 +479,8 @@ export function KanaKeyboard({
           face="゛"
           label="Voiced and half-voiced marks"
           disabled={voiced === null && halfVoiced === null}
-          slots={[voiced === null ? null : '゛', null, halfVoiced === null ? null : '゜', null, null]}
+          slots={['゛', null, '゜', null, null]}
+          dead={[...(voiced === null ? ['゛'] : []), ...(halfVoiced === null ? ['゜'] : [])]}
           open={openKey === 'mark'}
           setOpen={setOpenKey}
           onSelect={(mark) => {

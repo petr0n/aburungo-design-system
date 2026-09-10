@@ -790,7 +790,8 @@ function FlickKey({
   setOpen,
   onSelect,
   label,
-  disabled = false
+  disabled = false,
+  dead = []
 }) {
   const origin = useRef(null);
   const [under, setUnder] = useState(null);
@@ -826,7 +827,7 @@ function FlickKey({
     if (!moved) {
       if (e.pointerType === "mouse") return;
       const centre = slots[0];
-      if (centre === null || centre === void 0) close();
+      if (centre === null || centre === void 0 || dead.includes(centre)) close();
       else pick(centre);
       return;
     }
@@ -868,13 +869,15 @@ function FlickKey({
         className: `absolute left-1/2 top-1/2 z-30 grid w-max gap-1 rounded-xl bg-rokusho-800 p-1 shadow-key ${TRACK_COLS[cols.length]} ${TRACK_ROWS[rows.length]} ${NUDGE_X[Math.max(cols.indexOf(2), 0)]} ${NUDGE_Y[Math.max(rows.indexOf(2), 0)]}`,
         children: live.map(({ slot, col, row }) => {
           const value = slots[slot];
+          const spent = dead.includes(value);
           return /* @__PURE__ */ jsx17(
             "button",
             {
               type: "button",
-              "data-kana": value,
+              disabled: spent,
+              "data-kana": spent ? void 0 : value,
               onClick: () => pick(value),
-              className: `${value === under ? KEY_OPEN : KEY} ${COL_START[cols.indexOf(col) + 1]} ${ROW_START[rows.indexOf(row) + 1]} h-11 w-11`,
+              className: `${value === under && !spent ? KEY_OPEN : KEY_MARK} ${COL_START[cols.indexOf(col) + 1]} ${ROW_START[rows.indexOf(row) + 1]} h-11 w-11`,
               children: value
             },
             value
@@ -960,7 +963,8 @@ function KanaKeyboard({
               face: "\u309B",
               label: "Voiced and half-voiced marks",
               disabled: voiced === null && halfVoiced === null,
-              slots: [voiced === null ? null : "\u309B", null, halfVoiced === null ? null : "\u309C", null, null],
+              slots: ["\u309B", null, "\u309C", null, null],
+              dead: [...voiced === null ? ["\u309B"] : [], ...halfVoiced === null ? ["\u309C"] : []],
               open: openKey === "mark",
               setOpen: setOpenKey,
               onSelect: (mark) => {
