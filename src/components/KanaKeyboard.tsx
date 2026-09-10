@@ -6,21 +6,26 @@
  * the thing being answered, and `FillInput` — which nests the keyboard inside a
  * bordered display block — could not fit at any viewport a phone has.
  *
- * So the keyboard is a pad of one key per consonant row, and tapping it opens
- * that row's five vowels above the pad.
+ * So the keyboard is a pad of one key per consonant row. Press one and its
+ * five vowels float over the pad, anchored to the key under the thumb; slide
+ * onto the one you want and lift. Release without moving and you get the row's
+ * own kana, so あ is one press and い is a press and a slide.
  *
  * This is not an invention. It is the information architecture every Japanese
- * phone keyboard already uses — flick input, without the gesture. Two taps
- * instead of one, in exchange for the screen back, and the two taps trace the
- * consonant/vowel structure a learner is building anyway.
+ * phone keyboard already uses, and now the gesture too: the popup is what
+ * Gboard shows on a long press, driven by pointer capture so the release
+ * decides, not a second tap.
  *
  * **Voiced and small kana are marks, not boards.** They used to be two more
  * boards behind a section toggle, which meant が cost three taps and you had
  * to know which board が lived on before you could go looking for it — the one
  * thing a learner does not yet know. Now か is typed and then marked, the
  * order every Japanese keyboard uses, and the mark keys sit on the pad where
- * the section toggles used to sit in the header. The pad went from three
- * columns to four to absorb them, so the board did not grow.
+ * the section toggles used to sit in the header.
+ *
+ * **Three columns**, so a key is a thumb wide rather than a fingertip. The
+ * height that costs is paid back by the popup: the vowels no longer occupy a
+ * row of their own above the pad, because they float over it.
  *
  * The groups derive from the existing data: every row in `HIRAGANA_BASIC` is
  * already a consonant group, so the pad key is the row's first cell. No new
@@ -121,7 +126,6 @@ export function KanaKeyboard({
   const groups = rows
     .map((row) => row.filter((c): c is string => c !== null))
     .filter((group) => group.length > 0)
-  const open = openGroup !== null ? groups[openGroup] : undefined
 
   // Switching script invalidates the open group's index.
   function changeScript(next: KanaScript) {
@@ -132,6 +136,30 @@ export function KanaKeyboard({
   function pick(kana: string) {
     onKey(kana)
     setOpenGroup(null)
+  }
+
+  /**
+   * Pointer capture on the consonant key, so the release lands here wherever
+   * the thumb has travelled — over a vowel in the popup, back on the key, or
+   * off the board entirely. Without capture the popup would have to catch its
+   * own pointerup, and a thumb that slid off the edge would leave it open.
+   */
+  function openOn(index: number, e: React.PointerEvent<HTMLButtonElement>) {
+    setOpenGroup(index)
+    e.currentTarget.setPointerCapture(e.pointerId)
+  }
+
+  /**
+   * `elementFromPoint` rather than the event target: with capture the target is
+   * always the key that was pressed, so the thing under the finger has to be
+   * asked for by position. `data-kana` marks what is selectable — the key face
+   * itself carries it, which is what makes a press-and-lift type あ.
+   */
+  function releaseOver(e: React.PointerEvent<HTMLButtonElement>) {
+    const under = document.elementFromPoint(e.clientX, e.clientY)
+    const kana = under?.closest<HTMLElement>('[data-kana]')?.dataset.kana
+    if (kana !== undefined) pick(kana)
+    else setOpenGroup(null)
   }
 
   return (
@@ -155,41 +183,72 @@ export function KanaKeyboard({
         ))}
       </div>
 
-      {/* The open group's vowels, above the pad so the thumb travels up rather
-          than over a key it is already touching. Absent, not hidden — an empty
-          row would cost the 52px the compact layout exists to save. */}
-      {open !== undefined && (
-        <div
-          role="group"
-          aria-label={`${open[0]} row`}
-          className="grid grid-cols-5 gap-1 rounded-xl bg-rokusho-800 p-1"
-        >
-          {open.map((kana) => (
-            <button key={kana} type="button" onClick={() => pick(kana)} className={KEY}>
-              {kana}
-            </button>
-          ))}
-        </div>
-      )}
-
-      {/* The pad: one key per consonant row, then the marks, ー and backspace.
-          Four columns, not three — fifteen keys over four columns is the same
-          four rows twelve keys took over three, so absorbing the marks cost no
-          height. At the ~310px this gets inside a Card that is ~68px a key,
-          still clear of the 44px floor. */}
-      <div className="grid grid-cols-4 gap-1">
+      {/* The pad. Ten consonant keys fill three columns and leave two cells in
+          the fourth row, which ー and backspace take; the marks get a row of
+          their own and space spans the width, where a thumb expects it. */}
+      <div className="grid grid-cols-3 gap-1">
         {groups.map((group, i) => (
-          <button
-            key={group[0]}
-            type="button"
-            aria-expanded={openGroup === i}
-            aria-label={`${group[0]} row`}
-            onClick={() => setOpenGroup(openGroup === i ? null : i)}
-            className={openGroup === i ? KEY_OPEN : KEY}
-          >
-            {group[0]}
-          </button>
+          <div key={group[0]} className="relative">
+            <button
+              type="button"
+              data-kana={group[0]}
+              aria-expanded={openGroup === i}
+              aria-label={`${group[0]} row`}
+              onPointerDown={(e) => openOn(i, e)}
+              onPointerUp={releaseOver}
+              onPointerCancel={() => setOpenGroup(null)}
+              // A click with no detail is a keyboard Enter or Space: pointer
+              // input has already been handled on release, and acting on both
+              // would type twice. Keyboard users get the two-step instead,
+              // which is why the popup's buttons stay focusable.
+              onClick={(e) => {
+                if (e.detail === 0) setOpenGroup(openGroup === i ? null : i)
+              }}
+              className={`${openGroup === i ? KEY_OPEN : KEY} w-full`}
+            >
+              {group[0]}
+            </button>
+
+            {openGroup === i && (
+              <div
+                role="group"
+                aria-label={`${group[0]} row`}
+                // Anchored to the key and floating over the pad, so the thumb
+                // travels the shortest distance rather than up to a fixed row.
+                // -translate-x-1/2 with left-1/2 keeps it centred on the key;
+                // the board does not clip, so an edge key overhangs rather
+                // than shifting the vowels away from the finger.
+                className="absolute bottom-full left-1/2 z-30 mb-1 flex -translate-x-1/2 gap-1 rounded-xl bg-rokusho-800 p-1 shadow-key"
+              >
+                {group.map((kana) => (
+                  <button
+                    key={kana}
+                    type="button"
+                    data-kana={kana}
+                    onClick={(e) => {
+                      if (e.detail === 0) pick(kana)
+                    }}
+                    className={`${KEY} w-11`}
+                  >
+                    {kana}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         ))}
+
+        <button type="button" onClick={() => pick('ー')} className={KEY}>
+          ー
+        </button>
+        <button
+          type="button"
+          onClick={onBackspace}
+          aria-label="Backspace"
+          className={KEY}
+        >
+          <BackspaceIcon className="h-5 w-5" />
+        </button>
 
         {MARKS.map(({ mark, label, name }) => {
           const marked = applyKanaModifier(value, mark)
@@ -210,16 +269,13 @@ export function KanaKeyboard({
           )
         })}
 
-        <button type="button" onClick={() => pick('ー')} className={KEY}>
-          ー
-        </button>
         <button
           type="button"
-          onClick={onBackspace}
-          aria-label="Backspace"
-          className={KEY}
+          onClick={() => pick(' ')}
+          aria-label="Space"
+          className={`${KEY} col-span-3`}
         >
-          <BackspaceIcon className="h-5 w-5" />
+          <span className="text-caption text-key-fg/60">space</span>
         </button>
       </div>
     </div>
