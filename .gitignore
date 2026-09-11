@@ -37,3 +37,15 @@ scripts/.shots-out/
 # one broad `git add` away from being committed.
 *.afdesign
 *.afdesign~lock~
+
+# Design-canvas scratch, published from Claude Code. The artboard sources
+# (`*.dc.html` + `canvas.json`) and the single-file published page are a
+# scratch surface, not a design deliverable — the deliverable is whatever
+# lands in ui_kits/ or preview/. The published page is ~2.5MB because it
+# inlines the whole canvas editor alongside the content.
+#
+# Listed for the same reason as the Affinity lock file above: one was sitting
+# untracked in the root on 2026-09-10, one broad `git add` from being committed.
+*.dc.html
+/canvas.json
+/aburungo-product-screens.html
