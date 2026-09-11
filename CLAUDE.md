@@ -71,7 +71,7 @@ Check `MEMORY.md` there at the start of every conversation.
 
 | Path | Purpose |
 | --- | --- |
-| `src/components/` | TypeScript React components — the shipped package source (21 components, 24 exports) |
+| `src/components/` | TypeScript React components — the shipped package source (21 components, 5 of them in `ui/`, 28 value exports) |
 | `src/tokens.css` | Tailwind v4 `@theme` block — **the design token source of truth** |
 | `src/index.css` | Package entry: `@import "tailwindcss"`, `@import "./tokens.css"`, `@font-face`, base resets |
 | `src/brand.css` | Brand utilities — `.hanko`, `.maru`, `.wm`, `.kata-vert`, `.ctype`, `.frame`, `.emboss-bg` |
@@ -106,7 +106,8 @@ back to an `@import`.
 ## Commands
 
 ```
-pnpm build        brand check → lint → tsup → regenerate tokens
+pnpm build        brand check → lint → tsup → regenerate tokens → flows
+pnpm verify       pnpm build, then the browser-based touch gate. What CI runs.
 pnpm dev          tsup --watch for live rebuilds during development
 pnpm typecheck    tsc --noEmit
 pnpm lint         oxlint (adherence config) + scripts/check-adherence.mjs
@@ -114,6 +115,16 @@ pnpm build:tokens regenerate dist/tokens.plain.css and the harness @theme blocks
 pnpm build:flows  bundle ui_kits/flows/*.tsx -> ui_kits/flows/bundle.js
 pnpm shots        render every surface to scripts/.shots-out/ (gitignored)
 ```
+
+**`check:touch` is deliberately not inside `build`.** It measures controls in a
+real browser, so folding it in would make every build — and every fresh clone —
+depend on a Chrome download. `.github/workflows/ci.yml` says so at the
+`Install headless Chrome` step, and runs the gate as its own step afterwards.
+`pnpm verify` is the local equivalent of the full CI run. Two further traps, both
+hit on 2026-09-10: putting it in `lint` makes it measure the **previous** build's
+bundle, because lint runs before `build:flows` — it reported `0 undersized` on a
+`min-h-[30px]` button and `41` once the bundle was rebuilt. And appending it to
+`build` turns CI red, because CI provisions Chrome *after* `pnpm build`.
 
 ## ⚠️ Two kinds of harness — know which one you are looking at
 
