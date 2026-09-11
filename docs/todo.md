@@ -279,13 +279,22 @@ Nothing can catch this. `scripts/check-adherence.mjs` has a
 `focus-ring-without-offset` rule, but it scans `src/components/**` *in this repo*
 — the app's focus styling is ungated by anything, here or there.
 
-**Unblocked 2026-08-11.** The reason to wait is gone: `--color-focus` moved to
-Ōgon 700 `#8a6a2b`, which clears 4.65 / 4.95 / 4.29 on page / card / well against
-a 3:1 bar. Repointing to `ring-focus` no longer trades a semantic bug for a
-contrast one. (`docs/colors.md` had prescribed Ōgon 700 as correction #1 all
-along — the correction was written and never applied to `tokens.css`.)
+**Unblocked 2026-08-11, then reversed 2026-08-13 — read this before acting.**
+This entry used to say `--color-focus` had moved to Ōgon 700 `#8a6a2b`, clearing
+4.65 / 4.95 / 4.29 on page / card / well, and that repointing therefore no longer
+traded a semantic bug for a contrast one. **That is no longer true.**
+[`src/tokens.css`](../src/tokens.css) sets `--color-focus: var(--color-ogon-500)`
+= `#C9A045`, which `pnpm check:contrast` reports as **2.26 / 2.40 / 2.08** — three
+accepted known failures, logged "Author kept the gold over the ratio, 2026-08-13".
+The author chose the gold over the ratio *after* the note below was written.
 
-**The change, ready to run:** `ring-brand-500` → `ring-focus` and
+So the semantic fix still stands on its own merits — a focused input must not
+draw in the colour reserved for errors and the hanko — but **it does not fix
+contrast, and must not be sold as though it does.** Whoever picks this up is
+moving 8 sites from a 2.26:1 red ring to a 2.26:1 gold ring. That is a real
+improvement in meaning and no improvement in visibility.
+
+**The change, still worth running:** `ring-brand-500` → `ring-focus` and
 `focus:border-brand-500` → `focus:border-focus` at the 8 sites above, plus
 `ring-offset-2 ring-offset-bg` where missing — a ring with no offset sits on the
 control's edge, which is what `check-adherence.mjs` enforces in this repo.
