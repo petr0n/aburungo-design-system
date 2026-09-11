@@ -289,10 +289,20 @@ accepted known failures, logged "Author kept the gold over the ratio, 2026-08-13
 The author chose the gold over the ratio *after* the note below was written.
 
 So the semantic fix still stands on its own merits — a focused input must not
-draw in the colour reserved for errors and the hanko — but **it does not fix
-contrast, and must not be sold as though it does.** Whoever picks this up is
-moving 8 sites from a 2.26:1 red ring to a 2.26:1 gold ring. That is a real
-improvement in meaning and no improvement in visibility.
+draw in the colour reserved for errors and the hanko — but **it trades a ring
+that passes 3:1 for one that does not**, and must not be sold as a contrast fix.
+Measured on the v3 grounds:
+
+| Ring | page `#F7F6F1` | card `#FFFDF8` | well `#EFEDE5` |
+| --- | --- | --- | --- |
+| `brand-500` Akane `#D72E2E` — what the app draws today | 4.49:1 | 4.78:1 | 4.15:1 |
+| `focus` Ōgon 500 `#C9A045` — what `ring-focus` resolves to | **2.26:1** | **2.40:1** | **2.08:1** |
+
+The red ring is wrong for its *meaning* and happens to be perfectly visible. The
+gold ring is right for its meaning and fails the 3:1 a non-text indicator needs.
+Whoever runs this is buying semantics with visibility, on 8 sites, knowingly —
+not fixing two bugs at once. If that trade is unacceptable, the lever is
+`--color-focus`, not the app's 8 call sites.
 
 **The change, still worth running:** `ring-brand-500` → `ring-focus` and
 `focus:border-brand-500` → `focus:border-focus` at the 8 sites above, plus
