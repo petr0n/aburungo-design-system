@@ -248,6 +248,49 @@ And **the crest stays away from any surface where an answer is being judged**,
 which `docs/todo.md` already required for a different reason: kamon are
 circular, and ○ is taken.
 
+> **Conflict raised 2026-09-12 — not resolved here.** Raised rather than acted
+> on, per "Status of these decisions" above: where two rules collide, propose a
+> resolution rather than treat the older one as binding.
+>
+> **The collision.** This rule is the reason the daily loop is bare, and the
+> daily loop is the surface the author has called bland — the complaint that
+> opened `docs/todo.md` item 3. The identity work has landed almost entirely on
+> states a learner meets when something is *absent or broken*: empty, loading,
+> error, plus the lesson list and the book surfaces. Prompt → reveal → grade →
+> summary, run every session, is navy on flat stone. Rendered side by side, the
+> book opener reads as a Japanese product and the flashcard round reads as a
+> starter template. That is this rule working as designed, not a gap in it.
+>
+> **Where the rationale actually reaches.** "A texture behind a judged answer
+> competes with the maru" is sound, and it covers the states that draw ○ / ✕ —
+> `answered`, `result`, `review`, `summary`. It says nothing about **`chart`**
+> and **`keyboard`**, which are in the bare row and judge nothing: the kana
+> chart is a reference grid, the keyboard is text entry. Neither ever draws a
+> maru. They are bare because the row bundles them with states that do.
+>
+> **Proposed resolution.** Move `chart` and `keyboard` to the crest row. Leave
+> everything else bare.
+>
+> The tempting wider version — "every unjudged state takes the crest" — is
+> worse, and the reason is worth recording so it is not re-proposed. `drill`
+> and `card` are unjudged only until the learner answers, and they become
+> `answered` and `summary` on the same screen. A ground that appears while you
+> read the question and vanishes when you answer is more distracting than
+> either ground held steady. **So the unit is the screen, not the state:** a
+> screen that passes through judging stays bare throughout. `chart` and
+> `keyboard` qualify because they never pass through it at all.
+>
+> **What retires this.** A sandbox lab under `preview/_sandbox/` rendering the
+> kana chart and keyboard both ways, tagged and left on the page per the
+> append-only rule — not a verdict written here. Until that lab exists and the
+> author picks, the rule above stands as written and the bare row is correct.
+>
+> **Prior art, so it is not repeated.** On 2026-09-10 this was misread as an
+> oversight and "fixed": nine working states across `flashcard-round`,
+> `fill-blank` and `kana-practice` were wrapped in `PatternedStage` and
+> reverted before commit. The diagnosis came from reading this section's
+> heading and not its body.
+
 ## Typography
 
 **Body Font:** Noto Sans (variable, shipped locally) — all English UI.
