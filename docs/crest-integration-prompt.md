@@ -8,22 +8,23 @@ where the crest sits, how big it is, and whether it reads as part of the print o
 something pasted on top.
 
 Pair each block below with a scene from [`illustration-prompt.md`](illustration-prompt.md).
-That file's style block is unchanged and still governs the print quality; this file only
-adds the crest, and amends the two lines that would otherwise suppress it.
+That file's style block governs the print quality and now *asks* for borders, seals,
+cartouches and real Japanese text; this file only adds the crest on top of it.
 
 ---
 
-## Before you paste: delete two lines from the scene prompt
+## The rule that used to block this is gone
 
-`illustration-prompt.md` carries these, written before the crest direction existed:
+`illustration-prompt.md` used to carry this, written before the crest direction existed:
 
 > Avoid any decorative border or frame around the image, and any ornamental marks,
 > seals, glyphs or characters in the corners or margins.
 
-**Cut that sentence.** Leave the rest of the avoid-list intact — the anime, tourist-emblem
-and gradient exclusions all still apply. Keep "avoid any lettering, text, signage or
-written characters" too: the crest is a mark, not type, and the variants below say so
-explicitly so the model does not treat it as text to be removed.
+**Already done — 2026-09-13.** That sentence is gone from all five chapter blocks, replaced
+by a positive requirement for borders, seals, cartouches and real Japanese text, all
+carrying the same woodcut artefacts as the picture. The no-lettering rule went with it, so
+the variants below no longer need to argue that a crest is a mark rather than type — though
+they still say so, which costs nothing and keeps each block self-contained.
 
 ## Two things the scene prompts should NOT inherit
 

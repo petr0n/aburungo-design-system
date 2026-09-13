@@ -32,9 +32,11 @@ The image is displayed large, roughly the width of a phone screen, so fine linew
 be seen. Do not simplify for small sizes.
 
 THE SCENE: a small restaurant counter seen from the customer's side. A split noren curtain
-hanging above. One seated customer and one cook behind the counter, the customer inclining
-slightly in a greeting. A bowl and chopsticks on the counter. A standing card beside them bearing only abstract
-tally marks and small carved dashes — no words, no characters, nothing readable.
+hanging above, carrying exactly these two characters, large and simply carved: 食堂
+One seated customer and one cook behind the counter, the customer inclining slightly in a
+greeting. A bowl and chopsticks on the counter. A standing menu card beside them carrying
+exactly two dish names, one per line, large: ラーメン / ぎょうざ
+Render only those characters. No other lettering anywhere in the image.
 
 The people are ordinary contemporary Japanese adults, observed plainly. Adults with
 real faces, carved rather than cartooned — the restraint of a print portrait, not the
@@ -45,10 +47,27 @@ Square format, 1:1.
 Avoid entirely: anime, manga, chibi, kawaii, cartoon mascots, large expressive eyes. Avoid
 Mount Fuji, cherry blossoms, torii gates, geisha, samurai, dragons, koi, and every other
 tourist emblem of Japan. Avoid modern flat-vector corporate illustration and rounded
-blobby figures. Avoid gradients, drop shadows, glows, 3D rendering and photorealism. Avoid
-any lettering, text, signage or written characters anywhere in the image. Avoid any
-decorative border or frame around the image, and any ornamental marks, seals, glyphs or
-characters in the corners or margins.
+blobby figures. Avoid gradients, drop shadows, glows, 3D rendering and photorealism.
+
+BORDERS, SEALS AND ORNAMENT are wanted. Enclose the scene in a carved border: a key-fret
+band, a seigaiha wave, a plain double rule, or a simple cornered frame. Place seals or
+cartouches in the margins where a hand-pulled print would carry them. Cut them from the
+same block as the picture and fill them from the palette below.
+
+JAPANESE TEXT is wanted wherever the scene would genuinely carry it — noren, shop signs,
+menu boards, lanterns, price cards, packaging. It must be REAL and RELEVANT: actual
+Japanese belonging to this scene, rendered EXACTLY as the scene specifies it. Do not
+invent characters, do not produce decorative pseudo-kanji, and do not render approximate
+glyph-shaped marks. Prefer FEW, LARGE, SIMPLE strings over many small ones — a
+three-character noren survives printing where a nine-item menu board turns to mush. Where
+the scene names no text, leave the surface blank rather than inventing something for it.
+
+Every one of these — border, seal, cartouche, and every single character of text — is
+carved into the same block as the picture and carries the same woodcut artefacts described
+below: irregular knife-cut edges, blunt terminations, uneven ink density, slight
+misregistration against the key line block, pigment feathering into the paper, and
+woodgrain printing through. Clean vector ornament or crisp digital type laid over a
+textured print is the specific failure to avoid.
 
 Colour is assigned by PRINT BLOCK, not by observation. Objects are not coloured the colour
 they would be in life — a metal pot, a wooden table and a ceramic bowl are all filled with
@@ -120,6 +139,9 @@ be seen. Do not simplify for small sizes.
 THE SCENE: a narrow shopfront with a fabric awning, and beside it a station ticket gate. A
 commuter passing through the gate with a bag. A train visible in flat silhouette behind,
 cropped by the frame.
+The awning carries exactly these three characters, large and simply carved: 八百屋
+The sign over the ticket gate carries exactly these two: 改札
+Render only those characters. No other lettering anywhere in the image.
 
 The people are ordinary contemporary Japanese adults, observed plainly. Adults with
 real faces, carved rather than cartooned — the restraint of a print portrait, not the
@@ -130,10 +152,27 @@ Square format, 1:1.
 Avoid entirely: anime, manga, chibi, kawaii, cartoon mascots, large expressive eyes. Avoid
 Mount Fuji, cherry blossoms, torii gates, geisha, samurai, dragons, koi, and every other
 tourist emblem of Japan. Avoid modern flat-vector corporate illustration and rounded
-blobby figures. Avoid gradients, drop shadows, glows, 3D rendering and photorealism. Avoid
-any lettering, text, signage or written characters anywhere in the image. Avoid any
-decorative border or frame around the image, and any ornamental marks, seals, glyphs or
-characters in the corners or margins.
+blobby figures. Avoid gradients, drop shadows, glows, 3D rendering and photorealism.
+
+BORDERS, SEALS AND ORNAMENT are wanted. Enclose the scene in a carved border: a key-fret
+band, a seigaiha wave, a plain double rule, or a simple cornered frame. Place seals or
+cartouches in the margins where a hand-pulled print would carry them. Cut them from the
+same block as the picture and fill them from the palette below.
+
+JAPANESE TEXT is wanted wherever the scene would genuinely carry it — noren, shop signs,
+menu boards, lanterns, price cards, packaging. It must be REAL and RELEVANT: actual
+Japanese belonging to this scene, rendered EXACTLY as the scene specifies it. Do not
+invent characters, do not produce decorative pseudo-kanji, and do not render approximate
+glyph-shaped marks. Prefer FEW, LARGE, SIMPLE strings over many small ones — a
+three-character noren survives printing where a nine-item menu board turns to mush. Where
+the scene names no text, leave the surface blank rather than inventing something for it.
+
+Every one of these — border, seal, cartouche, and every single character of text — is
+carved into the same block as the picture and carries the same woodcut artefacts described
+below: irregular knife-cut edges, blunt terminations, uneven ink density, slight
+misregistration against the key line block, pigment feathering into the paper, and
+woodgrain printing through. Clean vector ornament or crisp digital type laid over a
+textured print is the specific failure to avoid.
 
 Colour is assigned by PRINT BLOCK, not by observation. Objects are not coloured the colour
 they would be in life — a metal pot, a wooden table and a ceramic bowl are all filled with
@@ -196,6 +235,9 @@ be seen. Do not simplify for small sizes.
 THE SCENE: a street corner in an ordinary Japanese neighbourhood. Utility poles with
 looping cables, a vending machine, a low building edge, a pedestrian crossing in the
 foreground. One or two figures walking, small in the frame.
+The vending machine carries two labels above its rows, exactly as given and nothing else:
+つめたい on one row, あたたかい on the other, each large enough to read at a glance.
+Render only those characters. No other lettering anywhere in the image.
 
 The people are ordinary contemporary Japanese adults, observed plainly. Adults with
 real faces, carved rather than cartooned — the restraint of a print portrait, not the
@@ -206,10 +248,27 @@ Square format, 1:1.
 Avoid entirely: anime, manga, chibi, kawaii, cartoon mascots, large expressive eyes. Avoid
 Mount Fuji, cherry blossoms, torii gates, geisha, samurai, dragons, koi, and every other
 tourist emblem of Japan. Avoid modern flat-vector corporate illustration and rounded
-blobby figures. Avoid gradients, drop shadows, glows, 3D rendering and photorealism. Avoid
-any lettering, text, signage or written characters anywhere in the image. Avoid any
-decorative border or frame around the image, and any ornamental marks, seals, glyphs or
-characters in the corners or margins.
+blobby figures. Avoid gradients, drop shadows, glows, 3D rendering and photorealism.
+
+BORDERS, SEALS AND ORNAMENT are wanted. Enclose the scene in a carved border: a key-fret
+band, a seigaiha wave, a plain double rule, or a simple cornered frame. Place seals or
+cartouches in the margins where a hand-pulled print would carry them. Cut them from the
+same block as the picture and fill them from the palette below.
+
+JAPANESE TEXT is wanted wherever the scene would genuinely carry it — noren, shop signs,
+menu boards, lanterns, price cards, packaging. It must be REAL and RELEVANT: actual
+Japanese belonging to this scene, rendered EXACTLY as the scene specifies it. Do not
+invent characters, do not produce decorative pseudo-kanji, and do not render approximate
+glyph-shaped marks. Prefer FEW, LARGE, SIMPLE strings over many small ones — a
+three-character noren survives printing where a nine-item menu board turns to mush. Where
+the scene names no text, leave the surface blank rather than inventing something for it.
+
+Every one of these — border, seal, cartouche, and every single character of text — is
+carved into the same block as the picture and carries the same woodcut artefacts described
+below: irregular knife-cut edges, blunt terminations, uneven ink density, slight
+misregistration against the key line block, pigment feathering into the paper, and
+woodgrain printing through. Clean vector ornament or crisp digital type laid over a
+textured print is the specific failure to avoid.
 
 Colour is assigned by PRINT BLOCK, not by observation. Objects are not coloured the colour
 they would be in life — a metal pot, a wooden table and a ceramic bowl are all filled with
@@ -281,10 +340,27 @@ Square format, 1:1.
 Avoid entirely: anime, manga, chibi, kawaii, cartoon mascots, large expressive eyes. Avoid
 Mount Fuji, cherry blossoms, torii gates, geisha, samurai, dragons, koi, and every other
 tourist emblem of Japan. Avoid modern flat-vector corporate illustration and rounded
-blobby figures. Avoid gradients, drop shadows, glows, 3D rendering and photorealism. Avoid
-any lettering, text, signage or written characters anywhere in the image. Avoid any
-decorative border or frame around the image, and any ornamental marks, seals, glyphs or
-characters in the corners or margins.
+blobby figures. Avoid gradients, drop shadows, glows, 3D rendering and photorealism.
+
+BORDERS, SEALS AND ORNAMENT are wanted. Enclose the scene in a carved border: a key-fret
+band, a seigaiha wave, a plain double rule, or a simple cornered frame. Place seals or
+cartouches in the margins where a hand-pulled print would carry them. Cut them from the
+same block as the picture and fill them from the palette below.
+
+JAPANESE TEXT is wanted wherever the scene would genuinely carry it — noren, shop signs,
+menu boards, lanterns, price cards, packaging. It must be REAL and RELEVANT: actual
+Japanese belonging to this scene, rendered EXACTLY as the scene specifies it. Do not
+invent characters, do not produce decorative pseudo-kanji, and do not render approximate
+glyph-shaped marks. Prefer FEW, LARGE, SIMPLE strings over many small ones — a
+three-character noren survives printing where a nine-item menu board turns to mush. Where
+the scene names no text, leave the surface blank rather than inventing something for it.
+
+Every one of these — border, seal, cartouche, and every single character of text — is
+carved into the same block as the picture and carries the same woodcut artefacts described
+below: irregular knife-cut edges, blunt terminations, uneven ink density, slight
+misregistration against the key line block, pigment feathering into the paper, and
+woodgrain printing through. Clean vector ornament or crisp digital type laid over a
+textured print is the specific failure to avoid.
 
 Colour is assigned by PRINT BLOCK, not by observation. Objects are not coloured the colour
 they would be in life — a metal pot, a wooden table and a ceramic bowl are all filled with
@@ -357,10 +433,27 @@ Square format, 1:1.
 Avoid entirely: anime, manga, chibi, kawaii, cartoon mascots, large expressive eyes. Avoid
 Mount Fuji, cherry blossoms, torii gates, geisha, samurai, dragons, koi, and every other
 tourist emblem of Japan. Avoid modern flat-vector corporate illustration and rounded
-blobby figures. Avoid gradients, drop shadows, glows, 3D rendering and photorealism. Avoid
-any lettering, text, signage or written characters anywhere in the image. Avoid any
-decorative border or frame around the image, and any ornamental marks, seals, glyphs or
-characters in the corners or margins.
+blobby figures. Avoid gradients, drop shadows, glows, 3D rendering and photorealism.
+
+BORDERS, SEALS AND ORNAMENT are wanted. Enclose the scene in a carved border: a key-fret
+band, a seigaiha wave, a plain double rule, or a simple cornered frame. Place seals or
+cartouches in the margins where a hand-pulled print would carry them. Cut them from the
+same block as the picture and fill them from the palette below.
+
+JAPANESE TEXT is wanted wherever the scene would genuinely carry it — noren, shop signs,
+menu boards, lanterns, price cards, packaging. It must be REAL and RELEVANT: actual
+Japanese belonging to this scene, rendered EXACTLY as the scene specifies it. Do not
+invent characters, do not produce decorative pseudo-kanji, and do not render approximate
+glyph-shaped marks. Prefer FEW, LARGE, SIMPLE strings over many small ones — a
+three-character noren survives printing where a nine-item menu board turns to mush. Where
+the scene names no text, leave the surface blank rather than inventing something for it.
+
+Every one of these — border, seal, cartouche, and every single character of text — is
+carved into the same block as the picture and carries the same woodcut artefacts described
+below: irregular knife-cut edges, blunt terminations, uneven ink density, slight
+misregistration against the key line block, pigment feathering into the paper, and
+woodgrain printing through. Clean vector ornament or crisp digital type laid over a
+textured print is the specific failure to avoid.
 
 Colour is assigned by PRINT BLOCK, not by observation. Objects are not coloured the colour
 they would be in life — a metal pot, a wooden table and a ceramic bowl are all filled with
@@ -418,6 +511,18 @@ Colour drifting off palette:
 ```
 
 ## Before accepting anything
+
+**Read every character in the image, and reject on any error.** This is the check the
+no-text rule used to make unnecessary. Image models produce plausible-looking Japanese
+that is malformed, mirrored, invented, or simply a different word — and in a product
+someone is learning the language from, wrong Japanese on a chapter plate is worse than no
+Japanese at all, because a learner will read it and believe it. A character that is close
+but not right fails the image. Do not patch it by hand; regenerate.
+
+What goes wrong most, in order: an invented character that resembles a real one, a correct
+character with a missing or extra stroke, the right word with its characters transposed,
+and small text degrading into glyph-shaped noise. The last is why the prompt asks for few,
+large, simple strings — it is the failure you can design out rather than inspect for.
 
 Downscale to 80×80 and look at it. A chapter thumbnail that turns to mud at that size
 fails regardless of how good it looks at full resolution.
