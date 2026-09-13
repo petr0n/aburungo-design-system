@@ -285,12 +285,32 @@ circular, and ○ is taken.
 > append-only rule. Until the author picks, the rule above stands as written
 > and the bare row is correct.
 >
-> **What the lab settled before anyone looked at it.** Both components are
-> **opaque containers** — `KanaGrid` is `bg-surface`, `KanaKeyboard` is
-> `bg-keyboard-bg`. The crest cannot reach either one's contents, so no kana
-> legibility question exists and the contrast gate has nothing to measure. The
-> only thing either variant changes is the gutter around the component. This is
-> a compositional call, not a contrast one.
+> **What the lab found — and what the first draft of this paragraph got wrong.**
+> It claimed both components are opaque, so "no contrast question exists" and
+> only the gutter changes. That is true of the components and **false of the
+> chart screen**, which is what actually carries the ground. Corrected after
+> review, 2026-09-13:
+>
+> - **The chart is blocked on two counts.** Its settled legend is
+>   `text-fg-subtle` sitting directly on the page ground, and `fg-subtle` over
+>   the crest is **3.47:1** — `scripts/check-contrast.mjs` records that as
+>   barred by the legibility rule outright, not merely failing. Cheap to fix:
+>   `fg-muted` is already gated over a pattern at 4.57:1. **Second, and
+>   structural:** `.emboss-bg` sets `overflow: hidden` and forces
+>   `position: relative` on every direct child, so the sticky CTA shipped in #52
+>   silently un-pins and the button falls below the fold again. Relaxing the
+>   child rule does not help — `overflow: hidden` defeats `position: sticky` on
+>   its own. **`PatternedStage` would have to wrap only the scrolling content
+>   and leave pinned chrome as its sibling**, which is the right structure
+>   regardless: a pinned footer is chrome fixed to the viewport, not content on
+>   the ground.
+> - **The keyboard screen carries no text on the ground at all.** Prompt card,
+>   answer field, pad and submit are four opaque containers, and it has no
+>   pinned chrome. Neither problem above applies; D is purely a composition
+>   call.
+>
+> The lesson under both: the unit that carries the ground is the **screen**,
+> and a claim about the component is not a claim about the screen.
 >
 > **Prior art, so it is not repeated.** On 2026-09-10 this was misread as an
 > oversight and "fixed": nine working states across `flashcard-round`,
