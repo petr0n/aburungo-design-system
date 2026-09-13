@@ -1,0 +1,324 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The ground under chart and keyboard — bare vs crest</title>
+<link rel="stylesheet" href="../../dist/tokens.plain.css">
+<link rel="stylesheet" href="../../src/brand.css">
+<style>
+ body{margin:0;padding:26px;font-family:var(--font-sans);color:var(--color-fg);background:var(--color-bg)}
+ h1{font-size:var(--text-heading-sm);margin:0 0 2px}
+ h2{font-size:var(--text-body);margin:30px 0 10px;font-weight:650}
+ .s{color:var(--color-fg-muted);margin:0 0 8px;font-size:var(--text-body-sm);max-width:92ch;line-height:1.6}
+ .s b{color:var(--color-fg)}
+ .s code{font-family:var(--font-mono);font-size:.92em}
+ .row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;max-width:960px;align-items:start}
+ .col{display:flex;flex-direction:column;gap:9px;min-width:0}
+ .hd{font-size:var(--text-body-sm);font-weight:650;margin:0}
+ .sub{font-size:var(--text-caption);color:var(--color-fg-muted);margin:0;min-height:4.4em;line-height:1.5}
+ .tag{display:inline-block;font-size:var(--text-caption);font-weight:600;letter-spacing:.12em;
+   text-transform:uppercase;padding:2px 7px;border-radius:var(--radius-sm);align-self:flex-start}
+ .tag.ships{background:var(--color-stone-100);color:var(--color-fg-muted)}
+ .tag.prop {background:var(--color-rokusho-100);color:var(--color-rokusho-800)}
+
+ /* The phone. Mirrors ui_kits device framing loosely — this is a lab, not the kit. */
+ .phone{border-radius:var(--radius-xl);overflow:hidden;background:var(--color-bg);
+   border:1px solid var(--color-stone-300);display:flex;flex-direction:column}
+ /* Header band — Sumi-iro slab + Ogon hairline, same on every variant: the
+    band is not what is being decided here. */
+ .band{background:var(--color-bg-inverse);color:var(--color-fg-on-inverse);
+   padding:10px 12px;text-align:center;border-bottom:3px solid var(--color-rule-on-inverse)}
+ .band .t{font-size:var(--text-body-sm);font-weight:650}
+ .band .u{font-size:var(--text-caption);opacity:.72}
+ /* The stage under the band. `pad` is the bare variant; `emboss-bg crest-1
+    tile-sm` is exactly what PatternedStage applies in ui_kits/flows/shell.tsx. */
+ .stage{flex:1;padding:16px 14px}
+
+ /* ─── KanaGrid, mirrored ────────────────────────────────────────────────
+    Real classes it renders, for reference:
+      wrapper  rounded-xl border border-border bg-surface p-3
+      row      grid grid-cols-5 gap-1
+      cell     min-h-[44px] rounded-lg border border-border bg-bg shadow-key
+               font-jp text-jp-lg text-fg
+      settled  ring-2 ring-progress-fill ring-inset
+    The wrapper is OPAQUE (bg-surface). That is the whole point of this page. */
+ .grid{border-radius:var(--radius-xl);border:1px solid var(--color-border);
+   background:var(--color-surface);padding:12px;display:flex;flex-direction:column;gap:4px}
+ .grow{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+ .cell{min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+   gap:2px;padding:4px 0;border-radius:var(--radius-lg);border:1px solid var(--color-border);
+   background:var(--color-bg);box-shadow:var(--shadow-key)}
+ .cell .k{font-family:var(--font-jp);font-size:var(--text-jp-lg);line-height:1.1;color:var(--color-fg)}
+ /* text-caption / fg-faint — what the chart's renderKey actually passes in
+    ui_kits/flows/kana-practice.tsx. A 10px draft here was off the ramp and a
+    step too dark; the design hook caught it. */
+ .cell .r{font-size:var(--text-caption);color:var(--color-fg-faint);line-height:1}
+ .cell.on{box-shadow:inset 0 0 0 2px var(--color-progress-fill),var(--shadow-key)}
+ .cell.void{background:transparent;border-color:transparent;box-shadow:none}
+
+ /* ─── KanaKeyboard, mirrored ───────────────────────────────────────────
+      frame  rounded-2xl border-2 border-keyboard-rule bg-keyboard-bg p-3
+      key    h-11 rounded-xl bg-key-bg text-key-fg font-jp text-jp-lg shadow-key
+      toggle bg-focus text-inverse-on-ogon  (on) / border text-key-bg (off)
+    The frame is OPAQUE too — the Rokusho slab. */
+ .kb{margin:0 auto;width:max-content;display:flex;flex-direction:column;gap:8px;
+   border-radius:var(--radius-2xl);border:2px solid var(--color-keyboard-rule);
+   background:var(--color-keyboard-bg);padding:12px}
+ .tog{display:flex;align-items:center;justify-content:center;gap:4px}
+ .tog span{min-height:44px;min-width:44px;display:flex;align-items:center;justify-content:center;
+   padding:0 12px;border-radius:var(--radius-lg);font-family:var(--font-jp);
+   font-size:var(--text-caption);font-weight:500}
+ .tog .on{background:var(--color-focus);color:var(--color-inverse-on-ogon)}
+ .tog .off{border:1px solid color-mix(in srgb,var(--color-key-bg) 40%,transparent);color:var(--color-key-bg)}
+ .pad{margin:0 auto;display:grid;width:13rem;grid-template-columns:repeat(3,1fr);gap:4px}
+ .key{height:44px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius-xl);
+   background:var(--color-key-bg);color:var(--color-key-fg);font-family:var(--font-jp);
+   font-size:var(--text-jp-lg);box-shadow:var(--shadow-key)}
+ .key.wide{grid-column:span 3;font-family:var(--font-sans);font-size:var(--text-caption);
+   color:color-mix(in srgb,var(--color-key-fg) 60%,transparent)}
+ .key.dim{opacity:.4}
+
+ .note{margin:10px 0 0;font-size:var(--text-caption);color:var(--color-fg-muted);
+   max-width:44ch;line-height:1.55}
+ .verdict{margin:26px 0 0;padding:14px 16px;max-width:92ch;border-radius:var(--radius-xl);
+   border:1px solid var(--color-border);background:var(--color-surface)}
+ .verdict p{margin:0 0 8px;font-size:var(--text-body-sm);line-height:1.6}
+ .verdict p:last-child{margin-bottom:0}
+</style></head><body>
+
+<h1>The ground under chart and keyboard — bare vs crest</h1>
+<p class="s">
+  <b>The question.</b> <code>DESIGN.md</code> "Which surfaces carry the ground", settled 2026-08-16,
+  puts <code>chart</code> and <code>keyboard</code> in the bare row alongside <code>card</code>,
+  <code>drill</code> and <code>summary</code>. The stated reason is that
+  <b>a texture behind a judged answer competes with the maru</b> — kamon are circular and ○ is taken.
+  The chart and the keyboard never judge anything and never draw a maru, so the reason does not
+  reach them. PR #51 proposes moving these two and leaving the rest bare. This page is the artefact
+  that retires that proposal.
+</p>
+<p class="s">
+  <b>What the render settles immediately.</b> Both components are <b>opaque containers</b> —
+  <code>KanaGrid</code> is <code>bg-surface</code>, <code>KanaKeyboard</code> is
+  <code>bg-keyboard-bg</code>. The crest cannot reach either one's contents. Nothing about kana
+  legibility is at stake; the only thing that changes is <b>the gutter around the component</b>.
+  So this is a compositional choice, not a contrast one, and the contrast gate has nothing to say
+  about it either way.
+</p>
+
+<h2>Kana chart</h2>
+<div class="row">
+
+  <div class="col">
+    <span class="tag ships">Ships today</span>
+    <p class="hd">A · Chart on bare stone</p>
+    <p class="sub">The rule as written. The chart is a white card floating on flat warm stone,
+      with the Ōgon hairline above it and nothing else on the screen.</p>
+    <div class="phone">
+      <div class="band"><div class="t">Kana</div><div class="u">15 of 46 settled</div></div>
+      <div class="stage">
+        <div class="grid">
+          <div class="grow">
+            <div class="cell on"><span class="k" lang="ja">あ</span><span class="r">a</span></div>
+            <div class="cell on"><span class="k" lang="ja">い</span><span class="r">i</span></div>
+            <div class="cell on"><span class="k" lang="ja">う</span><span class="r">u</span></div>
+            <div class="cell on"><span class="k" lang="ja">え</span><span class="r">e</span></div>
+            <div class="cell on"><span class="k" lang="ja">お</span><span class="r">o</span></div>
+          </div>
+          <div class="grow">
+            <div class="cell on"><span class="k" lang="ja">か</span><span class="r">ka</span></div>
+            <div class="cell on"><span class="k" lang="ja">き</span><span class="r">ki</span></div>
+            <div class="cell on"><span class="k" lang="ja">く</span><span class="r">ku</span></div>
+            <div class="cell on"><span class="k" lang="ja">け</span><span class="r">ke</span></div>
+            <div class="cell on"><span class="k" lang="ja">こ</span><span class="r">ko</span></div>
+          </div>
+          <div class="grow">
+            <div class="cell on"><span class="k" lang="ja">さ</span><span class="r">sa</span></div>
+            <div class="cell on"><span class="k" lang="ja">し</span><span class="r">shi</span></div>
+            <div class="cell on"><span class="k" lang="ja">す</span><span class="r">su</span></div>
+            <div class="cell"><span class="k" lang="ja">せ</span><span class="r">se</span></div>
+            <div class="cell"><span class="k" lang="ja">そ</span><span class="r">so</span></div>
+          </div>
+          <div class="grow">
+            <div class="cell on"><span class="k" lang="ja">た</span><span class="r">ta</span></div>
+            <div class="cell on"><span class="k" lang="ja">ち</span><span class="r">chi</span></div>
+            <div class="cell"><span class="k" lang="ja">つ</span><span class="r">tsu</span></div>
+            <div class="cell"><span class="k" lang="ja">て</span><span class="r">te</span></div>
+            <div class="cell"><span class="k" lang="ja">と</span><span class="r">to</span></div>
+          </div>
+          <div class="grow">
+            <div class="cell"><span class="k" lang="ja">な</span><span class="r">na</span></div>
+            <div class="cell"><span class="k" lang="ja">に</span><span class="r">ni</span></div>
+            <div class="cell"><span class="k" lang="ja">ぬ</span><span class="r">nu</span></div>
+            <div class="cell"><span class="k" lang="ja">ね</span><span class="r">ne</span></div>
+            <div class="cell"><span class="k" lang="ja">の</span><span class="r">no</span></div>
+          </div>
+          <div class="grow">
+            <div class="cell"><span class="k" lang="ja">は</span><span class="r">ha</span></div>
+            <div class="cell"><span class="k" lang="ja">ひ</span><span class="r">hi</span></div>
+            <div class="cell"><span class="k" lang="ja">ふ</span><span class="r">fu</span></div>
+            <div class="cell"><span class="k" lang="ja">へ</span><span class="r">he</span></div>
+            <div class="cell"><span class="k" lang="ja">ほ</span><span class="r">ho</span></div>
+          </div>
+          <div class="grow">
+            <div class="cell"><span class="k" lang="ja">ま</span><span class="r">ma</span></div>
+            <div class="cell"><span class="k" lang="ja">み</span><span class="r">mi</span></div>
+            <div class="cell"><span class="k" lang="ja">む</span><span class="r">mu</span></div>
+            <div class="cell"><span class="k" lang="ja">め</span><span class="r">me</span></div>
+            <div class="cell"><span class="k" lang="ja">も</span><span class="r">mo</span></div>
+          </div>
+          <div class="grow">
+            <div class="cell"><span class="k" lang="ja">や</span><span class="r">ya</span></div>
+            <div class="cell void"></div>
+            <div class="cell"><span class="k" lang="ja">ゆ</span><span class="r">yu</span></div>
+            <div class="cell void"></div>
+            <div class="cell"><span class="k" lang="ja">よ</span><span class="r">yo</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="note">The gutter is flat <code>--color-bg</code>. Nothing distinguishes this screen's
+      floor from any other bare screen in the product.</p>
+  </div>
+
+  <div class="col">
+    <span class="tag prop">Proposed — PR #51</span>
+    <p class="hd">B · Chart on the crest</p>
+    <p class="sub">Identical component, identical tokens. The stage is
+      <code>emboss-bg crest-1 tile-sm</code> — exactly what <code>PatternedStage</code> applies
+      on the lesson list today.</p>
+    <div class="phone">
+      <div class="band"><div class="t">Kana</div><div class="u">15 of 46 settled</div></div>
+      <div class="stage emboss-bg crest-1 tile-sm">
+        <div class="grid">
+          <div class="grow">
+            <div class="cell on"><span class="k" lang="ja">あ</span><span class="r">a</span></div>
+            <div class="cell on"><span class="k" lang="ja">い</span><span class="r">i</span></div>
+            <div class="cell on"><span class="k" lang="ja">う</span><span class="r">u</span></div>
+            <div class="cell on"><span class="k" lang="ja">え</span><span class="r">e</span></div>
+            <div class="cell on"><span class="k" lang="ja">お</span><span class="r">o</span></div>
+          </div>
+          <div class="grow">
+            <div class="cell on"><span class="k" lang="ja">か</span><span class="r">ka</span></div>
+            <div class="cell on"><span class="k" lang="ja">き</span><span class="r">ki</span></div>
+            <div class="cell on"><span class="k" lang="ja">く</span><span class="r">ku</span></div>
+            <div class="cell on"><span class="k" lang="ja">け</span><span class="r">ke</span></div>
+            <div class="cell on"><span class="k" lang="ja">こ</span><span class="r">ko</span></div>
+          </div>
+          <div class="grow">
+            <div class="cell on"><span class="k" lang="ja">さ</span><span class="r">sa</span></div>
+            <div class="cell on"><span class="k" lang="ja">し</span><span class="r">shi</span></div>
+            <div class="cell on"><span class="k" lang="ja">す</span><span class="r">su</span></div>
+            <div class="cell"><span class="k" lang="ja">せ</span><span class="r">se</span></div>
+            <div class="cell"><span class="k" lang="ja">そ</span><span class="r">so</span></div>
+          </div>
+          <div class="grow">
+            <div class="cell on"><span class="k" lang="ja">た</span><span class="r">ta</span></div>
+            <div class="cell on"><span class="k" lang="ja">ち</span><span class="r">chi</span></div>
+            <div class="cell"><span class="k" lang="ja">つ</span><span class="r">tsu</span></div>
+            <div class="cell"><span class="k" lang="ja">て</span><span class="r">te</span></div>
+            <div class="cell"><span class="k" lang="ja">と</span><span class="r">to</span></div>
+          </div>
+          <div class="grow">
+            <div class="cell"><span class="k" lang="ja">な</span><span class="r">na</span></div>
+            <div class="cell"><span class="k" lang="ja">に</span><span class="r">ni</span></div>
+            <div class="cell"><span class="k" lang="ja">ぬ</span><span class="r">nu</span></div>
+            <div class="cell"><span class="k" lang="ja">ね</span><span class="r">ne</span></div>
+            <div class="cell"><span class="k" lang="ja">の</span><span class="r">no</span></div>
+          </div>
+          <div class="grow">
+            <div class="cell"><span class="k" lang="ja">は</span><span class="r">ha</span></div>
+            <div class="cell"><span class="k" lang="ja">ひ</span><span class="r">hi</span></div>
+            <div class="cell"><span class="k" lang="ja">ふ</span><span class="r">fu</span></div>
+            <div class="cell"><span class="k" lang="ja">へ</span><span class="r">he</span></div>
+            <div class="cell"><span class="k" lang="ja">ほ</span><span class="r">ho</span></div>
+          </div>
+          <div class="grow">
+            <div class="cell"><span class="k" lang="ja">ま</span><span class="r">ma</span></div>
+            <div class="cell"><span class="k" lang="ja">み</span><span class="r">mi</span></div>
+            <div class="cell"><span class="k" lang="ja">む</span><span class="r">mu</span></div>
+            <div class="cell"><span class="k" lang="ja">め</span><span class="r">me</span></div>
+            <div class="cell"><span class="k" lang="ja">も</span><span class="r">mo</span></div>
+          </div>
+          <div class="grow">
+            <div class="cell"><span class="k" lang="ja">や</span><span class="r">ya</span></div>
+            <div class="cell void"></div>
+            <div class="cell"><span class="k" lang="ja">ゆ</span><span class="r">yu</span></div>
+            <div class="cell void"></div>
+            <div class="cell"><span class="k" lang="ja">よ</span><span class="r">yo</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="note">The card now reads as a sheet laid on patterned paper. The crest is visible
+      only in the margin — the chart itself is untouched.</p>
+  </div>
+</div>
+
+<h2>Kana keyboard</h2>
+<div class="row">
+
+  <div class="col">
+    <span class="tag ships">Ships today</span>
+    <p class="hd">C · Keyboard on bare stone</p>
+    <p class="sub">The Rokushō slab on flat stone. This is the screen the "one dark slab" rule is
+      written about — the band is Sumi-iro, the keyboard deliberately is not.</p>
+    <div class="phone">
+      <div class="band"><div class="t">Kana practice</div><div class="u">write it · 2 of 4</div></div>
+      <div class="stage">
+        <div class="kb">
+          <div class="tog"><span class="on" lang="ja">ひら</span><span class="off" lang="ja">カタ</span></div>
+          <div class="pad">
+            <div class="key" lang="ja">あ</div><div class="key" lang="ja">か</div><div class="key" lang="ja">さ</div>
+            <div class="key" lang="ja">た</div><div class="key" lang="ja">な</div><div class="key" lang="ja">は</div>
+            <div class="key" lang="ja">ま</div><div class="key" lang="ja">や</div><div class="key" lang="ja">ら</div>
+            <div class="key" lang="ja">わ</div><div class="key" lang="ja">ー</div><div class="key">⌫</div>
+            <div class="key dim" lang="ja">゛</div><div class="key" lang="ja">、</div><div class="key dim" lang="ja">小</div>
+            <div class="key wide">space</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="note">Two flat fields stacked — stone, then the green slab — with no material
+      between them.</p>
+  </div>
+
+  <div class="col">
+    <span class="tag prop">Proposed — PR #51</span>
+    <p class="hd">D · Keyboard on the crest</p>
+    <p class="sub">Same slab, same keys. The crest fills the space between the Ōgon hairline and
+      the top of the keyboard, which on a phone is most of the screen.</p>
+    <div class="phone">
+      <div class="band"><div class="t">Kana practice</div><div class="u">write it · 2 of 4</div></div>
+      <div class="stage emboss-bg crest-1 tile-sm">
+        <div class="kb">
+          <div class="tog"><span class="on" lang="ja">ひら</span><span class="off" lang="ja">カタ</span></div>
+          <div class="pad">
+            <div class="key" lang="ja">あ</div><div class="key" lang="ja">か</div><div class="key" lang="ja">さ</div>
+            <div class="key" lang="ja">た</div><div class="key" lang="ja">な</div><div class="key" lang="ja">は</div>
+            <div class="key" lang="ja">ま</div><div class="key" lang="ja">や</div><div class="key" lang="ja">ら</div>
+            <div class="key" lang="ja">わ</div><div class="key" lang="ja">ー</div><div class="key">⌫</div>
+            <div class="key dim" lang="ja">゛</div><div class="key" lang="ja">、</div><div class="key dim" lang="ja">小</div>
+            <div class="key wide">space</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="note">The green slab now sits on paper rather than on nothing. Three materials,
+      which is the most this screen has ever carried.</p>
+  </div>
+</div>
+
+<div class="verdict">
+  <p><b>My read, for what it is worth — the call is the author's.</b> B is a clear improvement and
+    D is the one worth arguing about. On the chart the crest does what it does on the lesson list:
+    gives the card something to sit on, so it lifts without a shadow. On the keyboard the gain is
+    smaller and the risk is real — the keyboard already introduces a second colour field, and the
+    crest makes three materials on one screen.</p>
+  <p><b>What would change my mind on D:</b> seeing it on a real phone rather than in a
+    lab column. The keyboard screen is the one where the visible area is smallest
+    (the soft keyboard leaves roughly 380px), so the crest gutter there is a thin band top and
+    bottom rather than the generous field it looks like here.</p>
+  <p><b>If you take B and not D</b>, the <code>DESIGN.md</code> table gains one row rather than
+    two, and the rule keeps a clean statement: a surface carries the crest when it judges nothing
+    <i>and</i> introduces no second colour field of its own.</p>
+</div>
+
+</body></html>

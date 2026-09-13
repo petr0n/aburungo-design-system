@@ -280,10 +280,17 @@ circular, and ○ is taken.
 > screen that passes through judging stays bare throughout. `chart` and
 > `keyboard` qualify because they never pass through it at all.
 >
-> **What retires this.** A sandbox lab under `preview/_sandbox/` rendering the
-> kana chart and keyboard both ways, tagged and left on the page per the
-> append-only rule — not a verdict written here. Until that lab exists and the
-> author picks, the rule above stands as written and the bare row is correct.
+> **What retires this.** `preview/_sandbox/ground-1-unjudged.html` — the kana
+> chart and keyboard rendered both ways, tagged and left on the page per the
+> append-only rule. Until the author picks, the rule above stands as written
+> and the bare row is correct.
+>
+> **What the lab settled before anyone looked at it.** Both components are
+> **opaque containers** — `KanaGrid` is `bg-surface`, `KanaKeyboard` is
+> `bg-keyboard-bg`. The crest cannot reach either one's contents, so no kana
+> legibility question exists and the contrast gate has nothing to measure. The
+> only thing either variant changes is the gutter around the component. This is
+> a compositional call, not a contrast one.
 >
 > **Prior art, so it is not repeated.** On 2026-09-10 this was misread as an
 > oversight and "fixed": nine working states across `flashcard-round`,
