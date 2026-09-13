@@ -154,7 +154,7 @@ const SURFACES = [
   ['sandbox-phrasecard', '/preview/_sandbox/phrasecard-1-colour.html', 1200, 520],
   ['sandbox-resolved', '/preview/_sandbox/phrasecard-2-resolved.html', 1120, 760],
   ['sandbox-accents', '/preview/_sandbox/phrasecard-3-accents.html', 1180, 620],
-  ['sandbox-ground', '/preview/_sandbox/ground-1-unjudged.html', 1020, 2200],
+  ['sandbox-ground', '/preview/_sandbox/ground-1-unjudged.html', 1020, 2900],
   ['phrasecard', '/preview/22-phrase-card.html', 760, 320],
   ['kana-key', '/preview/23-kana-key.html', 760, 260],
   ['empty-state', '/preview/25-empty-state.html', 760, 260],

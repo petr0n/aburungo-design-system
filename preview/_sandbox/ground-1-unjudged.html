@@ -76,6 +76,15 @@
    color:color-mix(in srgb,var(--color-key-fg) 60%,transparent)}
  .key.dim{opacity:.4}
 
+ /* True phone geometry. 390px wide, and 380px tall because that is what the
+    soft keyboard leaves — see the mobile-keyboard note in the app repo. The
+    lab columns above are generous with the gutter in a way a phone is not,
+    and D is the variant that flatters. */
+ .real{width:390px;height:380px;flex:none}
+ .real .stage{padding:12px}
+ .real .kb{transform:scale(.92);transform-origin:top center}
+ .pair{display:flex;gap:22px;flex-wrap:wrap}
+
  .note{margin:10px 0 0;font-size:var(--text-caption);color:var(--color-fg-muted);
    max-width:44ch;line-height:1.55}
  .verdict{margin:26px 0 0;padding:14px 16px;max-width:92ch;border-radius:var(--radius-xl);
@@ -306,19 +315,64 @@
   </div>
 </div>
 
+<h2>D, at the size it actually ships</h2>
+<p class="s">
+  The columns above give the keyboard a gutter it does not get on a phone. Here is the same pair at
+  <b>390 × 380</b> — the width of the device and the height the soft keyboard leaves. <b>This is the
+  comparison D should be judged on</b>, and it is the one that changes the answer.
+</p>
+<div class="pair">
+  <div class="col">
+    <span class="tag ships">Ships today</span>
+    <p class="hd">C′ · Bare, true size</p>
+    <div class="phone real">
+      <div class="band"><div class="t">Kana practice</div><div class="u">write it · 2 of 4</div></div>
+      <div class="stage">
+        <div class="kb">
+          <div class="tog"><span class="on" lang="ja">ひら</span><span class="off" lang="ja">カタ</span></div>
+          <div class="pad">
+            <div class="key" lang="ja">あ</div><div class="key" lang="ja">か</div><div class="key" lang="ja">さ</div>
+            <div class="key" lang="ja">た</div><div class="key" lang="ja">な</div><div class="key" lang="ja">は</div>
+            <div class="key" lang="ja">ま</div><div class="key" lang="ja">や</div><div class="key" lang="ja">ら</div>
+            <div class="key" lang="ja">わ</div><div class="key" lang="ja">ー</div><div class="key">⌫</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <span class="tag prop">Proposed — PR #51</span>
+    <p class="hd">D′ · Crest, true size</p>
+    <div class="phone real">
+      <div class="band"><div class="t">Kana practice</div><div class="u">write it · 2 of 4</div></div>
+      <div class="stage emboss-bg crest-1 tile-sm">
+        <div class="kb">
+          <div class="tog"><span class="on" lang="ja">ひら</span><span class="off" lang="ja">カタ</span></div>
+          <div class="pad">
+            <div class="key" lang="ja">あ</div><div class="key" lang="ja">か</div><div class="key" lang="ja">さ</div>
+            <div class="key" lang="ja">た</div><div class="key" lang="ja">な</div><div class="key" lang="ja">は</div>
+            <div class="key" lang="ja">ま</div><div class="key" lang="ja">や</div><div class="key" lang="ja">ら</div>
+            <div class="key" lang="ja">わ</div><div class="key" lang="ja">ー</div><div class="key">⌫</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="verdict">
-  <p><b>My read, for what it is worth — the call is the author's.</b> B is a clear improvement and
-    D is the one worth arguing about. On the chart the crest does what it does on the lesson list:
-    gives the card something to sit on, so it lifts without a shadow. On the keyboard the gain is
-    smaller and the risk is real — the keyboard already introduces a second colour field, and the
-    crest makes three materials on one screen.</p>
-  <p><b>What would change my mind on D:</b> seeing it on a real phone rather than in a
-    lab column. The keyboard screen is the one where the visible area is smallest
-    (the soft keyboard leaves roughly 380px), so the crest gutter there is a thin band top and
-    bottom rather than the generous field it looks like here.</p>
-  <p><b>If you take B and not D</b>, the <code>DESIGN.md</code> table gains one row rather than
-    two, and the rule keeps a clean statement: a surface carries the crest when it judges nothing
-    <i>and</i> introduces no second colour field of its own.</p>
+  <p><b>My read — the call is the author's. Take both.</b> On the chart the crest does what it
+    does on the lesson list: gives the card something to sit on, so it lifts without a shadow.
+    That one was never in doubt.</p>
+  <p><b>D′ is what changed my mind on the keyboard.</b> Before rendering at true size I expected
+    three competing materials and was ready to argue against it. At 390 × 380 the crest is a
+    narrow textured margin at the sides and a sliver above the slab — it reads as paper the
+    keyboard is resting on, not as a third field fighting for attention. <b>The wide column above
+    is what makes D look risky, and the wide column is not a phone.</b> Judge D on D′.</p>
+  <p><b>So the rule can stay simple</b> rather than growing the second clause I was about to
+    propose: a surface carries the crest when it judges nothing. Both rows move, and
+    "introduces no second colour field of its own" turns out to be a condition the render does
+    not support.</p>
 </div>
 
 </body></html>
