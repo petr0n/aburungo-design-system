@@ -139,9 +139,21 @@ function ChartScreen({ onPractise }: { onPractise: () => void }) {
           )}
         />
 
-        <Button fullWidth onClick={onPractise}>
-          Practise these
-        </Button>
+        {/* The grid is 46 cells, so on a phone this CTA lands below the fold —
+            every shot of this surface caught it clipped mid-label. It is the
+            only flow with a primary action under a long scrolling grid, which
+            is why this is here and not in `Screen`.
+
+            `-mx-4 px-4` cancels Screen's gutter so the bar bleeds edge to edge;
+            `-mb-8 pb-8` moves Screen's bottom padding inside it, so the button
+            keeps its breathing room and the ground does not show under the
+            bar. `bg-bg` rather than a blur: the grid must not read through a
+            control. */}
+        <div className="sticky bottom-0 -mx-4 -mb-8 bg-bg px-4 pb-8 pt-3">
+          <Button fullWidth onClick={onPractise}>
+            Practise these
+          </Button>
+        </div>
       </Screen>
     </>
   )
