@@ -2759,7 +2759,7 @@ function ChartScreen({ onPractise }) {
           ] })
         }
       ),
-      /* @__PURE__ */ jsx29(Button, { fullWidth: true, onClick: onPractise, children: "Practise these" })
+      /* @__PURE__ */ jsx29("div", { className: "sticky bottom-0 -mx-4 -mb-8 bg-bg px-4 pb-8 pt-3", children: /* @__PURE__ */ jsx29(Button, { fullWidth: true, onClick: onPractise, children: "Practise these" }) })
     ] })
   ] });
 }
