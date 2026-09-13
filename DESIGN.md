@@ -248,6 +248,76 @@ And **the crest stays away from any surface where an answer is being judged**,
 which `docs/todo.md` already required for a different reason: kamon are
 circular, and ○ is taken.
 
+> **Conflict raised 2026-09-12 — not resolved here.** Raised rather than acted
+> on, per "Status of these decisions" above: where two rules collide, propose a
+> resolution rather than treat the older one as binding.
+>
+> **The collision.** This rule is the reason the daily loop is bare, and the
+> daily loop is the surface the author has called bland — the complaint that
+> opened `docs/todo.md` item 3. The identity work has landed almost entirely on
+> states a learner meets when something is *absent or broken*: empty, loading,
+> error, plus the lesson list and the book surfaces. Prompt → reveal → grade →
+> summary, run every session, is navy on flat stone. Rendered side by side, the
+> book opener reads as a Japanese product and the flashcard round reads as a
+> starter template. That is this rule working as designed, not a gap in it.
+>
+> **Where the rationale actually reaches.** "A texture behind a judged answer
+> competes with the maru" is sound, and it covers the states that draw ○ / ✕ —
+> `answered`, `result`, `review`, `summary`. It says nothing about **`chart`**
+> and **`keyboard`**, which are in the bare row and judge nothing: the kana
+> chart is a reference grid, the keyboard is text entry. Neither ever draws a
+> maru. They are bare because the row bundles them with states that do.
+>
+> **Proposed resolution.** Move `chart` and `keyboard` to the crest row. Leave
+> everything else bare.
+>
+> The tempting wider version — "every unjudged state takes the crest" — is
+> worse, and the reason is worth recording so it is not re-proposed. `drill`
+> and `card` are unjudged only until the learner answers, and they become
+> `answered` and `summary` on the same screen. A ground that appears while you
+> read the question and vanishes when you answer is more distracting than
+> either ground held steady. **So the unit is the screen, not the state:** a
+> screen that passes through judging stays bare throughout. `chart` and
+> `keyboard` qualify because they never pass through it at all.
+>
+> **What retires this.** `preview/_sandbox/ground-1-unjudged.html` — the kana
+> chart and keyboard rendered both ways, tagged and left on the page per the
+> append-only rule. Until the author picks, the rule above stands as written
+> and the bare row is correct.
+>
+> **What the lab found — and what the first draft of this paragraph got wrong.**
+> It claimed both components are opaque, so "no contrast question exists" and
+> only the gutter changes. That is true of the components and **false of the
+> chart screen**, which is what actually carries the ground. Corrected after
+> review, 2026-09-13:
+>
+> - **The chart is blocked on two counts.** Its settled legend is
+>   `text-fg-subtle` sitting directly on the page ground, and `fg-subtle` over
+>   the crest is **3.47:1** — `scripts/check-contrast.mjs` records that as
+>   barred by the legibility rule outright, not merely failing. Cheap to fix:
+>   `fg-muted` is already gated over a pattern at 4.57:1. **Second, and
+>   structural:** `.emboss-bg` sets `overflow: hidden` and forces
+>   `position: relative` on every direct child, so the sticky CTA shipped in #52
+>   silently un-pins and the button falls below the fold again. Relaxing the
+>   child rule does not help — `overflow: hidden` defeats `position: sticky` on
+>   its own. **`PatternedStage` would have to wrap only the scrolling content
+>   and leave pinned chrome as its sibling**, which is the right structure
+>   regardless: a pinned footer is chrome fixed to the viewport, not content on
+>   the ground.
+> - **The keyboard screen carries no text on the ground at all.** Prompt card,
+>   answer field, pad and submit are four opaque containers, and it has no
+>   pinned chrome. Neither problem above applies; D is purely a composition
+>   call.
+>
+> The lesson under both: the unit that carries the ground is the **screen**,
+> and a claim about the component is not a claim about the screen.
+>
+> **Prior art, so it is not repeated.** On 2026-09-10 this was misread as an
+> oversight and "fixed": nine working states across `flashcard-round`,
+> `fill-blank` and `kana-practice` were wrapped in `PatternedStage` and
+> reverted before commit. The diagnosis came from reading this section's
+> heading and not its body.
+
 ## Typography
 
 **Body Font:** Noto Sans (variable, shipped locally) — all English UI.

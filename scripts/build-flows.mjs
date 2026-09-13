@@ -39,6 +39,11 @@ const ENTRIES = [
   // The DS Components page joined 2026-08-24. Same contract as the three
   // above: it imports src/components, so it cannot fall behind them.
   ['preview/ds/components.tsx', 'preview/ds/bundle.js', 'preview/ds/components.html'],
+  // The ground lab joined 2026-09-13, after the PR #51 review caught the
+  // hand-written version being wrong twice about the screen it was arguing
+  // over. Same contract as the four above: it imports src/components and
+  // src/lib, so the thing being judged is the thing that ships.
+  ['preview/_sandbox/ground.tsx', 'preview/_sandbox/bundle.js', 'preview/_sandbox/ground-1-unjudged.html'],
 
 ]
 

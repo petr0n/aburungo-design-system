@@ -14,6 +14,7 @@
     "declarationDir": "dist"
   },
   "include": ["src", "ui_kits/flows", "ui_kits/mobile", "storybook",
-    "preview/ds"],
+    "preview/ds",
+    "preview/_sandbox"],
   "exclude": ["node_modules", "dist"]
 }

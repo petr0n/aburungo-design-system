@@ -34,6 +34,7 @@ const HARNESSES = [
   'ui_kits/desktop-explore.html',
   'ui_kits/flows/index.html',
   'preview/ds/components.html',
+  'preview/_sandbox/ground-1-unjudged.html',
 ]
 const START = '/* build-tokens:start */'
 const END = '/* build-tokens:end */'
