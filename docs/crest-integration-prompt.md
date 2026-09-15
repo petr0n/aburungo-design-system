@@ -3,28 +3,35 @@
 For image-to-image with an attached crest. **Attach your crest export from Affinity
 alongside the prompt** and the model composes a scene that incorporates it.
 
-The point is not to produce final art. It is to get **several placements to react to** —
-where the crest sits, how big it is, and whether it reads as part of the print or as
-something pasted on top.
+**These generate concept art, not shipped assets. Decided 2026-09-14:** the crest on the
+final image is placed by hand in Affinity, over the approved illustration. So nothing in
+this file is a production constraint. Its entire job is to get **several placements to
+react to** — where the crest sits, how big it is, how it relates to the composition — so
+that the Affinity decision is made against real options rather than in the dark.
+
+**The crest is a decoration.** It marks which book you are in, the way a chapter ornament
+does. It is not a logo, it is not a second mark competing with the ア hanko, and it does
+not need to defend itself as one. Earlier drafts of this file kept testing whether a crest
+"reads as a mark rather than as part of the picture"; that was the wrong question and it
+is gone.
 
 > **Rebuilt for the dark ground, 2026-09-14.** This file was first written against
 > `docs/illustration-prompt.md`, the paper-ground prompt, which has since been deleted. The
 > live pipeline is [`illustrations/`](../illustrations/README.md): warm near-black
 > `#1A1815`, cream carved line, the negative of a traditional print.
 >
-> **The five integration strategies are ground-independent and stand.** Seal,
-> carried-by-an-object, ghosted field, in-plane, corner anchor — all describe where a mark
-> sits, not what colour it is. **Everything about colour inverted**, and two of those
-> inversions are worth knowing before you run anything:
+> **The five strategies are ground-independent and stand.** Seal, carried-by-an-object,
+> ghosted field, in-plane, corner anchor — all describe where a mark sits, not what colour
+> it is. Two colour notes survive the rewrite because they decide whether a concept comes
+> back *usable*, not because they are rules:
 >
 > - **Four of the five book inks ARE scene-palette colours on this ground** — Book One is
->   the scene's verdigris, Two its indigo, Three its red, Four its gold. So the crest is
->   not "an exception to the palette", as this file first claimed. It is a **reserved**
->   colour: the crest uses that ink and nothing else in the image does.
-> - **A large crest on a dark sheet must be DARKER than the scene, not paler.** Variant C
->   asked for a pale tint, which is the paper-ground instinct. On near-black the eye goes
->   to the lightest thing in the frame, so a pale ghost would out-shout the cream key line.
->   C is corrected below.
+>   the scene's verdigris, Two its indigo, Three its red, Four its gold. Ask for a verdigris
+>   crest in a verdigris scene and the concept tells you nothing. Each block reserves the
+>   ink so the placement is legible enough to judge.
+> - **A large crest on a dark sheet reads DARKER than the scene, not paler.** Variant C
+>   asked for a pale tint, which is the paper-ground instinct; on near-black the eye goes to
+>   the lightest thing in the frame. C is corrected below.
 
 Pair each block below with a scene from the live pipeline's style block. That block
 governs print quality; this file only adds the crest on top of it.
@@ -92,8 +99,8 @@ variation, the same slight misregistration, and the same pigment feathering into
 as every other colour area in the print. It must look pressed into the same sheet, not
 placed on top of it.
 
-The crest is a mark, not text, and the scene's transcribe-only text rule does not apply to
-it.
+The crest is an ornament, not text, and the scene's transcribe-only text rule does not
+apply to it.
 
 PALETTE — the crest's ink is RESERVED. [BOOK COLOUR HEX], in whatever tint this block
 asks for, is used for the crest and for nothing else in the image. Every other filled area
@@ -101,7 +108,7 @@ stays on the warm near-black ground #1A1815, the cream key line #FFFDF8, and the
 own two or three colours, chosen from whatever is left of gold #C9A045, verdigris #4F9C8D,
 indigo #8fa5c7 and the one red #D72E2E. Do not recolour the crest to match something in the
 scene, and do not drop it for falling outside the palette — it is a separate block in a
-reserved ink, which is exactly why it reads as a mark rather than as part of the picture.
+reserved ink, which is what keeps the placement legible enough to judge.
 ```
 
 ## B · Carved into the scene
@@ -126,8 +133,8 @@ than the crest's.
 Size it so the crest is legible without dominating: it should be the clearest single motif
 in the frame after the human subject, not before.
 
-The crest is a mark, not text, and the scene's transcribe-only text rule does not apply to
-it.
+The crest is an ornament, not text, and the scene's transcribe-only text rule does not
+apply to it.
 
 PALETTE — the crest's ink is RESERVED. [BOOK COLOUR HEX], in whatever tint this block
 asks for, is used for the crest and for nothing else in the image. Every other filled area
@@ -135,7 +142,7 @@ stays on the warm near-black ground #1A1815, the cream key line #FFFDF8, and the
 own two or three colours, chosen from whatever is left of gold #C9A045, verdigris #4F9C8D,
 indigo #8fa5c7 and the one red #D72E2E. Do not recolour the crest to match something in the
 scene, and do not drop it for falling outside the palette — it is a separate block in a
-reserved ink, which is exactly why it reads as a mark rather than as part of the picture.
+reserved ink, which is what keeps the placement legible enough to judge.
 ```
 
 ## C · Large ghosted field
@@ -161,8 +168,8 @@ outline, no drop shadow.
 It must sit in the sheet, not float above it: same woodgrain, same uneven ink density, same
 slight misregistration against the key block as every other colour area.
 
-The crest is a mark, not text, and the scene's transcribe-only text rule does not apply to
-it.
+The crest is an ornament, not text, and the scene's transcribe-only text rule does not
+apply to it.
 
 PALETTE — the crest's ink is RESERVED. [BOOK COLOUR HEX], in whatever tint this block
 asks for, is used for the crest and for nothing else in the image. Every other filled area
@@ -170,7 +177,7 @@ stays on the warm near-black ground #1A1815, the cream key line #FFFDF8, and the
 own two or three colours, chosen from whatever is left of gold #C9A045, verdigris #4F9C8D,
 indigo #8fa5c7 and the one red #D72E2E. Do not recolour the crest to match something in the
 scene, and do not drop it for falling outside the palette — it is a separate block in a
-reserved ink, which is exactly why it reads as a mark rather than as part of the picture.
+reserved ink, which is what keeps the placement legible enough to judge.
 ```
 
 ## D · Sky or empty plane
@@ -193,8 +200,8 @@ the style block already permits under SHADING — it sits IN the plane and never
 object, which is the only kind of gradient the block bans. The style block allows one
 bokashi per image, so a scene that already spends it elsewhere cannot also wipe this one.
 
-The crest is a mark, not text, and the scene's transcribe-only text rule does not apply to
-it.
+The crest is an ornament, not text, and the scene's transcribe-only text rule does not
+apply to it.
 
 PALETTE — the crest's ink is RESERVED. [BOOK COLOUR HEX], in whatever tint this block
 asks for, is used for the crest and for nothing else in the image. Every other filled area
@@ -202,7 +209,7 @@ stays on the warm near-black ground #1A1815, the cream key line #FFFDF8, and the
 own two or three colours, chosen from whatever is left of gold #C9A045, verdigris #4F9C8D,
 indigo #8fa5c7 and the one red #D72E2E. Do not recolour the crest to match something in the
 scene, and do not drop it for falling outside the palette — it is a separate block in a
-reserved ink, which is exactly why it reads as a mark rather than as part of the picture.
+reserved ink, which is what keeps the placement legible enough to judge.
 ```
 
 ## E · Corner anchor, scene composed around it
@@ -224,8 +231,8 @@ solid colour, no gradient, no outline, no surrounding frame or ring.
 Same block artefacts as the rest of the print: woodgrain, uneven density, slight
 misregistration, pigment feathering.
 
-The crest is a mark, not text, and the scene's transcribe-only text rule does not apply to
-it.
+The crest is an ornament, not text, and the scene's transcribe-only text rule does not
+apply to it.
 
 PALETTE — the crest's ink is RESERVED. [BOOK COLOUR HEX], in whatever tint this block
 asks for, is used for the crest and for nothing else in the image. Every other filled area
@@ -233,7 +240,7 @@ stays on the warm near-black ground #1A1815, the cream key line #FFFDF8, and the
 own two or three colours, chosen from whatever is left of gold #C9A045, verdigris #4F9C8D,
 indigo #8fa5c7 and the one red #D72E2E. Do not recolour the crest to match something in the
 scene, and do not drop it for falling outside the palette — it is a separate block in a
-reserved ink, which is exactly why it reads as a mark rather than as part of the picture.
+reserved ink, which is what keeps the placement legible enough to judge.
 ```
 
 ---
@@ -248,7 +255,7 @@ Replace `[BOOK COLOUR HEX]` with the book's ink on the **dark ground** `#1A1815`
 | Two — the bridge | Ai-iro 藍色 | **`#8fa5c7` (300)** | 7.06:1 | its indigo |
 | Three — the wall | Akane 茜色 | `#D72E2E` (500) | 3.64:1 | its red — read the note |
 | Four — register | Ōgon 黄金 | `#C9A045` (500) | 7.25:1 | its gold |
-| Five — refinement | Sumi-iro 墨色 | unsettled — read the note | — | nothing; it is outside the palette |
+| Five — refinement | Sumi-iro 墨色 | stone-300 or cream — read the note | — | nothing; it is outside the palette |
 
 The last column is the reserved-ink rule in practice. A Book Four scene is built from
 verdigris and indigo, because the gold now belongs to the crest.
@@ -270,39 +277,31 @@ giving it a light plane to sit on inside the picture, which means designing Book
 scenes around a constraint the other four do not have. The light rung is cheaper, and it
 follows the pipeline's own precedent.
 
-### Book Three — the one with a hard constraint
+### Book Three — the one that needs an extra line
 
 Akane *is* the scene palette's red, and the style block caps red at *"used once at most, as
-one large sharp note, never as a line"*. So if the crest is red, **the crest is that note**
-and the scene gets no other red anywhere. Add this line to whichever block you run:
+one large sharp note, never as a line"*. Without a qualifier the model resolves that by
+dropping one of the two reds, and half the time it drops the crest. Add this to whichever
+block you run:
 
 ```
 The crest is the image's ONE red. No other red appears anywhere in the scene.
 ```
 
-At 3.64:1 Akane is also the weakest of the five, though still clear of the 3:1 a non-text
-mark needs. Watch it in the first generation; if it reads thin, Akane 300 `#ec9791` gives
-7.93:1.
+At 3.64:1 Akane is the weakest of the five on this ground. If it reads thin, Akane 300
+`#ec9791` gives 7.93:1 — but only for the concept; the shipped ink is chosen in Affinity.
 
-### Book Five — unsettled, and it does not block the first round
+### Book Five — pick it in Affinity
 
-Sumi 500 on near-black is **1.29:1**. It *is* the ground. Stone-300 `#CFC9B9` measures
-10.72:1 and was the earlier recommendation here, but it collides with the live style block,
-which says the cream and near-cream values appear *"as LINE and as small carved highlights
-— never as a field, a panel, a sky, or any light area wider than a few strokes."* At
-variant A's 6–9% a filled stone seal is a small carved highlight and is fine. At C's 60–85%
-or E's 18–25% it is a light field, which the block bans outright.
+Sumi 500 is **1.29:1** on near-black. It *is* the ground, so it cannot be the crest's ink
+in a generation. For the concept round use stone-300 `#CFC9B9` or the cream key line —
+either is visible, and visible is all a concept needs to be.
 
-**Recommendation: Book Five's crest is drawn in the cream key line — outlined, not filled.**
-It is the one form that works at every size, needs no contrast arithmetic, and is honest
-about what Sumi is on this ground: the mark is *carved*, left in reserve, the block uncut.
-The cost is real — it reads as part of the drawing rather than as a separate printed block,
-which is the thing this whole file argues a crest should be. Variant A survives that
-anyway, because a seal reads as a seal by where it sits, not by what colour it is.
-
-**The alternative, if the outline reads too weak:** stone-300 filled, restricted to variants
-A and B. That is the author's call, and nothing waits on it — the first round runs one
-variant across two or three crests, so Book Five's ink is a decision for later.
+**The final treatment is a composite-time decision**, made in Affinity against the actual
+approved image, like every other book's. Nothing here needs settling first. The earlier
+draft of this section argued at length about whether a filled stone crest violates the
+style block's "no light areas wider than a few strokes" — that rule governs what the model
+prints, not what you place on top of it afterwards.
 
 **Run one variant across two or three different crests before running one crest across all
 five variants.** The question you are answering first is which integration strategy works
