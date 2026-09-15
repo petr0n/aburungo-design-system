@@ -1,7 +1,9 @@
 # Crest integration — generation prompts
 
 For image-to-image with an attached crest. **Attach your crest export from Affinity
-alongside the prompt** and the model composes a scene that incorporates it.
+alongside the prompt** and the model composes a scene that incorporates it. Once one
+illustration is approved, attach that too — see *From concept to production* below, which
+is the difference between a placement you can ship and one you can only admire.
 
 **These generate concept art, not shipped assets. Decided 2026-09-14:** the crest on the
 final image is placed by hand in Affinity, over the approved illustration. So nothing in
@@ -71,10 +73,16 @@ a colour the scene has to **stop using**.
 That is the whole mechanism, and it is worth stating plainly because it is not obvious: a
 verdigris crest over a verdigris teapot is a shape lost in a field, while the same crest
 over a gold-and-indigo scene is unmistakably a separate block. The style block also caps
-each image at two or three colours, so an unqualified crest instruction makes the model
-either recolour the crest or spend that cap twice. Every variant below therefore states
-that the ink belongs to the crest alone and that the scene draws its own colours from what
-is left. If you rewrite a block, keep that paragraph.
+each image at two or three colours *in total*, so the crest spends one of them and the
+scene gets the rest — one or two, not two or three. Left unqualified the model either
+recolours the crest or runs to four colours. Every variant below therefore states that the
+ink belongs to the crest alone and that the scene draws from what is left. If you rewrite a
+block, keep that paragraph.
+
+It also resolves a rule the live style block would otherwise contradict. That block says a
+margin seal *"takes a colour the picture is already using; it does not add another one"* —
+which is exactly what a reserved crest ink is. The crest's colour **is** one of the
+picture's colours. It is just the one nothing else touches.
 
 ---
 
@@ -102,13 +110,14 @@ placed on top of it.
 The crest is an ornament, not text, and the scene's transcribe-only text rule does not
 apply to it.
 
-PALETTE — the crest's ink is RESERVED. [BOOK COLOUR HEX], in whatever tint this block
-asks for, is used for the crest and for nothing else in the image. Every other filled area
-stays on the warm near-black ground #1A1815, the cream key line #FFFDF8, and the scene's
-own two or three colours, chosen from whatever is left of gold #C9A045, verdigris #4F9C8D,
-indigo #8fa5c7 and the one red #D72E2E. Do not recolour the crest to match something in the
-scene, and do not drop it for falling outside the palette — it is a separate block in a
-reserved ink, which is what keeps the placement legible enough to judge.
+PALETTE — the crest's ink is RESERVED. The image still carries only two or three colours in
+total, plus the warm near-black ground #1A1815 and the cream key line #FFFDF8. The crest
+does NOT add another one: [BOOK COLOUR HEX], in whatever tint this block asks for, is simply
+the colour that ONLY the crest uses. The scene draws its own one or two colours from what is
+left of gold #C9A045, verdigris #4F9C8D, indigo #8fa5c7 and the one red #D72E2E, and never
+touches the crest's. Do not recolour the crest to match something in the scene, and do not
+drop it for falling outside the palette — a colour used once, for one shape, is what keeps
+the placement legible enough to judge.
 ```
 
 ## B · Carved into the scene
@@ -136,13 +145,14 @@ in the frame after the human subject, not before.
 The crest is an ornament, not text, and the scene's transcribe-only text rule does not
 apply to it.
 
-PALETTE — the crest's ink is RESERVED. [BOOK COLOUR HEX], in whatever tint this block
-asks for, is used for the crest and for nothing else in the image. Every other filled area
-stays on the warm near-black ground #1A1815, the cream key line #FFFDF8, and the scene's
-own two or three colours, chosen from whatever is left of gold #C9A045, verdigris #4F9C8D,
-indigo #8fa5c7 and the one red #D72E2E. Do not recolour the crest to match something in the
-scene, and do not drop it for falling outside the palette — it is a separate block in a
-reserved ink, which is what keeps the placement legible enough to judge.
+PALETTE — the crest's ink is RESERVED. The image still carries only two or three colours in
+total, plus the warm near-black ground #1A1815 and the cream key line #FFFDF8. The crest
+does NOT add another one: [BOOK COLOUR HEX], in whatever tint this block asks for, is simply
+the colour that ONLY the crest uses. The scene draws its own one or two colours from what is
+left of gold #C9A045, verdigris #4F9C8D, indigo #8fa5c7 and the one red #D72E2E, and never
+touches the crest's. Do not recolour the crest to match something in the scene, and do not
+drop it for falling outside the palette — a colour used once, for one shape, is what keeps
+the placement legible enough to judge.
 ```
 
 ## C · Large ghosted field
@@ -171,13 +181,14 @@ slight misregistration against the key block as every other colour area.
 The crest is an ornament, not text, and the scene's transcribe-only text rule does not
 apply to it.
 
-PALETTE — the crest's ink is RESERVED. [BOOK COLOUR HEX], in whatever tint this block
-asks for, is used for the crest and for nothing else in the image. Every other filled area
-stays on the warm near-black ground #1A1815, the cream key line #FFFDF8, and the scene's
-own two or three colours, chosen from whatever is left of gold #C9A045, verdigris #4F9C8D,
-indigo #8fa5c7 and the one red #D72E2E. Do not recolour the crest to match something in the
-scene, and do not drop it for falling outside the palette — it is a separate block in a
-reserved ink, which is what keeps the placement legible enough to judge.
+PALETTE — the crest's ink is RESERVED. The image still carries only two or three colours in
+total, plus the warm near-black ground #1A1815 and the cream key line #FFFDF8. The crest
+does NOT add another one: [BOOK COLOUR HEX], in whatever tint this block asks for, is simply
+the colour that ONLY the crest uses. The scene draws its own one or two colours from what is
+left of gold #C9A045, verdigris #4F9C8D, indigo #8fa5c7 and the one red #D72E2E, and never
+touches the crest's. Do not recolour the crest to match something in the scene, and do not
+drop it for falling outside the palette — a colour used once, for one shape, is what keeps
+the placement legible enough to judge.
 ```
 
 ## D · Sky or empty plane
@@ -203,13 +214,14 @@ bokashi per image, so a scene that already spends it elsewhere cannot also wipe 
 The crest is an ornament, not text, and the scene's transcribe-only text rule does not
 apply to it.
 
-PALETTE — the crest's ink is RESERVED. [BOOK COLOUR HEX], in whatever tint this block
-asks for, is used for the crest and for nothing else in the image. Every other filled area
-stays on the warm near-black ground #1A1815, the cream key line #FFFDF8, and the scene's
-own two or three colours, chosen from whatever is left of gold #C9A045, verdigris #4F9C8D,
-indigo #8fa5c7 and the one red #D72E2E. Do not recolour the crest to match something in the
-scene, and do not drop it for falling outside the palette — it is a separate block in a
-reserved ink, which is what keeps the placement legible enough to judge.
+PALETTE — the crest's ink is RESERVED. The image still carries only two or three colours in
+total, plus the warm near-black ground #1A1815 and the cream key line #FFFDF8. The crest
+does NOT add another one: [BOOK COLOUR HEX], in whatever tint this block asks for, is simply
+the colour that ONLY the crest uses. The scene draws its own one or two colours from what is
+left of gold #C9A045, verdigris #4F9C8D, indigo #8fa5c7 and the one red #D72E2E, and never
+touches the crest's. Do not recolour the crest to match something in the scene, and do not
+drop it for falling outside the palette — a colour used once, for one shape, is what keeps
+the placement legible enough to judge.
 ```
 
 ## E · Corner anchor, scene composed around it
@@ -234,14 +246,65 @@ misregistration, pigment feathering.
 The crest is an ornament, not text, and the scene's transcribe-only text rule does not
 apply to it.
 
-PALETTE — the crest's ink is RESERVED. [BOOK COLOUR HEX], in whatever tint this block
-asks for, is used for the crest and for nothing else in the image. Every other filled area
-stays on the warm near-black ground #1A1815, the cream key line #FFFDF8, and the scene's
-own two or three colours, chosen from whatever is left of gold #C9A045, verdigris #4F9C8D,
-indigo #8fa5c7 and the one red #D72E2E. Do not recolour the crest to match something in the
-scene, and do not drop it for falling outside the palette — it is a separate block in a
-reserved ink, which is what keeps the placement legible enough to judge.
+PALETTE — the crest's ink is RESERVED. The image still carries only two or three colours in
+total, plus the warm near-black ground #1A1815 and the cream key line #FFFDF8. The crest
+does NOT add another one: [BOOK COLOUR HEX], in whatever tint this block asks for, is simply
+the colour that ONLY the crest uses. The scene draws its own one or two colours from what is
+left of gold #C9A045, verdigris #4F9C8D, indigo #8fa5c7 and the one red #D72E2E, and never
+touches the crest's. Do not recolour the crest to match something in the scene, and do not
+drop it for falling outside the palette — a colour used once, for one shape, is what keeps
+the placement legible enough to judge.
 ```
+
+---
+
+## From concept to production — how a chosen placement actually gets made
+
+**Raised in review on 2026-09-14, and it is the right question.** These prompts generate a
+scene with the crest already in it. The shipped asset is a *different* image: an approved
+illustration from `illustrations/book-N/plan.md` with the crest placed over it in Affinity.
+Nothing makes those two compositions agree. A concept that works because the model left a
+corner empty tells you nothing if the approved illustration fills that corner — so the
+placement you judged may not be available in the thing you ship.
+
+**The fix is the run order.** Generate and approve ONE illustration first — 11.1, the
+kitchen, which the pipeline already nominates as the style stress-test — then run these
+concepts with **both the approved image and the crest attached**, asking for the placement
+*on that image*. What you judge is then what you ship.
+
+Until an approved image exists, a concept from these prompts is **directional only**. It
+tells you about size and position in the abstract, not about the final composite. That is
+still worth having, which is why the blocks stand as written — it is just not worth
+mistaking for a decision.
+
+### The five do not cost the same in Affinity
+
+This is what actually picks the winner, more than how any of them looks:
+
+| | how it is made over an approved image | cost |
+| --- | --- | --- |
+| **A** · margin seal | place the crest on top | pure overlay — nothing else needed |
+| **E** · corner anchor | place the crest on top | pure overlay, *if* the image has an empty corner |
+| **D** · inside one plane | mask the crest to the plane's shape | one mask, redrawn per image |
+| **C** · large ghosted field | mask out every figure so the crest sits behind them | a mask per figure, per image |
+| **B** · carried by an object | mesh-warp the crest onto the object's surface | needs that object to exist in the approved image at all |
+
+**A is the cheapest and the most likely to survive contact with a real image**, which is
+why it is the recommended first run. The live style block already puts one or two margin
+seals in every illustration, so A is not adding an element — it is deciding what one of
+them carries.
+
+**B is the one to be honest about.** It cannot be composited onto an arbitrary image: the
+noren, the lantern, the cup has to already be there, facing the right way. If B wins on
+looks it stops being a compositing step and becomes a scene-writing constraint — every
+scene block in the book would then have to name an object that can carry a crest. That is a
+real cost, and worth knowing before falling for the result.
+
+**C is the one that may have to stay generated.** Masking every figure out of a hand-pulled
+print, with its deliberate misregistration and ragged dry-brush edges, is slow and looks
+wrong when done badly. If C wins, the honest answer is that Book N's images are generated
+with the crest in them rather than composited — which is a different production model, not
+a harder version of the same one.
 
 ---
 
