@@ -1,5 +1,30 @@
 # Chapter illustration — generation prompts
 
+> ## ⛔ SUPERSEDED — 2026-09-09. Do not generate from this file.
+>
+> **This is the paper-ground pipeline.** It prints a cream sheet `#FFFDF8` with a deep
+> indigo key block. That is not what AburunGo's illustrations are any more.
+>
+> **The live pipeline is [`illustrations/`](../illustrations/README.md)** — dark ground,
+> warm near-black `#1A1815`, cream carved line, a negative of the traditional print.
+> Decided **2026-09-09 when the app went dark**, and it says plainly that *"the five
+> paper-ground images from August are superseded and get regenerated."*
+>
+> It is also simply a better pipeline than this file: a style-reference sheet attached to
+> every generation rather than prose alone, one image per *situation* rather than per
+> chapter, a four-state ledger in `book-N/plan.md`, and an append-only `_rejected/` folder.
+>
+> **Why this banner exists rather than a deletion.** Everything below was improved on
+> 2026-09-13 — real Japanese text specified per scene, ornament and borders asked for,
+> print artefacts split into obvious and fine — by a session that did not know this file
+> had been retired four days earlier. That work is good and is worth porting into the dark
+> style block; it is not worth generating from here in the meantime. **Port it, then delete
+> this file.** Until then, nothing in it is authoritative.
+>
+> Kept rather than deleted for one more reason: the Japanese strings below
+> (食堂, ラーメン, ぎょうざ, 八百屋, 改札, つめたい, あたたかい) were chosen per scene and
+> are ground-independent. They transfer unchanged.
+
 For Gemini image generation. Each block below is **complete and self-contained** —
 copy one, paste it, generate. No assembly needed.
 

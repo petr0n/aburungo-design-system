@@ -7,9 +7,22 @@ The point is not to produce final art. It is to get **several placements to reac
 where the crest sits, how big it is, and whether it reads as part of the print or as
 something pasted on top.
 
-Pair each block below with a scene from [`illustration-prompt.md`](illustration-prompt.md).
-That file's style block governs the print quality and now *asks* for borders, seals,
-cartouches and real Japanese text; this file only adds the crest on top of it.
+> **Corrected 2026-09-14 — read this first.** This file was written against
+> `illustration-prompt.md`, the **paper-ground** pipeline, which was superseded on
+> 2026-09-09. The live pipeline is [`illustrations/`](../illustrations/README.md): a
+> **dark ground**, warm near-black `#1A1815`, cream carved line.
+>
+> **The five integration strategies below are ground-independent and stand.** Seal,
+> carried-by-an-object, ghosted field, in-plane, corner anchor — all describe where a mark
+> sits, not what colour it is. **The colour guidance is what changed**, and it inverted;
+> the table under "Running these" is corrected and is the version to use.
+>
+> Two edits are still owed here when the dark pipeline merges: each block's palette
+> sentence names the paper-ground four-colour set, and the bokashi note in D cites the
+> paper style block. Neither changes which strategy to run.
+
+Pair each block below with a scene from the live pipeline's style block. That block
+governs print quality; this file only adds the crest on top of it.
 
 ---
 
@@ -203,39 +216,35 @@ exactly why it reads as a mark rather than as part of the picture.
 
 ## Running these
 
-Replace `[BOOK COLOUR HEX]` with the book's identity value:
+Replace `[BOOK COLOUR HEX]` with the book's ink on the **dark ground** `#1A1815`:
 
-| Book | Hue | Hex |
-| --- | --- | --- |
-| One — the foundation | Rokushō 緑青 | `#4F9C8D` |
-| Two — the bridge | Ai-iro 藍色 | `#1F3A66` |
-| Three — the wall | Akane 茜色 | `#D72E2E` |
-| Four — register | Ōgon 黄金 | `#C9A045` |
-| Five — refinement | Sumi-iro 墨色 | `#2D2D2D` |
+| Book | Hue | Crest ink | On the dark ground |
+| --- | --- | --- | --- |
+| One — the foundation | Rokushō 緑青 | `#4F9C8D` (500) | 5.46:1 |
+| Two — the bridge | Ai-iro 藍色 | **`#8fa5c7` (300)** | 7.06:1 |
+| Three — the wall | Akane 茜色 | `#D72E2E` (500) | 3.64:1 |
+| Four — register | Ōgon 黄金 | `#C9A045` (500) | 7.25:1 |
+| Five — refinement | Sumi-iro 墨色 | **`#CFC9B9` (stone-300)** | 10.72:1 |
 
-**Book Two is the awkward one — and the fix is the placement, not the colour.** Ai-iro is
-also the scene's line-block colour, so an Ai crest on an indigo field disappears.
+**Books Two and Five need the light rung, and this is not a second identity value.** At
+their 500 step they measure **1.57:1** and **1.29:1** on near-black — invisible. The dark
+pipeline already hit this and already solved it for the scene ink, listing indigo as
+*"`#8fa5c7` (the light rung — deep indigo vanishes on this ground)"*. Book Five's Sumi is
+the same problem one step worse: it *is* near-black.
 
-An earlier draft here suggested running Book Two at Ai 900 `#0a1322`. **Don't** — that
-quietly creates a second Book Two identity value, and the five identities are locked at
-their 500 step by a dated author decision in
-[`book-identity-and-checkpoint-mockups-plan.md`](book-identity-and-checkpoint-mockups-plan.md).
-That decision has a precedent attached: when the ○ glyph could land in its own header
-band's colour, the author moved *the verdict colours*, not the identity. Same move here.
+The 500-step lock in
+[`book-identity-and-checkpoint-mockups-plan.md`](book-identity-and-checkpoint-mockups-plan.md)
+is untouched by this. That lock governs a book's **chrome** — its band, its tag, its
+accent. This is the **printed ink** a crest is pulled in, inside an illustration whose
+whole palette is already re-rung for the dark ground. Same identity, the print's ink set.
 
-So keep Ai 500 `#1F3A66` and choose a placement whose ground is not indigo. Measured
-against the scene palette:
+**If the author would rather Two and Five keep their 500 anyway:** the only other way out
+is giving those two books a light plane to sit on inside the picture, which means
+designing two scenes around a constraint the other three do not have. The light rung is
+the cheaper and more consistent answer, and it follows the pipeline's own precedent.
 
-| Crest sits on | Ai 500 reads at |
-| --- | --- |
-| the paper ground `#FFFDF8` | **11.13:1** — best. Variant A's margin seal lands here by default |
-| antique gold `#C9A045` | **4.63:1** — comfortable |
-| verdigris `#4F9C8D` | 3.49:1 — usable for a non-text mark, but the weakest of the three |
-| indigo `#1F3A66` — the line block | **1.00:1** — invisible. Never |
-
-For Book Two, prefer **A** (margin seal on paper) or a **C/D** placement whose plane is
-gold or paper. The same check applies to any book whose hue matches the plane it lands
-on — Book Four on a gold plane has the identical problem.
+Akane at 3.64:1 is the weakest of the five and still clears the 3:1 a non-text mark needs.
+Worth watching in the first generation; if it reads thin, Akane 300 `#ec9791` gives 7.93:1.
 
 **Run one variant across two or three different crests before running one crest across all
 five variants.** The question you are answering first is which integration strategy works
