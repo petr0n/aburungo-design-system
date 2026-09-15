@@ -19,9 +19,9 @@ A traditional Japanese woodblock print (mokuhanga) illustration, in the aizuri-e
 where deep indigo carries the line work. The linework must look carved into wood —
 irregular weight, slight chatter along the edges, blunt terminations, the character of a
 knife rather than a pen tool. Flat areas of colour with no gradients, no shading, no
-rendering, no 3D. A very slight registration offset between the line block and the colour
-blocks, the way a hand-pulled print misaligns by a fraction of a millimetre. Subtle
-laid-paper grain across the whole image.
+rendering, no 3D. Registration offset between the line block and the colour blocks, the way
+a hand-pulled print misaligns — most blocks by a hairline, and at least one visibly further
+out, as set out under PRINT ARTEFACTS below. Laid-paper grain across the whole image.
 
 Composition is clear and confident: one subject, readable silhouettes, generous empty
 ground around them. Within those shapes, carved detail is welcome and wanted — hatching,
@@ -35,7 +35,9 @@ THE SCENE: a small restaurant counter seen from the customer's side. A split nor
 hanging above, carrying exactly these two characters, large and simply carved: 食堂
 One seated customer and one cook behind the counter, the customer inclining slightly in a
 greeting. A bowl and chopsticks on the counter. A standing menu card beside them carrying
-exactly two dish names, one per line, large: ラーメン / ぎょうざ
+exactly two dish names, large, stacked: the first line reads ラーメン and the
+second line directly beneath it reads ぎょうざ. Render no slash, bullet or separator
+between them.
 Render only those characters. No other lettering anywhere in the image.
 
 The people are ordinary contemporary Japanese adults, observed plainly. Adults with
@@ -54,13 +56,20 @@ band, a seigaiha wave, a plain double rule, or a simple cornered frame. Place se
 cartouches in the margins where a hand-pulled print would carry them. Cut them from the
 same block as the picture and fill them from the palette below.
 
-JAPANESE TEXT is wanted wherever the scene would genuinely carry it — noren, shop signs,
-menu boards, lanterns, price cards, packaging. It must be REAL and RELEVANT: actual
-Japanese belonging to this scene, rendered EXACTLY as the scene specifies it. Do not
-invent characters, do not produce decorative pseudo-kanji, and do not render approximate
-glyph-shaped marks. Prefer FEW, LARGE, SIMPLE strings over many small ones — a
-three-character noren survives printing where a nine-item menu board turns to mush. Where
-the scene names no text, leave the surface blank rather than inventing something for it.
+These live OUTSIDE the picture, on the sheet around it. Where a scene below limits what it
+contains — a count of objects, or an empty ground — that limit governs the picture only and
+never rules out the border, the seal or the margin.
+
+JAPANESE TEXT — render EXACTLY AND ONLY the strings THE SCENE names below, on the surfaces
+it names, and nothing else. This is transcription, not composition: do not invent
+characters, do not add a second sign because a wall looks empty, do not letter the
+packaging or the lantern unless the scene says to, do not produce decorative pseudo-kanji,
+and do not render approximate glyph-shaped marks. Every other surface in the image stays
+blank. Where the scene names no text at all, the image contains no text at all.
+
+The strings are given large and few on purpose — a three-character noren survives printing
+where a nine-item menu board turns to mush. Render them at the size the scene asks for,
+carved simply, legible.
 
 Every one of these — border, seal, cartouche, and every single character of text — is
 carved into the same block as the picture and carries the same woodcut artefacts described
@@ -89,15 +98,27 @@ it read as three-dimensional, no specular highlight, no sheen on metal or cerami
 soft-edged cast shadow. A pot is a flat shape with carved line describing it, never a
 rendered solid.
 
-PRINT ARTEFACTS — the marks of an actual hand-pulled print, not simulated wear:
-- Woodgrain from the block itself printing faintly through the large flat colour areas,
-  running in one consistent direction within each area.
-- Uneven ink density across a flat field — slightly heavier where the baren pressed
-  harder, thinner and flecked with bare paper where the block ran dry.
+PRINT ARTEFACTS — the marks of an actual hand-pulled print, not simulated wear. These are
+wanted, and wanted VISIBLY: this is a print with character, not a clean reproduction with a
+hint of texture. The first four must be obvious at a glance; the last three are fine detail
+for close viewing and stay subtle.
+
+OBVIOUS — carry these at full strength:
+- Woodgrain from the block printing clearly through every large flat colour area, running
+  in one consistent direction within each area, unmistakable rather than hinted at.
+- Strongly uneven ink density across each flat field — markedly heavier where the baren
+  pressed hard, thinning to streaks and patches of bare paper where the block ran dry. A
+  flat area should never read as an even fill.
+- Dry-brush flecking along the trailing edge of the broad colour areas, where the block
+  carried too little ink to cover: broken, ragged, bare paper showing through in flecks.
+- MISREGISTRATION, and at least one colour block per image is CLEARLY off — a visible band
+  of bare paper down one side of a shape and a corresponding overlap of colour across the
+  key line on the other, wide enough to read instantly as a hand-pulled misalignment. This
+  is the signature mistake of the medium and it should be unmissable. The remaining blocks
+  stay within a hairline.
+
+FINE — these stay subtle, and must not be exaggerated:
 - Faint circular burnishing swirls from the baren across the broadest colour areas.
-- Slight misregistration between the colour blocks and the key line block: a hairline of
-  bare paper along one side of a shape, a sliver of colour overlapping the line on the
-  other.
 - Pigment feathering a fraction of a millimetre into the paper fibres at the edge of each
   colour area, softening the edge without blurring it.
 - Occasional small ticks and specks of stray colour just outside a shape's edge, where the
@@ -124,9 +145,9 @@ A traditional Japanese woodblock print (mokuhanga) illustration, in the aizuri-e
 where deep indigo carries the line work. The linework must look carved into wood —
 irregular weight, slight chatter along the edges, blunt terminations, the character of a
 knife rather than a pen tool. Flat areas of colour with no gradients, no shading, no
-rendering, no 3D. A very slight registration offset between the line block and the colour
-blocks, the way a hand-pulled print misaligns by a fraction of a millimetre. Subtle
-laid-paper grain across the whole image.
+rendering, no 3D. Registration offset between the line block and the colour blocks, the way
+a hand-pulled print misaligns — most blocks by a hairline, and at least one visibly further
+out, as set out under PRINT ARTEFACTS below. Laid-paper grain across the whole image.
 
 Composition is clear and confident: one subject, readable silhouettes, generous empty
 ground around them. Within those shapes, carved detail is welcome and wanted — hatching,
@@ -159,13 +180,20 @@ band, a seigaiha wave, a plain double rule, or a simple cornered frame. Place se
 cartouches in the margins where a hand-pulled print would carry them. Cut them from the
 same block as the picture and fill them from the palette below.
 
-JAPANESE TEXT is wanted wherever the scene would genuinely carry it — noren, shop signs,
-menu boards, lanterns, price cards, packaging. It must be REAL and RELEVANT: actual
-Japanese belonging to this scene, rendered EXACTLY as the scene specifies it. Do not
-invent characters, do not produce decorative pseudo-kanji, and do not render approximate
-glyph-shaped marks. Prefer FEW, LARGE, SIMPLE strings over many small ones — a
-three-character noren survives printing where a nine-item menu board turns to mush. Where
-the scene names no text, leave the surface blank rather than inventing something for it.
+These live OUTSIDE the picture, on the sheet around it. Where a scene below limits what it
+contains — a count of objects, or an empty ground — that limit governs the picture only and
+never rules out the border, the seal or the margin.
+
+JAPANESE TEXT — render EXACTLY AND ONLY the strings THE SCENE names below, on the surfaces
+it names, and nothing else. This is transcription, not composition: do not invent
+characters, do not add a second sign because a wall looks empty, do not letter the
+packaging or the lantern unless the scene says to, do not produce decorative pseudo-kanji,
+and do not render approximate glyph-shaped marks. Every other surface in the image stays
+blank. Where the scene names no text at all, the image contains no text at all.
+
+The strings are given large and few on purpose — a three-character noren survives printing
+where a nine-item menu board turns to mush. Render them at the size the scene asks for,
+carved simply, legible.
 
 Every one of these — border, seal, cartouche, and every single character of text — is
 carved into the same block as the picture and carries the same woodcut artefacts described
@@ -185,15 +213,27 @@ gold #C9A045, or the warm paper ground #FFFDF8, never pure white.
 Colour areas are flat, not shaded — no sheen, no gradient that describes form, no rendered
 highlights, on any surface including steam and smoke.
 
-PRINT ARTEFACTS — the marks of an actual hand-pulled print, not simulated wear:
-- Woodgrain from the block itself printing faintly through the large flat colour areas,
-  running in one consistent direction within each area.
-- Uneven ink density across a flat field — slightly heavier where the baren pressed
-  harder, thinner and flecked with bare paper where the block ran dry.
+PRINT ARTEFACTS — the marks of an actual hand-pulled print, not simulated wear. These are
+wanted, and wanted VISIBLY: this is a print with character, not a clean reproduction with a
+hint of texture. The first four must be obvious at a glance; the last three are fine detail
+for close viewing and stay subtle.
+
+OBVIOUS — carry these at full strength:
+- Woodgrain from the block printing clearly through every large flat colour area, running
+  in one consistent direction within each area, unmistakable rather than hinted at.
+- Strongly uneven ink density across each flat field — markedly heavier where the baren
+  pressed hard, thinning to streaks and patches of bare paper where the block ran dry. A
+  flat area should never read as an even fill.
+- Dry-brush flecking along the trailing edge of the broad colour areas, where the block
+  carried too little ink to cover: broken, ragged, bare paper showing through in flecks.
+- MISREGISTRATION, and at least one colour block per image is CLEARLY off — a visible band
+  of bare paper down one side of a shape and a corresponding overlap of colour across the
+  key line on the other, wide enough to read instantly as a hand-pulled misalignment. This
+  is the signature mistake of the medium and it should be unmissable. The remaining blocks
+  stay within a hairline.
+
+FINE — these stay subtle, and must not be exaggerated:
 - Faint circular burnishing swirls from the baren across the broadest colour areas.
-- Slight misregistration between the colour blocks and the key line block: a hairline of
-  bare paper along one side of a shape, a sliver of colour overlapping the line on the
-  other.
 - Pigment feathering a fraction of a millimetre into the paper fibres at the edge of each
   colour area, softening the edge without blurring it.
 - Occasional small ticks and specks of stray colour just outside a shape's edge, where the
@@ -220,9 +260,9 @@ A traditional Japanese woodblock print (mokuhanga) illustration, in the aizuri-e
 where deep indigo carries the line work. The linework must look carved into wood —
 irregular weight, slight chatter along the edges, blunt terminations, the character of a
 knife rather than a pen tool. Flat areas of colour with no gradients, no shading, no
-rendering, no 3D. A very slight registration offset between the line block and the colour
-blocks, the way a hand-pulled print misaligns by a fraction of a millimetre. Subtle
-laid-paper grain across the whole image.
+rendering, no 3D. Registration offset between the line block and the colour blocks, the way
+a hand-pulled print misaligns — most blocks by a hairline, and at least one visibly further
+out, as set out under PRINT ARTEFACTS below. Laid-paper grain across the whole image.
 
 Composition is clear and confident: one subject, readable silhouettes, generous empty
 ground around them. Within those shapes, carved detail is welcome and wanted — hatching,
@@ -255,13 +295,20 @@ band, a seigaiha wave, a plain double rule, or a simple cornered frame. Place se
 cartouches in the margins where a hand-pulled print would carry them. Cut them from the
 same block as the picture and fill them from the palette below.
 
-JAPANESE TEXT is wanted wherever the scene would genuinely carry it — noren, shop signs,
-menu boards, lanterns, price cards, packaging. It must be REAL and RELEVANT: actual
-Japanese belonging to this scene, rendered EXACTLY as the scene specifies it. Do not
-invent characters, do not produce decorative pseudo-kanji, and do not render approximate
-glyph-shaped marks. Prefer FEW, LARGE, SIMPLE strings over many small ones — a
-three-character noren survives printing where a nine-item menu board turns to mush. Where
-the scene names no text, leave the surface blank rather than inventing something for it.
+These live OUTSIDE the picture, on the sheet around it. Where a scene below limits what it
+contains — a count of objects, or an empty ground — that limit governs the picture only and
+never rules out the border, the seal or the margin.
+
+JAPANESE TEXT — render EXACTLY AND ONLY the strings THE SCENE names below, on the surfaces
+it names, and nothing else. This is transcription, not composition: do not invent
+characters, do not add a second sign because a wall looks empty, do not letter the
+packaging or the lantern unless the scene says to, do not produce decorative pseudo-kanji,
+and do not render approximate glyph-shaped marks. Every other surface in the image stays
+blank. Where the scene names no text at all, the image contains no text at all.
+
+The strings are given large and few on purpose — a three-character noren survives printing
+where a nine-item menu board turns to mush. Render them at the size the scene asks for,
+carved simply, legible.
 
 Every one of these — border, seal, cartouche, and every single character of text — is
 carved into the same block as the picture and carries the same woodcut artefacts described
@@ -281,15 +328,27 @@ gold #C9A045, or the warm paper ground #FFFDF8, never pure white.
 Colour areas are flat, not shaded — no sheen, no gradient that describes form, no rendered
 highlights, on any surface including steam and smoke.
 
-PRINT ARTEFACTS — the marks of an actual hand-pulled print, not simulated wear:
-- Woodgrain from the block itself printing faintly through the large flat colour areas,
-  running in one consistent direction within each area.
-- Uneven ink density across a flat field — slightly heavier where the baren pressed
-  harder, thinner and flecked with bare paper where the block ran dry.
+PRINT ARTEFACTS — the marks of an actual hand-pulled print, not simulated wear. These are
+wanted, and wanted VISIBLY: this is a print with character, not a clean reproduction with a
+hint of texture. The first four must be obvious at a glance; the last three are fine detail
+for close viewing and stay subtle.
+
+OBVIOUS — carry these at full strength:
+- Woodgrain from the block printing clearly through every large flat colour area, running
+  in one consistent direction within each area, unmistakable rather than hinted at.
+- Strongly uneven ink density across each flat field — markedly heavier where the baren
+  pressed hard, thinning to streaks and patches of bare paper where the block ran dry. A
+  flat area should never read as an even fill.
+- Dry-brush flecking along the trailing edge of the broad colour areas, where the block
+  carried too little ink to cover: broken, ragged, bare paper showing through in flecks.
+- MISREGISTRATION, and at least one colour block per image is CLEARLY off — a visible band
+  of bare paper down one side of a shape and a corresponding overlap of colour across the
+  key line on the other, wide enough to read instantly as a hand-pulled misalignment. This
+  is the signature mistake of the medium and it should be unmissable. The remaining blocks
+  stay within a hairline.
+
+FINE — these stay subtle, and must not be exaggerated:
 - Faint circular burnishing swirls from the baren across the broadest colour areas.
-- Slight misregistration between the colour blocks and the key line block: a hairline of
-  bare paper along one side of a shape, a sliver of colour overlapping the line on the
-  other.
 - Pigment feathering a fraction of a millimetre into the paper fibres at the edge of each
   colour area, softening the edge without blurring it.
 - Occasional small ticks and specks of stray colour just outside a shape's edge, where the
@@ -316,9 +375,9 @@ A traditional Japanese woodblock print (mokuhanga) illustration, in the aizuri-e
 where deep indigo carries the line work. The linework must look carved into wood —
 irregular weight, slight chatter along the edges, blunt terminations, the character of a
 knife rather than a pen tool. Flat areas of colour with no gradients, no shading, no
-rendering, no 3D. A very slight registration offset between the line block and the colour
-blocks, the way a hand-pulled print misaligns by a fraction of a millimetre. Subtle
-laid-paper grain across the whole image.
+rendering, no 3D. Registration offset between the line block and the colour blocks, the way
+a hand-pulled print misaligns — most blocks by a hairline, and at least one visibly further
+out, as set out under PRINT ARTEFACTS below. Laid-paper grain across the whole image.
 
 Composition is clear and confident: one subject, readable silhouettes, generous empty
 ground around them. Within those shapes, carved detail is welcome and wanted — hatching,
@@ -330,8 +389,12 @@ be seen. Do not simplify for small sizes.
 
 THE SCENE: a low table seen from slightly above, set with a rice bowl, a soup bowl, and
 chopsticks on a rest. Behind it, cropped by the frame, a pot on a modern burner. Four
-objects total. No window, no view, no background scene, no shelving, no hanging utensils.
-Contemporary, not historical.
+objects total WITHIN THE PICTURE. No window, no view, no background scene, no shelving, no
+hanging utensils. Contemporary, not historical.
+The four-object limit governs the picture only. The carved border, and any seal or
+cartouche in the margin, sit OUTSIDE it and are still wanted — they are the printed sheet,
+not the scene on it. This is a bare scene, so it carries no text: every surface in the
+picture stays blank.
 
 No people in this one. The objects carry it.
 
@@ -347,13 +410,20 @@ band, a seigaiha wave, a plain double rule, or a simple cornered frame. Place se
 cartouches in the margins where a hand-pulled print would carry them. Cut them from the
 same block as the picture and fill them from the palette below.
 
-JAPANESE TEXT is wanted wherever the scene would genuinely carry it — noren, shop signs,
-menu boards, lanterns, price cards, packaging. It must be REAL and RELEVANT: actual
-Japanese belonging to this scene, rendered EXACTLY as the scene specifies it. Do not
-invent characters, do not produce decorative pseudo-kanji, and do not render approximate
-glyph-shaped marks. Prefer FEW, LARGE, SIMPLE strings over many small ones — a
-three-character noren survives printing where a nine-item menu board turns to mush. Where
-the scene names no text, leave the surface blank rather than inventing something for it.
+These live OUTSIDE the picture, on the sheet around it. Where a scene below limits what it
+contains — a count of objects, or an empty ground — that limit governs the picture only and
+never rules out the border, the seal or the margin.
+
+JAPANESE TEXT — render EXACTLY AND ONLY the strings THE SCENE names below, on the surfaces
+it names, and nothing else. This is transcription, not composition: do not invent
+characters, do not add a second sign because a wall looks empty, do not letter the
+packaging or the lantern unless the scene says to, do not produce decorative pseudo-kanji,
+and do not render approximate glyph-shaped marks. Every other surface in the image stays
+blank. Where the scene names no text at all, the image contains no text at all.
+
+The strings are given large and few on purpose — a three-character noren survives printing
+where a nine-item menu board turns to mush. Render them at the size the scene asks for,
+carved simply, legible.
 
 Every one of these — border, seal, cartouche, and every single character of text — is
 carved into the same block as the picture and carries the same woodcut artefacts described
@@ -373,15 +443,27 @@ gold #C9A045, or the warm paper ground #FFFDF8, never pure white.
 Colour areas are flat, not shaded — no sheen, no gradient that describes form, no rendered
 highlights, on any surface including steam and smoke.
 
-PRINT ARTEFACTS — the marks of an actual hand-pulled print, not simulated wear:
-- Woodgrain from the block itself printing faintly through the large flat colour areas,
-  running in one consistent direction within each area.
-- Uneven ink density across a flat field — slightly heavier where the baren pressed
-  harder, thinner and flecked with bare paper where the block ran dry.
+PRINT ARTEFACTS — the marks of an actual hand-pulled print, not simulated wear. These are
+wanted, and wanted VISIBLY: this is a print with character, not a clean reproduction with a
+hint of texture. The first four must be obvious at a glance; the last three are fine detail
+for close viewing and stay subtle.
+
+OBVIOUS — carry these at full strength:
+- Woodgrain from the block printing clearly through every large flat colour area, running
+  in one consistent direction within each area, unmistakable rather than hinted at.
+- Strongly uneven ink density across each flat field — markedly heavier where the baren
+  pressed hard, thinning to streaks and patches of bare paper where the block ran dry. A
+  flat area should never read as an even fill.
+- Dry-brush flecking along the trailing edge of the broad colour areas, where the block
+  carried too little ink to cover: broken, ragged, bare paper showing through in flecks.
+- MISREGISTRATION, and at least one colour block per image is CLEARLY off — a visible band
+  of bare paper down one side of a shape and a corresponding overlap of colour across the
+  key line on the other, wide enough to read instantly as a hand-pulled misalignment. This
+  is the signature mistake of the medium and it should be unmissable. The remaining blocks
+  stay within a hairline.
+
+FINE — these stay subtle, and must not be exaggerated:
 - Faint circular burnishing swirls from the baren across the broadest colour areas.
-- Slight misregistration between the colour blocks and the key line block: a hairline of
-  bare paper along one side of a shape, a sliver of colour overlapping the line on the
-  other.
 - Pigment feathering a fraction of a millimetre into the paper fibres at the edge of each
   colour area, softening the edge without blurring it.
 - Occasional small ticks and specks of stray colour just outside a shape's edge, where the
@@ -408,9 +490,9 @@ A traditional Japanese woodblock print (mokuhanga) illustration, in the aizuri-e
 where deep indigo carries the line work. The linework must look carved into wood —
 irregular weight, slight chatter along the edges, blunt terminations, the character of a
 knife rather than a pen tool. Flat areas of colour with no gradients, no shading, no
-rendering, no 3D. A very slight registration offset between the line block and the colour
-blocks, the way a hand-pulled print misaligns by a fraction of a millimetre. Subtle
-laid-paper grain across the whole image.
+rendering, no 3D. Registration offset between the line block and the colour blocks, the way
+a hand-pulled print misaligns — most blocks by a hairline, and at least one visibly further
+out, as set out under PRINT ARTEFACTS below. Laid-paper grain across the whole image.
 
 Composition is clear and confident: one subject, readable silhouettes, generous empty
 ground around them. Within those shapes, carved detail is welcome and wanted — hatching,
@@ -422,7 +504,11 @@ be seen. Do not simplify for small sizes.
 
 THE SCENE: three ordinary adults standing together in contemporary everyday clothing —
 one coat, one satchel, one scarf. Large in the frame, a flat frieze against completely
-empty ground. Nothing else in the image.
+empty ground. Nothing else WITHIN THE PICTURE — no props, no furniture, no background.
+That emptiness governs the picture only. The carved border, and any seal or cartouche in
+the margin, sit OUTSIDE it and are still wanted — they frame the sheet rather than adding
+to the scene, and against a frieze this bare the border is doing most of the composition.
+This is a bare scene, so it carries no text: no lettering anywhere in the picture.
 
 The people are ordinary contemporary Japanese adults, observed plainly. Adults with
 real faces, carved rather than cartooned — the restraint of a print portrait, not the
@@ -440,13 +526,20 @@ band, a seigaiha wave, a plain double rule, or a simple cornered frame. Place se
 cartouches in the margins where a hand-pulled print would carry them. Cut them from the
 same block as the picture and fill them from the palette below.
 
-JAPANESE TEXT is wanted wherever the scene would genuinely carry it — noren, shop signs,
-menu boards, lanterns, price cards, packaging. It must be REAL and RELEVANT: actual
-Japanese belonging to this scene, rendered EXACTLY as the scene specifies it. Do not
-invent characters, do not produce decorative pseudo-kanji, and do not render approximate
-glyph-shaped marks. Prefer FEW, LARGE, SIMPLE strings over many small ones — a
-three-character noren survives printing where a nine-item menu board turns to mush. Where
-the scene names no text, leave the surface blank rather than inventing something for it.
+These live OUTSIDE the picture, on the sheet around it. Where a scene below limits what it
+contains — a count of objects, or an empty ground — that limit governs the picture only and
+never rules out the border, the seal or the margin.
+
+JAPANESE TEXT — render EXACTLY AND ONLY the strings THE SCENE names below, on the surfaces
+it names, and nothing else. This is transcription, not composition: do not invent
+characters, do not add a second sign because a wall looks empty, do not letter the
+packaging or the lantern unless the scene says to, do not produce decorative pseudo-kanji,
+and do not render approximate glyph-shaped marks. Every other surface in the image stays
+blank. Where the scene names no text at all, the image contains no text at all.
+
+The strings are given large and few on purpose — a three-character noren survives printing
+where a nine-item menu board turns to mush. Render them at the size the scene asks for,
+carved simply, legible.
 
 Every one of these — border, seal, cartouche, and every single character of text — is
 carved into the same block as the picture and carries the same woodcut artefacts described
@@ -466,15 +559,27 @@ gold #C9A045, or the warm paper ground #FFFDF8, never pure white.
 Colour areas are flat, not shaded — no sheen, no gradient that describes form, no rendered
 highlights, on any surface including steam and smoke.
 
-PRINT ARTEFACTS — the marks of an actual hand-pulled print, not simulated wear:
-- Woodgrain from the block itself printing faintly through the large flat colour areas,
-  running in one consistent direction within each area.
-- Uneven ink density across a flat field — slightly heavier where the baren pressed
-  harder, thinner and flecked with bare paper where the block ran dry.
+PRINT ARTEFACTS — the marks of an actual hand-pulled print, not simulated wear. These are
+wanted, and wanted VISIBLY: this is a print with character, not a clean reproduction with a
+hint of texture. The first four must be obvious at a glance; the last three are fine detail
+for close viewing and stay subtle.
+
+OBVIOUS — carry these at full strength:
+- Woodgrain from the block printing clearly through every large flat colour area, running
+  in one consistent direction within each area, unmistakable rather than hinted at.
+- Strongly uneven ink density across each flat field — markedly heavier where the baren
+  pressed hard, thinning to streaks and patches of bare paper where the block ran dry. A
+  flat area should never read as an even fill.
+- Dry-brush flecking along the trailing edge of the broad colour areas, where the block
+  carried too little ink to cover: broken, ragged, bare paper showing through in flecks.
+- MISREGISTRATION, and at least one colour block per image is CLEARLY off — a visible band
+  of bare paper down one side of a shape and a corresponding overlap of colour across the
+  key line on the other, wide enough to read instantly as a hand-pulled misalignment. This
+  is the signature mistake of the medium and it should be unmissable. The remaining blocks
+  stay within a hairline.
+
+FINE — these stay subtle, and must not be exaggerated:
 - Faint circular burnishing swirls from the baren across the broadest colour areas.
-- Slight misregistration between the colour blocks and the key line block: a hairline of
-  bare paper along one side of a shape, a sliver of colour overlapping the line on the
-  other.
 - Pigment feathering a fraction of a millimetre into the paper fibres at the edge of each
   colour area, softening the edge without blurring it.
 - Occasional small ticks and specks of stray colour just outside a shape's edge, where the

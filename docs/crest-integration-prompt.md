@@ -33,12 +33,17 @@ chrome — it sits in the header, outside the illustration. That relationship ge
 when the image lands on a screen, not inside the frame. Constraining it here just makes the
 model shrink the crest to nothing.
 
-**The scene palette does not include every book colour.** The chapter scenes are built from
-deep indigo `#1F3A66`, verdigris `#4F9C8D`, antique gold `#C9A045` and paper `#FFFDF8`.
-Akane `#D72E2E` and Sumi `#2D2D2D` are *not* in it. That is useful rather than a problem —
-a Book Three crest in Akane over an indigo-and-verdigris scene reads as a separate printed
-plane, which is what a book mark should do. Name the crest colour explicitly in the prompt
-and let it sit outside the scene palette.
+**The scene palette does not include every book colour, and each block below says so.**
+The chapter scenes are built from deep indigo `#1F3A66`, verdigris `#4F9C8D`, antique gold
+`#C9A045` and paper `#FFFDF8`. Akane `#D72E2E` and Sumi `#2D2D2D` are *not* in it.
+
+That is useful rather than a problem — a Book Three crest in Akane over an
+indigo-and-verdigris scene reads as a separate printed plane, which is what a book mark
+should do. **But the scene prompt says every filled area must be one of its four colours**,
+so pasted together without a qualifier the two instructions contradict each other and the
+model resolves it by recolouring the crest or dropping it. Every variant below therefore
+states that the crest is the sole exception and that all other areas stay on the scene
+palette. If you rewrite a block, keep that sentence.
 
 ---
 
@@ -63,8 +68,14 @@ variation, the same slight misregistration, and the same pigment feathering into
 as every other colour area in the print. It must look pressed into the same sheet, not
 placed on top of it.
 
-The crest is a mark, not text. It is not lettering or signage and the no-text rule does not
-apply to it.
+The crest is a mark, not text, and the scene's transcribe-only text rule does not apply to
+it.
+
+The crest's colour is the ONE exception to the scene's four-colour palette. Every
+non-crest area in the image stays on deep indigo #1F3A66, verdigris #4F9C8D, antique gold
+#C9A045 and the paper ground #FFFDF8. Do not recolour the crest to fit that palette and do
+not drop it because it falls outside — it is a separate block in a separate ink, which is
+exactly why it reads as a mark rather than as part of the picture.
 ```
 
 ## B · Carved into the scene
@@ -89,7 +100,14 @@ than the crest's.
 Size it so the crest is legible without dominating: it should be the clearest single motif
 in the frame after the human subject, not before.
 
-The crest is a mark, not text. The no-lettering rule does not apply to it.
+The crest is a mark, not text, and the scene's transcribe-only text rule does not apply to
+it.
+
+The crest's colour is the ONE exception to the scene's four-colour palette. Every
+non-crest area in the image stays on deep indigo #1F3A66, verdigris #4F9C8D, antique gold
+#C9A045 and the paper ground #FFFDF8. Do not recolour the crest to fit that palette and do
+not drop it because it falls outside — it is a separate block in a separate ink, which is
+exactly why it reads as a mark rather than as part of the picture.
 ```
 
 ## C · Large ghosted field
@@ -113,7 +131,14 @@ no outline, no drop shadow.
 It must sit in the paper, not float above it: same woodgrain, same uneven ink density, same
 slight misregistration against the key block as every other colour area.
 
-The crest is a mark, not text. The no-lettering rule does not apply to it.
+The crest is a mark, not text, and the scene's transcribe-only text rule does not apply to
+it.
+
+The crest's colour is the ONE exception to the scene's four-colour palette. Every
+non-crest area in the image stays on deep indigo #1F3A66, verdigris #4F9C8D, antique gold
+#C9A045 and the paper ground #FFFDF8. Do not recolour the crest to fit that palette and do
+not drop it because it falls outside — it is a separate block in a separate ink, which is
+exactly why it reads as a mark rather than as part of the picture.
 ```
 
 ## D · Sky or empty plane
@@ -131,9 +156,18 @@ faithfully.
 Print it in a tint of [BOOK COLOUR HEX] one or two steps from the plane's own colour — close
 enough to read as part of the same field, separate enough to be unmistakably a mark. A
 bokashi gradient may be hand-wiped ACROSS the plane and across the crest together, as a
-single wipe over both; the crest itself takes no gradient of its own.
+single wipe over both; the crest itself takes no gradient of its own. This is the bokashi
+the style block already permits under SHADING, not an exception to "avoid gradients" — no
+gradient wraps an object, and the crest takes no gradient on its own account.
 
-The crest is a mark, not text. The no-lettering rule does not apply to it.
+The crest is a mark, not text, and the scene's transcribe-only text rule does not apply to
+it.
+
+The crest's colour is the ONE exception to the scene's four-colour palette. Every
+non-crest area in the image stays on deep indigo #1F3A66, verdigris #4F9C8D, antique gold
+#C9A045 and the paper ground #FFFDF8. Do not recolour the crest to fit that palette and do
+not drop it because it falls outside — it is a separate block in a separate ink, which is
+exactly why it reads as a mark rather than as part of the picture.
 ```
 
 ## E · Corner anchor, scene composed around it
@@ -155,7 +189,14 @@ solid colour, no gradient, no outline, no surrounding frame or ring.
 Same block artefacts as the rest of the print: woodgrain, uneven density, slight
 misregistration, pigment feathering.
 
-The crest is a mark, not text. The no-lettering rule does not apply to it.
+The crest is a mark, not text, and the scene's transcribe-only text rule does not apply to
+it.
+
+The crest's colour is the ONE exception to the scene's four-colour palette. Every
+non-crest area in the image stays on deep indigo #1F3A66, verdigris #4F9C8D, antique gold
+#C9A045 and the paper ground #FFFDF8. Do not recolour the crest to fit that palette and do
+not drop it because it falls outside — it is a separate block in a separate ink, which is
+exactly why it reads as a mark rather than as part of the picture.
 ```
 
 ---
