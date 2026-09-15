@@ -18,7 +18,7 @@ brand utilities. No app code · **Written:** 2026-08-21 · **Branch prefix:** `f
 > low-opacity texture; it is **one stylized mark per book, acting as that book's logo** —
 > present on every page in the book, subordinate to the ア hanko but visually obvious.
 > Concept art is being generated before anything is built; see
-> [`crest-integration-prompt.md`](crest-integration-prompt.md).
+> [`illustrations/crest-integration.md`](../illustrations/crest-integration.md).
 >
 > **Exactly what this supersedes in this document:**
 >

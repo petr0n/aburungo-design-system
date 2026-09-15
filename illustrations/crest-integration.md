@@ -19,7 +19,7 @@ is gone.
 
 > **Rebuilt for the dark ground, 2026-09-14.** This file was first written against
 > `docs/illustration-prompt.md`, the paper-ground prompt, which has since been deleted. The
-> live pipeline is [`illustrations/`](../illustrations/README.md): warm near-black
+> live pipeline is [`README.md`](README.md): warm near-black
 > `#1A1815`, cream carved line, the negative of a traditional print.
 >
 > **The five strategies are ground-independent and stand.** Seal, carried-by-an-object,
@@ -262,7 +262,7 @@ the placement legible enough to judge.
 
 **Raised in review on 2026-09-14, and it is the right question.** These prompts generate a
 scene with the crest already in it. The shipped asset is a *different* image: an approved
-illustration from `illustrations/book-N/plan.md` with the crest placed over it in Affinity.
+illustration from `book-N/plan.md` with the crest placed over it in Affinity.
 Nothing makes those two compositions agree. A concept that works because the model left a
 corner empty tells you nothing if the approved illustration fills that corner — so the
 placement you judged may not be available in the thing you ship.
@@ -330,7 +330,7 @@ indigo vanishes on this ground)"*. Book Two's crest just uses the ink the scenes
 use.
 
 The 500-step lock in
-[`book-identity-and-checkpoint-mockups-plan.md`](book-identity-and-checkpoint-mockups-plan.md)
+[`book-identity-and-checkpoint-mockups-plan.md`](../docs/book-identity-and-checkpoint-mockups-plan.md)
 is untouched by this. That lock governs a book's **chrome** — its band, its tag, its
 accent. This is the **printed ink** a crest is pulled in, inside an illustration whose
 whole palette is already re-rung for the dark ground. Same identity, the print's ink set.
