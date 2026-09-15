@@ -255,7 +255,7 @@ Replace `[BOOK COLOUR HEX]` with the book's ink on the **dark ground** `#1A1815`
 | Two — the bridge | Ai-iro 藍色 | **`#8fa5c7` (300)** | 7.06:1 | its indigo |
 | Three — the wall | Akane 茜色 | `#D72E2E` (500) | 3.64:1 | its red — read the note |
 | Four — register | Ōgon 黄金 | `#C9A045` (500) | 7.25:1 | its gold |
-| Five — refinement | Sumi-iro 墨色 | stone-300 or cream — read the note | — | nothing; it is outside the palette |
+| Five — refinement | Sumi-iro 墨色 | **`#E2DED2` (stone-200)** | 13.17:1 | nothing; it is off the colour palette |
 
 The last column is the reserved-ink rule in practice. A Book Four scene is built from
 verdigris and indigo, because the gold now belongs to the crest.
@@ -291,17 +291,38 @@ The crest is the image's ONE red. No other red appears anywhere in the scene.
 At 3.64:1 Akane is the weakest of the five on this ground. If it reads thin, Akane 300
 `#ec9791` gives 7.93:1 — but only for the concept; the shipped ink is chosen in Affinity.
 
-### Book Five — pick it in Affinity
+### Book Five — it has no hue, and that is deliberate
 
-Sumi 500 is **1.29:1** on near-black. It *is* the ground, so it cannot be the crest's ink
-in a generation. For the concept round use stone-300 `#CFC9B9` or the cream key line —
-either is visible, and visible is all a concept needs to be.
+Sumi 500 is **1.29:1** on near-black, and the reason is not an oversight in this table.
+`src/tokens.css:160-167` spells it out: the other four accents are the 500 step of their own
+ramp, but **Sumi has no ramp.** It lives in the neutral stone scale, where `stone-800` *is*
+Sumi-iro — and the dark ground is `stone-900`, the adjacent step. Book Five's identity
+colour is one notch from the ground itself.
 
-**The final treatment is a composite-time decision**, made in Affinity against the actual
-approved image, like every other book's. Nothing here needs settling first. The earlier
-draft of this section argued at length about whether a filled stone crest violates the
-style block's "no light areas wider than a few strokes" — that rule governs what the model
-prints, not what you place on top of it afterwards.
+That comment also says *"Book Five's identity is the near-absence of accent, which is the
+point rather than an accident, **and the crest and type carry what the hue does not**."* So
+for this book the crest is doing more work than it does for the other four, not less. It is
+the only identity signal Book Five has, which is exactly why it cannot be the one that
+disappears.
+
+**Use `#E2DED2` — stone-200. 13.17:1.**
+
+| | on `#1A1815` |
+| --- | --- |
+| `stone-800` — Sumi itself | **1.29:1** |
+| `stone-300` | 10.72:1 |
+| **`stone-200`** | **13.17:1** |
+| `stone-0` — cream | 17.43:1 |
+
+**This is not a second identity value.** A neutral is defined by its distance from the
+ground, not by a hue, and the ground moved. Sumi sits 13.55:1 from paper; stone-200 sits
+13.17:1 from near-black. Same book, same weight, opposite end of the same ramp — the way
+body text going cream on dark is not a second body-text colour. The 500-step lock governs
+the four books that have a 500 step.
+
+Not cream `#FFFDF8`: that is `stone-0`, which is the key-line colour in every illustration
+and the card colour in the app. Book Five's mark should not be the same value everything
+else is drawn in. stone-200 is a half-step down — clearly ink, clearly not the line.
 
 **Run one variant across two or three different crests before running one crest across all
 five variants.** The question you are answering first is which integration strategy works
