@@ -1,8 +1,9 @@
 # Book One — illustration plan
 
-Source of truth for scenes: `../aburungo/src/content/chapters/n5.yaml` (chapters) and
-`../aburungo/src/content/lessons/n5-*.yaml` (99 lessons, each with a `situation` and a
-`canDo`). Every scene block below is derived from the can-do lines of the lessons in that
+Source of truth for scenes: `../../../aburungo/src/content/chapters/n5.yaml` (chapters) and
+`../../../aburungo/src/content/lessons/n5-*.yaml` (99 lessons, each with a `situation` and
+a `canDo`). The app is a sibling of this repository, so from this file the path climbs out
+of `book-1/`, out of `illustrations/`, and out of the repo before entering `aburungo/`. Every scene block below is derived from the can-do lines of the lessons in that
 situation, not from the situation title.
 
 **Ground: dark.** All images on `#1A1815` per `../README.md`. The five paper-ground images
@@ -14,7 +15,7 @@ there the situation image is the chapter opener. Chapters 1–5 have several; th
 reuses the first situation's image for now (`opener → s01` in the ledger) rather than
 adding five more generations. Composite openers are a later option, not a requirement.
 
-**Every generation:** attach `../reference/style-reference.png` + paste the style block
+**Every generation:** attach `../reference/style-reference.jpg` + paste the style block
 from `../README.md` + paste ONE scene block from below, all as one message in a fresh chat.
 
 ---
@@ -47,6 +48,12 @@ from `../README.md` + paste ONE scene block from below, all as one message in a 
 | S.1 | `b1-shared-checkpoint.png` | every chapter | Integration & checkpoint | todo | one image, reused 12× |
 | S.2 | `b1-shared-final.png` | book close | the three closing checkpoints | todo | one image, reused 3× |
 
+**The four scenes that carry Japanese:** 1.2 (`食堂`, `ラーメン` / `ぎょうざ`), 2.1
+(`八百屋`), 2.2 (`改札`), 9.1 (`つめたい` / `あたたかい`). Every other scene carries none —
+its writing-bearing surfaces are named as abstract carved marks, and an image that invents
+a character fails the Text check. Borders and margin seals are separate: **every** image
+carries those, per the style block.
+
 **Run order:** 11.1 first (the kitchen is the busiest scene — if the style holds there it
 holds everywhere), then 1.2, 2.2, 9.1, 12.1 (the four other regens — you have paper
 versions to compare against), then the rest in ledger order.
@@ -72,20 +79,25 @@ the doorframe. Contemporary, not historical.
 
 ```
 THE SCENE: a small restaurant counter seen from the customer's side. A split noren curtain
-hanging above. One seated customer and one cook behind the counter. A bowl and chopsticks
-on the counter, and a standing card beside them bearing only abstract tally marks and
-small carved dashes — no words, no characters. No other diners, no kitchen behind.
-Contemporary, not historical.
+hanging above, carrying exactly these two characters, large and simply carved: 食堂
+One seated customer and one cook behind the counter. A bowl and chopsticks on the counter.
+A standing menu card beside them carrying exactly two dish names, large, stacked: the first
+line reads ラーメン and the second line directly beneath it reads ぎょうざ. Render no slash,
+bullet or separator between them.
+Render only those characters. No other lettering anywhere in the image.
+No other diners, no kitchen behind. Contemporary, not historical.
 ```
 
 ### 2.1 · Shopping
 *Lessons: In a shop · Sizes & quantities · Do you have it? · Paying and leaving*
 
 ```
-THE SCENE: a shop counter. A shopkeeper handing a small paper bag across to a customer.
-A price tag on a stand between them bearing only abstract carved marks. A single shelf
-behind with three identical items in a row. No signage, no window, no street.
-Contemporary, not historical.
+THE SCENE: a greengrocer's counter. A shopkeeper handing a small paper bag across to a
+customer. Behind the shopkeeper, a short split noren carrying exactly these three
+characters, large and simply carved: 八百屋
+A single shelf with three identical items in a row.
+Render only those characters. No other lettering anywhere in the image.
+No other signage, no window, no street. Contemporary, not historical.
 ```
 
 ### 2.2 · Getting around
@@ -93,9 +105,11 @@ Contemporary, not historical.
 
 ```
 THE SCENE: a station ticket gate. One commuter with a shoulder bag passing through it.
-Above, a platform sign bearing only abstract carved marks and a clock face with hands but
-no numerals. A train in flat silhouette behind, cropped by the frame. No crowd, no
-shopfront. Contemporary, not historical.
+The sign above the gate carries exactly these two characters, large and simply carved: 改札
+A clock face beside it with hands but no numerals. A train in flat silhouette behind,
+cropped by the frame.
+Render only those characters. No other lettering anywhere in the image.
+No crowd, no shopfront. Contemporary, not historical.
 ```
 
 ### 3.1 · Hotel
@@ -207,8 +221,9 @@ Contemporary, not historical.
 *Lessons: Six to ten · Counting people · Flat things and machines · More colours · This one, that one*
 
 ```
-THE SCENE: a shop shelf seen straight on, six identical cups in a row, each a different
-palette colour. One hand pointing at one of them. A small basket on the floor below.
+THE SCENE: a shop shelf seen straight on, six identical cups in a row, printed in three
+palette colours that repeat along the row — two cups in each colour, not six different
+ones. One hand pointing at one of them. A small basket on the floor below.
 No people beyond the hand, no shop around the shelf. Contemporary, not historical.
 ```
 
@@ -217,8 +232,9 @@ No people beyond the hand, no shop around the shelf. Contemporary, not historica
 
 ```
 THE SCENE: one adult lifting a large heavy box, beside a small light bag on the floor.
-On a shelf behind: a tall bottle next to a short cup. Contrasts as the subject — heavy
-and light, tall and short. Nothing else in the room. Contemporary, not historical.
+Behind them, a tall bottle standing next to a short cup. Four objects total — box, bag,
+bottle, cup; no shelf, no furniture. Contrasts as the subject — heavy and light, tall and
+short. Nothing else in the room. Contemporary, not historical.
 ```
 
 ### 9.1 · Around town
@@ -227,8 +243,11 @@ and light, tall and short. Nothing else in the room. Contemporary, not historica
 ```
 THE SCENE: a street corner in an ordinary neighbourhood. Utility poles with looping
 cables, a vending machine, a low building edge, a pedestrian crossing in the foreground.
-Two figures walking, small in the frame. The vending machine's panel bears only abstract
-carved marks. Contemporary, not historical.
+Two figures walking, small in the frame. The vending machine carries two labels above its
+rows, exactly as given and nothing else: つめたい on one row, あたたかい on the other, each
+large enough to read at a glance.
+Render only those characters. No other lettering anywhere in the image.
+Contemporary, not historical.
 ```
 
 ### 10.1 · Talking about yesterday
@@ -267,8 +286,9 @@ stamped page, not a new scene.*
 
 ```
 THE SCENE: a hand pressing a round seal onto a sheet of paper, seen from above. A small
-red ink pad beside it — the red is the single sharp note. The sheet bears only abstract
-carved marks. The seal face is a plain circle, no character inside it. No desk beyond
+red ink pad beside it — the red is the single sharp note. The sheet is the dark ground,
+described by a carved cream edge — it is not a light panel and carries no pale fill. It
+bears only abstract carved marks. The seal face is a plain circle, no character inside it. No desk beyond
 the sheet, no people beyond the hand. Contemporary, not historical.
 ```
 
@@ -276,10 +296,11 @@ the sheet, no people beyond the hand. Contemporary, not historical.
 *Write it from memory · Cross-situation conversation · Can-do checkpoint*
 
 ```
-THE SCENE: a sheet of paper seen from above, a row of five round red seal impressions
-across it, the last one still wet. The seal lifted just above the fifth. The sheet bears
-only abstract carved marks. No hand, no desk beyond the sheet. Contemporary, not
-historical.
+THE SCENE: a sheet of paper seen from above, a row of five round seal impressions across
+it — four printed in verdigris and the fifth still wet in red, the one sharp note. The seal
+itself lifted just above the fifth. The sheet is the dark ground, described by a carved
+cream edge — it is not a light panel and carries no pale fill. It bears only abstract
+carved marks. No hand, no desk beyond the sheet. Contemporary, not historical.
 ```
 
 ---
@@ -290,6 +311,9 @@ historical.
   the opener screen wants something that sums the whole chapter rather than its first
   situation, that is five more generations, added to this ledger as `b1-ch0N-opener.png`
   when and if wanted.
-- **Whether the app's checkpoint screen wants the seal at all.** The seal is the brand
-  mark, and the checkpoint is the one place a learner is judged. If that reads as
-  "stamped = passed," it may be too close to a reward. Judge it on the screen, not here.
+- **Whether the app's checkpoint screen wants the seal at all.** The seal in S.1 and S.2
+  is a plain circle with no character in it, deliberately — **the AburunGo mark is the ア
+  hanko, and nothing in this folder becomes an alternative to it.** What is undecided is
+  whether a stamp belongs on the checkpoint at all: it is the one place a learner is
+  judged, so "stamped = passed" may read as a reward loop by another name. Judge it on the
+  screen, not here.

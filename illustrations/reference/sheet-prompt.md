@@ -5,14 +5,21 @@ passes, it is attached to every single generation and never regenerated. Nothing
 attached; this is the one prompt that runs without a reference.
 
 **Judging the sheet:** every panel must pass every line of the checklist in
-`../README.md`. One failing panel fails the sheet — a reference with one wrong panel
+`../README.md` **except the Border and Light margin rows**, which are deliberately
+switched off here — six carved borders on one 3:2 sheet eat the panel area the sheet
+exists to show, and the border rule is restated in full in every single generation
+anyway. What the sheet must anchor is line quality, palette, the print artefacts, faces,
+and **carved Japanese characters**, which panels 1 and 2 carry for exactly that reason:
+if the model cannot cut legible kana at panel scale, you want to know before twenty-three
+generations and not after. One failing panel fails the sheet — a reference with one wrong panel
 teaches the wrong thing to twenty-three images. Re-roll the whole sheet, identical prompt,
 up to two more times before changing a word. Losing sheets go to `_rejected/` as
 `style-reference-rN.jpg`.
 
 The six scenes are 1.2, 2.2, 11.1, 10.1, 3.3 and 12.1 from `../book-1/plan.md`,
-chosen because between them they exercise every check: people with a text-bearing
-object, a machine, objects only, a night bokashi, a rain bokashi, and a face frieze.
+chosen because between them they exercise every check: carved Japanese characters on a
+noren and a menu card, carved Japanese on a station sign, objects only, a night bokashi,
+a rain bokashi, and a face frieze.
 The panels are too small to ship; those six still get generated individually.
 
 ---
@@ -67,17 +74,31 @@ SHADING — permitted, in the two ways a woodblock print actually does it:
 NOT permitted: volumetric rendering. No gradient following the curve of an object, no
 specular highlight, no sheen on metal or ceramic, no soft cast shadow, no glow.
 
-PRINT ARTEFACTS — the marks of an actual hand-pulled print, not simulated wear:
-- Woodgrain from the block printing faintly through the large flat colour areas, one
-  consistent direction per area.
-- Uneven ink density — heavier where the baren pressed harder, thinner and flecked with
-  bare dark ground where the block ran dry.
-- Faint circular baren swirls across the broadest colour areas.
-- Slight misregistration between the colour blocks and the light key line: a hairline of
-  dark ground along one side of a shape, a sliver of colour overlapping the line on the
-  other.
+PRINT ARTEFACTS — the marks of an actual hand-pulled print, not simulated wear. These are
+wanted, and wanted VISIBLY: prints with character, not clean reproductions with a hint of
+texture. The first four must be obvious at a glance; the last three are fine detail for
+close viewing and stay subtle.
+
+OBVIOUS — carry these at full strength in every panel:
+- Woodgrain from the block printing clearly through every large flat colour area, running
+  in one consistent direction within each area, unmistakable rather than hinted at.
+- Strongly uneven ink density across each flat field — markedly heavier where the baren
+  pressed hard, thinning to streaks and patches of bare dark ground where the block ran
+  dry. A flat area should never read as an even fill.
+- Dry-brush flecking along the trailing edge of the broad colour areas, where the block
+  carried too little ink to cover: broken, ragged, bare dark ground showing through.
+- MISREGISTRATION, and in every panel at least one colour block is CLEARLY off — a visible
+  band of bare dark ground down one side of a shape and a corresponding overlap of colour
+  across the cream key line on the other, wide enough to read instantly as a hand-pulled
+  misalignment. This is the signature mistake of the medium and it should be unmissable.
+  The remaining blocks stay within a hairline. Each panel is misregistered differently;
+  they were pulled one at a time.
+
+FINE — these stay subtle, and must not be exaggerated:
+- Faint circular burnishing swirls from the baren across the broadest colour areas.
 - Pigment feathering a fraction of a millimetre at the edge of each colour area.
 - Occasional small ticks and specks of stray colour just outside a shape's edge.
+
 All of this texture must be IRREGULAR. It does not repeat, does not align to the shape it
 sits in, and varies in density across one flat area. A uniform cross-hatch, an even
 screen tone, or a repeating weave swatch is wrong — that reads as digital fill. Wood grain
@@ -87,24 +108,38 @@ Avoid entirely: anime, manga, chibi, kawaii, cartoon mascots, large expressive e
 Avoid Mount Fuji, cherry blossoms, torii gates, geisha, samurai, dragons, koi, and every
 other tourist emblem of Japan. Avoid modern flat-vector corporate illustration and rounded
 blobby figures. Avoid gradients that describe form, drop shadows, glows, 3D rendering and
-photorealism. Avoid any lettering, text, signage or written characters anywhere — this
-includes menus, price boards, shop signs, packaging, screens and labels; where such an
-object appears it carries abstract carved marks only, never anything readable in any
-language, and never English. Avoid any decorative border or frame, and any ornamental
-marks, seals, glyphs or characters in the corners or margins.
+photorealism.
+
+JAPANESE TEXT — render EXACTLY AND ONLY the strings the panels below name, on the surfaces
+they name, and nothing else. This is transcription, not composition: do not invent
+characters, do not letter a second surface because it looks empty, do not produce
+decorative pseudo-kanji, and do not render approximate glyph-shaped marks. Panels 1 and 2
+carry text. Panels 3, 4, 5 and 6 carry none at all. No English anywhere, ever.
+
+Those characters are carved into the same block as the picture and carry the same woodcut
+artefacts as everything else: irregular knife-cut edges, blunt terminations, uneven ink
+density, misregistration against the key line, woodgrain printing through. Crisp digital
+type laid over a textured print is the specific failure to avoid.
+
+This sheet carries NO decorative borders, frames, rules or margin seals — not because the
+finished prints avoid them (they carry them), but because this is a reference sheet of six
+small panels and the borders would crowd out what it exists to show.
 
 THE SIX PANELS, left to right, top row then bottom row:
 
 PANEL 1: a small restaurant counter seen from the customer's side. A split noren curtain
-hanging above. One seated customer and one cook behind the counter. A bowl and chopsticks
-on the counter, and a standing card beside them bearing only abstract tally marks and
-small carved dashes — no words, no characters. No other diners, no kitchen behind.
-Contemporary, not historical.
+hanging above, carrying exactly these two characters, large and simply carved: 食堂
+One seated customer and one cook behind the counter. A bowl and chopsticks on the counter.
+A standing menu card beside them carrying exactly two dish names, large, stacked: the first
+line reads ラーメン and the second line directly beneath it reads ぎょうざ. Render no slash,
+bullet or separator between them. Render only those characters, nothing else in this panel.
+No other diners, no kitchen behind. Contemporary, not historical.
 
 PANEL 2: a station ticket gate. One commuter with a shoulder bag passing through it.
-Above, a platform sign bearing only abstract carved marks and a clock face with hands but
-no numerals. A train in flat silhouette behind, cropped by the panel edge. No crowd, no
-shopfront. Contemporary, not historical.
+The sign above the gate carries exactly these two characters, large and simply carved: 改札
+A clock face beside it with hands but no numerals. A train in flat silhouette behind,
+cropped by the panel edge. Render only those characters, nothing else in this panel.
+No crowd, no shopfront. Contemporary, not historical.
 
 PANEL 3: a low table seen from slightly above, set with a rice bowl, a soup bowl, and
 chopsticks on a rest. Behind it, cropped by the panel edge, a pot on a modern burner with

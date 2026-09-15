@@ -1464,7 +1464,7 @@ const ABSENT: readonly Absent[] = [
   },
   {
     name: 'Figure / Illustration',
-    why: 'DESIGN.md has an illustration voice and docs/illustration-prompt.md has a brief, and there is no component that places an image with a caption, an aspect ratio, or a loading state.',
+    why: 'DESIGN.md has an illustration voice and illustrations/ has the pipeline and 23 scene blocks, and there is no component that places an image with a caption, an aspect ratio, or a loading state.',
     today: 'Raw <img> where a flow needs one. No crest, tile or figure slot in the package.',
     sketch: (
       <div className="ds-sk ds-sk-figure">

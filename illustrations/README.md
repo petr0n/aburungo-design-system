@@ -11,6 +11,12 @@ fails, fix the *prompt*, never the image → when it passes, file it and mark th
 carved line — a negative of the traditional print. Decided 2026-09-09 when the app went
 dark. The five paper-ground images from August are superseded and get regenerated.
 
+**This file supersedes `docs/illustration-prompt.md`,** which is the paper-ground prompt
+from August. Everything that file was later improved with — the carved borders and seals,
+the real Japanese strings, the turned-up print artefacts — has been ported into the style
+block below and rewritten for the dark ground. That file now carries a superseded banner
+and exists only until it is deleted. **Generate from this file, never from that one.**
+
 ---
 
 ## Folder and file structure
@@ -49,7 +55,9 @@ illustrations/
 
 - `b1-ch03-s02-directions.png` — Book One, chapter 3, second situation, "Directions".
 - Chapter and situation are zero-padded so the folder sorts in curriculum order.
-- The slug is the situation name, lowercased, `&` → `-`, spaces → `-`, punctuation dropped.
+- The slug is the situation name, lowercased. Spaces and `&` become hyphens, other
+  punctuation is dropped, and **any run of hyphens collapses to one**: "Greetings & basics"
+  → `greetings-basics`, not `greetings---basics`.
 - Book-level images that don't belong to one chapter: `b1-shared-<name>.png`.
 - Rejected variants keep the exact approved name plus `-r1`, `-r2`… inside `_rejected/`.
   They are the record of what was tried. Never delete them; never regenerate what a
@@ -128,17 +136,33 @@ SHADING — permitted, in the two ways a woodblock print actually does it:
 NOT permitted: volumetric rendering. No gradient following the curve of an object, no
 specular highlight, no sheen on metal or ceramic, no soft cast shadow, no glow.
 
-PRINT ARTEFACTS — the marks of an actual hand-pulled print, not simulated wear:
-- Woodgrain from the block printing faintly through the large flat colour areas, one
-  consistent direction per area.
-- Uneven ink density — heavier where the baren pressed harder, thinner and flecked with
-  bare dark ground where the block ran dry.
-- Faint circular baren swirls across the broadest colour areas.
-- Slight misregistration between the colour blocks and the light key line: a hairline of
-  dark ground along one side of a shape, a sliver of colour overlapping the line on the
-  other.
-- Pigment feathering a fraction of a millimetre at the edge of each colour area.
-- Occasional small ticks and specks of stray colour just outside a shape's edge.
+PRINT ARTEFACTS — the marks of an actual hand-pulled print, not simulated wear. These are
+wanted, and wanted VISIBLY: this is a print with character, not a clean reproduction with a
+hint of texture. The first four must be obvious at a glance; the last three are fine detail
+for close viewing and stay subtle.
+
+OBVIOUS — carry these at full strength:
+- Woodgrain from the block printing clearly through every large flat colour area, running
+  in one consistent direction within each area, unmistakable rather than hinted at.
+- Strongly uneven ink density across each flat field — markedly heavier where the baren
+  pressed hard, thinning to streaks and patches of bare dark ground where the block ran
+  dry. A flat area should never read as an even fill.
+- Dry-brush flecking along the trailing edge of the broad colour areas, where the block
+  carried too little ink to cover: broken, ragged, bare dark ground showing through in
+  flecks.
+- MISREGISTRATION, and at least one colour block per image is CLEARLY off — a visible band
+  of bare dark ground down one side of a shape and a corresponding overlap of colour across
+  the cream key line on the other, wide enough to read instantly as a hand-pulled
+  misalignment. This is the signature mistake of the medium and it should be unmissable.
+  The remaining blocks stay within a hairline.
+
+FINE — these stay subtle, and must not be exaggerated:
+- Faint circular burnishing swirls from the baren across the broadest colour areas.
+- Pigment feathering a fraction of a millimetre at the edge of each colour area, softening
+  the edge without blurring it.
+- Occasional small ticks and specks of stray colour just outside a shape's edge, where the
+  block picked up ink it should not have.
+
 All of this texture must be IRREGULAR. It does not repeat, does not align to the shape it
 sits in, and varies in density across one flat area. A uniform cross-hatch, an even
 screen tone, or a repeating weave swatch is wrong — that reads as digital fill. Wood grain
@@ -148,11 +172,41 @@ Avoid entirely: anime, manga, chibi, kawaii, cartoon mascots, large expressive e
 Avoid Mount Fuji, cherry blossoms, torii gates, geisha, samurai, dragons, koi, and every
 other tourist emblem of Japan. Avoid modern flat-vector corporate illustration and rounded
 blobby figures. Avoid gradients that describe form, drop shadows, glows, 3D rendering and
-photorealism. Avoid any lettering, text, signage or written characters anywhere — this
-includes menus, price boards, shop signs, packaging, screens and labels; where such an
-object appears it carries abstract carved marks only, never anything readable in any
-language, and never English. Avoid any decorative border or frame, and any ornamental
-marks, seals, glyphs or characters in the corners or margins.
+photorealism.
+
+BORDERS, SEALS AND ORNAMENT are wanted. Enclose the scene in a carved border: a key-fret
+band, a seigaiha wave, a plain double rule, or a simple cornered frame. Place one or two
+seals or cartouches in the margins where a hand-pulled print would carry them. Cut all of
+it from the same block as the picture.
+
+On this dark ground the border is CREAM LINE — carved rule work on the near-black sheet.
+It is never a filled cream band, never a light panel, and never anything that turns the
+margin into a light area. A seal or cartouche may be a filled shape, but it is filled from
+the COLOUR palette above — gold, verdigris, indigo, or the one red — never from the cream.
+It takes a colour the picture is already using; it does not add another one.
+
+These live OUTSIDE the picture, on the sheet around it. Where a scene below limits what it
+contains — a count of objects, or an empty ground — that limit governs the picture only and
+never rules out the border, the seal or the margin.
+
+JAPANESE TEXT — render EXACTLY AND ONLY the strings THE SCENE names below, on the surfaces
+it names, and nothing else. This is transcription, not composition: do not invent
+characters, do not add a second sign because a wall looks empty, do not letter the
+packaging or the lantern unless the scene says to, do not produce decorative pseudo-kanji,
+and do not render approximate glyph-shaped marks. Every other surface in the image stays
+blank, or carries the abstract carved marks the scene asks it to carry. Where the scene
+names no text at all, the image contains no text at all. No English anywhere, ever.
+
+The strings are given large and few on purpose — a three-character noren survives printing
+where a nine-item menu board turns to mush. Render them at the size the scene asks for,
+carved simply, legible.
+
+Every one of these — border, seal, cartouche, and every single character of text — is
+carved into the same block as the picture and carries the same woodcut artefacts described
+above: irregular knife-cut edges, blunt terminations, uneven ink density, misregistration
+against the key line block, pigment feathering, and woodgrain printing through. Clean
+vector ornament or crisp digital type laid over a textured print is the specific failure
+to avoid.
 
 Output one image only.
 ```
@@ -166,8 +220,10 @@ formula, and the formula is the reusable part:
 
 ```
 THE SCENE: <the setting, one clause>. <Three or four named objects>. <People: how many
-and what they are doing — or "No people. The objects carry it.">. <One framing note:
-what is cropped, or what is deliberately absent>. Contemporary, not historical.
+and what they are doing — or "No people. The objects carry it.">. <Every surface that
+could carry writing: either the exact string to render, or "bearing only abstract carved
+marks".> <One framing note: what is cropped, or what is deliberately absent>.
+Contemporary, not historical.
 ```
 
 ### The rules, each earned by a failure in the first batch
@@ -175,10 +231,17 @@ what is cropped, or what is deliberately absent>. Contemporary, not historical.
 1. **Three or four objects. Never five.** Every scene that named five or more came back
    busy; every scene that named three or four came back clean. Object count, not
    adjectives, is what makes an image reductive.
-2. **Any object that carries writing is described as bearing abstract marks.** "A menu"
-   produced the word MENU. "A standing card bearing only tally marks and carved dashes"
-   did not. Menus, signs, price tags, screens, timetables, packaging: name the marks,
-   never the text.
+2. **Every surface that could carry writing gets an explicit instruction — either the
+   exact string, or abstract marks.** Left open, "a menu" produced the word MENU. Name the
+   characters you want (`食堂`, large, on the noren) and it renders those; say "a standing
+   card bearing only tally marks and carved dashes" and it renders no text. The failure is
+   naming the object and saying nothing about its surface.
+
+   Strings stay **few, large and real**. Three characters on a noren survive printing; a
+   nine-item price board turns to mush, and digits are the worst of all — a clock gets
+   hands and no numerals, a price tag gets carved marks. Four of the 23 scenes below carry
+   text; the other nineteen carry none, deliberately. **Adding a string to a scene is a
+   scene rewrite, not a decoration** — the surface has to already belong there.
 3. **Say "Contemporary, not historical" every time.** The kitchen scene drifted to the
    Edo period the one time it was left out.
 4. **Name what is absent when the model tends to add it.** "No window, no view, no
@@ -203,8 +266,10 @@ failure that actually happened.
 | Ground | any light field, white panel, pale sky | *"The cream is line only. No light area wider than a few strokes."* |
 | Colour | grey, brown, beige, wood tone, metal tone | restate the palette list at the very END of the prompt |
 | Monochrome | line only, no colour fills | *"Every illustration carries at least two palette colours as flat inked areas."* |
-| Text | any readable word, any language | find the object that invited it; rewrite it as "abstract carved marks" |
-| Border | frame, corner glyphs, a seal in the margin | reject — it's a package; re-roll |
+| Text | a character the scene did not name, invented kanji, glyph-shaped scribble, any English | restate the scene's strings at the very END of the prompt: *"render exactly and only these"* |
+| Border | no border at all, or a clean vector one with no print texture | *"The border is carved from the same block as the picture and carries the same artefacts."* |
+| Light margin | the border printed as a filled cream band, or a pale margin panel | *"The border is cream LINE on the dark ground. Seals fill from the colour palette, never the cream."* |
+| Registration | every block perfectly aligned | *"At least one colour block is clearly misregistered — a visible band of bare ground down one side of a shape."* |
 | Faces | big eyes, expressions, anime | *"Faces carved — the restraint of a print portrait."* |
 | Period | kimono, paper lanterns, tatami, wooden shutters | *"Contemporary, not historical."* — and cut the object that triggered it |
 | Texture | regular cross-hatch, screen tone, weave swatch | *"Wood grain is the model. Irregular, non-repeating."* |
