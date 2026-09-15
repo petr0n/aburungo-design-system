@@ -12,6 +12,30 @@ brand utilities. No app code · **Written:** 2026-08-21 · **Branch prefix:** `f
 
 ---
 
+> ## ⚠️ Partly superseded — 2026-09-14, by the single-crest direction
+>
+> The author retired the **tiled embossed ground**. A book's crest is no longer a repeating
+> low-opacity texture; it is **one stylized mark per book, acting as that book's logo** —
+> present on every page in the book, subordinate to the ア hanko but visually obvious.
+> Concept art is being generated before anything is built; see
+> [`crest-integration-prompt.md`](crest-integration-prompt.md).
+>
+> **Exactly what this supersedes in this document:**
+>
+> | Superseded | Status |
+> | --- | --- |
+> | "**Varies by chapter:** crest density (`tile-sm/md/lg`), crest opacity (`--emboss-opacity`), full-bleed or framed" (§ below) | **Dead.** Per-chapter variation via tile density is gone with the tiling. What varies by chapter is not yet decided |
+> | The **Grounds** reuse row — `.emboss-bg` + `crest-1/2` + `tile-*` + `--emboss-opacity` | **Dead as the book ground.** The utility still exists in `brand.css` and still has other callers; it is no longer how a book is identified |
+> | "Full tiled ground, same as every other page in the book" as a chapter-opener option | **Dead** |
+> | Wiring notes that route an approved image through `.emboss-bg` `crest-N` | **Dead.** A single-crest asset path does not exist yet; nothing should be wired until it does |
+>
+> **What survives unchanged:** the five hues, one per book. The crest-motif-per-book idea.
+> The constant/varies distinction itself — only the mechanism changed. And **the 500-step
+> lock below**, which the new direction does not reopen.
+
+---
+
+
 ## 1. Ground truth — what the app already decided
 
 Read from `../aburungo` on 2026-08-21. **This plan does not get to contradict any of it.** Where
@@ -156,8 +180,11 @@ which is exactly how the crest ended up on 4 of 16 flow states before `DESIGN.md
 ["Which surfaces carry the ground"](../DESIGN.md).
 
 > **Constant across a book:** the hue, the crest motif, the type scale, the card geometry.
-> **Varies by chapter:** crest **density** (`tile-sm/md/lg`), crest **opacity**
-> (`--emboss-opacity`), and whether the chapter opener runs the crest full-bleed or framed.
+> ~~**Varies by chapter:** crest **density** (`tile-sm/md/lg`), crest **opacity**
+> (`--emboss-opacity`), and whether the chapter opener runs the crest full-bleed or
+> framed.~~ **Superseded 2026-09-14** — see the banner at the top. The tiling is gone, so
+> these three knobs no longer exist. The constant/varies principle stands; what varies by
+> chapter under the single-crest direction is undecided.
 
 So Chapter 1 and Chapter 7 of Book Three are unmistakably the same book and unmistakably not the
 same chapter. One knob per chapter, not a redesign per chapter.
@@ -173,7 +200,7 @@ three crest wirings. Everything else is composition.**
 |---|---|
 | **Components** | `PhraseCard`, `AppHeader`, `ProgressBar`, `ScoreCard`, `Maru`, `AnswerResult`, `GradePair`, `FlipCard`, `EmptyState`, `ErrorState`, `LoadingPlaceholder`, `FillInput`, `KanaGrid`, `KanaKeyboard`, `AudioButton`, `VoiceInput`, and `ui/{Button,TextInput,Card,Badge,IconButton}` |
 | **Accents** | `--color-accent-{ogon,ai,rokusho,akane}` and their `-fg` / `-bg` pairs — all four gated in `check-contrast.mjs` |
-| **Grounds** | `.emboss-bg` + `crest-1/2` + `tile-sm/md/lg` + `--emboss-opacity`, `--tile-size` |
+| **Grounds** | ~~`.emboss-bg` + `crest-1/2` + `tile-sm/md/lg` + `--emboss-opacity`, `--tile-size`~~ — **superseded 2026-09-14**, no longer how a book is identified |
 | **Surfaces** | `.glass` and its four `rule-*` modifiers; `EmptyStage`, `PatternedStage`, `StateStage` in `ui_kits/flows/shell.tsx` |
 | **Unused, and this is their moment** | `.wm` (oversized watermark type), `.kata-vert` (vertical katakana), `.ctype`, `.frame`. Four utilities with **zero consumers** — the chapter opener is the surface they were built for |
 | **Harness** | `ui_kits/flows/registry.ts` + `FlowDef`. Both harnesses read one registry; a surface is added once |

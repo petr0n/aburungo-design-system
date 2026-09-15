@@ -213,10 +213,29 @@ Replace `[BOOK COLOUR HEX]` with the book's identity value:
 | Four — register | Ōgon 黄金 | `#C9A045` |
 | Five — refinement | Sumi-iro 墨色 | `#2D2D2D` |
 
-**Book Two is the awkward one.** Ai-iro is also the scene's line-block colour, so an Ai
-crest on an Ai-heavy scene will disappear. For Book Two, either run the crest at
-`#0a1322` (Ai 900) so it reads as a deeper block, or pick a scene whose ground is
-verdigris rather than indigo.
+**Book Two is the awkward one — and the fix is the placement, not the colour.** Ai-iro is
+also the scene's line-block colour, so an Ai crest on an indigo field disappears.
+
+An earlier draft here suggested running Book Two at Ai 900 `#0a1322`. **Don't** — that
+quietly creates a second Book Two identity value, and the five identities are locked at
+their 500 step by a dated author decision in
+[`book-identity-and-checkpoint-mockups-plan.md`](book-identity-and-checkpoint-mockups-plan.md).
+That decision has a precedent attached: when the ○ glyph could land in its own header
+band's colour, the author moved *the verdict colours*, not the identity. Same move here.
+
+So keep Ai 500 `#1F3A66` and choose a placement whose ground is not indigo. Measured
+against the scene palette:
+
+| Crest sits on | Ai 500 reads at |
+| --- | --- |
+| the paper ground `#FFFDF8` | **11.13:1** — best. Variant A's margin seal lands here by default |
+| antique gold `#C9A045` | **4.63:1** — comfortable |
+| verdigris `#4F9C8D` | 3.49:1 — usable for a non-text mark, but the weakest of the three |
+| indigo `#1F3A66` — the line block | **1.00:1** — invisible. Never |
+
+For Book Two, prefer **A** (margin seal on paper) or a **C/D** placement whose plane is
+gold or paper. The same check applies to any book whose hue matches the plane it lands
+on — Book Four on a gold plane has the identical problem.
 
 **Run one variant across two or three different crests before running one crest across all
 five variants.** The question you are answering first is which integration strategy works
