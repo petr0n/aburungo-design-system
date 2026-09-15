@@ -11,11 +11,10 @@ fails, fix the *prompt*, never the image → when it passes, file it and mark th
 carved line — a negative of the traditional print. Decided 2026-09-09 when the app went
 dark. The five paper-ground images from August are superseded and get regenerated.
 
-**This file supersedes `docs/illustration-prompt.md`,** which is the paper-ground prompt
-from August. Everything that file was later improved with — the carved borders and seals,
-the real Japanese strings, the turned-up print artefacts — has been ported into the style
-block below and rewritten for the dark ground. That file now carries a superseded banner
-and exists only until it is deleted. **Generate from this file, never from that one.**
+**This replaced `docs/illustration-prompt.md`,** the paper-ground prompt from August,
+deleted on 2026-09-14 once its content had been ported here. The carved borders and seals,
+the real Japanese strings and the turned-up print artefacts all came from it and were
+re-cut for the dark ground. Nothing is left to port — this is the only prompt.
 
 ---
 
