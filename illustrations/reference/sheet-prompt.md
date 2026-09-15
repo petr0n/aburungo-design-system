@@ -43,9 +43,13 @@ blankness of a pictogram and not the expressiveness of a cartoon.
 FORMAT: one landscape image, 3:2. It contains SIX SQUARE PANELS in a grid, three across
 and two down, all printed on ONE continuous dark ground. The gap between panels is bare
 dark ground, about a thumb's width. No frames, no borders, no rules or lines between
-panels, no labels, no numbers, no captions, no title, nothing in the margins. Six
-separate prints pulled by the same hand on the same dark paper — that is the whole
-image.
+panels, and nothing in the margins. Six separate prints pulled by the same hand on the same
+dark paper — that is the whole image.
+
+Nothing labels, numbers, captions or titles the SHEET: it carries no text of its own and no
+panel is identified. Text INSIDE a panel is a different matter entirely — panels 1 and 2
+carry the Japanese characters named below, printed as part of the picture, and that
+instruction is not overridden by anything in this paragraph.
 
 Colour is assigned by PRINT BLOCK, not by observation. Objects are not coloured the
 colour they would be in life — a metal pot, a wooden table and a ceramic bowl are all

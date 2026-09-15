@@ -23,6 +23,8 @@ re-cut for the dark ground. Nothing is left to port — this is the only prompt.
 ```
 illustrations/
 ├── README.md                      ← this file: the template and the rules
+├── crest-integration.md           ← five ways to put a book's crest in a scene,
+│                                     for concept rounds. Start with variant A.
 ├── reference/
 │   ├── sheet-prompt.md            ← the one-time prompt that produces the sheet below
 │   ├── style-reference.jpg        ← the approved DARK-GROUND six-panel sheet. ATTACH IT
