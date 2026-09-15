@@ -191,8 +191,20 @@ before raising it.
   government. Avoid both. Prefer geometric motifs without state association —
   and note that "clan symbol" means a real family's crest, so pick with the same
   care you would give any borrowed heraldry.
-- **Nothing here becomes an alternative logo.** The ア hanko is the mark. See the
-  absolute rule at the top of `CLAUDE.md`.
+- **Nothing here becomes an alternative AburunGo logo.** The ア hanko is *the* mark,
+  permanently and without exception. See the absolute rule at the top of `CLAUDE.md`.
+
+  **Clarified 2026-09-14, because the single-crest direction reads as violating this
+  and does not.** A book crest is now one stylized mark per book, present on every page
+  in that book. It is a *book's* mark, one level down — it identifies which of the five
+  volumes you are in, the way a series colophon does. It never appears without the ア,
+  never replaces it, never stands for AburunGo, and never ships as an app icon, favicon,
+  splash mark or social avatar. The author's own framing when setting the direction:
+  *"subtle and not overtake the aburungo logo but visually obvious."*
+
+  So the rule is unchanged in substance and sharper in wording: **one AburunGo mark, the
+  ア hanko. Five subordinate book marks under it.** If a future session finds a crest
+  being used where the ア should be, that is this rule firing correctly — fix it.
 - **Legibility is the gate.** Japanese sits at `jp-display` on these grounds.
   Any pattern has to keep body text above 4.5:1 and non-text above 3:1, and be
   checked with `scripts/check-contrast.mjs` extended to cover patterned grounds
