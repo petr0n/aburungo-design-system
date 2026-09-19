@@ -39,7 +39,13 @@ ck 1.3 "colors_and_type imports the sheet"       'grep -q "dist/tokens.plain.css
 ck 1.3 "colors_and_type declares no colour"      '! grep -qiE "^\s*--[a-z-]*(color|bg|fg|brand|accent)[a-z-]*:\s*#" colors_and_type.css'
 ck 1.4 "5 harnesses have generated @theme"       '[ $(grep -rl "build-tokens:start" storybook/index.html ui_kits/*/index.html ui_kits/desktop-explore.html 2>/dev/null | wc -l) -ge 5 ]'
 ck 1.6 "stories read tokens live"                'grep -q "getComputedStyle" storybook/stories.tsx'
-ck 1.7 "no stray hex in preview/ spec pages"      '[ $(grep -rioE "#[0-9a-f]{6}" preview --exclude-dir=_sandbox 2>/dev/null | grep -viE "01-logo|03-color" | wc -l) -eq 0 ]'
+# The generated @theme block is stripped before the grep. `preview/ds/` arrived
+# with #46 carrying a build-tokens block of 99 hex values -- every one of them a
+# token the build wrote, none of them stray -- and this check went red on a
+# clean main for two weeks. An exclude on the directory would hide a real stray
+# hex in the one place new pages are being written, so the block is cut out
+# and the rest of each file is still checked.
+ck 1.7 "no stray hex in preview/ spec pages"      '[ $(for f in $(find preview -name "*.html" -not -path "*/_sandbox/*" | grep -viE "01-logo|03-color"); do awk "/build-tokens:start/{f=1} /build-tokens:end/{f=0;next} !f" "$f"; done | grep -oiE "#[0-9a-f]{6}" | wc -l) -eq 0 ]'
 # The needle is assembled rather than written, so this file does not contain the
 # string it searches for. Writing it whole is how the check started matching
 # itself -- the same self-reference that made task 1.8's own criterion
