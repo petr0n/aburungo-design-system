@@ -45,7 +45,7 @@ ck 1.6 "stories read tokens live"                'grep -q "getComputedStyle" sto
 # clean main for two weeks. An exclude on the directory would hide a real stray
 # hex in the one place new pages are being written, so the block is cut out
 # and the rest of each file is still checked.
-ck 1.7 "no stray hex in preview/ spec pages"      '[ $(for f in $(grep -rlE "" preview --include=*.html --exclude-dir=_sandbox | grep -viE "01-logo|03-color"); do awk "/build-tokens:start/{f=1} /build-tokens:end/{f=0;next} !f" "$f"; done | grep -oiE "#[0-9a-f]{6}" | wc -l) -eq 0 ]'
+ck 1.7 "no stray hex in preview/ spec pages"      '[ $(for f in $(find preview -name "*.html" -not -path "*/_sandbox/*" | grep -viE "01-logo|03-color"); do awk "/build-tokens:start/{f=1} /build-tokens:end/{f=0;next} !f" "$f"; done | grep -oiE "#[0-9a-f]{6}" | wc -l) -eq 0 ]'
 # The needle is assembled rather than written, so this file does not contain the
 # string it searches for. Writing it whole is how the check started matching
 # itself -- the same self-reference that made task 1.8's own criterion
