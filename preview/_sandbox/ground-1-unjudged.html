@@ -356,6 +356,15 @@
     and leave pinned chrome as its sibling, which is the correct structure anyway — a pinned
     footer is chrome fixed to the viewport, not content lying on the ground. That is a change to
     <code>ui_kits/flows/shell.tsx</code> and it should be its own PR, not folded into a doc change.</p>
+  <p><b>2, closed 2026-09-22 — and the paragraph above was wrong about where.</b> It was fixable in
+    CSS, one level down from where it was looked for: <code>.emboss-bg</code> itself dropped
+    <code>overflow: hidden</code> (its only job was clipping the tile at rounded corners, which
+    <code>border-radius: inherit</code> on the pseudo now does) and dropped the rule forcing
+    <code>position: relative</code> on children (a negative z-index on the pseudo under
+    <code>isolation: isolate</code> keeps it beneath them without touching their position). Measured
+    on this page: before, B and B′'s button sat 115px past the phone's bottom edge; after, 33px
+    inside it, the same as A. No stage was restructured, and every crest surface in the flows
+    renders unchanged. <b>B′ is now shippable as drawn.</b> What remains is only the call.</p>
   <p><b>The keyboard carries no text on the ground at all.</b> Prompt card, answer field, pad and
     submit are four opaque containers, so B's problem does not arise and D is purely a composition
     call. An earlier draft argued D on the grounds that "the soft keyboard leaves roughly 380px" —
@@ -367,6 +376,6 @@
     Until then the bare row stands as written.</p>
 </div>
 
-<script type="module" src="./bundle.js?v=fdced799"></script>
+<script type="module" src="./bundle.js?v=a5504d51"></script>
 </body>
 </html>
