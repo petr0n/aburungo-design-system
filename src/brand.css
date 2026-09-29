@@ -157,19 +157,33 @@
    gate cannot see it.  One default for all five, one worst case to model.
    ═══════════════════════════════════════════════════════════════════════ */
 
+/* No `overflow: hidden`, and no rule on the children. Both were here until
+   2026-09-22 and both silently defeat `position: sticky` on anything inside
+   the ground: overflow clips the sticky box's scrollport, and a forced
+   `position: relative` on every child overrides `.sticky` outright. The kana
+   chart's pinned CTA (#52) fell below the fold the moment the crest went
+   under it, which is the exact defect #52 fixed. Measured in
+   preview/_sandbox/ground-1-unjudged.html: A pinned, B and B' 115px past the
+   phone's bottom edge.
+
+   Neither rule was load-bearing. The tile is a `::before` at `inset: 0`, so
+   `isolation: isolate` plus a negative z-index keeps it under the children
+   without touching their `position`; and `border-radius: inherit` on the
+   pseudo clips it at rounded corners, which was the only thing the overflow
+   was doing. Fixed here rather than by restructuring every stage, because
+   every stage routes through this one class. */
 .emboss-bg{
   position: relative;
-  overflow: hidden;
   isolation: isolate;
 }
-.emboss-bg > *{ position: relative; z-index: 1 }
 
 .emboss-bg::before{
   content: "";
   position: absolute;
   inset: 0;
+  border-radius: inherit;
   pointer-events: none;
-  z-index: 0;
+  z-index: -1;
   background-image: var(--emboss-image, url("../assets/clan-symbol1.png"));
   background-repeat: repeat;
   background-size: var(--tile-size, 100px) auto;

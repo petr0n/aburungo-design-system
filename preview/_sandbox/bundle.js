@@ -937,7 +937,7 @@ function Lab() {
           tag: "blocked",
           tagText: "Blocked",
           head: "B \xB7 Crest, legend unchanged",
-          sub: "The naive version, and the one the first draft recommended. Two things break. The legend is text-fg-subtle on the pattern \u2014 3.47:1, a combination brand.css bars outright. And the CTA has stopped being pinned: .emboss-bg sets overflow:hidden and forces position:relative on every direct child, so the sticky footer shipped in #52 silently reverts and the button falls below the fold again. Kept as the record of why B is not a one-line change.",
+          sub: "The naive version, and the one the first draft recommended. Two things break. The legend is text-fg-subtle on the pattern \u2014 3.47:1, a combination brand.css bars outright. And the CTA has stopped being pinned: .emboss-bg sets overflow:hidden and forces position:relative on every direct child, so the sticky footer shipped in #52 silently reverts and the button falls below the fold again. Kept as the record of why B is not a one-line change. \u2014 The second half is closed 2026-09-22: brand.css no longer sets overflow:hidden or forces position on children, and this column now measures pinned (button bottom 1244 inside a phone bottom of 1277, from 115px past it). The legend half still stands.",
           children: /* @__PURE__ */ jsx23(ChartScreen, { ground: "crest", legend: "subtle" })
         }
       ),
@@ -947,7 +947,7 @@ function Lab() {
           tag: "prop",
           tagText: "Proposed",
           head: "B\u2032 \xB7 Crest, legend at fg-muted",
-          sub: "The legend fixed, the CTA still broken. fg-muted over a pattern is already gated at 4.57:1, so that half costs one class \u2014 no glass, no token change, no new API, and nothing flattens because the legend is a standalone line rather than a description under a message. The unpinned CTA is not fixable in CSS: overflow:hidden defeats sticky whatever the position rule says, so pinned chrome has to stop being a child of the patterned stage.",
+          sub: "The legend fixed, the CTA still broken. fg-muted over a pattern is already gated at 4.57:1, so that half costs one class \u2014 no glass, no token change, no new API, and nothing flattens because the legend is a standalone line rather than a description under a message. The unpinned CTA is not fixable in CSS: overflow:hidden defeats sticky whatever the position rule says, so pinned chrome has to stop being a child of the patterned stage. \u2014 That reasoning was wrong, and the fix landed 2026-09-22 one level down: .emboss-bg itself stopped clipping and stopped forcing position, so sticky works under any crest with no restructuring anywhere. B' is now the crest with the legend fixed AND the CTA pinned \u2014 the first version of this column that is actually shippable as drawn.",
           children: /* @__PURE__ */ jsx23(ChartScreen, { ground: "crest", legend: "muted" })
         }
       )

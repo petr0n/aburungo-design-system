@@ -127,7 +127,7 @@ and this item is still its answer.
 
 [`src/brand.css`](../src/brand.css) ships:
 
-- `.emboss-bg` — tiling ground with `isolation` and z-indexed children
+- `.emboss-bg` — tiling ground: an isolated stacking context with the tile as a negative-z pseudo, so children keep their own `position` and sticky chrome works on it (#60; it forced `position: relative` on children until 2026-09-22)
 - `.crest-1` / `.crest-2` — which clan crest tiles the ground
 - density modifiers: `.tile-sm` / `.tile-md` / `.tile-lg`
 - knobs: `--emboss-opacity` (default `.35`), `--tile-size`, `--emboss-blend`

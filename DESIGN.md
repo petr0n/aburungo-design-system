@@ -304,6 +304,19 @@ circular, and ○ is taken.
 >   and leave pinned chrome as its sibling**, which is the right structure
 >   regardless: a pinned footer is chrome fixed to the viewport, not content on
 >   the ground.
+>
+>   **Corrected 2026-09-22 — the structural half was wrong about where.** It
+>   was fixable in CSS, one level down, and it was (#60). `.emboss-bg` no
+>   longer sets `overflow: hidden` and no longer forces `position` on its
+>   children: the tile is a `::before` at `inset: 0` with `border-radius:
+>   inherit` (the only thing the overflow was clipping) and a negative
+>   `z-index` under the existing `isolation: isolate` (the only thing the child
+>   rule was lifting content above). Sticky works under any crest with no
+>   restructuring, so **`PatternedStage` stays as it is** — do not split it.
+>   Measured on the lab page: the crest columns' CTA moved from 115px past the
+>   phone's bottom edge to 33px inside it, matching the bare column; every
+>   crest surface in the flows renders unchanged. The chart is now blocked on
+>   the legend class only.
 > - **The keyboard screen carries no text on the ground at all.** Prompt card,
 >   answer field, pad and submit are four opaque containers, and it has no
 >   pinned chrome. Neither problem above applies; D is purely a composition
