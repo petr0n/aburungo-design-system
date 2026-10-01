@@ -60,7 +60,15 @@ RESTATED, because these govern everything above:
 - At least one colour block is clearly misregistered — a visible band of bare dark
   ground down one side of a shape, and colour crossing the cream key line on the other.
 - This image is ONE scene, the one named above. Nothing merged in, nothing added.
+- OUTPUT as PNG, not JPEG. The dark ground is part of the print and stays fully opaque
+  edge to edge — no transparency, no alpha. PNG is for the carved line surviving
+  without compression artefacts.
 ```
+
+PNG, not transparency: the ground `#1A1815` *is* the paper. Every bokashi fades into it
+and the app sets it on `stone-900`, the same value. A transparent export would cut the
+ground out of a print whose whole premise is the dark sheet. The crest tiles in
+`assets/crests/` are the one place alpha is wanted, and they are not generated here.
 
 ---
 
