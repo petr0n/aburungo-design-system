@@ -28,12 +28,12 @@ it is anchored on it, so the six converge instead of scattering.
 
 | #   | Scene                 | Attach      | Why this order                                                                                                                   |
 | --- | --------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | 11.1 · the table      | **nothing** | The most object-heavy scene is the hardest test of the style. If it holds, the rest will — the README says so for every new book |
-| 2   | 1.2 · the counter     | image 1     | First carved kana, two strings                                                                                                   |
-| 3   | 2.2 · the ticket gate | image 1     | Kana on a sign, a face in motion                                                                                                 |
-| 4   | 10.1 · the streetlamp | image 1     | First bokashi, gold                                                                                                              |
-| 5   | 3.3 · the rain        | image 1     | Second bokashi, indigo                                                                                                           |
-| 6   | 12.1 · the frieze     | image 1     | Three faces, empty ground                                                                                                        |
+| 1   | 11.1 · the table · `b1-ch11-s01-meals-kitchen.png` | **nothing** | The most object-heavy scene is the hardest test of the style. If it holds, the rest will — the README says so for every new book |
+| 2   | 1.2 · the counter · `b1-ch01-s02-food-drink.png` | image 1     | First carved kana, two strings                                                                                                   |
+| 3   | 2.2 · the ticket gate · `b1-ch02-s02-getting-around.png` | image 1     | Kana on a sign, a face in motion                                                                                                 |
+| 4   | 10.1 · the streetlamp · `b1-ch10-s01-yesterday.png` | image 1     | First bokashi, gold                                                                                                              |
+| 5   | 3.3 · the rain · `b1-ch03-s03-weather.png` | image 1     | Second bokashi, indigo                                                                                                           |
+| 6   | 12.1 · the frieze · `b1-ch12-s01-people-clothes.png` | image 1     | Three faces, empty ground                                                                                                        |
 
 Every image: a **new Gemini chat**, the attachment above, then **the style block from
 `../README.md` pasted verbatim** followed by the scene block below, as one message.
@@ -66,7 +66,9 @@ RESTATED, because these govern everything above:
 
 ## The six scene blocks
 
-### 1 · 1.1 Meals & the kitchen — attach nothing
+### 1 · 11.1 Meals & the kitchen — attach nothing
+
+**Save as:** `b1-ch11-s01-meals-kitchen.png` — approved into `../book-1/`; rejected into `../book-1/_rejected/` as `b1-ch11-s01-meals-kitchen-rN.png`
 
 ```
 THE SCENE: a low table seen from slightly above, set with a rice bowl, a soup bowl, and
@@ -77,6 +79,8 @@ not historical.
 ```
 
 ### 2 · 1.2 Food & drink — attach image 1
+
+**Save as:** `b1-ch01-s02-food-drink.png` — approved into `../book-1/`; rejected into `../book-1/_rejected/` as `b1-ch01-s02-food-drink-rN.png`
 
 ```
 THE SCENE: a small restaurant counter seen from the customer's side. A split noren curtain
@@ -91,6 +95,8 @@ No other diners, no kitchen behind. Contemporary, not historical.
 
 ### 3 · 2.2 Getting around — attach image 1
 
+**Save as:** `b1-ch02-s02-getting-around.png` — approved into `../book-1/`; rejected into `../book-1/_rejected/` as `b1-ch02-s02-getting-around-rN.png`
+
 ```
 THE SCENE: a station ticket gate. One commuter with a shoulder bag passing through it.
 The sign above the gate carries exactly these two characters, large and simply carved: 改札
@@ -102,6 +108,8 @@ No crowd, no shopfront. Contemporary, not historical.
 
 ### 4 · 10.1 Talking about yesterday — attach image 1
 
+**Save as:** `b1-ch10-s01-yesterday.png` — approved into `../book-1/`; rejected into `../book-1/_rejected/` as `b1-ch10-s01-yesterday-rN.png`
+
 ```
 THE SCENE: one adult walking home at night under a single streetlamp, a bag over one
 shoulder. The lamp casts a bokashi pool of gold onto the pavement, fading into the dark
@@ -111,6 +119,8 @@ beyond the wall, no other people. Contemporary, not historical.
 
 ### 5 · 3.3 Weather — attach image 1
 
+**Save as:** `b1-ch03-s03-weather.png` — approved into `../book-1/`; rejected into `../book-1/_rejected/` as `b1-ch03-s03-weather-rN.png`
+
 ```
 THE SCENE: one adult walking under an umbrella, coat pulled against the wind. Rain as
 carved diagonal strokes. A single puddle catching the reflection. A bokashi wash of
@@ -119,6 +129,8 @@ the subject. No buildings, no other people. Contemporary, not historical.
 ```
 
 ### 6 · 12.1 People & what they wear — attach image 1
+
+**Save as:** `b1-ch12-s01-people-clothes.png` — approved into `../book-1/`; rejected into `../book-1/_rejected/` as `b1-ch12-s01-people-clothes-rN.png`
 
 ```
 THE SCENE: three adults standing together in contemporary everyday clothing — one coat,
