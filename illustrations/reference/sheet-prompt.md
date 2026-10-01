@@ -35,10 +35,19 @@ it is anchored on it, so the six converge instead of scattering.
 | 5   | 3.3 · the rain · `b1-ch03-s03-weather.png` | image 1     | Second bokashi, indigo                                                                                                           |
 | 6   | 12.1 · the frieze · `b1-ch12-s01-people-clothes.png` | image 1     | Three faces, empty ground                                                                                                        |
 
-Every image: a **new Gemini chat**, the attachment above, then **the style block from
-`../README.md` pasted verbatim** followed by the scene block below, as one message.
-Image 1 has no attachment, so delete the style block's first paragraph — the one that
-begins _"Match the attached reference image"_ — for that image only. Images 2–6 keep it.
+Every image: a **new Gemini chat**, the attachment above, and **one pasted message**.
+Don't assemble it by hand — the style block lives in `../README.md`, and the first pull
+on 2026-09-30 went out without it (3:2, no border, four colours, red as line: the
+carving was right and every rule was missing). Let the script put the three parts
+together from their single sources:
+
+```
+pnpm prompt 11.1 --no-ref | pbcopy     # image 1: nothing attached, so no "match the attached" paragraph
+pnpm prompt 1.2 | pbcopy               # images 2–6, and every scene after
+```
+
+That is the style block, the scene block for that id from `../book-1/plan.md`, and the
+tail below, in order. `scripts/prompt.mjs` is the only place the order is written.
 
 Judge each against the README checklist **with the Border and Light-margin rows
 switched back on** — unlike the single-pull sheet, these are full-size prints and
