@@ -1,169 +1,154 @@
-# The reference sheet — run once per direction
+# The reference sheet — six prints, assembled
 
-This produces `style-reference.jpg`: six dark-ground panels in one image. Once a sheet
-passes, it is attached to every single generation and never regenerated. Nothing here is
-attached; this is the one prompt that runs without a reference.
+This produces `style-reference.jpg`: six full-size prints, generated **one at a time**,
+laid out on one dark ground in Affinity. Once the sheet passes, it is attached to every
+generation and never regenerated.
 
-**Judging the sheet:** every panel must pass every line of the checklist in
-`../README.md` **except the Border and Light margin rows**, which are deliberately
-switched off here — six carved borders on one 3:2 sheet eat the panel area the sheet
-exists to show, and the border rule is restated in full in every single generation
-anyway. What the sheet must anchor is line quality, palette, the print artefacts, faces,
-and **carved Japanese characters**, which panels 1 and 2 carry for exactly that reason:
-if the model cannot cut legible kana at panel scale, you want to know before twenty-three
-generations and not after. One failing panel fails the sheet — a reference with one wrong panel
-teaches the wrong thing to twenty-three images. Re-roll the whole sheet, identical prompt,
-up to two more times before changing a word. Losing sheets go to `_rejected/` as
-`style-reference-rN.jpg`.
+**Why six separate images and not one six-panel prompt.** The single-pull version was
+tried twice on 2026-09-30 and both pulls are in `_rejected/` with their reasons. A
+six-panel prompt is one 1,500-word instruction that has to hold six scenes at once, and
+it didn't: r1 broke the grid, r2 merged two scenes and invented a third. Both printed the
+cream as a field and neither misregistered a single block. One scene per prompt is the
+exact shape every later illustration uses, a failure costs one re-roll instead of six,
+and the panels are **full-size prints that go in the Book One ledger** — the sheet is a
+by-product of work that has to be done anyway, not a detour before it.
 
-The six scenes are 1.2, 2.2, 11.1, 10.1, 3.3 and 12.1 from `../book-1/plan.md`,
-chosen because between them they exercise every check: carved Japanese characters on a
-noren and a menu card, carved Japanese on a station sign, objects only, a night bokashi,
-a rain bokashi, and a face frieze.
-The panels are too small to ship; those six still get generated individually.
+The six scenes are 1.2, 2.2, 11.1, 10.1, 3.3 and 12.1 from `../book-1/plan.md`, chosen
+because between them they exercise every check: carved Japanese on a noren and a menu
+card, carved Japanese on a station sign, objects only, a night bokashi, a rain bokashi,
+and a face frieze. **The scene blocks below are copies of the plan's — if one changes,
+change both.**
 
 ---
 
+## The order, and what to attach
+
+The first image has nothing to anchor on, so it has to earn its place. Everything after
+it is anchored on it, so the six converge instead of scattering.
+
+| # | Scene | Attach | Why this order |
+| --- | --- | --- | --- |
+| 1 | 11.1 · the table | **nothing** | The most object-heavy scene is the hardest test of the style. If it holds, the rest will — the README says so for every new book |
+| 2 | 1.2 · the counter | image 1 | First carved kana, two strings |
+| 3 | 2.2 · the ticket gate | image 1 | Kana on a sign, a face in motion |
+| 4 | 10.1 · the streetlamp | image 1 | First bokashi, gold |
+| 5 | 3.3 · the rain | image 1 | Second bokashi, indigo |
+| 6 | 12.1 · the frieze | image 1 | Three faces, empty ground |
+
+Every image: a **new Gemini chat**, the attachment above, then **the style block from
+`../README.md` pasted verbatim** followed by the scene block below, as one message.
+Image 1 has no attachment, so delete the style block's first paragraph — the one that
+begins *"Match the attached reference image"* — for that image only. Images 2–6 keep it.
+
+Judge each against the README checklist **with the Border and Light-margin rows
+switched back on** — unlike the single-pull sheet, these are full-size prints and
+carry their borders. Approved → file it in `../book-1/` under its ledger name and mark
+the row. Rejected → `../book-1/_rejected/` with `-rN`, note the reason, re-roll.
+
+---
+
+## The tail — append to EVERY one of the six, after the scene block
+
+Both single-pull sheets failed the same two checks, and the README's fix for an ignored
+instruction is to restate it at the end. These three lines close the prompt every time:
+
 ```
-A Japanese woodblock print (mokuhanga) on a DARK ground: the key block is printed LIGHT.
-Cream line on warm near-black — a negative of the traditional print, the way a night
-scene reads when the paper itself is dark. The linework must look carved into wood:
-irregular weight, slight chatter along the edges, blunt terminations, the character of a
-knife rather than a pen tool.
+RESTATED, because these govern everything above:
+- The cream is LINE ONLY. No light area wider than a few strokes. No cream wall, no
+  cream sky, no cream shirt. Every large area is one of the palette colours or the dark
+  ground.
+- At least one colour block is clearly misregistered — a visible band of bare dark
+  ground down one side of a shape, and colour crossing the cream key line on the other.
+- This image is ONE scene, the one named above. Nothing merged in, nothing added.
+```
 
-Composition is clear and confident: one subject per panel, readable silhouettes, generous
-dark ground around them. Within those shapes, carved detail is welcome and wanted —
-hatching, wood grain, fabric folds, repeated knife marks. Detail lives INSIDE the large
-shapes; it never becomes clutter around them. Do not simplify.
+---
 
-The people are ordinary contemporary Japanese adults, observed plainly. Adults with real
-faces, carved rather than cartooned — the restraint of a print portrait, not the
-blankness of a pictogram and not the expressiveness of a cartoon.
+## The six scene blocks
 
-FORMAT: one landscape image, 3:2. It contains SIX SQUARE PANELS in a grid, three across
-and two down, all printed on ONE continuous dark ground. The gap between panels is bare
-dark ground, about a thumb's width. No frames, no borders, no rules or lines between
-panels, and nothing in the margins. Six separate prints pulled by the same hand on the same
-dark paper — that is the whole image.
+### 1 · 11.1 Meals & the kitchen — attach nothing
 
-Nothing labels, numbers, captions or titles the SHEET: it carries no text of its own and no
-panel is identified. Text INSIDE a panel is a different matter entirely — panels 1 and 2
-carry the Japanese characters named below, printed as part of the picture, and that
-instruction is not overridden by anything in this paragraph.
+```
+THE SCENE: a low table seen from slightly above, set with a rice bowl, a soup bowl, and
+chopsticks on a rest. Behind it, cropped by the frame, a pot on a modern burner with
+steam rising as carved strokes. Four objects total. No window, no view, no background
+scene, no shelving, no hanging utensils. No people. The objects carry it. Contemporary,
+not historical.
+```
 
-Colour is assigned by PRINT BLOCK, not by observation. Objects are not coloured the
-colour they would be in life — a metal pot, a wooden table and a ceramic bowl are all
-filled with flat colour from the palette, chosen for composition rather than realism.
+### 2 · 1.2 Food & drink — attach image 1
 
-THE PALETTE, and nothing outside it:
-  ground     warm near-black  #1A1815   the paper. It is dark.
-  line       warm cream       #FFFDF8   the key block. Line and small highlights ONLY.
-  gold       #C9A045
-  verdigris  #4F9C8D
-  indigo     #8fa5c7   (the light rung — deep indigo vanishes on this ground)
-  red        #D72E2E   used once at most per panel, as one large sharp note, never as a line
-Each panel uses only two or three of the colours, plus the ground and the line. Across
-the six panels, all four colours appear. There are no browns, no greys, no beiges, no
-wood tones, no metal tones anywhere. The cream appears as LINE and as small carved
-highlights — never as a field, a panel, a sky, or any light area wider than a few
-strokes. No white. No light sections. Every panel carries at least two palette colours
-as flat inked areas — no panel is line only.
-
-SHADING — permitted, in the two ways a woodblock print actually does it:
-- BOKASHI: a colour hand-wiped so it fades into the dark ground across a flat plane — a
-  night sky, a pool of lamplight, a wet street. It sits IN the plane and never wraps
-  around an object. Exactly two panels use it, named below; the other four use none.
-- CARVED HATCHING: parallel or crossed knife strokes cut into the block, for fabric
-  folds, hair, and areas in shadow. It is line, not tone.
-NOT permitted: volumetric rendering. No gradient following the curve of an object, no
-specular highlight, no sheen on metal or ceramic, no soft cast shadow, no glow.
-
-PRINT ARTEFACTS — the marks of an actual hand-pulled print, not simulated wear. These are
-wanted, and wanted VISIBLY: prints with character, not clean reproductions with a hint of
-texture. The first four must be obvious at a glance; the last three are fine detail for
-close viewing and stay subtle.
-
-OBVIOUS — carry these at full strength in every panel:
-- Woodgrain from the block printing clearly through every large flat colour area, running
-  in one consistent direction within each area, unmistakable rather than hinted at.
-- Strongly uneven ink density across each flat field — markedly heavier where the baren
-  pressed hard, thinning to streaks and patches of bare dark ground where the block ran
-  dry. A flat area should never read as an even fill.
-- Dry-brush flecking along the trailing edge of the broad colour areas, where the block
-  carried too little ink to cover: broken, ragged, bare dark ground showing through.
-- MISREGISTRATION, and in every panel at least one colour block is CLEARLY off — a visible
-  band of bare dark ground down one side of a shape and a corresponding overlap of colour
-  across the cream key line on the other, wide enough to read instantly as a hand-pulled
-  misalignment. This is the signature mistake of the medium and it should be unmissable.
-  The remaining blocks stay within a hairline. Each panel is misregistered differently;
-  they were pulled one at a time.
-
-FINE — these stay subtle, and must not be exaggerated:
-- Faint circular burnishing swirls from the baren across the broadest colour areas.
-- Pigment feathering a fraction of a millimetre at the edge of each colour area.
-- Occasional small ticks and specks of stray colour just outside a shape's edge.
-
-All of this texture must be IRREGULAR. It does not repeat, does not align to the shape it
-sits in, and varies in density across one flat area. A uniform cross-hatch, an even
-screen tone, or a repeating weave swatch is wrong — that reads as digital fill. Wood grain
-is the model for how ALL of it should behave.
-
-Avoid entirely: anime, manga, chibi, kawaii, cartoon mascots, large expressive eyes.
-Avoid Mount Fuji, cherry blossoms, torii gates, geisha, samurai, dragons, koi, and every
-other tourist emblem of Japan. Avoid modern flat-vector corporate illustration and rounded
-blobby figures. Avoid gradients that describe form, drop shadows, glows, 3D rendering and
-photorealism.
-
-JAPANESE TEXT — render EXACTLY AND ONLY the strings the panels below name, on the surfaces
-they name, and nothing else. This is transcription, not composition: do not invent
-characters, do not letter a second surface because it looks empty, do not produce
-decorative pseudo-kanji, and do not render approximate glyph-shaped marks. Panels 1 and 2
-carry text. Panels 3, 4, 5 and 6 carry none at all. No English anywhere, ever.
-
-Those characters are carved into the same block as the picture and carry the same woodcut
-artefacts as everything else: irregular knife-cut edges, blunt terminations, uneven ink
-density, misregistration against the key line, woodgrain printing through. Crisp digital
-type laid over a textured print is the specific failure to avoid.
-
-This sheet carries NO decorative borders, frames, rules or margin seals — not because the
-finished prints avoid them (they carry them), but because this is a reference sheet of six
-small panels and the borders would crowd out what it exists to show.
-
-THE SIX PANELS, left to right, top row then bottom row:
-
-PANEL 1: a small restaurant counter seen from the customer's side. A split noren curtain
+```
+THE SCENE: a small restaurant counter seen from the customer's side. A split noren curtain
 hanging above, carrying exactly these two characters, large and simply carved: 食堂
 One seated customer and one cook behind the counter. A bowl and chopsticks on the counter.
 A standing menu card beside them carrying exactly two dish names, large, stacked: the first
 line reads ラーメン and the second line directly beneath it reads ぎょうざ. Render no slash,
-bullet or separator between them. Render only those characters, nothing else in this panel.
+bullet or separator between them.
+Render only those characters. No other lettering anywhere in the image.
 No other diners, no kitchen behind. Contemporary, not historical.
+```
 
-PANEL 2: a station ticket gate. One commuter with a shoulder bag passing through it.
+### 3 · 2.2 Getting around — attach image 1
+
+```
+THE SCENE: a station ticket gate. One commuter with a shoulder bag passing through it.
 The sign above the gate carries exactly these two characters, large and simply carved: 改札
 A clock face beside it with hands but no numerals. A train in flat silhouette behind,
-cropped by the panel edge. Render only those characters, nothing else in this panel.
+cropped by the frame.
+Render only those characters. No other lettering anywhere in the image.
 No crowd, no shopfront. Contemporary, not historical.
-
-PANEL 3: a low table seen from slightly above, set with a rice bowl, a soup bowl, and
-chopsticks on a rest. Behind it, cropped by the panel edge, a pot on a modern burner with
-steam rising as carved strokes. Four objects total. No window, no view, no background
-scene, no shelving, no hanging utensils. No people. The objects carry it. Contemporary,
-not historical.
-
-PANEL 4 (bokashi): one adult walking home at night under a single streetlamp, a bag over
-one shoulder. The lamp casts a bokashi pool of gold onto the pavement, fading into the
-dark ground — the one gradient, and the subject. A low wall beside the pavement. No
-buildings beyond the wall, no other people. Contemporary, not historical.
-
-PANEL 5 (bokashi): one adult walking under an umbrella, coat pulled against the wind.
-Rain as carved diagonal strokes. A single puddle catching the reflection. A bokashi wash
-of indigo fading into the dark ground across the sky — the one gradient, and it is the
-subject. No buildings, no other people. Contemporary, not historical.
-
-PANEL 6: three adults standing together in contemporary everyday clothing — one coat,
-one satchel, one scarf; one of them in glasses. Large in the panel, a flat frieze against
-completely empty ground. Nothing else in the panel. Contemporary, not historical.
-
-Output one image only.
 ```
+
+### 4 · 10.1 Talking about yesterday — attach image 1
+
+```
+THE SCENE: one adult walking home at night under a single streetlamp, a bag over one
+shoulder. The lamp casts a bokashi pool of gold onto the pavement, fading into the dark
+ground — the one gradient, and the subject. A low wall beside the pavement. No buildings
+beyond the wall, no other people. Contemporary, not historical.
+```
+
+### 5 · 3.3 Weather — attach image 1
+
+```
+THE SCENE: one adult walking under an umbrella, coat pulled against the wind. Rain as
+carved diagonal strokes. A single puddle catching the reflection. A bokashi wash of
+indigo fading into the dark ground across the sky — this is the one gradient, and it is
+the subject. No buildings, no other people. Contemporary, not historical.
+```
+
+### 6 · 12.1 People & what they wear — attach image 1
+
+```
+THE SCENE: three adults standing together in contemporary everyday clothing — one coat,
+one satchel, one scarf; one of them in glasses. Large in the frame, a flat frieze against
+completely empty ground. Nothing else in the image. Contemporary, not historical.
+```
+
+---
+
+## Assembling the sheet
+
+In Affinity Designer, a 3:2 document on ground `#1A1815`. Six squares, three across and
+two down, in the table's order, each scaled to the same size with a thumb's-width gutter
+of bare ground between them. No labels, no rules, nothing in the margins — six prints on
+one dark sheet. Export as `style-reference.jpg`, long edge 2048.
+
+Lay them out **before** exporting and look. If one print reads as an outlier beside the
+other five — thinner line, a colour that wandered, a face gone cartoon — that is the
+judgement the composite gives you for free. Drop it and re-roll that one scene with image
+1 attached. The sheet teaches whatever it carries, including a mistake.
+
+---
+
+## The rejected single-pull sheets
+
+| File | What failed |
+| --- | --- |
+| `_rejected/style-reference-r1.jpeg` | Not a 3×2 grid — two wide panels over four small. Cream as a field (rice bowl, counter top, faces). Browns, greys and beiges. No misregistration anywhere. Buildings beyond the wall in panel 4. Kana clean |
+| `_rejected/style-reference-r2.jpeg` | Grid correct. Panels 4 and 5 merged into one; the vacated slot filled with an invented scene; the menu card left panel 1 for it. Cream as a field in four panels — worse than r1. No misregistration. Four adults in panel 6, not three. Kana clean |
+
+The single-pull prompt is in git history (`git log -- illustrations/reference/sheet-prompt.md`)
+if it is ever wanted again. It isn't recommended: two pulls proved the model can cut kana at
+panel scale and cannot hold six scenes, two artefact rules and a grid in one instruction.
