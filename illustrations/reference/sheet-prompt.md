@@ -26,19 +26,19 @@ change both.**
 The first image has nothing to anchor on, so it has to earn its place. Everything after
 it is anchored on it, so the six converge instead of scattering.
 
-| # | Scene | Attach | Why this order |
-| --- | --- | --- | --- |
-| 1 | 11.1 · the table | **nothing** | The most object-heavy scene is the hardest test of the style. If it holds, the rest will — the README says so for every new book |
-| 2 | 1.2 · the counter | image 1 | First carved kana, two strings |
-| 3 | 2.2 · the ticket gate | image 1 | Kana on a sign, a face in motion |
-| 4 | 10.1 · the streetlamp | image 1 | First bokashi, gold |
-| 5 | 3.3 · the rain | image 1 | Second bokashi, indigo |
-| 6 | 12.1 · the frieze | image 1 | Three faces, empty ground |
+| #   | Scene                 | Attach      | Why this order                                                                                                                   |
+| --- | --------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | 11.1 · the table      | **nothing** | The most object-heavy scene is the hardest test of the style. If it holds, the rest will — the README says so for every new book |
+| 2   | 1.2 · the counter     | image 1     | First carved kana, two strings                                                                                                   |
+| 3   | 2.2 · the ticket gate | image 1     | Kana on a sign, a face in motion                                                                                                 |
+| 4   | 10.1 · the streetlamp | image 1     | First bokashi, gold                                                                                                              |
+| 5   | 3.3 · the rain        | image 1     | Second bokashi, indigo                                                                                                           |
+| 6   | 12.1 · the frieze     | image 1     | Three faces, empty ground                                                                                                        |
 
 Every image: a **new Gemini chat**, the attachment above, then **the style block from
 `../README.md` pasted verbatim** followed by the scene block below, as one message.
 Image 1 has no attachment, so delete the style block's first paragraph — the one that
-begins *"Match the attached reference image"* — for that image only. Images 2–6 keep it.
+begins _"Match the attached reference image"_ — for that image only. Images 2–6 keep it.
 
 Judge each against the README checklist **with the Border and Light-margin rows
 switched back on** — unlike the single-pull sheet, these are full-size prints and
@@ -66,7 +66,7 @@ RESTATED, because these govern everything above:
 
 ## The six scene blocks
 
-### 1 · 11.1 Meals & the kitchen — attach nothing
+### 1 · 1.1 Meals & the kitchen — attach nothing
 
 ```
 THE SCENE: a low table seen from slightly above, set with a rice bowl, a soup bowl, and
@@ -144,9 +144,9 @@ judgement the composite gives you for free. Drop it and re-roll that one scene w
 
 ## The rejected single-pull sheets
 
-| File | What failed |
-| --- | --- |
-| `_rejected/style-reference-r1.jpeg` | Not a 3×2 grid — two wide panels over four small. Cream as a field (rice bowl, counter top, faces). Browns, greys and beiges. No misregistration anywhere. Buildings beyond the wall in panel 4. Kana clean |
+| File                                | What failed                                                                                                                                                                                                                                         |
+| ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `_rejected/style-reference-r1.jpeg` | Not a 3×2 grid — two wide panels over four small. Cream as a field (rice bowl, counter top, faces). Browns, greys and beiges. No misregistration anywhere. Buildings beyond the wall in panel 4. Kana clean                                         |
 | `_rejected/style-reference-r2.jpeg` | Grid correct. Panels 4 and 5 merged into one; the vacated slot filled with an invented scene; the menu card left panel 1 for it. Cream as a field in four panels — worse than r1. No misregistration. Four adults in panel 6, not three. Kana clean |
 
 The single-pull prompt is in git history (`git log -- illustrations/reference/sheet-prompt.md`)
