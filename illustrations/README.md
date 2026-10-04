@@ -216,8 +216,11 @@ Output one image only.
 
 ## Writing a scene block
 
-Every image = the style block above + one scene block. The scene block follows this
-formula, and the formula is the reusable part:
+Every image = the style block above + one scene block + the tail in
+`reference/sheet-prompt.md`. Don't assemble that by hand — `pnpm prompt <id>` prints
+the three in order from their single sources (`--no-ref` only for the reference sheet's
+bootstrap image, which has nothing attached). The scene block follows this formula, and
+the formula is the reusable part:
 
 ```
 THE SCENE: <the setting, one clause>. <Three or four named objects>. <People: how many
@@ -293,7 +296,7 @@ identical prompt twice more before changing a word. Half the time the prompt was
 1. Open a **new Gemini chat** for each image. Follow-up edits inside one chat drift the
    style; a fresh chat with the full prompt does not.
 2. **Attach `reference/style-reference.jpg`.**
-3. Paste the style block, then the scene block, as one message.
+3. `pnpm prompt <scene-id> | pbcopy`, then paste — the style block, the scene block and the tail, as one message. Never assemble it by hand; the one time it was, the style block got left out.
 4. Save the result with its ledger filename into `book-N/`.
 5. Judge it. Approved → mark the row. Rejected → move to `_rejected/` with `-rN`, note
    the reason, fix the prompt, go to 1.
