@@ -1,5 +1,21 @@
 # AburunGo · color tokens · v3 "Zuihoden"
 
+## Contents
+
+- [Where the palette comes from](#where-the-palette-comes-from)
+- [The five](#the-five)
+- [Warm stone — the neutrals](#warm-stone--the-neutrals)
+- [Role tokens — prefer these over raw ramp steps](#role-tokens--prefer-these-over-raw-ramp-steps)
+- [Feedback](#feedback)
+- [Legacy names](#legacy-names)
+- [Resolved by the palette author, 2026-08-08](#resolved-by-the-palette-author-2026-08-08)
+- [Role → what it means](#role--what-it-means)
+- [Value-token holdouts (task 2.1)](#value-token-holdouts-task-21)
+- [Orphaned roles (task 2.6)](#orphaned-roles-task-26)
+- [Where the colour goes — decided 2026-08-08](#where-the-colour-goes--decided-2026-08-08)
+- [Correct/incorrect vs success/error (task 2.3b)](#correctincorrect-vs-successerror-task-23b)
+- [The gate](#the-gate)
+
 Five colors, one job each. Warm stone neutrals underneath.
 
 **This file is the rationale, not the values.** `src/tokens.css` is the single
