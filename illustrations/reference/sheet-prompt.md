@@ -59,7 +59,7 @@ the row. Rejected → `../book-1/_rejected/` with `-rN`, note the reason, re-rol
 ## The tail — append to EVERY one of the six, after the scene block
 
 Both single-pull sheets failed the same two checks, and the README's fix for an ignored
-instruction is to restate it at the end. These three lines close the prompt every time:
+instruction is to restate it at the end. These four rules close the prompt every time:
 
 ```
 RESTATED, because these govern everything above:
@@ -166,8 +166,19 @@ one dark sheet. Export as `style-reference.jpg`, long edge 2048.
 
 Lay them out **before** exporting and look. If one print reads as an outlier beside the
 other five — thinner line, a colour that wandered, a face gone cartoon — that is the
-judgement the composite gives you for free. Drop it and re-roll that one scene with image
-1 attached. The sheet teaches whatever it carries, including a mistake.
+judgement the composite gives you for free. The sheet teaches whatever it carries,
+including a mistake.
+
+Which print is the outlier decides what gets re-rolled:
+
+- **One of images 2–6:** drop it and re-roll that one scene with image 1 attached. The
+  other four stand.
+- **Image 1 itself:** it is the anchor, so it cannot be re-rolled against itself. Re-roll it
+  with **nothing attached**, exactly as the first time, until it passes — and then
+  **regenerate images 2–6 against the replacement**. They converged on the old anchor;
+  five prints anchored on a rejected one are five more copies of the rejection. This is
+  the expensive case, which is why image 1 is judged hardest before anything is anchored
+  on it.
 
 ---
 

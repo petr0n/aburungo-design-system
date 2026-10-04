@@ -15,8 +15,10 @@ there the situation image is the chapter opener. Chapters 1–5 have several; th
 reuses the first situation's image for now (`opener → s01` in the ledger) rather than
 adding five more generations. Composite openers are a later option, not a requirement.
 
-**Every generation:** attach `../reference/style-reference.jpg` + paste the style block
-from `../README.md` + paste ONE scene block from below, all as one message in a fresh chat.
+**Every generation:** attach `../reference/style-reference.jpg`, then `pnpm prompt <id> | pbcopy`
+and paste, as one message in a fresh chat. That is the style block from `../README.md`, the
+scene block from below for that id, and the tail from `../reference/sheet-prompt.md`, in
+order — assembled by the script so none of the three can be left out.
 
 ---
 
