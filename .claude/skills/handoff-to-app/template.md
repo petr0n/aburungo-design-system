@@ -3,8 +3,11 @@
 **Import**
 ```ts
 import { ComponentName } from 'aburungo-design-system'
-import type { ComponentNameProps } from 'aburungo-design-system'
+import type { ComponentNameProps } from 'aburungo-design-system'   // ONLY if scan.mjs says "props: … is public"
 ```
+Most components keep their Props type private — `ButtonProps` is not in the barrel, for
+one — so the second line is included only when `scan.mjs` reports the type as public.
+Otherwise delete it; the props table below is documented from the source file instead.
 
 **Props**
 

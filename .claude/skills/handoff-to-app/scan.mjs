@@ -5,15 +5,25 @@ import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
 import { join, relative } from 'node:path'
 
 const ADS = new URL('../../../', import.meta.url).pathname
-const APP = join(ADS, '../aburungo')
+// ADS_APP exists so the "app missing" path can be exercised without moving a
+// checkout. It is not a configuration knob; the app lives at ../aburungo.
+const APP = process.env.ADS_APP ?? join(ADS, '../aburungo')
 const names = process.argv.slice(2)
 if (!names.length) { console.error('usage: scan.mjs <Component> [...]'); process.exit(2) }
+
+// No app source is a broken setup, not an app with no usages. Treating it as
+// empty printed "none" for every import and call site and exited 0, so a
+// handoff written from that output would omit every app change.
+if (!existsSync(join(APP, 'src'))) {
+  console.error(`scan.mjs: no app source at ${join(APP, 'src')} -- clone petr0n/aburungo beside this repo, or set ADS_APP to its path`)
+  process.exit(2)
+}
 
 const walk = (dir) => readdirSync(dir).flatMap((f) => {
   const p = join(dir, f)
   return statSync(p).isDirectory() ? walk(p) : /\.(tsx?|css)$/.test(f) ? [p] : []
 })
-const appFiles = existsSync(join(APP, 'src')) ? walk(join(APP, 'src')) : []
+const appFiles = walk(join(APP, 'src'))
 const barrel = readFileSync(join(ADS, 'src/components/index.ts'), 'utf8')
 let failed = false
 
@@ -25,6 +35,10 @@ for (const name of names) {
   console.log(`source:   ${src ?? 'MISSING'}`)
   console.log(`exported: ${exported ? 'yes' : 'NO — add to src/components/index.ts'}`)
   console.log(`built:    ${built ? 'yes' : 'NO — run pnpm build'}`)
+  // Most components keep their Props type private. The template's `import type`
+  // line is only valid when the barrel re-exports it, so say which.
+  const propsPublic = new RegExp(`\\b${name}Props\\b`).test(barrel)
+  console.log(`props:    ${propsPublic ? `${name}Props is public — import type { ${name}Props }` : `${name}Props is NOT exported — omit the import type line; document props from the source file`}`)
   if (!src || !exported || !built) failed = true
 
   const word = new RegExp(`\\b${name}\\b`)
