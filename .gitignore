@@ -19,6 +19,7 @@ dist/*
 .agents/
 .claude/skills/*
 !.claude/skills/frontend-design/
+!.claude/skills/handoff-to-app/
 .github/agents/
 .github/hooks/
 .github/skills/

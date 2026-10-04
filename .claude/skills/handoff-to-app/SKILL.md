@@ -1,90 +1,44 @@
+---
+name: handoff-to-app
+description: Use when an ADS component is finished and the AburunGo app at ../aburungo should adopt it — produces an integration spec (import, props, duplicates to delete, call sites to update) and optionally applies it.
+---
+
 # Handoff: ADS component → AburunGo app
 
-You are handing off a completed ADS component (or set of components) to the AburunGo app at `../aburungo`. Your job is to produce a self-contained integration spec so that the app can be updated precisely and without guesswork.
+Write an integration spec a developer who was not in the design conversation can apply without guesswork.
 
-## Step 1 — Identify the target component(s)
+## 1. Scan
 
-If the user named a component, use it. Otherwise, ask which component(s) to hand off.
+If the user named no component, ask which. Then run:
 
-Check that the component exists and is exported:
-- Source file: `src/components/<ComponentName>.tsx` (or `src/components/ui/<ComponentName>.tsx`)
-- Exported from: `src/components/index.ts`
-- Built: `dist/index.js` and `dist/index.d.ts` must exist — run `pnpm build` first if they don't
-
-## Step 2 — Read the component
-
-Read the full TypeScript source of the component. Extract:
-- All exported names (component + types)
-- Every prop (name, type, required/optional, default)
-- Any slots or compound sub-components (e.g. `CardHeader`, `CardBody`)
-- Peer dependencies implied by props (e.g. `audioSlot` expects an `AudioButton`)
-
-## Step 3 — Audit the AburunGo app
-
-Scan `../aburungo/src/` to find:
-1. **Direct duplicates** — components with the same name and purpose that should be deleted and replaced by the ADS import.
-2. **Partial duplicates** — inline implementations (JSX inline-styles, one-off Tailwind utility stacks) that recreate this component's appearance. List the file and line range.
-3. **Call sites** — every place in the app that already uses a component by this name. List file:line.
-4. **Import path currently used** — e.g. `@/components/ui/Button` or `@/components/PhraseCard`.
-
-## Step 4 — Write the integration spec
-
-Output a markdown document with these exact sections:
-
----
-
-### Component: `<ComponentName>`
-
-**Import**
-```ts
-import { ComponentName } from 'aburungo-design-system'
-// If importing types too:
-import { ComponentName } from 'aburungo-design-system'
-import type { ComponentNameProps } from 'aburungo-design-system'
+```
+node .claude/skills/handoff-to-app/scan.mjs <Component> [...]
 ```
 
-**Props**
+It reports the source file, whether it is exported and built, and every same-name file, import and call site in `../aburungo/src`. A non-zero exit means a component is missing, unexported or unbuilt — fix that (usually `pnpm build`) before going on.
 
-| Prop | Type | Required | Default | Notes |
-|------|------|----------|---------|-------|
-| … | … | … | … | … |
+## 2. Read
 
-**Files to delete**
-List every file in `../aburungo/src/` that is fully superseded by this component. Include path relative to repo root.
+Read the component source. Extract every exported name, every prop (type, required, default), compound sub-components (`CardHeader`, `CardBody`), and implied peers (`audioSlot` expects an `AudioButton`).
 
-**Files to update**
-For each call site, show a before/after diff:
-```diff
-- import { Button } from '@/components/ui/Button'
-+ import { Button } from 'aburungo-design-system'
-```
-Include file path and line number.
+Then read each same-name file and call site the scan listed. Also look for **partial duplicates** the scan cannot find: one-off Tailwind stacks or inline JSX that recreate the component's look. Record file and line range.
 
-**CSS change required?**
-State whether any change is needed to `../aburungo/src/index.css`. Usually none — the app already has the ADS tokens. If a new token was added to `src/index.css` in this ADS component, list it and show where to paste it in the app's CSS.
+## 3. Write the spec
 
-**Tailwind content scan**
-The app's Vite config must scan ADS components for Tailwind utilities. Check whether `../aburungo/vite.config.ts` already includes a content path covering `node_modules/aburungo-design-system/`. If not, add it to the spec.
+Fill `template.md` (same folder) once per component. Keep every heading; write `None` rather than dropping one.
 
-**Storybook reference**
-State the section and story name in the ADS storybook where this component can be previewed: e.g. `Primitives / Button / Primary`.
+## 4. Offer to apply
 
----
+Ask: "Apply these changes to the AburunGo app now?" If yes:
 
-## Step 5 — Offer to apply
-
-After writing the spec, ask: "Apply these changes to the AburunGo app now?"
-
-If yes:
 1. Delete the listed files.
-2. Update each import at the listed file:line locations.
-3. Apply any CSS changes.
-4. Run `pnpm --filter aburungo build` and `pnpm --filter aburungo test` from the monorepo root, or `pnpm build && pnpm test` from inside `../aburungo`.
-5. Report pass/fail.
+2. Apply each listed diff.
+3. Apply any CSS change.
+4. In `../aburungo`: `pnpm build && pnpm test`.
+5. Report pass or fail, with output on fail.
 
 ## Hard rules
 
-- Never delete a file without first confirming it is fully superseded — check for any code in it that is NOT covered by the ADS component.
-- If the app component has props the ADS version does not support, note the gap explicitly. Do not silently drop functionality.
-- Do not modify `src/components/` in this repo during a handoff — if a gap is found, flag it as a follow-up for the ADS, not a quick patch.
-- Write for a developer who was not in the design conversation. No assumed context.
+- Delete a file only after confirming nothing in it is uncovered by the ADS component.
+- An app prop the ADS version lacks goes under **Gaps**. Never drop behaviour silently.
+- Do not edit `src/components/` here during a handoff. A gap is an ADS follow-up, not a quick patch.
