@@ -1,6 +1,14 @@
-A reference sheet of six Japanese woodblock prints (mokuhanga), arranged as panels on one sheet: two wide panels across the top, four smaller panels across the bottom. One printer's hand throughout — every panel must look like it came off the same blocks.
+A reference sheet of six hand-carved Japanese woodcut prints, arranged as panels on one sheet: two wide panels across the top, four smaller panels across the bottom. One printer's hand throughout — every panel must look like it came off the same blocks.
 
-STYLE: flat inked colour blocks with a dark carved key line. The line looks cut with a knife — irregular weight, blunt ends, slight chatter. Woodgrain and uneven ink show through the flat colour areas; a little dry-brush flecking at the edges of large shapes. Clean, confident composition, readable silhouettes, carved detail inside the large shapes. Contemporary everyday Japan, observed plainly. Adults with real, restrained faces — not anime, not cartoon, no big eyes.
+STYLE — these are WOODCUTS, and it must be obvious at a glance. Every mark looks cut into a wood block with gouges and knives, inked, and pressed by hand onto paper:
+- The key line is CARVED, not drawn: it swells and thins, ends blunt or chipped, wobbles slightly where the knife turned. No line has an even weight. No smooth vector curves.
+- GOUGE MARKS: in the larger open areas (walls, floors, sky, table tops) leave rows of short curved chisel strokes where the carver did not clear the wood completely. They show as broken lines and flecks in the line colour.
+- WOODGRAIN prints through every flat colour field — long wavy streaks running one direction, clearly visible, not a faint texture.
+- UNEVEN INK: each colour field is mottled, heavier in places, thin and patchy in others, with paper showing through near the edges. No flat field is perfectly even.
+- MISREGISTRATION: at least one colour block per panel is shifted off its outline, leaving a sliver of bare paper on one side and colour over the line on the other.
+- Shading only by carved hatching — parallel knife strokes. No gradients, no airbrush, no soft shading anywhere.
+- The paper itself is visible: warm, slightly fibrous cream with a faint texture.
+Clean, confident composition, readable silhouettes. Contemporary everyday Japan, observed plainly. Adults with real, restrained faces — not anime, not cartoon, no big eyes.
 
 COLOUR, and this matters most: the prints are colourful and daylit. Most of every panel is COLOUR — large flat fields of gold, verdigris green, soft light indigo, and warm cream paper, with red as one or two small sharp notes. Black is the key LINE and small accents (hair, shoes, a bag strap). Black is never a background, never a wall, never a sky, never the floor of a daytime scene. Only the night panel may be dark, and even there the lamplight pool is a large warm gold shape. No grey, no muddy browns.
 
@@ -12,8 +20,8 @@ THE SIX PANELS:
 5. (bottom, third) One adult walking in the rain under an umbrella, a puddle at their feet. Rain as carved diagonal strokes over a soft light-indigo daytime sky fading to pale. Not a night scene, not black.
 6. (bottom, fourth) Three adults standing side by side, full figure, contemporary clothes — one in glasses, one with a shoulder bag, one in a red sweater. Plain warm cream paper ground behind them, nothing else.
 
-TEXT: render exactly and only 食堂, 改札, ラーメン and ぎょうざ, on the surfaces named above. No other characters, no pseudo-kanji, no English anywhere.
+TEXT: render exactly and only 食堂, 改札, ラーメン and ぎょうざ, on the surfaces named above, carved with the same rough knife edges as everything else. The menu card has exactly two lines and nothing between them. Walls carry no posters and no writing. No other characters, no pseudo-kanji, no English anywhere.
 
-Avoid: tourist emblems of Japan (Mount Fuji, cherry blossoms, torii, geisha), gradients that model form, drop shadows, glows, 3D rendering, photorealism, flat-vector corporate illustration.
+Avoid: clean digital illustration, flat vector art, smooth even outlines, editorial or children's-book illustration style. Avoid tourist emblems of Japan (Mount Fuji, cherry blossoms, torii, geisha), gradients that model form, drop shadows, glows, 3D rendering, photorealism, flat-vector corporate illustration.
 
 Output one image.
