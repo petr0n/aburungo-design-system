@@ -8,6 +8,16 @@ STYLE — these are WOODCUTS, and it must be obvious at a glance. Every mark loo
 - MISREGISTRATION: at least one colour block per panel is shifted off its outline, leaving a sliver of bare paper on one side and colour over the line on the other.
 - Shading only by carved hatching — parallel knife strokes. No gradients, no airbrush, no soft shading anywhere.
 - The paper itself is visible: warm, slightly fibrous cream with a faint texture.
+HAND-MADE, not perfect — the small mistakes of one person carving by hand, kept subtle:
+- Straight lines are not ruler-straight: verticals lean a degree or two, long edges bow slightly, parallel lines drift closer and apart.
+- Lines overshoot or fall short at corners — they do not meet cleanly every time. A few small knife slips: a nick cut a little too far, a chip missing from a line.
+- Nothing repeats exactly: every rain stroke, noren panel, gate, window and hatching mark differs a little in length, angle and spacing.
+- Shapes are slightly lopsided: bowls and clocks are not perfect circles, the two sides of a face or a figure are not mirror images.
+- Perspective is felt, not measured — a little off, the way a hand-drawn scene is.
+- Print faults: a pale patch where the block took too little ink, a small ink blot or smudge, a faint offset ghost of a line.
+- The panel borders are hand-cut too — uneven thickness, slightly wavy, corners not quite square.
+The scene stays clear and well composed; these are small imperfections, not a sloppy or childlike drawing.
+
 Clean, confident composition, readable silhouettes. Contemporary everyday Japan, observed plainly. Adults with real, restrained faces — not anime, not cartoon, no big eyes.
 
 COLOUR, and this matters most: the prints are colourful and daylit. Most of every panel is COLOUR — large flat fields of gold, verdigris green, soft light indigo, and warm cream paper, with red as one or two small sharp notes. Black is the key LINE and small accents (hair, shoes, a bag strap). Black is never a background, never a wall, never a sky, never the floor of a daytime scene. Only the night panel may be dark, and even there the lamplight pool is a large warm gold shape. No grey, no muddy browns.
