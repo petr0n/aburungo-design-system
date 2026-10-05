@@ -6,9 +6,8 @@ a `canDo`). The app is a sibling of this repository, so from this file the path 
 of `book-1/`, out of `illustrations/`, and out of the repo before entering `aburungo/`. Every scene block below is derived from the can-do lines of the lessons in that
 situation, not from the situation title.
 
-**Ground: dark.** All images on `#1A1815` per `../README.md`. The five paper-ground images
-generated in August (ch1 food, ch2 transit, ch9 town, ch11 meals, ch12 clothes) are
-superseded — regenerate them; their scene blocks are kept and adapted below.
+**Style:** the attached `../reference/style-reference.jpg`, per `../README.md`. Restarted
+2026-10-04; nothing generated before that date is approved.
 
 **Count: 23 images.** 21 situations + 2 shared. Chapters 6–12 have one situation each, so
 there the situation image is the chapter opener. Chapters 1–5 have several; their opener
@@ -16,9 +15,8 @@ reuses the first situation's image for now (`opener → s01` in the ledger) rath
 adding five more generations. Composite openers are a later option, not a requirement.
 
 **Every generation:** attach `../reference/style-reference.jpg`, then `pnpm prompt <id> | pbcopy`
-and paste, as one message in a fresh chat. That is the style block from `../README.md`, the
-scene block from below for that id, and the tail from `../reference/sheet-prompt.md`, in
-order — assembled by the script so none of the three can be left out.
+and paste, as one message in a fresh chat. That is a one-line lead and the scene block
+from below for that id.
 
 ---
 
@@ -54,7 +52,7 @@ order — assembled by the script so none of the three can be left out.
 (`八百屋`), 2.2 (`改札`), 9.1 (`つめたい` / `あたたかい`). Every other scene carries none —
 its writing-bearing surfaces are named as abstract carved marks, and an image that invents
 a character fails the Text check. Borders and margin seals are separate: **every** image
-carries those, per the style block.
+carries those, as the attached sheet does.
 
 **Run order:** 11.1 first (the kitchen is the busiest scene — if the style holds there it
 holds everywhere), then 1.2, 2.2, 9.1, 12.1 (the four other regens — you have paper
@@ -64,7 +62,7 @@ versions to compare against), then the rest in ledger order.
 
 ## Scene blocks
 
-Each block is what follows the style block. Paste exactly.
+Each block follows the lead line. `pnpm prompt <id>` prints both.
 
 ### 1.1 · Greetings & basics
 *Lessons: Where are you from? · Thank you & you're welcome · I don't understand · Numbers 1–10*
@@ -139,7 +137,7 @@ no vehicles. Contemporary, not historical.
 ```
 THE SCENE: one adult walking under an umbrella, coat pulled against the wind. Rain as
 carved diagonal strokes. A single puddle catching the reflection. A bokashi wash of
-indigo fading into the dark ground across the sky — this is the one gradient, and it is
+indigo fading down across the sky — this is the one gradient, and it is
 the subject. No buildings, no other people. Contemporary, not historical.
 ```
 
@@ -288,8 +286,8 @@ stamped page, not a new scene.*
 
 ```
 THE SCENE: a hand pressing a round seal onto a sheet of paper, seen from above. A small
-red ink pad beside it — the red is the single sharp note. The sheet is the dark ground,
-described by a carved cream edge — it is not a light panel and carries no pale fill. It
+red ink pad beside it — the red is the single sharp note. The sheet is plain paper
+with a carved edge. It
 bears only abstract carved marks. The seal face is a plain circle, no character inside it. No desk beyond
 the sheet, no people beyond the hand. Contemporary, not historical.
 ```
@@ -300,8 +298,7 @@ the sheet, no people beyond the hand. Contemporary, not historical.
 ```
 THE SCENE: a sheet of paper seen from above, a row of five round seal impressions across
 it — four printed in verdigris and the fifth still wet in red, the one sharp note. The seal
-itself lifted just above the fifth. The sheet is the dark ground, described by a carved
-cream edge — it is not a light panel and carries no pale fill. It bears only abstract
+itself lifted just above the fifth. The sheet is plain paper with a carved edge. It bears only abstract
 carved marks. No hand, no desk beyond the sheet. Contemporary, not historical.
 ```
 
