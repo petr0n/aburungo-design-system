@@ -59,7 +59,7 @@ the row. Rejected → `../book-1/_rejected/` with `-rN`, note the reason, re-rol
 ## The tail — append to EVERY one of the six, after the scene block
 
 Both single-pull sheets failed the same two checks, and the README's fix for an ignored
-instruction is to restate it at the end. These four rules close the prompt every time:
+instruction is to restate it at the end. These three rules close the prompt every time:
 
 ```
 RESTATED, because these govern everything above:
@@ -69,15 +69,17 @@ RESTATED, because these govern everything above:
 - At least one colour block is clearly misregistered — a visible band of bare dark
   ground down one side of a shape, and colour crossing the cream key line on the other.
 - This image is ONE scene, the one named above. Nothing merged in, nothing added.
-- OUTPUT as PNG, not JPEG. The dark ground is part of the print and stays fully opaque
-  edge to edge — no transparency, no alpha. PNG is for the carved line surviving
-  without compression artefacts.
 ```
 
-PNG, not transparency: the ground `#1A1815` *is* the paper. Every bokashi fades into it
-and the app sets it on `stone-900`, the same value. A transparent export would cut the
-ground out of a print whose whole premise is the dark sheet. The crest tiles in
-`assets/crests/` are the one place alpha is wanted, and they are not generated here.
+Gemini outputs JPEG only; a PNG instruction in the prompt is ignored (2026-10-04). File
+every print under its `.png` ledger name by converting on the way in:
+
+```
+sips -s format png ~/Downloads/<gemini-file>.jpg --out illustrations/book-1/<ledger-name>.png
+```
+
+The conversion keeps the ledger names stable; it does not undo JPEG artefacts. The ground
+stays opaque either way: `#1A1815` *is* the paper, and the app sets it on `stone-900`.
 
 ---
 
