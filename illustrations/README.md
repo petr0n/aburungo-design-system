@@ -283,8 +283,10 @@ failure that actually happened.
 **One re-roll rule:** if the same prompt fails the same check twice, the prompt is wrong,
 not the dice. Rewrite the scene block. Do not roll a third time hoping.
 
-**Two-strike rule for "almost":** if an image is close but not right, generate the
-identical prompt twice more before changing a word. Half the time the prompt was fine.
+**Two-strike rule for "almost" — retired 2026-10-04.** It assumed the dice were live.
+Gemini returned a pixel-identical image for an identical prompt, so a re-roll without a
+changed word is a wasted pull. If an image is close but not right, either approve it and
+note the carried miss in the ledger, or change the scene block and name the object.
 
 ---
 
