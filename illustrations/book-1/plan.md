@@ -27,7 +27,7 @@ order — assembled by the script so none of the three can be left out.
 | id | file | chapter | situation | status | notes |
 | --- | --- | --- | --- | --- | --- |
 | 1.1 | `b1-ch01-s01-greetings-basics.png` | 1 Greetings & ordering | Greetings & basics | todo | opener → this |
-| 1.2 | `b1-ch01-s02-food-drink.png` | 1 | Food & drink | todo | regen of Aug paper version. **r1 2026-10-04** rejected — image 1 attached. Kana perfect. Failed: flat clean vector line with no carving, cream-filled faces and hands, noren and counter fill the frame, no misregistration, red on bottle caps and seal. Scene block now names the jacket to misregister and bans cream skin |
+| 1.2 | `b1-ch01-s02-food-drink.png` | 1 | Food & drink | todo | regen of Aug paper version. **r1 2026-10-04** rejected — image 1 attached. Kana perfect. Failed: flat clean vector line with no carving, cream-filled faces and hands, noren and counter fill the frame, no misregistration, red on bottle caps and seal. Scene block now names the jacket to misregister and bans cream skin. **r2 2026-10-04** rejected — the cream-skin ban made hollow ghost faces, and "counter as bare ground" became a grey wood tone again. Both lines removed: faces may carry small cream fill, counter is a gold fill. Jacket misregistration, red-on-seal-only and knife chatter kept |
 | 2.1 | `b1-ch02-s01-shopping.png` | 2 Shopping & getting around | Shopping | todo | opener → this |
 | 2.2 | `b1-ch02-s02-getting-around.png` | 2 | Getting around | todo | regen of Aug paper version |
 | 3.1 | `b1-ch03-s01-hotel.png` | 3 Staying & finding your way | Hotel | todo | opener → this |
@@ -88,9 +88,8 @@ line reads ラーメン and the second line directly beneath it reads ぎょう�
 bullet or separator between them.
 Render only those characters. No other lettering anywhere in the image.
 No other diners, no kitchen behind. Contemporary, not historical.
-Faces, necks and hands are bare dark ground described by cream line — never a cream fill.
-The counter is bare dark ground with carved cream grain, not a colour field. Leave wide
-dark ground around both figures; the noren and counter do not fill the frame.
+Faces and hands may carry a small cream fill — they are the only cream areas allowed. The
+counter is a flat GOLD fill with carved grain lines, never a brown or grey wood tone.
 MISREGISTRATION, on the customer's jacket specifically: its verdigris block is printed
 shifted to the left, so a band of bare dark ground shows down the jacket's right side and
 the colour crosses the cream key line on the left. Red appears once only, on the seal —
