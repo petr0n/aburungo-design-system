@@ -45,7 +45,7 @@ order — assembled by the script so none of the three can be left out.
 | 8.1 | `b1-ch08-s01-describing.png` | 8 Describing things and people | (whole chapter) | todo | is the opener |
 | 9.1 | `b1-ch09-s01-around-town.png` | 9 Around town | (whole chapter) | todo | regen of Aug paper version; is the opener |
 | 10.1 | `b1-ch10-s01-yesterday.png` | 10 Talking about yesterday | (whole chapter) | todo | night scene; is the opener |
-| 11.1 | `b1-ch11-s01-meals-kitchen.png` | 11 Meals & the kitchen | (whole chapter) | todo | regen of Aug paper version; is the opener. **r1 2026-09-30** rejected — pasted without the style block: 3:2, no border, five objects, four colours, red as line, cream rice field, no misregistration. Carving itself was right |
+| 11.1 | `b1-ch11-s01-meals-kitchen.png` | 11 Meals & the kitchen | (whole chapter) | todo | regen of Aug paper version; is the opener. **r1 2026-09-30** rejected — pasted without the style block: 3:2, no border, five objects, four colours, red as line, cream rice field, no misregistration. Carving itself was right. **r2 2026-10-04** rejected — full prompt via `pnpm prompt`, nothing attached. Composition, border, flat pot and carved steam all right. Failed: no misregistration (4th pull running), cream rice field, wood-tone table, red twice (knob + seal), invented glyphs on the seal. Scene block now names the object to misregister and the rice fill |
 | 12.1 | `b1-ch12-s01-people-clothes.png` | 12 People & what they wear | (whole chapter) | todo | regen of Aug paper version; is the opener |
 | S.1 | `b1-shared-checkpoint.png` | every chapter | Integration & checkpoint | todo | one image, reused 12× |
 | S.2 | `b1-shared-final.png` | book close | the three closing checkpoints | todo | one image, reused 3× |
@@ -271,6 +271,12 @@ chopsticks on a rest. Behind it, cropped by the frame, a pot on a modern burner 
 steam rising as carved strokes. Four objects total. No window, no view, no background
 scene, no shelving, no hanging utensils. No people. The objects carry it. Contemporary,
 not historical.
+The rice is a GOLD fill with the grains carved as short cream strokes — not a cream mass.
+The table is filled from the palette or left as bare dark ground with cream grain lines —
+no wood tone. The steam is a few thin carved strokes, not wide cream bands.
+MISREGISTRATION, on the soup bowl specifically: its verdigris block is printed shifted to
+the right, so a band of bare dark ground shows down the bowl's left side and the colour
+crosses the cream key line on the right. Red appears once only, on the seal.
 ```
 
 ### 12.1 · People & what they wear
