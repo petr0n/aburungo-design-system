@@ -1,4 +1,4 @@
-A reference sheet of six hand-carved Japanese woodcut prints, arranged as panels on one sheet: two wide panels across the top, four smaller panels across the bottom. One printer's hand throughout — every panel must look like it came off the same blocks.
+A reference sheet of six hand-carved Japanese woodcut prints, arranged as six separate panels on one sheet: two wide panels across the top, four smaller panels across the bottom. The sheet behind and between the panels is a flat DARK CHARCOAL (#1A1815), like a dark-mode web page; each print sits on it as its own bright panel with a gap of charcoal all round. The charcoal is outside the prints only. One printer's hand throughout — every panel must look like it came off the same blocks.
 
 STYLE — these are WOODCUTS, and it must be obvious at a glance. Every mark looks cut into a wood block with gouges and knives, inked, and pressed by hand onto paper:
 - The key line is CARVED, not drawn: it swells and thins, ends blunt or chipped, wobbles slightly where the knife turned. No line has an even weight. No smooth vector curves.
@@ -15,12 +15,12 @@ HAND-MADE, not perfect — the small mistakes of one person carving by hand, kep
 - Shapes are slightly lopsided: bowls and clocks are not perfect circles, the two sides of a face or a figure are not mirror images.
 - Perspective is felt, not measured — a little off, the way a hand-drawn scene is.
 - Print faults: a pale patch where the block took too little ink, a small ink blot or smudge, a faint offset ghost of a line.
-- The panel borders are hand-cut too — uneven thickness, slightly wavy, corners not quite square.
+- Each panel's border is hand-cut too — uneven thickness, slightly wavy, corners not quite square.
 The scene stays clear and well composed; these are small imperfections, not a sloppy or childlike drawing.
 
 Clean, confident composition, readable silhouettes. Contemporary everyday Japan, observed plainly. Adults with real, restrained faces — not anime, not cartoon, no big eyes.
 
-COLOUR, and this matters most: the prints are colourful and daylit. Most of every panel is COLOUR — large flat fields of gold, verdigris green, soft light indigo, and warm cream paper, with red as one or two small sharp notes. Black is the key LINE and small accents (hair, shoes, a bag strap). Black is never a background, never a wall, never a sky, never the floor of a daytime scene. Only the night panel may be dark, and even there the lamplight pool is a large warm gold shape. No grey, no muddy browns.
+COLOUR, and this matters most: the prints are colourful and daylit. Most of every panel is COLOUR — large flat fields of gold, verdigris green, soft light indigo, and warm cream paper, with red as one or two small sharp notes. Black is the key LINE and small accents (hair, shoes, a bag strap). Inside the panels, black is never a background, never a wall, never a sky, never the floor of a daytime scene. Only the night panel may be dark, and even there the lamplight pool is a large warm gold shape. No grey, no muddy browns.
 
 THE SIX PANELS:
 1. (top left, wide) A small restaurant counter seen from the customer's side. A split noren curtain hangs above. A sign carries exactly these characters, large and simply carved: 食堂. One seated customer, one cook behind the counter, a bowl and chopsticks. A standing menu card carries exactly two lines, stacked: ラーメン and beneath it ぎょうざ. Warm gold wood and verdigris noren on cream.
@@ -28,7 +28,7 @@ THE SIX PANELS:
 3. (bottom, first) A low table seen from slightly above: a rice bowl, a soup bowl, chopsticks on a rest, and a pot steaming on a small modern burner. No people. Cream table top, verdigris and red bowls, gold pot.
 4. (bottom, second) One adult walking home at night under a single streetlamp, a bag in hand. The lamp throws a large cone and pool of warm gold light — the gold fills most of the panel. This is the only dark panel.
 5. (bottom, third) One adult walking in the rain under an umbrella, a puddle at their feet. Rain as carved diagonal strokes over a soft light-indigo daytime sky fading to pale. Not a night scene, not black.
-6. (bottom, fourth) Three adults standing side by side, full figure, contemporary clothes — one in glasses, one with a shoulder bag, one in a red sweater. Plain warm cream paper ground behind them, nothing else.
+6. (bottom, fourth) Three adults standing side by side, full figure, contemporary clothes — one in glasses, one with a shoulder bag, one in a red sweater. Inside its own panel like the others, on a plain warm cream paper ground, nothing else.
 
 TEXT: render exactly and only 食堂, 改札, ラーメン and ぎょうざ, on the surfaces named above, carved with the same rough knife edges as everything else. The menu card has exactly two lines and nothing between them. Walls carry no posters and no writing. No other characters, no pseudo-kanji, no English anywhere.
 
