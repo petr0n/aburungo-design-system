@@ -102,6 +102,20 @@ components:
 
 # Design System: AburunGo Design System
 
+## Contents
+
+- [Status of these decisions](#status-of-these-decisions)
+- [Overview](#overview)
+- [Colors](#colors)
+- [Typography](#typography)
+- [Layout](#layout)
+- [Elevation & Depth](#elevation--depth)
+- [Material](#material)
+- [Shapes](#shapes)
+- [Components](#components)
+- [Do's and Don'ts](#dos-and-donts)
+- [Skill configuration](#skill-configuration)
+
 > **v3 "Zuihoden" is merged.** Five colours, one job each, on warm stone.
 >
 > **The frontmatter above is hand-maintained, not generated** — corrected
