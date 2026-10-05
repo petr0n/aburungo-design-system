@@ -26,7 +26,7 @@ illustrations/
 ├── crest-integration.md           ← five ways to put a book's crest in a scene,
 │                                     for concept rounds. Start with variant A.
 ├── reference/
-│   ├── sheet-prompt.md            ← the one-time prompt that produces the sheet below
+│   ├── sheet-prompt.md            ← the prompt that produces the six-panel sheet. Copy all
 │   ├── style-reference.jpg        ← the approved DARK-GROUND six-panel sheet. ATTACH IT
 │   │                                 TO EVERY GENERATION. It anchors the style better
 │   │                                 than any description.
