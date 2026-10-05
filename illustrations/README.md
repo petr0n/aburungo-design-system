@@ -96,13 +96,15 @@ from rules. Every prompt is this line plus the scene block:
 A Japanese woodblock print in the style of the attached image, of this scene. Square, 1:1. One image only.
 ```
 
-`pnpm prompt <id> | pbcopy` prints exactly that line followed by the scene block for `<id>`.
+Each scene's full prompt is a file in `book-N/prompts/`, named after the image it makes —
+`book-1/prompts/b1-ch11-s01-meals-kitchen.md` makes `b1-ch11-s01-meals-kitchen.png`. To change
+the lead, change it in every file: `sed -i '' '1s/.*/<new lead>/' illustrations/book-*/prompts/*.md`.
 
 ---
 
 ## Writing a scene block
 
-Every image = the one-line lead above + one scene block, printed by `pnpm prompt <id>`.
+Every image = the one-line lead above + one scene block, in its own prompt file.
 The scene block follows this formula, and the formula is the reusable part:
 
 ```
@@ -174,7 +176,7 @@ identical prompt twice more before changing a word. Half the time the prompt was
 1. Open a **new Gemini chat** for each image. Follow-up edits inside one chat drift the
    style; a fresh chat with the full prompt does not.
 2. **Attach `reference/style-reference.jpg`.**
-3. `pnpm prompt <scene-id> | pbcopy`, then paste — the lead line and the scene block, as one message.
+3. Open `book-N/prompts/<image-name>.md`, copy all of it, paste as one message.
 4. Save the result with its ledger filename into `book-N/`.
 5. Judge it. Approved → mark the row. Rejected → move to `_rejected/` with `-rN`, note
    the reason, fix the prompt, go to 1.

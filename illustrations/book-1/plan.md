@@ -14,9 +14,9 @@ there the situation image is the chapter opener. Chapters 1–5 have several; th
 reuses the first situation's image for now (`opener → s01` in the ledger) rather than
 adding five more generations. Composite openers are a later option, not a requirement.
 
-**Every generation:** attach `../reference/style-reference.jpg`, then `pnpm prompt <id> | pbcopy`
-and paste, as one message in a fresh chat. That is a one-line lead and the scene block
-from below for that id.
+**Every generation:** attach `../reference/style-reference.jpg`, then open
+`prompts/<image-name>.md`, copy all of it, and paste it into a fresh chat. Each file is the
+whole prompt: one lead line and the scene. The lead line is the same in every file.
 
 ---
 
@@ -62,245 +62,123 @@ versions to compare against), then the rest in ledger order.
 
 ## Scene blocks
 
-Each block follows the lead line. `pnpm prompt <id>` prints both.
+Each scene's full prompt is its own file in `prompts/`, named after the image it makes.
 
 ### 1.1 · Greetings & basics
 *Lessons: Where are you from? · Thank you & you're welcome · I don't understand · Numbers 1–10*
 
-```
-THE SCENE: two adults meeting in a doorway, seen from the side. One inclines slightly in
-a greeting; the other holds out a small card. A coat hook on the wall beside them. The
-card bears only abstract carved marks, nothing readable. No street, no background beyond
-the doorframe. Contemporary, not historical.
-```
+Prompt: [`prompts/b1-ch01-s01-greetings-basics.md`](prompts/b1-ch01-s01-greetings-basics.md)
 
 ### 1.2 · Food & drink
 *Lessons: At the café · At the restaurant · What is this? · How much & paying · Bigger numbers*
 
-```
-THE SCENE: a small restaurant counter seen from the customer's side. A split noren curtain
-hanging above, carrying exactly these two characters, large and simply carved: 食堂
-One seated customer and one cook behind the counter. A bowl and chopsticks on the counter.
-A standing menu card beside them carrying exactly two dish names, large, stacked: the first
-line reads ラーメン and the second line directly beneath it reads ぎょうざ. Render no slash,
-bullet or separator between them.
-Render only those characters. No other lettering anywhere in the image.
-No other diners, no kitchen behind. Contemporary, not historical.
-```
+Prompt: [`prompts/b1-ch01-s02-food-drink.md`](prompts/b1-ch01-s02-food-drink.md)
 
 ### 2.1 · Shopping
 *Lessons: In a shop · Sizes & quantities · Do you have it? · Paying and leaving*
 
-```
-THE SCENE: a greengrocer's counter. A shopkeeper handing a small paper bag across to a
-customer. Behind the shopkeeper, a short split noren carrying exactly these three
-characters, large and simply carved: 八百屋
-A single shelf with three identical items in a row.
-Render only those characters. No other lettering anywhere in the image.
-No other signage, no window, no street. Contemporary, not historical.
-```
+Prompt: [`prompts/b1-ch02-s01-shopping.md`](prompts/b1-ch02-s01-shopping.md)
 
 ### 2.2 · Getting around
 *Lessons: At the station · Platform & exit · Time expressions · Taxi · Bus*
 
-```
-THE SCENE: a station ticket gate. One commuter with a shoulder bag passing through it.
-The sign above the gate carries exactly these two characters, large and simply carved: 改札
-A clock face beside it with hands but no numerals. A train in flat silhouette behind,
-cropped by the frame.
-Render only those characters. No other lettering anywhere in the image.
-No crowd, no shopfront. Contemporary, not historical.
-```
+Prompt: [`prompts/b1-ch02-s02-getting-around.md`](prompts/b1-ch02-s02-getting-around.md)
 
 ### 3.1 · Hotel
 *Lessons: Checking in · Hotel amenities · Hotel requests · Checking out*
 
-```
-THE SCENE: a hotel reception counter. One guest with a small suitcase; one clerk behind
-the counter sliding a key card across. A small bell on the counter. No lobby beyond the
-counter, no signage, no plants. Contemporary, not historical.
-```
+Prompt: [`prompts/b1-ch03-s01-hotel.md`](prompts/b1-ch03-s01-hotel.md)
 
 ### 3.2 · Directions
 *Lessons: Left, right, straight · Where is ~? · How far?*
 
-```
-THE SCENE: a street corner. One adult pointing down the street; another following the
-gesture with their eyes. A signpost with two blades, each bearing only abstract carved
-marks. A pedestrian crossing in the foreground. No buildings beyond a single low edge,
-no vehicles. Contemporary, not historical.
-```
+Prompt: [`prompts/b1-ch03-s02-directions.md`](prompts/b1-ch03-s02-directions.md)
 
 ### 3.3 · Weather
 *Lessons: Hot, cold, and nice · Rain, snow & sun · Wind & temperature*
 
-```
-THE SCENE: one adult walking under an umbrella, coat pulled against the wind. Rain as
-carved diagonal strokes. A single puddle catching the reflection. A bokashi wash of
-indigo fading down across the sky — this is the one gradient, and it is
-the subject. No buildings, no other people. Contemporary, not historical.
-```
+Prompt: [`prompts/b1-ch03-s03-weather.md`](prompts/b1-ch03-s03-weather.md)
 
 ### 4.1 · Food preferences
 *Lessons: I like sushi · I want to eat ramen · More food & combining preferences*
 
-```
-THE SCENE: a table seen from slightly above. A bowl of ramen and a small plate of sushi
-side by side. Chopsticks on a rest between them. One hand reaching for one of the two.
-No people beyond the hand, no room around the table. Contemporary, not historical.
-```
+Prompt: [`prompts/b1-ch04-s01-food-preferences.md`](prompts/b1-ch04-s01-food-preferences.md)
 
 ### 4.2 · Daily life
 *Lessons: Daily life vocabulary — how often you do things*
 
-```
-THE SCENE: a small kitchen table at dawn. A cup, a small clock with hands but no numerals,
-a folded newspaper bearing only abstract carved marks. A window with a bokashi wash of
-gold fading into the dark — first light. No people. The objects carry it. No shelving,
-no appliances. Contemporary, not historical.
-```
+Prompt: [`prompts/b1-ch04-s02-daily-life.md`](prompts/b1-ch04-s02-daily-life.md)
 
 ### 4.3 · Days & dates
 *Lessons: Days of the week · The 1st to the 5th · The 6th to the 10th · Later dates, months & birthdays*
 
-```
-THE SCENE: a wall calendar, one month showing, seen straight on. Its grid is drawn but
-every cell bears only abstract carved marks, no numerals. One day circled in red — the
-single sharp note. A pen hanging on a string beside it. No people. The objects carry it.
-No room around the wall. Contemporary, not historical.
-```
+Prompt: [`prompts/b1-ch04-s03-days-dates.md`](prompts/b1-ch04-s03-days-dates.md)
 
 ### 4.4 · Relative time
 *Lessons: Weeks and months · Years, and the exceptions*
 
-```
-THE SCENE: a hand turning the leaf of a large wall calendar, three leaves visible in the
-turn. Each leaf bears only abstract carved marks. A wristwatch on the wrist, hands but no
-numerals. No people beyond the hand and forearm, no room. Contemporary, not historical.
-```
+Prompt: [`prompts/b1-ch04-s04-relative-time.md`](prompts/b1-ch04-s04-relative-time.md)
 
 ### 4.5 · People & family
 *Lessons: My family · Your family · Everyone else*
 
-```
-THE SCENE: four people of different ages standing together as a flat frieze against
-empty ground — an older adult, two adults, one child, all in contemporary everyday
-clothing, observed plainly. Large in the frame. Nothing else in the image.
-Contemporary, not historical.
-```
+Prompt: [`prompts/b1-ch04-s05-people-family.md`](prompts/b1-ch04-s05-people-family.md)
 
 ### 5.1 · At home
 *Lessons: Open and closed · On, off, push, pull · Washing and putting away · Sitting, standing, resting · Out and back*
 
-```
-THE SCENE: a home entryway. A front door half open. A light switch on the wall beside it.
-A pair of shoes on the step, and a coat on a hook. No people. The objects carry it. No
-street visible through the door, no hallway beyond. Contemporary, not historical.
-```
+Prompt: [`prompts/b1-ch05-s01-at-home.md`](prompts/b1-ch05-s01-at-home.md)
 
 ### 5.2 · Work & study
 *Lessons: At work · Learning and teaching · Knowing and not knowing*
 
-```
-THE SCENE: a desk seen from behind one seated adult, their back to the viewer. A closed
-laptop as a flat slab, an open notebook bearing only abstract carved marks, a desk lamp
-casting a bokashi pool of gold onto the desk — the one gradient. No office beyond the
-desk, no window. Contemporary, not historical.
-```
+Prompt: [`prompts/b1-ch05-s02-work-study.md`](prompts/b1-ch05-s02-work-study.md)
 
 ### 6.1 · Asking someone to do something
 *Lessons: Asking, the easy half · Verbs ending in ku and gu · The big group · Verbs ending in mu, nu, bu and su · What you are doing now*
 
-```
-THE SCENE: two adults at a counter. One holds out an umbrella to the other, handle first.
-A chair beside them, empty. No counter goods, no signage, no room beyond.
-Contemporary, not historical.
-```
+Prompt: [`prompts/b1-ch06-s01-asking.md`](prompts/b1-ch06-s01-asking.md)
 
 ### 7.1 · Choosing and counting
 *Lessons: Six to ten · Counting people · Flat things and machines · More colours · This one, that one*
 
-```
-THE SCENE: a shop shelf seen straight on, six identical cups in a row, printed in three
-palette colours that repeat along the row — two cups in each colour, not six different
-ones. One hand pointing at one of them. A small basket on the floor below.
-No people beyond the hand, no shop around the shelf. Contemporary, not historical.
-```
+Prompt: [`prompts/b1-ch07-s01-choosing-counting.md`](prompts/b1-ch07-s01-choosing-counting.md)
 
 ### 8.1 · Describing things and people
 *Lessons: The body, and what hurts · How you feel · Long and short, heavy and light · Early, late and bright · Hard and easy, strong and weak*
 
-```
-THE SCENE: one adult lifting a large heavy box, beside a small light bag on the floor.
-Behind them, a tall bottle standing next to a short cup. Four objects total — box, bag,
-bottle, cup; no shelf, no furniture. Contrasts as the subject — heavy and light, tall and
-short. Nothing else in the room. Contemporary, not historical.
-```
+Prompt: [`prompts/b1-ch08-s01-describing.md`](prompts/b1-ch08-s01-describing.md)
 
 ### 9.1 · Around town
 *Lessons: On, under, in, out · Near, far, and which way · Out of town · Going somewhere*
 
-```
-THE SCENE: a street corner in an ordinary neighbourhood. Utility poles with looping
-cables, a vending machine, a low building edge, a pedestrian crossing in the foreground.
-Two figures walking, small in the frame. The vending machine carries two labels above its
-rows, exactly as given and nothing else: つめたい on one row, あたたかい on the other, each
-large enough to read at a glance.
-Render only those characters. No other lettering anywhere in the image.
-Contemporary, not historical.
-```
+Prompt: [`prompts/b1-ch09-s01-around-town.md`](prompts/b1-ch09-s01-around-town.md)
 
 ### 10.1 · Talking about yesterday
 *Lessons: What you did · What you did not do · How it was · How it was, the other half · How was it?*
 
-```
-THE SCENE: one adult walking home at night under a single streetlamp, a bag over one
-shoulder. The lamp casts a bokashi pool of gold onto the pavement, fading into the dark
-ground — the one gradient, and the subject. A low wall beside the pavement. No buildings
-beyond the wall, no other people. Contemporary, not historical.
-```
+Prompt: [`prompts/b1-ch10-s01-yesterday.md`](prompts/b1-ch10-s01-yesterday.md)
 
 ### 11.1 · Meals & the kitchen
 *Lessons: The three meals · Food, drink, and what you think of it · What is for dinner · Sugar, salt and tea · In the kitchen*
 
-```
-THE SCENE: a low table seen from slightly above, set with a rice bowl, a soup bowl, and
-chopsticks on a rest. Behind it, cropped by the frame, a pot on a modern burner with
-steam rising as carved strokes. Four objects total. No window, no view, no background
-scene, no shelving, no hanging utensils. No people. The objects carry it. Contemporary,
-not historical.
-```
+Prompt: [`prompts/b1-ch11-s01-meals-kitchen.md`](prompts/b1-ch11-s01-meals-kitchen.md)
 
 ### 12.1 · People & what they wear
 *Lessons: Men, women, boys, girls · What you wear on top · And what you pull on · Hat, glasses, tie, umbrella · Colour as a thing · Build and body*
 
-```
-THE SCENE: three adults standing together in contemporary everyday clothing — one coat,
-one satchel, one scarf; one of them in glasses. Large in the frame, a flat frieze against
-completely empty ground. Nothing else in the image. Contemporary, not historical.
-```
+Prompt: [`prompts/b1-ch12-s01-people-clothes.md`](prompts/b1-ch12-s01-people-clothes.md)
 
 ### S.1 · Integration & checkpoint (shared, reused by every chapter)
 *Every chapter ends with one. The image is the same each time — a checkpoint is a
 stamped page, not a new scene.*
 
-```
-THE SCENE: a hand pressing a round seal onto a sheet of paper, seen from above. A small
-red ink pad beside it — the red is the single sharp note. The sheet is plain paper
-with a carved edge. It
-bears only abstract carved marks. The seal face is a plain circle, no character inside it. No desk beyond
-the sheet, no people beyond the hand. Contemporary, not historical.
-```
+Prompt: [`prompts/b1-shared-checkpoint.md`](prompts/b1-shared-checkpoint.md)
 
 ### S.2 · Final checkpoint (shared, reused by the three book-closing checkpoints)
 *Write it from memory · Cross-situation conversation · Can-do checkpoint*
 
-```
-THE SCENE: a sheet of paper seen from above, a row of five round seal impressions across
-it — four printed in verdigris and the fifth still wet in red, the one sharp note. The seal
-itself lifted just above the fifth. The sheet is plain paper with a carved edge. It bears only abstract
-carved marks. No hand, no desk beyond the sheet. Contemporary, not historical.
-```
+Prompt: [`prompts/b1-shared-final.md`](prompts/b1-shared-final.md)
 
 ---
 
