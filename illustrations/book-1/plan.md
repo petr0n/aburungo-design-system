@@ -43,7 +43,7 @@ whole prompt: one lead line and the scene. The lead line is the same in every fi
 | 8.1 | `b1-ch08-s01-describing.png` | 8 Describing things and people | (whole chapter) | todo | is the opener |
 | 9.1 | `b1-ch09-s01-around-town.png` | 9 Around town | (whole chapter) | todo | regen of Aug paper version; is the opener |
 | 10.1 | `b1-ch10-s01-yesterday.png` | 10 Talking about yesterday | (whole chapter) | todo | night scene; is the opener |
-| 11.1 | `b1-ch11-s01-meals-kitchen.png` | 11 Meals & the kitchen | (whole chapter) | todo | regen of Aug paper version; is the opener. **r1 2026-09-30** rejected — pasted without the style block: 3:2, no border, five objects, four colours, red as line, cream rice field, no misregistration. Carving itself was right |
+| 11.1 | `b1-ch11-s01-meals-kitchen.png` | 11 Meals & the kitchen | (whole chapter) | todo | is the opener. **Restart r1 2026-10-05** rejected — on palette, good table grain, but no border, smooth even line, smiley faces in the rice, grey burner, cropped table. Lead line now asks for one bordered panel with the sheet's carving; scene adds rice/burner/table lines. Pre-restart history: **r1 2026-09-30** rejected — pasted without the style block: 3:2, no border, five objects, four colours, red as line, cream rice field, no misregistration. Carving itself was right |
 | 12.1 | `b1-ch12-s01-people-clothes.png` | 12 People & what they wear | (whole chapter) | todo | regen of Aug paper version; is the opener |
 | S.1 | `b1-shared-checkpoint.png` | every chapter | Integration & checkpoint | todo | one image, reused 12× |
 | S.2 | `b1-shared-final.png` | book close | the three closing checkpoints | todo | one image, reused 3× |

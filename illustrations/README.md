@@ -95,7 +95,7 @@ and is in git history if ever wanted. The style now comes from the attached imag
 from rules. Every prompt is this line plus the scene block:
 
 ```
-A Japanese woodblock print in the style of the attached image, of this scene. Square, 1:1. One image only.
+A hand-carved Japanese woodcut print in the style of the attached sheet: the same knife-cut uneven line, woodgrain, mottled ink and small hand-made imperfections. Make ONE panel like those on the sheet, with its hand-cut dark border and cream paper inside, of this scene. Square, 1:1. One image only.
 ```
 
 Each scene's full prompt is a file in `book-N/prompts/`, named after the image it makes —
