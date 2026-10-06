@@ -30,7 +30,7 @@ whole prompt: one lead line and the scene. The lead line is the same in every fi
 | 2.2 | `b1-ch02-s02-getting-around.png` | 2 | Getting around | approved | **Restart r2 2026-10-05 approved** — the COLOUR BALANCE paragraph fixed the gold cast: cream floor and ceiling, verdigris gates and train, 改札 exact, no invented text. Carried: grey clock casing. **Restart r1 2026-10-05** rejected — 改札 exact, carving good, but gold-tan floor, ceiling and walls: colour borrowed from the sepia kitchen print attached for texture. Every prompt now carries a COLOUR BALANCE paragraph. regen of Aug paper version |
 | 3.1 | `b1-ch03-s01-hotel.png` | 3 Staying & finding your way | Hotel | todo | opener → this |
 | 3.2 | `b1-ch03-s02-directions.png` | 3 | Directions | todo | |
-| 3.3 | `b1-ch03-s03-weather.png` | 3 | Weather | todo | bokashi showcase |
+| 3.3 | `b1-ch03-s03-weather.png` | 3 | Weather | approved | **Restart r1 2026-10-05 approved** — first pull. Indigo bokashi sky fading to cream, carved rain strokes that vary, gold coat and verdigris boots. Carried: grey umbrella; the figure reads slightly young. bokashi showcase |
 | 4.1 | `b1-ch04-s01-food-preferences.png` | 4 People, days & routines | Food preferences | todo | opener → this |
 | 4.2 | `b1-ch04-s02-daily-life.png` | 4 | Daily life | todo | |
 | 4.3 | `b1-ch04-s03-days-dates.png` | 4 | Days & dates | todo | objects only |
