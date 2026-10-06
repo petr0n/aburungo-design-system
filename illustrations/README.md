@@ -89,18 +89,14 @@ Update the row when the status changes. It is the only place that knows what exi
 
 ## The prompt — the attached sheet carries the style
 
-Restarted 2026-10-04. The 1,400-word written style block (dark ground, cream line only,
-two or three colours) produced prints that were mostly black and harsh; it was deleted,
-and is in git history if ever wanted. The style now comes from the attached image, not
-from rules. Every prompt is this line plus the scene block:
-
-```
-A hand-carved Japanese woodcut print in the style of the attached sheet: the same knife-cut uneven line, woodgrain, mottled ink and small hand-made imperfections. Make ONE panel like those on the sheet, with its hand-cut dark border and cream paper inside, of this scene. Square, 1:1. One image only.
-```
+Restarted 2026-10-04. The dark-ground style block was deleted (git history has it). Every
+scene prompt now opens with the same style section — one bordered panel like the sheet's,
+then the WOODCUT and HAND-MADE lists copied from `reference/sheet-prompt.md` — followed by
+the scene. The sheet alone did not carry the roughness: the first single scene with only a
+one-line lead came back smooth and polished (2026-10-05).
 
 Each scene's full prompt is a file in `book-N/prompts/`, named after the image it makes —
-`book-1/prompts/b1-ch11-s01-meals-kitchen.md` makes `b1-ch11-s01-meals-kitchen.png`. To change
-the lead, change it in every file: `sed -i '' '1s/.*/<new lead>/' illustrations/book-*/prompts/*.md`.
+`book-1/prompts/b1-ch11-s01-meals-kitchen.md` makes `b1-ch11-s01-meals-kitchen.png`. If the style section changes, change it in every file and in the sheet prompt.
 
 ---
 
