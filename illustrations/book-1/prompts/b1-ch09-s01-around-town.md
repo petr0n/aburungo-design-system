@@ -1,4 +1,6 @@
-A hand-carved Japanese woodcut print in the style of the attached images: the colours and people of the sheet, the carving and roughness of the single kitchen print. Make ONE panel like these: its hand-cut dark border, cream paper inside, the same colours. Square, 1:1. One image only.
+A hand-carved Japanese woodcut print in the style of the attached images: the colours and people of the sheet, the carving and roughness of the single kitchen print — take NO colour from the kitchen print.
+
+COLOUR BALANCE: the colours are the sheet's — verdigris green, indigo, gold, cream paper, a small note of red — in roughly even measure. Gold is ONE colour block among several, never a wash over the whole picture. Large surfaces (floors, ceilings, walls, sky) are clear untinted cream paper, or verdigris or indigo — not gold, not tan, not brown. No sepia, no amber cast, no aged-paper yellowing. Make ONE panel like these: its hand-cut dark border, cream paper inside, the same colours. Square, 1:1. One image only.
 
 STYLE — this is a WOODCUT, and it must be obvious at a glance. Every mark looks cut into a wood block with gouges and knives, inked, and pressed by hand onto paper:
 - The key line is CARVED, not drawn: it swells and thins, ends blunt or chipped, wobbles slightly where the knife turned. No line has an even weight. No smooth vector curves.
