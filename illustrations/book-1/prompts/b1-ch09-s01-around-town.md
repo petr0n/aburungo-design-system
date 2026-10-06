@@ -6,7 +6,7 @@ STYLE — this is a WOODCUT, and it must be obvious at a glance. Every mark look
 - WOODGRAIN prints through every flat colour field — long wavy streaks running one direction, clearly visible, not a faint texture.
 - UNEVEN INK: each colour field is mottled, heavier in places, thin and patchy in others, with paper showing through near the edges. No flat field is perfectly even.
 - MISREGISTRATION: at least one colour block is shifted off its outline, leaving a sliver of bare paper on one side and colour over the line on the other.
-- Shading only by carved hatching — parallel knife strokes. No gradients, no airbrush, no soft shading anywhere.
+- Shading by carved hatching — parallel knife strokes. The one fade allowed is BOKASHI: a colour hand-wiped flat across a plane (a sky, a pool of lamplight). No gradient ever models an object's form; no airbrush, no soft shading.
 - The paper itself is visible: warm, slightly fibrous cream with a faint texture.
 HAND-MADE, not perfect — the small mistakes of one person carving by hand, kept subtle:
 - Straight lines are not ruler-straight: verticals lean a degree or two, long edges bow slightly, parallel lines drift closer and apart.
