@@ -173,7 +173,7 @@ identical prompt twice more before changing a word. Half the time the prompt was
 
 1. Open a **new Gemini chat** for each image. Follow-up edits inside one chat drift the
    style; a fresh chat with the full prompt does not.
-2. **Attach `reference/style-reference.jpg`.**
+2. **Attach `reference/style-reference.jpg`** and, for Book One, the approved 11.1 print — the sheet carries colour and people, 11.1 carries the carving.
 3. Open `book-N/prompts/<image-name>.md`, copy all of it, paste as one message.
 4. Save the result with its ledger filename into `book-N/`.
 5. Judge it. Approved → mark the row. Rejected → move to `_rejected/` with `-rN`, note

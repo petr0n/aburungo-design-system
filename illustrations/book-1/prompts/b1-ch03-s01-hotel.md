@@ -1,4 +1,4 @@
-A hand-carved Japanese woodcut print in the style of the attached sheet. Make ONE panel like those on the sheet: its hand-cut dark border, cream paper inside, the same colours. Square, 1:1. One image only.
+A hand-carved Japanese woodcut print in the style of the attached images: the colours and people of the sheet, the carving and roughness of the single kitchen print. Make ONE panel like these: its hand-cut dark border, cream paper inside, the same colours. Square, 1:1. One image only.
 
 STYLE — this is a WOODCUT, and it must be obvious at a glance. Every mark looks cut into a wood block with gouges and knives, inked, and pressed by hand onto paper:
 - The key line is CARVED, not drawn: it swells and thins, ends blunt or chipped, wobbles slightly where the knife turned. No line has an even weight. No smooth vector curves.
