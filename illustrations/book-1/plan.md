@@ -30,7 +30,7 @@ whole prompt: one lead line and the scene. The lead line is the same in every fi
 | 2.2 | `b1-ch02-s02-getting-around.png` | 2 | Getting around | approved | **Restart r2 2026-10-05 approved** — the COLOUR BALANCE paragraph fixed the gold cast: cream floor and ceiling, verdigris gates and train, 改札 exact, no invented text. Carried: grey clock casing. **Restart r1 2026-10-05** rejected — 改札 exact, carving good, but gold-tan floor, ceiling and walls: colour borrowed from the sepia kitchen print attached for texture. Every prompt now carries a COLOUR BALANCE paragraph. regen of Aug paper version |
 | 3.1 | `b1-ch03-s01-hotel.png` | 3 Staying & finding your way | Hotel | todo | opener → this |
 | 3.2 | `b1-ch03-s02-directions.png` | 3 | Directions | todo | |
-| 3.3 | `b1-ch03-s03-weather.png` | 3 | Weather | todo | bokashi showcase |
+| 3.3 | `b1-ch03-s03-weather.png` | 3 | Weather | approved | **Restart r1 2026-10-05 approved** — first pull. Indigo bokashi sky fading to cream, carved rain strokes that vary, gold coat and verdigris boots. Carried: grey umbrella; the figure reads slightly young. bokashi showcase |
 | 4.1 | `b1-ch04-s01-food-preferences.png` | 4 People, days & routines | Food preferences | todo | opener → this |
 | 4.2 | `b1-ch04-s02-daily-life.png` | 4 | Daily life | todo | |
 | 4.3 | `b1-ch04-s03-days-dates.png` | 4 | Days & dates | todo | objects only |
@@ -42,9 +42,9 @@ whole prompt: one lead line and the scene. The lead line is the same in every fi
 | 7.1 | `b1-ch07-s01-choosing-counting.png` | 7 Choosing and counting | (whole chapter) | todo | is the opener |
 | 8.1 | `b1-ch08-s01-describing.png` | 8 Describing things and people | (whole chapter) | todo | is the opener |
 | 9.1 | `b1-ch09-s01-around-town.png` | 9 Around town | (whole chapter) | todo | regen of Aug paper version; is the opener |
-| 10.1 | `b1-ch10-s01-yesterday.png` | 10 Talking about yesterday | (whole chapter) | todo | night scene; is the opener |
+| 10.1 | `b1-ch10-s01-yesterday.png` | 10 Talking about yesterday | (whole chapter) | approved | **Restart r1 2026-10-05 approved** — first pull. Night as deep indigo, not black; gold lamp cone and pool carry the panel. Carried: smoother line than the kitchen print, grey lamp post and wall. night scene; is the opener |
 | 11.1 | `b1-ch11-s01-meals-kitchen.png` | 11 Meals & the kitchen | (whole chapter) | approved | is the opener. **Restart r2 2026-10-05 approved** — rough carving, hand-cut border, gouge marks, mottled ink; the author loves it. Carried: a more muted, browner palette than the sheet, with one verdigris block. Attached alongside the sheet for every later scene, as the texture reference. **Restart r1 2026-10-05** rejected — on palette, good table grain, but no border, smooth polished line, cartoonish, grey burner, cropped table. Every prompt now carries the sheet prompt's WOODCUT and HAND-MADE sections; scene adds burner/table lines. Pre-restart history: **r1 2026-09-30** rejected — pasted without the style block: 3:2, no border, five objects, four colours, red as line, cream rice field, no misregistration. Carving itself was right |
-| 12.1 | `b1-ch12-s01-people-clothes.png` | 12 People & what they wear | (whole chapter) | todo | regen of Aug paper version; is the opener |
+| 12.1 | `b1-ch12-s01-people-clothes.png` | 12 People & what they wear | (whole chapter) | approved | **Restart r1 2026-10-05 approved** — first pull. Three clear adults with restrained carved faces; glasses, satchel, scarf as asked; flat frieze on cream. regen of Aug paper version; is the opener |
 | S.1 | `b1-shared-checkpoint.png` | every chapter | Integration & checkpoint | todo | one image, reused 12× |
 | S.2 | `b1-shared-final.png` | book close | the three closing checkpoints | todo | one image, reused 3× |
 
