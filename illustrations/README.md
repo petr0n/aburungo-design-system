@@ -7,8 +7,10 @@ any repo whole.
 **The loop:** paste a prompt → Gemini generates → judge against the checklist → if it
 fails, fix the *prompt*, never the image → when it passes, file it and mark the ledger.
 
-**Style:** whatever `reference/style-reference.jpg` shows — full colour, warm and daylit,
-black kept to line and night scenes. That sheet is attached to every generation and is the
+**Style:** whatever `reference/style-reference.jpg` shows — hand-carved woodcut panels in
+full colour on cream paper, set on a dark charcoal sheet the way they sit on the dark app.
+Black is line and the one night scene. The sheet came from `reference/sheet-prompt.md`
+(2026-10-05); its first cut, the dark sheet, is in `reference/_rejected/`. That sheet is attached to every generation and is the
 whole style instruction. Set 2026-10-04, replacing the dark-ground rules of 2026-09-09.
 
 **This replaced `docs/illustration-prompt.md`,** the paper-ground prompt from August,
